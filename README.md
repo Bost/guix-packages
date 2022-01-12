@@ -8,8 +8,11 @@ Use this repo as a [channel](https://guix.gnu.org/manual/en/html_node/Channels.h
 
 ``` scheme
 (cons (channel
-        (name 'giuliano108-guix-packages)
-        (url "https://github.com/giuliano108/guix-packages"))
-;;      (url "file:///home/giuliano/Documents/code/guix-packages"))
+        (name 'bost)
+        (url
+         #; "https://github.com/Bost/guix-packages"
+         ;; WTF? format doesn't work
+         #;(format #t "file://~a/guix-packages" (getenv "dev"))
+         (string-join `("file://" ,(getenv "dev") "/guix-packages") "")))
       %default-channels)
 ```
