@@ -15,8 +15,6 @@
 ~/temp ❯
 ```
 
-The missing libraries can be introduced manually using patchelf (as decribed [here](rust-starship.md#manually-fixing-the-rpath-dynamic-linker-search-path)), but it turns out there's a much better way.
-
 [`nonguix`](https://gitlab.com/nonguix/nonguix/) is a Guix channel that provides packages that can't be included in the main repo for licensing reasons. Among the packages themselves, it comes with various extremely usefuls modules, like the `binary-build-system`.
 
 This build system allows you to take something which is distributed as a binary, describe its inputs, namely the missing libraries from `ldd` and fix the [rpath](https://en.wikipedia.org/wiki/Rpath) automatically.
