@@ -11,16 +11,16 @@
 (define-public babashka
   (package
    (name "babashka")
-   (version "0.1.2")
+   (version "0.7.8")
    (source (origin
             (method url-fetch)
             (uri
              (string-append
-              "https://github.com/borkdude/babashka/releases/download/v"
-              version "/babashka-" version "-linux-amd64.zip"))
+              "https://github.com/babashka/babashka/releases/download/v"
+              version "/babashka-" version "-linux-amd64.tar.gz"))
             (sha256
              (base32
-              "030dvfwcz8q8im4h0jm9400d8i0fg46crp0r45xcdd48xg47jn1i"))))
+              "0sxc8jq387p8bpndcznk6b0hq7h59aq6m31jkl2rjyhm2w1zgp2c"))))
    (build-system binary-build-system)
    (supported-systems '("x86_64-linux" "i686-linux"))
    (arguments
@@ -34,21 +34,18 @@
        %standard-phases
        ;; this is required because standard unpack expects the archive to
        ;; contain a directory with everything inside it, while babashka's
-       ;; release .zip only contains the `bb` binary.
+       ;; release file only contains the `bb` binary.
        (replace 'unpack
-                (lambda* (#:key inputs #:allow-other-keys)
-                         (system* (which "unzip")
-                                  (assoc-ref inputs "source"))
+                (lambda* (#:key inputs outputs source #:allow-other-keys)
+                         (invoke "tar" "xf" source)
                          #t)))))
    (inputs
     `(("libstdc++" ,(make-libstdc++ gcc))
       ("zlib" ,zlib)))
-   (native-inputs
-    `(("unzip" ,unzip)))
    (synopsis
-    "A Clojure babushka for the grey areas of Bash")
+    "Fast native Clojure scripting runtime")
    (description
-    "The main idea behind babashka is to leverage Clojure in places
-where you would be using bash otherwise.")
-   (home-page "https://github.com/borkdude/babashka")
+    "Babashka is a native Clojure interpreter for scripting with fast startup.
+Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
+   (home-page "https://babashka.org/")
    (license license:epl1.0)))
