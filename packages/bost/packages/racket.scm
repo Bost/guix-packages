@@ -965,6 +965,7 @@ languages such as Typed Racket, R5RS and R6RS Scheme, Algol 60, and Datalog.")))
     (inputs
      (list
       cairo
+      ffmpeg
       fontconfig
       glib
       glu
