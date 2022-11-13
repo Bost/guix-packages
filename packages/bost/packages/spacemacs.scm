@@ -37,6 +37,10 @@
 
 (format #t "~a\n" "... done")
 
+;; set --export GUIX_PACKAGE_PATH $dev/guix-packages/packages/bost/packages/patches
+;; see $dev/guix/gnu/packages.scm: (define %patch-path ...)
+(format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
+
 (format #t "~a... " "spacemacs-rolling-release")
 (define-public spacemacs-rolling-release
   (let ((commit "57a7a0e63c4aecf810b19ca3fd49e5ae1a838126"))
@@ -50,7 +54,7 @@
                       (commit commit)))
                 (sha256
                  (base32
-                  "1vm51jh88xzq6wlkrbvi7yj7k1r0bs5719264pwdgqwwki843k9c"))
+                  "1lwbjfldysqfi4cf7i0fs9gz3iy83zlam45cdvlg0j0279ixbl6b"))
                 (file-name (string-append name "-" version))
                 (patches
                  (search-patches
@@ -142,3 +146,5 @@ the use of spacemacs without conflicting with the base emacs."
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (format #t "done\n")
+
+#; (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
