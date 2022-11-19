@@ -19,7 +19,7 @@
 ;; (format #t "~a... " "")
 ;; (format #t "done\n")
 
-(format #t "~a" "define-module (bost packages spacemacs)...")
+(format #t "~a ... " "(define-module (bost packages spacemacs) ...)")
 (define-module (bost packages spacemacs)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
@@ -34,14 +34,14 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix utils))
-
-(format #t "~a\n" "... done")
+(format #t "done\n")
 
 ;; set --export GUIX_PACKAGE_PATH $dev/guix-packages/packages/bost/packages/patches
 ;; see $dev/guix/gnu/packages.scm: (define %patch-path ...)
+#;
 (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
 
-(format #t "~a... " "spacemacs-rolling-release")
+(format #t "~a ... " "(define-public spacemacs-rolling-release) ...)")
 (define-public spacemacs-rolling-release
   (let ((commit "57a7a0e63c4aecf810b19ca3fd49e5ae1a838126"))
     (package
@@ -105,10 +105,9 @@ spacemacs community collaborates to provide the best default experience for new
 and expert users alike.")
       (home-page "https://spacemacs.org")
       (license license:gpl3))))
-
 (format #t "done\n")
 
-(format #t "~a... " "generate-wrapped-emacs-spacemacs")
+(format #t "~a ... " "(define* (generate-wrapped-emacs-spacemacs ...) ...)")
 (define* (generate-wrapped-emacs-spacemacs emacs spacemacs
                                            #:optional (name "emacs-spacemacs"))
   "Given an emacs package and a spacemacs package, create wrappers that allow
@@ -142,9 +141,7 @@ the use of spacemacs without conflicting with the base emacs."
     (license (package-license spacemacs))))
 (format #t "done\n")
 
-(format #t "~a... " "emacs-spacemacs")
+(format #t "~a ... " "(define-public emacs-spacemacs ...)")
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (format #t "done\n")
-
-#; (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
