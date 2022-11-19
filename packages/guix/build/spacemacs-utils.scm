@@ -20,7 +20,7 @@
 ;; (format #t "done\n")
 
 
-(format #t "~a... " "define-module (guix build spacemacs-utils)...")
+(format #t "~a ... " "(define-module (guix build spacemacs-utils) ...)")
 (define-module (guix build spacemacs-utils)
   #:use-module (guix build utils)
   #:use-module (oop goops)
