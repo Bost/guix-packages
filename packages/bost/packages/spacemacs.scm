@@ -36,8 +36,6 @@
   #:use-module (guix utils))
 (format #t "done\n")
 
-;; set --export GUIX_PACKAGE_PATH $dev/guix-packages/packages/bost/packages/patches
-;; see $dev/guix/gnu/packages.scm: (define %patch-path ...)
 #;
 (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
 
