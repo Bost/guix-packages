@@ -41,18 +41,18 @@
 
 (format #t "~a ... " "(define-public spacemacs-rolling-release) ...)")
 (define-public spacemacs-rolling-release
-  (let ((commit "57a7a0e63c4aecf810b19ca3fd49e5ae1a838126"))
+  (let ((commit "336b4dc05103c203d8ed640a3f46d2da3138c567"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                      (url "https://github.com/syl20bnr/spacemacs")
+                      (url "https://github.com/Bost/spacemacs")
                       (commit commit)))
                 (sha256
                  (base32
-                  "1lwbjfldysqfi4cf7i0fs9gz3iy83zlam45cdvlg0j0279ixbl6b"))
+                  "1dfgbx7k4gwd6wns37fgfvqaqx65hsfgigp8xmwhw6d04d6s2khm"))
                 (file-name (string-append name "-" version))
                 (patches
                  (search-patches
