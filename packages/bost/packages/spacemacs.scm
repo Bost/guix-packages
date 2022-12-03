@@ -39,9 +39,9 @@
 #;
 (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
 
-(format #t "~a ... " "(define-public spacemacs-rolling-release) ...)")
+(format #t "~a ... " "(define-public spacemacs-rolling-release ...)")
 (define-public spacemacs-rolling-release
-  (let ((commit "336b4dc05103c203d8ed640a3f46d2da3138c567"))
+  (let ((commit "282dee75a38164a80951b0873c5fe5be421f4d7d"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
@@ -52,8 +52,10 @@
                       (commit commit)))
                 (sha256
                  (base32
-                  "1dfgbx7k4gwd6wns37fgfvqaqx65hsfgigp8xmwhw6d04d6s2khm"))
+                  "0b6l4jdf5xv1v5h6fgzfrv81fd704bv5zx8w11fmq973hysmlkjm"))
                 (file-name (string-append name "-" version))
+                ;; patches integrated in the repository
+                #;
                 (patches
                  (search-patches
                   "spacemacs-rolling-release-add-data-dir.patch"

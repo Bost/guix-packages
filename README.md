@@ -17,7 +17,9 @@ guix package --load-path=$dev/guix-packages/packages/bost/packages/patches --man
 ```
 
 ```shell
-guix pull && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
+guix pull                    && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
+# or eventually
+guix pull --allow-downgrades && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
 ```
 
 ``` scheme
