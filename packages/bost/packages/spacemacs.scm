@@ -113,9 +113,8 @@ and expert users alike.")
   "Given an emacs package and a spacemacs package, create wrappers that allow
 the use of spacemacs without conflicting with the base emacs."
   (format #t "\n")
-  (format #t "emacs:\n~a\n\n" emacs)
-  (format #t "spacemacs:\n~a\n\n" spacemacs)
-  ;; (format #t "(assoc-ref %build-inputs \"spacemacs\"):\n~a\n\n" (assoc-ref %build-inputs "spacemacs"))
+  (format #t "emacs: ~a\n" emacs)
+  (format #t "spacemacs: ~a\n" spacemacs)
   (package
     (name name)
     (version (string-append (package-version emacs) "-"
@@ -136,7 +135,10 @@ the use of spacemacs without conflicting with the base emacs."
                               #:emacs (string-append
                                        (assoc-ref %build-inputs "emacs")
                                        "/bin/emacs")
-                              #:spacemacs (assoc-ref %build-inputs "spacemacs")
+                              #:spacemacs
+                              (let [(sp (assoc-ref %build-inputs "spacemacs"))]
+                                (format #t "(assoc-ref ...):\n~a\n\n" sp)
+                                sp)
                               #:out (string-append
                                      (assoc-ref %outputs "out") "/bin")))))
     (home-page (package-home-page spacemacs))
