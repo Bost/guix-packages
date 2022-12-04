@@ -24,15 +24,25 @@
 (define-module (guix build spacemacs-utils)
   #:use-module (guix build utils)
   #:use-module (oop goops)
+  #:use-module (ice-9 pretty-print)
   #:use-module (srfi srfi-1)
 
   #:export (builder))
 (format #t "done\n")
 
+(define (pretty-print->string sexp)
+  (let [(port (open-output-string))]
+    (pretty-print sexp port)
+    (let* [(ret (get-output-string port))]
+      (close-output-port port)
+      ret)))
+
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file"
-  (object->string
+  (format #t "pretty-print->string\n")
+  (pretty-print->string
+   ;; object->string
    `(progn
      (setq spacemacs-start-directory (concat ,spacemacs "/"))
      (setq spacemacs-data-directory
