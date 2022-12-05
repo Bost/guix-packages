@@ -41,7 +41,7 @@
 
 (format #t "~a ... " "(define-public spacemacs-rolling-release ...)")
 (define-public spacemacs-rolling-release
-  (let ((commit "d599b2d73d82ab3b48d3c06459b364d5b8062304"))
+  (let ((commit "9e43ace526cfd6655b49248cad54bf0784226d70"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
@@ -52,7 +52,7 @@
                       (commit commit)))
                 (sha256
                  (base32
-                  "1rmzmia01xk0hqgm4j7lvg3vyxvrx421j0s7dsr7x0nwpsq0aqcn"))
+                  "0g9mza9cdqll8jj7yqqjpy3vn74qy7n2spnn8y0fcy17xbbcc1xs"))
                 (file-name (string-append name "-" version))
                 ;; patches integrated in the repository
                 #;
@@ -136,9 +136,12 @@ the use of spacemacs without conflicting with the base emacs."
                                        (assoc-ref %build-inputs "emacs")
                                        "/bin/emacs")
                               #:spacemacs
-                              (let [(sp (assoc-ref %build-inputs "spacemacs"))]
-                                (format #t "(assoc-ref ...):\n~a\n\n" sp)
-                                sp)
+                              (let [(spacemacs-build-input
+                                     (assoc-ref %build-inputs "spacemacs"))]
+                                ;; ??? the (format ...) displays no text
+                                (format #t "(assoc-ref ...):\n~a\n\n"
+                                        spacemacs-build-input)
+                                spacemacs-build-input)
                               #:out (string-append
                                      (assoc-ref %outputs "out") "/bin")))))
     (home-page (package-home-page spacemacs))
