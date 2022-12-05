@@ -1,2 +1,0 @@
-#!/gnu/store/d99ykvj3axzzidygsmdmzxah4lvxd6hw-bash-5.1.8/bin/sh
-exec -a sh spacemacs --daemon=spacemacs "$@"
