@@ -54,9 +54,12 @@ fi
 export GUIX_PACKAGE_PATH=$(pwd)/packages/bost/packages/patches
 printf "run.sh: $(env | rg GUIX_PACKAGE_PATH): %s\n" $(env | rg GUIX_PACKAGE_PATH)
 
+# TODO the spguipmac-packages.scm is not a proper manifest file. Some kind of
+# `(specifications->manifest spguipmacs-packages)` may be needed
+
 set -x
 guix shell \
-     --manifest=$HOME/dev/guix-packages/manifest.scm \
+     --manifest=$dotf/guix/home/cfg/spguipmacs-packages.scm \
      --container --network \
      --preserve=^GUIX_PACKAGE_PATH$ \
      --share=/usr/bin \
