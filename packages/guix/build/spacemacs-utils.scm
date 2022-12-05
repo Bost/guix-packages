@@ -72,7 +72,7 @@ with Spacemacs code preloaded."
 
   (generate-wrapper shell
                     (string-append out "/spacemacs")
-                    emacs " --no-init-file" "--eval"
+                    emacs "--no-init-file" "--eval"
                     (string-append "'"
                                    (create-initialization-code spacemacs)
                                    "'"))
@@ -85,4 +85,11 @@ with Spacemacs code preloaded."
   (generate-wrapper shell
                     (string-append out "/spacemacsclient")
                     (string-append emacs "client")
-                    "--socket-name" "spacemacs"))
+                    "--no-wait"
+;;; Can't use
+;;;   (or (getenv "XDG_DATA_DIR")
+;;;       (string-append (getenv "HOME") "/.local/share"))
+;;; At the execution time the value of (getenv "HOME") is "/homeless-shelter"
+;;; TODO implement it in the shell-script language
+                    "--socket-name=$HOME/.local/share/spacemacs/server/server"
+                    ))
