@@ -12,8 +12,8 @@ for profile in ${PROFILES[@]}; do
     # printf "profile: %s\n" $profile
     set -x  # Print commands and their arguments as they are executed.
     guix package \
-         --profile=$profile \
-         --list-installed='(emacs-spacemacs|spacemacs-rolling-release)'
+         --list-installed='(emacs-spacemacs|spacemacs-rolling-release)' \
+         --profile=$profile
     { retval="$?"; set +x; } 2>/dev/null
     unset profile
 done

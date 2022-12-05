@@ -30,6 +30,8 @@
   #:export (builder))
 (format #t "done\n")
 
+(define hack-the-start-script? #t)
+
 (define (pretty-print->string sexp)
   (let [(port (open-output-string))]
     (pretty-print sexp port)
@@ -37,21 +39,57 @@
       (close-output-port port)
       ret)))
 
+(format #t "~a ... " "(define (create-initialization-code spacemacs) ...)")
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file"
-  (format #t "pretty-print->string\n")
+  (format #t "[create-initialization-code] spacemacs:\n~a\n" spacemacs)
   (pretty-print->string
    ;; object->string
-   `(progn
-     (setq spacemacs-start-directory (concat ,spacemacs "/"))
-     (setq spacemacs-data-directory
-           (concat (or (getenv "XDG_DATA_DIR")
-                       (concat (getenv "HOME") "/.local/share"))
-                   "/spacemacs/"))
-     (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
-     (load-file (concat spacemacs-start-directory "init.el")))))
+   (let* [(dir (if hack-the-start-script? "'$edir'" spacemacs))]
+     `(progn
+       (setq spacemacs-start-directory
+             (concat ,(if hack-the-start-script? "'$edir'" spacemacs) "/"))
+       (setq spacemacs-data-directory
+             (concat (or (getenv "XDG_DATA_DIR")
+                         (concat (getenv "HOME") "/.local/share"))
+                     "/spacemacs/"))
+       (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
+       (load-file (concat spacemacs-start-directory "init.el"))))))
+(format #t "done\n")
 
+(define the-hack-code
+  "
+# Problem:
+# spacemacs-rolling-release installation directory in the /gnu/store is empty,
+# i.e. the spacemacs.scm -> (assoc-ref %build-inputs \"spacemacs\") returns an
+# empty directory.
+#
+# Possible solutions:
+# 1. Try
+#    $ guix build --check emacs-spacemacs spacemacs-rolling-release
+#    $ sudo guix build --repair emacs-spacemacs spacemacs-rolling-release
+#
+# 2. Hack the start-script
+# Get the spacemacs commit id. (the tilda '~' doesn't work):
+cid=$(guix show spacemacs-rolling-release | rg 'version: 0.999.0-0.' | rg --only-matching '.{7}$')
+# List a list of all relevant directories:
+
+dirs=$(ls -d1 /gnu/store/*-spacemacs-rolling-release-0.999.0-0.$cid)
+# The list $dirs should be two directories. One of them should be empty the
+# other not
+
+# Get the nonempty directory:
+edir=$(find $dirs -maxdepth 0 -type d -not -empty)
+
+# If everything fails, try to use:
+# edir=/home/bost/dev/.spguimacs.d
+
+")
+
+;; (format #t "the-hack-code:\n~a\n" the-hack-code)
+
+(format #t "~a ... " "(define (generate-wrapper shell output executable . args) ...)")
 (define (generate-wrapper shell output executable . args)
   "create a shell script interpreted by sh-compatible shell `shell` that
 executes `executable` passing arguments `args` as well as any passed in from
@@ -59,11 +97,20 @@ the command line."
   (call-with-output-file
       output (lambda (port)
                (format port "~A~%~A"
-                       (string-append "#!" shell)
+                       (string-append
+                        "#!" shell
+                        (if (and hack-the-start-script?
+                                 (string-suffix-ci? "/spacemacs" output))
+                            (begin
+                              (format #t "Hacking the output:\n~a\n" output)
+                              the-hack-code)
+                            ""))
                        (string-join (list "exec" "-a" shell
                                           executable (string-join args)
                                           "\"$@\"")))))
   (chmod output #o555))
+(format #t "done\n")
+
 
 (define* (builder #:key shell emacs spacemacs out)
   "Create exectables that run emacs, the emacs server, and the emacs client

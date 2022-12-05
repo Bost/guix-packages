@@ -138,9 +138,8 @@ the use of spacemacs without conflicting with the base emacs."
                               #:spacemacs
                               (let [(spacemacs-build-input
                                      (assoc-ref %build-inputs "spacemacs"))]
-                                ;; ??? the (format ...) displays no text
-                                (format #t "(assoc-ref ...):\n~a\n\n"
-                                        spacemacs-build-input)
+                                (format #t "#t spacemacs-build-input:\n~a\n\n" spacemacs-build-input)
+                                (format #f "#f spacemacs-build-input:\n~a\n\n" spacemacs-build-input)
                                 spacemacs-build-input)
                               #:out (string-append
                                      (assoc-ref %outputs "out") "/bin")))))
