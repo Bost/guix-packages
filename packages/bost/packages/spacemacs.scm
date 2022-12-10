@@ -118,9 +118,6 @@ and expert users alike.")
                                            #:optional (name "emacs-spacemacs"))
   "Given an emacs package and a spacemacs package, create wrappers that allow
 the use of spacemacs without conflicting with the base emacs."
-  (format #t "\n")
-  (format #t "emacs: ~a\n" emacs)
-  (format #t "spacemacs: ~a\n" spacemacs)
   (package
     (name name)
     (version (string-append (package-version emacs) "-"
@@ -141,12 +138,7 @@ the use of spacemacs without conflicting with the base emacs."
                               #:emacs (string-append
                                        (assoc-ref %build-inputs "emacs")
                                        "/bin/emacs")
-                              #:spacemacs
-                              (let [(spacemacs-build-input
-                                     (assoc-ref %build-inputs "spacemacs"))]
-                                (format #t "#t spacemacs-build-input:\n~a\n\n" spacemacs-build-input)
-                                (format #f "#f spacemacs-build-input:\n~a\n\n" spacemacs-build-input)
-                                spacemacs-build-input)
+                              #:spacemacs (assoc-ref %build-inputs "spacemacs")
                               #:out (string-append
                                      (assoc-ref %outputs "out") "/bin")))))
     (home-page (package-home-page spacemacs))
@@ -159,4 +151,4 @@ the use of spacemacs without conflicting with the base emacs."
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (format #t "done\n")
-;; emacs-spacemacs ;; needed only when building via `guix build ...'
+emacs-spacemacs ;; needed only when building via `guix build ...'

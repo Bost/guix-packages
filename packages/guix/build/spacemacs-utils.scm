@@ -43,7 +43,7 @@
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file"
-  (format #t "[create-initialization-code] spacemacs:\n~a\n" spacemacs)
+  (format #t "[create-initialization-code] spacemacs: ~a\n" spacemacs)
   (pretty-print->string
    ;; object->string
    (let* [(dir (if hack-the-start-script? "'$edir'" spacemacs))]
@@ -60,6 +60,9 @@ spacemacs initialization file"
 
 (define the-hack-code
   "
+# Exit immediately if a command exits with a non-zero status
+set -e
+
 # Problem:
 # spacemacs-rolling-release installation directory in the /gnu/store is empty,
 # i.e. the spacemacs.scm -> (assoc-ref %build-inputs \"spacemacs\") returns an
@@ -85,6 +88,14 @@ edir=$(find $dirs -maxdepth 0 -type d -not -empty)
 # If everything fails, try to use:
 # edir=/home/bost/dev/.spguimacs.d
 
+# Print commands and their arguments as they are executed
+# set -x
+
+# Any printf or echo will prevent the script from running
+# printf 'edir: %s\\n' $edir
+# printf \"edir: %s\\n\" $edir
+# echo 'edir: $edir'
+# echo \"edir: $edir\"
 ")
 
 ;; (format #t "the-hack-code:\n~a\n" the-hack-code)
@@ -102,7 +113,7 @@ the command line."
                         (if (and hack-the-start-script?
                                  (string-suffix-ci? "/spacemacs" output))
                             (begin
-                              (format #t "Hacking the output:\n~a\n" output)
+                              (format #t "[generate-wrapper] ### Hacking the output:\n~a\n" output)
                               the-hack-code)
                             ""))
                        (string-join (list "exec" "-a" shell
@@ -111,10 +122,17 @@ the command line."
   (chmod output #o555))
 (format #t "done\n")
 
-
+(format #t "~a ... " "(define* (builder ...) ...)")
 (define* (builder #:key shell emacs spacemacs out)
   "Create exectables that run emacs, the emacs server, and the emacs client
 with Spacemacs code preloaded."
+  ;; WTF? The messages are not displayed on the output.
+  (format #t "\n")
+  (format #t "[builder] shell: ~a\n" shell)
+  (format #t "[builder] emacs: ~a\n" emacs)
+  (format #t "[builder] spacemacs: ~a\n" spacemacs)
+  (format #t "[builder] out: ~a\n" out)
+
   (mkdir-p out)
 
   (generate-wrapper shell
@@ -140,3 +158,4 @@ with Spacemacs code preloaded."
 ;;; TODO implement it in the shell-script language
                     "--socket-name=$HOME/.local/share/spacemacs/server/server"
                     ))
+(format #t "done\n")
