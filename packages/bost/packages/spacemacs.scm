@@ -46,8 +46,14 @@
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
       (source (origin
-                (method git-fetch)
-                (uri (git-reference
+                ;; $ cd $dev/guix-packages/packages
+                ;; $ wp; guix build --file=./bost/packages/spacemacs.scm
+                (method url-fetch)
+                (uri
+                 (format #f "file://~a/dev/.spguimacs.d" (getenv "HOME")))
+
+                #;(method git-fetch)
+                #;(uri (git-reference
                       (url "https://github.com/Bost/spacemacs")
                       (commit commit)))
                 (sha256
@@ -153,3 +159,4 @@ the use of spacemacs without conflicting with the base emacs."
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (format #t "done\n")
+;; emacs-spacemacs ;; needed only when building via `guix build ...'
