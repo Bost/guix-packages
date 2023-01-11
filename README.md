@@ -11,11 +11,6 @@ Use this repo as a [channel](https://guix.gnu.org/manual/en/html_node/Channels.h
 See `info "(guix) Invoking guix import"`
 "Add a package to the distribution with as little work as possible"
 
-Install spacemacs with dependencies as specified by `~/.spacemacs-guix.el`:
-```shell
-guix package --load-path=$dev/guix-packages/packages/bost/packages/patches --manifest=$dev/guix-packages/manifest.scm
-```
-
 ```shell
 guix pull                    && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
 # or eventually
