@@ -35,7 +35,8 @@
   #:use-module (guix packages)
   #:use-module (guix utils))
 
-(define m "[spacemacs]") ; module-name
+(define m (module-name-for-logging))
+
 ;; (format #t "~a evaluating module ...\n" m)
 
 ;; (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
