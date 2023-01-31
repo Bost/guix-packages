@@ -19,8 +19,8 @@
 ;; (format #t "~a... " "")
 ;; (format #t "done\n")
 
-(format #t "~a ... " "(define-module (bost packages spacemacs) ...)")
 (define-module (bost packages spacemacs)
+  #:use-module (bost utils)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages bash)
@@ -34,12 +34,13 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix utils))
-(format #t "done\n")
 
-#;
-(format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
+(define m "[spacemacs]") ; module-name
+;; (format #t "~a evaluating module ...\n" m)
 
-(format #t "~a ... " "(define-public spacemacs-rolling-release ...)")
+;; (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
+
+;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
   (let ((commit "c07683120b58b37e63bdc4cc4b357c3af9bf9ff3"))
     (package
@@ -111,9 +112,8 @@ spacemacs community collaborates to provide the best default experience for new
 and expert users alike.")
       (home-page "https://spacemacs.org")
       (license license:gpl3))))
-(format #t "done\n")
+(testsymb 'spacemacs-rolling-release)
 
-(format #t "~a ... " "(define* (generate-wrapped-emacs-spacemacs ...) ...)")
 (define* (generate-wrapped-emacs-spacemacs emacs spacemacs
                                            #:optional (name "emacs-spacemacs"))
   "Given an emacs package and a spacemacs package, create wrappers that allow
@@ -127,28 +127,38 @@ the use of spacemacs without conflicting with the base emacs."
     (inputs `(("sh" ,bash)
               ("emacs" ,emacs)
               ("spacemacs" ,spacemacs)))
-    (arguments `(#:modules ((guix build utils) (guix build spacemacs-utils))
-                 #:builder (begin
-                             (use-modules ((guix build spacemacs-utils)
-                                           #:prefix spacemacs:))
-                             (spacemacs:builder
-                              #:shell (string-append
-                                       (assoc-ref %build-inputs "sh")
-                                       "/bin/sh")
-                              #:emacs (string-append
-                                       (assoc-ref %build-inputs "emacs")
-                                       "/bin/emacs")
-                              #:spacemacs (assoc-ref %build-inputs "spacemacs")
-                              #:out (string-append
-                                     (assoc-ref %outputs "out") "/bin")))))
+    (arguments
+     `(#:modules ((guix build utils)
+;;; Omitting following module leads to:
+;;;   Loading './guix/build/spacemacs-utils.scm'...
+;;;   ...
+;;;   no code for module (bost utils)
+                  (bost utils)
+                  (guix build spacemacs-utils))
+       #:builder (begin
+                   (use-modules
+                    ((guix build spacemacs-utils) #:prefix spacemacs:))
+                   (spacemacs:builder
+                    #:shell (string-append
+                             (assoc-ref %build-inputs "sh")
+                             "/bin/sh")
+                    #:emacs (string-append
+                             (assoc-ref %build-inputs "emacs")
+                             "/bin/emacs")
+                    #:spacemacs (assoc-ref %build-inputs "spacemacs")
+                    #:out (string-append
+                           (assoc-ref %outputs "out") "/bin")))))
     (home-page (package-home-page spacemacs))
     (synopsis (package-synopsis spacemacs))
     (description (package-description spacemacs))
     (license (package-license spacemacs))))
-(format #t "done\n")
+(testsymb 'generate-wrapped-emacs-spacemacs)
 
-(format #t "~a ... " "(define-public emacs-spacemacs ...)")
+;; (format #t "~a ... " "(define-public emacs-spacemacs ...)")
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
-(format #t "done\n")
-emacs-spacemacs ;; needed only when building via `guix build ...'
+(testsymb 'emacs-spacemacs)
+
+(format #t "~a module evaluated\n" m)
+
+;; emacs-spacemacs ;; needed only when building via `guix build ...'
