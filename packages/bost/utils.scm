@@ -1,6 +1,3 @@
-;; (format #t "~a... " "")
-;; (format #t "done\n")
-
 (define-module (bost utils)
   #:export (
             module-name-for-logging
@@ -35,4 +32,3 @@
 ;; (let [(ff 42)] (testsymb 'ff))
 
 (format #t "~a module evaluated\n" (module-name-for-logging))
-
