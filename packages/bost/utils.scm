@@ -3,8 +3,12 @@
 
 (define-module (bost utils)
   #:export (
+            module-name-for-logging
             testsymb
             ))
+
+(define (partial fun . args)
+  (lambda x (apply fun (append args x))))
 
 (define (module-name-for-logging)
   ((compose
@@ -13,9 +17,6 @@
     (partial map (partial format #f "~a"))
     (partial module-name))
    (current-module)))
-
-(define (partial fun . args)
-  (lambda x (apply fun (append args x))))
 
 (define-syntax testsymb
   (syntax-rules ()
