@@ -19,16 +19,16 @@
 ;; (format #t "~a... " "")
 ;; (format #t "done\n")
 
-
-(format #t "~a ... " "(define-module (guix build spacemacs-utils) ...)")
 (define-module (guix build spacemacs-utils)
+  #:use-module (bost utils)
   #:use-module (guix build utils)
   #:use-module (oop goops)
   #:use-module (ice-9 pretty-print)
   #:use-module (srfi srfi-1)
 
   #:export (builder))
-(format #t "done\n")
+
+(define m "[spacemacs-utils]") ; module-name
 
 (define hack-the-start-script? #t)
 
@@ -39,7 +39,7 @@
       (close-output-port port)
       ret)))
 
-(format #t "~a ... " "(define (create-initialization-code spacemacs) ...)")
+;; (format #t "~a ... " "(define (create-initialization-code spacemacs) ...)")
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file"
@@ -56,7 +56,7 @@ spacemacs initialization file"
                      "/spacemacs/"))
        (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
        (load-file (concat spacemacs-start-directory "init.el"))))))
-(format #t "done\n")
+(testsymb 'create-initialization-code)
 
 (define the-hack-code
   "
@@ -100,7 +100,7 @@ edir=$(find $dirs -maxdepth 0 -type d -not -empty)
 
 ;; (format #t "the-hack-code:\n~a\n" the-hack-code)
 
-(format #t "~a ... " "(define (generate-wrapper shell output executable . args) ...)")
+;; (format #t "~a ... " "(define (generate-wrapper shell output executable . args) ...)")
 (define (generate-wrapper shell output executable . args)
   "create a shell script interpreted by sh-compatible shell `shell` that
 executes `executable` passing arguments `args` as well as any passed in from
@@ -120,9 +120,9 @@ the command line."
                                           executable (string-join args)
                                           "\"$@\"")))))
   (chmod output #o555))
-(format #t "done\n")
+(testsymb 'generate-wrapper)
 
-(format #t "~a ... " "(define* (builder ...) ...)")
+;; (format #t "~a ... " "(define* (builder ...) ...)")
 (define* (builder #:key shell emacs spacemacs out)
   "Create exectables that run emacs, the emacs server, and the emacs client
 with Spacemacs code preloaded."
@@ -158,4 +158,4 @@ with Spacemacs code preloaded."
 ;;; TODO implement it in the shell-script language
                     "--socket-name=$HOME/.local/share/spacemacs/server/server"
                     ))
-(format #t "done\n")
+(testsymb 'builder)
