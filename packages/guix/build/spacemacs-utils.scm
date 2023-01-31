@@ -28,7 +28,7 @@
 
   #:export (builder))
 
-(define m "[spacemacs-utils]") ; module-name
+(define m (module-name-for-logging))
 
 (define hack-the-start-script? #t)
 
