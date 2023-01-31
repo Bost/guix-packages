@@ -1,7 +1,8 @@
 ;;; GNU Guix --- Functional package management for GNU
 ;;; Copyright © 2019 Bryan Ferris <saffronsnail@protonmail.com>
+;;; Copyright © 2022,2023 Rostislav Svoboda <Rostislav.Svoboda@gmail.com>
 ;;;
-;;; This file is part of GNU Guix.
+;;; TODO This file is part of GNU Guix.
 ;;;
 ;;; GNU Guix is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
@@ -16,9 +17,6 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-;; (format #t "~a... " "")
-;; (format #t "done\n")
-
 (define-module (guix build spacemacs-utils)
   #:use-module (bost utils)
   #:use-module (guix build utils)
@@ -29,6 +27,7 @@
   #:export (builder))
 
 (define m (module-name-for-logging))
+;; (format #t "~a evaluating module ...\n" m)
 
 (define hack-the-start-script? #t)
 
@@ -159,3 +158,5 @@ with Spacemacs code preloaded."
                     "--socket-name=$HOME/.local/share/spacemacs/server/server"
                     ))
 (testsymb 'builder)
+
+(format #t "~a module evaluated\n" m)

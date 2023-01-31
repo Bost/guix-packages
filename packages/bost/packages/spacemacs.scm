@@ -1,7 +1,7 @@
 ;;; GNU Guix --- Functional package management for GNU
-;;; Copyright © 2019 Bryan Ferris <saffronsnail@protonmail.com>
+;;; Copyright © 2022,2023 Rostislav Svoboda <Rostislav.Svoboda@gmail.com>
 ;;;
-;;; This file is part of GNU Guix.
+;;; TODO This file is part of GNU Guix.
 ;;;
 ;;; GNU Guix is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
@@ -15,9 +15,6 @@
 ;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
-
-;; (format #t "~a... " "")
-;; (format #t "done\n")
 
 (define-module (bost packages spacemacs)
   #:use-module (bost utils)
@@ -36,7 +33,6 @@
   #:use-module (guix utils))
 
 (define m (module-name-for-logging))
-
 ;; (format #t "~a evaluating module ...\n" m)
 
 ;; (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
