@@ -39,7 +39,7 @@
 
 ;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
-  (let ((commit "c07683120b58b37e63bdc4cc4b357c3af9bf9ff3"))
+  (let ((commit "4c3d0bbcc0ee76da2728b2420c6d8f24e5cbad7c"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
@@ -56,7 +56,7 @@
                       (commit commit)))
                 (sha256
                  (base32
-                  "1wawy9g5i0zs3773dm99bcxybfvl1qa1959py9jsysckpq11gffc"))
+                  "0l2mkiyn548zqj1qrmm14i5p62mqnad4g8yjjf06ylnv2z8xcwvx"))
                 (file-name (string-append name "-" version))
                 ;; patches integrated in the repository
                 #;
