@@ -31,4 +31,4 @@
 ;;; testsymb doesn't work in the let-syntax
 ;; (let [(ff 42)] (testsymb 'ff))
 
-(format #t "~a module evaluated\n" (module-name-for-logging))
+;; (format #t "~a module evaluated\n" (module-name-for-logging))
