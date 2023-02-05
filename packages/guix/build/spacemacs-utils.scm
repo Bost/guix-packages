@@ -47,6 +47,7 @@ spacemacs initialization file"
    ;; object->string
    (let* [(dir (if hack-the-start-script? "'$edir'" spacemacs))]
      `(progn
+       (setq spacemacs-start-directory-orig (concat ,spacemacs "/"))
        (setq spacemacs-start-directory
              (concat ,(if hack-the-start-script? "'$edir'" spacemacs) "/"))
        (setq spacemacs-data-directory
@@ -74,15 +75,25 @@ set -e
 #
 # 2. Hack the start-script
 # Get the spacemacs commit id. (the tilda '~' doesn't work):
-cid=$(guix show spacemacs-rolling-release | rg 'version: 0.999.0-0.' | rg --only-matching '.{7}$')
-# List a list of all relevant directories:
+srl=\"spacemacs-rolling-release\"
+cid=$(guix show $srl | rg 'version: 0.999.0-0.' | rg --only-matching '.{7}$')
 
-dirs=$(ls -d1 /gnu/store/*-spacemacs-rolling-release-0.999.0-0.$cid)
+# dirs is list of all relevant directories:
+dirs=$(ls -d1 /gnu/store/*-$srl-0.999.0-0.$cid)
 # The list $dirs should be two directories. One of them should be empty the
 # other not
 
-# Get the nonempty directory:
-edir=$(find $dirs -maxdepth 0 -type d -not -empty)
+# Get the nonempty directory / directories:
+edirs=$(find $dirs -maxdepth 0 -type d -not -empty)
+
+fmtStr=$(echo $edirs | sed 's#\\s#;#g')
+IFS=';' read -r -a array <<< \"$fmtStr\"
+if [ ${#array[@]} -gt 1 ]; then
+    # printf \"[WRN] Found %s nonempty directories. Expecting 1.\" ${#array[@]}
+    edir=${array[0]}
+else
+    edir=$edirs
+fi
 
 # If everything fails, try to use:
 # edir=/home/bost/dev/.spguimacs.d
@@ -101,7 +112,7 @@ edir=$(find $dirs -maxdepth 0 -type d -not -empty)
 
 ;; (format #t "~a ... " "(define (generate-wrapper shell output executable . args) ...)")
 (define (generate-wrapper shell output executable . args)
-  "create a shell script interpreted by sh-compatible shell `shell` that
+  "Create a shell script interpreted by sh-compatible shell `shell` that
 executes `executable` passing arguments `args` as well as any passed in from
 the command line."
   (call-with-output-file
@@ -126,7 +137,7 @@ the command line."
   "Create exectables that run emacs, the emacs server, and the emacs client
 with Spacemacs code preloaded."
   ;; WTF? The messages are not displayed on the output.
-  (format #t "\n")
+  (format #t "~a Running builder...\n" m)
   (format #t "[builder] shell: ~a\n" shell)
   (format #t "[builder] emacs: ~a\n" emacs)
   (format #t "[builder] spacemacs: ~a\n" spacemacs)
@@ -159,4 +170,4 @@ with Spacemacs code preloaded."
                     ))
 (testsymb 'builder)
 
-(format #t "~a module evaluated\n" m)
+;; (format #t "~a module evaluated\n" m)
