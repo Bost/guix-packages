@@ -156,6 +156,6 @@ the use of spacemacs without conflicting with the base emacs."
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (testsymb 'emacs-spacemacs)
 
-(format #t "~a module evaluated\n" m)
+;; (format #t "~a module evaluated\n" m)
 
 ;; emacs-spacemacs ;; needed only when building via `guix build ...'
