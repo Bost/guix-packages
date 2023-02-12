@@ -29,7 +29,7 @@
 (define m (module-name-for-logging))
 ;; (format #t "~a evaluating module ...\n" m)
 
-(define hack-the-start-script? #t)
+(define hack-the-start-script? #f)
 
 (define (pretty-print->string sexp)
   (let [(port (open-output-string))]
