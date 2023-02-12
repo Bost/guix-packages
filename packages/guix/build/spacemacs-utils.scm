@@ -40,12 +40,12 @@
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file"
-  (format #t "[create-initialization-code] spacemacs: ~a\n" spacemacs)
+  (write (format #f "[create-initialization-code] spacemacs: ~a" spacemacs))
   (pretty-print->string
    ;; object->string
    `(progn
      (setq spacemacs-start-directory
-           (concat spacemacs "/"))
+           (concat ,spacemacs "/"))
      (setq spacemacs-data-directory
            (concat (or (getenv "XDG_DATA_DIR")
                        (concat (getenv "HOME") "/.local/share"))
