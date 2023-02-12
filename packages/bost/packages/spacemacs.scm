@@ -77,10 +77,11 @@
        (list
         #:modules '((guix build utils))
         #:builder '(begin (use-modules (guix build utils))
-                          (let* [(outd (assoc-ref %outputs "out"))
+                          (let* [(f "[spacemacs-rolling-release]")
+                                 (outd (assoc-ref %outputs "out"))
                                  (srcf (assoc-ref %build-inputs "source"))]
-                            (write (format #f "outd: ~a" outd))
-                            (write (format #f "srcf: ~a" srcf))
+                            (write (format #f "~a outd: ~a" f outd))
+                            (write (format #f "~a srcf: ~a" f srcf))
                             (copy-recursively srcf outd)))))
       (synopsis "Automatically configured emacs for both emacs and vim users")
       (description "Spacemacs is a configuration framework for emacs designed to
