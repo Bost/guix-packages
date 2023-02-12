@@ -35,66 +35,53 @@
 (define m (module-name-for-logging))
 ;; (format #t "~a evaluating module ...\n" m)
 
-;; (format #t "%patch-path:\n  ~a\n" (string-join (%patch-path) "\n  "))
+#|
+,use (gnu)
+,use (guix)
+,use (gnu packages base)
+,use (guix store)
+(define daemon (open-connection))
+,use (bost packages spacemacs)
+(load "/home/bost/dev/guix-packages/packages/bost/packages/spacemacs.scm")
+(define d (package-derivation daemon spacemacs-rolling-release))
+(build-derivations daemon (list d))
+|#
 
 ;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
-  (let ((commit "bdd22430139de87d8c7c812eb562eb78ea76a94c"))
+  (let ((commit "5bf6841d0891adab6d446383c50dc493ab9e44ea"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
       (source (origin
                 ;; $ cd $dev/guix-packages/packages
                 ;; $ wp; guix build --file=./bost/packages/spacemacs.scm
-                (method url-fetch)
-                (uri
-                 (format #f "file://~a/dev/.spguimacs.d" (getenv "HOME")))
+                ;; $ wp; guix --install-from-file=./bost/packages/spacemacs.scm
 
-                #;(method git-fetch)
-                #;(uri (git-reference
+                ;; (method url-fetch)
+                ;; (uri
+                ;;  "file:///tmp/.spguimacs.d"
+                ;;  ;; (format #f "file://~a/dev/.spguimacs.d" (getenv "HOME"))
+                ;;  )
+
+                (method git-fetch)
+                (uri (git-reference
                       (url "https://github.com/Bost/spacemacs")
                       (commit commit)))
                 (sha256
                  (base32
-                  "1jgn7xf9xhr31m7s8pqn182cdy1mr8ckmjxf5ppni2h22kbfgyxg"))
-                (file-name (string-append name "-" version))
-                ;; patches integrated in the repository
-                #;
-                (patches
-                 (search-patches
-                  "spacemacs-rolling-release-add-data-dir.patch"
-                  "spacemacs-rolling-release-inhibit-read-only.patch"
-                  "spacemacs-rolling-release-quelpa-permissions.patch"))))
+                  "1kan7c7j7cg51avji32gf55w9r5h76jm6k8ijraw4qyhaj86nqjv"))
+                (file-name (string-append name "-" version))))
       (build-system trivial-build-system)
-      (native-inputs `(("tar" ,tar) ("xz" ,xz)))
-      (arguments (list
-                  #:modules '((guix build utils))
-                  #:builder '(begin (use-modules (guix build utils))
-                                    (setenv "PATH"
-                                            (string-append (getenv "PATH") ":"
-                                                           (assoc-ref
-                                                            %build-inputs "xz")
-                                                           "/bin"))
-                                    (mkdir-p (assoc-ref %outputs "out"))
-                                    (write
-                                     (string-join (list (string-append
-                                                         (assoc-ref %build-inputs "tar")
-                                                         "/bin/tar")
-                                                        "xf" (assoc-ref %build-inputs
-                                                                        "source")
-                                                        "-C" (assoc-ref %outputs "out")
-                                                        "--strip-components" "1"
-                                                        "\n")))
-
-                                    (system* (string-append
-                                              (assoc-ref %build-inputs "tar")
-                                              "/bin/tar")
-                                             "xf" (assoc-ref %build-inputs
-                                                             "source")
-                                             "-C" (assoc-ref %outputs "out")
-                                             "--strip-components" "1")
-
-                                    )))
+      (arguments
+       (list
+        #:modules '((guix build utils))
+        #:builder '(begin (use-modules (guix build utils))
+                          (let* [(outd (assoc-ref %outputs "out"))
+                                 (srcf (assoc-ref %build-inputs "source"))]
+                            (write (format #f "outd: ~a" outd))
+                            (write (format #f "srcf: ~a" srcf))
+                            (copy-recursively srcf outd)))))
       (synopsis "Automatically configured emacs for both emacs and vim users")
       (description "Spacemacs is a configuration framework for emacs designed to
 work well for people with experience using either emacs or vim.  It has 4
@@ -159,3 +146,4 @@ the use of spacemacs without conflicting with the base emacs."
 ;; (format #t "~a module evaluated\n" m)
 
 ;; emacs-spacemacs ;; needed only when building via `guix build ...'
+;; spacemacs-rolling-release ;; needed only when building via `guix build ...'
