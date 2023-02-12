@@ -29,8 +29,6 @@
 (define m (module-name-for-logging))
 ;; (format #t "~a evaluating module ...\n" m)
 
-(define hack-the-start-script? #f)
-
 (define (pretty-print->string sexp)
   (let [(port (open-output-string))]
     (pretty-print sexp port)
@@ -45,70 +43,16 @@ spacemacs initialization file"
   (format #t "[create-initialization-code] spacemacs: ~a\n" spacemacs)
   (pretty-print->string
    ;; object->string
-   (let* [(dir (if hack-the-start-script? "'$edir'" spacemacs))]
-     `(progn
-       (setq spacemacs-start-directory-orig (concat ,spacemacs "/"))
-       (setq spacemacs-start-directory
-             (concat ,(if hack-the-start-script? "'$edir'" spacemacs) "/"))
-       (setq spacemacs-data-directory
-             (concat (or (getenv "XDG_DATA_DIR")
-                         (concat (getenv "HOME") "/.local/share"))
-                     "/spacemacs/"))
-       (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
-       (load-file (concat spacemacs-start-directory "init.el"))))))
+   `(progn
+     (setq spacemacs-start-directory
+           (concat spacemacs "/"))
+     (setq spacemacs-data-directory
+           (concat (or (getenv "XDG_DATA_DIR")
+                       (concat (getenv "HOME") "/.local/share"))
+                   "/spacemacs/"))
+     (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
+     (load-file (concat spacemacs-start-directory "init.el")))))
 (testsymb 'create-initialization-code)
-
-(define the-hack-code
-  "
-# Exit immediately if a command exits with a non-zero status
-set -e
-
-# Problem:
-# spacemacs-rolling-release installation directory in the /gnu/store is empty,
-# i.e. the spacemacs.scm -> (assoc-ref %build-inputs \"spacemacs\") returns an
-# empty directory.
-#
-# Possible solutions:
-# 1. Try
-#    $ guix build --check emacs-spacemacs spacemacs-rolling-release
-#    $ sudo guix build --repair emacs-spacemacs spacemacs-rolling-release
-#
-# 2. Hack the start-script
-# Get the spacemacs commit id. (the tilda '~' doesn't work):
-srl=\"spacemacs-rolling-release\"
-cid=$(guix show $srl | rg 'version: 0.999.0-0.' | rg --only-matching '.{7}$')
-
-# dirs is list of all relevant directories:
-dirs=$(ls -d1 /gnu/store/*-$srl-0.999.0-0.$cid)
-# The list $dirs should be two directories. One of them should be empty the
-# other not
-
-# Get the nonempty directory / directories:
-edirs=$(find $dirs -maxdepth 0 -type d -not -empty)
-
-fmtStr=$(echo $edirs | sed 's#\\s#;#g')
-IFS=';' read -r -a array <<< \"$fmtStr\"
-if [ ${#array[@]} -gt 1 ]; then
-    # printf \"[WRN] Found %s nonempty directories. Expecting 1.\" ${#array[@]}
-    edir=${array[0]}
-else
-    edir=$edirs
-fi
-
-# If everything fails, try to use:
-# edir=/home/bost/dev/.spguimacs.d
-
-# Print commands and their arguments as they are executed
-# set -x
-
-# Any printf or echo will prevent the script from running
-# printf 'edir: %s\\n' $edir
-# printf \"edir: %s\\n\" $edir
-# echo 'edir: $edir'
-# echo \"edir: $edir\"
-")
-
-;; (format #t "the-hack-code:\n~a\n" the-hack-code)
 
 ;; (format #t "~a ... " "(define (generate-wrapper shell output executable . args) ...)")
 (define (generate-wrapper shell output executable . args)
@@ -118,14 +62,7 @@ the command line."
   (call-with-output-file
       output (lambda (port)
                (format port "~A~%~A"
-                       (string-append
-                        "#!" shell
-                        (if (and hack-the-start-script?
-                                 (string-suffix-ci? "/spacemacs" output))
-                            (begin
-                              (format #t "[generate-wrapper] ### Hacking the output:\n~a\n" output)
-                              the-hack-code)
-                            ""))
+                       (string-append "#!" shell)
                        (string-join (list "exec" "-a" shell
                                           executable (string-join args)
                                           "\"$@\"")))))
@@ -136,12 +73,11 @@ the command line."
 (define* (builder #:key shell emacs spacemacs out)
   "Create exectables that run emacs, the emacs server, and the emacs client
 with Spacemacs code preloaded."
-  ;; WTF? The messages are not displayed on the output.
-  (format #t "~a Running builder...\n" m)
-  (format #t "[builder] shell: ~a\n" shell)
-  (format #t "[builder] emacs: ~a\n" emacs)
-  (format #t "[builder] spacemacs: ~a\n" spacemacs)
-  (format #t "[builder] out: ~a\n" out)
+  (let* [(f "[builder]")]
+    (write (format #f "~a shell: ~a" f shell))
+    (write (format #f "~a emacs: ~a" f emacs))
+    (write (format #f "~a spacemacs: ~a" f spacemacs))
+    (write (format #f "~a out: ~a" f out)))
 
   (mkdir-p out)
 
