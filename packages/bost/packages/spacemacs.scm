@@ -49,7 +49,7 @@
 
 ;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
-  (let ((commit "5bf6841d0891adab6d446383c50dc493ab9e44ea"))
+  (let ((commit "120fac4635d0961d338f52727f152c11a28e7ea7"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
@@ -70,7 +70,7 @@
                       (commit commit)))
                 (sha256
                  (base32
-                  "1kan7c7j7cg51avji32gf55w9r5h76jm6k8ijraw4qyhaj86nqjv"))
+                  "1nnvk8v9g295c4sa6w1zfn82qc9z950irmibcsngj7yvzd4dwsg2"))
                 (file-name (string-append name "-" version))))
       (build-system trivial-build-system)
       (arguments
