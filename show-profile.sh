@@ -25,8 +25,7 @@ for profile in ${myProfiles[@]}; do
                   --list-installed='(emacs-spacemacs|spacemacs-rolling-release)' \
                   --profile=$profile)
     # { retval="$?"; set +x; } 2>/dev/null
-    fmtProfile=$(echo $profile | sed $(printf 's#%s#~#g' $HOME))
-    printf -- "--profile=%s\n" $fmtProfile
+    printf -- "--profile=%s\n" $profile
     line0='                         '
     line1='                      '
     if [ ! -z "$result" ]; then
