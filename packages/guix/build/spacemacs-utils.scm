@@ -41,17 +41,15 @@
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file"
   (write (format #f "[create-initialization-code] spacemacs: ~a" spacemacs))
-  (pretty-print->string
-   ;; object->string
-   `(progn
-     (setq spacemacs-start-directory
-           (concat ,spacemacs "/"))
-     (setq spacemacs-data-directory
-           (concat (or (getenv "XDG_DATA_DIR")
-                       (concat (getenv "HOME") "/.local/share"))
-                   "/spacemacs/"))
-     (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
-     (load-file (concat spacemacs-start-directory "init.el")))))
+  `(progn
+    (setq spacemacs-start-directory
+          (concat ,spacemacs "/"))
+    (setq spacemacs-data-directory
+          (concat (or (getenv "XDG_DATA_DIR")
+                      (concat (getenv "HOME") "/.local/share"))
+                  "/spacemacs/"))
+    (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
+    (load-file (concat spacemacs-start-directory "init.el"))))
 (testsymb 'create-initialization-code)
 
 ;; (format #t "~a ... " "(define (generate-wrapper shell output executable . args) ...)")
@@ -84,8 +82,13 @@ with Spacemacs code preloaded."
   (generate-wrapper shell
                     (string-append out "/spacemacs")
                     emacs "--no-init-file" "--eval"
-                    (string-append "'"
-                                   (create-initialization-code spacemacs)
+;;; \n is here just for the readability purposes when viewed by
+;;;   cat  (readlink  (which spacemacs))   # in fish-shell
+;;;   cat $(readlink $(which spacemacs))   # in bash
+                    (string-append "'\n"
+                                   (pretty-print->string
+                                    ;; object->string
+                                    (create-initialization-code spacemacs))
                                    "'"))
 
   (generate-wrapper shell

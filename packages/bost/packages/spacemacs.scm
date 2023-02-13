@@ -41,23 +41,37 @@
 ,use (gnu packages base)
 ,use (guix store)
 (define daemon (open-connection))
-,use (bost packages spacemacs)
+(load "/home/bost/dev/guix-packages/packages/bost/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/spacemacs.scm")
+,use (bost packages spacemacs)
+;; ,module (bost packages spacemacs)
 (define d (package-derivation daemon spacemacs-rolling-release))
 (build-derivations daemon (list d))
 |#
 
 ;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
-  (let ((commit "120fac4635d0961d338f52727f152c11a28e7ea7"))
+  #|
+git clone $dev/.spguimacs.d /tmp/.spguimacs.d
+cd /tmp/.spguimacs.d
+git log --pretty=format:' "%H"' --max-count=1
+guix hash -x --serializer=nar .
+
+  cd $dev/guix-packages/packages
+  wp; guix build --file=./bost/packages/spacemacs.scm
+  wp; guix --install-from-file=./bost/packages/spacemacs.scm
+  |#
+
+  (let ((commit "6df933a889ecd925a250ee9cb91247dc9bf110ac"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
       (source (origin
-                ;; $ cd $dev/guix-packages/packages
-                ;; $ wp; guix build --file=./bost/packages/spacemacs.scm
-                ;; $ wp; guix --install-from-file=./bost/packages/spacemacs.scm
-
+                #|
+                cd $dev/guix-packages/packages
+                wp; guix build --file=./bost/packages/spacemacs.scm
+                wp; guix --install-from-file=./bost/packages/spacemacs.scm
+                |#
                 ;; (method url-fetch)
                 ;; (uri
                 ;;  "file:///tmp/.spguimacs.d"
@@ -70,7 +84,7 @@
                       (commit commit)))
                 (sha256
                  (base32
-                  "1nnvk8v9g295c4sa6w1zfn82qc9z950irmibcsngj7yvzd4dwsg2"))
+                  "0nrnc8jw7bp43va2i0gyay8gya6ajcrpww5vanx9szwy9040ylxc"))
                 (file-name (string-append name "-" version))))
       (build-system trivial-build-system)
       (arguments
