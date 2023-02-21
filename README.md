@@ -15,6 +15,9 @@ See `info "(guix) Invoking guix import"`
 guix pull                    && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
 # or eventually
 guix pull --allow-downgrades && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
+
+# show installed versions
+gxI '(emacs-spacemacs|spacemacs-rolling-release)'
 ```
 
 ``` scheme
