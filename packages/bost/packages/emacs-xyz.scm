@@ -118,31 +118,6 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match))
 
-#|
-Create a guix package emacs-afternoon-theme from http://github.com/osener/emacs-afternoon-theme using the latest commit on the master branch
-|#
-
-(define (build pkg-or-pkgs)
-  "Move this function to the utils module"
-  (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
-  (use-modules (guix store)
-               (guix derivations)
-               (guix packages)
-               (guix utils)
-               (gnu packages emacs-xyz)
-               (gnu packages mail)
-               (bost packages emacs-xyz)
-               )
-  (let [(daemon (open-connection))]
-    (define (partial fun . args) (lambda x (apply fun (append args x))))
-    (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
-    (map (compose
-          (partial build-derivations daemon)
-          list
-          (partial package-derivation daemon))
-         (if (list? pkg-or-pkgs) pkg-or-pkgs
-             (list pkg-or-pkgs)))))
-
 (define-public emacs-cider-eval-sexp-fu
   (package
     (name "emacs-cider-eval-sexp-fu")
@@ -331,4 +306,422 @@ look at the minibuffer.")
     (synopsis "Dark color theme with a deep blue background")
     (description
      "Dark color theme with a deep blue background")
+    (license license:gpl3+)))
+
+(define-public emacs-treemacs-extra
+  (package
+    (inherit emacs-treemacs)
+    (name "emacs-treemacs-extra")
+    (propagated-inputs
+     `(,@(package-propagated-inputs emacs-treemacs)
+       ("emacs-all-the-icons" ,emacs-all-the-icons)
+       ("emacs-evil" ,emacs-evil)
+       ("emacs-magit" ,emacs-magit)
+       ("emacs-projectile" ,emacs-projectile)
+       ("emacs-perspective" ,emacs-perspective)
+       ("emacs-persp-mode" ,emacs-persp-mode)
+       ("mu" ,mu)))
+    (arguments
+     (substitute-keyword-arguments
+         (package-arguments emacs-treemacs)
+       ((#:phases phases)
+        `(modify-phases ,phases
+           (add-after 'chdir-elisp 'copy-extra
+             (lambda _
+               ;; the files are copied, it's just that they are not found by spacemacs
+               (copy-recursively "../extra" ".")))))))))
+
+
+;; 000000000000000000000000000000000000000
+
+;; $ git --git-dir=/tmp/railscasts-theme/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/railscasts-theme
+
+(define-public emacs-railscasts-theme
+  (package
+    (name "emacs-railscasts-theme")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/mikenichols/railscasts-theme")
+               (commit
+                 "1340c3f6c2717761cab95617cf8dcbd962b1095b")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "021x1l5kzsbm0qj5a3bngxa7ickm4lbwsdz81a2ks9pi1ivmw205"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/mikenichols/railscasts-theme")
+    (synopsis "Railscasts color theme for GNU Emacs.")
+    (description "Railscasts color theme for GNU Emacs.")
+    (license license:expat-0)))
+
+;; $ git --git-dir=/tmp/color-theme-sanityinc-tomorrow/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/color-theme-sanityinc-tomorrow
+
+(define-public emacs-color-theme-sanityinc-tomorrow
+  (package
+    (name "emacs-color-theme-sanityinc-tomorrow")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/purcell/color-theme-sanityinc-tomorrow")
+               (commit
+                 "96dbaa43ff1326879e76a7943b8ae27265ae84e8")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "161hd0nfwb6wv2ldml74kgzmpilb6rc0ldiv0vsqklvi781dsbr1"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/purcell/color-theme-sanityinc-tomorrow")
+    (synopsis "Emacs color themes based on Chris Kempson's 'tomorrow' themes")
+    (description
+     "An Emacs version of Chris Kempson's \"Tomorrow\" themes, with much more
+extensive face definitions than the \"official\" Emacs variant.")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/emacs-theme-gruvbox/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/emacs-theme-gruvbox
+
+(define-public emacs-gruvbox
+  (package
+    (name "emacs-gruvbox")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "http://github.com/greduan/emacs-theme-gruvbox")
+               (commit
+                 "736729265bfe5e247cf1b48bcf996e56516b0d89")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0dgjf86i8179l1nsjyc20chysqmy8yhphpd5lzv2ypx79l4z3jka"))))
+    (build-system emacs-build-system)
+    (inputs (list emacs-autothemer))
+    (home-page
+      "http://github.com/greduan/emacs-theme-gruvbox")
+    (synopsis "Retro groove color scheme for Emacs. Port of the Vim version.")
+    (description
+     "Gruvbox is a retro groove color scheme for Emacs. It is a port of the Vim
+version originally by Pavel Pertsev found here.")
+    (license license:expat-0)))
+
+;; $ git --git-dir=/tmp/sphinx-doc.el/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/sphinx-doc.el
+
+(define-public emacs-sphinx-doc
+  (package
+    (name "emacs-sphinx-doc")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/naiquevin/sphinx-doc.el")
+               (commit
+                 "1eda612a44ef027e5229895daa77db99a21b8801")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0q72i95yx3xa57jlgr7dik6prf20hi8bp8xf3f5c6ificv7i5378"))))
+    (build-system emacs-build-system)
+    (inputs (list
+             emacs-dash
+             emacs-s))
+    (home-page
+      "https://github.com/naiquevin/sphinx-doc.el")
+    (synopsis
+     "Generate Sphinx friendly docstrings for Python functions in Emacs.")
+    (description
+     "Emacs minor mode for inserting docstring skeleton for Python functions
+and methods. The structure of the docstring is as per the requirement of the
+Sphinx documentation generator.")
+    (license license:expat)))
+
+;; $ git --git-dir=/tmp/anaconda-mode/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/anaconda-mode
+
+;; Missing:
+;; emacs-ansi-color
+;; emacs-pythonic
+;; (define-public emacs-anaconda-mode
+;;   (package
+;;     (name "emacs-anaconda-mode")
+;;     (version "0.1.15")
+;;     (source
+;;       (origin
+;;         (method git-fetch)
+;;         (uri (git-reference
+;;                (url "https://github.com/proofit404/anaconda-mode")
+;;                (commit
+;;                  "ca8edbaa7662d97e4a4416ec9a8d743863303911")))
+;;         (file-name (git-file-name name version))
+;;         (sha256
+;;           (base32
+;;             "1vlqrpxsy0xydm29vl39blwp7y82x9cr4mmaj8mji3hgjyfwph9m"))))
+;;     (build-system emacs-build-system)
+;;     (inputs (list
+;;              emacs-ansi-color
+;;              emacs-pythonic
+;;              emacs-tramp
+;;              emacs-xref
+;;              emacs-json
+;;              emacs-dash
+;;              emacs-url
+;;              emacs-s
+;;              emacs-f
+;;              ))
+;;     (home-page
+;;       "https://github.com/proofit404/anaconda-mode")
+;;     (synopsis "")
+;;     (description "")
+;;     (license license:gpl3+)))
+;; (format #t "(defined? 'emacs-anaconda-mode): ~a \n" (defined? 'emacs-anaconda-mode))
+
+;; $ git --git-dir=/tmp/pippel/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/pippel
+
+(define-public emacs-pippel
+  (package
+    (name "emacs-pippel")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/arifer612/pippel")
+               (commit
+                 "cb194952ee150e77601d3233dabdb521b976ee79")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
+    (build-system emacs-build-system)
+    (inputs (list
+             emacs-dash
+             emacs-s
+             ))
+    (home-page "https://github.com/arifer612/pippel")
+    (synopsis "Emacs frontend to python package manager pip.")
+    (description
+     "Emacs frontend for the Python package manager pip. As pippel also uses
+tabulated-list-mode, it provides a similiar package menu like
+package-list-packages.")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/column-enforce-mode/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/column-enforce-mode
+
+(define-public emacs-column-enforce-mode
+  (package
+    (name "emacs-column-enforce-mode")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jordonbiondo/column-enforce-mode")
+               (commit
+                 "14a7622f2268890e33536ccd29510024d51ee96f")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "1vxra5vk78yns2sw89m41bggczqg1akq6xvzfs9kylhkg5yz3g7g"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/jordonbiondo/column-enforce-mode")
+    (synopsis
+     "Highlight text that extends beyond a certain column.")
+    (description
+     "Highlight text that extends beyond a certain column. Can be used to
+enforce 80 column rule (well more like suggest, not enforce). Meant to be a
+very lightweight, zero configuration, way to help enforce the 80 column
+rule. It can be configured for any N-column rule however.")
+    (license license:gpl3+)))
+
+;; 111111111111111111111111111111111111111
+
+;; $ git --git-dir=/tmp/eziam-theme-emacs/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/eziam-theme-emacs
+
+(define-public emacs-eziam-theme-emacs
+  (package
+    (name "emacs-eziam-theme-emacs")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/thblt/eziam-theme-emacs")
+               (commit
+                 "7fba717293072d0afdbd1c45351ddf47b26b3064")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "14v23aqyl971yaw00xmqymlmw6abkx1biflqy1q0908q6fzg170n"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/thblt/eziam-theme-emacs")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/lsp-python-ms/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/lsp-python-ms
+
+(define-public emacs-lsp-python-ms
+  (package
+    (name "emacs-lsp-python-ms")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-python-ms")
+               (commit
+                 "f8e7c4bcaefbc3fd96e1ca53d17589be0403b828")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "1z7cs2linikm54a7dqn66p58vnsnhy2rj99l2wixa6cdfxlmacn0"))))
+    (build-system emacs-build-system)
+    (inputs (list
+             emacs-lsp-mode))
+    (home-page
+      "https://github.com/emacs-lsp/lsp-python-ms")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/moe-theme.el/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/moe-theme.el
+
+(define-public emacs-moe-theme
+  (package
+    (name "emacs-moe-theme")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/kuanyui/moe-theme.el")
+               (commit
+                 "171d76b0c69e42a9d7b62c5c472944951cb2be6c")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0g4dci8r0p69vmhbp5djrjvqv7z90xw7pznzapgxy8dqmbvc14k0"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/kuanyui/moe-theme.el")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/emacs-slim/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/emacs-slim
+
+(define-public emacs-emacs-slim
+  (package
+    (name "emacs-emacs-slim")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "http://github.com/slim-template/emacs-slim")
+               (commit
+                 "3636d18ab1c8b316eea71c4732eb44743e2ded87")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "1sqylm6ipmlh9249mmwfb16b4pv94cvzdwvi3zakdpz713phyjw5"))))
+    (build-system emacs-build-system)
+    (home-page
+      "http://github.com/slim-template/emacs-slim")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/zop-to-char/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/zop-to-char
+
+(define-public emacs-zop-to-char
+  (package
+    (name "emacs-zop-to-char")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/thierryvolpiatto/zop-to-char")
+               (commit
+                 "00152aa666354b27e56e20565f186b363afa0dce")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "1s4adi9hyhxn7ynx195mgg10h817hxdmlzlp09633bj0llr1mjn3"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/thierryvolpiatto/zop-to-char")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/font-utils/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/font-utils
+
+(define-public emacs-font-utils
+  (package
+    (name "emacs-font-utils")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "http://github.com/rolandwalker/font-utils")
+               (commit
+                 "abc572eb0dc30a26584c0058c3fe6c7273a10003")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0hx3k2zx2kdavivr1b957jq7kcwk301yzw77aprxzbs7jz73a35x"))))
+    (build-system emacs-build-system)
+    (home-page
+      "http://github.com/rolandwalker/font-utils")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/emacs-lush-theme/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/emacs-lush-theme
+
+(define-public emacs-lush
+  (package
+    (name "emacs-lush")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/andre-richter/emacs-lush-theme")
+               (commit
+                 "645e1959143532df8f7ef90e1184e9556df18af7")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0j9gbr3chaxc16yysyaaa1n2cvlrdc1y063l1kxj0mf435d1l7py"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/andre-richter/emacs-lush-theme")
+    (synopsis "")
+    (description "")
     (license license:gpl3+)))
