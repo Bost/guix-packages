@@ -362,6 +362,7 @@ look at the minibuffer.")
 ;; $ git --git-dir=/tmp/color-theme-sanityinc-tomorrow/.git log -n 1 --format=%H
 ;; $ guix hash -x --serializer=nar /tmp/color-theme-sanityinc-tomorrow
 
+;; Doesn't work properly. The package gets downloaded anyway
 (define-public emacs-color-theme-sanityinc-tomorrow
   (package
     (name "emacs-color-theme-sanityinc-tomorrow")
@@ -389,6 +390,7 @@ extensive face definitions than the \"official\" Emacs variant.")
 ;; $ git --git-dir=/tmp/emacs-theme-gruvbox/.git log -n 1 --format=%H
 ;; $ guix hash -x --serializer=nar /tmp/emacs-theme-gruvbox
 
+;; Doesn't work. The package gets downloaded anyway
 (define-public emacs-gruvbox
   (package
     (name "emacs-gruvbox")
@@ -552,6 +554,7 @@ rule. It can be configured for any N-column rule however.")
 ;; $ git --git-dir=/tmp/eziam-theme-emacs/.git log -n 1 --format=%H
 ;; $ guix hash -x --serializer=nar /tmp/eziam-theme-emacs
 
+;; Doesn't work. The package gets downloaded anyway
 (define-public emacs-eziam-theme-emacs
   (package
     (name "emacs-eziam-theme-emacs")
@@ -570,8 +573,14 @@ rule. It can be configured for any N-column rule however.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/thblt/eziam-theme-emacs")
-    (synopsis "")
-    (description "")
+    (synopsis
+     "A mostly grayscale theme for Emacs, inspired by Tao and Leuven.")
+    (description
+     "An Emacs theme, which tries to combine the simplicity of Tao with the
+org-mode goodness of Leuven. Unlike Tao, keeps some very minimal color
+indications, while remaining mainly grayscale and trying to avoid the “angry
+fruit salad” syndrome. Unlike Leuven, it remains mostly grayscale, with no
+color for syntax, and easily allows multiple variants.")
     (license license:gpl3+)))
 
 ;; $ git --git-dir=/tmp/lsp-python-ms/.git log -n 1 --format=%H
@@ -597,9 +606,10 @@ rule. It can be configured for any N-column rule however.")
              emacs-lsp-mode))
     (home-page
       "https://github.com/emacs-lsp/lsp-python-ms")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
+    (synopsis "lsp-mode loves Microsoft's python language server.")
+    (description
+     "lsp-mode client leveraging Microsoft’s python-language-server.")
+    (license license:bsd-3)))
 
 ;; $ git --git-dir=/tmp/moe-theme.el/.git log -n 1 --format=%H
 ;; $ guix hash -x --serializer=nar /tmp/moe-theme.el
@@ -622,16 +632,18 @@ rule. It can be configured for any N-column rule however.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/kuanyui/moe-theme.el")
-    (synopsis "")
-    (description "")
+    (synopsis
+     "A customizable colorful eye-candy theme for Emacser. Moe, moe, kyun!")
+    (description
+     "A customizable colorful eye-candy theme for Emacser. Moe, moe, kyun!")
     (license license:gpl3+)))
 
 ;; $ git --git-dir=/tmp/emacs-slim/.git log -n 1 --format=%H
 ;; $ guix hash -x --serializer=nar /tmp/emacs-slim
 
-(define-public emacs-emacs-slim
+(define-public emacs-slim-mode
   (package
-    (name "emacs-emacs-slim")
+    (name "emacs-slim-mode")
     (version "0.1")
     (source
       (origin
@@ -645,10 +657,11 @@ rule. It can be configured for any N-column rule however.")
           (base32
             "1sqylm6ipmlh9249mmwfb16b4pv94cvzdwvi3zakdpz713phyjw5"))))
     (build-system emacs-build-system)
-    (home-page
-      "http://github.com/slim-template/emacs-slim")
-    (synopsis "")
-    (description "")
+    (home-page "http://slim-lang.com/")
+    (synopsis "Syntax highlighting for Slim.")
+    (description
+     "slim-mode provides Emacs support for editing Slim templates. It's based
+on haml-mode.")
     (license license:gpl3+)))
 
 ;; $ git --git-dir=/tmp/zop-to-char/.git log -n 1 --format=%H
@@ -672,8 +685,8 @@ rule. It can be configured for any N-column rule however.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/thierryvolpiatto/zop-to-char")
-    (synopsis "")
-    (description "")
+    (synopsis "A visual zap-to-char command for Emacs.")
+    (description "A visual zap-to-char command for Emacs.")
     (license license:gpl3+)))
 
 ;; $ git --git-dir=/tmp/font-utils/.git log -n 1 --format=%H
@@ -697,13 +710,29 @@ rule. It can be configured for any N-column rule however.")
     (build-system emacs-build-system)
     (home-page
       "http://github.com/rolandwalker/font-utils")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
+    (synopsis "Utility functions for working with fonts in Emacs.")
+    (description "Utility functions for working with fonts in Emacs.")
+#|
+The license was identified as 'bsd-2' by ChatGPT using following prompt:
+
+Have a look at the BSD License definitions 'bsd-0', 'bsd-1', 'bsd-2',
+'bsd-3', 'bsd-4', in the 'guix/guix/licenses.scm' from the source code of the
+GNU Guix project identify the definition to which the text bellow
+corresponds. The solution MUST be one of the aforementioned 'bsd-0', 'bsd-1',
+'bsd-2', 'bsd-3', 'bsd-4'.
+
+============================
+
+<Text between the lines 98 - 129:
+https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c7273a10003/font-utils.el#L98-L129
+>
+|#
+    (license license:bsd-2)))
 
 ;; $ git --git-dir=/tmp/emacs-lush-theme/.git log -n 1 --format=%H
 ;; $ guix hash -x --serializer=nar /tmp/emacs-lush-theme
 
+;; Doesn't work. The package gets downloaded anyway
 (define-public emacs-lush
   (package
     (name "emacs-lush")
@@ -722,6 +751,6 @@ rule. It can be configured for any N-column rule however.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/andre-richter/emacs-lush-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
+    (synopsis "A dark theme with lush colors for Emacs24")
+    (description "A dark theme with lush colors for Emacs24.")
+    (license license:expat)))
