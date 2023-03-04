@@ -754,3 +754,124 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
     (synopsis "A dark theme with lush colors for Emacs24")
     (description "A dark theme with lush colors for Emacs24.")
     (license license:expat)))
+
+
+;; 33333333333333333333333333333333
+
+;; $ git --git-dir=/tmp/vi-tilde-fringe/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/vi-tilde-fringe
+
+(define-public emacs-vi-tilde-fringe
+  (package
+    (name "emacs-vi-tilde-fringe")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/syl20bnr/vi-tilde-fringe")
+               (commit
+                 "f1597a8d54535bb1d84b442577b2024e6f910308")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0wdm8k49zl6i6wnh7vjkswdh5m9lix56jv37xvc90inipwgs402z"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/syl20bnr/vi-tilde-fringe")
+    (synopsis "Display tildes on empty lines in the Emacs fringe a la Vi.")
+    (description "Display tildes on empty lines in the Emacs fringe a la Vi.")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/popwin/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/popwin
+
+(define-public emacs-popwin
+  (package
+    (name "emacs-popwin")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/emacsorphanage/popwin")
+               (commit
+                 "1e57430615b60bf33e85228f7cc625537f468241")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "10p4mvn9hva6ji7xvmbhdyjysdcmmr5m2787277mkl8cw1fhfdxz"))))
+    (build-system emacs-build-system)
+    (home-page
+      "https://github.com/emacsorphanage/popwin")
+    (synopsis "Popup Window Manager for Emacs.")
+    (description
+     "Popup window manager for Emacs which makes you free from the hell of
+annoying buffers such like *Help*, *Completions*, *compilation*, and etc.")
+    (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/paradox/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/paradox
+
+;; (define-public emacs-paradox
+;;   (package
+;;     (name "emacs-paradox")
+;;     (version "0.1")
+;;     (source
+;;       (origin
+;;         (method git-fetch)
+;;         (uri (git-reference
+;;                (url "https://github.com/Malabarba/paradox")
+;;                (commit
+;;                  "dec73d4ba3512e0f85983a4b992080b225d199ee")))
+;;         (file-name (git-file-name name version))
+;;         (sha256
+;;           (base32
+;;             "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
+;;     (build-system emacs-build-system)
+;;     (inputs
+;;      (list
+;; ;;; <stdin>:499:6: warning: possibly unbound variable `emacs-paradox-core'
+;; ;;; <stdin>:500:6: warning: possibly unbound variable `emacs-paradox-execute'
+;; ;;; <stdin>:501:6: warning: possibly unbound variable `emacs-paradox-menu'
+;;       emacs-paradox-core
+;;       emacs-paradox-execute
+;;       emacs-paradox-menu
+;;       ))
+;;     (home-page
+;;       "https://github.com/Malabarba/paradox")
+;;     (synopsis "")
+;;     (description "")
+;;     (license license:gpl3+)))
+
+;; $ git --git-dir=/tmp/lsp-volar/.git log -n 1 --format=%H
+;; $ guix hash -x --serializer=nar /tmp/lsp-volar
+
+(define-public emacs-lsp-volar
+  (package
+    (name "emacs-lsp-volar")
+    (version "0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jadestrong/lsp-volar")
+               (commit
+                 "6f0c2bc3be5fc4d8d8aa1cf5ee3546fcf6ef36be")))
+        (file-name (git-file-name name version))
+        (sha256
+          (base32
+            "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
+    (build-system emacs-build-system)
+    (inputs
+     (list
+      emacs-lsp-mode
+      ))
+    (home-page
+      "https://github.com/jadestrong/lsp-volar")
+    (synopsis "Language support for Vue3")
+    (description "Language support for Vue3
+This package has been merged into lsp-mode, so you can use lsp-mode
+directly. There will only be some experimental updates here. Once stable, they
+will be submitted to lsp-mode.")
+    (license license:gpl3+)))
