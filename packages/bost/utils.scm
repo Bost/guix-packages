@@ -26,29 +26,6 @@
        ;;       (error (format #f "~a ~a undefined\n" module symbol))))
        ))))
 
-(define (build pkg-or-pkgs)
-  "Usage
-(build emacs-treemacs)
-"
-  (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
-  (use-modules (guix store)
-               (guix derivations)
-               (guix packages)
-               (guix utils)
-               (gnu packages emacs-xyz)
-               (gnu packages mail)
-               (bost packages emacs-xyz)
-               )
-  (let [(daemon (open-connection))]
-    (define (partial fun . args) (lambda x (apply fun (append args x))))
-    (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
-    (map (compose
-          (partial build-derivations daemon)
-          list
-          (partial package-derivation daemon))
-         (if (list? pkg-or-pkgs) pkg-or-pkgs
-             (list pkg-or-pkgs)))))
-
 ;; (define f 42)
 ;; (testsymb 'f)
 
