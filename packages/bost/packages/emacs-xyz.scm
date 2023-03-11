@@ -132,7 +132,8 @@
        (sha256
         (base32 "01gky548v3758fyr317lkwsc9aacab6m9d9vk1mrr3qyvmciwd51"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-eval-sexp-fu-el))
+    (propagated-inputs
+     (list emacs-eval-sexp-fu-el))
     (home-page "https://github.com/clojure-emacs/cider-eval-sexp-fu")
     (synopsis "eval-sexp-fu.el extensions for CIDER")
     (description
@@ -179,10 +180,8 @@ e.g. the expression you've just evaluated would briefly flash and so on.")
        (sha256
         (base32 "1vf5zm82sx3m1yvq73km8ajapv6rnz41b1jrsif7kh0ijh9vk3qi"))))
     (build-system emacs-build-system)
-    (inputs (list
-             emacs-dash
-             emacs-s
-             emacs-posframe))
+    (propagated-inputs
+     (list emacs-dash emacs-posframe emacs-s))
     (home-page "https://github.com/Alexander-Miller/cfrs")
     (synopsis "Child Frame Read String")
     (description
@@ -207,7 +206,8 @@ look at the minibuffer.")
        (sha256
         (base32 "1cq73bdv3lkn8v3nx6aznygqaac9s5i7pvirl8wz9ib31hsgwpbk"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-auto-complete))
+    (propagated-inputs
+     (list emacs-auto-complete))
     (home-page "https://github.com/emacsorphanage/ac-ispell")
     (synopsis "ispell/aspell completion source for auto-complete")
     (description
@@ -228,31 +228,12 @@ look at the minibuffer.")
        (sha256
         (base32 "191a2g1if1jliikbxkpwmvlp4v1sp541j71xrlymili8ygm0idq5"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-avy emacs-helm))
+    (propagated-inputs
+     (list emacs-avy emacs-helm))
     (home-page "https://github.com/cute-jumper/ace-jump-helm-line")
     (synopsis "Ace-jump to a candidate in helm window")
     (description
      "Ace-jump to a candidate in helm window")
-    (license license:gpl3+)))
-
-(define-public emacs-xcscope
-  (package
-    (name "emacs-xcscope")
-    (version "1.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/dkogan/xcscope.el")
-             (commit "d228d7593d762e457340f678d14b663ef66d7cee")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0pr85ywp585imjzswm04647nb4iqqvg8jgmbcs5210qmr9kh0z8d"))))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/dkogan/xcscope.el")
-    (synopsis "cscope interface for (X)Emacs")
-    (description
-     "cscope interface for (X)Emacs")
     (license license:gpl3+)))
 
 ;; needed is apparently only ac-php-core
@@ -270,16 +251,9 @@ look at the minibuffer.")
        (sha256
         (base32 "188hisppjbpia3bmrpsxvkfi8xkirisarnrpvkk3ya4k8lv4z13p"))))
     (build-system emacs-build-system)
-    (inputs (list
-             emacs-auto-complete
-             emacs-company
-             emacs-dash
-             emacs-f
-             emacs-helm
-             emacs-php-mode
-             emacs-popup
-             emacs-s
-             emacs-xcscope))
+    (propagated-inputs
+     (list emacs-auto-complete emacs-company emacs-dash emacs-f emacs-helm
+           emacs-php-mode emacs-popup emacs-s emacs-xcscope))
     (home-page "https://github.com/xcwen/ac-php")
     (synopsis "emacs auto-complete & company-mode for php")
     (description
@@ -332,28 +306,6 @@ look at the minibuffer.")
 
 ;; 000000000000000000000000000000000000000
 
-(define-public emacs-railscasts-theme
-  (package
-    (name "emacs-railscasts-theme")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/mikenichols/railscasts-theme")
-               (commit
-                 "1340c3f6c2717761cab95617cf8dcbd962b1095b")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "021x1l5kzsbm0qj5a3bngxa7ickm4lbwsdz81a2ks9pi1ivmw205"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/mikenichols/railscasts-theme")
-    (synopsis "Railscasts color theme for GNU Emacs.")
-    (description "Railscasts color theme for GNU Emacs.")
-    (license license:expat-0)))
-
 ;; Doesn't work properly. The package gets downloaded anyway
 (define-public emacs-color-theme-sanityinc-tomorrow
   (package
@@ -396,43 +348,15 @@ extensive face definitions than the \"official\" Emacs variant.")
           (base32
             "0dgjf86i8179l1nsjyc20chysqmy8yhphpd5lzv2ypx79l4z3jka"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-autothemer))
+    (propagated-inputs
+     (list emacs-autothemer))
     (home-page
       "http://github.com/greduan/emacs-theme-gruvbox")
-    (synopsis "Retro groove color scheme for Emacs. Port of the Vim version.")
+    (synopsis "Retro groove color scheme for Emacs.  Port of the Vim version.")
     (description
-     "Gruvbox is a retro groove color scheme for Emacs. It is a port of the Vim
+     "Gruvbox is a retro groove color scheme for Emacs.  It is a port of the Vim
 version originally by Pavel Pertsev found here.")
     (license license:expat-0)))
-
-(define-public emacs-sphinx-doc
-  (package
-    (name "emacs-sphinx-doc")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/naiquevin/sphinx-doc.el")
-               (commit
-                 "1eda612a44ef027e5229895daa77db99a21b8801")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "0q72i95yx3xa57jlgr7dik6prf20hi8bp8xf3f5c6ificv7i5378"))))
-    (build-system emacs-build-system)
-    (inputs (list
-             emacs-dash
-             emacs-s))
-    (home-page
-      "https://github.com/naiquevin/sphinx-doc.el")
-    (synopsis
-     "Generate Sphinx friendly docstrings for Python functions in Emacs.")
-    (description
-     "Emacs minor mode for inserting docstring skeleton for Python functions
-and methods. The structure of the docstring is as per the requirement of the
-Sphinx documentation generator.")
-    (license license:expat)))
 
 ;; Missing:
 ;; emacs-ansi-color
@@ -453,15 +377,9 @@ Sphinx documentation generator.")
 ;;           (base32
 ;;             "1vlqrpxsy0xydm29vl39blwp7y82x9cr4mmaj8mji3hgjyfwph9m"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list
-;;              emacs-ansi-color
-;;              emacs-dash
-;;              emacs-f
-;;              emacs-pythonic
-;;              emacs-s
-;;              emacs-tramp
-;;              emacs-url
-;;              emacs-xref))
+;;     (propagated-inputs
+;;      (list emacs-ansi-color emacs-dash emacs-f emacs-pythonic emacs-s
+;;            emacs-tramp emacs-url emacs-xref ))
 ;;     (home-page
 ;;       "https://github.com/proofit404/anaconda-mode")
 ;;     (synopsis "")
@@ -469,60 +387,6 @@ Sphinx documentation generator.")
 ;;     (license license:gpl3+)))
 ;; (format #t "(defined? 'emacs-anaconda-mode): ~a \n" (defined? 'emacs-anaconda-mode))
 
-(define-public emacs-pippel
-  (package
-    (name "emacs-pippel")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/arifer612/pippel")
-               (commit
-                 "cb194952ee150e77601d3233dabdb521b976ee79")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
-    (build-system emacs-build-system)
-    (inputs (list
-             emacs-dash
-             emacs-s))
-    (home-page "https://github.com/arifer612/pippel")
-    (synopsis "Emacs frontend to python package manager pip.")
-    (description
-     "Emacs frontend for the Python package manager pip. As pippel also uses
-tabulated-list-mode, it provides a similiar package menu like
-package-list-packages.")
-    (license license:gpl3+)))
-
-
-(define-public emacs-column-enforce-mode
-  (package
-    (name "emacs-column-enforce-mode")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jordonbiondo/column-enforce-mode")
-               (commit
-                 "14a7622f2268890e33536ccd29510024d51ee96f")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "1vxra5vk78yns2sw89m41bggczqg1akq6xvzfs9kylhkg5yz3g7g"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/jordonbiondo/column-enforce-mode")
-    (synopsis
-     "Highlight text that extends beyond a certain column.")
-    (description
-     "Highlight text that extends beyond a certain column. Can be used to
-enforce 80 column rule (well more like suggest, not enforce). Meant to be a
-very lightweight, zero configuration, way to help enforce the 80 column
-rule. It can be configured for any N-column rule however.")
-    (license license:gpl3+)))
 
 ;; 111111111111111111111111111111111111111
 
@@ -572,8 +436,8 @@ color for syntax, and easily allows multiple variants.")
           (base32
             "1z7cs2linikm54a7dqn66p58vnsnhy2rj99l2wixa6cdfxlmacn0"))))
     (build-system emacs-build-system)
-    (inputs (list
-             emacs-lsp-mode))
+    (propagated-inputs
+     (list emacs-lsp-mode))
     (home-page
       "https://github.com/emacs-lsp/lsp-python-ms")
     (synopsis "lsp-mode loves Microsoft's python language server.")
@@ -774,7 +638,7 @@ annoying buffers such like *Help*, *Completions*, *compilation*, and etc.")
 ;;           (base32
 ;;             "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;      (list
 ;; ;;; <stdin>:499:6: warning: possibly unbound variable `emacs-paradox-core'
 ;; ;;; <stdin>:500:6: warning: possibly unbound variable `emacs-paradox-execute'
@@ -805,10 +669,8 @@ annoying buffers such like *Help*, *Completions*, *compilation*, and etc.")
           (base32
             "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
     (build-system emacs-build-system)
-    (inputs
-     (list
-      emacs-lsp-mode
-      ))
+    (propagated-inputs
+     (list emacs-lsp-mode))
     (home-page
       "https://github.com/jadestrong/lsp-volar")
     (synopsis "Language support for Vue3")
@@ -834,10 +696,8 @@ will be submitted to lsp-mode.")
           (base32
             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
     (build-system emacs-build-system)
-    (inputs
-      (list emacs-pfuture
-            emacs-magit
-            emacs-treemacs))
+    (propagated-inputs
+      (list emacs-magit emacs-pfuture emacs-treemacs))
     (home-page
       "https://github.com/Alexander-Miller/treemacs")
     (synopsis "")
@@ -884,7 +744,8 @@ will be submitted to lsp-mode.")
         (base32
          "12mwviz1mwx4ywks2lkmybbgh1wny67wkzlq5y3ml8gvyc288n3i"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-company))
+    (propagated-inputs
+     (list emacs-company))
     (home-page
      "https://github.com/company-mode/company-statistics")
     (synopsis "")
@@ -973,7 +834,8 @@ will be submitted to lsp-mode.")
           (base32
             "18j4ikb3q8ygdq74zqzm83wgb39x7w209n3186mm051n8lfmkaif"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-helm))
+    (propagated-inputs
+     (list emacs-helm))
     (home-page
       "https://github.com/Kungi/helm-cider-history")
     (synopsis "")
@@ -1017,13 +879,11 @@ will be submitted to lsp-mode.")
         (base32
          "1awqc4rvg8693myynb1d4y4dfdaxkd5blnixxs3mdv81l07zyn8c"))))
     (build-system emacs-build-system)
-    (inputs (list))
     (home-page
      "https://github.com/jimeh/twilight-bright-theme.el")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
-
 
 (define-public emacs-haskell-snippets
   (package
@@ -1041,7 +901,8 @@ will be submitted to lsp-mode.")
         (base32
          "1lwnggarmavyf164cfzbzzkq9ffahhd3bz7gw644czs49sndcawf"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-yasnippet))
+    (propagated-inputs
+     (list emacs-yasnippet))
     (home-page
      "https://github.com/haskell/haskell-snippets")
     (synopsis "")
@@ -1064,7 +925,8 @@ will be submitted to lsp-mode.")
           (base32
             "06n16v278wzzh1iq4lp0k508dnynrz5c0qbv86hksm7sa4a4w4s7"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-haskell-mode emacs-lsp-mode))
+    (propagated-inputs
+     (list emacs-haskell-mode emacs-lsp-mode))
     (home-page
       "https://github.com/emacs-lsp/lsp-haskell")
     (synopsis "")
@@ -1109,7 +971,8 @@ will be submitted to lsp-mode.")
           (base32
             "1xadlsg4c52anbk3dqz6blkrid8lzsd28rw402gy17vnk7lwg9i7"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-helm))
+    (propagated-inputs
+     (list emacs-helm))
     (home-page
       "https://github.com/ShingoFukuyama/helm-css-scss")
     (synopsis "")
@@ -1264,7 +1127,6 @@ will be submitted to lsp-mode.")
           (base32
             "1c71w9s34n0i7mm4njchxn6s3ri1y6mh3akgbg4nq41d42h8iap3"))))
     (build-system emacs-build-system)
-    (inputs (list))
     (home-page
       "https://github.com/mpickering/hlint-refactor-mode")
     (synopsis "")
@@ -1287,7 +1149,8 @@ will be submitted to lsp-mode.")
         (base32
          "1d8a9jwv9y0sncw24k840c8yyrig30f2d6q2zqlc09f05yzq9p9p"))))
     (build-system emacs-build-system)
-    (inputs (list emacs-autothemer))
+    (propagated-inputs
+     (list emacs-autothemer))
     (home-page
      "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
     (synopsis "")
@@ -1423,7 +1286,7 @@ will be submitted to lsp-mode.")
 ;;         (base32
 ;;          "1fjdn4g9ww70f3x6vbzi3gqs9dsmqg16isajlqlflzw2716zf2nh"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;      (list emacs-eieio-base
 ;;            emacs-eieio
 ;;            emacs-cl-extra))
@@ -1449,7 +1312,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1bsmf64ycmfnsb0r0nyaky1h3x2fpr4qyck3ihw16pa6d7spaw8c"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-pcache
 ;;             emacs-s
 ;;             emacs-subr-x
@@ -1477,7 +1340,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1r62xrq95lzgg3if0q86idl9l8gmks76pgpxr615vm8ndhq8a545"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-helm-easymenu
 ;;             emacs-helm-net
 ;;             emacs-helm))
@@ -1504,7 +1367,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-pcase
 ;;             emacs-dired
 ;;             emacs-hl-line
@@ -1531,7 +1394,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-treemacs emacs-evil))
+;;     (propagated-inputs (list emacs-treemacs emacs-evil))
 ;;     (home-page
 ;;       "https://github.com/Alexander-Miller/treemacs")
 ;;     (synopsis "")
@@ -1555,7 +1418,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-color-theme))
+;;     (propagated-inputs (list emacs-color-theme))
 ;;     (home-page
 ;;       "https://github.com/alloy-d/color-theme-molokai")
 ;;     (synopsis "")
@@ -1579,7 +1442,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list ;; emacs-eieio
 ;;             emacs-persp-mode
 ;;             emacs-treemacs))
@@ -1606,7 +1469,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0f4wkkv34990ks58dbdywlvdxw4bj7d4h0rjy64qxv7n14blndgv"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-multi-line-shared
 ;;             emacs-multi-line-respace
 ;;             emacs-multi-line-find
@@ -1637,7 +1500,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "113nnfi8jdxp7a8m7jjsn0ww2fqymk2ai4nzfdxzdfsk0q0bp49y"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-dash
 ;;             emacs-color
 ;;             ))
@@ -1664,7 +1527,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-paradox-menu
 ;;             emacs-paradox-execute
 ;;             emacs-paradox-core
@@ -1692,7 +1555,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1ffayl6hca9zanbznh6rkql7fbr53id1lyrj2vllx8zakfac4dyv"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-iswitchb))
+;;     (propagated-inputs (list emacs-iswitchb))
 ;;     (home-page "https://github.com/mooz/js-doc")
 ;;     (synopsis "")
 ;;     (description "")
@@ -1715,7 +1578,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "08pq03mvi887g0bl0s5mg3psmn43wxw8bl78k9m5r3yw4xdy8mhz"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-phpactor))
+;;     (propagated-inputs (list emacs-phpactor))
 ;;     (home-page
 ;;       "https://github.com/emacs-php/phpactor.el")
 ;;     (synopsis "")
@@ -1741,7 +1604,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0d7y6njsd1s2r5df2k8wvvwgxpwwyaqkhdd2b3p1php8rrbj3mg8"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-yasnippet
 ;;             emacs-php-mode
 ;;             emacs-thingatpt))
@@ -1768,7 +1631,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1wrs2d84xzjnsmw255bmnd1wcpwd36m0vyni48aa7661d4dh10x3"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-python emacs-helm))
 ;;     (home-page
 ;;       "https://github.com/syohex/emacs-helm-pydoc")
@@ -1793,7 +1656,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0raja19l0igwr0pn0ghr1pj1d8i9k3m3764ma4r8nwzxcj9qw4ja"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-flymake emacs-derived))
 ;;     (home-page "https://github.com/antonj/scss-mode")
 ;;     (synopsis "")
@@ -1817,7 +1680,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1a5s9j32v04sc5adly98y1zlx3q9i4m3b0zggrbgy56qk10yqdx4"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-solarized))
+;;     (propagated-inputs (list emacs-solarized))
 ;;     (home-page
 ;;       "https://github.com/bbatsov/solarized-emacs")
 ;;     (synopsis "")
@@ -1841,7 +1704,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1y15xkci3fiw7k67vnavjmxchbc9mnmz7qg1pcvxksflxrks6lq2"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-visual-fill-column))
+;;     (propagated-inputs (list emacs-visual-fill-column))
 ;;     (home-page
 ;;       "https://github.com/joostkremers/writeroom-mode")
 ;;     (synopsis "")
@@ -1865,7 +1728,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-pdf-view))
+;;     (propagated-inputs (list emacs-pdf-view))
 ;;     (home-page
 ;;       "https://github.com/007kevin/pdf-view-restore")
 ;;     (synopsis "")
@@ -1889,7 +1752,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1q7lnysh8v8vzr0s7y62ay0mcmiz40i504ixf7n4jhvpcsffcasr"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-kaolin-themes-lib
 ;;             emacs-color
 ;;             emacs-map
@@ -1917,7 +1780,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1j0zlcjrz0pswcc8wh476vx503qvlyzjscwh0gs3cfss8j6r6gd5"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-sql
 ;;             emacs-format-spec
 ;;             emacs-php-mode))
@@ -1944,7 +1807,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "072d5vldjfg9mj4a86bw8xmxl3hmywsnx4f2k6nayqy4whry5fmq"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-subr-x
 ;;             emacs-pulse
 ;;             emacs-outline
@@ -1995,7 +1858,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-php-project
 ;;             emacs-flymake
 ;;             emacs-cc-engine))
@@ -2022,7 +1885,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-company-css
 ;;             emacs-company
 ;;             emacs-web-completion-data))
@@ -2048,7 +1911,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-php-project
 ;;             emacs-mode-local
 ;;             emacs-nadvice
@@ -2083,7 +1946,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1irr8a8r28n8c0c2x5w1flgv1f3z5jy2i5r5dknddiqa93b3rm84"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-easy-mmode))
+;;     (propagated-inputs (list emacs-easy-mmode))
 ;;     (home-page
 ;;       "https://github.com/jwiegley/use-package")
 ;;     (synopsis "")
@@ -2107,7 +1970,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "11fps8ah3xmacfd9bglq8yaafzh37i1qpiyhfdphhsy0jqy990wz"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-f
 ;;             emacs-s
 ;;             emacs-tramp
@@ -2135,7 +1998,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-php-project
 ;;             emacs-regexp-opt
 ;;             emacs-align))
@@ -2185,7 +2048,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "1b6h3wjmxg9d1d3mfvw6fsgkr1w0d14zxllv9jb5cscl5lq8rbmm"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs (list emacs-helm emacs-flyspell-correct))
+;;     (propagated-inputs (list emacs-helm emacs-flyspell-correct))
 ;;     (home-page
 ;;       "https://github.com/d12frosted/flyspell-correct")
 ;;     (synopsis "")
@@ -2209,7 +2072,7 @@ will be submitted to lsp-mode.")
 ;;           (base32
 ;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
 ;;     (build-system emacs-build-system)
-;;     (inputs
+;;     (propagated-inputs
 ;;       (list emacs-package
 ;;             emacs-php-mode
 ;;             emacs-cus-edit
@@ -2219,6 +2082,142 @@ will be submitted to lsp-mode.")
 ;;     (synopsis "")
 ;;     (description "")
 ;;     (license license:gpl3+)))
+
+(define-public emacs-column-enforce-mode
+  (let ((commit "14a7622f2268890e33536ccd29510024d51ee96f"))
+    (package
+      (name "emacs-column-enforce-mode")
+      (version "0.1")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jordonbiondo/column-enforce-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1vxra5vk78yns2sw89m41bggczqg1akq6xvzfs9kylhkg5yz3g7g"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/jordonbiondo/column-enforce-mode")
+      (synopsis
+       "Highlight text that extends beyond a certain column")
+      (description
+       "Highlight text that extends beyond a certain column.  Can be used to enforce
+80 column rule (well more like suggest, not enforce).  Meant to be a very
+lightweight, zero configuration, way to help enforce the 80 column rule.  It
+can be configured for any N-column rule however.")
+      (license license:gpl3+))))
+
+(define-public emacs-pippel
+  (let ((commit "cb194952ee150e77601d3233dabdb521b976ee79"))
+    (package
+      (name "emacs-pippel")
+      (version "0.1")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arifer612/pippel")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-dash emacs-s))
+      (home-page "https://github.com/arifer612/pippel")
+      (synopsis "Emacs frontend to Python package manager pip")
+      (description
+       "Emacs frontend for the Python package manager pip.  As pippel also uses
+`tabulated-list-mode', it provides a similar package menu like
+`package-list-packages'.")
+      (license license:gpl3+))))
+
+(define-public emacs-railscasts-theme
+  (let ((commit "1340c3f6c2717761cab95617cf8dcbd962b1095b"))
+    (package
+      (name "emacs-railscasts-theme")
+      (version "0.1")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mikenichols/railscasts-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "021x1l5kzsbm0qj5a3bngxa7ickm4lbwsdz81a2ks9pi1ivmw205"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/mikenichols/railscasts-theme")
+      (synopsis "Railscasts color theme for Emacs")
+      (description "Railscasts color theme for Emacs.")
+      (license license:expat-0))))
+
+(define-public emacs-sphinx-doc
+  (let ((commit "1eda612a44ef027e5229895daa77db99a21b8801"))
+    (package
+      (name "emacs-sphinx-doc")
+      (version "0.1")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/naiquevin/sphinx-doc.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0q72i95yx3xa57jlgr7dik6prf20hi8bp8xf3f5c6ificv7i5378"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-dash emacs-s))
+      (home-page
+       "https://github.com/naiquevin/sphinx-doc.el")
+      (synopsis
+       "Generate Sphinx friendly docstrings for Python functions")
+      (description
+       "Emacs minor mode for inserting docstring skeleton for Python functions and methods.
+  The structure of the docstring is as per the requirement of the Sphinx
+documentation generator.")
+      (license license:expat))))
+
+(define-public emacs-xcscope
+  (let ((commit "d228d7593d762e457340f678d14b663ef66d7cee")
+        (revision "1.0"))
+    (package
+      (name "emacs-xcscope")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/dkogan/xcscope.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0pr85ywp585imjzswm04647nb4iqqvg8jgmbcs5210qmr9kh0z8d"))))
+      (build-system emacs-build-system)
+      (inputs
+       (list cscope))
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-cscope-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "xcscope.el"
+                  ("cscope-program" (search-input-file inputs "/bin/cscope"))))))))
+      (home-page "https://github.com/dkogan/xcscope.el")
+      (synopsis "Interface to the source cross-referencing tool Cscope")
+      (description
+       "Xcscope is an Emacs interface to Cscope, the source cross-referencing tool.
+  See https://cscope.sf.net")
+      (license license:gpl2+))))
 
 #|
 (define (build pkg-or-pkgs)
@@ -2258,6 +2257,5 @@ will be submitted to lsp-mode.")
              (bost packages emacs-xyz)
              ((utils) #:prefix bo:)
              )
-(bo:build emacs-cfrs)
+(build emacs-xcscope)
 |#
-
