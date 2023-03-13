@@ -1868,32 +1868,6 @@ will be submitted to lsp-mode.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-company-css unbound
-;; (define-public emacs-company-web
-;;   (package
-;;     (name "emacs-company-web")
-;;     (version "2.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/osv/company-web")
-;;                (commit
-;;                  "863fb84b81ed283474e50330cd8d27b1ca0d74f1")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-company-css
-;;             emacs-company
-;;             emacs-web-completion-data))
-;;     (home-page "https://github.com/osv/company-web")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-php-project unbound
 ;; (define-public emacs-php-mode
 ;;   (package
@@ -2104,10 +2078,10 @@ will be submitted to lsp-mode.")
       (synopsis
        "Highlight text that extends beyond a certain column")
       (description
-       "Highlight text that extends beyond a certain column.  Can be used to enforce
-80 column rule (well more like suggest, not enforce).  Meant to be a very
-lightweight, zero configuration, way to help enforce the 80 column rule.  It
-can be configured for any N-column rule however.")
+       "Highlight text that extends beyond a certain column.  Can be used to
+enforce 80 column rule (well more like suggest, not enforce).  Meant to be a
+very lightweight, zero configuration, way to help enforce the 80 column rule.
+It can be configured for any N-column rule however.")
       (license license:gpl3+))))
 
 (define-public emacs-pippel
@@ -2128,6 +2102,17 @@ can be configured for any N-column rule however.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list emacs-dash emacs-s))
+      (inputs
+       (list python))
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-curl-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "plz.el"
+                  ("pippel-python-command" (search-input-file
+                                            inputs "/bin/python"))))))))
       (home-page "https://github.com/arifer612/pippel")
       (synopsis "Emacs frontend to Python package manager pip")
       (description
@@ -2162,7 +2147,7 @@ can be configured for any N-column rule however.")
   (let ((commit "1eda612a44ef027e5229895daa77db99a21b8801"))
     (package
       (name "emacs-sphinx-doc")
-      (version "0.1")
+      (version "0.1.0")
       (source
        (origin
          (method git-fetch)
@@ -2181,29 +2166,28 @@ can be configured for any N-column rule however.")
       (synopsis
        "Generate Sphinx friendly docstrings for Python functions")
       (description
-       "Emacs minor mode for inserting docstring skeleton for Python functions and methods.
-  The structure of the docstring is as per the requirement of the Sphinx
-documentation generator.")
+       "Emacs minor mode for inserting docstring skeleton for Python functions
+and methods.  The structure of the docstring is as per the requirement of the
+Sphinx documentation generator.")
       (license license:expat))))
 
 (define-public emacs-xcscope
   (let ((commit "d228d7593d762e457340f678d14b663ef66d7cee")
-        (revision "1.0"))
+        (revision "0"))
     (package
       (name "emacs-xcscope")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/dkogan/xcscope.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0pr85ywp585imjzswm04647nb4iqqvg8jgmbcs5210qmr9kh0z8d"))))
+      (version (git-version "1.5" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/dkogan/xcscope.el")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "0pr85ywp585imjzswm04647nb4iqqvg8jgmbcs5210qmr9kh0z8d"))))
       (build-system emacs-build-system)
-      (inputs
-       (list cscope))
+      (inputs (list cscope))
       (arguments
        (list
         #:phases
@@ -2211,13 +2195,68 @@ documentation generator.")
             (add-after 'unpack 'substitute-cscope-path
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "xcscope.el"
-                  ("cscope-program" (search-input-file inputs "/bin/cscope"))))))))
+                  ("cscope-program" (search-input-file
+                                     inputs "/bin/cscope"))))))))
       (home-page "https://github.com/dkogan/xcscope.el")
       (synopsis "Interface to the source cross-referencing tool Cscope")
       (description
-       "Xcscope is an Emacs interface to Cscope, the source cross-referencing tool.
-  See https://cscope.sf.net")
+       "Xcscope is an Emacs interface to Cscope, the source cross-referencing
+tool.  See https://cscope.sf.net")
       (license license:gpl2+))))
+
+(define-public emacs-web-completion-data
+  (let ((commit "c272c94e8a71b779c29653a532f619acad433a4f")
+        (revision "0"))
+    (package
+      (name "emacs-web-completion-data")
+      (version (git-version "0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/osv/web-completion-data")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "19nzjgvd2i5745283ck3k2vylrr6lnk9h3ggzwrwdhyd3m9433vm"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/osv/web-completion-data")
+      (synopsis "Shared web completion data for Emacs ac-html and company-web")
+      (description
+       "Shared web completion data dependency package for Emacs ac-html and
+company-web.")
+      (license license:gpl3+))))
+
+(define-public emacs-company-web
+  (let ((commit "863fb84b81ed283474e50330cd8d27b1ca0d74f1")
+        (revision "0"))
+    (package
+      (name "emacs-company-web")
+      (version (git-version "2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/osv/company-web")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-company
+             emacs-dash
+             emacs-web-completion-data))
+      (home-page "https://github.com/osv/company-web")
+      (synopsis "Emacs company backend for html, jade and slim")
+      (description
+       "Company-web is an alternative Emacs plugin for autocompletion in
+html-mode, web-mode, jade-mode, slim-mode and use data of ac-html.  It uses
+company-mode.")
+      (license license:gpl3+))))
 
 #|
 (define (build pkg-or-pkgs)
@@ -2257,5 +2296,6 @@ documentation generator.")
              (bost packages emacs-xyz)
              ((utils) #:prefix bo:)
              )
-(build emacs-xcscope)
+(build emacs-web-completion-data)
+(build emacs-company-web)
 |#
