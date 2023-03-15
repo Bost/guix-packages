@@ -2089,16 +2089,17 @@ It can be configured for any N-column rule however.")
         #~(modify-phases %standard-phases
             (add-after 'unpack 'substitute-python-path
               (lambda* (#:key inputs #:allow-other-keys)
-                (format #t "inputs: ~a\n" inputs)
                 (emacs-substitute-variables "pippel.el"
                   ("pippel-python-command" (search-input-file
+;;; For 'python2 vs. python3' see the choice:
+;;; https://github.com/arifer612/pippel/blob/cb194952ee150e77601d3233dabdb521b976ee79/pippel.el#L65
                                             inputs "/bin/python3"))))))))
       (home-page "https://github.com/arifer612/pippel")
       (synopsis "Emacs frontend to Python package manager pip")
       (description
        "Emacs frontend for the Python package manager pip.  As pippel also uses
-`tabulated-list-mode', it provides a similar package menu like
-`package-list-packages'.")
+@code{tabulated-list-mode}, it provides a similar package menu like
+@code{package-list-packages}.")
       (license license:gpl3+))))
 
 (define-public emacs-railscasts-theme
