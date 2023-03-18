@@ -20,9 +20,7 @@
   ((compose
     cadr
     exec
-    (partial format #f "guix hash -x --serializer=nar ~a")
-    )
-
+    (partial format #f "guix hash -x --serializer=nar ~a"))
    dst-dir))
 
 (define (git-clone-to-tmp url)
