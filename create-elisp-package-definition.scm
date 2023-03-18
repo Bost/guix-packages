@@ -53,25 +53,26 @@
              (cid (latest-commit-hash dst-dir))]
         (pretty-print->string
          `(define-public ,emacs-pkg-name-symbol
-            (package
-              (name ,emacs-pkg-name)
-              ;; See (version (git-version "1.1.1" revision commit))
-              (version ,ver)
-              (source
-               (origin
-                 (method git-fetch)
-                 (uri (git-reference
-                       (url ,url)
-                       (commit ,cid)))
-                 (file-name (git-file-name name version))
-                 (sha256
-                  (base32 ,(latest-base32 dst-dir)))))
-              (build-system emacs-build-system)
-              ,inputs
-              (home-page ,url)
-              (synopsis "") ;; TODO synopsis
-              (description "") ;; TODO description
-              (license license:gpl3+))))))))
+            (let ((commit ,commit)
+                  (revision "0"))
+             (package
+               (name ,emacs-pkg-name)
+               (version (version (git-version ,ver revision commit)))
+               (source
+                (origin
+                  (method git-fetch)
+                  (uri (git-reference
+                        (url ,url)
+                        (commit ,cid)))
+                  (file-name (git-file-name name version))
+                  (sha256
+                   (base32 ,(latest-base32 dst-dir)))))
+               (build-system emacs-build-system)
+               ,inputs
+               (home-page ,url)
+               (synopsis "") ;; TODO synopsis
+               (description "") ;; TODO description
+               (license license:gpl3+)))))))))
 
 ;; (define (prepare pkg)
 ;;   (pretty-print->string
