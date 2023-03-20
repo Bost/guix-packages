@@ -2079,26 +2079,33 @@ It can be configured for any N-column rule however.")
           (base32
            "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
       (build-system emacs-build-system)
-      (inputs
-       (list python))
-      (propagated-inputs
-       (list emacs-dash emacs-s))
       (arguments
        (list
+        #:include #~(cons "^pippel\\.py$" %default-include)
         #:phases
         #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-pippel-package-path
+              (lambda* (#:key outputs #:allow-other-keys)
+                (let ((out (assoc-ref outputs "out"))
+                      (site-lisp (string-append out "/share/emacs/site-lisp")))
+                  (pk site-lisp)
+                  (format #t "#### site-lisp: ~a\n" site-lisp)
+                  ;; (format #t "#### out: ~a\n" out)
+                  ;; The Elisp package files are installed directly under share/emacs/site-lisp
+                  (emacs-substitute-variables "pippel.el"
+                    ("pippel-package-path" site-lisp)))))
             (add-after 'unpack 'substitute-python-path
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "pippel.el"
-                  ("pippel-python-command" (search-input-file
-;;; For 'python2 vs. python3' see the choice:
-;;; https://github.com/arifer612/pippel/blob/cb194952ee150e77601d3233dabdb521b976ee79/pippel.el#L65
-                                            inputs "/bin/python3"))))))))
+                  ("pippel-python-command"
+                   (search-input-file inputs "/bin/python"))))))))
+      (inputs (list python-wrapper))
+      (propagated-inputs (list emacs-dash emacs-s))
       (home-page "https://github.com/arifer612/pippel")
-      (synopsis "Emacs frontend to Python package manager pip")
+      (synopsis "Emacs frontend to Python package manager Pip")
       (description
-       "Emacs frontend for the Python package manager pip.  As pippel also uses
-@code{tabulated-list-mode}, it provides a similar package menu like
+       "Pippel is an Emacs frontend for the Python package manager pip.  As Pippel
+also uses Tabulated List mode, it provides a similar package menu like
 @code{package-list-packages}.")
       (license license:gpl3+))))
 
@@ -2119,17 +2126,17 @@ It can be configured for any N-column rule however.")
           (base32
            "021x1l5kzsbm0qj5a3bngxa7ickm4lbwsdz81a2ks9pi1ivmw205"))))
       (build-system emacs-build-system)
-      (home-page
-       "https://github.com/mikenichols/railscasts-theme")
-      (synopsis "Railscasts color theme for Emacs")
-      (description "Railscasts color theme for Emacs.")
-      (license license:expat-0))))
+      (home-page "https://github.com/mikenichols/railscasts-theme")
+      (synopsis "Railscasts is a color theme for Emacs")
+      (description "Railscasts is a color theme for Emacs.")
+      (license license:expat))))
 
 (define-public emacs-sphinx-doc
-  (let ((commit "1eda612a44ef027e5229895daa77db99a21b8801"))
+  (let ((commit "1eda612a44ef027e5229895daa77db99a21b8801")
+        (revision "1"))
     (package
       (name "emacs-sphinx-doc")
-      (version "0.1.0")
+      (version (git-version "0.3.0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -2143,14 +2150,12 @@ It can be configured for any N-column rule however.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list emacs-dash emacs-s))
-      (home-page
-       "https://github.com/naiquevin/sphinx-doc.el")
-      (synopsis
-       "Generate Sphinx friendly docstrings for Python functions")
+      (home-page "https://github.com/naiquevin/sphinx-doc.el")
+      (synopsis "Generate Sphinx friendly docstrings for Python functions in Emacs")
       (description
-       "Emacs minor mode for inserting docstring skeleton for Python functions
-and methods.  The structure of the docstring is as per the requirement of the
-Sphinx documentation generator.")
+       "Sphinx Doc is an Emacs minor mode for inserting docstring skeleton for Python
+functions and methods.  The structure of the docstring is as per the
+requirement of the Sphinx documentation generator.")
       (license license:expat))))
 
 (define-public emacs-xcscope
@@ -2259,7 +2264,7 @@ company-mode.")
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
     (map (compose
-          (partial build-derivations daemon)
+(partial build-derivations daemon)
           list
           (partial package-derivation daemon))
          (if (list? pkg-or-pkgs) pkg-or-pkgs
@@ -2267,7 +2272,6 @@ company-mode.")
 
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
-
 (use-modules (guix store)
              (guix derivations)
              (guix packages)
@@ -2276,8 +2280,8 @@ company-mode.")
              (gnu packages emacs-xyz)
              (gnu packages mail)
              (bost packages emacs-xyz)
-             ((utils) #:prefix bo:)
+             (utils)
+             ;; ((utils) #:prefix bo:)
              )
-(build emacs-web-completion-data)
-(build emacs-company-web)
+(build emacs-pippel)
 |#
