@@ -4,8 +4,19 @@
 (require 'dash)
 (require 'f)
 
+
 (setq
  pkgs
+ '(
+   (
+    "https://github.com/karthink/gptel"
+    "0.10"
+    "/home/bost/.emacs.d/elpa/28.2/develop/gptel-20230320.35819/gptel.el"
+    )
+   ))
+
+(setq
+ pkgs2
  '(
    (
     "https://github.com/osv/web-completion-data"
@@ -336,6 +347,8 @@
 
 (funcall
  (-compose
+  (lambda (_)
+    (message "%s" "Run "))
   (lambda (s)
     (f-write-text (format "%s" (pp
                                 `(define pkgs-analyzed
