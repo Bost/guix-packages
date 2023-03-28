@@ -1,3 +1,7 @@
+#!/run/current-system/profile/bin/guile
+!#
+
+(load "/home/bost/dev/dotfiles/guix/home/common/settings.scm")
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/dotfiles/guix/home/scm-bin/gcl.scm")
 (load "/home/bost/dev/dotfiles/analyzed.scm")
@@ -48,20 +52,20 @@
              (ver            (caddr pkg))
              (inputs         (cadddr pkg))
              (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
-             (cid (latest-commit-hash dst-dir))]
+             (commit (latest-commit-hash dst-dir))]
         (pretty-print->string
          `(define-public ,emacs-pkg-name-symbol
             (let ((commit ,commit)
                   (revision "0"))
              (package
                (name ,emacs-pkg-name)
-               (version (version (git-version ,ver revision commit)))
+               (version (git-version ,ver revision commit))
                (source
                 (origin
                   (method git-fetch)
                   (uri (git-reference
                         (url ,url)
-                        (commit ,cid)))
+                        (commit commit)))
                   (file-name (git-file-name name version))
                   (sha256
                    (base32 ,(latest-base32 dst-dir)))))

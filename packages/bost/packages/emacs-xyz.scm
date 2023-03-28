@@ -1,4 +1,5 @@
 (define-module (bost packages emacs-xyz)
+  ;; #:use-module (utils)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -41,6 +42,7 @@
   #:use-module (gnu packages haskell-apps)
   #:use-module (gnu packages ibus)
   #:use-module (gnu packages java)
+  #:use-module (gnu packages julia-xyz)
   #:use-module (gnu packages ncurses)
   #:use-module (gnu packages networking)
   #:use-module (gnu packages python)
@@ -51,6 +53,7 @@
   #:use-module (gnu packages texinfo)
   #:use-module (gnu packages tcl)
   #:use-module (gnu packages tls)
+  #:use-module (gnu packages tree-sitter)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages lesstif)
@@ -113,6 +116,7 @@
   #:use-module (gnu packages erlang)
   #:use-module (gnu packages statistics)
   #:use-module (gnu packages libcanberra)
+  #:use-module (gnu packages web-browsers)
   #:use-module (gnu packages wget)
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
@@ -389,6 +393,23 @@ version originally by Pavel Pertsev found here.")
 
 
 ;; 111111111111111111111111111111111111111
+
+;; $ guix refresh
+;; bost/packages/emacs-xyz.scm:397:13: emacs-eziam-theme-emacs would be upgraded from 0.1 to 2.0
+;; bost/packages/emacs-xyz.scm:451:13: emacs-moe-theme would be upgraded from 0.1 to 1.0.1
+;; bost/packages/emacs-xyz.scm:475:13: emacs-slim-mode would be upgraded from 0.1 to 1.1
+;; bost/packages/emacs-xyz.scm:686:13: emacs-treemacs-magit would be upgraded from 0 to 3.0
+;; bost/packages/emacs-xyz.scm:313:13: emacs-color-theme-sanityinc-tomorrow would be upgraded from 0.1 to 1.17
+;; bost/packages/emacs-xyz.scm:426:13: emacs-lsp-python-ms would be upgraded from 0.1 to 0.7.2
+;; bost/packages/emacs-xyz.scm:520:13: emacs-font-utils would be upgraded from 0.1 to 0.7.8
+;; bost/packages/emacs-xyz.scm:152:17: emacs-font-lock+ would be upgraded from 0-233.aa1c82d to 208
+;; bost/packages/emacs-xyz.scm:498:13: emacs-zop-to-char would be upgraded from 0.1 to 1.1
+;; bost/packages/emacs-xyz.scm:338:13: emacs-gruvbox would be upgraded from 0.1 to 1.30.1
+;; bost/packages/emacs-xyz.scm:604:13: emacs-popwin would be upgraded from 0.1 to 1.0.2
+
+;; following redirection to `https://api.github.com/repositories/13679783/releases'...
+;; following redirection to `https://api.github.com/repositories/13679783/tags'...
+
 
 ;; Doesn't work. The package gets downloaded anyway
 (define-public emacs-eziam-theme-emacs
@@ -2062,53 +2083,6 @@ very lightweight, zero configuration, way to help enforce the 80 column rule.
 It can be configured for any N-column rule however.")
       (license license:gpl3+))))
 
-(define-public emacs-pippel
-  (let ((commit "cb194952ee150e77601d3233dabdb521b976ee79")
-        (revision "0"))
-    (package
-      (name "emacs-pippel")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/arifer612/pippel")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:include #~(cons "^pippel\\.py$" %default-include)
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'substitute-pippel-package-path
-              (lambda* (#:key outputs #:allow-other-keys)
-                (let ((out (assoc-ref outputs "out"))
-                      (site-lisp (string-append out "/share/emacs/site-lisp")))
-                  (pk site-lisp)
-                  (format #t "#### site-lisp: ~a\n" site-lisp)
-                  ;; (format #t "#### out: ~a\n" out)
-                  ;; The Elisp package files are installed directly under share/emacs/site-lisp
-                  (emacs-substitute-variables "pippel.el"
-                    ("pippel-package-path" site-lisp)))))
-            (add-after 'unpack 'substitute-python-path
-              (lambda* (#:key inputs #:allow-other-keys)
-                (emacs-substitute-variables "pippel.el"
-                  ("pippel-python-command"
-                   (search-input-file inputs "/bin/python"))))))))
-      (inputs (list python-wrapper))
-      (propagated-inputs (list emacs-dash emacs-s))
-      (home-page "https://github.com/arifer612/pippel")
-      (synopsis "Emacs frontend to Python package manager Pip")
-      (description
-       "Pippel is an Emacs frontend for the Python package manager pip.  As Pippel
-also uses Tabulated List mode, it provides a similar package menu like
-@code{package-list-packages}.")
-      (license license:gpl3+))))
-
 (define-public emacs-railscasts-theme
   (let ((commit "1340c3f6c2717761cab95617cf8dcbd962b1095b")
         (revision "0"))
@@ -2245,6 +2219,86 @@ html-mode, web-mode, jade-mode, slim-mode and use data of ac-html.  It uses
 company-mode.")
       (license license:gpl3+))))
 
+(define-public emacs-gptel
+  (let ((commit
+         "4f3ca234545a3643eb3bed2baf55645463b6f728")
+        (revision "0"))
+    (package
+      (name "emacs-gptel")
+      (version (git-version "0.10" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/karthink/gptel")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0r0nlyhk5gh2csxl4qk6kc533422iwyqcx0qx1z27xv0ihkzfawx"))))
+      (build-system emacs-build-system)
+      #;
+      (inputs
+       (list emacs-text-property-search
+             emacs-map
+             emacs-json
+             emacs-url))
+      (home-page "https://github.com/karthink/gptel")
+      (synopsis "GPTel is a simple ChatGPT client for Emacs")
+      (description
+        "GPTel is a simple, no-frills ChatGPT asynchronous client for Emacs with no
+external dependencies.  It can interact with ChatGPT from any Emacs buffer
+with ChatGPT responses encoded in Markdown or Org markup.  It supports
+conversations, not just one-off queries and multiple independent sessions.
+Requires an OpenAI API key.")
+      (license license:gpl3+))))
+
+(define-public emacs-pippel
+  (let ((commit "cb194952ee150e77601d3233dabdb521b976ee79")
+        (revision "0"))
+    (package
+      (name "emacs-pippel")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arifer612/pippel")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        ;; #:include #~(cons "^pippel\\.py$" %default-include)
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-pippel-package-path
+              (lambda* (#:key outputs #:allow-other-keys)
+                (let* ((out (assoc-ref outputs "out"))
+                       (package-path (string-append
+                                      out
+                                      "/share/emacs/site-lisp/pippel-"
+                                      #$version)))
+                  (emacs-substitute-variables "pippel.el"
+                    ("pippel-package-path" package-path)))))
+            (add-after 'unpack 'substitute-python-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "pippel.el"
+                  ("pippel-python-command"
+                   (search-input-file inputs "/bin/python"))))))))
+      (inputs (list python-wrapper))
+      (propagated-inputs (list emacs-dash emacs-s))
+      (home-page "https://github.com/arifer612/pippel")
+      (synopsis "Emacs frontend to Python package manager Pip")
+      (description
+       "Pippel is an Emacs frontend for the Python package manager Pip.  As
+Pippel also uses Tabulated List mode, it provides a similar package menu like
+@code{package-list-packages}.")
+      (license license:gpl3+))))
+
 #|
 (define (build pkg-or-pkgs)
   "Usage
@@ -2264,12 +2318,11 @@ company-mode.")
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
     (map (compose
-(partial build-derivations daemon)
+          (partial build-derivations daemon)
           list
           (partial package-derivation daemon))
          (if (list? pkg-or-pkgs) pkg-or-pkgs
              (list pkg-or-pkgs)))))
-
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
 (use-modules (guix store)
@@ -2277,6 +2330,9 @@ company-mode.")
              (guix packages)
              (guix utils)
              (guix git)
+             (guix git-download)
+             ((guix licenses) #:prefix license:)
+             (guix build-system emacs)
              (gnu packages emacs-xyz)
              (gnu packages mail)
              (bost packages emacs-xyz)
