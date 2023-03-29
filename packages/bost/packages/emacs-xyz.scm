@@ -2221,11 +2221,11 @@ company-mode.")
 
 (define-public emacs-gptel
   (let ((commit
-         "4f3ca234545a3643eb3bed2baf55645463b6f728")
+         "1c07a94e18a914ae69ea0061f81fda4bba29afd5")
         (revision "0"))
     (package
       (name "emacs-gptel")
-      (version (git-version "0.10" revision commit))
+      (version (git-version "0.2.5" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -2235,14 +2235,19 @@ company-mode.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0r0nlyhk5gh2csxl4qk6kc533422iwyqcx0qx1z27xv0ihkzfawx"))))
+           "190nrxf6nqmfrsza3vyc51f02hw10wzydi45phkswydjkgsllkmp"))))
       (build-system emacs-build-system)
-      #;
-      (inputs
-       (list emacs-text-property-search
-             emacs-map
-             emacs-json
-             emacs-url))
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-gptel-use-curl
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "gptel.el"
+                  ("gptel-use-curl"
+                   (search-input-file inputs "/bin/curl"))))))))
+      (inputs (list curl))
+      (propagated-inputs (list emacs-map))
       (home-page "https://github.com/karthink/gptel")
       (synopsis "GPTel is a simple ChatGPT client for Emacs")
       (description
