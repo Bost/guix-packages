@@ -2028,33 +2028,6 @@ will be submitted to lsp-mode.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-(define-public emacs-column-enforce-mode
-  (let ((commit "14a7622f2268890e33536ccd29510024d51ee96f"))
-    (package
-      (name "emacs-column-enforce-mode")
-      (version "0.1")
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/jordonbiondo/column-enforce-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1vxra5vk78yns2sw89m41bggczqg1akq6xvzfs9kylhkg5yz3g7g"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/jordonbiondo/column-enforce-mode")
-      (synopsis
-       "Highlight text that extends beyond a certain column")
-      (description
-       "Highlight text that extends beyond a certain column.  Can be used to
-enforce 80 column rule (well more like suggest, not enforce).  Meant to be a
-very lightweight, zero configuration, way to help enforce the 80 column rule.
-It can be configured for any N-column rule however.")
-      (license license:gpl3+))))
-
 (define-public emacs-railscasts-theme
   (let ((commit "1340c3f6c2717761cab95617cf8dcbd962b1095b")
         (revision "0"))
