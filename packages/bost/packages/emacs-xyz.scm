@@ -2105,6 +2105,28 @@ It can be configured for any N-column rule however.")
       (description "Railscasts is a color theme for Emacs.")
       (license license:expat))))
 
+(define-public emacs-farmhouse-light-mod-theme
+  (let ((commit "1008a772e65735852b7fd77ecba16897b32c268b")
+        (revision "0"))
+    (package
+      (name "emacs-farmhouse-light-mod-theme")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/farmhouse-light-mod-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1p3ygg1c2qd2051hfxmvyl29xp7z4qi3skj2dsksgsp3gfi8qg88"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/Bost/farmhouse-light-mod-theme")
+      (synopsis "Modded farmhouse-light theme for Emacs")
+      (description "Modded farmhouse-light theme for Emacs.")
+      (license license:gpl3+))))
+
 (define-public emacs-sphinx-doc
   (let ((commit "1eda612a44ef027e5229895daa77db99a21b8801")
         (revision "1"))
