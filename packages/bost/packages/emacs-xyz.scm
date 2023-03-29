@@ -2000,33 +2000,42 @@ will be submitted to lsp-mode.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-package, emacs-cus-edit unbound
 ;; (define-public emacs-php-mode-debug
-;;   (package
-;;     (name "emacs-php-mode-debug")
-;;     (version "1.24.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
+;;   (let ((commit "fb11df8268b7099766264cd53836ef159746adbd")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-php-mode-debug")
+;;       (version (git-version "1.24.3" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
 ;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit
-;;                  "fb11df8268b7099766264cd53836ef159746adbd")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
 ;;           (base32
-;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-package
-;;             emacs-php-mode
-;;             emacs-cus-edit
-;;             emacs-cc-mode))
-;;     (home-page
-;;       "https://github.com/emacs-php/php-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
+;;            "135hgrccpmn7z2228w98hwv9khdmfja89gmkg9im4s6daph4y5lc"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list emacs-php-mode
+;;              emacs-cc-mode))
+;;       ;; emacs-eglot
+;;       ;; (arguments
+;;       ;;  (list
+;;       ;;   #:phases
+;;       ;;   #~(modify-phases %standard-phases
+;;       ;;       (add-after 'unpack 'substitute-php-ide-eglot-executable
+;;       ;;         (lambda* (#:key inputs #:allow-other-keys)
+;;       ;;           (emacs-substitute-variables "lisp/php-ide.el"
+;;       ;;             ;; see https://github.com/emacs-php/php-mode/blob/47e0813079cea6243139da2b6efedd36940367c8/lisp/php-ide.el#L75
+;;       ;;             ("php-ide-eglot-executable"
+;;       ;;              (search-input-file inputs "/bin/..."))))))))
+;;       (home-page
+;;        "https://github.com/emacs-php/php-mode")
+;;       (synopsis "Emacs major mode for editing PHP scripts")
+;;       (description "Emacs major mode for editing PHP scripts.")
+;;       (license license:gpl3+))))
 
 (define-public emacs-railscasts-theme
   (let ((commit "1340c3f6c2717761cab95617cf8dcbd962b1095b")
