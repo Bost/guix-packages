@@ -1926,34 +1926,6 @@ will be submitted to lsp-mode.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-python unbound
-;; (define-public emacs-pythonic
-;;   (package
-;;     (name "emacs-pythonic")
-;;     (version "0.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/proofit404/pythonic")
-;;                (commit
-;;                  "c18a5bd8cb2ba59014b6b29b5bf1903bd2476a07")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "11fps8ah3xmacfd9bglq8yaafzh37i1qpiyhfdphhsy0jqy990wz"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-f
-;;             emacs-s
-;;             emacs-tramp
-;;             emacs-python))
-;;     (home-page
-;;       "https://github.com/proofit404/pythonic")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-php-project unbound
 ;; (define-public emacs-php-align
 ;;   (package
@@ -2326,30 +2298,50 @@ Pippel also uses Tabulated List mode, it provides a similar package menu like
 @code{package-list-packages}.")
       (license license:gpl3+))))
 
-#|
+(define-public emacs-pythonic
+  (let ((commit "c18a5bd8cb2ba59014b6b29b5bf1903bd2476a07")
+        (revision "0"))
+    (package
+      (name "emacs-pythonic")
+      (version (git-version "0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/proofit404/pythonic")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "11fps8ah3xmacfd9bglq8yaafzh37i1qpiyhfdphhsy0jqy990wz"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-f
+             emacs-s
+             emacs-tramp))
+      (home-page
+       "https://github.com/proofit404/pythonic")
+      (synopsis "Utility functions for writing Pythonic Emacs package.")
+      (description
+       "The Pythonic Emacs package provides function for convenient running
+Python on different platforms on local and remote hosts including Docker
+containers and Vagrant virtual machines.  To use Pythonic with Docker you need
+to install docker-tramp Emacs package.")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
-(build emacs-treemacs)
-"
-  (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
-  (use-modules (guix store)
-               (guix derivations)
-               (guix packages)
-               (guix utils)
-               (guix git)
-               (gnu packages emacs-xyz)
-               (gnu packages mail)
-               (bost packages emacs-xyz)
-               )
-  (let [(daemon (open-connection))]
+(build emacs-treemacs)"
+  (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
     (map (compose
-          (partial build-derivations daemon)
+          (partial (@ (guix derivations) build-derivations) daemon)
           list
-          (partial package-derivation daemon))
+          (partial (@ (guix packages) package-derivation) daemon))
          (if (list? pkg-or-pkgs) pkg-or-pkgs
              (list pkg-or-pkgs)))))
+#|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
 (use-modules (guix store)
@@ -2366,5 +2358,5 @@ Pippel also uses Tabulated List mode, it provides a similar package menu like
              (utils)
              ;; ((utils) #:prefix bo:)
              )
-(build emacs-pippel)
+(build emacs-pythonic)
 |#
