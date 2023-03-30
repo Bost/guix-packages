@@ -362,33 +362,84 @@ extensive face definitions than the \"official\" Emacs variant.")
 version originally by Pavel Pertsev found here.")
     (license license:expat-0)))
 
-;; Missing:
-;; emacs-ansi-color
-;; emacs-pythonic
-;; (define-public emacs-anaconda-mode
-;;   (package
-;;     (name "emacs-anaconda-mode")
-;;     (version "0.1.15")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/proofit404/anaconda-mode")
-;;                (commit
-;;                  "ca8edbaa7662d97e4a4416ec9a8d743863303911")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1vlqrpxsy0xydm29vl39blwp7y82x9cr4mmaj8mji3hgjyfwph9m"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;      (list emacs-ansi-color emacs-dash emacs-f emacs-pythonic emacs-s
-;;            emacs-tramp emacs-url emacs-xref ))
-;;     (home-page
-;;       "https://github.com/proofit404/anaconda-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
+(define-public emacs-anaconda-mode
+  (let ((commit "ca8edbaa7662d97e4a4416ec9a8d743863303911")
+        (revision "0"))
+      (package
+        (name "emacs-anaconda-mode")
+        (version (git-version "0.1.15" revision commit))
+        (source
+         (origin
+           (method git-fetch)
+           (uri (git-reference
+                 (url "https://github.com/proofit404/anaconda-mode")
+                 (commit commit)))
+           (file-name (git-file-name name version))
+           (sha256
+            (base32
+             "1vlqrpxsy0xydm29vl39blwp7y82x9cr4mmaj8mji3hgjyfwph9m"))))
+        (build-system emacs-build-system)
+        (arguments
+         (list
+          #:include #~(cons "^anaconda-mode\\.py$" %default-include)
+          #:phases
+          #~(modify-phases %standard-phases
+              (add-after 'unpack 'substitute-anaconda-mode-installation-directory
+                (lambda* (#:key outputs #:allow-other-keys)
+                  (let* ((out (assoc-ref outputs "out"))
+                         ;; this path must be writable probably
+                         (inst-dir (string-append
+                                        out
+                                        "/share/emacs/site-lisp/anaconda-mode-"
+                                        #$version)))
+                    (emacs-substitute-variables "anaconda-mode.el"
+                      ("anaconda-mode-installation-directory"
+                       inst-dir)))))
+;;; sys.executable is an implicit dependency.
+;;; See:
+;;; https://github.com/pythonic-emacs/anaconda-mode/pull/422
+;;; https://github.com/pythonic-emacs/anaconda-mode/issues/421
+              ;; def install_deps_pip():
+              ;;   import subprocess
+              ;;   # import sys
+              ;;   cmd = [sys.executable, '-m', 'pip', 'install', '--target', server_directory]
+              ;;   cmd.extend(missing_dependencies)
+              ;;   subprocess.check_call(cmd)
+              ;;   instrument_installation()
+
+              ;; (add-after 'unpack 'substitute-python-path
+              ;;   (lambda* (#:key inputs #:allow-other-keys)
+              ;;     (emacs-substitute-variables "pippel.el"
+              ;;       ("pippel-python-command"
+              ;;        (search-input-file
+              ;;         inputs
+              ;;         "/bin/python")))))
+              )))
+        ;; To use this package you need to install setuptools
+        (inputs (list ))
+        (propagated-inputs
+         (list
+          emacs-dash
+          emacs-f
+          emacs-pythonic
+          emacs-s
+          emacs-tramp
+          emacs-xref
+          ))
+        (home-page
+         "https://github.com/proofit404/anaconda-mode")
+        (synopsis
+         "Python code navigation, documentation lookup & completion in Emacs")
+        (description
+         "Anaconda mode provides the following features:
+* context-sensitive code completion
+* jump to definitions
+* find references
+* view documentation
+* virtual environment
+* eldoc mode
+* all this stuff inside vagrant, docker and remote hosts")
+        (license license:gpl3+))))
 ;; (format #t "(defined? 'emacs-anaconda-mode): ~a \n" (defined? 'emacs-anaconda-mode))
 
 
@@ -1902,30 +1953,6 @@ will be submitted to lsp-mode.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-easy-mmode unbound
-;; (define-public emacs-bind-key
-;;   (package
-;;     (name "emacs-bind-key")
-;;     (version "2.4.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/jwiegley/use-package")
-;;                (commit
-;;                  "77945e002f11440eae72d8730d3de218163d551e")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1irr8a8r28n8c0c2x5w1flgv1f3z5jy2i5r5dknddiqa93b3rm84"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-easy-mmode))
-;;     (home-page
-;;       "https://github.com/jwiegley/use-package")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-php-project unbound
 ;; (define-public emacs-php-align
 ;;   (package
@@ -2037,28 +2064,6 @@ will be submitted to lsp-mode.")
 ;;       (description "Emacs major mode for editing PHP scripts.")
 ;;       (license license:gpl3+))))
 
-(define-public emacs-railscasts-theme
-  (let ((commit "1340c3f6c2717761cab95617cf8dcbd962b1095b")
-        (revision "0"))
-    (package
-      (name "emacs-railscasts-theme")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/mikenichols/railscasts-theme")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "021x1l5kzsbm0qj5a3bngxa7ickm4lbwsdz81a2ks9pi1ivmw205"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/mikenichols/railscasts-theme")
-      (synopsis "Railscasts is a color theme for Emacs")
-      (description "Railscasts is a color theme for Emacs.")
-      (license license:expat))))
-
 (define-public emacs-farmhouse-light-mod-theme
   (let ((commit "1008a772e65735852b7fd77ecba16897b32c268b")
         (revision "0"))
@@ -2080,33 +2085,6 @@ will be submitted to lsp-mode.")
       (synopsis "Modded farmhouse-light theme for Emacs")
       (description "Modded farmhouse-light theme for Emacs.")
       (license license:gpl3+))))
-
-(define-public emacs-sphinx-doc
-  (let ((commit "1eda612a44ef027e5229895daa77db99a21b8801")
-        (revision "1"))
-    (package
-      (name "emacs-sphinx-doc")
-      (version (git-version "0.3.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/naiquevin/sphinx-doc.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0q72i95yx3xa57jlgr7dik6prf20hi8bp8xf3f5c6ificv7i5378"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list emacs-dash emacs-s))
-      (home-page "https://github.com/naiquevin/sphinx-doc.el")
-      (synopsis "Generate Sphinx friendly docstrings for Python functions in Emacs")
-      (description
-       "Sphinx Doc is an Emacs minor mode for inserting docstring skeleton for Python
-functions and methods.  The structure of the docstring is as per the
-requirement of the Sphinx documentation generator.")
-      (license license:expat))))
 
 (define-public emacs-xcscope
   (let ((commit "d228d7593d762e457340f678d14b663ef66d7cee")
@@ -2234,52 +2212,6 @@ conversations, not just one-off queries and multiple independent sessions.
 Requires an OpenAI API key.")
       (license license:gpl3+))))
 
-(define-public emacs-pippel
-  (let ((commit "cb194952ee150e77601d3233dabdb521b976ee79")
-        (revision "0"))
-    (package
-      (name "emacs-pippel")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/arifer612/pippel")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "17606l24yyrjxa4rc0p2zj50lfbayqldw4phhi59yqf61289d520"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        ;; #:include #~(cons "^pippel\\.py$" %default-include)
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'substitute-pippel-package-path
-              (lambda* (#:key outputs #:allow-other-keys)
-                (let* ((out (assoc-ref outputs "out"))
-                       (package-path (string-append
-                                      out
-                                      "/share/emacs/site-lisp/pippel-"
-                                      #$version)))
-                  (emacs-substitute-variables "pippel.el"
-                    ("pippel-package-path" package-path)))))
-            (add-after 'unpack 'substitute-python-path
-              (lambda* (#:key inputs #:allow-other-keys)
-                (emacs-substitute-variables "pippel.el"
-                  ("pippel-python-command"
-                   (search-input-file inputs "/bin/python"))))))))
-      (inputs (list python-wrapper))
-      (propagated-inputs (list emacs-dash emacs-s))
-      (home-page "https://github.com/arifer612/pippel")
-      (synopsis "Emacs frontend to Python package manager Pip")
-      (description
-       "Pippel is an Emacs frontend for the Python package manager Pip.  As
-Pippel also uses Tabulated List mode, it provides a similar package menu like
-@code{package-list-packages}.")
-      (license license:gpl3+))))
-
 (define-public emacs-pythonic
   (let ((commit "c18a5bd8cb2ba59014b6b29b5bf1903bd2476a07")
         (revision "0"))
@@ -2310,6 +2242,32 @@ Python on different platforms on local and remote hosts including Docker
 containers and Vagrant virtual machines.  To use Pythonic with Docker you need
 to install docker-tramp Emacs package.")
       (license license:gpl3+))))
+
+;; part of emacs-use-package
+;; (define-public emacs-bind-key
+;;   (let ((commit "77945e002f11440eae72d8730d3de218163d551e")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-bind-key")
+;;       (version (git-version "2.4.1" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/jwiegley/use-package")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "1irr8a8r28n8c0c2x5w1flgv1f3z5jy2i5r5dknddiqa93b3rm84"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list emacs-easy-mmode))
+;;       (home-page
+;;        "https://github.com/jwiegley/use-package")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
 
 (define (build pkg-or-pkgs)
   "Usage
