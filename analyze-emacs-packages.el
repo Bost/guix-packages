@@ -4,9 +4,18 @@
 (require 'dash)
 (require 'f)
 
-
 (setq
  pkgs
+ '(
+   (
+    "https://github.com/zerolfx/copilot.el.git"
+    "0"
+    "/home/bost/.emacs.d/elpa/28.2/develop/copilot-20230330.33957/copilot.el"
+    )
+   ))
+
+(setq
+ pkgs3
  '(
    (
     "https://github.com/karthink/gptel"
