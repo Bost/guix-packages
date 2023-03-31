@@ -224,6 +224,8 @@
                                          "x64")
                                         ((? (cut string-prefix? "powerpc64" <>))
                                          "ppc64")
+                                        ((? (cut string-prefix? "riscv64" <>))
+                                         "riscv64")
                                         (_ "unsupported"))))
                                  ''()))
                     (flags (cons (string-append "--prefix=" prefix)
@@ -891,7 +893,7 @@ source files.")
            brotli
            `(,nghttp2 "lib")
            openssl-1.1
-           python-wrapper ;; for node-gyp (supports python3)
+           ;; python-wrapper ;; for node-gyp (supports python3)
            zlib))))
 
 (define-public libnode
