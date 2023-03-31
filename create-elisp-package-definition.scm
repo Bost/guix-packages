@@ -48,9 +48,9 @@
     ;; (format #t "(basename dst-dir) ~a\n" (basename dst-dir))
     (when dst-dir
       (let* [
-             (emacs-pkg-name (car pkg))
-             (ver            (caddr pkg))
-             (inputs         (cadddr pkg))
+             (emacs-pkg-name        (car pkg))
+             (ver                   (caddr pkg))
+             (propagated-inputs     (cadddr pkg))
              (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
              (commit (latest-commit-hash dst-dir))]
         (pretty-print->string
@@ -70,7 +70,7 @@
                   (sha256
                    (base32 ,(latest-base32 dst-dir)))))
                (build-system emacs-build-system)
-               ,inputs
+               ,propagated-inputs
                (home-page ,url)
                (synopsis "") ;; TODO synopsis
                (description "") ;; TODO description

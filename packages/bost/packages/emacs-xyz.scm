@@ -2243,6 +2243,44 @@ containers and Vagrant virtual machines.  To use Pythonic with Docker you need
 to install docker-tramp Emacs package.")
       (license license:gpl3+))))
 
+(define-public emacs-copilot
+  (let ((commit "e11847ab0c3b183a1e53fbc1ac587de82912b9cf")
+        (revision "0"))
+    (package
+      (name "emacs-copilot")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/zerolfx/copilot.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0gsxb268vqyim65ag8d7dlgdqyxqrjcjirlnbfbfq0pdr1y2158q"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-copilot-node-executable
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "copilot.el"
+                  ("copilot-node-executable"
+                   (search-input-file inputs "/bin/node"))))))))
+      (inputs (list node))
+      (propagated-inputs
+       (list emacs-dash emacs-editorconfig emacs-s))
+      (home-page
+       "https://github.com/zerolfx/copilot.el.git")
+      (synopsis "An unofficial Copilot plugin for Emacs")
+      (description
+       "Copilot.el is an Emacs plugin for GitHub Copilot. This plugin is
+unofficial and based on binaries provided by copilot.vim. Note: You need
+access to GitHub Copilot to use this plugin.")
+      (license license:gpl3+))))
+
 ;; part of emacs-use-package
 ;; (define-public emacs-bind-key
 ;;   (let ((commit "77945e002f11440eae72d8730d3de218163d551e")
@@ -2298,5 +2336,6 @@ to install docker-tramp Emacs package.")
              (utils)
              ;; ((utils) #:prefix bo:)
              )
+(build emacs-copilot)
 (build emacs-pythonic)
 |#
