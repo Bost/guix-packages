@@ -2262,17 +2262,18 @@ to install docker-tramp Emacs package.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:include #~(cons "^dist/" %default-include)
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'substitute-copilot-node-executable
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "copilot.el"
                   ("copilot-node-executable"
-                   (search-input-file inputs "/bin/node"))))))))
-      (inputs (list
-               ;; node ;; 10.24.1
-               node-lts ;; 14.19.3
-               ))
+                   (string-append "/home/bost/dev/node-v18.15.0" "/out/Release/node")
+                   ;; (search-input-file inputs "/bin/node")
+                   )))))))
+      ;; (inputs (list node)) ;; 10.24.1
+      ;; (inputs (list node-lts)) ;; 14.19.3
       (propagated-inputs
        (list emacs-dash emacs-editorconfig emacs-s))
       (home-page
