@@ -2244,7 +2244,7 @@ to install docker-tramp Emacs package.")
       (license license:gpl3+))))
 
 (define-public emacs-copilot
-  (let ((commit "e11847ab0c3b183a1e53fbc1ac587de82912b9cf")
+  (let ((commit "15a698ebc1d6ffa10da7d6d7e9f972786d0ce526")
         (revision "0"))
     (package
       (name "emacs-copilot")
@@ -2258,7 +2258,7 @@ to install docker-tramp Emacs package.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0gsxb268vqyim65ag8d7dlgdqyxqrjcjirlnbfbfq0pdr1y2158q"))))
+           "0j45sq1ayrcydzlabcszzqybsajwdlnjrr0zs4ghckr2iw8g5rgz"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -2269,11 +2269,8 @@ to install docker-tramp Emacs package.")
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "copilot.el"
                   ("copilot-node-executable"
-                   (string-append "/home/bost/dev/node-v18.15.0" "/out/Release/node")
-                   ;; (search-input-file inputs "/bin/node")
-                   )))))))
-      ;; (inputs (list node)) ;; 10.24.1
-      ;; (inputs (list node-lts)) ;; 14.19.3
+                   (search-input-file inputs "/bin/node"))))))))
+      (inputs (list node-lts))
       (propagated-inputs
        (list emacs-dash emacs-editorconfig emacs-s))
       (home-page
