@@ -2269,11 +2269,15 @@ to install docker-tramp Emacs package.")
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "copilot.el"
                   ("copilot-node-executable"
-                   (string-append "/home/bost/dev/node-v18.15.0" "/out/Release/node")
-                   ;; (search-input-file inputs "/bin/node")
+;;; Copilot requires Node 16+, however packaging v16 and/or v18 is not
+;;; trivial. See https://issues.guix.gnu.org/53414,
+;;; https://issues.guix.gnu.org/59188 .
+;;;
+;;; As a hack, download and compile recent Node version manually.
+                   (format #f "%s/node-v18.16.0/out/Release/node" (getenv "dev")) ; Remove this line when Node 16+ becomes available as a Guix package.
+                   ;; (search-input-file inputs "/bin/node")                      ; Activate this line when Node 16+ becomes available as a Guix package.
                    )))))))
-      ;; (inputs (list node)) ;; 10.24.1
-      ;; (inputs (list node-lts)) ;; 14.19.3
+      ;; (inputs (list node))                                                     ; Activate this line when Node 16+ becomes available as a Guix package.
       (propagated-inputs
        (list emacs-dash emacs-editorconfig emacs-s))
       (home-page
