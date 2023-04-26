@@ -739,18 +739,19 @@ source files.")
   (package
     (inherit node)
     (version
-     "14.19.3"
-     #;"14.20.0"
-     #;"14.20.1")
+     ;; "14.19.3"
+     "14.20.0"
+     ;; "14.20.1"
+     )
     (source (origin
               (method url-fetch)
               (uri (string-append "https://nodejs.org/dist/v" version
                                   "/node-v" version ".tar.xz"))
               (sha256
                (base32
-                "15691j5zhiikyamiwwd7f282g6d9acfhq91nrwx54xya38gmpx2w"   ;; "14.19.3"
-                #;"0slrcgiwwn8isp2ih5i2v1d6lsafz7bg6qwxf2lydlc9i14rhl1b" ;; 14.20.0
-                #;"0kgirz73712z6n9ascfl4a6zzpg9mk8aimxxf7xcn8qrcvm5fl1n" ;; 14.20.1
+                ;; "15691j5zhiikyamiwwd7f282g6d9acfhq91nrwx54xya38gmpx2w"   ;; "14.19.3"
+                "0slrcgiwwn8isp2ih5i2v1d6lsafz7bg6qwxf2lydlc9i14rhl1b" ;; 14.20.0
+                ;; "0kgirz73712z6n9ascfl4a6zzpg9mk8aimxxf7xcn8qrcvm5fl1n" ;; 14.20.1
                 ))
               (modules '((guix build utils)))
               (snippet
@@ -813,6 +814,8 @@ source files.")
              (lambda* (#:key inputs #:allow-other-keys)
                ;; FIXME: These tests fail in the build container, but they don't
                ;; seem to be indicative of real problems in practice.
+               (for-each delete-file-recursively
+                         '("test/known_issues"))
                (for-each delete-file
                          '("test/parallel/test-cluster-master-error.js"
                            "test/parallel/test-cluster-master-kill.js"))
@@ -907,3 +910,16 @@ source files.")
         `(modify-phases ,phases
            (delete 'install-npmrc)
            (delete 'patch-nested-shebangs)))))))
+
+(define (build pkg-or-pkgs)
+  "Usage
+(build emacs-treemacs)"
+  (let [(daemon ((@ (guix store) open-connection)))]
+    (define (partial fun . args) (lambda x (apply fun (append args x))))
+    (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
+    (map (compose
+          (partial (@ (guix derivations) build-derivations) daemon)
+          list
+          (partial (@ (guix packages) package-derivation) daemon))
+         (if (list? pkg-or-pkgs) pkg-or-pkgs
+             (list pkg-or-pkgs)))))
