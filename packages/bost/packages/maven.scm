@@ -37,6 +37,52 @@
   #:use-module (gnu packages web)
   #:use-module (ice-9 match))
 
+(format #t "001. ##################### ~a evaluating module ...\n" "[bost packages maven]")
+
+(define (partial fun . args)
+  (lambda x (apply fun (append args x))))
+
+(define (module-name-for-logging)
+  ((compose
+    (partial format #f "[~a]")
+    (partial string-join)
+    (partial map (partial format #f "~a"))
+    (partial module-name))
+   (current-module)))
+
+(define-syntax testsymb
+  (syntax-rules ()
+    [(_ symbol)
+     (begin
+       (let [(module (module-name-for-logging))]
+         (unless (defined? symbol)
+           (error (format #f "~a Symbol undefined: ~a" module symbol)))))]))
+
+(define-syntax testsymb-trace
+  (syntax-rules ()
+    [(_ symbol)
+     (begin
+       (let [(module (module-name-for-logging))]
+         (if (defined? symbol)
+             (format #t "~a Symbol defined: ~a\n" module symbol)
+             (error (format #f "~a Symbol undefined: ~a" module symbol)))))]))
+
+(format #t "002. ##################### ~a testsymb, testsymb-trace defined\n" "[bost packages maven]")
+
+(define (build pkg-or-pkgs)
+  "Usage
+(build emacs-treemacs)"
+  (let [(daemon ((@ (guix store) open-connection)))]
+    (define (partial fun . args) (lambda x (apply fun (append args x))))
+    (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
+    (map (compose
+          (partial (@ (guix derivations) build-derivations) daemon)
+          list
+          (partial (@ (guix packages) package-derivation) daemon))
+         (if (list? pkg-or-pkgs) pkg-or-pkgs
+             (list pkg-or-pkgs)))))
+;; (testsymb-trace 'build)
+
 (define-public maven-resolver-api
   (package
     (name "maven-resolver-api")
@@ -944,6 +990,70 @@ artifact and repository handling code.  It uses providers, that are tools to
 manage artifacts and deployment.  This package contains the file provider which
 gets and puts artifacts using the file system.")))
 
+(define-public maven-wagon-filex
+  (package
+    (inherit maven-wagon-provider-api)
+    (name "maven-wagon-filex")
+    (arguments
+     `(#:jar-name "maven-wagon-file.jar"
+       #:source-dir "wagon-providers/wagon-file/src/main/java"
+       #:test-dir "wagon-providers/wagon-file/src/test"
+       #:jdk ,icedtea-8
+       #:phases
+       (modify-phases %standard-phases
+         (add-before 'check 'fix-paths
+           (lambda _
+             ;; Tests assume they are run by maven, which copies test resources
+             ;; to target.  Our ant-build-system does the same, but with the
+             ;; build directory.
+             (substitute* "wagon-providers/wagon-file/src/test/java/org/apache/maven/wagon/providers/file/FileWagonTest.java"
+               (("target") "build"))
+             #t))
+         (add-after 'build 'generate-metadata
+           (lambda _
+             (invoke "java" "-cp" (string-append (getenv "CLASSPATH") ":build/classes")
+                     "org.codehaus.plexus.metadata.PlexusMetadataGeneratorCli"
+                     "--source" "wagon-providers/wagon-file/src/main/java"
+                     "--output" "build/classes/META-INF/plexus/components.xml"
+                     "--classes" "build/classes"
+                     "--descriptors" "build/classes/META-INF")
+             #t))
+         (add-after 'generate-metadata 'rebuild
+           (lambda _
+             (invoke "ant" "jar")
+             #t)))))
+    (inputs
+     (list java-plexus-utils maven-wagon-provider-api))
+    (native-inputs
+     `(("maven-wagon-provider-test" ,maven-wagon-provider-test)
+       ("java-plexus-component-metadata" ,java-plexus-component-metadata-1.7)
+       ("java-plexus-component-annotations" ,java-plexus-component-annotations-1.7)
+       ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ("java-eclipse-sisu-inject" ,java-eclipse-sisu-inject)
+       ("java-plexus-classworlds" ,java-plexus-classworlds)
+       ("java-guava" ,java-guava)
+       ("java-guice" ,java-guice)
+       ("java-javax-inject" ,java-javax-inject)
+       ("java-cglib" ,java-cglib)
+       ("java-slf4j-api" ,java-slf4j-api)
+       ("java-plexus-utils" ,java-plexus-utils)
+       ("java-plexus-cli" ,java-plexus-cli)
+       ("maven-plugin-api" ,maven-plugin-api)
+       ("maven-plugin-annotations" ,maven-plugin-annotations)
+       ("maven-corex" ,maven-corex)
+       ("maven-model" ,maven-model)
+       ("java-commons-cli" ,java-commons-cli)
+       ("java-qdox" ,java-qdox)
+       ("java-jdom2" ,java-jdom2)
+       ("java-geronimo-xbean-reflect" ,java-geronimo-xbean-reflect)
+       ,@(package-native-inputs maven-wagon-provider-api)))
+    (synopsis "Wagon provider that gets and puts artifacts using the file system")
+    (description "Maven Wagon is a transport abstraction that is used in Maven's
+artifact and repository handling code.  It uses providers, that are tools to
+manage artifacts and deployment.  This package contains the file provider which
+gets and puts artifacts using the file system.")))
+;; (testsymb-trace 'maven-wagon-filex)
+
 (define-public maven-wagon-tck-http
   (package
     (inherit maven-wagon-provider-api)
@@ -1031,6 +1141,67 @@ artifact and repository handling code.  It uses providers, that are tools to
 manage artifacts and deployment.  This package contains a shared library for
 wagon providers supporting HTTP.")))
 
+(define-public maven-wagon-http-sharedx
+  (package
+    (inherit maven-wagon-provider-api)
+    (name "maven-wagon-http-sharedx")
+    (arguments
+     `(#:jar-name "maven-wagon-http-shared.jar"
+       #:source-dir "wagon-providers/wagon-http-shared/src/main/java"
+       #:test-dir "wagon-providers/wagon-http-shared/src/test"
+       #:jdk ,icedtea-8
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'build 'generate-metadata
+           (lambda _
+             (invoke "java" "-cp" (string-append (getenv "CLASSPATH") ":build/classes")
+                     "org.codehaus.plexus.metadata.PlexusMetadataGeneratorCli"
+                     "--source" "wagon-providers/wagon-http-shared/src/main/java"
+                     "--output" "build/classes/META-INF/plexus/components.xml"
+                     "--classes" "build/classes"
+                     "--descriptors" "build/classes/META-INF")
+             #t))
+         (add-after 'generate-metadata 'rebuild
+           (lambda _
+             (invoke "ant" "jar")
+             #t)))))
+    (inputs
+     (list java-plexus-utils
+           java-httpcomponents-httpclient
+           java-httpcomponents-httpcore
+           java-commons-io
+           java-jsoup
+           maven-wagon-provider-api))
+    (native-inputs
+     `(("maven-wagon-provider-test" ,maven-wagon-provider-test)
+       ("java-plexus-component-metadata" ,java-plexus-component-metadata-1.7)
+       ("java-plexus-component-annotations" ,java-plexus-component-annotations-1.7)
+       ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ("java-eclipse-sisu-inject" ,java-eclipse-sisu-inject)
+       ("java-plexus-classworlds" ,java-plexus-classworlds)
+       ("java-guava" ,java-guava)
+       ("java-guice" ,java-guice)
+       ("java-javax-inject" ,java-javax-inject)
+       ("java-cglib" ,java-cglib)
+       ("java-slf4j-api" ,java-slf4j-api)
+       ("java-plexus-utils" ,java-plexus-utils)
+       ("java-plexus-cli" ,java-plexus-cli)
+       ("maven-plugin-api" ,maven-plugin-api)
+       ("maven-plugin-annotations" ,maven-plugin-annotations)
+       ("maven-corex" ,maven-corex)
+       ("maven-model" ,maven-model)
+       ("java-commons-cli" ,java-commons-cli)
+       ("java-qdox" ,java-qdox)
+       ("java-jdom2" ,java-jdom2)
+       ("java-geronimo-xbean-reflect" ,java-geronimo-xbean-reflect)
+       ,@(package-native-inputs maven-wagon-provider-api)))
+    (synopsis "Shared Library for wagon providers supporting HTTP")
+    (description "Maven Wagon is a transport abstraction that is used in Maven's
+artifact and repository handling code.  It uses providers, that are tools to
+manage artifacts and deployment.  This package contains a shared library for
+wagon providers supporting HTTP.")))
+;; (testsymb-trace 'maven-wagon-http-sharedx)
+
 (define-public maven-wagon-http
   (package
     (inherit maven-wagon-provider-api)
@@ -1115,6 +1286,92 @@ wagon providers supporting HTTP.")))
 artifact and repository handling code.  It uses providers, that are tools to
 manage artifacts and deployment.  This package contains a Wagon provider that
 gets and puts artifacts through HTTP(S) using Apache HttpClient-4.x.")))
+
+(define-public maven-wagon-httpx
+  (package
+    (inherit maven-wagon-provider-api)
+    (name "maven-wagon-httpx")
+    (arguments
+     `(#:jar-name "maven-wagon-http.jar"
+       #:source-dir "wagon-providers/wagon-http/src/main/java"
+       #:test-dir "wagon-providers/wagon-http/src/test"
+       #:test-exclude (list
+                        "**/Abstract*.java"
+                        ;; FIXME: javax.net.ssl.SSLHandshakeException:
+                        ;; sun.security.validator.ValidatorException:
+                        ;; PKIX path building failed:
+                        ;; sun.security.provider.certpath.SunCertPathBuilderException:
+                        ;; unable to find valid certification path to requested target
+                        "**/HttpsWagonPreemptiveTest.java"
+                        "**/HttpsWagonTest.java"
+                        ;; Timeout
+                        "**/HugeFileDownloadTest.java"
+                        ;; Injection errors
+                        "**/TckTest.java")
+       #:jdk ,icedtea-8
+       #:phases
+       (modify-phases %standard-phases
+         (add-before 'build 'copy-resources
+           (lambda _
+             (install-file "wagon-providers/wagon-http/src/main/resources/META-INF/plexus/components.xml"
+                           "build/classes/META-INF/plexus")
+             #t))
+         (add-before 'check 'fix-resource-path
+           (lambda _
+             (substitute* '("wagon-providers/wagon-http/src/test/java/org/apache/maven/wagon/providers/http/HttpsWagonPreemptiveTest.java"
+                            "wagon-providers/wagon-http/src/test/java/org/apache/maven/wagon/providers/http/HttpsWagonTest.java")
+               (("src/test") "wagon-providers/wagon-http/src/test"))
+             #t)))))
+    (inputs
+     (list java-plexus-utils
+           java-httpcomponents-httpclient
+           java-httpcomponents-httpcore
+           maven-wagon-http-shared
+           maven-wagon-tck-http
+           maven-wagon-provider-api))
+    (native-inputs
+     `(("maven-wagon-provider-test" ,maven-wagon-provider-test)
+       ("java-plexus-component-metadata" ,java-plexus-component-metadata-1.7)
+       ("java-plexus-component-annotations" ,java-plexus-component-annotations-1.7)
+       ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ("java-plexus-container-default" ,java-plexus-container-default)
+       ("java-eclipse-sisu-inject" ,java-eclipse-sisu-inject)
+       ("java-plexus-classworlds" ,java-plexus-classworlds)
+       ("java-guava" ,java-guava)
+       ("java-guice" ,java-guice)
+       ("java-inject" ,java-javax-inject)
+       ("java-cglib" ,java-cglib)
+       ("java-slf4j-api" ,java-slf4j-api)
+       ("java-plexus-utils" ,java-plexus-utils)
+       ("java-plexus-cli" ,java-plexus-cli)
+       ("maven-plugin-api" ,maven-plugin-api)
+       ("maven-plugin-annotations" ,maven-plugin-annotations)
+       ("maven-slf4j-provider" ,maven-slf4j-provider)
+       ("maven-corex" ,maven-corex)
+       ("maven-model" ,maven-model)
+       ("java-commons-cli" ,java-commons-cli)
+       ("java-qdox" ,java-qdox)
+       ("java-jdom2" ,java-jdom2)
+       ("java-geronimo-xbean-reflect" ,java-geronimo-xbean-reflect)
+       ("java-javaee-servletapi" ,java-javaee-servletapi)
+       ("java-eclipse-jetty-util-9.2" ,java-eclipse-jetty-util-9.2)
+       ("java-eclipse-jetty-io-9.2" ,java-eclipse-jetty-io-9.2)
+       ("java-eclipse-jetty-http-9.2" ,java-eclipse-jetty-http-9.2)
+       ("java-eclipse-jetty-server-9.2" ,java-eclipse-jetty-server-9.2)
+       ("java-eclipse-jetty-servlet-9.2" ,java-eclipse-jetty-servlet-9.2)
+       ("java-eclipse-jetty-security-9.2" ,java-eclipse-jetty-security-9.2)
+       ("java-hamcrest-core" ,java-hamcrest-core)
+       ("java-commons-logging-minimal" ,java-commons-logging-minimal)
+       ("java-commons-codec" ,java-commons-codec)
+       ("java-commons-io" ,java-commons-io)
+       ("java-jsoup" ,java-jsoup)
+       ,@(package-native-inputs maven-wagon-provider-api)))
+    (synopsis "Wagon provider that gets and puts artifacts through HTTP(S)")
+    (description "Maven Wagon is a transport abstraction that is used in Maven's
+artifact and repository handling code.  It uses providers, that are tools to
+manage artifacts and deployment.  This package contains a Wagon provider that
+gets and puts artifacts through HTTP(S) using Apache HttpClient-4.x.")))
+;; (testsymb-trace 'maven-wagon-httpx)
 
 (define maven-pom
   (package
@@ -1354,11 +1611,12 @@ setting, toolchains)")))
 tool.  This package contains strictly the model for Maven settings, that is
 simply plain java objects.")))
 
-(define add-missing-shebangs-function
+(define add-missing-shebang
   `(lambda _
-    (invoke "sed" "-i" "1s;^;#!/bin/sh\\n\\n;" "./sisu.sh")))
+     ;; -i, --in-place   edit files in place
+     (invoke "sed" "-i" "1s;^;#!/bin/sh\\n\\n;" "./sisu.sh")))
 
-(define* (generate-sisu-named-function sisu-path #:optional (src-path ""))
+(define* (generate-sisu-named sisu-path #:optional (src-path ""))
   (let ((sisu-sh (string-append sisu-path "sisu.sh")))
     `(lambda _
        (mkdir-p "build/classes/META-INF/sisu")
@@ -1377,10 +1635,10 @@ simply plain java objects.")))
        #:test-dir "maven-settings-builder/src/test"
        #:phases
        (modify-phases %standard-phases
-         (add-before 'patch-source-shebangs 'add-missing-shebangs
-           ,add-missing-shebangs-function)
-         (add-before 'build 'generate-sisu-named
-           ,(generate-sisu-named-function "./" "maven-settings-builder/"))
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-settings-builder
+           ,add-missing-shebang)
+         (add-before 'build 'generate-sisu-named--maven-settings-builder
+           ,(generate-sisu-named "./" "maven-settings-builder/"))
          (replace 'install (install-from-pom "maven-settings-builder/pom.xml")))))
     (propagated-inputs
      (list java-plexus-utils
@@ -1406,8 +1664,8 @@ inheritance, interpolation, @dots{}")))
        #:test-dir "src/test"
        #:phases
        (modify-phases %standard-phases
-         (add-before 'patch-source-shebangs 'add-missing-shebangs
-           ,add-missing-shebangs-function)
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-model-builder
+           ,add-missing-shebang)
          (add-before 'configure 'chdir
            (lambda _
              ;; Required for tests that rely on the package's default
@@ -1418,8 +1676,61 @@ inheritance, interpolation, @dots{}")))
              (copy-recursively "src/main/resources"
                                "build/classes")
              #t))
-         (add-before 'build 'generate-sisu-named
-           ,(generate-sisu-named-function "../"))
+         (add-before 'build 'generate-sisu-named--maven-model-builder
+           ,(generate-sisu-named "../"))
+         (replace 'install
+           (install-from-pom "pom.xml")))))
+    (propagated-inputs
+     (list java-plexus-interpolation
+           java-plexus-utils
+           maven-artifact
+           maven-builder-support
+           maven-model
+           maven-pom))
+    (native-inputs
+     `(("java-junit" ,java-junit)
+       ("java-guava" ,java-guava)
+       ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ("java-plexus-component-annotations" ,java-plexus-component-annotations)
+       ("java-powermock-reflect" ,java-powermock-reflect)
+       ("java-objenesis" ,java-objenesis)
+       ("guice" ,java-guice)
+       ("java-cglib" ,java-cglib)
+       ("sisu-inject" ,java-eclipse-sisu-inject)
+       ("javax-inject" ,java-javax-inject)
+       ("java-xmlunit" ,java-xmlunit)
+       ("java-xmlunit-matchers" ,java-xmlunit-matchers)
+       ("xbean" ,java-geronimo-xbean-reflect)
+       ("classworlds" ,java-plexus-classworlds)))
+    (description "Apache Maven is a software project management and comprehension
+tool.  This package contains the effective model builder, with profile activation,
+inheritance, interpolation, @dots{}")))
+
+(define-public maven-model-builderx
+  (package
+    (inherit maven-artifact)
+    (name "maven-model-builderx")
+    (arguments
+     `(#:jar-name "maven-model-builder.jar"
+       #:source-dir "src/main/java"
+       #:jdk ,icedtea-8
+       #:test-dir "src/test"
+       #:phases
+       (modify-phases %standard-phases
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-model-builder
+           ,add-missing-shebang)
+         (add-before 'configure 'chdir
+           (lambda _
+             ;; Required for tests that rely on the package's default
+             ;; locations, that reference ${basedir}/src/test.
+             (chdir "maven-model-builder")))
+         (add-before 'build 'copy-resources
+           (lambda _
+             (copy-recursively "src/main/resources"
+                               "build/classes")
+             #t))
+         (add-before 'build 'generate-sisu-named--maven-model-builder
+           ,(generate-sisu-named "../"))
          (replace 'install
            (install-from-pom "pom.xml")))))
     (propagated-inputs
@@ -1509,10 +1820,42 @@ so really just plain objects.")))
        #:tests? #f; dependency loop on maven-core (@Component RepositorySystem)
        #:phases
        (modify-phases %standard-phases
-         (add-before 'patch-source-shebangs 'add-missing-shebangs
-           ,add-missing-shebangs-function)
-         (add-before 'build 'generate-sisu-named
-           ,(generate-sisu-named-function "./" "maven-resolver-provider/"))
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-resolver-provider
+           ,add-missing-shebang)
+         (add-before 'build 'generate-sisu-named--maven-resolver-provider
+           ,(generate-sisu-named "./" "maven-resolver-provider/"))
+         (replace 'install
+           (install-from-pom "maven-resolver-provider/pom.xml")))))
+    (propagated-inputs
+     (list maven-model
+           maven-model-builder
+           maven-resolver-spi
+           maven-resolver-api
+           maven-resolver-impl
+           maven-resolver-util
+           maven-builder-support
+           maven-repository-metadata
+           java-plexus-utils
+           java-plexus-component-annotations
+           java-guice
+           java-javax-inject))))
+
+(define-public maven-resolver-providerx
+  (package
+    (inherit maven-artifact)
+    (name "maven-resolver-providerx")
+    (arguments
+     `(#:jar-name "maven-resolver-provider.jar"
+       #:source-dir "maven-resolver-provider/src/main/java"
+       #:test-dir "maven-resolver-provider/src/test"
+       #:jdk ,icedtea-8
+       #:tests? #f; dependency loop on maven-core (@Component RepositorySystem)
+       #:phases
+       (modify-phases %standard-phases
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-resolver-provider
+           ,add-missing-shebang)
+         (add-before 'build 'generate-sisu-named--maven-resolver-provider
+           ,(generate-sisu-named "./" "maven-resolver-provider/"))
          (replace 'install
            (install-from-pom "maven-resolver-provider/pom.xml")))))
     (propagated-inputs
@@ -1596,8 +1939,8 @@ generally generated from plugin sources using maven-plugin-plugin.")))
          #:tests? #f
          #:phases
          (modify-phases %standard-phases
-           (add-before 'patch-source-shebangs 'add-missing-shebangs
-             ,add-missing-shebangs-function)
+           (add-before 'patch-source-shebangs 'add-missing-shebang--maven-core-bootstrap
+             ,add-missing-shebang)
            (add-before 'configure 'chdir
              (lambda _
                ;; Required for generating components.xml in maven-core
@@ -1620,8 +1963,8 @@ generally generated from plugin sources using maven-plugin-plugin.")))
                  (("\\$\\{distributionShortName\\}") "Maven")
                  (("\\$\\{distributionName\\}") "Apache Maven"))
                #t))
-           (add-before 'build 'generate-sisu-named
-             ,(generate-sisu-named-function "../"))
+           (add-before 'build 'generate-sisu-named--maven-core-bootstrap
+             ,(generate-sisu-named "../"))
            (add-before 'build 'generate-models
              (lambda* (#:key inputs #:allow-other-keys)
                (define (modello-single-mode file version mode)
@@ -1680,6 +2023,105 @@ generally generated from plugin sources using maven-plugin-plugin.")))
       (description "Apache Maven is a software project management and comprehension
 tool.  This package contains the maven core classes managing the whole build
 process."))))
+
+(define-public maven-core-bootstrapx
+  (hidden-package
+    (package
+      (inherit maven-artifact)
+      (name "maven-corex")
+      (arguments
+       `(#:jar-name "maven-core.jar"
+         #:source-dir "src/main/java"
+         #:jdk ,icedtea-8
+         ;; Tests need maven-compat, which requires maven-core
+         #:tests? #f
+         #:phases
+         (modify-phases %standard-phases
+           (add-before 'patch-source-shebangs 'add-missing-shebang--maven-core-bootstrap
+             ,add-missing-shebang)
+           (add-before 'configure 'chdir
+             (lambda _
+               ;; Required for generating components.xml in maven-core
+               (chdir "maven-core")
+               #t))
+           (add-before 'build 'copy-resources
+             (lambda _
+               (mkdir-p "build/classes/")
+               (copy-recursively "src/main/resources" "build/classes")
+               #t))
+           (add-after 'copy-resources 'fill-properties
+             (lambda _
+               ;; This file controls the output of some mvn subcommands, such as
+               ;; mvn -version.
+               (substitute* "build/classes/org/apache/maven/messages/build.properties"
+                 (("\\$\\{buildNumber\\}") "guix_build")
+                 (("\\$\\{timestamp\\}") "0")
+                 (("\\$\\{project.version\\}") ,(package-version maven-artifact))
+                 (("\\$\\{distributionId\\}") "apache-maven")
+                 (("\\$\\{distributionShortName\\}") "Maven")
+                 (("\\$\\{distributionName\\}") "Apache Maven"))
+               #t))
+           (add-before 'build 'generate-sisu-named--maven-core-bootstrap
+             ,(generate-sisu-named "../"))
+           (add-before 'build 'generate-models
+             (lambda* (#:key inputs #:allow-other-keys)
+               (define (modello-single-mode file version mode)
+                 (invoke "java" "org.codehaus.modello.ModelloCli"
+                         file mode "src/main/java" version
+                         "false" "true"))
+               (let ((file "src/main/mdo/toolchains.mdo"))
+                 (modello-single-mode file "1.1.0" "java")
+                 (modello-single-mode file "1.1.0" "xpp3-reader")
+                 (modello-single-mode file "1.1.0" "xpp3-writer"))
+               #t))
+           (add-before 'install 'fix-pom
+             (lambda _
+               (substitute* "pom.xml"
+                 (("<classifier>no_aop</classifier>") ""))
+               #t))
+           (replace 'install
+             (install-from-pom "pom.xml")))))
+      (propagated-inputs
+       `(("maven-artifact" ,maven-artifact)
+         ("maven-resolver-providerx" ,maven-resolver-providerx)  ;;;;;;;;;;;;;;;;
+         ("maven-builder-support" ,maven-builder-support)
+         ("maven-model" ,maven-model)
+         ("maven-model-builderx" ,maven-model-builderx) ;;;;;;;;;;;;;;;;;;
+         ("maven-settings" ,maven-settings)
+         ("maven-settings-builder" ,maven-settings-builder)
+         ("maven-plugin-api" ,maven-plugin-api)
+         ("maven-repository-metadata" ,maven-repository-metadata)
+         ("maven-shared-utils" ,maven-shared-utils)
+         ("java-plexus-component-annotations" ,java-plexus-component-annotations-1.7)
+         ("java-plexus-utils" ,java-plexus-utils)
+         ("java-commons-lang3" ,java-commons-lang3)
+         ("java-guava" ,java-guava)
+         ("java-guice" ,java-guice)
+         ("maven-resolver-api" ,maven-resolver-api)
+         ("maven-resolver-spi" ,maven-resolver-spi)
+         ("maven-resolver-util" ,maven-resolver-util)
+         ("maven-resolver-impl" ,maven-resolver-impl)
+         ("java-eclipse-sisu-inject" ,java-eclipse-sisu-inject)
+         ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+         ("java-javax-inject" ,java-javax-inject)
+         ("java-plexus-classworld" ,java-plexus-classworlds)))
+      (native-inputs
+       `(("java-modello-core" ,java-modello-core)
+         ("java-cglib" ,java-cglib)
+         ("java-plexus-classworlds" ,java-plexus-classworlds)
+         ("java-geronimo-xbean-reflect" ,java-geronimo-xbean-reflect)
+         ("java-plexus-build-api" ,java-plexus-build-api)
+         ("java-modello-plugins-java" ,java-modello-plugins-java)
+         ("java-modello-plugins-xml" ,java-modello-plugins-xml)
+         ("java-modello-plugins-xpp3" ,java-modello-plugins-xpp3)
+         ;; tests
+         ("java-junit" ,java-junit)
+         ("java-mockito-1" ,java-mockito-1)
+         ("java-commons-jxpath" ,java-commons-jxpath)))
+      (description "Apache Maven is a software project management and comprehension
+tool.  This package contains the maven core classes managing the whole build
+process."))))
+;; (testsymb-trace 'maven-core-bootstrapx)
 
 (define-public maven-core
   (package
@@ -1776,6 +2218,104 @@ artifactId=maven-core" ,(package-version maven-core-bootstrap))))
        ("maven-core-boot" ,maven-core-bootstrap)
        ,@(package-native-inputs maven-core-bootstrap)))))
 
+(define-public maven-corex
+  (package
+    (inherit maven-core-bootstrapx)
+    (arguments
+      (substitute-keyword-arguments (package-arguments maven-core-bootstrapx)
+        ((#:phases phases)
+         `(modify-phases ,phases
+            (add-before 'build 'modify-metainf
+              (lambda _
+                (substitute* "build.xml"
+                  (("message=\"\"")
+                   (string-append "message=\"Implementation-Version: "
+                                  (package-version maven) "\n\"")))
+                #t))
+            (add-before 'build 'add-maven-files
+              (lambda _
+                (mkdir-p "build/classes/META-INF/maven/org.apache.maven/maven-core")
+                (copy-file "pom.xml"
+                           "build/classes/META-INF/maven/org.apache.maven/maven-core/pom.xml")
+                (with-output-to-file "build/classes/META-INF/maven/org.apache.maven/maven-core/pom.properties"
+                  (lambda _
+                    (format #t "version=~a~%
+groupId=org.apache.maven~%
+artifactId=maven-core" ,(package-version maven-core-bootstrapx))))
+                #t))
+            (add-after 'build 'generate-metadata
+              (lambda _
+                (define (components file)
+                  (let ((sxml (with-input-from-file file
+                                (lambda _ (xml->sxml (current-input-port)
+                                                     #:trim-whitespace? #t)))))
+                    ;; Select the list of <component>s inside the <component-set>
+                    ;; and <components>.
+                    ((@ (ice-9 match) match) sxml
+                     (('*TOP*
+                       ('*PI* foo ...)
+                       ('component-set
+                        ('components x ...))) x))))
+                (use-modules (sxml simple))
+                (delete-file "build/classes/META-INF/plexus/components.xml")
+                (invoke "java" "-cp" (string-append (getenv "CLASSPATH") ":build/classes")
+                        "org.codehaus.plexus.metadata.PlexusMetadataGeneratorCli"
+                        "--source" "build/classes/META-INF/plexus"
+                        "--output" "build/classes/META-INF/plexus/components.t.xml"
+                        "--classes" "build/classes"
+                        "--descriptors" "build/classes")
+                ;; Now we merge all other components from hand-written xml
+                (let ((generated-xml (components "build/classes/META-INF/plexus/components.t.xml"))
+                      (components-xml (components "src/main/resources/META-INF/plexus/components.xml"))
+                      (default-bindings-xml (components "src/main/resources/META-INF/plexus/default-bindings.xml"))
+                      (artifact-handlers-xml (components "src/main/resources/META-INF/plexus/artifact-handlers.xml")))
+                  (with-output-to-file "build/classes/META-INF/plexus/components.xml"
+                    (lambda _
+                      (display "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+                      (sxml->xml
+                        `(component-set
+                           (components
+                             ,@(append generated-xml components-xml
+                                       default-bindings-xml
+                                       artifact-handlers-xml)))))))
+                #t))
+            (add-after 'generate-metadata 'fix-plugin-versions
+              (lambda _
+                ;; This file controls the default plugins used by Maven.  Ensure
+                ;; we use the versions we have packaged by default
+                (substitute* '("build/classes/META-INF/plexus/default-bindings.xml"
+                               "build/classes/META-INF/plexus/components.xml")
+                  (("maven-install-plugin:[0-9.]+")
+                   (string-append "maven-install-plugin:"
+                                  ,(package-version maven-install-plugin)))
+                  (("maven-resources-plugin:[0-9.]+")
+                   (string-append "maven-resources-plugin:"
+                                  ,(package-version maven-resources-plugin)))
+                  (("maven-compiler-plugin:[0-9.]+")
+                   (string-append "maven-compiler-plugin:"
+                                  ,(package-version maven-compiler-plugin)))
+                  (("maven-surefire-plugin:[0-9.]+")
+                   (string-append "maven-surefire-plugin:"
+                                  ,(package-version maven-surefire-plugin)))
+                  (("maven-jar-plugin:[0-9.]+")
+                   (string-append "maven-jar-plugin:"
+                                  ,(package-version maven-jar-plugin))))))
+            (add-after 'fix-plugin-versions 'rebuild
+              (lambda _
+                (invoke "ant" "jar")
+                #t))))))
+    (native-inputs
+     `(
+       ("java-plexus-component-metadata" ,java-plexus-component-metadata-1.7)
+       ;; ("java-commons-cli" ,java-commons-cli)
+       ;; ("java-plexus-cli" ,java-plexus-cli)
+       ;; ("java-jdom2" ,java-jdom2)
+       ;; ("java-qdox" ,java-qdox)
+       ;; ("maven-core-boot" ,maven-core-bootstrapx)
+       ;; ,@(package-native-inputs maven-core-bootstrapx)
+       ))))
+;; (testsymb-trace 'maven-corex)
+
 (define-public maven-slf4j-provider
   (package
     (inherit maven-artifact)
@@ -1824,10 +2364,10 @@ artifactId=maven-core" ,(package-version maven-core-bootstrap))))
        #:jdk ,icedtea-8
        #:phases
        (modify-phases %standard-phases
-         (add-before 'patch-source-shebangs 'add-missing-shebangs
-           ,add-missing-shebangs-function)
-         (add-before 'build 'generate-sisu-named
-           ,(generate-sisu-named-function "./" "maven-embeder/"))
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-embedder
+           ,add-missing-shebang)
+         (add-before 'build 'generate-sisu-named--maven-embedder
+           ,(generate-sisu-named "./" "maven-embeder/"))
          (add-before 'build 'copy-resources
            (lambda _
              (mkdir-p "build/classes/")
@@ -1915,6 +2455,111 @@ artifactId=maven-core" ,(package-version maven-core-bootstrap))))
     (description "Apache Maven is a software project management and comprehension
 tool.  This package contains a Maven embeddable component, with CLI and
 logging support.")))
+
+(define-public maven-embedderx
+  (package
+    (inherit maven-artifact)
+    (name "maven-embedderx")
+    (arguments
+     `(#:jar-name "maven-embedder.jar"
+       #:source-dir "maven-embedder/src/main/java"
+       #:test-dir "maven-embedder/src/test"
+       #:test-exclude (list "**/MavenCliTest.java")
+       #:jdk ,icedtea-8
+       #:phases
+       (modify-phases %standard-phases
+         (add-before 'patch-source-shebangs 'add-missing-shebang--maven-embedder
+           ,add-missing-shebang)
+         (add-before 'build 'generate-sisu-named--maven-embedder
+           ,(generate-sisu-named "./" "maven-embeder/"))
+         (add-before 'build 'copy-resources
+           (lambda _
+             (mkdir-p "build/classes/")
+             (copy-recursively "maven-embedder/src/main/resources" "build/classes")))
+         (add-before 'build 'generate-models
+           (lambda* (#:key inputs #:allow-other-keys)
+             (define (modello-single-mode file version mode)
+               (invoke "java" "org.codehaus.modello.ModelloCli"
+                       file mode "maven-embedder/src/main/java" version
+                       "false" "true"))
+             (let ((file "maven-embedder/src/main/mdo/core-extensions.mdo"))
+               (modello-single-mode file "1.0.0" "java")
+               (modello-single-mode file "1.0.0" "xpp3-reader")
+               (modello-single-mode file "1.0.0" "xpp3-writer"))
+             #t))
+         (add-before 'check 'fix-test-paths
+           (lambda _
+             (substitute* "maven-embedder/src/test/java/org/apache/maven/cli/CLIManagerDocumentationTest.java"
+               (("target/test-classes") "build/test-classes"))
+             #t))
+         (add-before 'check 'fix-test-compilation
+           (lambda _
+             ;; Tests are in the java/ subdir. Other subdirectories contain
+             ;; additional test plugins, with duplicate classes, so we can't
+             ;; compile them. Also, they are meant to be built with maven, to
+             ;; test its build process.
+             (substitute* "build.xml"
+               (("srcdir=\"maven-embedder/src/test\"")
+                "srcdir=\"maven-embedder/src/test/java\""))
+             #t))
+         (add-before 'check 'disable-failing-test
+           (lambda _
+             (delete-file "maven-embedder/src/test/java/org/apache/maven/cli/event/ExecutionEventLoggerTest.java")))
+         (add-before 'install 'fix-pom
+           (lambda _
+             (substitute* "maven-embedder/pom.xml"
+               (("jsr250-api") "javax.annotation-api"))))
+         (replace 'install
+           (install-from-pom "maven-embedder/pom.xml")))))
+    (propagated-inputs
+     `(("maven-corex" ,maven-corex)
+       ("maven-artifact" ,maven-artifact)
+       ("maven-plugin-api" ,maven-plugin-api)
+       ("maven-builder-support" ,maven-builder-support)
+       ("maven-model" ,maven-model)
+       ("maven-model-builder" ,maven-model-builder)
+       ("maven-settings" ,maven-settings)
+       ("maven-settings-builder" ,maven-settings-builder)
+       ("maven-shared-utils" ,maven-shared-utils)
+       ("maven-slf4j-provider" ,maven-slf4j-provider)
+       ("java-plexus-classworlds" ,java-plexus-classworlds)
+       ("java-plexus-util" ,java-plexus-utils)
+       ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ("java-plexus-cipher" ,java-plexus-cipher)
+       ("java-plexus-component-annotations" ,java-plexus-component-annotations)
+       ("java-plexus-sec-dispatcher" ,java-plexus-sec-dispatcher)
+       ("maven-resolevr-util" ,maven-resolver-util)
+       ("maven-resolevr-api" ,maven-resolver-api)
+       ("java-logback-core" ,java-logback-core)
+       ("java-logback-classic" ,java-logback-classic)
+       ("java-commons-cli" ,java-commons-cli)
+       ("java-commons-io" ,java-commons-io)
+       ("java-commons-lang3" ,java-commons-lang3)
+       ("java-guava" ,java-guava)
+       ("java-guice" ,java-guice)
+       ("java-javax-inject" ,java-javax-inject)
+       ("java-slf4j-api" ,java-slf4j-api)
+       ("java-jsr250" ,java-jsr250)))
+    (native-inputs
+     `(("java-asm-8" ,java-asm-8)
+       ("java-modello-core" ,java-modello-core)
+       ("java-geronimo-xbean-reflect" ,java-geronimo-xbean-reflect)
+       ("java-plexus-build-api" ,java-plexus-build-api)
+       ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ("java-eclipse-sisu-inject" ,java-eclipse-sisu-inject)
+       ("java-cglib" ,java-cglib)
+       ("java-modello-plugins-java" ,java-modello-plugins-java)
+       ("java-modello-plugins-xml" ,java-modello-plugins-xml)
+       ("java-modello-plugins-xpp3" ,java-modello-plugins-xpp3)
+       ;; tests
+       ("java-junit" ,java-junit)
+       ("java-objenesis" ,java-objenesis)
+       ("java-mockito-1" ,java-mockito-1)
+       ("java-hamcrest-core" ,java-hamcrest-core)))
+    (description "Apache Maven is a software project management and comprehension
+tool.  This package contains a Maven embeddable component, with CLI and
+logging support.")))
+;; (testsymb-trace 'maven-embedderx)
 
 (define-public maven-compat
   (package
@@ -2132,6 +2777,227 @@ logging support.")))
 tool.  This package contains Maven2 classes maintained as compatibility
 layer for plugins that need to keep Maven2 compatibility.")))
 
+(define-public maven-compatx
+  (package
+    (inherit maven-artifact)
+    (name "maven-compatx")
+    (arguments
+     `(#:jar-name "maven-compat.jar"
+       #:source-dir "src/main/java"
+       #:jdk ,icedtea-8
+       #:test-dir "src/test"
+       #:phases
+       (modify-phases %standard-phases
+         ;; Tests assume we're in this directory
+         (add-before 'configure 'chdir
+           (lambda _
+             (chdir "maven-compat")
+             #t))
+         (add-before 'build 'recreate-removed-jar
+           (lambda _
+             (with-output-to-file "src/test/repository-system/maven-core-2.1.0.jar"
+               (const #t))
+             (with-directory-excursion "src/test/resources"
+               (with-output-to-file "artifact-install/artifact-1.0.jar"
+                 (lambda _
+                   (format #t "dummy~%")))
+               (for-each
+                 (lambda (file)
+                   (with-output-to-file file
+                     (lambda _
+                       (format #t "foo~%"))))
+                 '("local-repo/maven-test/jars/maven-test-a-1.0.jar"
+                   "local-repo/maven-test/jars/maven-test-c-1.0.jar"
+                   "local-repo/maven-test/jars/maven-test-d-1.0.jar"
+                   "inheritance-repo/t04/maven-test/jars/t04-a-1.0.jar"
+                   "inheritance-repo/t04/maven-test/jars/t04-b-1.0.jar"
+                   "inheritance-repo/t04/maven-test/jars/t04-b-2.0.jar"
+                   "inheritance-repo/t04/maven-test/jars/t04-c-1.0.jar"
+                   "inheritance-repo/t04/maven-test/jars/t04-c-2.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-a-1.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-a-2.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-b-1.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-b-1.1.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-b-2.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-c-1.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-d-1.0.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-d-1.1.jar"
+                   "inheritance-repo/t05/maven-test/jars/t05-d-1.2.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-a-1.0.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-b-1.0.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-b-1.1.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-c-1.0.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-d-1.0.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-d-1.1.jar"
+                   "inheritance-repo/t06/maven-test/jars/t06-d-1.2.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-a-1.0.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-b-1.0.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-b-1.1.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-c-1.0.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-d-1.0.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-d-1.1.jar"
+                   "inheritance-repo/t07/maven-test/jars/t07-d-1.2.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-a-1.0.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-b-1.0.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-b-1.1.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-c-1.0.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-d-1.0.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-d-1.1.jar"
+                   "inheritance-repo/t08/maven-test/jars/t08-d-1.2.jar"
+                   "inheritance-repo/t09/maven-test/jars/t09-a-1.0.jar"
+                   "inheritance-repo/t09/maven-test/jars/t09-b-1.0.jar"
+                   "inheritance-repo/t09/maven-test/jars/t09-c-1.0.jar"
+                   "inheritance-repo/t09/maven-test/jars/t09-d-1.0.jar"
+                   "inheritance-repo/t10/maven-test/jars/t10-a-1.0.jar"
+                   "inheritance-repo/t10/maven-test/jars/t10-b-1.0.jar"
+                   "inheritance-repo/t10/maven-test/jars/t10-c-1.0.jar"))
+               (with-directory-excursion "local-repo/snapshot-test/jars"
+                 (for-each
+                   (lambda (file)
+                     (with-output-to-file file
+                       (lambda _
+                         ;; No end-of-line
+                         (format #t "local"))))
+                   '("maven-snapshot-e-1.0-SNAPSHOT.jar"
+                     "maven-snapshot-b-1.0-SNAPSHOT.jar"
+                     "maven-snapshot-a-1.0-SNAPSHOT.jar"))))
+             (for-each
+               (lambda (letter)
+                 (with-directory-excursion
+                   (string-append "src/test/remote-repo/org/apache/maven/its/"
+                                  letter "/0.1")
+                   (let ((dir (string-append "META-INF/maven/org.apache.maven.its/"
+                                             letter)))
+                     (mkdir-p dir)
+                     (copy-file (string-append letter "-0.1.pom")
+                                (string-append dir "/pom.xml"))
+                     (with-output-to-file (string-append dir "/pom.properties")
+                       (lambda _
+                         (format #t "version=0.1~%")
+                         (format #t "groupId=org.apache.maven.its")
+                         (format #t (string-append "artifactId=" letter))))
+                     (with-output-to-file "META-INF/MANIFEST.MF"
+                       (lambda _
+                         (format #t "Manifest-Version: 1.0~%"))))
+                     (invoke "jar" "cmf" "META-INF/MANIFEST.MF"
+                             (string-append letter "-0.1.jar") "META-INF")))
+               '("a" "b"))
+             #t))
+         (add-before 'build 'generate-models
+           (lambda* (#:key inputs #:allow-other-keys)
+             (define (modello-single-mode file version mode)
+               (invoke "java" "org.codehaus.modello.ModelloCli"
+                       file mode "src/main/java" version
+                       "false" "true"))
+             (let ((file "src/main/mdo/profiles.mdo"))
+               (modello-single-mode file "1.0.0" "java")
+               (modello-single-mode file "1.0.0" "xpp3-reader")
+               (modello-single-mode file "1.0.0" "xpp3-writer"))
+             (let ((file "src/main/mdo/paramdoc.mdo"))
+               (modello-single-mode file "1.0.0" "java")
+               (modello-single-mode file "1.0.0" "xpp3-reader")
+               (modello-single-mode file "1.0.0" "xpp3-writer"))
+             #t))
+         (add-before 'build 'copy-resources
+           (lambda _
+             (mkdir-p "build/classes/")
+             (copy-recursively "src/main/resources" "build/classes")))
+         (add-after 'build 'generate-metadata
+           (lambda _
+             (invoke "java" "-cp" (string-append (getenv "CLASSPATH") ":build/classes")
+                     "org.codehaus.plexus.metadata.PlexusMetadataGeneratorCli"
+                     "--source" "src/main/java"
+                     "--output" "build/classes/META-INF/plexus/components.xml"
+                     "--classes" "build/classes"
+                     "--descriptors" "build/classes/META-INF")
+             #t))
+         (add-before 'check 'build-tests
+          (lambda _
+            (invoke "ant" "compile-tests")
+            #t))
+         (add-after 'build-tests 'generate-test-metadata
+           (lambda _
+             (invoke "java" "-cp" (string-append (getenv "CLASSPATH")
+                                                 ":build/classes"
+                                                 ":build/test-classes")
+                     "org.codehaus.plexus.metadata.PlexusMetadataGeneratorCli"
+                     "--source" "src/test/java"
+                     "--output" "build/test-classes/META-INF/plexus/components.xml"
+                     "--classes" "build/test-classes"
+                     "--descriptors" "build/test-classes/META-INF")
+             #t))
+         (add-before 'check 'disable-failing-test
+           (lambda _
+             (delete-file "src/test/java/org/apache/maven/profiles/manager/DefaultProfileManagerTest.java")))
+         (add-after 'generate-metadata 'rebuild
+           (lambda _
+             (invoke "ant" "jar")
+             #t))
+         (replace 'install
+           (install-from-pom "pom.xml")))))
+    (propagated-inputs
+     (list
+           ;; maven-artifact
+           ;; maven-repository-metadata
+           ;; maven-builder-support
+           ;; maven-model
+           ;; maven-model-builderx
+           ;; maven-settings
+           ;; maven-settings-builder
+           maven-corex
+           ;; maven-wagon-provider-api
+           ;; maven-wagon-filex
+           ;; maven-resolver-api
+           ;; maven-resolver-util
+           ;; maven-resolver-spi
+           ;; java-plexus-interpolation
+           ))
+    (native-inputs
+     `(
+       ;; ("java-modello-core" ,java-modello-core)
+       ;; ("java-plexus-utils" ,java-plexus-utils)
+       ;; ("java-plexus-component-annotations" ,java-plexus-component-annotations-1.7)
+       ;; ("java-plexus-classworlds" ,java-plexus-classworlds)
+       ;; ("java-geronimo-xbean-reflect" ,java-geronimo-xbean-reflect)
+       ;; ("java-plexus-build-api" ,java-plexus-build-api)
+       ;; ("java-eclipse-sisu-plexus" ,java-eclipse-sisu-plexus)
+       ;; ("java-exclispe-sisu-inject" ,java-eclipse-sisu-inject)
+       ;; ("java-javax-inject" ,java-javax-inject)
+       ;; ("java-guice" ,java-guice)
+       ;; ("java-guava" ,java-guava)
+       ;; ("java-cglib" ,java-cglib)
+       ;; ("java-asm" ,java-asm)
+       ;; ("java-modello-plugins-java" ,java-modello-plugins-java)
+       ;; ("java-modello-plugins-xml" ,java-modello-plugins-xml)
+       ;; ("java-modello-plugins-xpp3" ,java-modello-plugins-xpp3)
+       ;; ;; metadata
+       ;; ("java-plexus-component-metadata" ,java-plexus-component-metadata-1.7)
+       ;; ("java-commons-cli" ,java-commons-cli)
+       ;; ("java-plexus-cli" ,java-plexus-cli)
+       ;; ("java-jdom2" ,java-jdom2)
+       ;; ("maven-plugin-api" ,maven-plugin-api)
+       ;; ("java-qdox" ,java-qdox)
+       ;; ;; tests
+       ;; ("java-plexus-cipher" ,java-plexus-cipher)
+       ;; ("java-plexus-sec-dispatcher" ,java-plexus-sec-dispatcher)
+       ;; ("java-jsr250" ,java-jsr250)
+       ;; ("java-cdi-api" ,java-cdi-api)
+       ;; ("java-junit" ,java-junit)
+       ;; ("maven-resolver-impl" ,maven-resolver-impl)
+       ;; ("maven-resolver-connector-basic" ,maven-resolver-connector-basic)
+       ;; ("maven-resolver-transport-wagon" ,maven-resolver-transport-wagon)
+       ;; ("java-commons-lang3" ,java-commons-lang3)
+       ;; ("java-aop" ,java-aopalliance)
+       ;; ("maven-resolver-providerx" ,maven-resolver-providerx)
+       ;; ("maven-slf4j-provider" ,maven-slf4j-provider)
+       ;; ("java-slf4j-api" ,java-slf4j-api)
+       ;; ,@(package-inputs java-slf4j-api)
+       ))
+    (description "Apache Maven is a software project management and comprehension
+tool.  This package contains Maven2 classes maintained as compatibility
+layer for plugins that need to keep Maven2 compatibility.")))
+;; (testsymb-trace 'maven-compatx)
+
 (define-public maven
   (package
     (inherit maven-artifact)
@@ -2258,6 +3124,182 @@ management, documentation creation, site publication, and distribution
 publication are all controlled from the @file{pom.xml} declarative file.  Maven
 can be extended by plugins to utilise a number of other development tools for
 reporting or the build process.")))
+;; (testsymb-trace 'maven)
+
+(define-public mavenx
+  (package
+    (inherit maven-artifact)
+    (name "mavenx")
+    (arguments
+     `(#:phases
+       (modify-phases %standard-phases
+         (replace 'build
+           (lambda* (#:key inputs #:allow-other-keys)
+             ;; Recreate the configuration for the loader
+             (with-output-to-file "apache-maven/src/bin/m2.conf"
+               (lambda _
+                 (format #t "main is org.apache.maven.cli.MavenCli from plexus.core~%")
+                 (format #t "~%")
+                 (format #t "set maven.conf default ${maven.home}/conf~%")
+                 (format #t "~%")
+                 (format #t "[plexus.core]~%")
+                 (format #t "load       ${maven.conf}/logging~%")
+                 (format #t "optionally ${maven.home}/lib/ext/*.jar~%")
+                 ;; Reference every jar so plexus-classworlds can find them.
+                 (for-each
+                   (lambda (dependency)
+                     (for-each
+                       (lambda (file)
+                         (format #t "load       ~a~%" file))
+                       (find-files (assoc-ref inputs dependency) ".*.jar$")))
+                   '(
+                     "maven-artifact"
+                     "maven-builder-support"
+                     "maven-compatx"
+                     "maven-corex"
+                     "maven-embedderx"
+                     "maven-model"
+                     "maven-model-builder"
+                     "maven-plugin-api"
+                     "maven-repository-metadata"
+                     "maven-resolver-api"
+                     "maven-resolver-connector-basic"
+                     "maven-resolver-impl"
+                     "maven-resolver-provider"
+                     "maven-resolver-spi"
+                     "maven-resolver-transport-wagon"
+                     "maven-resolver-util"
+                     "maven-settings"
+                     "maven-settings-builder"
+                     "maven-shared-utils"
+                     "maven-slf4j-provider"
+                     "maven-wagon-filex"
+                     "maven-wagon-http-sharedx"
+                     "maven-wagon-httpx"
+                     "maven-wagon-provider-api"
+                     "maven-wagon-tck-http"
+
+                     "java-slf4j-api"
+                     "java-plexus-utils"
+                     "java-plexus-sec-dispatcher"
+                     "java-plexus-interpolation"
+                     "java-plexus-component-annotations"
+                     "java-plexus-cipher"
+                     "java-jsr250"
+                     "java-javax-inject"
+                     "java-jansi"
+                     "java-httpcomponents-httpcore"
+                     "java-httpcomponents-httpclient"
+                     "java-guice"
+                     "java-guava"
+                     "java-eclipse-sisu-plexus"
+                     "java-eclipse-sisu-inject"
+                     "java-commons-logging-minimal"
+                     "java-commons-lang3"
+                     "java-commons-io"
+                     "java-commons-cli"
+                     "java-cglib"
+                     "java-cdi-api"
+                     "java-asm"
+                     "java-aopalliance"
+                     ))))
+             (substitute* "apache-maven/src/bin/mvn"
+               (("cygwin=false;")
+                (string-append
+                  "CLASSPATH="
+                  (car (find-files
+                         (assoc-ref inputs "java-plexus-classworlds")
+                         ".*.jar"))
+                  "\ncygwin=false;"))
+               (("-classpath.*") "-classpath ${CLASSPATH} \\\n"))
+             #t))
+         (delete 'check)
+         (replace 'install
+           (lambda* (#:key outputs #:allow-other-keys)
+             (let ((bin (string-append (assoc-ref outputs "out") "/bin/"))
+                   (conf (string-append (assoc-ref outputs "out") "/conf/")))
+               (mkdir-p (string-append (assoc-ref outputs "out") "/lib"))
+               (for-each (lambda (file)
+                           (install-file (string-append "apache-maven/src/bin/" file)
+                                         bin)
+                           (chmod (string-append bin file) #o755))
+                '("mvn" "mvnDebug" "mvnyjp"))
+               (install-file "apache-maven/src/bin/m2.conf" bin)
+               (copy-recursively "apache-maven/src/conf" conf))
+             #t)))))
+    (inputs
+     (list
+           maven-artifact
+           maven-builder-support
+           maven-compatx
+           maven-corex
+           maven-embedderx
+           maven-model
+           maven-model-builder
+           maven-plugin-api
+           maven-repository-metadata
+           maven-resolver-api
+           maven-resolver-connector-basic
+           maven-resolver-impl
+           maven-resolver-provider
+           maven-resolver-spi
+           maven-resolver-transport-wagon
+           maven-resolver-util
+           maven-settings
+           maven-settings-builder
+           maven-shared-utils
+           maven-slf4j-provider
+           maven-wagon-filex
+           maven-wagon-http-sharedx
+           maven-wagon-httpx
+           maven-wagon-provider-api
+           maven-wagon-tck-http
+
+           java-aopalliance
+           java-asm-8
+           java-cdi-api
+           java-cglib
+           java-commons-cli
+           java-commons-io
+           java-commons-lang3
+           java-commons-logging-minimal
+           java-eclipse-sisu-inject
+           java-eclipse-sisu-plexus
+           java-guava
+           java-guice
+           java-httpcomponents-httpclient
+           java-httpcomponents-httpcore
+           java-jansi
+           java-javax-inject
+           java-jsr250
+           java-plexus-cipher
+           java-plexus-classworlds
+           java-plexus-component-annotations
+           java-plexus-interpolation
+           java-plexus-sec-dispatcher
+           java-plexus-utils
+           java-slf4j-api
+           ))
+    (propagated-inputs
+     (list coreutils which))
+    (description "Apache Maven is a software project management and comprehension
+tool.  Based on the concept of a project object model: builds, dependency
+management, documentation creation, site publication, and distribution
+publication are all controlled from the @file{pom.xml} declarative file.  Maven
+can be extended by plugins to utilise a number of other development tools for
+reporting or the build process.")))
+(testsymb-trace 'mavenx)
+#|
+,use (gnu)
+,use (guix)
+,use (guix store)
+(define daemon (open-connection))
+,use (guix derivations)
+,use (gnu packages java)
+,module (bost packages maven)
+,pp (derivation-inputs (package-derivation daemon mavenx))
+
+|#
 
 ;; Many plugins require maven 3.0 as a dependency.
 (define maven-3.0-pom
@@ -4009,3 +5051,5 @@ techniques for generating static and dynamic content, supporting a variety of
 markup languages.
 
 This package contains Doxia core classes and interfaces.")))
+
+(format #t "100. ##################### ~a evaluating module ... done\n" "[bost packages maven]")
