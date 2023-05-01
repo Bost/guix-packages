@@ -476,7 +476,7 @@ patches do not match perfectly.")
 (define-public pwclient
   (package
     (name "pwclient")
-    (version "1.3.0")
+    (version "2.6.0")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -485,7 +485,7 @@ patches do not match perfectly.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1xckwvcqklzpyh3xs4k2zm40ifp0q5fdkj2vmgb8vhfvl1ivs6jv"))))
+                "1fkv0j82lfkidshg67kkb7is4b7fwqjslraad7livj1hb0dxb375"))))
     (build-system python-build-system)
     (arguments
      `(#:phases
