@@ -24,7 +24,7 @@
 (define clojure-lsp
   (package
     (name "clojure-lsp")
-    (version "2022.04.18-00.59.32")
+    (version "2023.05.04-19.38.01")
     (source
      (origin
        (method url-fetch)
@@ -33,7 +33,7 @@
              version
              "/clojure-lsp-native-static-linux-amd64.zip"))
        (sha256
-        (base32 "04czrar5adh7b7kz9n47kl88lylffzcv7ym6n5ylnrkbzvzp1f5r"))))
+        (base32 "1zycljfrxaxicbjbpqjqrxdrzp2m6cn3my5p280fb3j5ynmjs54v"))))
     (build-system copy-build-system)
     (native-inputs (list unzip))
     (arguments
