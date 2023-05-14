@@ -21,7 +21,7 @@
   #:use-module (gnu packages compression)
   )
 
-(define clojure-lsp
+(define-public clojure-lsp
   (package
     (name "clojure-lsp")
     (version "2023.05.04-19.38.01")
