@@ -434,37 +434,6 @@ extensive face definitions than the \"official\" Emacs variant.")
 ;; following redirection to `https://api.github.com/repositories/13679783/releases'...
 ;; following redirection to `https://api.github.com/repositories/13679783/tags'...
 
-
-;; Doesn't work. The package gets downloaded anyway
-(define-public emacs-eziam-theme-emacs
-  (package
-    (name "emacs-eziam-theme-emacs")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/thblt/eziam-theme-emacs")
-               (commit
-                 "7fba717293072d0afdbd1c45351ddf47b26b3064")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "14v23aqyl971yaw00xmqymlmw6abkx1biflqy1q0908q6fzg170n"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/thblt/eziam-theme-emacs")
-    (synopsis
-     "A mostly grayscale theme for Emacs, inspired by Tao and Leuven.")
-    (description
-     "An Emacs theme, which tries to combine the simplicity of Tao with the
-org-mode goodness of Leuven. Unlike Tao, keeps some very minimal color
-indications, while remaining mainly grayscale and trying to avoid the “angry
-fruit salad” syndrome. Unlike Leuven, it remains mostly grayscale, with no
-color for syntax, and easily allows multiple variants.")
-    (license license:gpl3+)))
-
-
 (define-public emacs-lsp-python-ms
   (package
     (name "emacs-lsp-python-ms")
@@ -824,21 +793,27 @@ will be submitted to lsp-mode.")
     (name "emacs-eziam-themes")
     (version "4")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/thblt/eziam-theme-emacs")
-               (commit
-                 "7fba717293072d0afdbd1c45351ddf47b26b3064")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "14v23aqyl971yaw00xmqymlmw6abkx1biflqy1q0908q6fzg170n"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/thblt/eziam-theme-emacs")
+             (commit
+              "7fba717293072d0afdbd1c45351ddf47b26b3064")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "14v23aqyl971yaw00xmqymlmw6abkx1biflqy1q0908q6fzg170n"))))
     (build-system emacs-build-system)
     (home-page
-      "https://github.com/thblt/eziam-theme-emacs")
-    (synopsis "")
-    (description "")
+     "https://github.com/thblt/eziam-theme-emacs")
+    (synopsis
+     "A mostly grayscale theme for Emacs, inspired by Tao and Leuven.")
+    (description
+     "An Emacs theme, which tries to combine the simplicity of Tao with the
+org-mode goodness of Leuven. Unlike Tao, keeps some very minimal color
+indications, while remaining mainly grayscale and trying to avoid the “angry
+fruit salad” syndrome. Unlike Leuven, it remains mostly grayscale, with no
+color for syntax, and easily allows multiple variants.")
     (license license:gpl3+)))
 
 (define-public emacs-tangotango
