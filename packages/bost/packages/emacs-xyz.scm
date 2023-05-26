@@ -2466,6 +2466,103 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-cherry-blossom-theme
+  (let ((commit
+          "eea7653e00f35973857ee23b27bc2fae5e753e50")
+        (revision "0"))
+    (package
+      (name "emacs-cherry-blossom-theme")
+      (version (git-version "0.0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/inlinestyle/emacs-cherry-blossom-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0m97xr6lddy2jdmd4bl4kbp2568p4n110yfa9k7fqc20ihq8jkyd"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/inlinestyle/emacs-cherry-blossom-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-chocolate-theme
+  (let ((commit
+          "ccc05f7ad96d3d1332727689bf6250443adc7ec0")
+        (revision "0"))
+    (package
+      (name "emacs-chocolate-theme")
+      (version (git-version "0.2.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/SavchenkoValeriy/emacs-chocolate-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1d8a9jwv9y0sncw24k840c8yyrig30f2d6q2zqlc09f05yzq9p9p"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-autothemer))
+      (home-page
+        "http://github.com/SavchenkoValeriy/emacs-chocolate-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-clues-theme
+  (let ((commit
+          "abd61f2b7f3e98de58ca26e6d1230e70c6406cc7")
+        (revision "0"))
+    (package
+      (name "emacs-clues-theme")
+      (version (git-version "1.0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/emacsfodder/emacs-clues-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "118k5bnlk9sc2n04saaxjncmc1a4m1wlf2y7xyklpffkazbd0m72"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/emacsfodder/emacs-clues-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dakrone-theme
+  (let ((commit
+          "232ad1be5f3572dcbdf528f1655109aa355a6937")
+        (revision "0"))
+    (package
+      (name "emacs-dakrone-theme")
+      (version (git-version "0.0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/dakrone/dakrone-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0p51zni42hv090vv6mk9v0v88achmgxlsmlr40y8y6ng57w51r4s"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/dakrone/dakrone-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
