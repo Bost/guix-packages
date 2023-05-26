@@ -70,6 +70,7 @@
                   (sha256
                    (base32 ,(latest-base32 dst-dir)))))
                (build-system emacs-build-system)
+               ;; TODO don't output '(propagated-inputs (list))'
                ,propagated-inputs
                (home-page ,url)
                (synopsis "") ;; TODO synopsis
