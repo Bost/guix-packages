@@ -8,6 +8,16 @@
  pkgs
  '(
    (
+    "https://github.com/purcell/color-theme-sanityinc-solarized"
+    "2.29"
+    "/home/bost/.emacs.d/elpa/28.2/develop/color-theme-sanityinc-solarized-20220917.1350/color-theme-sanityinc-solarized.el"
+    )
+   ))
+
+(setq
+ pkgs4
+ '(
+   (
     "https://github.com/zerolfx/copilot.el.git"
     "0"
     "/home/bost/.emacs.d/elpa/28.2/develop/copilot-20230330.33957/copilot.el"

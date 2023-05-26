@@ -310,7 +310,6 @@ look at the minibuffer.")
 
 ;; 000000000000000000000000000000000000000
 
-;; Doesn't work properly. The package gets downloaded anyway
 (define-public emacs-color-theme-sanityinc-tomorrow
   (package
     (name "emacs-color-theme-sanityinc-tomorrow")
@@ -334,6 +333,33 @@ look at the minibuffer.")
      "An Emacs version of Chris Kempson's \"Tomorrow\" themes, with much more
 extensive face definitions than the \"official\" Emacs variant.")
     (license license:gpl3+)))
+
+(define-public emacs-color-theme-sanityinc-solarized
+  (let ((commit
+         "b8f4a65bd53b97b56b93fff2fb14f71b2831aa6f")
+        (revision "0"))
+    (package
+      (name "emacs-color-theme-sanityinc-solarized")
+      (version (git-version "2.29" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/color-theme-sanityinc-solarized")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "10vfbl9dry03dw264w7b4grmzcv78x3p7r86bsyhyl74hwwvx1hp"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/purcell/color-theme-sanityinc-solarized")
+      (synopsis
+       "Emacs color themes based on Ethan Schoonover's 'solarized' theme")
+      (description
+       "An alternate Emacs color-theme version of Ethan Schoonover's \"Solarized\"
+theme pair.")
+      (license license:gpl3+))))
 
 (define-public emacs-anaconda-mode
   (let ((commit "ca8edbaa7662d97e4a4416ec9a8d743863303911")
