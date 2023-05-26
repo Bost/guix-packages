@@ -2563,6 +2563,80 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-darkmine-theme
+  (let ((commit
+          "7f7e82ca03bcad52911fa41fb3e204e32d6ee63e")
+        (revision "0"))
+    (package
+      (name "emacs-darkmine-theme")
+      (version (git-version "0.5" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/pierre-lecocq/darkmine-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0d2g4iyp8gyfrcc1gkvl40p1shlw1sadswzhry0m1lgbyxiiklrz"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/pierre-lecocq/darkmine-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-darkokai-theme
+  (let ((commit
+          "5820aeddfc8c869ba840cc534eba776936656a66")
+        (revision "0"))
+    (package
+      (name "emacs-darkokai-theme")
+      (version (git-version "0.1.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/sjrmanning/darkokai")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1bj7l5sh6nzxcw575kjcscjpjqmwlxhvi30qviqg4d6aymzkgr53"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/sjrmanning/darkokai")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-darktooth-theme
+  (let ((commit
+          "fd3df73a4d937fa9e12f0b18acb009a9d40f245e")
+        (revision "0"))
+    (package
+      (name "emacs-darktooth-theme")
+      (version (git-version "1.0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/emacsfodder/emacs-theme-darktooth")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0dvfk9kyza6yq0jn9g2ffb5gv07xnjg6myxkqfxpll7m2s0zasi7"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-autothemer))
+      (home-page
+        "http://github.com/emacsfodder/emacs-theme-darktooth")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
