@@ -2370,6 +2370,102 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-badwolf-theme
+  (let ((commit
+          "ea01a3d9358e968f75e3ed15dec6a2a96ce3d9a1")
+        (revision "0"))
+    (package
+      (name "emacs-badwolf-theme")
+      (version (git-version "1.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/bkruczyk/badwolf-emacs")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0a6adsxvmw3mgji17is75jrq3ifmzpch8rwqqyfgc99xzndvab7l"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/bkruczyk/badwolf-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-birds-of-paradise-plus-theme
+  (let ((commit
+          "bb9f9d4ef7f7872a388ec4eee1253069adcadb6f")
+        (revision "0"))
+    (package
+      (name "emacs-birds-of-paradise-plus-theme")
+      (version (git-version "0.1.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jimeh/birds-of-paradise-plus-theme.el")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1n5icy29ks5rxrxp7v4sf0523z7wxn0fh9lx4y6jb7ppdjnff12s"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jimeh/birds-of-paradise-plus-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-bubbleberry-theme
+  (let ((commit
+          "22e9adf4586414024e4592972022ec297321b320")
+        (revision "0"))
+    (package
+      (name "emacs-bubbleberry-theme")
+      (version (git-version "0.1.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jasonm23/emacs-bubbleberry-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1aha8rzilv4k300rr4l9qjfygydfwllkbw17lhm8jz0kh9w6bd28"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jasonm23/emacs-bubbleberry-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-busybee-theme
+  (let ((commit
+          "66b2315b030582d0ebee605cf455d386d8c30fcd")
+        (revision "0"))
+    (package
+      (name "emacs-busybee-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/mswift42/busybee-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1cvj5m45f5ky3w86khh6crvdqrdjxg2z6b34jlm32qpgmn0s5g45"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/mswift42/busybee-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
