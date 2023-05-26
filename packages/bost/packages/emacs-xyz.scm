@@ -2636,6 +2636,126 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-django-theme
+  (let ((commit
+         "86c8142b3eb1addd94a43aa6f1d98dab06401af0")
+        (revision "0"))
+    (package
+      (name "emacs-django-theme")
+      (version (git-version "1.4.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/andrzejsliwa/django-theme.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1azf4p6salga7269l0kf13bqlxf9idp0ys8mm20qpyjpj79p5g9w"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/andrzejsliwa/django-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-espresso-theme
+  (let ((commit
+          "580f673729f02aa07070c5300bedf24733d56e74")
+        (revision "0"))
+    (package
+      (name "emacs-espresso-theme")
+      (version (git-version "1.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/dgutov/espresso-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1fxnsz0v7hizs7wf8pjfm7jwbrm9vg5gvxv1a6ixgfajka79amfw"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/dgutov/espresso-theme")
+      (synopsis "")
+      (description "")
+      (license license:expat))))
+
+(define-public emacs-exotica-theme
+  (let ((commit
+          "ff3ef4f6fa38c93b99becad977c7810c990a4d2f")
+        (revision "0"))
+    (package
+      (name "emacs-exotica-theme")
+      (version (git-version "1.0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jbharat/exotica-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1kp6q55g3dcya4y79x877vqwxa4z2rkkvhs49pkwr3wljf4af2pd"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jbharat/exotica-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flatland-theme
+  (let ((commit
+          "a98a6f19ad4dff0fa3fad1ea487b7d0ef634a19a")
+        (revision "0"))
+    (package
+      (name "emacs-flatland-theme")
+      (version (git-version "0.1.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/gregchapple/flatland-emacs")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "02gbzxd1v003aaj5rn3vr00n4390bhdx2jhpa7nb430fg3s1ppdy"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/gregchapple/flatland-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flatui-theme
+  (let ((commit
+          "9c15db5526c15c8dba55023f5698372b19c2a780")
+        (revision "0"))
+    (package
+      (name "emacs-flatui-theme")
+      (version (git-version "0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/john2x/flatui-theme.el")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0ybgpnbq3b0ml3lzgkispn667acpjww7z6cr7hgwg3j1zrqpwi75"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/john2x/flatui-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 
 (define (build pkg-or-pkgs)
   "Usage
