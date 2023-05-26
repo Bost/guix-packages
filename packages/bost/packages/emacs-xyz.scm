@@ -1684,29 +1684,11 @@ color for syntax, and easily allows multiple variants.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-writeroom-mode bad name
-;; (define-public emacs-writeroom-mode
-;;   (package
-;;     (name "emacs-writeroom-mode")
-;;     (version "3.12")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/joostkremers/writeroom-mode")
-;;                (commit
-;;                  "1fd52848eb58301c864712fd26c4ec37a938cc19")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1y15xkci3fiw7k67vnavjmxchbc9mnmz7qg1pcvxksflxrks6lq2"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-visual-fill-column))
-;;     (home-page
-;;       "https://github.com/joostkremers/writeroom-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
+
+(define-public emacs-writeroom-mode
+  (package
+    (inherit emacs-writeroom)
+    (name "emacs-writeroom-mode")))
 
 ;; emacs-pdf-view unbound
 ;; (define-public emacs-pdf-view-restore
