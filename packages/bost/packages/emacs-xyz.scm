@@ -264,26 +264,6 @@ look at the minibuffer.")
      "emacs auto-complete & company-mode for php")
     (license license:gpl3+)))
 
-(define-public emacs-afternoon-theme
-  (package
-    (name "emacs-afternoon-theme")
-    (version "0.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "http://github.com/osener/emacs-afternoon-theme")
-             (commit "89b1d778a1f8b385775c122f2bd1c62f0fbf931a")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "19d5d6qs5nwmpf26rsb86ranb5p4236qp7p2b4i88cimcmzspylb"))))
-    (build-system emacs-build-system)
-    (home-page "http://github.com/osener/emacs-afternoon-theme")
-    (synopsis "Dark color theme with a deep blue background")
-    (description
-     "Dark color theme with a deep blue background")
-    (license license:gpl3+)))
-
 (define-public emacs-treemacs-extra
   (package
     (inherit emacs-treemacs)
@@ -2294,6 +2274,101 @@ access to GitHub Copilot to use this plugin.")
 ;;       (description "")
 ;;       (license license:gpl3+))))
 
+(define-public emacs-afternoon-theme
+  (let ((commit
+          "89b1d778a1f8b385775c122f2bd1c62f0fbf931a")
+        (revision "0"))
+    (package
+      (name "emacs-afternoon-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/osener/emacs-afternoon-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "19d5d6qs5nwmpf26rsb86ranb5p4236qp7p2b4i88cimcmzspylb"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/osener/emacs-afternoon-theme")
+      (synopsis "Dark color theme with a deep blue background")
+      (description
+       "Dark color theme with a deep blue background")
+      (license license:gpl3+))))
+
+(define-public emacs-ample-zen-theme
+  (let ((commit
+          "b277bb7abd4b6624e8d59f02474b79af50a007bd")
+        (revision "0"))
+    (package
+      (name "emacs-ample-zen-theme")
+      (version (git-version "0.3" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mjwall/ample-zen")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "18z9jl5d19a132k6g1dvwqfbbdh5cx66b2qxlcjsfiqxlxglc2sa"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/mjwall/ample-zen")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-anti-zenburn-theme
+  (let ((commit
+          "dbafbaa86be67c1d409873f57a5c0bbe1e7ca158")
+        (revision "0"))
+    (package
+      (name "emacs-anti-zenburn-theme")
+      (version (git-version "2.5.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/m00natic/anti-zenburn-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1h4lachmrpjiblah4rjd2cpvz6n6qh3i5cdp4wra2dk177h7kj6h"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/m00natic/anti-zenburn-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-apropospriate-theme
+  (let ((commit
+          "9fd52d4b0dec6e805097e7f216db47dc37bc3abc")
+        (revision "0"))
+    (package
+      (name "emacs-apropospriate-theme")
+      (version (git-version "0.2.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/waymondo/apropospriate-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "189n4ds7mhz52hnk57gaqngi3m807cffgvasw9ysv9h42b0mp3kk"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/waymondo/apropospriate-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 (define (build pkg-or-pkgs)
   "Usage
