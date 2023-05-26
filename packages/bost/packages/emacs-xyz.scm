@@ -2756,6 +2756,102 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-gandalf-theme
+  (let ((commit
+          "4e472fc851431458537d458d09c1f5895e338536")
+        (revision "0"))
+    (package
+      (name "emacs-gandalf-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/ptrv/gandalf-theme-emacs")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0sn3y1ilbg532mg941qmzipvzq86q31x86ypaf0h0m4015r7l59v"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list))
+      (home-page
+        "https://github.com/ptrv/gandalf-theme-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-gotham-theme
+  (let ((commit
+          "4b8214df0851bb69b44c3e864568b7e0030a95d2")
+        (revision "0"))
+    (package
+      (name "emacs-gotham-theme")
+      (version (git-version "1.1.9" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://depp.brause.cc/gotham-theme.git")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "19ylb7d5jxr7mwjrmgq7acvb4a1q39909xaz3y6s3kjvsyg426pg"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://depp.brause.cc/gotham-theme.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-grandshell-theme
+  (let ((commit
+          "0ed8e4273607dd4fcaa742b4097259233b09eda6")
+        (revision "0"))
+    (package
+      (name "emacs-grandshell-theme")
+      (version (git-version "" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://framagit.org/steckerhalter/grandshell-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "04vx5p1ffln5b9rxgfi15q735plxcjvskby3c5k4slgwf4p91bpq"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://framagit.org/steckerhalter/grandshell-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-gruber-darker-theme
+  (let ((commit
+          "6de7a37d7b18cf3f0ec51db799f4f2aa6e3e89ff")
+        (revision "0"))
+    (package
+      (name "emacs-gruber-darker-theme")
+      (version (git-version "0.7" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/rexim/gruber-darker-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1bqjn67s0kcnf86qjxz0ayaash4rbwfwqsppqyy7p9qfc00cjix2"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/rexim/gruber-darker-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 (define (build pkg-or-pkgs)
   "Usage
