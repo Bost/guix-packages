@@ -8,6 +8,16 @@
  pkgs
  '(
    (
+    "https://github.com/ankurdave/color-identifiers-mode"
+    ""
+    "/home/bost/.local/share/spacemacs/elpa/28.2/develop/color-identifiers-mode-20230302.226/color-identifiers-mode.el"
+    )
+   ))
+
+(setq
+ pkgs5
+ '(
+   (
     "https://github.com/purcell/color-theme-sanityinc-solarized"
     "2.29"
     "/home/bost/.emacs.d/elpa/28.2/develop/color-theme-sanityinc-solarized-20220917.1350/color-theme-sanityinc-solarized.el"
@@ -332,6 +342,15 @@
 (pcase-defmacro sexp (kw) `(pred (equal ,kw)))
 ;; (sexp--pcase-macroexpander 'provide) ;; => (pred (equal provide))
 
+(setq inputs-to-remove
+      (mapcar (-compose
+               (-partial #'concat "emacs-")
+               #'symbol-name)
+              '(advice cl cl-lib color compile
+                       ;; dash is needed
+                       eieio erc hierarchy json
+                       rx seq subr-x)))
+
 (defun find-sexps (kw lst)
   "Remove nil elements"
   (funcall
@@ -356,7 +375,6 @@
       (list
        (append (find-sexps 'provide-theme lst) (find-sexps 'provide lst))
        ;; (find-sexps 'provide lst)
-       ;; TODO remove cl-lib json seq hierarchy compile cl erc eieio rx color advice
        ;; emacs-dash is needed
        (find-sexps 'require lst)))
     #'reverse
@@ -367,7 +385,7 @@
 (funcall
  (-compose
   (lambda (_)
-    (message "%s" "Run "))
+    (message "%s" "Now run ./create-elisp-package-definition.scm"))
   (lambda (s)
     (f-write-text (format "%s" (pp
                                 `(define pkgs-analyzed
@@ -387,9 +405,11 @@
                 (list (caar r)    ; package name - string
                       (car pkg)   ; repo url - string
                       (cadr pkg)  ; version
-                      (let ((inputs (mapcar #'make-symbol (cadr r))))
-                        `(inputs (list
-                                  ,@inputs)))    ; required packages - list
+                      (let* ((input-syms-rem (mapcar #'intern inputs-to-remove))
+                             (input-syms     (mapcar #'intern (cadr r)))
+                             (inputs (cl-set-difference input-syms input-syms-rem)))
+                        `(propagated-inputs
+                          (list ,@inputs)))    ; required packages - list
                       (caddr pkg) ; file
                       )))))
  ;; (list (car pkgs) (cadr pkgs))
