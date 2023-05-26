@@ -335,33 +335,6 @@ look at the minibuffer.")
 extensive face definitions than the \"official\" Emacs variant.")
     (license license:gpl3+)))
 
-;; Doesn't work. The package gets downloaded anyway
-(define-public emacs-gruvbox
-  (package
-    (name "emacs-gruvbox")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "http://github.com/greduan/emacs-theme-gruvbox")
-               (commit
-                 "736729265bfe5e247cf1b48bcf996e56516b0d89")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "0dgjf86i8179l1nsjyc20chysqmy8yhphpd5lzv2ypx79l4z3jka"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-autothemer))
-    (home-page
-      "http://github.com/greduan/emacs-theme-gruvbox")
-    (synopsis "Retro groove color scheme for Emacs.  Port of the Vim version.")
-    (description
-     "Gruvbox is a retro groove color scheme for Emacs.  It is a port of the Vim
-version originally by Pavel Pertsev found here.")
-    (license license:expat-0)))
-
 (define-public emacs-anaconda-mode
   (let ((commit "ca8edbaa7662d97e4a4416ec9a8d743863303911")
         (revision "0"))
