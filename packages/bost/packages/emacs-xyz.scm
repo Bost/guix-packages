@@ -565,10 +565,9 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
 |#
     (license license:bsd-2)))
 
-;; Doesn't work. The package gets downloaded anyway
-(define-public emacs-lush
+(define-public emacs-lush-theme
   (package
-    (name "emacs-lush")
+    (name "emacs-lush-theme")
     (version "0.1")
     (source
       (origin
