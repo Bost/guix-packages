@@ -2999,6 +2999,30 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-jbeans-theme
+    (let ((commit
+         "a63916a928324c42bfbe3016972c2ecff598b1ae")
+        (revision "0"))
+    (package
+      (name "emacs-jbeans-theme")
+      (version (git-version "1.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/synic/jbeans-emacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1kw5czn7ddzhjhdhb8jpqbd2ha8s68fkk4m4iir09wnqdg6icvl8"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/synic/jbeans-emacs")
+      (synopsis "")
+      (description "")
+      (license license:expat))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
