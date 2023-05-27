@@ -2853,6 +2853,152 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-hc-zenburn-theme
+  (let ((commit
+          "8a1f9d28f503615e5d9b3eac59a2f3c14e75fc20")
+        (revision "0"))
+    (package
+      (name "emacs-hc-zenburn-theme")
+      (version (git-version "2.8.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/bbatsov/zenburn-emacs")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "00zyx2knfchxkml19kf4wfgigsbgzqf47mvbgrmk3nfznnnnyvmf"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/bbatsov/zenburn-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-hemisu-theme
+  (let ((commit
+          "5c206561aa2c844ecdf3e3b672c3235e559ddd7f")
+        (revision "0"))
+    (package
+      (name "emacs-hemisu-theme")
+      (version (git-version "1.0.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/andrzejsliwa/hemisu-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "178dvigiw162m01x7dm8pf61w2n3bq51lvk5q7jzpb9s35pz1697"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/andrzejsliwa/hemisu-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-heroku-theme
+  (let ((commit
+         "8083643fe92ec3a1c3eb82f1b8dc2236c9c9691d")
+        (revision "0"))
+    (package
+      (name "emacs-heroku-theme")
+      (version (git-version "2.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jonathanchu/heroku-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "15hk0v6ck076mahsz4spq75jcnv587fx4d3w50c7bdh423fl0xvx"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list))
+      (home-page
+       "https://github.com/jonathanchu/heroku-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-inkpot-theme
+  (let ((commit
+          "43c008f05b982fa41fc477b2f487ce04023dd073")
+        (revision "0"))
+    (package
+      (name "emacs-inkpot-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://codeberg.org/ideasman42/emacs-theme-inkpot")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "12si69yrp0r34i1fswcfv94y3i2qykcxwpw086lcsylfrx88ydf2"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://codeberg.org/ideasman42/emacs-theme-inkpot")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ir-black-theme
+  (let ((commit
+          "36e930d107604b5763c80294a6f92aaa02e6c272")
+        (revision "0"))
+    (package
+      (name "emacs-ir-black-theme")
+      (version (git-version "1.0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jmdeldin/ir-black-theme.el")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1cy9xwhswj9vahg8zr16r2crm2mm3vczqs73gc580iidasb1q1i2"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jmdeldin/ir-black-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-jazz-theme
+  (let ((commit
+          "d67e09f320d03ace79a05bd28f967b1ac61f2348")
+        (revision "0"))
+    (package
+      (name "emacs-jazz-theme")
+      (version (git-version "1.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/donderom/jazz-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "07m17yqhlc0fc3ga3dhkcrp9h8kr17s00ky3zwr8f2k6chj7xmn2"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list))
+      (home-page
+        "https://github.com/donderom/jazz-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
