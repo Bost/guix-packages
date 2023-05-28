@@ -53,7 +53,8 @@
     ;; (format #t "(basename dst-dir) ~a\n" (basename dst-dir))
     (when dst-dir
       (let* [
-             (emacs-pkg-name        (car pkg))
+             ;; (emacs-pkg-name        (str (car pkg) "-theme"))
+             (emacs-pkg-name        (str (car pkg)))
              (ver                   (caddr pkg))
              (propagated-inputs     (cadddr pkg))
              (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
