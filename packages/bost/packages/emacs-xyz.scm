@@ -3435,6 +3435,293 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-professional-theme
+  (let ((commit
+          "0927d1474049a193f9f366bde5eb1887b9ba20ed")
+        (revision "0"))
+    (package
+      (name "emacs-professional-theme")
+      (version (git-version "0.0.3" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/juanjux/emacs-professional-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0hx7rxa3smdippcpj4j63k0r5l4wflllb0vpnwwknc9j93r7042b"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/juanjux/emacs-professional-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-purple-haze-theme
+  (let ((commit
+          "3e245cbef7cd09e6b3ee124963e372a04e9a6485")
+        (revision "0"))
+    (package
+      (name "emacs-purple-haze-theme")
+      (version (git-version "" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jasonm23/emacs-purple-haze-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "15myw5rkbnnpgzpiipm5xl4cyzymv8hh66x9al4aalb5nf52dckc"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jasonm23/emacs-purple-haze-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-rebecca-theme
+  (let ((commit
+          "4b8b5aae9099185e07c2b4cac4943c7f66a3f003")
+        (revision "0"))
+    (package
+      (name "emacs-rebecca-theme")
+      (version (git-version "1.3.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/vic/rebecca-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0y2kcs6zgi3dijagyz6lxbv6gi2mih8m943fhjrzkj35wfvjmhsz"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/vic/rebecca-theme")
+      (synopsis "")
+      (description "")
+      (license license:expat))))
+
+(define-public emacs-reverse-theme
+  (let ((commit
+          "8319d0d5342890a3530ffa4daafdb7c35feda1ca")
+        (revision "0"))
+    (package
+      (name "emacs-reverse-theme")
+      (version (git-version "0.03" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/emacsorphanage/reverse-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "002ywhjms8ybk7cma2p2i11z3fz6kb0w8mlafysm911rvcq2hg5f"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/emacsorphanage/reverse-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-seti-theme
+  (let ((commit
+          "9d76db0b91d4f574dd96ac80fad41da35bffa109")
+        (revision "0"))
+    (package
+      (name "emacs-seti-theme")
+      (version (git-version "0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/caisah/seti-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "14fqkkvjbq2gj737k3yz3s0dkya33fi0dj4wds99zyzss2xp37f8"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/caisah/seti-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-smyx-theme
+  (let ((commit
+          "6263f6b401bbabaed388c8efcfc0be2e58c51401")
+        (revision "0"))
+    (package
+      (name "emacs-smyx-theme")
+      (version (git-version "0.10" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/tacit7/smyx")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1z2sdnf11wh5hz1rkrbg7fs4ha3zrbj9qnvfzq9005y89d7cs95x"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/tacit7/smyx")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-soft-charcoal-theme
+  (let ((commit
+          "5607ab977fae6638e78b1495e02da8955c9ba19f")
+        (revision "0"))
+    (package
+      (name "emacs-soft-charcoal-theme")
+      (version (git-version "0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/soft-charcoal-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "07056pnjgsgw06c67776qp7jci96iqbzlprbavzz2l1j8ywz8cwm"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/soft-charcoal-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-soft-morning-theme
+  (let ((commit
+          "c0f9c70c97ef2be2a093cf839c4bfe27740a111c")
+        (revision "0"))
+    (package
+      (name "emacs-soft-morning-theme")
+      (version (git-version "0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/soft-morning-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "06q82v1hndvznsqg0r6jrxvgxhycg9m65kay4db4yy0gmc66v2xf"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/soft-morning-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-soft-stone-theme
+  (let ((commit
+          "fb475514cfb02cf30ce358a61c48e46614344d48")
+        (revision "0"))
+    (package
+      (name "emacs-soft-stone-theme")
+      (version (git-version "0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/soft-stone-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "030mf8b0sf9mmzwhg85zh0ccvcg768kckwvbm0yzg7vmq1x46hjl"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/soft-stone-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; (define-public emacs-solarized-theme-theme
+;;   (let ((commit
+;;           "0f0b1129cf51c85904f9e015da4fcca5f5f7a4ce")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-solarized-theme-theme")
+;;       (version (git-version "1.3.0" revision commit))
+;;       (source
+;;         (origin
+;;           (method git-fetch)
+;;           (uri (git-reference
+;;                  (url "https://github.com/bbatsov/solarized-emacs")
+;;                  (commit commit)))
+;;           (file-name (git-file-name name version))
+;;           (sha256
+;;             (base32
+;;               "0l2lcdm2hsjasfkg4rmypa4mvbhglbkkyv0jg88ygc6py9klcccd"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list emacs-solarized))
+;;       (home-page
+;;         "https://github.com/bbatsov/solarized-emacs")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-subatomic256-theme
+  (let ((commit
+          "326177d6f99cd2b1d30df695e67ee3bc441cd96f")
+        (revision "0"))
+    (package
+      (name "emacs-subatomic256-theme")
+      (version (git-version "1.3" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/d11wtq/subatomic256")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1w7mimyqc25phlww20l49wlafnxp6c7dwibvphg3vwl61g0llpq8"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/d11wtq/subatomic256")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-subatomic-theme
+  (let ((commit
+          "9d0ac6aa5272d0285965a48505eb35658c5472b0")
+        (revision "0"))
+    (package
+      (name "emacs-subatomic-theme")
+      (version (git-version "1.8.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/cryon/subatomic")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0fs1y53b025fwd690dl5iipsh3nz5g0jvj8ny1az614697yx90xw"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/cryon/subatomic")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
