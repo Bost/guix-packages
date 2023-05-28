@@ -1236,50 +1236,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-(define-public emacs-planet
-  (package
-    (name "emacs-planet")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/cmack/emacs-planet-theme")
-               (commit
-                 "b0a310ff36565fe22224c407cf59569986698a32")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "1xdj59skmldq5dnarirhwq4qycipas86nbyqwl8zsv0bh20nl1rs"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/cmack/emacs-planet-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-occidental
-  (package
-    (name "emacs-occidental")
-    (version "1.0")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/olcai/occidental-theme")
-               (commit
-                 "fd2db7256d4f78c43d99c3cddb1c39106d479816")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "0pnliw02crqw8hbg088klz54z6s1ih8q2lcn9mq5f12xi752hxm8"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/olcai/occidental-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
 (define-public emacs-gruber-darker
   (package
     (name "emacs-gruber-darker")
