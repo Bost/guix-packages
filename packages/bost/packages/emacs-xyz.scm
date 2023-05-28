@@ -1630,31 +1630,6 @@ color for syntax, and easily allows multiple variants.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-solarized unbound
-;; (define-public emacs-solarized-theme
-;;   (package
-;;     (name "emacs-solarized-theme")
-;;     (version "1.3.0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/bbatsov/solarized-emacs")
-;;                (commit
-;;                  "94e7c342da1b04326028708e5503973d554bd828")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1a5s9j32v04sc5adly98y1zlx3q9i4m3b0zggrbgy56qk10yqdx4"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-solarized))
-;;     (home-page
-;;       "https://github.com/bbatsov/solarized-emacs")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-
 (define-public emacs-writeroom-mode
   (package
     (inherit emacs-writeroom)
@@ -3636,31 +3611,6 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
-;; (define-public emacs-solarized-theme-theme
-;;   (let ((commit
-;;           "0f0b1129cf51c85904f9e015da4fcca5f5f7a4ce")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-solarized-theme-theme")
-;;       (version (git-version "1.3.0" revision commit))
-;;       (source
-;;         (origin
-;;           (method git-fetch)
-;;           (uri (git-reference
-;;                  (url "https://github.com/bbatsov/solarized-emacs")
-;;                  (commit commit)))
-;;           (file-name (git-file-name name version))
-;;           (sha256
-;;             (base32
-;;               "0l2lcdm2hsjasfkg4rmypa4mvbhglbkkyv0jg88ygc6py9klcccd"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-solarized))
-;;       (home-page
-;;         "https://github.com/bbatsov/solarized-emacs")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 (define-public emacs-subatomic256-theme
   (let ((commit
           "326177d6f99cd2b1d30df695e67ee3bc441cd96f")
@@ -4016,6 +3966,30 @@ access to GitHub Copilot to use this plugin.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/emacsmirror/omtose-phellack-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-solarized
+  (let ((commit
+         "0f0b1129cf51c85904f9e015da4fcca5f5f7a4ce")
+        (revision "0"))
+    (package
+      (name "emacs-solarized")
+      (version (git-version "2.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/bbatsov/solarized-emacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0l2lcdm2hsjasfkg4rmypa4mvbhglbkkyv0jg88ygc6py9klcccd"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/bbatsov/solarized-emacs")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
