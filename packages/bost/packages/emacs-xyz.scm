@@ -3722,6 +3722,293 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-sunny-day-theme
+  (let ((commit
+          "420e0a6eb33fcc9b75c2c9e88ab60a975d782a00")
+        (revision "0"))
+    (package
+      (name "emacs-sunny-day-theme")
+      (version (git-version "0.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/sunny-day-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0mhyhkjjwszwl5wzkys9pgvgx9sps9r46k1s1hpzzf4s3vi015mc"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/sunny-day-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-tango-2-theme
+  (let ((commit
+          "64e44c98e41ebbe3b827d54280e3b9615787daaa")
+        (revision "0"))
+    (package
+      (name "emacs-tango-2-theme")
+      (version (git-version "1.0.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://gist.github.com/2024464.git")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1lqkazis9pfcfdsb2lar4l1n4pd085v60xmnlkdrdllwamqachkk"))))
+      (build-system emacs-build-system)
+      (home-page "https://gist.github.com/2024464.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-tango-plus-theme
+  (let ((commit
+          "30495d1ab1df6213ecac008c599b91e6f9244c12")
+        (revision "0"))
+    (package
+      (name "emacs-tango-plus-theme")
+      (version (git-version "2.0.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/tmalsburg/tango-plus-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1qdz7nf4wqv58ck02ralp7l4an1ashh1bnjgqkp444as3vyli2c4"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/tmalsburg/tango-plus-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-tangotango-theme
+  (let ((commit
+          "dbefd8638c36595467efbce5a26da208320ac30a")
+        (revision "0"))
+    (package
+      (name "emacs-tangotango-theme")
+      (version (git-version "0.0.7" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/juba/color-theme-tangotango")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "093izf3zppfcb85bgdmq516sarkmwvwfi4b6jnpd6cnj7wl9zr1j"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/juba/color-theme-tangotango")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-toxi-theme
+  (let ((commit
+          "90c8828b91025adf5adc96011a35d25682991b8a")
+        (revision "0"))
+    (package
+      (name "emacs-toxi-theme")
+      (version (git-version "0.1.2" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/postspectacular/toxi-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1pnsky541m8kzcv81w98jkv0hgajh04hxqlmgddc1y0wbvi849j0"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/postspectacular/toxi-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-twilight-anti-bright-theme
+  (let ((commit
+          "523b95fcdbf4a6a6483af314ad05354a3d80f23f")
+        (revision "0"))
+    (package
+      (name "emacs-twilight-anti-bright-theme")
+      (version (git-version "0.3.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jimeh/twilight-anti-bright-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0g6qqfgbg507r8lgq99zj2b5n3r9m23hpx19m36c3i55mh94dl2h"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jimeh/twilight-anti-bright-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-twilight-bright-theme
+  (let ((commit
+          "322157cb2f3bf7920ecd209dafc31bc1c7959f49")
+        (revision "0"))
+    (package
+      (name "emacs-twilight-bright-theme")
+      (version (git-version "0.1.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jimeh/twilight-bright-theme.el")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1awqc4rvg8693myynb1d4y4dfdaxkd5blnixxs3mdv81l07zyn8c"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jimeh/twilight-bright-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-twilight-theme
+  (let ((commit
+          "77c4741cb3dcf16e53d06d6c2ffdc660c40afb5b")
+        (revision "0"))
+    (package
+      (name "emacs-twilight-theme")
+      (version (git-version "1.0.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/developernotes/twilight-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0d7vd1h0rwwgrh7f9kmdgy2ni0p20da9c8ylwlg33nsb26345wfs"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/developernotes/twilight-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ujelly-theme
+  (let ((commit
+          "bf724ce7806a738d2043544061e5f9bbfc56e674")
+        (revision "0"))
+    (package
+      (name "emacs-ujelly-theme")
+      (version (git-version "1.2.9" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/marktran/color-theme-ujelly")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0pz26q5qfq4wiqcpfkq26f19q5gyiv8q71sq4k77hkss5a5b5fqg"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/marktran/color-theme-ujelly")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-underwater-theme
+  (let ((commit
+          "4eb9ef014f580adc135d91d1cd68d37a310640b6")
+        (revision "0"))
+    (package
+      (name "emacs-underwater-theme")
+      (version (git-version "1.1.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jmdeldin/underwater-theme.el")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1ypxpv5vw2ls757iwrq3zld6k0s29q3kg3spcsl5ks4aqpnkxpva"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jmdeldin/underwater-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-white-sand-theme
+  (let ((commit
+          "729dd52cc1936250183d6761eed406c4be514a71")
+        (revision "0"))
+    (package
+      (name "emacs-white-sand-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/white-sand-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0vlq6wywhc08z4ivyahpagcxbxfww6ipbmvgw4sgc8c6h3vb8v9s"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/white-sand-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-zen-and-art-theme
+  (let ((commit
+          "a7226cbce0bca2501d69a620cb2aeabfc396c232")
+        (revision "0"))
+    (package
+      (name "emacs-zen-and-art-theme")
+      (version (git-version "1.0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/developernotes/zen-and-art-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0dnaxhsw549k54j0mgydm7qbl4pizgipfyzc15f9afsxa107rpnl"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/developernotes/zen-and-art-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
