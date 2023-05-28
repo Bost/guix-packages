@@ -1938,6 +1938,30 @@ color for syntax, and easily allows multiple variants.")
 ;;       (description "Emacs major mode for editing PHP scripts.")
 ;;       (license license:gpl3+))))
 
+(define-public emacs-farmhouse-themes
+  (let ((commit
+         "30c763d01611dad88f1a1ff88451431e2629016d")
+        (revision "0"))
+    (package
+      (name "emacs-farmhouse-themes")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/farmhouse-themes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1ywm5k2zwamqm5h13fydsvahpfml5s292xy1ds1k9j33r44rqcyl"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/emacsorphanage/farmhouse-themes")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define-public emacs-farmhouse-light-mod-theme
   (let ((commit "1008a772e65735852b7fd77ecba16897b32c268b")
         (revision "0"))
@@ -3990,6 +4014,54 @@ access to GitHub Copilot to use this plugin.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/bbatsov/solarized-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-unicode-fonts
+  (let ((commit
+         "44d0a22420c39709d1e1fa659a3f135facf3c986")
+        (revision "0"))
+    (package
+      (name "emacs-unicode-fonts")
+      (version (git-version "0.4.10" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rolandwalker/unicode-fonts")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "00qdwkphwpc5kddn3k3ck1isykbhlvqmfb45877a65274am79pd7"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/rolandwalker/unicode-fonts")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-sublime-themes
+  (let ((commit
+         "60ee40af82eb55b79d5ed4026f1911326311603f")
+        (revision "0"))
+    (package
+      (name "emacs-sublime-themes")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/owainlewis/emacs-color-themes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17fcqvavgyl9cmv1hwcid2bw513vhawlsmac1w2adiz567594i6h"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/owainlewis/emacs-color-themes")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
