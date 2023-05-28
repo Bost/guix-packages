@@ -3023,18 +3023,168 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:expat))))
 
+(define-public emacs-light-soap-theme
+  (let ((commit
+          "76a787bd40c6b567ae68ced7f5d9f9f10725e00d")
+        (revision "0"))
+    (package
+      (name "emacs-light-soap-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/light-soap-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "04dik8z2mg6qr4d3fkd26kg29b4c5crvbnc1lfsrzyrik7ipvsi8"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/light-soap-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-madhat2r-theme
+  (let ((commit
+          "6b387f09de055cfcc15d74981cd4f32f8f9a7323")
+        (revision "0"))
+    (package
+      (name "emacs-madhat2r-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/madhat2r/madhat2r-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1nnjdqqbarzv62ic3ddc2z9wmh93zjia4nvfjmji8213dngrrf88"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/madhat2r/madhat2r-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-majapahit-theme
+  (let ((commit
+          "7200f16f0fd4cc18e8c7d82b62cc351b610609af")
+        (revision "0"))
+    (package
+      (name "emacs-majapahit-theme")
+      (version (git-version "1.0.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/emacsmirror/majapahit-themes")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0r47k03m21w206kq8n3q10374xxw0278l8wilb2ls1bmr2bsd2sa"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list))
+      (home-page
+        "https://github.com/emacsmirror/majapahit-themes")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-material-theme
+  (let ((commit
+          "6823009bc92f82aa3a90e27e1009f7da8e87b648")
+        (revision "0"))
+    (package
+      (name "emacs-material-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "http://github.com/cpaulik/emacs-material-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1c0z2dxfwzgl71xwli3dmyn96xadm5wnhnp5inv5f01mp7iwhf8a"))))
+      (build-system emacs-build-system)
+      (home-page
+        "http://github.com/cpaulik/emacs-material-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-minimal-theme
+  (let ((commit
+          "221b43aad320d226863892dfe4d85465e8eb81ce")
+        (revision "0"))
+    (package
+      (name "emacs-minimal-theme")
+      (version (git-version "0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/anler/minimal-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1zsabgn5mi63ry8jg1li866jcix9mf588ypdfajk8747a6127qd0"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/anler/minimal-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
   (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
+
     (map (compose
+          (lambda (p) (format #t "3 p: ~a\n" p) p)
           (partial (@ (guix derivations) build-derivations) daemon)
+          (lambda (p) (format #t "2 p: ~a\n" p) p)
           list
-          (partial (@ (guix packages) package-derivation) daemon))
+          (lambda (p) (format #t "1 p: ~a\n" p) p)
+          (partial (@ (guix packages) package-derivation) daemon)
+          (lambda (p)
+            (format #t "0 p: ~a\n" p)
+            (format #t "(record? p: ~a\n" (record? p))
+            (format #t "(package? p) p: ~a\n" (package? p))
+            p)
+          )
          (if (list? pkg-or-pkgs) pkg-or-pkgs
-             (list pkg-or-pkgs)))))
+             (list pkg-or-pkgs)))
+
+    #;
+    ((compose
+      (lambda (p) (format #t "3 p: ~a\n" p) p)
+      (partial (@ (guix derivations) build-derivations) daemon)
+      (lambda (p) (format #t "2 p: ~a\n" p) p)
+      list
+      (lambda (p) (format #t "1 p: ~a\n" p) p)
+      (partial (@ (guix packages) package-derivation) daemon)
+      (lambda (p)
+        (format #t "0 p: ~a\n" p)
+        (format #t "(record? p: ~a\n" (record? p))
+        (format #t "(package? p) p: ~a\n" (package? p))
+        p)
+      )
+     (specification->package
+      (format #f "(@ (bost packages emacs-xyz) ~a)" (symbol->string pkg-or-pkgs))
+      ))
+    ))
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
