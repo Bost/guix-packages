@@ -346,7 +346,10 @@
       (mapcar (-compose
                (-partial #'concat "emacs-")
                #'symbol-name)
-              '(advice cl cl-lib color compile
+              '(advice cl cl-lib
+                       wid-edit cus-face
+                       ;; color is needed
+                       compile
                        ;; dash is needed
                        eieio erc hierarchy json
                        rx seq subr-x)))
@@ -405,9 +408,11 @@
                 (list (caar r)    ; package name - string
                       (car pkg)   ; repo url - string
                       (cadr pkg)  ; version
-                      (let* ((input-syms-rem (mapcar #'intern inputs-to-remove))
-                             (input-syms     (mapcar #'intern (cadr r)))
+                      (let* ((input-syms     (mapcar #'intern (cadr r)))
+                             (input-syms-rem (mapcar #'intern inputs-to-remove))
                              (inputs (cl-set-difference input-syms input-syms-rem)))
+                        ;; (message "r: %s" r)
+                        ;; (message "input-syms: %s" input-syms)
                         `(propagated-inputs
                           (list ,@inputs)))    ; required packages - list
                       (caddr pkg) ; file
