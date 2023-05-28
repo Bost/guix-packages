@@ -6,7 +6,12 @@
 (load "/home/bost/dev/dotfiles/guix/home/scm-bin/gcl.scm")
 (load "/home/bost/dev/dotfiles/analyzed.scm")
 
-(use-modules (ice-9 match) (utils) (scm-bin gcl))
+(use-modules
+ (ice-9 match)
+ (utils)
+ (scm-bin gcl)
+ (srfi srfi-1) ;; remove
+ )
 
 ;; (define url "https://github.com/Bost/search-notes")
 ;; (define dst-dir "/tmp/search-notes")
@@ -52,30 +57,41 @@
              (ver                   (caddr pkg))
              (propagated-inputs     (cadddr pkg))
              (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
-             (commit (latest-commit-hash dst-dir))]
+             (commit (latest-commit-hash dst-dir))
+
+             (package-specification
+              (remove unspecified?
+                      (list
+                       `(name ,emacs-pkg-name)
+                       `(version (git-version ,ver revision commit))
+                       `(source
+                         (origin
+                           (method git-fetch)
+                           (uri (git-reference
+                                 (url ,url)
+                                 (commit commit)))
+                           (file-name (git-file-name name version))
+                           (sha256
+                            (base32 ,(latest-base32 dst-dir)))))
+                       `(build-system emacs-build-system)
+                       (unless (equal? '(propagated-inputs (list))
+                                       propagated-inputs)
+                         propagated-inputs)
+                       `(home-page ,url)
+                       `(synopsis "") ;; TODO synopsis
+                       `(description "") ;; TODO description
+                       `(license license:gpl3+))))
+             ]
+
+        ;; (format #t "(equal? '(propagated-inputs (list)) propagated-inputs): ~a\n"
+        ;;         (equal? '(propagated-inputs (list)) propagated-inputs))
+        ;; (format #t "package-specification: ~a\n" package-specification)
+
         (pretty-print->string
          `(define-public ,emacs-pkg-name-symbol
             (let ((commit ,commit)
                   (revision "0"))
-             (package
-               (name ,emacs-pkg-name)
-               (version (git-version ,ver revision commit))
-               (source
-                (origin
-                  (method git-fetch)
-                  (uri (git-reference
-                        (url ,url)
-                        (commit commit)))
-                  (file-name (git-file-name name version))
-                  (sha256
-                   (base32 ,(latest-base32 dst-dir)))))
-               (build-system emacs-build-system)
-               ;; TODO don't output '(propagated-inputs (list))'
-               ,propagated-inputs
-               (home-page ,url)
-               (synopsis "") ;; TODO synopsis
-               (description "") ;; TODO description
-               (license license:gpl3+)))))))))
+              (package ,@package-specification))))))))
 
 ;; (define (prepare pkg)
 ;;   (pretty-print->string
