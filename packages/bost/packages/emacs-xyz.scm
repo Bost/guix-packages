@@ -1392,30 +1392,6 @@ color for syntax, and easily allows multiple variants.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-color-theme unbound
-;; (define-public emacs-molokai
-;;   (package
-;;     (name "emacs-molokai")
-;;     (version "0.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/alloy-d/color-theme-molokai")
-;;                (commit
-;;                  "cc53e997e7eff93b58ad16a376a292c1dd66044b")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-color-theme))
-;;     (home-page
-;;       "https://github.com/alloy-d/color-theme-molokai")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; doesn't compile
 ;; (define-public emacs-treemacs-persp
 ;;   (package
@@ -3100,31 +3076,55 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
-;; doesn't compile
-;; (define-public emacs-molokai-theme
-;;   (let ((commit
-;;           "cc53e997e7eff93b58ad16a376a292c1dd66044b")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-molokai-theme")
-;;       (version (git-version "0.1" revision commit))
-;;       (source
-;;         (origin
-;;           (method git-fetch)
-;;           (uri (git-reference
-;;                  (url "https://github.com/alloy-d/color-theme-molokai")
-;;                  (commit commit)))
-;;           (file-name (git-file-name name version))
-;;           (sha256
-;;             (base32
-;;               "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list))
-;;       (home-page
-;;         "https://github.com/alloy-d/color-theme-molokai")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
+;; obsolete - replaced by emacs-color-theme-modern
+(define-public emacs-color-theme
+  (let ((commit
+         "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
+        (revision "0"))
+    (package
+      (name "emacs-color-theme")
+      (version (git-version "6.6.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsattic/color-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "09imx996afh3j207163kg8sc92hd7wljkpban1pnn6f67bgyrvlv"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/emacsattic/color-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-molokai-theme
+  (let ((commit
+         "cc53e997e7eff93b58ad16a376a292c1dd66044b")
+        (revision "0"))
+    (package
+      (name "emacs-molokai-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alloy-d/color-theme-molokai")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-color-theme))
+      (home-page
+       "https://github.com/alloy-d/color-theme-molokai")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 (define-public emacs-monochrome-theme
   (let ((commit
