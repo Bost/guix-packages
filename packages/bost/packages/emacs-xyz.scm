@@ -3291,13 +3291,155 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-occidental-theme
+  (let ((commit
+          "fd2db7256d4f78c43d99c3cddb1c39106d479816")
+        (revision "0"))
+    (package
+      (name "emacs-occidental-theme")
+       (version (git-version "1.0" revision commit))
+       (source
+         (origin
+           (method git-fetch)
+           (uri (git-reference
+                  (url "https://github.com/olcai/occidental-theme")
+                  (commit commit)))
+           (file-name (git-file-name name version))
+           (sha256
+             (base32
+               "0pnliw02crqw8hbg088klz54z6s1ih8q2lcn9mq5f12xi752hxm8"))))
+       (build-system emacs-build-system)
+       (home-page
+         "https://github.com/olcai/occidental-theme")
+       (synopsis "")
+       (description "")
+       (license license:gpl3+))))
+
+(define-public emacs-oldlace-theme
+  (let ((commit
+         "5c6f437203b0783b36a7aff4a578de4a0c8c4ee6")
+        (revision "0"))
+    (package
+      (name "emacs-oldlace-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mswift42/oldlace-theme.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0y9fxrsxp1158fyjp4f69r7g2s7b6nbxlsmsb8clwqc8pmmg2z82"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/mswift42/oldlace-theme.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-organic-green-theme
+  (let ((commit
+         "7ca93a1c42bba1bcced181bd8cc34cb57be39537")
+        (revision "0"))
+    (package
+      (name "emacs-organic-green-theme")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kostafey/organic-green-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1fa27522nb3jqswbii9qsi1csjqw5p6a7lsrylhw2vll8w9v4mma"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/kostafey/organic-green-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-phoenix-dark-mono-theme
+  (let ((commit
+         "a54f515d162148bcb38676980bc2316adb3d7b8b")
+        (revision "0"))
+    (package
+      (name "emacs-phoenix-dark-mono-theme")
+      (version (git-version "2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/j0ni/phoenix-dark-mono")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1zr334qsjrajd2vrrlc1rfm4b4kdw15jfh5d102vj5bp7z7ajhb4"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/j0ni/phoenix-dark-mono")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-phoenix-dark-pink-theme
+  (let ((commit
+         "ddd98a45775be105984ec598384e68df3d3e8046")
+        (revision "0"))
+    (package
+      (name "emacs-phoenix-dark-pink-theme")
+      (version (git-version "3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/j0ni/phoenix-dark-pink")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "02fhna45wq3wja51yrwm0xysdvyck1r0a3dx41i5sh89504gl6a9"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/j0ni/phoenix-dark-pink")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-planet-theme
+  (let ((commit
+         "b0a310ff36565fe22224c407cf59569986698a32")
+        (revision "0"))
+    (package
+      (name "emacs-planet-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/cmack/emacs-planet-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1xdj59skmldq5dnarirhwq4qycipas86nbyqwl8zsv0bh20nl1rs"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/cmack/emacs-planet-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
   (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
-    (format #t "(defined? 'partial): ~a\n" (defined? 'partial))
-
     (map (compose
           (lambda (p) (format #t "3 p: ~a\n" p) p)
           (partial (@ (guix derivations) build-derivations) daemon)
