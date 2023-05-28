@@ -3077,6 +3077,34 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 ;; obsolete - replaced by emacs-color-theme-modern
+;; 1 p: #<derivation /gnu/store/14lgs99ijx9br2w0mkbb8aysirnh9m04-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/0wb11cxfnmbbr885ncdq7f6znqms2jh1-color-theme-6.6.1-0.3a2f6b6 7f290f41ee10>
+;; 2 p: (#<derivation /gnu/store/14lgs99ijx9br2w0mkbb8aysirnh9m04-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/0wb11cxfnmbbr885ncdq7f6znqms2jh1-color-theme-6.6.1-0.3a2f6b6 7f290f41ee10>)
+(define-public color-theme
+  (let ((commit
+         "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
+        (revision "0"))
+    (package
+      (name "color-theme")
+      (version (git-version "6.6.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsattic/color-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "09imx996afh3j207163kg8sc92hd7wljkpban1pnn6f67bgyrvlv"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/emacsattic/color-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; 1 p: #<derivation /gnu/store/qzf1krz6aihx8r4xqh00xhhjl869mhh7-emacs-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/yk14dkv8f6ihxnp5i5lkrk335wbbfyhp-emacs-color-theme-6.6.1-0.3a2f6b6 7f290f6ade10>
+;; 2 p: (#<derivation /gnu/store/qzf1krz6aihx8r4xqh00xhhjl869mhh7-emacs-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/yk14dkv8f6ihxnp5i5lkrk335wbbfyhp-emacs-color-theme-6.6.1-0.3a2f6b6 7f290f6ade10>)
 (define-public emacs-color-theme
   (let ((commit
          "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
@@ -3120,6 +3148,7 @@ access to GitHub Copilot to use this plugin.")
            "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-color-theme))
+      ;; (inputs (list color-theme))
       (home-page
        "https://github.com/alloy-d/color-theme-molokai")
       (synopsis "")
@@ -3199,29 +3228,30 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 ;; doesn't compile
-;; (define-public emacs-noctilux-theme
-;;   (let ((commit
-;;           "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-noctilux-theme")
-;;       (version (git-version "" revision commit))
-;;       (source
-;;         (origin
-;;           (method git-fetch)
-;;           (uri (git-reference
-;;                  (url "https://github.com/sjrmanning/noctilux-theme")
-;;                  (commit commit)))
-;;           (file-name (git-file-name name version))
-;;           (sha256
-;;             (base32
-;;               "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))))
-;;       (build-system emacs-build-system)
-;;       (home-page
-;;         "https://github.com/sjrmanning/noctilux-theme")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
+;; Debugger entered--Lisp error: (void-function noctilux-color-definitions)
+(define-public emacs-noctilux-theme
+  (let ((commit
+          "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
+        (revision "0"))
+    (package
+      (name "emacs-noctilux-theme")
+      (version (git-version "" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/sjrmanning/noctilux-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/sjrmanning/noctilux-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 (define-public emacs-obsidian-theme
   (let ((commit
@@ -3961,6 +3991,31 @@ access to GitHub Copilot to use this plugin.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/developernotes/zen-and-art-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; defines emacs-omtose-darker-theme emacs-omtose-softer-theme
+(define-public emacs-omtose-phellack-theme
+  (let ((commit
+         "f2ebf44421558af985c596910c5e7faa5379d5f8")
+        (revision "0"))
+    (package
+      (name "emacs-omtose-phellack-theme")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsmirror/omtose-phellack-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17wzw9l62q3hsfbyhy0zmnc2k7s9pc0g0s61jxgav2c54i1wkkf4"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/emacsmirror/omtose-phellack-theme")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
