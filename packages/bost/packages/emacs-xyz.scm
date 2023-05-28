@@ -3144,6 +3144,153 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+;; doesn't compile
+;; (define-public emacs-molokai-theme
+;;   (let ((commit
+;;           "cc53e997e7eff93b58ad16a376a292c1dd66044b")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-molokai-theme")
+;;       (version (git-version "0.1" revision commit))
+;;       (source
+;;         (origin
+;;           (method git-fetch)
+;;           (uri (git-reference
+;;                  (url "https://github.com/alloy-d/color-theme-molokai")
+;;                  (commit commit)))
+;;           (file-name (git-file-name name version))
+;;           (sha256
+;;             (base32
+;;               "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list))
+;;       (home-page
+;;         "https://github.com/alloy-d/color-theme-molokai")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-monochrome-theme
+  (let ((commit
+          "bfca67fe7365310bc47ae9ca96c417caada54896")
+        (revision "0"))
+    (package
+      (name "emacs-monochrome-theme")
+      (version (git-version "" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/fxn/monochrome-theme.el")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0jvsss38rgry37dnshxbqxcj7qh1q6iyza58kix47h5wbnrpvszn"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/fxn/monochrome-theme.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-mustang-theme
+  (let ((commit
+          "dda6d04803f1c9b196b620ef564e7768fee15de2")
+        (revision "0"))
+    (package
+      (name "emacs-mustang-theme")
+      (version (git-version "0.3" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/mustang-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0pg3iay0iinf361v4ay8kizdxs5rm23ir556cwwgz3m3gbs0mgsh"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/mustang-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-naquadah-theme
+  (let ((commit
+          "430c3b7bd51922cb616b3f60301f4e2604816ed8")
+        (revision "0"))
+    (package
+      (name "emacs-naquadah-theme")
+      (version (git-version "" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/jd/naquadah-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0z2dn05xgbdfw6rwgsq31rm5dr098dk411qk83fbx2bkdxxfr60w"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/jd/naquadah-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; doesn't compile
+;; (define-public emacs-noctilux-theme
+;;   (let ((commit
+;;           "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-noctilux-theme")
+;;       (version (git-version "" revision commit))
+;;       (source
+;;         (origin
+;;           (method git-fetch)
+;;           (uri (git-reference
+;;                  (url "https://github.com/sjrmanning/noctilux-theme")
+;;                  (commit commit)))
+;;           (file-name (git-file-name name version))
+;;           (sha256
+;;             (base32
+;;               "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))))
+;;       (build-system emacs-build-system)
+;;       (home-page
+;;         "https://github.com/sjrmanning/noctilux-theme")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-obsidian-theme
+  (let ((commit
+          "f45efb2ebe9942466c1db6abbe2d0e6847b785ea")
+        (revision "0"))
+    (package
+      (name "emacs-obsidian-theme")
+      (version (git-version "0.1" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/mswift42/obsidian-theme")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "1d36mdq8b1q1x84a2nb93bwnzlpdldiafh7q7qfjjm9dsgbij73b"))))
+      (build-system emacs-build-system)
+      (home-page
+        "https://github.com/mswift42/obsidian-theme")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
