@@ -3849,6 +3849,46 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-cider-hydra
+  (let ((commit
+          "c3b8a15d72dddfbc390ab6a454bd7e4c765a2c95")
+        (revision "0"))
+    (package
+      (name "emacs-cider-hydra")
+      (version
+        (git-version "0.2.0-snapshot" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/clojure-emacs/cider-hydra")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0qrxja9bxx07m1ij8ly36sib901a6qhczgxsp4ap4wszy63lx93r"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-hydra
+        emacs-cider
+        ;; emacs-cider-inspector
+        ;; emacs-cider-test
+        ;; emacs-cider-repl
+        ;; emacs-cider-mode
+        ;; emacs-cider-macroexpansion
+        ;; emacs-cider-eval
+        ;; emacs-cider-clojuredocs
+        ;; emacs-cider-doc
+        ;; emacs-cider-client
+        ;; emacs-cider-apropos
+        ))
+      (home-page
+        "https://github.com/clojure-emacs/cider-hydra")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
