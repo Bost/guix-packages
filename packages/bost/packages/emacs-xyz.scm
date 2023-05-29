@@ -3889,23 +3889,153 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-flycheck-clj-kondo
+  (let ((commit
+         "ff7bed2315755cfe02ef471edf522e27b78cd5ca")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-clj-kondo")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/borkdude/flycheck-clj-kondo")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0h0cbiifzjfm5ymwf98h6nlkaqavdlxvccdsb1h0yf4246scf251"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-flycheck))
+      (home-page
+       "https://github.com/borkdude/flycheck-clj-kondo")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-joker
+  (let ((commit
+         "93576295fef7a749bf779eeece5edd85e21868e2")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-joker")
+      (version (git-version "1.5.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/candid82/flycheck-joker")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1hz5nlrhbrlwwk8rcjvc3jhj0g9wgm6xw903ap8fxq470mj99gln"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-flycheck))
+      (home-page
+       "https://github.com/candid82/flycheck-joker")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-kaocha-runner
+  (let ((commit
+         "9ba7b47d3a3834964f7fcad389081b3b282f692c")
+        (revision "0"))
+    (package
+      (name "emacs-kaocha-runner")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magnars/kaocha-runner.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0slspzc3zppavmdnw8xpih1iiqyqbyx4mm286lz0naw7g4yrpb12"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-s emacs-parseedn emacs-cider))
+      (home-page
+       "https://github.com/magnars/kaocha-runner.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; Debugger entered--Lisp error: (void-variable counsel-gtags--prompts-alist)
+;; (define-public emacs-counsel-gtags
+;;   (let ((commit
+;;          "1d52eaeffeb60266434d4f7416a108ca058fde91")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-counsel-gtags")
+;;       (version (git-version "0.10" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/FelipeLema/emacs-counsel-gtags")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "13jx6hscdcfqwzk1pcmzrv7frglcnd1ywl22ddxzzymi339r4lyj"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list emacs-counsel))
+;;       (home-page
+;;        "https://github.com/FelipeLema/emacs-counsel-gtags")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-sayid
+  (let ((commit
+         "879aff586336a0ec4d46c0ed4720fb1de22082bd")
+        (revision "0"))
+    (package
+      (name "emacs-sayid")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/clojure-emacs/sayid")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "013afdzz0rvb428pla78an052jvw2q95zzqvnq9z9w16y5yd1n0c"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:include #~(cons "^src/el/" %default-include)))
+      (propagated-inputs (list emacs-cider))
+      (home-page
+       "https://github.com/clojure-emacs/sayid")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
   (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (map (compose
-          (lambda (p) (format #t "3 p: ~a\n" p) p)
+          ;; (lambda (p) (format #t "3 p: ~a\n" p) p)
           (partial (@ (guix derivations) build-derivations) daemon)
-          (lambda (p) (format #t "2 p: ~a\n" p) p)
+          ;; (lambda (p) (format #t "2 p: ~a\n" p) p)
           list
-          (lambda (p) (format #t "1 p: ~a\n" p) p)
+          ;; (lambda (p) (format #t "1 p: ~a\n" p) p)
           (partial (@ (guix packages) package-derivation) daemon)
-          (lambda (p)
-            (format #t "0 p: ~a\n" p)
-            (format #t "(record? p: ~a\n" (record? p))
-            (format #t "(package? p) p: ~a\n" (package? p))
-            p)
+          ;; (lambda (p)
+          ;;   (format #t "0 p: ~a\n" p)
+          ;;   (format #t "(record? p: ~a\n" (record? p))
+          ;;   (format #t "(package? p) p: ~a\n" (package? p))
+          ;;   p)
           )
          (if (list? pkg-or-pkgs) pkg-or-pkgs
              (list pkg-or-pkgs)))
