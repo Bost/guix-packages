@@ -3777,30 +3777,6 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-solarized
-  (let ((commit
-         "0f0b1129cf51c85904f9e015da4fcca5f5f7a4ce")
-        (revision "0"))
-    (package
-      (name "emacs-solarized")
-      (version (git-version "2.0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/bbatsov/solarized-emacs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0l2lcdm2hsjasfkg4rmypa4mvbhglbkkyv0jg88ygc6py9klcccd"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/bbatsov/solarized-emacs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-unicode-fonts
   (let ((commit
          "44d0a22420c39709d1e1fa659a3f135facf3c986")
