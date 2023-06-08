@@ -2785,12 +2785,12 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-majapahit-theme
+(define-public emacs-majapahit-themes
   (let ((commit
           "7200f16f0fd4cc18e8c7d82b62cc351b610609af")
         (revision "0"))
     (package
-      (name "emacs-majapahit-theme")
+      (name "emacs-majapahit-themes")
       (version (git-version "1.0.0" revision commit))
       (source
         (origin
