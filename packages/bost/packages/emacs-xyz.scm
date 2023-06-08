@@ -3995,6 +3995,36 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-kaolin-themes
+  (let ((commit
+         "facb2a08d3179103d4c3a9905b37c87831fe1665")
+        (revision "0"))
+    (package
+      (name "emacs-kaolin-themes")
+      (version (git-version "1.6.8" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ogdenwebb/emacs-kaolin-themes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0r8lc175iswvwwqf2yqdc8sx07m8b8l0mylw0p1gxri45qd69hcq"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        ;; emacs-kaolin-themes-lib
+        ;; emacs-color
+        emacs-map
+        emacs-autothemer))
+      (home-page
+       "https://github.com/ogdenwebb/emacs-kaolin-themes")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
