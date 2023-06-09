@@ -1492,6 +1492,11 @@ color for syntax, and easily allows multiple variants.")
     (inherit emacs-writeroom)
     (name "emacs-writeroom-mode")))
 
+(define-public emacs-origami
+  (package
+    (inherit emacs-origami-el)
+    (name "emacs-origami")))
+
 ;; emacs-pdf-view unbound
 ;; (define-public emacs-pdf-view-restore
 ;;   (package
