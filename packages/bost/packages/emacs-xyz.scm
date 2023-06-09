@@ -563,24 +563,73 @@ directly. There will only be some experimental updates here. Once stable, they
 will be submitted to lsp-mode.")
     (license license:gpl3+)))
 
+
+(define-public emacs-treemacs-mu4e
+  (package
+    (name "emacs-treemacs-mu4e")
+    (version "3.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/Alexander-Miller/treemacs")
+             (commit
+              "f372f2cbfa443c97cb383c2b05a13cb13349cbb6")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "0iyp51y6l4mjag9xfyw6d87p9b3cmca047gax76dajnn0n5shw2v"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:include #~(cons
+                   "^src/"
+                   ;; "^src/extra"
+                   %default-include)))
+    (propagated-inputs
+     (list
+      mu
+      emacs-persp-mode
+      emacs-perspective
+      emacs-projectile
+      emacs-evil
+      emacs-all-the-icons
+      emacs-magit emacs-pfuture emacs-treemacs))
+    (home-page
+     "https://github.com/Alexander-Miller/treemacs")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
 (define-public emacs-treemacs-magit
   (package
     (name "emacs-treemacs-magit")
-    (version "0")
+    (version "3.1")
     (source
       (origin
         (method git-fetch)
         (uri (git-reference
                (url "https://github.com/Alexander-Miller/treemacs")
                (commit
-                 "9986d6cd3d2822db7ae0e6d8a275db7057f3e828")))
+                "f372f2cbfa443c97cb383c2b05a13cb13349cbb6")))
         (file-name (git-file-name name version))
         (sha256
           (base32
-            "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
+           "0iyp51y6l4mjag9xfyw6d87p9b3cmca047gax76dajnn0n5shw2v"))))
     (build-system emacs-build-system)
+    (arguments
+     (list
+      #:include #~(cons
+                   "^src/"
+                   ;; "^src/extra"
+                   %default-include)))
     (propagated-inputs
-      (list emacs-magit emacs-pfuture emacs-treemacs))
+     (list
+      mu
+      emacs-persp-mode
+      emacs-perspective
+      emacs-projectile
+      emacs-evil emacs-all-the-icons emacs-magit emacs-pfuture emacs-treemacs))
     (home-page
       "https://github.com/Alexander-Miller/treemacs")
     (synopsis "")
