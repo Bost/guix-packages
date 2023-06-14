@@ -4124,6 +4124,117 @@ has no concept of @code{TEXT} values; it's all just Lisp objects.  The Lisp
 object @code{nil} corresponds 1:1 with @code{NULL} in the database.")
       (license license:gpl3+))))
 
+(define-public emacs-closql
+  (package
+    (name "emacs-closql")
+    (version "1.2.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacscollective/closql")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1s9riibws28xjn2bjn9qz3m2gvcmrn18b7g5y6am4sy7rgkx3nwx"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-emacsql))
+    (home-page "https://github.com/emacscollective/closql")
+    (synopsis "Store EIEIO objects using EmacSQL")
+    (description
+     "This package stores uniform EIEIO objects in an EmacSQL
+database.  SQLite is used as backend.  This library imposes some restrictions
+on what kind of objects can be stored; it isn't intended to store arbitrary
+objects.  All objects have to share a common superclass and subclasses cannot
+add any additional instance slots.")
+    (license license:gpl3)))
+
+(define-public emacs-forge
+  (package
+     (name "emacs-forge")
+     (version "0.3.2")
+     (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+              (url "https://github.com/magit/forge")
+              (commit (string-append "v" version))))
+        (file-name (git-file-name name version))
+        (sha256
+         (base32 "0p1jlq169hpalhzmjm3h4q3x5xr9kdmz0qig8jwfvisyqay5vbih"))))
+     (build-system emacs-build-system)
+     (arguments
+      `(#:tests? #f                     ;no tests
+        #:phases
+        (modify-phases %standard-phases
+          (add-after 'unpack 'build-info-manual
+            (lambda _
+              (invoke "make" "info")
+              ;; Move the info file to lisp so that it gets installed by the
+              ;; emacs-build-system.
+              (rename-file "docs/forge.info" "lisp/forge.info")))
+          (add-after 'build-info-manual 'chdir-lisp
+            (lambda _
+              (chdir "lisp"))))))
+     (native-inputs
+      (list texinfo))
+     (propagated-inputs
+      (list emacs-closql
+            emacs-dash
+            emacs-emacsql
+            emacs-ghub
+            emacs-let-alist
+            emacs-magit
+            emacs-markdown-mode
+            emacs-yaml))
+     (home-page "https://github.com/magit/forge/")
+     (synopsis "Access Git forges from Magit")
+     (description "Work with Git forges, such as Github and Gitlab, from the
+comfort of Magit and the rest of Emacs.")
+     (license license:gpl3+)))
+
+(define-public emacs-emacsql-sqlite3
+  ;; This commit contains changes necessary for Sqlite 3.38+.
+  (let ((commit "2113618732665f2112cb932a66c0e89c404d8777")
+        (revision "1"))
+    (package
+      (name "emacs-emacsql-sqlite3")
+      (version (git-version "1.0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/cireu/emacsql-sqlite3")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0r8svrd0d4cflx8a8gkynnhafcpv3ksn9rds8dhyx5yibximbzsw"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:tests? #t
+         #:test-command '("emacs" "-Q" "--batch" "-L" "."
+                          "--load" "emacsql-sqlite3-test.el"
+                          "-f" "ert-run-tests-batch-and-exit")
+         #:phases
+         (modify-phases %standard-phases
+           (add-after 'unpack 'embed-path-to-sqlite3
+             (lambda _
+               (substitute* "emacsql-sqlite3.el"
+                 (("\\(executable-find \"sqlite3\"\\)")
+                  (string-append "\"" (which "sqlite3") "\""))))))))
+      (native-inputs
+       (list emacs-ert-runner))
+      (inputs
+       (list sqlite))
+      (propagated-inputs
+       (list emacs-emacsql))
+      (home-page "https://github.com/cireu/emacsql-sqlite3")
+      (synopsis "EmacSQL backend for SQLite")
+      (description "This is yet another EmacSQL backend for SQLite which uses
+official @command{sqlite3} executable to access SQL database.")
+      (license license:gpl3+))))
 
 (define (build pkg-or-pkgs)
   "Usage
