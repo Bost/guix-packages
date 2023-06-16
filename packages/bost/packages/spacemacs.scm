@@ -62,7 +62,7 @@ guix hash -x --serializer=nar .
   wp; guix --install-from-file=./bost/packages/spacemacs.scm
   |#
 
-  (let ((commit "cb832cf01bb945309415078572c77c93716d05cb"))
+  (let ((commit "b1c8f84716cd2e8783e480816232c22a7155b4a6"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
@@ -84,7 +84,7 @@ guix hash -x --serializer=nar .
                       (commit commit)))
                 (sha256
                  (base32
-                  "0fki9rfav1jd8x9nq9x8jvw0f8d7iw0rb1pa2yrarggsw9h3cz09"))
+                  "1ax64jhxw63ji219649v1hb5y4ggx0vc096xsi6jvwvxz5ms8qjp"))
                 (file-name (string-append name "-" version))))
       (build-system trivial-build-system)
       (arguments
