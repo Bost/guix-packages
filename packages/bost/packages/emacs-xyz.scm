@@ -563,7 +563,6 @@ directly. There will only be some experimental updates here. Once stable, they
 will be submitted to lsp-mode.")
     (license license:gpl3+)))
 
-
 (define-public emacs-treemacs-mu4e
   (package
     (name "emacs-treemacs-mu4e")
@@ -734,28 +733,6 @@ fruit salad” syndrome. Unlike Leuven, it remains mostly grayscale, with no
 color for syntax, and easily allows multiple variants.")
     (license license:gpl3+)))
 
-(define-public emacs-tangotango
-  (package
-    (name "emacs-tangotango")
-    (version "0.0.7")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/juba/color-theme-tangotango")
-               (commit
-                 "dbefd8638c36595467efbce5a26da208320ac30a")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "093izf3zppfcb85bgdmq516sarkmwvwfi4b6jnpd6cnj7wl9zr1j"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/juba/color-theme-tangotango")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
 (define-public emacs-helm-cider-history
   (package
     (name "emacs-helm-cider-history")
@@ -801,28 +778,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-(define-public emacs-twilight-bright
-  (package
-    (name "emacs-twilight-bright")
-    (version "0.1.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jimeh/twilight-bright-theme.el")
-             (commit
-              "322157cb2f3bf7920ecd209dafc31bc1c7959f49")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1awqc4rvg8693myynb1d4y4dfdaxkd5blnixxs3mdv81l07zyn8c"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/jimeh/twilight-bright-theme.el")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
 (define-public emacs-lsp-haskell
   (package
     (name "emacs-lsp-haskell")
@@ -843,28 +798,6 @@ color for syntax, and easily allows multiple variants.")
      (list emacs-haskell-mode emacs-lsp-mode))
     (home-page
       "https://github.com/emacs-lsp/lsp-haskell")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-darkmine
-  (package
-    (name "emacs-darkmine")
-    (version "0.5")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/pierre-lecocq/darkmine-theme")
-               (commit
-                 "7f7e82ca03bcad52911fa41fb3e204e32d6ee63e")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "0d2g4iyp8gyfrcc1gkvl40p1shlw1sadswzhry0m1lgbyxiiklrz"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/pierre-lecocq/darkmine-theme")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
@@ -937,50 +870,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-(define-public emacs-soft-stone
-  (package
-    (name "emacs-soft-stone")
-    (version "0.2")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/mswift42/soft-stone-theme")
-             (commit
-              "fb475514cfb02cf30ce358a61c48e46614344d48")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "030mf8b0sf9mmzwhg85zh0ccvcg768kckwvbm0yzg7vmq1x46hjl"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/mswift42/soft-stone-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-twilight-anti-bright
-  (package
-    (name "emacs-twilight-anti-bright")
-    (version "0.3.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jimeh/twilight-anti-bright-theme")
-             (commit
-              "523b95fcdbf4a6a6483af314ad05354a3d80f23f")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0g6qqfgbg507r8lgq99zj2b5n3r9m23hpx19m36c3i55mh94dl2h"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/jimeh/twilight-anti-bright-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
 (define-public emacs-erc-social-graph
   (package
     (name "emacs-erc-social-graph")
@@ -1045,50 +934,6 @@ color for syntax, and easily allows multiple variants.")
      (list emacs-autothemer))
     (home-page
      "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-soft-charcoal
-  (package
-    (name "emacs-soft-charcoal")
-    (version "0.2")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/mswift42/soft-charcoal-theme")
-               (commit
-                 "5607ab977fae6638e78b1495e02da8955c9ba19f")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "07056pnjgsgw06c67776qp7jci96iqbzlprbavzz2l1j8ywz8cwm"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/mswift42/soft-charcoal-theme")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-clues
-  (package
-    (name "emacs-clues")
-    (version "1.0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/emacsfodder/emacs-clues-theme")
-               (commit
-                 "abd61f2b7f3e98de58ca26e6d1230e70c6406cc7")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "118k5bnlk9sc2n04saaxjncmc1a4m1wlf2y7xyklpffkazbd0m72"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/emacsfodder/emacs-clues-theme")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
@@ -2885,34 +2730,6 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 ;; obsolete - replaced by emacs-color-theme-modern
-;; 1 p: #<derivation /gnu/store/14lgs99ijx9br2w0mkbb8aysirnh9m04-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/0wb11cxfnmbbr885ncdq7f6znqms2jh1-color-theme-6.6.1-0.3a2f6b6 7f290f41ee10>
-;; 2 p: (#<derivation /gnu/store/14lgs99ijx9br2w0mkbb8aysirnh9m04-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/0wb11cxfnmbbr885ncdq7f6znqms2jh1-color-theme-6.6.1-0.3a2f6b6 7f290f41ee10>)
-(define-public color-theme
-  (let ((commit
-         "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
-        (revision "0"))
-    (package
-      (name "color-theme")
-      (version (git-version "6.6.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacsattic/color-theme")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "09imx996afh3j207163kg8sc92hd7wljkpban1pnn6f67bgyrvlv"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/emacsattic/color-theme")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-;; 1 p: #<derivation /gnu/store/qzf1krz6aihx8r4xqh00xhhjl869mhh7-emacs-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/yk14dkv8f6ihxnp5i5lkrk335wbbfyhp-emacs-color-theme-6.6.1-0.3a2f6b6 7f290f6ade10>
-;; 2 p: (#<derivation /gnu/store/qzf1krz6aihx8r4xqh00xhhjl869mhh7-emacs-color-theme-6.6.1-0.3a2f6b6.drv => /gnu/store/yk14dkv8f6ihxnp5i5lkrk335wbbfyhp-emacs-color-theme-6.6.1-0.3a2f6b6 7f290f6ade10>)
 (define-public emacs-color-theme
   (let ((commit
          "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
