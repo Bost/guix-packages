@@ -563,78 +563,6 @@ directly. There will only be some experimental updates here. Once stable, they
 will be submitted to lsp-mode.")
     (license license:gpl3+)))
 
-(define-public emacs-treemacs-mu4e
-  (package
-    (name "emacs-treemacs-mu4e")
-    (version "3.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/Alexander-Miller/treemacs")
-             (commit
-              "f372f2cbfa443c97cb383c2b05a13cb13349cbb6")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0iyp51y6l4mjag9xfyw6d87p9b3cmca047gax76dajnn0n5shw2v"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:include #~(cons
-                   "^src/"
-                   ;; "^src/extra"
-                   %default-include)))
-    (propagated-inputs
-     (list
-      mu
-      emacs-persp-mode
-      emacs-perspective
-      emacs-projectile
-      emacs-evil
-      emacs-all-the-icons
-      emacs-magit emacs-pfuture emacs-treemacs))
-    (home-page
-     "https://github.com/Alexander-Miller/treemacs")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-treemacs-magit
-  (package
-    (name "emacs-treemacs-magit")
-    (version "3.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/Alexander-Miller/treemacs")
-               (commit
-                "f372f2cbfa443c97cb383c2b05a13cb13349cbb6")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-           "0iyp51y6l4mjag9xfyw6d87p9b3cmca047gax76dajnn0n5shw2v"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:include #~(cons
-                   "^src/"
-                   ;; "^src/extra"
-                   %default-include)))
-    (propagated-inputs
-     (list
-      mu
-      emacs-persp-mode
-      emacs-perspective
-      emacs-projectile
-      emacs-evil emacs-all-the-icons emacs-magit emacs-pfuture emacs-treemacs))
-    (home-page
-      "https://github.com/Alexander-Miller/treemacs")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
 ;; 44444444444444444444444444444444444444444444
 
 (define-public emacs-centered-cursor-mode
@@ -1039,84 +967,6 @@ color for syntax, and easily allows multiple variants.")
 ;;             emacs-helm))
 ;;     (home-page
 ;;       "https://github.com/emacs-helm/helm-dictionary")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-pcase unbound
-;; (define-public emacs-treemacs-icons-dired
-;;   (package
-;;     (name "emacs-treemacs-icons-dired")
-;;     (version "0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/Alexander-Miller/treemacs")
-;;                (commit
-;;                  "9986d6cd3d2822db7ae0e6d8a275db7057f3e828")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-pcase
-;;             emacs-dired
-;;             emacs-hl-line
-;;             emacs-treemacs))
-;;     (home-page
-;;       "https://github.com/Alexander-Miller/treemacs")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; (define-public emacs-treemacs-evil
-;;   (package
-;;     (name "emacs-treemacs-evil")
-;;     (version "0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/Alexander-Miller/treemacs")
-;;                (commit
-;;                  "9986d6cd3d2822db7ae0e6d8a275db7057f3e828")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-treemacs emacs-evil))
-;;     (home-page
-;;       "https://github.com/Alexander-Miller/treemacs")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; doesn't compile
-;; (define-public emacs-treemacs-persp
-;;   (package
-;;     (name "emacs-treemacs-persp")
-;;     (version "0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/Alexander-Miller/treemacs")
-;;                (commit
-;;                  "9986d6cd3d2822db7ae0e6d8a275db7057f3e828")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0s9i5amc4bx223d3abikyr8cdkzpzbirfb3x6m26l6i430j8zsal"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list ;; emacs-eieio
-;;             emacs-persp-mode
-;;             emacs-treemacs))
-;;     (home-page
-;;       "https://github.com/Alexander-Miller/treemacs")
 ;;     (synopsis "")
 ;;     (description "")
 ;;     (license license:gpl3+)))
@@ -4128,7 +3978,7 @@ official @command{sqlite3} executable to access SQL database.")
 
 (define (build pkg-or-pkgs)
   "Usage
-(build emacs-treemacs)"
+(build <package-name>)"
   (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (map (compose
