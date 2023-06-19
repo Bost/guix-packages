@@ -4053,6 +4053,46 @@ comfort of Magit and the rest of Emacs.")
 official @command{sqlite3} executable to access SQL database.")
       (license license:gpl3+))))
 
+;; (define-public emacs-auctex-latexmk
+;;   (let ((commit
+;;          ;; emacsmirror/auctex-latexmk
+;;          "b00a95e6b34c94987fda5a57c20cfe2f064b1c7a"
+;;          ;; tom-tan/auctex-latexmk
+;;          ;; "4d353522650d7685acbf1d38f7dbc504f734bd84"
+;;          )
+;;         (revision "0"))
+;;     (package
+;;      (name "emacs-auctex-latexmk")
+;;      (version (git-version "1.0.2" revision commit))
+;;      (source
+;;       (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url
+;;               ;; the emacsmirror/auctex-latexmk differs from tom-tan/auctex-latexmk
+;;               "https://github.com/emacsmirror/auctex-latexmk"
+;;               ;; "https://github.com/tom-tan/auctex-latexmk"
+;;               )
+;;              (commit commit)))
+;;        (file-name (git-file-name name version))
+;;        (sha256
+;;         (base32
+;;          ;; emacsmirror/auctex-latexmk
+;;          "0bbvb4aw9frg4fc0z9qkc5xd2s9x65k6vdscy5svsy0h17iacsbb"
+;;          ;; tom-tan/auctex-latexmk
+;;          ;; "0qvscgffmzqk8lkcg3yk91vciim5ygk2m4crk02qn72ipkw5q13m"
+;;          ))))
+;;      (build-system emacs-build-system)
+;;      (propagated-inputs (list emacs-auctex))
+;;      (home-page
+;;       ;; the emacsmirror/auctex-latexmk differs from tom-tan/auctex-latexmk
+;;       "https://github.com/emacsmirror/auctex-latexmk"
+;;       ;; "https://github.com/tom-tan/auctex-latexmk"
+;;       )
+;;      (synopsis "")
+;;      (description "")
+;;      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build emacs-treemacs)"
