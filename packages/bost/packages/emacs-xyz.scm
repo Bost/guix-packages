@@ -4059,6 +4059,33 @@ comfort of Magit and the rest of Emacs.")
 official @command{sqlite3} executable to access SQL database.")
       (license license:gpl3+))))
 
+(define-public emacs-zonokai-emacs
+  (let ((commit
+         "38ee819b711e848437ba6d563594129a0ecac598")
+        (revision "0"))
+    (package
+      (name "emacs-zonokai-emacs")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ZehCnaS34/zonokai-emacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "16ni0va1adpqdnrkiwmpxwrhyanxp5jwbknii2wnbhgq62s7gv43"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list
+                          ;; emacs-color
+                          emacs-dash))
+      (home-page
+       "https://github.com/ZehCnaS34/zonokai-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 ;; (define-public emacs-auctex-latexmk
 ;;   (let ((commit
 ;;          ;; emacsmirror/auctex-latexmk
