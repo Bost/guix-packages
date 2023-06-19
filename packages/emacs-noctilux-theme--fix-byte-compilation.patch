@@ -1,0 +1,25 @@
+From 6c1799bb116a6229080685cc158318c0ea50810a Mon Sep 17 00:00:00 2001
+From: Rostislav Svoboda <Rostislav.Svoboda@gmail.com>
+Date: Mon, 19 Jun 2023 11:13:44 +0200
+Subject: [PATCH] Fix byte-compilation
+
+---
+ noctilux-theme.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/noctilux-theme.el b/noctilux-theme.el
+index 48ece71..a5cdaa5 100644
+--- a/noctilux-theme.el
++++ b/noctilux-theme.el
+@@ -687,7 +687,7 @@ the \"Gen RGB\" column in noctilux-definitions.el to improve them further."
+                   (file-name-as-directory
+                    (file-name-directory load-file-name))))
+ 
+-(create-noctilux-theme)
++(eval-when-compile '(create-noctilux-theme))
+ 
+ (provide-theme 'noctilux)
+ 
+-- 
+2.40.1
+

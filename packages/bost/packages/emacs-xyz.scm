@@ -2851,13 +2851,16 @@ access to GitHub Copilot to use this plugin.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-;; doesn't compile
-;; Debugger entered--Lisp error: (void-function noctilux-color-definitions)
+#|
+Build in fish-shell:
+  guix build --load-path=$dgxp/packages --keep-failed emacs-noctilux-theme
+|#
 (define-public emacs-noctilux-theme
   (let ((commit
           "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
         (revision "0"))
+    ;; (format #t "#### emacs-noctilux-theme %patch-path:\n  ~a\n\n"
+    ;;         (string-join (%patch-path) "\n  "))
     (package
       (name "emacs-noctilux-theme")
       (version (git-version "" revision commit))
@@ -2870,7 +2873,10 @@ access to GitHub Copilot to use this plugin.")
           (file-name (git-file-name name version))
           (sha256
             (base32
-              "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))))
+              "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))
+          (patches
+           (search-patches
+            "emacs-noctilux-theme--fix-byte-compilation.patch"))))
       (build-system emacs-build-system)
       (home-page
         "https://github.com/sjrmanning/noctilux-theme")
