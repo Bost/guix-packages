@@ -4142,6 +4142,34 @@ and implementation of treeview controls using treemacs as a tree renderer.")
                    license:cc-by4.0  ; microsoft/vscode-icons
                    license:expat))))
 
+(define-public emacs-lsp-java
+  (package
+    (name "emacs-lsp-java")
+    (version "3.1")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/emacs-lsp/lsp-java")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1h0hqgjpk5mbylma1fkva0vx45achf0k7ab2c5y8a2449niww90h"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-dap-mode
+           emacs-lsp-mode
+           emacs-markdown-mode
+           emacs-dash
+           emacs-f
+           emacs-ht
+           emacs-request
+           emacs-treemacs))
+    (home-page "https://github.com/emacs-lsp/lsp-java/")
+    (synopsis "Java support for lsp-mode")
+    (description "Emacs Java IDE using Eclipse JDT Language Server.")
+    (license license:gpl3+)))
+
 (define-public emacs-dap-mode
   (package
     (name "emacs-dap-mode")
