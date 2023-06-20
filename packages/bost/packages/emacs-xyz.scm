@@ -4057,6 +4057,107 @@ quick navigation and exploration, while also possessing basic file management
 utilities.")
       (license license:gpl3+))))
 
+(define-public emacs-lsp-treemacs
+  (package
+    (name "emacs-lsp-treemacs")
+    (version "0.4")
+    (source
+     (origin
+       (method (@@ (guix packages) computed-origin-method))
+       (file-name (string-append name "-" version ".tar.gz"))
+       (sha256 #f)
+       (uri
+        (delay
+          (with-imported-modules '((guix build emacs-utils)
+                                   (guix build utils))
+            #~(begin
+                (use-modules (guix build utils)
+                             (guix build emacs-utils))
+                (let* ((dir (string-append "emacs-lsp-treemacs-" #$version)))
+
+                  (set-path-environment-variable
+                   "PATH" '("bin")
+                   (list #+emacs-minimal
+                         #+(canonical-package bash)
+                         #+(canonical-package coreutils)
+                         #+(canonical-package gzip)
+                         #+(canonical-package tar)))
+
+                  ;; Copy the upstream source
+                  (copy-recursively
+                   #+(%emacs-lsp-treemacs-upstream-source
+                      #:commit version #:version version
+                      #:hash
+                      (content-hash
+                       "05ivqa5900139jzjhwc3nggwznhm8564dz4ydcxym2ddd63571k0"))
+                   dir)
+
+                  (with-directory-excursion dir
+                    ;; The icons are unclearly licensed and possibly non-free,
+                    ;; see <https://github.com/emacs-lsp/lsp-treemacs/issues/123>
+                    (with-directory-excursion "icons"
+                      (for-each delete-file-recursively
+                                '("eclipse" "idea" "netbeans")))
+
+                    ;; Also remove any mentions in the source code.
+                    (make-file-writable "lsp-treemacs-themes.el")
+                    (emacs-batch-edit-file "lsp-treemacs-themes.el"
+                      '(progn
+                        (while (search-forward-regexp
+                                "(treemacs-create-theme \"\\([^\"]*\\)\""
+                                nil t)
+                          (pcase (match-string 1)
+                                 ("Iconless" nil)
+                                 (_ (beginning-of-line)
+                                    (kill-sexp)))
+                          (basic-save-buffer)))))
+
+                  (invoke "tar" "cvfa" #$output
+                          "--mtime=@0"
+                          "--owner=root:0"
+                          "--group=root:0"
+                          "--sort=name"
+                          "--hard-dereference"
+                          dir))))))))
+    (build-system emacs-build-system)
+    (arguments
+     (list #:include #~(cons "^icons\\/" %default-include)))
+    (propagated-inputs
+     (list emacs-lsp-mode emacs-treemacs))
+    (home-page "https://github.com/emacs-lsp/lsp-treemacs")
+    (synopsis "Integration between LSP mode and treemacs")
+    (description
+     "This package provides integration between LSP mode and treemacs,
+and implementation of treeview controls using treemacs as a tree renderer.")
+    (license (list license:gpl3+
+                   license:cc-by4.0  ; microsoft/vscode-icons
+                   license:expat))))
+
+(define-public emacs-dap-mode
+  (package
+    (name "emacs-dap-mode")
+    (version "0.7")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacs-lsp/dap-mode")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1zczmcv8562lachkvcwy6njn7zkgny08iznpmrx821wr8mh52wnn"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-bui emacs-lsp-mode emacs-posframe emacs-lsp-treemacs))
+    (home-page "https://emacs-lsp.github.io/dap-mode")
+    (synopsis "Emacs client/library for Debug Adapter Protocol")
+    (description
+     "Dap mode is an Emacs client/library for Debug Adapter
+Protocol (DAP), a wire protocol for communication between client and
+debug server.  It is similar to the LSP but provides integration with
+Debug server.")
+    (license license:gpl3+)))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build <package-name>)"
