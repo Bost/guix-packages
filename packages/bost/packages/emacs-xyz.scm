@@ -3976,6 +3976,87 @@ official @command{sqlite3} executable to access SQL database.")
 ;;      (description "")
 ;;      (license license:gpl3+))))
 
+(define-public emacs-treemacs
+  (let* ((commit
+          "58ed4538a7e5e3481571566101748a2bee29bc1d")
+         (revision "1"))
+    (package
+      (name "emacs-treemacs")
+      (version (git-version "3.1" revision commit)) ;; (version "3.1")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/treemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0166y4pw1njv2dkjkh54f9s16b8n2zihs4r7dxwllcm890rsa067"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #t
+        #:test-command #~(list "make" "-C" "../.." "test")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'fix-makefile
+              (lambda _
+                (substitute* "Makefile"
+                  (("@\\$\\(CASK\\) exec ") "")
+                  ;; Guix does not need to prepare dependencies before testing.
+                  (("test: prepare") "test:"))))
+            (add-after 'fix-makefile 'chdir-elisp
+              ;; Elisp directory is not in root of the source.
+              (lambda _
+                (chdir "src/elisp")))
+            (add-before 'install 'patch-paths
+              (lambda* (#:key inputs #:allow-other-keys)
+                (make-file-writable "treemacs-core-utils.el")
+                (emacs-substitute-variables "treemacs-core-utils.el"
+                  ("treemacs-dir" (string-append #$output "/")))
+                (make-file-writable "treemacs-icons.el")
+                (substitute* "treemacs-icons.el"
+                  (("icons/default")
+                   (string-append (elpa-directory #$output) "/icons/default")))
+                (make-file-writable "treemacs-customization.el")
+                (emacs-substitute-variables "treemacs-customization.el"
+                  ("treemacs-python-executable"
+                   (search-input-file inputs "/bin/python3")))
+                (make-file-writable "treemacs-async.el")
+                (substitute* "treemacs-async.el"
+                  (("src/scripts")
+                   (string-append (elpa-directory #$output) "/scripts")))))
+            (add-after 'install 'install-data
+              (lambda _
+                (with-directory-excursion "../.." ;treemacs root
+                  (copy-recursively
+                   "icons/default"
+                   (string-append (elpa-directory #$output) "/icons/default"))
+                  (copy-recursively
+                   "src/scripts"
+                   (string-append (elpa-directory #$output) "/scripts"))))))))
+      (native-inputs
+       (list emacs-buttercup emacs-el-mock))
+      (inputs
+       (list python))
+      (propagated-inputs
+       (list emacs-ace-window
+             emacs-dash
+             emacs-f
+             emacs-ht
+             emacs-hydra
+             emacs-pfuture
+             emacs-s))
+      (home-page "https://github.com/Alexander-Miller/treemacs")
+      (synopsis "Emacs tree style file explorer")
+      (description
+       "Treemacs is a file and project explorer similar to NeoTree or Vim's
+NerdTree, but largely inspired by the Project Explorer in Eclipse.  It shows
+the file system outlines of your projects in a simple tree layout allowing
+quick navigation and exploration, while also possessing basic file management
+utilities.")
+      (license license:gpl3+))))
+
 (define (build pkg-or-pkgs)
   "Usage
 (build <package-name>)"
