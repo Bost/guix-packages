@@ -4057,6 +4057,15 @@ quick navigation and exploration, while also possessing basic file management
 utilities.")
       (license license:gpl3+))))
 
+(define* (%emacs-lsp-treemacs-upstream-source #:key commit version hash)
+  (origin
+    (method git-fetch)
+    (uri (git-reference
+          (url "https://github.com/emacs-lsp/lsp-treemacs")
+          (commit commit)))
+    (file-name (git-file-name "emacs-lsp-treemacs" version))
+    (hash hash)))
+
 (define-public emacs-lsp-treemacs
   (package
     (name "emacs-lsp-treemacs")
