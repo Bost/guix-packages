@@ -2119,30 +2119,6 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:expat))))
 
-(define-public emacs-exotica-theme
-  (let ((commit
-          "ff3ef4f6fa38c93b99becad977c7810c990a4d2f")
-        (revision "0"))
-    (package
-      (name "emacs-exotica-theme")
-      (version (git-version "1.0.2" revision commit))
-      (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/jbharat/exotica-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "1kp6q55g3dcya4y79x877vqwxa4z2rkkvhs49pkwr3wljf4af2pd"))))
-      (build-system emacs-build-system)
-      (home-page
-        "https://github.com/jbharat/exotica-theme")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-flatland-theme
   (let ((commit
           "a98a6f19ad4dff0fa3fad1ea487b7d0ef634a19a")
@@ -4216,6 +4192,31 @@ Protocol (DAP), a wire protocol for communication between client and
 debug server.  It is similar to the LSP but provides integration with
 Debug server.")
     (license license:gpl3+)))
+
+(define-public emacs-hybrid-mode
+  (let ((commit
+         "26629bf3a5b8d0228be23827bb86dbd8d8087378")
+        (revision "0"))
+    (package
+      (name "emacs-hybrid-mode")
+      (version (git-version "1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/spacemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0srvmjbwdp1ndmvks03ry5pn25fz7w87yrnpyqyq3796g981p1j9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-evil))
+      (home-page
+       "https://github.com/syl20bnr/spacemacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 (define (build pkg-or-pkgs)
   "Usage
