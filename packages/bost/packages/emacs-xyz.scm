@@ -3427,10 +3427,10 @@ Build in fish-shell:
       (description "")
       (license license:gpl3+))))
 
-;; defines emacs-omtose-darker-theme emacs-omtose-softer-theme
+;; Defines emacs-omtose-darker-theme emacs-omtose-softer-theme
 (define-public emacs-omtose-phellack-theme
   (let ((commit
-         "f2ebf44421558af985c596910c5e7faa5379d5f8")
+         "66f99633e199e65bd28641626435e8e59246529a")
         (revision "0"))
     (package
       (name "emacs-omtose-phellack-theme")
@@ -3439,17 +3439,24 @@ Build in fish-shell:
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacsmirror/omtose-phellack-theme")
+               (url
+                "https://github.com/franksn/omtose-phellack-theme"
+                ;; "https://github.com/emacsmirror/omtose-phellack-theme"
+                )
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "17wzw9l62q3hsfbyhy0zmnc2k7s9pc0g0s61jxgav2c54i1wkkf4"))))
+           "0imf2pcf93srm473nvaksw5pw5i4caqxb6aqfbq6xww8gdbqfazy"))))
       (build-system emacs-build-system)
+      (arguments
+       (list
+        ;; contains code for omtose-darker-theme, omtose-softer-theme
+        #:include #~(cons "^variants/" %default-include)))
       (home-page
        "https://github.com/emacsmirror/omtose-phellack-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark theme with cold bluish touch")
+      (description "A dark, soothing theme for Emacs with a cold bluish touch.")
       (license license:gpl3+))))
 
 (define-public emacs-unicode-fonts
