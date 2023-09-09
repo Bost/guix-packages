@@ -1925,31 +1925,6 @@ access to GitHub Copilot to use this plugin.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-chocolate-theme
-  (let ((commit
-          "ccc05f7ad96d3d1332727689bf6250443adc7ec0")
-        (revision "0"))
-    (package
-      (name "emacs-chocolate-theme")
-      (version (git-version "0.2.0" revision commit))
-      (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "http://github.com/SavchenkoValeriy/emacs-chocolate-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "1d8a9jwv9y0sncw24k840c8yyrig30f2d6q2zqlc09f05yzq9p9p"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list emacs-autothemer))
-      (home-page
-        "http://github.com/SavchenkoValeriy/emacs-chocolate-theme")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-clues-theme
   (let ((commit
           "abd61f2b7f3e98de58ca26e6d1230e70c6406cc7")
@@ -2925,30 +2900,6 @@ Build in fish-shell:
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-(define-public emacs-rebecca-theme
-  (let ((commit
-          "4b8b5aae9099185e07c2b4cac4943c7f66a3f003")
-        (revision "0"))
-    (package
-      (name "emacs-rebecca-theme")
-      (version (git-version "1.3.2" revision commit))
-      (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/vic/rebecca-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "0y2kcs6zgi3dijagyz6lxbv6gi2mih8m943fhjrzkj35wfvjmhsz"))))
-      (build-system emacs-build-system)
-      (home-page
-        "https://github.com/vic/rebecca-theme")
-      (synopsis "")
-      (description "")
-      (license license:expat))))
 
 (define-public emacs-reverse-theme
   (let ((commit
