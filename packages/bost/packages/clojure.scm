@@ -663,3 +663,28 @@ dependency graph expansion and the creation of classpaths.")
 indicated by git SHAs.  This library provides this functionality and also
 keeps a cache of git directories and working trees that can be reused.")
     (license license:epl1.0)))
+
+(define-public clojure-lsp
+  (package
+    (name "clojure-lsp")
+    (version "2023.05.04-19.38.01")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://github.com/clojure-lsp/clojure-lsp/releases/download/"
+             version
+             "/clojure-lsp-native-static-linux-amd64.zip"))
+       (sha256
+        (base32 "1zycljfrxaxicbjbpqjqrxdrzp2m6cn3my5p280fb3j5ynmjs54v"))))
+    (build-system copy-build-system)
+    (native-inputs (list unzip))
+    (arguments
+     `(#:install-plan
+       '(("clojure-lsp" "bin/"))))
+    (home-page "https://clojure.org/releases/tools")
+    (synopsis "CLI tools for the Clojure programming language")
+    (description "The Clojure command line tools can be used to start a
+Clojure repl, use Clojure and Java libraries, and start Clojure programs.")
+    (license license:epl1.0)))
+
