@@ -21,6 +21,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (bost packages clojure)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages)
   #:use-module (gnu packages java)
   #:use-module (gnu packages maven)
