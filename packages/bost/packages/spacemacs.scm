@@ -25,6 +25,7 @@
   #:use-module (gnu packages emacs)
 
   #:use-module (guix build-system trivial)
+  #:use-module (guix build-system emacs)
   #:use-module (guix download)
   #:use-module (guix gexp)
   #:use-module (guix git-download)
@@ -34,20 +35,6 @@
 
 (define m (module-name-for-logging))
 ;; (format #t "~a evaluating module ...\n" m)
-
-#|
-,use (gnu)
-,use (guix)
-,use (gnu packages base)
-,use (guix store)
-(define daemon (open-connection))
-(load "/home/bost/dev/guix-packages/packages/bost/utils.scm")
-(load "/home/bost/dev/guix-packages/packages/bost/packages/spacemacs.scm")
-,use (bost packages spacemacs)
-;; ,module (bost packages spacemacs)
-(define d (package-derivation daemon spacemacs-rolling-release))
-(build-derivations daemon (list d))
-|#
 
 ;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
@@ -86,17 +73,20 @@ guix hash -x --serializer=nar .
                  (base32
                   "1ax64jhxw63ji219649v1hb5y4ggx0vc096xsi6jvwvxz5ms8qjp"))
                 (file-name (string-append name "-" version))))
-      (build-system trivial-build-system)
+      (build-system emacs-build-system)
       (arguments
-       (list
-        #:modules '((guix build utils))
-        #:builder '(begin (use-modules (guix build utils))
-                          (let* [(f "[spacemacs-rolling-release]")
-                                 (outd (assoc-ref %outputs "out"))
-                                 (srcf (assoc-ref %build-inputs "source"))]
-                            (write (format #f "~a outd: ~a" f outd))
-                            (write (format #f "~a srcf: ~a" f srcf))
-                            (copy-recursively srcf outd)))))
+       (let ((code-dir "layers/+distributions/spacemacs-bootstrap/local"))
+         (list
+          #:include
+          #~(cons (format #f "^~a/" #$code-dir) %default-include)
+          #:phases
+          #~(modify-phases %standard-phases
+              (add-after 'install 'install-info
+                (lambda* (#:key inputs #:allow-other-keys)
+                  (let [(src (search-input-directory inputs #$code-dir))
+                        (dst (string-append #$output "/share/emacs/site-lisp"))]
+                    (copy-recursively src dst))))))))
+
       (synopsis "Automatically configured emacs for both emacs and vim users")
       (description "Spacemacs is a configuration framework for emacs designed to
 work well for people with experience using either emacs or vim.  It has 4
@@ -157,6 +147,27 @@ the use of spacemacs without conflicting with the base emacs."
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (testsymb 'emacs-spacemacs)
+
+(define (build pkg-or-pkgs)
+  "Usage
+(build spacemacs-rolling-release)"
+  (let [(daemon ((@ (guix store) open-connection)))]
+    (define (partial fun . args) (lambda x (apply fun (append args x))))
+    (map (compose
+          ;; (lambda (p) (format #t "3 p: ~a\n" p) p)
+          (partial (@ (guix derivations) build-derivations) daemon)
+          ;; (lambda (p) (format #t "2 p: ~a\n" p) p)
+          list
+          ;; (lambda (p) (format #t "1 p: ~a\n" p) p)
+          (partial (@ (guix packages) package-derivation) daemon)
+          ;; (lambda (p)
+          ;;   (format #t "0 p: ~a\n" p)
+          ;;   (format #t "(record? p: ~a\n" (record? p))
+          ;;   (format #t "(package? p) p: ~a\n" (package? p))
+          ;;   p)
+          )
+         (if (list? pkg-or-pkgs) pkg-or-pkgs
+             (list pkg-or-pkgs)))))
 
 ;; (format #t "~a module evaluated\n" m)
 
