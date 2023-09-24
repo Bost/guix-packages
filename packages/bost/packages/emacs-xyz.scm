@@ -206,7 +206,7 @@ theme pair.")
       (license license:gpl3+))))
 
 (define-public emacs-anaconda-mode
-  (let ((commit "ca8edbaa7662d97e4a4416ec9a8d743863303911")
+  (let ((commit "6e6417079d991894165f03d257477180789dd74a")
         (revision "0"))
       (package
         (name "emacs-anaconda-mode")
@@ -220,7 +220,7 @@ theme pair.")
            (file-name (git-file-name name version))
            (sha256
             (base32
-             "1vlqrpxsy0xydm29vl39blwp7y82x9cr4mmaj8mji3hgjyfwph9m"))))
+             "1nch57by9rc40zxafzwlfbdbg5zdr009g4qrqymll9i10145aa4a"))))
         (build-system emacs-build-system)
         (arguments
          (list
@@ -1640,7 +1640,7 @@ Requires an OpenAI API key.")
       (license license:gpl3+))))
 
 (define-public emacs-pythonic
-  (let ((commit "c18a5bd8cb2ba59014b6b29b5bf1903bd2476a07")
+  (let ((commit "0d08f98ab32b2799bfa7e6edc03aa5acd980c482")
         (revision "0"))
     (package
       (name "emacs-pythonic")
@@ -1654,7 +1654,7 @@ Requires an OpenAI API key.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "11fps8ah3xmacfd9bglq8yaafzh37i1qpiyhfdphhsy0jqy990wz"))))
+           "1l37w1mn5w3ijnh1h1nxv1yjxqrb4llmashzh7vjdjzfdm750f45"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list emacs-f
