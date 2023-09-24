@@ -11,10 +11,11 @@ Use this repo as a [channel](https://guix.gnu.org/manual/en/html_node/Channels.h
 See `info "(guix) Invoking guix import"`
 "Add a package to the distribution with as little work as possible"
 
-```shell
-guix pull                    && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
+```fish
+set load_path $dev/guix-packages/packages/bost/packages/patches
+guix pull                    && guix upgrade --load-path=$load_path
 # or eventually
-guix pull --allow-downgrades && guix upgrade --load-path=$dev/guix-packages/packages/bost/packages/patches
+guix pull --allow-downgrades && guix upgrade --load-path=$load_path
 
 # show installed versions
 gxI '(emacs-spacemacs|spacemacs-rolling-release)'
