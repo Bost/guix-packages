@@ -1,5 +1,6 @@
 (define-module (bost packages emacs-xyz)
   ;; #:use-module (utils)
+  #:use-module (bost utils)  ;; for build
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -4175,45 +4176,6 @@ Debug server.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-(define (build pkg-or-pkgs)
-  "Usage
-(build <package-name>)"
-  (let [(daemon ((@ (guix store) open-connection)))]
-    (define (partial fun . args) (lambda x (apply fun (append args x))))
-    (map (compose
-          ;; (lambda (p) (format #t "3 p: ~a\n" p) p)
-          (partial (@ (guix derivations) build-derivations) daemon)
-          ;; (lambda (p) (format #t "2 p: ~a\n" p) p)
-          list
-          ;; (lambda (p) (format #t "1 p: ~a\n" p) p)
-          (partial (@ (guix packages) package-derivation) daemon)
-          ;; (lambda (p)
-          ;;   (format #t "0 p: ~a\n" p)
-          ;;   (format #t "(record? p: ~a\n" (record? p))
-          ;;   (format #t "(package? p) p: ~a\n" (package? p))
-          ;;   p)
-          )
-         (if (list? pkg-or-pkgs) pkg-or-pkgs
-             (list pkg-or-pkgs)))
-
-    ;; ((compose
-    ;;   (lambda (p) (format #t "3 p: ~a\n" p) p)
-    ;;   (partial (@ (guix derivations) build-derivations) daemon)
-    ;;   (lambda (p) (format #t "2 p: ~a\n" p) p)
-    ;;   list
-    ;;   (lambda (p) (format #t "1 p: ~a\n" p) p)
-    ;;   (partial (@ (guix packages) package-derivation) daemon)
-    ;;   (lambda (p)
-    ;;     (format #t "0 p: ~a\n" p)
-    ;;     (format #t "(record? p: ~a\n" (record? p))
-    ;;     (format #t "(package? p) p: ~a\n" (package? p))
-    ;;     p)
-    ;;   )
-    ;;  (specification->package
-    ;;   (format #f "(@ (bost packages emacs-xyz) ~a)" (symbol->string pkg-or-pkgs))
-    ;;   ))
-    ))
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")

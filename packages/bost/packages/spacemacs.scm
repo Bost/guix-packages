@@ -17,7 +17,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (bost packages spacemacs)
-  #:use-module (bost utils)
+  #:use-module (bost utils)  ;; for build
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages bash)
@@ -147,27 +147,6 @@ the use of spacemacs without conflicting with the base emacs."
 (define-public emacs-spacemacs
   (generate-wrapped-emacs-spacemacs emacs spacemacs-rolling-release))
 (testsymb 'emacs-spacemacs)
-
-(define (build pkg-or-pkgs)
-  "Usage
-(build spacemacs-rolling-release)"
-  (let [(daemon ((@ (guix store) open-connection)))]
-    (define (partial fun . args) (lambda x (apply fun (append args x))))
-    (map (compose
-          ;; (lambda (p) (format #t "3 p: ~a\n" p) p)
-          (partial (@ (guix derivations) build-derivations) daemon)
-          ;; (lambda (p) (format #t "2 p: ~a\n" p) p)
-          list
-          ;; (lambda (p) (format #t "1 p: ~a\n" p) p)
-          (partial (@ (guix packages) package-derivation) daemon)
-          ;; (lambda (p)
-          ;;   (format #t "0 p: ~a\n" p)
-          ;;   (format #t "(record? p: ~a\n" (record? p))
-          ;;   (format #t "(package? p) p: ~a\n" (package? p))
-          ;;   p)
-          )
-         (if (list? pkg-or-pkgs) pkg-or-pkgs
-             (list pkg-or-pkgs)))))
 
 ;; (format #t "~a module evaluated\n" m)
 
