@@ -123,6 +123,35 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match))
 
+(define-public emacs-lua-mode
+  (package
+    (name "emacs-lua-mode")
+    (version "20210802")
+    (home-page "https://github.com/immerrr/lua-mode/")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url home-page)
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0r3svhggdml2n256k3b0zmbjnw51p46gan6dg07bhavpfrqs5196"))))
+    (build-system emacs-build-system)
+    (arguments
+     `(#:tests? #t
+       #:test-command '("buttercup" "-l" "lua-mode.el")))
+    (native-inputs
+     (list
+      ;; emacs-buttercup-1.25
+      emacs-buttercup
+      lua))
+    (synopsis "Major mode for lua")
+    (description
+     "This Emacs package provides a mode for @uref{https://www.lua.org/,
+Lua programming language}.")
+    (license license:gpl2+)))
+
 (define-public emacs-color-theme-sanityinc-tomorrow
   (package
     (name "emacs-color-theme-sanityinc-tomorrow")
@@ -4176,6 +4205,8 @@ Debug server.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
