@@ -46,7 +46,7 @@ spacemacs initialization file"
           (concat ,spacemacs "/"))
     ;; For development purposes
     (setq spacemacs-start-directory
-          (concat (getenv "dev") "/.spguimacs.d" "/"))
+          (concat "~/.emacs.d.spguimacs" "/"))
     (setq spacemacs-data-directory
           (concat (or (getenv "XDG_DATA_DIR")
                       (concat (getenv "HOME") "/.local/share"))
