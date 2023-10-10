@@ -47,7 +47,7 @@
           (partial (@ (guix packages) package-derivation) daemon)
           ;; (lambda (p)
           ;;   (format #t "0 p: ~a\n" p)
-          ;;   (format #t "(record? p: ~a\n" (record? p))
+          ;;   (format #t "(record? p): ~a\n" (record? p))
           ;;   (format #t "(package? p) p: ~a\n" (package? p))
           ;;   p)
           )

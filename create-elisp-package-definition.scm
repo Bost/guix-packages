@@ -1,10 +1,14 @@
 #!/run/current-system/profile/bin/guile
 !#
 
-(load "/home/bost/dev/dotfiles/guix/home/common/settings.scm")
-(load "/home/bost/dev/dotfiles/guix/home/utils.scm")
-(load "/home/bost/dev/dotfiles/guix/home/scm-bin/gcl.scm")
-(load "/home/bost/dev/dotfiles/analyzed.scm")
+(map load
+     (list
+      "/home/bost/dev/dotfiles/guix/common/settings.scm"
+      "/home/bost/dev/dotfiles/guix/common/utils.scm"
+      "/home/bost/dev/dotfiles/guix/home/common/scm-bin/gcl.scm"
+      "/home/bost/dev/dotfiles/analyzed.scm"
+      ))
+
 
 (use-modules
  (ice-9 match)
@@ -55,44 +59,47 @@
       (let* [
              ;; (emacs-pkg-name        (str (car pkg) "-theme"))
              (emacs-pkg-name        (str (car pkg)))
-             (ver                   (caddr pkg))
-             (propagated-inputs     (cadddr pkg))
-             (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
-             (commit (latest-commit-hash dst-dir))
-
-             (package-specification
-              (remove unspecified?
-                      (list
-                       `(name ,emacs-pkg-name)
-                       `(version (git-version ,ver revision commit))
-                       `(source
-                         (origin
-                           (method git-fetch)
-                           (uri (git-reference
-                                 (url ,url)
-                                 (commit commit)))
-                           (file-name (git-file-name name version))
-                           (sha256
-                            (base32 ,(latest-base32 dst-dir)))))
-                       `(build-system emacs-build-system)
-                       (unless (equal? '(propagated-inputs (list))
-                                       propagated-inputs)
-                         propagated-inputs)
-                       `(home-page ,url)
-                       `(synopsis "") ;; TODO synopsis
-                       `(description "") ;; TODO description
-                       `(license license:gpl3+))))
              ]
+        (format #t "emacs-pkg-name ~a\n" emacs-pkg-name)
+        (let* [
+               (ver                   (caddr pkg))
+               (propagated-inputs     (cadddr pkg))
+               (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
+               (commit (latest-commit-hash dst-dir))
 
-        ;; (format #t "(equal? '(propagated-inputs (list)) propagated-inputs): ~a\n"
-        ;;         (equal? '(propagated-inputs (list)) propagated-inputs))
-        ;; (format #t "package-specification: ~a\n" package-specification)
+               (package-specification
+                (remove unspecified?
+                        (list
+                         `(name ,emacs-pkg-name)
+                         `(version (git-version ,ver revision commit))
+                         `(source
+                           (origin
+                             (method git-fetch)
+                             (uri (git-reference
+                                   (url ,url)
+                                   (commit commit)))
+                             (file-name (git-file-name name version))
+                             (sha256
+                              (base32 ,(latest-base32 dst-dir)))))
+                         `(build-system emacs-build-system)
+                         (unless (equal? '(propagated-inputs (list))
+                                         propagated-inputs)
+                           propagated-inputs)
+                         `(home-page ,url)
+                         `(synopsis "") ;; TODO synopsis
+                         `(description "") ;; TODO description
+                         `(license license:gpl3+))))
+               ]
 
-        (pretty-print->string
-         `(define-public ,emacs-pkg-name-symbol
-            (let ((commit ,commit)
-                  (revision "0"))
-              (package ,@package-specification))))))))
+          (format #t "(equal? '(propagated-inputs (list)) propagated-inputs): ~a\n"
+                  (equal? '(propagated-inputs (list)) propagated-inputs))
+          (format #t "package-specification: ~a\n" package-specification)
+
+          (pretty-print->string
+           `(define-public ,emacs-pkg-name-symbol
+              (let ((commit ,commit)
+                    (revision "0"))
+                (package ,@package-specification)))))))))
 
 ;; (define (prepare pkg)
 ;;   (pretty-print->string
