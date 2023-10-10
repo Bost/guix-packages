@@ -3821,17 +3821,19 @@ comfort of Magit and the rest of Emacs.")
           (base32 "0r8svrd0d4cflx8a8gkynnhafcpv3ksn9rds8dhyx5yibximbzsw"))))
       (build-system emacs-build-system)
       (arguments
-       `(#:tests? #t
-         #:test-command '("emacs" "-Q" "--batch" "-L" "."
+       (list
+         #:tests? #t
+         #:test-command #~(list
+                           "emacs" "-Q" "--batch" "-L" "."
                           "--load" "emacsql-sqlite3-test.el"
                           "-f" "ert-run-tests-batch-and-exit")
          #:phases
-         (modify-phases %standard-phases
-           (add-after 'unpack 'embed-path-to-sqlite3
-             (lambda _
-               (substitute* "emacsql-sqlite3.el"
-                 (("\\(executable-find \"sqlite3\"\\)")
-                  (string-append "\"" (which "sqlite3") "\""))))))))
+         #~(modify-phases %standard-phases
+             (add-after 'unpack 'embed-path-to-sqlite3
+               (lambda _
+                 (substitute* "emacsql-sqlite3.el"
+                   (("\\(executable-find \"sqlite3\"\\)")
+                    (string-append "\"" (which "sqlite3") "\""))))))))
       (native-inputs
        (list emacs-ert-runner))
       (inputs
