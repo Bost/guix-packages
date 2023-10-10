@@ -4179,6 +4179,79 @@ Debug server.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-kill-buffers
+  (let ((commit
+         "e9e4755feab84a0fd13e1a2eefd57b0d376132f5")
+        (revision "0"))
+    (package
+      (name "emacs-kill-buffers")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/kill-buffers")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1w6m9xbgxnkg84wyqaplc30gz6zqscx5qrmswf9qkiagzyiw7rrj"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/Bost/kill-buffers")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-copy-sexp
+  (let ((commit
+         "97f39a0651e50765e5f0d669b5566f251a2a9a7b")
+        (revision "0"))
+    (package
+      (name "emacs-copy-sexp")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/copy-sexp")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1pd6nrgv6b6134w60zlxb3dnvn3nw8975wq5h6smach9cfxf7iry"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-smartparens emacs-eval-sexp-fu-el))
+      (home-page "https://github.com/Bost/copy-sexp")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-jump-last
+  (let ((commit
+         "af307c95ef65ae42d99bdd283baa2fe43a4e6d2d")
+        (revision "0"))
+    (package
+      (name "emacs-jump-last")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/jump-last")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0kis82h8595r3q47z56qdlhri7yk0ykbvvy0f5f2nmykgqp6m53g"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-goto-chg))
+      (home-page "https://github.com/Bost/jump-last")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
