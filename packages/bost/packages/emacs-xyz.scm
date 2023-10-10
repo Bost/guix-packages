@@ -4252,6 +4252,33 @@ Debug server.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-tweaks
+  (let ((commit
+         "ec5160bb815767054fbb8f4a14a3643a4d5fa60c")
+        (revision "0"))
+    (package
+      (name "emacs-tweaks")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/tweaks")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1c2xm1pkzv8zhzy9xah0zampd3a3j6vabx16wnxyznc0kh46z6qf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-kill-buffers
+             emacs-jump-last
+             emacs-drag-stuff
+             emacs-copy-sexp))
+      (home-page "https://github.com/Bost/tweaks")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
