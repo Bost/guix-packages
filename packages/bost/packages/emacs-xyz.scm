@@ -487,19 +487,19 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
     (name "emacs-popwin")
     (version "0.1")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/emacsorphanage/popwin")
-               (commit
-                 "1e57430615b60bf33e85228f7cc625537f468241")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "10p4mvn9hva6ji7xvmbhdyjysdcmmr5m2787277mkl8cw1fhfdxz"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacsorphanage/popwin")
+             (commit
+              "1e57430615b60bf33e85228f7cc625537f468241")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "10p4mvn9hva6ji7xvmbhdyjysdcmmr5m2787277mkl8cw1fhfdxz"))))
     (build-system emacs-build-system)
     (home-page
-      "https://github.com/emacsorphanage/popwin")
+     "https://github.com/emacsorphanage/popwin")
     (synopsis "Popup Window Manager for Emacs.")
     (description
      "Popup window manager for Emacs which makes you free from the hell of
