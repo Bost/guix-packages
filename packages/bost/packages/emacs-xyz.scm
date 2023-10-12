@@ -485,18 +485,18 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
 (define-public emacs-popwin
   (package
     (name "emacs-popwin")
-    (version "0.1")
+    (version "1.2.0")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/emacsorphanage/popwin")
              (commit
-              "1e57430615b60bf33e85228f7cc625537f468241")))
+              "b64499bb29663886b8f09f308eac609ce03fa601")))
        (file-name (git-file-name name version))
        (sha256
         (base32
-         "10p4mvn9hva6ji7xvmbhdyjysdcmmr5m2787277mkl8cw1fhfdxz"))))
+         "1nig4rxkbks9dbppcjpwd7hhaiqj404m4pxijy44hn7qhy9fp8n1"))))
     (build-system emacs-build-system)
     (home-page
      "https://github.com/emacsorphanage/popwin")
