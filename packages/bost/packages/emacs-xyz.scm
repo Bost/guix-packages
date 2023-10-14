@@ -148,12 +148,11 @@ extensive face definitions than the \"official\" Emacs variant.")
     (license license:gpl3+)))
 
 (define-public emacs-color-identifiers-mode
-  (let ((commit
-         "a26d00d898e0a3295cb7da9323046397223ea1fe")
+  (let ((commit "a26d00d898e0a3295cb7da9323046397223ea1fe")
         (revision "0"))
     (package
       (name "emacs-color-identifiers-mode")
-      (version (git-version "" revision commit))
+      (version (git-version "1.1" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -168,15 +167,15 @@ extensive face definitions than the \"official\" Emacs variant.")
       (propagated-inputs (list emacs-dash))
       (home-page
        "https://github.com/ankurdave/color-identifiers-mode")
-      (synopsis "Emacs minor mode to highlight each source code identifier uniquely based on
-its name")
+      (synopsis "Minor mode for coloring identifiers based on their names")
       (description
        "Emacs minor mode that highlights each source code identifier uniquely based
-on its name. It is inspired by a post by Evan Brooks. Currently it supports
-Scala (scala-mode2), JavaScript (js-mode and js2-mode), Ruby, Python, Emacs
-Lisp, Clojure, C, C++, Rust, Java, and Go. You can add support for your
-favorite mode by modifying `color-identifiers:modes-alist' and optionally
-calling `color-identifiers:set-declaration-scan-fn'.")
+on its name.  It is inspired by a @uref{https://medium.com/p/3a6db2743a1e/,post
+by Evan Brooks}.  Currently it supports Scala (scala-mode2),
+JavaScript (js-mode and js2-mode), Ruby, Python, Emacs Lisp, Clojure, C, C++,
+Rust, Java, and Go.  You can add support for your favorite mode by modifying
+`color-identifiers:modes-alist' and optionally calling
+`color-identifiers:set-declaration-scan-fn'.")
       (license license:gpl3+))))
 
 (define-public emacs-color-theme-sanityinc-solarized
