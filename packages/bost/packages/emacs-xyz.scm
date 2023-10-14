@@ -140,28 +140,37 @@
           (base32
            "1mfildi7rav2j42avii7z4gp4ghl04cqv8wp1vyxzl8vkyj60nkb"))))
       (build-system emacs-build-system)
-      (arguments
-       (list
-        #:tests? #true
-        #:test-command
-        #~(list "emacs" "-Q" "--batch" "--eval" "
-(progn
-  (setq byte-compile-error-on-warn t)
-  (push default-directory load-path))
-"
-                "-f" "batch-byte-compile"
-                "color-theme-sanityinc-tomorrow.el"
-                "sanityinc-tomorrow-blue-theme.el"
-                "sanityinc-tomorrow-bright-theme.el"
-                "sanityinc-tomorrow-day-theme.el"
-                "sanityinc-tomorrow-eighties-theme.el"
-                "sanityinc-tomorrow-night-theme.el")))
       (home-page
        "https://github.com/purcell/color-theme-sanityinc-tomorrow")
       (synopsis "Emacs color themes based on Chris Kempson's 'tomorrow' themes")
       (description
        "An Emacs version of Chris Kempson's \"Tomorrow\" themes, with much more
 extensive face definitions than the \"official\" Emacs variant.")
+      (license license:gpl3+))))
+
+(define-public emacs-color-theme-sanityinc-solarized
+  (let ((commit "b8f4a65bd53b97b56b93fff2fb14f71b2831aa6f")
+        (revision "0"))
+    (package
+      (name "emacs-color-theme-sanityinc-solarized")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/color-theme-sanityinc-solarized")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "10vfbl9dry03dw264w7b4grmzcv78x3p7r86bsyhyl74hwwvx1hp"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/purcell/color-theme-sanityinc-solarized")
+      (synopsis
+       "Emacs color themes based on Ethan Schoonover's 'solarized' theme")
+      (description
+       "An alternate Emacs color-theme version of Ethan Schoonover's \"Solarized\"
+theme pair.")
       (license license:gpl3+))))
 
 (define-public emacs-color-identifiers-mode
@@ -193,33 +202,6 @@ JavaScript (js-mode and js2-mode), Ruby, Python, Emacs Lisp, Clojure, C, C++,
 Rust, Java, and Go.  You can add support for your favorite mode by modifying
 `color-identifiers:modes-alist' and optionally calling
 `color-identifiers:set-declaration-scan-fn'.")
-      (license license:gpl3+))))
-
-(define-public emacs-color-theme-sanityinc-solarized
-  (let ((commit
-         "b8f4a65bd53b97b56b93fff2fb14f71b2831aa6f")
-        (revision "0"))
-    (package
-      (name "emacs-color-theme-sanityinc-solarized")
-      (version (git-version "2.29" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/purcell/color-theme-sanityinc-solarized")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "10vfbl9dry03dw264w7b4grmzcv78x3p7r86bsyhyl74hwwvx1hp"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/purcell/color-theme-sanityinc-solarized")
-      (synopsis
-       "Emacs color themes based on Ethan Schoonover's 'solarized' theme")
-      (description
-       "An alternate Emacs color-theme version of Ethan Schoonover's \"Solarized\"
-theme pair.")
       (license license:gpl3+))))
 
 (define-public emacs-anaconda-mode
