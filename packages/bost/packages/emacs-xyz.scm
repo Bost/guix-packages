@@ -124,28 +124,45 @@
   #:use-module (ice-9 match))
 
 (define-public emacs-color-theme-sanityinc-tomorrow
-  (package
-    (name "emacs-color-theme-sanityinc-tomorrow")
-    (version "0.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/purcell/color-theme-sanityinc-tomorrow")
-             (commit
-              "d34e8db507ee0c7b465ff18a8f220c33ed77cd79")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1mfildi7rav2j42avii7z4gp4ghl04cqv8wp1vyxzl8vkyj60nkb"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/purcell/color-theme-sanityinc-tomorrow")
-    (synopsis "Emacs color themes based on Chris Kempson's 'tomorrow' themes")
-    (description
-     "An Emacs version of Chris Kempson's \"Tomorrow\" themes, with much more
+  (let ((commit "d34e8db507ee0c7b465ff18a8f220c33ed77cd79")
+        (revision "0"))
+    (package
+      (name "emacs-color-theme-sanityinc-tomorrow")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/color-theme-sanityinc-tomorrow")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1mfildi7rav2j42avii7z4gp4ghl04cqv8wp1vyxzl8vkyj60nkb"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #true
+        #:test-command
+        #~(list "emacs" "-Q" "--batch" "--eval" "
+(progn
+  (setq byte-compile-error-on-warn t)
+  (push default-directory load-path))
+"
+                "-f" "batch-byte-compile"
+                "color-theme-sanityinc-tomorrow.el"
+                "sanityinc-tomorrow-blue-theme.el"
+                "sanityinc-tomorrow-bright-theme.el"
+                "sanityinc-tomorrow-day-theme.el"
+                "sanityinc-tomorrow-eighties-theme.el"
+                "sanityinc-tomorrow-night-theme.el")))
+      (home-page
+       "https://github.com/purcell/color-theme-sanityinc-tomorrow")
+      (synopsis "Emacs color themes based on Chris Kempson's 'tomorrow' themes")
+      (description
+       "An Emacs version of Chris Kempson's \"Tomorrow\" themes, with much more
 extensive face definitions than the \"official\" Emacs variant.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-color-identifiers-mode
   (let ((commit "a26d00d898e0a3295cb7da9323046397223ea1fe")
