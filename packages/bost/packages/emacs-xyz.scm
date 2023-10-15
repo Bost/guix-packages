@@ -4281,6 +4281,50 @@ Debug server.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-haskell-snippets
+  ;; The commit below is 7 commits ahead of release, and includes a build fix.
+  ;; And also a fix in one snippet.
+  (let ((commit "1c29c4a68ce89848b8d371c6510d1de3b586c8b3"))
+    (package
+      (name "emacs-haskell-snippets")
+      (version (git-version "0.1.0" "1" commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri
+          (git-reference
+           (url "https://github.com/haskell/haskell-snippets")
+           (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1lwnggarmavyf164cfzbzzkq9ffahhd3bz7gw644czs49sndcawf"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'patch-haskell-snippets-dir
+              (lambda* (#:key outputs #:allow-other-keys)
+                (emacs-substitute-sexps "haskell-snippets.el"
+                  ("setq haskell-snippets-dir"
+                   '(file-name-parent-directory
+                     (file-name-directory load-file-name))))))
+            (add-after 'install 'install-snippets
+              (lambda _
+                (let ((snippets
+                       (string-append
+                        #$output "/share/emacs/site-lisp/snippets/haskell-mode")))
+                  (format #t "snippets: ~a\n" snippets)
+                  (mkdir-p snippets)
+                  (copy-recursively "snippets/haskell-mode" snippets)))))))
+      (propagated-inputs
+       (list emacs-yasnippet))
+      (home-page "https://github.com/haskell/haskell-snippets")
+      (synopsis "Official collection of YASnippet Haskell snippets for Emacs")
+      (description "Haskell-Snippets is a collection of YASnippet Haskell
+snippets for Emacs.")
+      (license license:expat))))
+
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
