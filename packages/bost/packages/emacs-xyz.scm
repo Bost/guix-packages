@@ -4305,12 +4305,12 @@ Debug server.")
         #~(modify-phases %standard-phases
             (add-after 'install 'install-snippets
               (lambda* (#:key outputs #:allow-other-keys)
-                (let ((snippets
-                       (string-append
-                        (elpa-directory (assoc-ref outputs "out"))
-                        "/snippets/haskell-mode")))
-                  (mkdir-p snippets)
-                  (copy-recursively "snippets/haskell-mode" snippets)))))))
+                (let* ((relative-dirpath "snippets/haskell-mode")
+                       (installation-dir
+                        (string-append (elpa-directory (assoc-ref outputs "out"))
+                                       "/" relative-dirpath)))
+                  (mkdir-p installation-dir)
+                  (copy-recursively relative-dirpath installation-dir)))))))
       (propagated-inputs
        (list emacs-yasnippet))
       (home-page "https://github.com/haskell/haskell-snippets")
