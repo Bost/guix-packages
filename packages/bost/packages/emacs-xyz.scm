@@ -4303,18 +4303,12 @@ Debug server.")
        (list
         #:phases
         #~(modify-phases %standard-phases
-            (add-after 'unpack 'patch-haskell-snippets-dir
-              (lambda* (#:key outputs #:allow-other-keys)
-                (emacs-substitute-sexps "haskell-snippets.el"
-                  ("setq haskell-snippets-dir"
-                   '(file-name-parent-directory
-                     (file-name-directory load-file-name))))))
             (add-after 'install 'install-snippets
-              (lambda _
+              (lambda* (#:key outputs #:allow-other-keys)
                 (let ((snippets
                        (string-append
-                        #$output "/share/emacs/site-lisp/snippets/haskell-mode")))
-                  (format #t "snippets: ~a\n" snippets)
+                        (elpa-directory (assoc-ref outputs "out"))
+                        "/snippets/haskell-mode")))
                   (mkdir-p snippets)
                   (copy-recursively "snippets/haskell-mode" snippets)))))))
       (propagated-inputs
