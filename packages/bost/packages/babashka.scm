@@ -1,4 +1,4 @@
-(define-module (babashka)
+(define-module (bost packages babashka)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
@@ -6,7 +6,6 @@
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages compression)
   #:use-module (nonguix build-system binary))
-
 
 (define-public babashka
   (package
