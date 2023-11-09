@@ -4252,7 +4252,7 @@ Debug server.")
 
 (define-public emacs-tweaks
   (let ((commit
-         "7cfa2b817d8332ac7c513a939defaf6c4caa9c26")
+         "2d347ee3fcc991fda16b5d5394db9f46268294a6")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -4266,7 +4266,7 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0bh5ghbwk75yid974q2kx63xawhr9yywgqp1r8yzdi2vp0iwiajh"))))
+           "137grj0s77zcf7g7b4hivajxj1i8mynkxh20w1dkqiv7pmgdvl4p"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list emacs-yasnippet
