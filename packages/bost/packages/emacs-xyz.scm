@@ -371,26 +371,27 @@ on haml-mode.")
     (license license:gpl3+)))
 
 (define-public emacs-zop-to-char
-  (package
-    (name "emacs-zop-to-char")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
+  (let ((commit "00152aa666354b27e56e20565f186b363afa0dce")
+        (revision "0"))
+    (package
+      (name "emacs-zop-to-char")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
                (url "https://github.com/thierryvolpiatto/zop-to-char")
-               (commit
-                 "00152aa666354b27e56e20565f186b363afa0dce")))
-        (file-name (git-file-name name version))
-        (sha256
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
           (base32
-            "1s4adi9hyhxn7ynx195mgg10h817hxdmlzlp09633bj0llr1mjn3"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/thierryvolpiatto/zop-to-char")
-    (synopsis "A visual zap-to-char command for Emacs.")
-    (description "A visual zap-to-char command for Emacs.")
-    (license license:gpl3+)))
+           "1s4adi9hyhxn7ynx195mgg10h817hxdmlzlp09633bj0llr1mjn3"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/thierryvolpiatto/zop-to-char")
+      (synopsis "A visual zap-to-char command for Emacs.")
+      (description "A visual zap-to-char command for Emacs.")
+      (license license:gpl3+))))
 
 (define-public emacs-font-utils
   (package
