@@ -195,13 +195,8 @@ theme pair.")
        "https://github.com/ankurdave/color-identifiers-mode")
       (synopsis "Minor mode for coloring identifiers based on their names")
       (description
-       "Emacs minor mode that highlights each source code identifier uniquely based
-on its name.  It is inspired by a @uref{https://medium.com/p/3a6db2743a1e/,post
-by Evan Brooks}.  Currently it supports Scala (scala-mode2),
-JavaScript (js-mode and js2-mode), Ruby, Python, Emacs Lisp, Clojure, C, C++,
-Rust, Java, and Go.  You can add support for your favorite mode by modifying
-`color-identifiers:modes-alist' and optionally calling
-`color-identifiers:set-declaration-scan-fn'.")
+       "Emacs minor mode to highlight each source code identifier uniquely
+ based on its name.")
       (license license:gpl3+))))
 
 (define-public emacs-anaconda-mode
