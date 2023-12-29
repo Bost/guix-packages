@@ -1,11 +1,13 @@
 ;;; GNU Guix --- Functional package management for GNU
-;;; Copyright © 2014, 2018 Eric Bavier <bavier@member.fsf.org>
+;;; Copyright © 2014, 2018, 2023 Eric Bavier <bavier@posteo.net>
 ;;; Copyright © 2015, 2018 Leo Famulari <leo@famulari.name>
 ;;; Copyright © 2018–2022 Tobias Geerinckx-Rice <me@tobias.gr>
 ;;; Copyright © 2019 Christopher Baines <mail@cbaines.net>
 ;;; Copyright © 2021 Xinglu Chen <public@yoctocell.xyz>
 ;;; Copyright © 2022 jgart <jgart@dismail.de>
 ;;; Copyright © 2023 Andy Tai <atai@atai.org>
+;;; Copyright © 2023 Efraim Flashner <efraim@flashner.co.il>
+;;; Copyright © 2023 Foundation Devices, Inc. <hello@foundationdevices.com>
 ;;;
 ;;; This file is part of GNU Guix.
 ;;;
@@ -32,12 +34,14 @@
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system glib-or-gtk)
   #:use-module (guix build-system meson)
+  #:use-module (guix build-system ocaml)
   #:use-module (guix build-system python)
   #:use-module (gnu packages)
-  #:use-module (gnu packages ed)
+  #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
   #:use-module (gnu packages bash)
   #:use-module (gnu packages check)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages databases)
   #:use-module (gnu packages django)
   #:use-module (gnu packages freedesktop)
@@ -50,7 +54,9 @@
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages less)
   #:use-module (gnu packages mail)
+  #:use-module (gnu packages text-editors)
   #:use-module (gnu packages ncurses)
+  #:use-module (gnu packages ocaml)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages pkg-config)
@@ -59,6 +65,58 @@
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages xml))
+
+(define-public coccinelle
+  (let ((revision "0")
+        (commit "6608e45f85a10c57a3c910154cf049a5df4d98e4"))
+    (package
+      (name "coccinelle")
+      (version (git-version "1.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/coccinelle/coccinelle")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (modules '((guix build utils)))
+         (snippet
+          #~(delete-file-recursively "bundles"))
+         (sha256
+          (base32
+           "08nycmjyckqmqjpi78dcqdbmjq1xp18qdc6023dl90gdi6hmxz9l"))))
+      (build-system gnu-build-system)
+      (arguments
+       (list #:phases
+             #~(modify-phases %standard-phases
+                 (add-before 'bootstrap 'prepare-version.sh
+                   (lambda _
+                     (setenv "MAKE_COCCI_RELEASE" "y")
+                     (patch-shebang "version.sh")))
+                 (add-before 'check 'set-batch-mode
+                   (lambda _
+                     (substitute* "Makefile"
+                       (("--testall")
+                         "--batch_mode --testall")))))))
+      (propagated-inputs
+       (list ocaml-menhir
+             ocaml-num
+             ocaml-parmap
+             ocaml-pcre
+             ocaml-pyml
+             ocaml-stdcompat))
+      (native-inputs
+       (list autoconf
+             automake
+             ocaml
+             ocaml-findlib
+             pkg-config))
+      (home-page "https://coccinelle.lip6.fr")
+      (synopsis "Transformation of C code using semantic patches")
+      (description "Coccinelle is a tool that allows modification of C code
+using semantic patches in the @acronym{SmPL, Semantic Patch Language} for
+specifying desired matches and transformations in the C code.")
+      (license gpl2))))
 
 (define-public patchutils
   (package
@@ -110,53 +168,75 @@ listing the files modified by a patch.")
 (define-public quilt
   (package
     (name "quilt")
-    (version "0.66")
+    (version "0.67")
     (source
      (origin
        (method url-fetch)
        (uri (string-append "mirror://savannah/quilt/"
                            "quilt-" version ".tar.gz"))
        (sha256
-        (base32 "01vfvk4pqigahx82fhaaffg921ivd3k7rylz1yfvy4zbdyd32jri"))))
+        (base32 "1hiw05aqysbnnl15zg2n5cr11k0z7rz85fvq8qv6qap7hw4vxqrv"))
+       (patches (search-patches "quilt-grep-compat.patch"))))
     (build-system gnu-build-system)
     (native-inputs
-     `(("gettext" ,gettext-minimal)))
-    (inputs (list perl less file ed diffstat))
+     (list gettext-minimal))
+    (inputs
+     (list bash-minimal perl less file gzip ed
+           diffutils diffstat findutils tar))
     (arguments
      '(#:parallel-tests? #f
        #:phases
        (modify-phases %standard-phases
-         (add-before 'check 'patch-tests
-           (lambda _
-             (substitute*
-                 '("test/run"
-                   "test/edit.test")
-               (("/bin/sh") (which "sh")))
-             #t))
+         (delete 'check)
          (add-after 'install 'wrap-program
            ;; quilt's configure checks for the absolute path to the utilities it
            ;; needs, but uses only the name when invoking them, so we need to
            ;; make sure the quilt script can find those utilities when run.
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (let* ((out       (assoc-ref outputs "out"))
-                    (coreutils (assoc-ref inputs "coreutils"))
-                    (diffutils (assoc-ref inputs "diffutils"))
-                    (findutils (assoc-ref inputs "findutils"))
-                    (diffstat  (assoc-ref inputs "diffstat"))
-                    (less      (assoc-ref inputs "less"))
-                    (file      (assoc-ref inputs "file"))
-                    (ed        (assoc-ref inputs "ed"))
-                    (sed       (assoc-ref inputs "sed"))
-                    (bash      (assoc-ref inputs "bash"))
-                    (grep      (assoc-ref inputs "grep")))
+             (let ((cmd-path (lambda (cmd) (dirname (which cmd))))
+                   (out      (assoc-ref outputs "out")))
                (wrap-program (string-append out "/bin/quilt")
                  `("PATH" ":" prefix
-                   ,(map (lambda (dir)
-                           (string-append dir "/bin"))
-                         (list coreutils diffutils findutils
-                               less file ed sed bash grep
-                               diffstat)))))
-             #t)))))
+                   ,(map cmd-path
+                         (list "bash" "diff" "diffstat" "ed" "file" "find" "grep"
+                               "gzip" "less" "patch" "perl" "rm" "sed" "tar"))))
+               (wrap-program (string-append out "/share/quilt/scripts/backup-files")
+                 `("PATH" ":" prefix
+                   ,(map cmd-path
+                         (list "find" "grep" "mkdir")))))))
+         (add-after 'compress-documentation 'check
+           (lambda _
+             (substitute* '("test/run" "test/edit.test")
+               (("/bin/sh") (which "sh"))
+               (("rm -rf") (string-append (which "rm") " -rf")))
+             (substitute* "Makefile"
+               (("^(PATH|QUILT_DIR).*" &)
+                (string-append "#" &)) ; Test the installed 'quilt'
+               (("export QUILT_DIR") "export")
+               (("\\| sort") (string-append "| " (which "sort")))
+               (("\\| sed") (string-append "| " (which "sed")))
+               (("(chmod|touch)" &) (which &)))
+             ;; Tests are scripts interpreted by `test/run` and may specify
+             ;; the execution of several tools.  But PATH will be empty, so
+             ;; rewrite with the full file name:
+             (setenv "PATH" (string-append %output "/bin" ":" (getenv "PATH")))
+             (substitute* (find-files "test" "\\.test$")
+               (("([\\$\\|] )([[:graph:]]+)([[:blank:]\n]+)"
+                 & > cmd <)
+                (if (string=? cmd "zcat")
+                    ;; The `zcat` program is a script, and it will not be able
+                    ;; to invoke its `gzip` with PATH unset.  It's a simple
+                    ;; script though, so just translate here:
+                    (string-append > (which "gzip") " -cd " <)
+                    (or (and=> (which cmd)
+                               (lambda (p) (string-append > p <)))
+                        &))))
+             (let ((make (which "make")))
+               ;; Assert the installed 'quilt' can find utilities it needs.
+               (unsetenv "PATH")
+               ;; Used by some tests for access to internal "scripts"
+               (setenv "QUILT_DIR" (string-append %output "/share/quilt"))
+               (invoke make "check")))))))
     (home-page "https://savannah.nongnu.org/projects/quilt/")
     (synopsis "Script for managing patches to software")
     (description
@@ -290,7 +370,7 @@ you to figure out what is going on in that merge you keep avoiding.")
 (define-public patchwork
   (package
     (name "patchwork")
-    (version "3.0.4")
+    (version "3.1.1")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -299,7 +379,7 @@ you to figure out what is going on in that merge you keep avoiding.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0dl0prsyzsnlq6g0jw05mxx00bq9y2rpc3vrbfxfiblyyydrn2xn"))))
+                "0is9d4gf93jcbyshyj2k3kjyrjnvimrm6bai6dbcx630md222j5w"))))
     (build-system python-build-system)
     (arguments
      `(;; TODO: Tests require a running database
