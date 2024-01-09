@@ -173,32 +173,6 @@ extensive face definitions than the \"official\" Emacs variant.")
 theme pair.")
       (license license:gpl3+))))
 
-(define-public emacs-color-identifiers-mode
-  (let ((commit "a26d00d898e0a3295cb7da9323046397223ea1fe")
-        (revision "0"))
-    (package
-      (name "emacs-color-identifiers-mode")
-      (version (git-version "1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/ankurdave/color-identifiers-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1kky827f922ziiwasrfnv97vqdf62fp9yml36x1fjsm2h6qw0c8v"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list emacs-dash))
-      (home-page
-       "https://github.com/ankurdave/color-identifiers-mode")
-      (synopsis "Minor mode for coloring identifiers based on their names")
-      (description
-       "Emacs minor mode to highlight each source code identifier uniquely
- based on its name.")
-      (license license:gpl3+))))
-
 (define-public emacs-anaconda-mode
   (let ((commit "6e6417079d991894165f03d257477180789dd74a")
         (revision "0"))
@@ -995,33 +969,6 @@ color for syntax, and easily allows multiple variants.")
 ;;             emacs-eieio))
 ;;     (home-page
 ;;       "https://github.com/IvanMalison/multi-line")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-color unbound
-;; (define-public emacs-color-identifiers-mode
-;;   (package
-;;     (name "emacs-color-identifiers-mode")
-;;     (version "1.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/ankurdave/color-identifiers-mode")
-;;                (commit
-;;                  "1bc474bdbb1086a73638effde51f37a9da748173")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "113nnfi8jdxp7a8m7jjsn0ww2fqymk2ai4nzfdxzdfsk0q0bp49y"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-dash
-;;             emacs-color
-;;             ))
-;;     (home-page
-;;       "https://github.com/ankurdave/color-identifiers-mode")
 ;;     (synopsis "")
 ;;     (description "")
 ;;     (license license:gpl3+)))
