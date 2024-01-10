@@ -20,8 +20,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (bost packages clojure)
-  #:use-module (gnu packages compression)
+(define-module (bost gnu packages clojure)
   #:use-module (gnu packages)
   #:use-module (gnu packages java)
   #:use-module (gnu packages maven)
@@ -679,7 +678,7 @@ keeps a cache of git directories and working trees that can be reused.")
        (sha256
         (base32 "1zycljfrxaxicbjbpqjqrxdrzp2m6cn3my5p280fb3j5ynmjs54v"))))
     (build-system copy-build-system)
-    (native-inputs (list unzip))
+    (native-inputs (list (@(gnu packages compression) unzip)))
     (arguments
      `(#:install-plan
        '(("clojure-lsp" "bin/"))))
