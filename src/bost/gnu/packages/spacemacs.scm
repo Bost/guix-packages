@@ -16,7 +16,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (bost packages spacemacs)
+(define-module (bost gnu packages spacemacs)
   #:use-module (bost utils)  ;; for build
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
@@ -44,9 +44,9 @@ cd /tmp/.spguimacs.d
 git log --pretty=format:' "%H"' --max-count=1
 guix hash -x --serializer=nar .
 
-  cd $dev/guix-packages/packages
-  wp; guix build --file=./bost/packages/spacemacs.scm
-  wp; guix --install-from-file=./bost/packages/spacemacs.scm
+  cd $dgxp
+  wp; guix build --file=./src/bost/gnu/packages/spacemacs.scm
+  wp; guix --install-from-file=./src/bost/gnu/packages/spacemacs.scm
   |#
 
   (let ((commit "6f0a4bfc21587e6a3d051aca4c25d3df167d4750"))
@@ -123,10 +123,10 @@ the use of spacemacs without conflicting with the base emacs."
 ;;;   ...
 ;;;   no code for module (bost utils)
                   (bost utils)
-                  (guix build spacemacs-utils))
+                  (bost guix build spacemacs-utils))
        #:builder (begin
                    (use-modules
-                    ((guix build spacemacs-utils) #:prefix spacemacs:))
+                    ((bost guix build spacemacs-utils) #:prefix spacemacs:))
                    (spacemacs:builder
                     #:shell (string-append
                              (assoc-ref %build-inputs "sh")

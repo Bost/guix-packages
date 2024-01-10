@@ -17,7 +17,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (guix build spacemacs-utils)
+(define-module (bost guix build spacemacs-utils)
   #:use-module (bost utils)
   #:use-module (guix build utils)
   #:use-module (oop goops)
