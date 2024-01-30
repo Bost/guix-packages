@@ -203,14 +203,14 @@ designs.")
 (define-public clojure-tools
   (package
     (name "clojure-tools")
-    (version "1.11.1.1165")
+    (version "1.11.1.1435")
     (source
      (origin
        (method url-fetch)
        (uri (string-append "https://download.clojure.org/install/clojure-tools-"
                            version
                            ".tar.gz"))
-       (sha256 (base32 "1lg97waqfcgzr3dz5426fbc4kqcsavpbqil2iyjm1dw3zrfa8ysi"))
+       (sha256 (base32 "1h4v762agzhnrqs3mj7a84xlw51xv6jh8mvlc5cc83q4n9wwabs5"))
        ;; Remove AOT compiled JAR.  The other JAR only contains uncompiled
        ;; Clojure source code.
        (snippet
@@ -576,7 +576,7 @@ work with command-line arguments.")
 (define-public clojure-tools-deps-alpha
   (package
     (name "clojure-tools-deps-alpha")
-    (version "0.14.1212")
+    (version "0.15.1254")
     (home-page "https://github.com/clojure/tools.deps.alpha")
     (source (origin
               (method git-fetch)
@@ -586,7 +586,7 @@ work with command-line arguments.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0r8qfihii6cf95kl86x6zfldnm7wlkgda2qmq3340j1x03v244dd"))))
+                "17zvizzw637az7facwipsrg9b1kjci03aycg6w5pnjpg6b6nd5m6"))))
     (build-system clojure-build-system)
     (arguments
      `(#:source-dirs '("src/main/clojure" "src/main/resources")
