@@ -393,7 +393,7 @@
     (f-write-text (format "%s" (pp
                                 `(define pkgs-analyzed
                                    ',s)))
-                  'utf-8 "/home/bost/dev/dotfiles/analyzed.scm"))
+                  'utf-8 (format "%s/analyzed.scm" (getenv "dotf"))))
   ;; (-partial #'mapcar #'print)
   (-partial #'mapcar
             (lambda (pkg)
