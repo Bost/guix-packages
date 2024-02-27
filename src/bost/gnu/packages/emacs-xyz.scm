@@ -4173,7 +4173,7 @@ Debug server.")
 
 (define-public emacs-jump-last
   (let ((commit
-         "bb18d93103ea6cc8c3c88469740d67ce03e2ac76")
+         "7fa55d98102ee29ddaa9cd7691ca53d06d079837")
         (revision "0"))
     (package
       (name "emacs-jump-last")
@@ -4187,7 +4187,7 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0q3srdjklrdyxck34lyl6q96rnarjc84rlqxhr2qrjrpkv2hnp4g"))))
+           "1kraazmlmd5nqrrnshs715p6ch12awd1hhl6jg8jdshdskvr6m7k"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-goto-chg))
       (home-page "https://github.com/Bost/jump-last")
