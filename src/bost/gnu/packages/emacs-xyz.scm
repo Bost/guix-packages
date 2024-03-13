@@ -4173,7 +4173,7 @@ Debug server.")
 
 (define-public emacs-jump-last
   (let ((commit
-         "7fa55d98102ee29ddaa9cd7691ca53d06d079837")
+         "69b80e3b8df808ec075db4b3a4a9ced919370682")
         (revision "0"))
     (package
       (name "emacs-jump-last")
@@ -4187,12 +4187,12 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1kraazmlmd5nqrrnshs715p6ch12awd1hhl6jg8jdshdskvr6m7k"))))
+           "0mwx8736capqhn6i5a6d75zqdr2cikxdl4xl75nipx136dq7w894"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-goto-chg))
       (home-page "https://github.com/Bost/jump-last")
-      (synopsis "")
-      (description "")
+      (synopsis "Jump to the Last Edit Location, regardless of the file")
+      (description "Jump to the Last Edit Location, regardless of the file.")
       (license license:gpl3+))))
 
 (define-public emacs-tweaks
