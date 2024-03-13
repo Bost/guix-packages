@@ -4124,7 +4124,7 @@ Debug server.")
 
 (define-public emacs-kill-buffers
   (let ((commit
-         "e9e4755feab84a0fd13e1a2eefd57b0d376132f5")
+         "171e7307995ba8983611ef7b8fddf4e0053f12db")
         (revision "0"))
     (package
       (name "emacs-kill-buffers")
@@ -4138,12 +4138,13 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1w6m9xbgxnkg84wyqaplc30gz6zqscx5qrmswf9qkiagzyiw7rrj"))))
+           "1ibkwvq10hcq33b852capqja8351fs3gaakwj25mhz0jr7sr0g8a"))))
       (build-system emacs-build-system)
+      (propagated-inputs (list emacs-cider))
       (home-page
        "https://github.com/Bost/kill-buffers")
-      (synopsis "")
-      (description "")
+      (synopsis "Kill various unwanted buffers")
+      (description "Kill various unwanted buffers.")
       (license license:gpl3+))))
 
 (define-public emacs-copy-sexp
