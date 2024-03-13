@@ -4196,9 +4196,40 @@ Debug server.")
       (description "Jump to the Last Edit Location, regardless of the file.")
       (license license:gpl3+))))
 
+(define-public emacs-evil-iedit-state
+  (let ((commit
+         "6f7b502447ba35676375169d7707372ebad2791f")
+        (revision "0"))
+    (package
+      (name "emacs-evil-iedit-state")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/evil-iedit-state")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0vjzjmp3ba0nzf0v04bhxvzgdwwm11vivxqjzgnvp3kq95kajr5h"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-evil
+             emacs-iedit
+             ))
+      (home-page "https://github.com/syl20bnr/evil-iedit-state")
+      (synopsis "Slick Evil states for iedit")
+      (description "This package adds two new Evil states:
+* iedit state
+* iedit-insert state
+It has also a nice integration with expand-region for quick edit of the
+current selected text by pressing e.")
+      (license license:gpl3+))))
+
 (define-public emacs-tweaks
   (let ((commit
-         "3339c6fee534b453258198a0eb4719126f370a5f")
+         "b3a77fa3415fa63de8a72ac3c9c20ecf5361e78a")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -4212,7 +4243,7 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "08sp9i108knwnqy4mpi744c4asvhszqcnhb50m27xmp42b67sfj5"))))
+           "09sfq7f9bzsg2b4fr0pzkml4yjz91h7va747immjxnqhjbf2w2da"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list emacs-yasnippet
@@ -4221,7 +4252,9 @@ Debug server.")
              emacs-kill-buffers
              emacs-jump-last
              emacs-drag-stuff
-             emacs-copy-sexp))
+             emacs-copy-sexp
+             emacs-evil-iedit-state
+             ))
       (home-page "https://github.com/Bost/tweaks")
       (synopsis "")
       (description "")
