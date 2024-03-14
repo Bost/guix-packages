@@ -4174,7 +4174,7 @@ Debug server.")
 
 (define-public emacs-jump-last
   (let ((commit
-         "69b80e3b8df808ec075db4b3a4a9ced919370682")
+         "66103a31c16eaa41e4ce69680f378f934d39cd79")
         (revision "0"))
     (package
       (name "emacs-jump-last")
@@ -4188,7 +4188,7 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0mwx8736capqhn6i5a6d75zqdr2cikxdl4xl75nipx136dq7w894"))))
+           "0r31d7597dzi01y09acqvzqxn7fqb1amxngjq7zk5gp5n61frf9s"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-goto-chg))
       (home-page "https://github.com/Bost/jump-last")
@@ -4229,7 +4229,7 @@ current selected text by pressing e.")
 
 (define-public emacs-tweaks
   (let ((commit
-         "b3a77fa3415fa63de8a72ac3c9c20ecf5361e78a")
+         "4550492cbd132ac3dd918104e1f2f27c8401846f")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -4243,7 +4243,7 @@ current selected text by pressing e.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "09sfq7f9bzsg2b4fr0pzkml4yjz91h7va747immjxnqhjbf2w2da"))))
+           "1yv4c3h6bmz81j3csqv6vdx3lxf3yd4z4wnk534qnjs49azsg3x7"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list emacs-yasnippet
