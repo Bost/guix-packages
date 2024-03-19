@@ -4117,6 +4117,34 @@ current selected text by pressing e.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-term-cursor
+  (let ((commit
+         "d6c9b46c6ad73875db4ce04cac335846f86fb7e7")
+        (revision "0"))
+    (package
+      (name "emacs-term-cursor")
+      (version (git-version "0.4" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/h0d/term-cursor.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0jh284j7z4xmdd18ciaczlzc30g67gk14fv31kr20hgmd1fzv1m6"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/h0d/term-cursor.el.git")
+      (synopsis "Bring GUI Emacs cursor behaviour to the terminal")
+      (description "Display Emacs cursor in terminal as it would be in GUI,
+ with or without evil-mode.  Send terminal escape codes to change cursor shape
+in TTY Emacs.  Using VT520 DECSCUSR (cf
+https://invisible-island.net/xterm/ctlseqs/ctlseqs.html).  Does not interfere
+with GUI Emacs behavior.")
+      (license license:gpl3+))))
+
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
