@@ -4171,6 +4171,33 @@ with GUI Emacs behavior.")
       (description "lsp-mode client leveraging Pyright language server.")
       (license license:gpl3+))))
 
+(define-public emacs-lsp-origami
+  (let ((commit
+         "86aa06517910141c3d5054eea5f7723461fce6a6")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-origami")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-origami")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1nvz60iwdh5wkcflyk53lfwsd2yjniribvw95x9968sf9icf2dqw"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-lsp-mode emacs-origami))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-origami")
+      (synopsis "origami.el support for lsp-mode")
+      (description "lsp-origami provides support for origami.el using language server protocol’s
+textDocument/foldingRange functionality. It can be enabled with.")
+      (license license:gpl3+))))
+
 
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
