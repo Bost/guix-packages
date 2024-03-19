@@ -4145,6 +4145,33 @@ https://invisible-island.net/xterm/ctlseqs/ctlseqs.html).  Does not interfere
 with GUI Emacs behavior.")
       (license license:gpl3+))))
 
+(define-public emacs-lsp-pyright
+  (let ((commit
+         "2f2631ae242d5770dbe6cb924e44c1ee5671789d")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-pyright")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-pyright")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1gk23a56jf1v4f4ag07hzji5pw3mq1rq622ggbvqcbc2i2bnvdn1"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-ht emacs-dash emacs-lsp-mode))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-pyright")
+      (synopsis "lsp-mode client leveraging Pyright language server")
+      (description "lsp-mode client leveraging Pyright language server.")
+      (license license:gpl3+))))
+
+
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
