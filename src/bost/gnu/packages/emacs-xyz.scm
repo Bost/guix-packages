@@ -3702,50 +3702,6 @@ objects.  All objects have to share a common superclass and subclasses cannot
 add any additional instance slots.")
     (license license:gpl3)))
 
-(define-public emacs-forge
-  (package
-     (name "emacs-forge")
-     (version "0.3.2")
-     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-              (url "https://github.com/magit/forge")
-              (commit (string-append "v" version))))
-        (file-name (git-file-name name version))
-        (sha256
-         (base32 "0p1jlq169hpalhzmjm3h4q3x5xr9kdmz0qig8jwfvisyqay5vbih"))))
-     (build-system emacs-build-system)
-     (arguments
-      `(#:tests? #f                     ;no tests
-        #:phases
-        (modify-phases %standard-phases
-          (add-after 'unpack 'build-info-manual
-            (lambda _
-              (invoke "make" "info")
-              ;; Move the info file to lisp so that it gets installed by the
-              ;; emacs-build-system.
-              (rename-file "docs/forge.info" "lisp/forge.info")))
-          (add-after 'build-info-manual 'chdir-lisp
-            (lambda _
-              (chdir "lisp"))))))
-     (native-inputs
-      (list texinfo))
-     (propagated-inputs
-      (list emacs-closql
-            emacs-dash
-            emacs-emacsql
-            emacs-ghub
-            emacs-let-alist
-            emacs-magit
-            emacs-markdown-mode
-            emacs-yaml))
-     (home-page "https://github.com/magit/forge/")
-     (synopsis "Access Git forges from Magit")
-     (description "Work with Git forges, such as Github and Gitlab, from the
-comfort of Magit and the rest of Emacs.")
-     (license license:gpl3+)))
-
 (define-public emacs-emacsql-sqlite3
   ;; This commit contains changes necessary for Sqlite 3.38+.
   (let ((commit "2113618732665f2112cb932a66c0e89c404d8777")
@@ -3858,6 +3814,7 @@ official @command{sqlite3} executable to access SQL database.")
 
 (define-public emacs-treemacs
   (let* ((commit
+          ;; Jun 15, 2023
           "58ed4538a7e5e3481571566101748a2bee29bc1d")
          (revision "1"))
     (package
