@@ -1,4 +1,4 @@
-#!/home/bost/.guix-home/profile/bin/emacs --script
+#!/home/bost/.guix-profile/bin/emacs --script
 
 ;; for `-compose' and `-partial'
 (require 'dash)
