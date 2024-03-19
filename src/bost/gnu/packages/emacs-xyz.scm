@@ -4218,6 +4218,39 @@ with GUI Emacs behavior.")
 textDocument/foldingRange functionality. It can be enabled with.")
       (license license:gpl3+))))
 
+(define-public emacs-winum
+  (let ((commit
+         "c5455e866e8a5f7eab6a7263e2057aff5f1118b9")
+        (revision "0"))
+    (package
+      (name "emacs-winum")
+      (version (git-version "2.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/deb0ch/emacs-winum")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0lj4cp7ml7cjhkd66f6ivcl6sbfs2my8ajjlynzl3pm5qansfw5i"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-dash))
+      (home-page
+       "https://github.com/deb0ch/emacs-winum")
+      (synopsis "Navigate windows and frames using numbers")
+      (description
+       "Window numbers for Emacs: Navigate your windows and frames using
+ numbers!
+
+This package is an extended and actively maintained version of the
+window-numbering package by Nikolaj Schumacher, with some ideas and code taken
+from ace-window.
+
+This version brings, among other things, support for number sets across
+multiple frames, giving the user a smoother experience of multi-screen Emacs.")
+      (license license:gpl3+))))
 
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
