@@ -3675,33 +3675,6 @@ has no concept of @code{TEXT} values; it's all just Lisp objects.  The Lisp
 object @code{nil} corresponds 1:1 with @code{NULL} in the database.")
       (license license:gpl3+))))
 
-(define-public emacs-closql
-  (package
-    (name "emacs-closql")
-    (version "1.2.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacscollective/closql")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1s9riibws28xjn2bjn9qz3m2gvcmrn18b7g5y6am4sy7rgkx3nwx"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-emacsql))
-    (home-page "https://github.com/emacscollective/closql")
-    (synopsis "Store EIEIO objects using EmacSQL")
-    (description
-     "This package stores uniform EIEIO objects in an EmacSQL
-database.  SQLite is used as backend.  This library imposes some restrictions
-on what kind of objects can be stored; it isn't intended to store arbitrary
-objects.  All objects have to share a common superclass and subclasses cannot
-add any additional instance slots.")
-    (license license:gpl3)))
-
 (define-public emacs-emacsql-sqlite3
   ;; This commit contains changes necessary for Sqlite 3.38+.
   (let ((commit "2113618732665f2112cb932a66c0e89c404d8777")
