@@ -3913,15 +3913,23 @@ and implementation of treeview controls using treemacs as a tree renderer.")
                (base32
                 "1h0hqgjpk5mbylma1fkva0vx45achf0k7ab2c5y8a2449niww90h"))))
     (build-system emacs-build-system)
+    (arguments
+     (list #:include #~(cons*
+                        "^features\\/step-definitions\\/"
+                        "^features\\/support\\/"
+                        %default-include)))
     (propagated-inputs
-     (list emacs-dap-mode
-           emacs-lsp-mode
-           emacs-markdown-mode
-           emacs-dash
-           emacs-f
-           emacs-ht
-           emacs-request
-           emacs-treemacs))
+     (list
+      emacs-cc-mode
+      emacs-dap-mode
+      emacs-dash
+      emacs-f
+      emacs-ht
+      emacs-lsp-mode
+      emacs-markdown-mode
+      emacs-request
+      emacs-treemacs
+      ))
     (home-page "https://github.com/emacs-lsp/lsp-java/")
     (synopsis "Java support for lsp-mode")
     (description "Emacs Java IDE using Eclipse JDT Language Server.")
