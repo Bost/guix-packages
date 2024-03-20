@@ -346,13 +346,43 @@
       (mapcar (-compose
                (-partial #'concat "emacs-")
                #'symbol-name)
-              '(advice cl cl-lib
-                       wid-edit cus-face
-                       ;; color is needed
-                       compile
-                       ;; dash is needed
-                       eieio erc hierarchy json
-                       rx seq subr-x)))
+              ;; color, dash are needed
+              ;; posframe is NOT part of Emacs, despite the comment
+              '(
+                advice
+                ansi-color
+                avoid
+                cl
+                cl-lib
+                compile
+                cus-face
+                dired
+                dom
+                eieio
+                erc
+                eshell
+                find-func
+                flymake
+                help-fns
+                hierarchy
+                ido
+                json
+                magit
+                ob-core
+                org
+                package
+                regexp-opt
+                rx
+                seq
+                server
+                shell
+                subr-x
+                url
+                vc-hooks
+                view
+                wid-edit
+                xml
+                )))
 
 (defun find-sexps (kw lst)
   "Remove nil elements"
