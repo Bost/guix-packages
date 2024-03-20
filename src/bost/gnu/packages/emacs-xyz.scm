@@ -4252,6 +4252,130 @@ This version brings, among other things, support for number sets across
 multiple frames, giving the user a smoother experience of multi-screen Emacs.")
       (license license:gpl3+))))
 
+(define-public emacs-frame-fns
+  (package
+    (name "emacs-frame-fns")
+    (version "0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri "https://www.emacswiki.org/emacs/download/frame-fns.el")
+       (sha256
+        (base32
+         "00lpahlvm9z2sl7bcff0jd6f62zf2jg9mliwimwnpjz1dkmy5sj7"))))
+    (build-system emacs-build-system)
+    (home-page "https://www.emacswiki.org/emacs/frame-fns.el")
+    (synopsis "Non-interactive frame and window functions")
+    (description "Non-interactive frame and window functions.")
+    (license license:gpl3+)))
+
+;; (define-public emacs-frame-fns
+;;   (let ((commit
+;;          "291bc4cbb7d8504d8fddfc45debf1a8a3962bf7a")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-frame-fns")
+;;       (version (git-version "0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/emacsmirror/frame-fns")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "1z8alj9i2jxhg13zkwz3pvbvzwa0p1zp4awcyml7wq7w0p13077d"))))
+;;       (build-system emacs-build-system)
+;;       (home-page "https://www.emacswiki.org/emacs/frame-fns.el")
+;;       (synopsis "Non-interactive frame and window functions")
+;;       (description "Non-interactive frame and window functions.")
+;;       (license license:gpl3+))))
+
+(define-public emacs-frame-cmds
+  (package
+    (name "emacs-frame-cmds")
+    (version "0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri "https://www.emacswiki.org/emacs/download/frame-cmds.el")
+       (sha256
+        (base32
+         "07bycmx9d7kd7yzsjy3xa0iqnrqzmhzjzah77qybcickp539dqf9"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-frame-fns))
+    (home-page "https://www.emacswiki.org/emacs/frame-cmds.el")
+    (synopsis "Frame and window commands (interactive functions)")
+    (description "Frame and window commands (interactive functions).")
+    (license license:gpl3+)))
+
+;; (define-public emacs-frame-cmds
+;;   (let ((commit
+;;          "291bc4cbb7d8504d8fddfc45debf1a8a3962bf7a")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-frame-cmds")
+;;       (version (git-version "0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/emacsmirror/emacswiki.org.git")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "1z8alj9i2jxhg13zkwz3pvbvzwa0p1zp4awcyml7wq7w0p13077d"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list emacs-frame-fns))
+;;       (home-page "https://www.emacswiki.org/emacs/frame-cmds.el")
+;;       (synopsis "Frame and window commands (interactive functions)")
+;;       (description "Frame and window commands (interactive functions).")
+;;       (license license:gpl3+))))
+
+(define-public emacs-zoom-frm
+  (package
+    (name "emacs-zoom-frm")
+    (version "0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri "https://www.emacswiki.org/emacs/download/zoom-frm.el")
+       (sha256
+        (base32
+         "1l39hw0n3w96980varljd3z37d8a2x0yj577hcaf3qbwqywfgv9v"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-frame-cmds))
+    (home-page "https://www.emacswiki.org/emacs/zoom-frm.el")
+    (synopsis "Commands to zoom frame font size")
+    (description "Commands to zoom frame font size.")
+    (license license:gpl3+)))
+
+;; (define-public emacs-zoom-frm
+;;   (let ((commit
+;;          "291bc4cbb7d8504d8fddfc45debf1a8a3962bf7a")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-zoom-frm")
+;;       (version (git-version "0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/emacsmirror/emacswiki.org.git")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "1z8alj9i2jxhg13zkwz3pvbvzwa0p1zp4awcyml7wq7w0p13077d"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list emacs-frame-cmds))
+;;       (home-page "https://www.emacswiki.org/emacs/zoom-frm.el")
+;;       (synopsis "Commands to zoom frame font size")
+;;       (description "Commands to zoom frame font size.")
+;;       (license license:gpl3+))))
+
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
 (load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
