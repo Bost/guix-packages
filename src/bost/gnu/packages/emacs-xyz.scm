@@ -4106,7 +4106,7 @@ current selected text by pressing e.")
 
 (define-public emacs-tweaks
   (let ((commit
-         "4550492cbd132ac3dd918104e1f2f27c8401846f")
+         "f512f65790fecb58a9682d966c9e820129241c27")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -4120,18 +4120,21 @@ current selected text by pressing e.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1yv4c3h6bmz81j3csqv6vdx3lxf3yd4z4wnk534qnjs49azsg3x7"))))
+           "1a0fdg54n92i765kvdr3n7m21n9cal4m89kkkspwzf86g908xh7d"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-yasnippet
-             emacs-magit
-             emacs-evil
-             emacs-kill-buffers
-             emacs-jump-last
-             emacs-drag-stuff
-             emacs-copy-sexp
-             emacs-evil-iedit-state
-             ))
+       (list
+        emacs-copy-sexp
+        emacs-drag-stuff
+        emacs-evil
+        emacs-evil-iedit-state
+        emacs-jump-last
+        emacs-kill-buffers
+        emacs-magit
+        emacs-yasnippet
+        emacs-yasnippet
+        emacs-zoom-frm
+        ))
       (home-page "https://github.com/Bost/tweaks")
       (synopsis "")
       (description "")
