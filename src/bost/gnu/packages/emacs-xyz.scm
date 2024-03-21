@@ -3899,6 +3899,169 @@ and implementation of treeview controls using treemacs as a tree renderer.")
                    license:cc-by4.0  ; microsoft/vscode-icons
                    license:expat))))
 
+(define-public emacs-dap-mode
+  (let ((commit
+          "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+        (revision "0"))
+    (package
+      (name "emacs-dap-mode")
+      (version (git-version "0.7" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/emacs-lsp/dap-mode.git")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "dap-magik.el"
+                     "dap-codelldb.el"
+                     "dap-elixir.el"
+                     "dap-chrome.el"
+                     "dap-mouse.el"
+                     "dap-firefox.el"
+                     "dap-js.el"
+                     "dap-gdscript.el"
+                     "dap-php.el"
+                     "dap-pwsh.el"
+                     "dap-erlang.el"
+                     "dap-docker.el"
+                     "dap-utils.el"
+                     "dap-swi-prolog.el"
+                     "dap-unity.el"
+                     "dap-go.el"
+                     "dap-netcore.el"
+                     "dapui.el"
+                     "dap-cpptools.el"
+                     "dap-edge.el"
+                     "dap-ui.el"
+                     "dap-node.el"
+                     "dap-dlv-go.el"
+                     "dap-kotlin.el"
+                     "dap-python.el"
+                     "dap-hydra.el"
+                     "dap-ruby.el"
+                     "dap-ocaml.el"
+                     "dap-gdb-lldb.el"
+                     "dap-lldb.el"
+                     "features/support/env.el"
+                     "test/dap-test.el"
+                     %default-exclude)))
+      (propagated-inputs
+        (list
+         emacs-lsp-mode
+         emacs-f
+         emacs-dash
+         emacs-dap-overlays
+         emacs-posframe
+         emacs-ht
+         emacs-lsp-docker
+         emacs-dap-launch
+         emacs-dap-tasks
+              ))
+      (home-page
+        "https://github.com/emacs-lsp/dap-mode.git")
+      (synopsis "Emacs client/library for Debug Adapter Protocol")
+      (description
+       "Dap mode is an Emacs client/library for Debug Adapter
+Protocol (DAP), a wire protocol for communication between client and
+debug server.  It is similar to the LSP but provides integration with
+Debug server.")
+      (license license:gpl3+))))
+
+(define-public emacs-dap-utils
+  (let ((commit
+         "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+        (revision "0"))
+    (package
+      (name "emacs-dap-utils")
+      (version (git-version "0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/dap-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "dap-magik.el"
+                     "dap-codelldb.el"
+                     "dap-elixir.el"
+                     "dap-chrome.el"
+                     "dap-mouse.el"
+                     "dap-firefox.el"
+                     "dap-js.el"
+                     "dap-gdscript.el"
+                     "dap-php.el"
+                     "dap-pwsh.el"
+                     "dap-erlang.el"
+                     "dap-docker.el"
+                     "dap-swi-prolog.el"
+                     "dap-unity.el"
+                     "dap-go.el"
+                     "dap-netcore.el"
+                     "dapui.el"
+                     "dap-cpptools.el"
+                     "dap-edge.el"
+                     "dap-ui.el"
+                     "dap-node.el"
+                     "dap-dlv-go.el"
+                     "dap-kotlin.el"
+                     "dap-python.el"
+                     "dap-hydra.el"
+                     "dap-ruby.el"
+                     "dap-ocaml.el"
+                     "dap-gdb-lldb.el"
+                     "dap-lldb.el"
+                     "features/support/env.el"
+                     "test/dap-test.el"
+                     %default-exclude)))
+      (propagated-inputs
+       (list emacs-dap-mode))
+      (home-page
+       "https://github.com/emacs-lsp/dap-mode.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dap-chrome
+  (let ((commit
+         "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+        (revision "0"))
+    (package
+      (name "emacs-dap-chrome")
+      (version (git-version "0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/dap-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-dap-utils emacs-dap-mode))
+      (home-page
+       "https://github.com/emacs-lsp/dap-mode.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define-public emacs-lsp-java
   (package
     (name "emacs-lsp-java")
@@ -3936,51 +4099,303 @@ and implementation of treeview controls using treemacs as a tree renderer.")
     (license license:gpl3+)))
 
 (define-public emacs-lsp-metals
-  (package
-    (name "emacs-lsp-metals")
-    (version "1.2.0")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/emacs-lsp/lsp-metals")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "0ca5xq1l3lscx36pcdnpy2axgyikjrl18naqr140kr1y500sy37s"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-dap-mode emacs-lsp-treemacs emacs-scala-mode))
-    (home-page "https://github.com/emacs-lsp/lsp-metals")
-    (synopsis "Scala support for LSP mode")
-    (description "This package is an Emacs Scala IDE using LSP mode to connect
+  (let ((commit
+         "da7e54ed65f4e153c94b9c54689908dce142ef37")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-metals")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-metals.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17zs7s6dmaprdc000b9779flk4iw61gi1xgn2wxwq9bxn1l2p9ny"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-lsp-metals-treeview
+             emacs-lsp-metals-protocol
+             emacs-lsp-lens
+             emacs-dap-mode
+             emacs-lsp-mode))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-metals.git")
+      (synopsis "Scala support for LSP mode")
+      (description "This package is an Emacs Scala IDE using LSP mode to connect
 to Metals.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
-(define-public emacs-dap-mode
-  (package
-    (name "emacs-dap-mode")
-    (version "0.7")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacs-lsp/dap-mode")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1zczmcv8562lachkvcwy6njn7zkgny08iznpmrx821wr8mh52wnn"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-bui emacs-lsp-mode emacs-posframe emacs-lsp-treemacs))
-    (home-page "https://emacs-lsp.github.io/dap-mode")
-    (synopsis "Emacs client/library for Debug Adapter Protocol")
-    (description
-     "Dap mode is an Emacs client/library for Debug Adapter
-Protocol (DAP), a wire protocol for communication between client and
-debug server.  It is similar to the LSP but provides integration with
-Debug server.")
-    (license license:gpl3+)))
+;; (define-public emacs-lsp-metals
+;;   (package
+;;     (name "emacs-lsp-metals")
+;;     (version "1.2.0")
+;;     (source (origin
+;;               (method git-fetch)
+;;               (uri (git-reference
+;;                     (url "https://github.com/emacs-lsp/lsp-metals")
+;;                     (commit version)))
+;;               (file-name (git-file-name name version))
+;;               (sha256
+;;                (base32
+;;                 "0ca5xq1l3lscx36pcdnpy2axgyikjrl18naqr140kr1y500sy37s"))))
+;;     (build-system emacs-build-system)
+;;     (propagated-inputs
+;;      (list emacs-dap-mode emacs-lsp-treemacs emacs-scala-mode))
+;;     (home-page "https://github.com/emacs-lsp/lsp-metals")
+;;     (synopsis "Scala support for LSP mode")
+;;     (description "This package is an Emacs Scala IDE using LSP mode to connect
+;; to Metals.")
+;;     (license license:gpl3+)))
+
+;; (define-public emacs-dap-mode
+;;   (package
+;;     (name "emacs-dap-mode")
+;;     (version "0.7")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url "https://github.com/emacs-lsp/dap-mode")
+;;              (commit version)))
+;;        (file-name (git-file-name name version))
+;;        (sha256
+;;         (base32 "1zczmcv8562lachkvcwy6njn7zkgny08iznpmrx821wr8mh52wnn"))))
+;;     (build-system emacs-build-system)
+;;     (propagated-inputs
+;;      (list
+;;       emacs-bui
+;;       emacs-lsp-mode
+;;       emacs-lsp-treemacs
+;;       ))
+;;     (home-page "https://emacs-lsp.github.io/dap-mode")
+;;     (synopsis "Emacs client/library for Debug Adapter Protocol")
+;;     (description
+;;      "Dap mode is an Emacs client/library for Debug Adapter
+;; Protocol (DAP), a wire protocol for communication between client and
+;; debug server.  It is similar to the LSP but provides integration with
+;; Debug server.")
+;;     (license license:gpl3+)))
+
+(define-public emacs-lsp-docker
+  (let ((commit
+         "5554349883af05fd25d6bbd56d7116d7f965d493")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-docker")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-docker.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1ybcnha6kbqcx7jrm666jbrnw5hkbws7n541zl2d4jl1gpv09g5y"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-ht
+             emacs-yaml
+             emacs-s
+             emacs-f
+             emacs-dash
+             emacs-lsp-mode))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-docker.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dap-launch
+  (let ((commit
+         "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+        (revision "0"))
+    (package
+      (name "emacs-dap-launch")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/dap-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "dap-magik.el"
+                     "dap-codelldb.el"
+                     "dap-elixir.el"
+                     "dap-chrome.el"
+                     "dap-mouse.el"
+                     "dap-firefox.el"
+                     "dap-js.el"
+                     "dap-gdscript.el"
+                     "dap-php.el"
+                     "dap-pwsh.el"
+                     "dap-erlang.el"
+                     "dap-docker.el"
+                     "dap-utils.el"
+                     "dap-swi-prolog.el"
+                     "dap-unity.el"
+                     "dap-go.el"
+                     "dap-netcore.el"
+                     "dapui.el"
+                     "dap-cpptools.el"
+                     "dap-edge.el"
+                     "dap-ui.el"
+                     "dap-node.el"
+                     "dap-mode.el"
+                     "dap-dlv-go.el"
+                     "dap-kotlin.el"
+                     "dap-python.el"
+                     "dap-hydra.el"
+                     "dap-ruby.el"
+                     "dap-ocaml.el"
+                     "dap-gdb-lldb.el"
+                     "dap-lldb.el"
+                     "features/support/env.el"
+                     "test/dap-test.el"
+                     %default-exclude)))
+      (propagated-inputs (list emacs-lsp-mode))
+      (home-page
+       "https://github.com/emacs-lsp/dap-mode.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dap-tasks
+  (let ((commit
+         "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+        (revision "0"))
+    (package
+      (name "emacs-dap-tasks")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/dap-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "dap-magik.el"
+                     "dap-codelldb.el"
+                     "dap-elixir.el"
+                     "dap-chrome.el"
+                     "dap-mouse.el"
+                     "dap-firefox.el"
+                     "dap-js.el"
+                     "dap-gdscript.el"
+                     "dap-php.el"
+                     "dap-pwsh.el"
+                     "dap-erlang.el"
+                     "dap-docker.el"
+                     "dap-utils.el"
+                     "dap-swi-prolog.el"
+                     "dap-unity.el"
+                     "dap-go.el"
+                     "dap-netcore.el"
+                     "dapui.el"
+                     "dap-cpptools.el"
+                     "dap-edge.el"
+                     "dap-ui.el"
+                     "dap-node.el"
+                     "dap-mode.el"
+                     "dap-dlv-go.el"
+                     "dap-kotlin.el"
+                     "dap-python.el"
+                     "dap-hydra.el"
+                     "dap-ruby.el"
+                     "dap-ocaml.el"
+                     "dap-gdb-lldb.el"
+                     "dap-lldb.el"
+                     "features/support/env.el"
+                     "test/dap-test.el"
+                     %default-exclude)))      (propagated-inputs (list emacs-lsp-mode))
+      (home-page
+       "https://github.com/emacs-lsp/dap-mode.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dap-overlays
+  (let ((commit
+         "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+        (revision "0"))
+    (package
+      (name "emacs-dap-overlays")
+      (version (git-version "0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/dap-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "dap-magik.el"
+                     "dap-codelldb.el"
+                     "dap-elixir.el"
+                     "dap-chrome.el"
+                     "dap-mouse.el"
+                     "dap-firefox.el"
+                     "dap-js.el"
+                     "dap-gdscript.el"
+                     "dap-php.el"
+                     "dap-pwsh.el"
+                     "dap-erlang.el"
+                     "dap-docker.el"
+                     "dap-utils.el"
+                     "dap-swi-prolog.el"
+                     "dap-unity.el"
+                     "dap-go.el"
+                     "dap-netcore.el"
+                     "dapui.el"
+                     "dap-cpptools.el"
+                     "dap-edge.el"
+                     "dap-ui.el"
+                     "dap-node.el"
+                     "dap-mode.el"
+                     "dap-dlv-go.el"
+                     "dap-kotlin.el"
+                     "dap-python.el"
+                     "dap-hydra.el"
+                     "dap-ruby.el"
+                     "dap-ocaml.el"
+                     "dap-gdb-lldb.el"
+                     "dap-lldb.el"
+                     "dap-launch.el"
+                     "dap-tasks.el"
+                     "features/support/env.el"
+                     "test/dap-test.el"
+                     %default-exclude)))
+      (home-page
+       "https://github.com/emacs-lsp/dap-mode.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 ;; (define-public emacs-hybrid-mode
 ;;   (let ((commit
