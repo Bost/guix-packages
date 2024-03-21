@@ -4076,11 +4076,6 @@ Debug server.")
                (base32
                 "1h0hqgjpk5mbylma1fkva0vx45achf0k7ab2c5y8a2449niww90h"))))
     (build-system emacs-build-system)
-    (arguments
-     (list #:include #~(cons*
-                        "^features\\/step-definitions\\/"
-                        "^features\\/support\\/"
-                        %default-include)))
     (propagated-inputs
      (list
       emacs-cc-mode
@@ -4097,6 +4092,120 @@ Debug server.")
     (synopsis "Java support for lsp-mode")
     (description "Emacs Java IDE using Eclipse JDT Language Server.")
     (license license:gpl3+)))
+
+(define-public emacs-lsp-protocol
+  (let ((commit
+         "193c714c1d74afeee154b255fbe85025cc4ee690")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-protocol")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "03hcwhfv919rj1723pdg56p25zcv0rdp2adp3w8jaz4y16b8xdzd"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "lsp-completion.el"
+                     "lsp-diagnostics.el"
+                     "lsp-dired.el"
+                     "lsp.el"
+                     "lsp-headerline.el"
+                     "lsp-icons.el"
+                     "lsp-ido.el"
+                     "lsp-iedit.el"
+                     "lsp-lens.el"
+                     "lsp-mode.el"
+                     "lsp-modeline.el"
+                     "lsp-semantic-tokens.el"
+                     %default-exclude)
+        #:phases
+        #~(modify-phases %standard-phases
+          (add-before 'patch-el-files 'ksh
+            (lambda _
+              (delete-file "clients/lsp-csharp.el")
+              (delete-file "clients/lsp-fsharp.el"))))
+        ))
+      (propagated-inputs
+       (list emacs-s emacs-ht emacs-dash))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-mode.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-metals-protocol
+  (let ((commit
+         "da7e54ed65f4e153c94b9c54689908dce142ef37")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-metals-protocol")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-metals.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17zs7s6dmaprdc000b9779flk4iw61gi1xgn2wxwq9bxn1l2p9ny"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-lsp-protocol))
+      (arguments
+       (list
+        #:exclude #~(cons*
+                     "lsp-metals.el"
+                     "lsp-metals-treeview.el"
+                     %default-exclude)
+        ))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-metals.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-metals-treeview
+  (let ((commit
+          "da7e54ed65f4e153c94b9c54689908dce142ef37")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-metals-treeview")
+      (version (git-version "1.0.0" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/emacs-lsp/lsp-metals.git")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32
+              "17zs7s6dmaprdc000b9779flk4iw61gi1xgn2wxwq9bxn1l2p9ny"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+        (list emacs-lsp-metals-protocol
+              emacs-lsp-treemacs
+              emacs-lsp-mode
+              emacs-treemacs-treelib
+              emacs-pcase
+              emacs-f
+              emacs-dash
+              emacs-ht))
+      (home-page
+        "https://github.com/emacs-lsp/lsp-metals.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
 
 (define-public emacs-lsp-metals
   (let ((commit
@@ -4327,7 +4436,8 @@ to Metals.")
                      "dap-lldb.el"
                      "features/support/env.el"
                      "test/dap-test.el"
-                     %default-exclude)))      (propagated-inputs (list emacs-lsp-mode))
+                     %default-exclude)))
+      (propagated-inputs (list emacs-lsp-mode))
       (home-page
        "https://github.com/emacs-lsp/dap-mode.git")
       (synopsis "")
