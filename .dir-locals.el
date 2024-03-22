@@ -1,7 +1,46 @@
 ;; Per-directory local variables for GNU Emacs 23 and later.
 
-((nil
-  . ((fill-column . 78)
+;; (set-local-keymap (kbd "<f8>") '(message "f8 pressed"))
+;; (set-local-keymap (kbd "<f7>") '(dgxp-find-file--guix-emacs-xyz))
+
+;; (set-local-keymap
+;;  (kbd "<f7>") '(dgxp-find-file--guix-emacs-xyz)
+;;  (kbd "<f8>") '(dgxp-find-file--bost-emacs-xyz)
+;;  )
+
+(
+ (nil
+  . (
+     (eval
+      .
+      (progn
+
+        (defun dgxp-find-file--bost-emacs-xyz ()
+          (interactive)
+          (find-file
+           (format "%s/src/bost/gnu/packages/emacs-xyz.scm" (getenv "dgxp"))))
+
+        (defun dgxp-find-file--guix-emacs-xyz ()
+          (interactive)
+          (find-file
+           (format "%s/gnu/packages/emacs-xyz.scm" (getenv "dgx"))))
+
+        ;; See also `set-local-keymap', however:
+        ;; 1. set-local-keymap seems to be lazy-loaded. autload may or may not help.
+        ;; 2. set-local-keymap doesn't work when in e.g. *Messages*
+        ;; (set-local-keymap
+        ;;  (kbd "<f7>") '(dgxp-find-file--guix-emacs-xyz)
+        ;;  (kbd "<f8>") '(dgxp-find-file--bost-emacs-xyz)
+        ;;  )
+
+        (dolist (state-map `(,global-map))
+          (bind-keys
+           :map state-map
+           ("<f7>"  . dgxp-find-file--guix-emacs-xyz)
+           ("<f8>"  . dgxp-find-file--bost-emacs-xyz)))
+        ))
+
+     (fill-column . 78)
      (tab-width   .  8)
      (sentence-end-double-space . t)
 
@@ -9,6 +48,7 @@
      (bug-reference-url-format . "http://bugs.gnu.org/%s")
      (bug-reference-bug-regexp
       . "<https?://\\(debbugs\\|bugs\\)\\.gnu\\.org/\\([0-9]+\\)>")))
+
  (c-mode          . ((c-file-style . "gnu")))
  (scheme-mode
   .
