@@ -4001,7 +4001,7 @@ Debug server.")
 
 (define-public emacs-kill-buffers
   (let ((commit
-         "171e7307995ba8983611ef7b8fddf4e0053f12db")
+         "eb2a195f4c98e62c8c541ea27a4f0398e8187b99")
         (revision "0"))
     (package
       (name "emacs-kill-buffers")
@@ -4015,7 +4015,7 @@ Debug server.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1ibkwvq10hcq33b852capqja8351fs3gaakwj25mhz0jr7sr0g8a"))))
+           "0ssnyvy80h1pc1khimcazxf0mqkzz0xmzjg2if7xc6js235rcksf"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-cider))
       (home-page
