@@ -37,7 +37,10 @@
    dst-dir))
 
 (define (git-clone-to-tmp url)
-  "Clone the git repository at the URL to the /tmp/"
+  "Clone the git repository at the URL to the /tmp/
+See also
+`guix download ${recurse} --commit=${url.commit} ${url.url}`
+"
   (let* [(project-name (basename url))
          (dst-dir (str "/tmp/" project-name))]
     ;; (format #t "(access? dst-dir F_OK): ~a\n" (access? dst-dir F_OK)
