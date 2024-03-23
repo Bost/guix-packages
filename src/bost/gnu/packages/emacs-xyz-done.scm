@@ -121,7 +121,20 @@
   #:use-module (gnu packages wget)
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
-  #:use-module (ice-9 match))
+  #:use-module (ice-9 match)
+
+  #:use-module (bost gnu packages emacs-xyz--dap-mode)
+  #:re-export
+  (
+   emacs-dap-launch
+   emacs-dap-tasks
+   emacs-lsp-docker
+   emacs-dap-mode
+   emacs-dap-utils
+   emacs-dap-chrome
+   emacs-dap-overlays
+)
+  )
 
 (define-public emacs-color-theme-sanityinc-tomorrow
   (let ((commit "d34e8db507ee0c7b465ff18a8f220c33ed77cd79")
@@ -3919,35 +3932,6 @@ and implementation of treeview controls using treemacs as a tree renderer.")
 ;;     (synopsis "Scala support for LSP mode")
 ;;     (description "This package is an Emacs Scala IDE using LSP mode to connect
 ;; to Metals.")
-;;     (license license:gpl3+)))
-
-;; (define-public emacs-dap-mode
-;;   (package
-;;     (name "emacs-dap-mode")
-;;     (version "0.7")
-;;     (source
-;;      (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url "https://github.com/emacs-lsp/dap-mode")
-;;              (commit version)))
-;;        (file-name (git-file-name name version))
-;;        (sha256
-;;         (base32 "1zczmcv8562lachkvcwy6njn7zkgny08iznpmrx821wr8mh52wnn"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;      (list
-;;       emacs-bui
-;;       emacs-lsp-mode
-;;       emacs-lsp-treemacs
-;;       ))
-;;     (home-page "https://emacs-lsp.github.io/dap-mode")
-;;     (synopsis "Emacs client/library for Debug Adapter Protocol")
-;;     (description
-;;      "Dap mode is an Emacs client/library for Debug Adapter
-;; Protocol (DAP), a wire protocol for communication between client and
-;; debug server.  It is similar to the LSP but provides integration with
-;; Debug server.")
 ;;     (license license:gpl3+)))
 
 ;; (define-public emacs-hybrid-mode
