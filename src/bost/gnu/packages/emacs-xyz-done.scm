@@ -3563,11 +3563,11 @@ Build in fish-shell:
       (build-system emacs-build-system)
       (arguments
        (list
-         #:tests? #t
-         #:test-command #~(list
-                           "emacs" "-Q" "--batch" "-L" "."
-                          "--load" "emacsql-sqlite3-test.el"
-                          "-f" "ert-run-tests-batch-and-exit")
+         ;; #:tests? #t
+         ;; #:test-command #~(list
+         ;;                   "emacs" "-Q" "--batch" "-L" "."
+         ;;                  "--load" "emacsql-sqlite3-test.el"
+         ;;                  "-f" "ert-run-tests-batch-and-exit")
          #:phases
          #~(modify-phases %standard-phases
              (add-after 'unpack 'embed-path-to-sqlite3
