@@ -122,11 +122,13 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
 
-  #:use-module (gnu packages emacs-xyz)
+  ;; #:use-module (gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz--dap-mode)
   #:re-export
   (
+   emacs-lsp-ui
+
    emacs-dap-launch
    emacs-dap-tasks
    emacs-lsp-docker
@@ -135,6 +137,15 @@
    emacs-dap-chrome
    emacs-dap-overlays
    emacs-lsp-mode
+   emacs-helm-lsp
+
+   emacs-lsp-lens
+   emacs-lsp-protocol
+   emacs-lsp-java
+   emacs-lsp-metals
+   emacs-lsp-metals-protocol
+   emacs-lsp-metals-treeview
+   emacs-treemacs-treelib
 
    emacs-color-theme-sanityinc-tomorrow
    emacs-color-theme-sanityinc-solarized
@@ -264,117 +275,3 @@
    emacs-frame-cmds
    emacs-zoom-frm
    ))
-
-(define-public emacs-lsp-lens
-  (package
-    (inherit emacs-lsp-mode)
-    (name "emacs-lsp-lens")
-    (propagated-inputs
-     (list emacs-lsp-mode))))
-
-(define-public emacs-lsp-protocol
-  (package
-    (inherit emacs-lsp-mode)
-    (name "emacs-lsp-procotol")))
-
-(define-public emacs-lsp-java
-  (package
-    (name "emacs-lsp-java")
-    (version "3.1")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/emacs-lsp/lsp-java")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "1h0hqgjpk5mbylma1fkva0vx45achf0k7ab2c5y8a2449niww90h"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      emacs-cc-mode
-      emacs-dap-mode
-      emacs-dash
-      emacs-f
-      emacs-ht
-      emacs-lsp-mode
-      emacs-markdown-mode
-      emacs-request
-      emacs-treemacs
-      ))
-    (home-page "https://github.com/emacs-lsp/lsp-java/")
-    (synopsis "Java support for lsp-mode")
-    (description "Emacs Java IDE using Eclipse JDT Language Server.")
-    (license license:gpl3+)))
-
-(define-public emacs-treemacs-treelib
-  (package
-    (inherit emacs-treemacs)
-    (name "emacs-treemacs-treelib")
-    (propagated-inputs
-     (list emacs-treemacs emacs-dash emacs-s))))
-
-(define emacs-lsp-metals-base
-  (let ((commit
-         "da7e54ed65f4e153c94b9c54689908dce142ef37")
-        (revision "0"))
-    (package
-      (name "emacs-lsp-metals-base")
-      (version (git-version "8.0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacs-lsp/lsp-metals.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "17zs7s6dmaprdc000b9779flk4iw61gi1xgn2wxwq9bxn1l2p9ny"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/emacs-lsp/lsp-metals.git")
-      (synopsis "Scala support for LSP mode")
-      (description "This package is an Emacs Scala IDE using LSP mode to connect
-to Metals.")
-      (license license:gpl3+))))
-
-(define-public emacs-lsp-metals
-  (package
-    (inherit emacs-lsp-metals-base)
-    (name "emacs-lsp-metals")
-    (propagated-inputs
-     (list emacs-lsp-metals-treeview
-           emacs-lsp-metals-protocol
-           emacs-lsp-mode
-           emacs-lsp-lens
-           emacs-dap-mode))))
-
-(define-public emacs-lsp-metals-protocol
-  (package
-    (inherit emacs-lsp-metals-base)
-    (name "emacs-lsp-metals-protocol")
-    ;; Consider using `native-inputs' instead of `propagated-inputs'.
-    ;; `native-inputs' is typically used to list tools needed at build time,
-    ;; but not at run time.
-    (propagated-inputs
-     (list
-      emacs-lsp-protocol
-      emacs-treemacs-treelib ;; needed, but not via (require 'treemacs-treelib)
-      emacs-lsp-treemacs     ;; needed, but not via (require 'lsp-treemacs)
-      emacs-dap-mode         ;; needed, but not via (require 'dap-mode)
-      ))))
-
-(define-public emacs-lsp-metals-treeview
-  (package
-    (inherit emacs-lsp-metals-base)
-    (name "emacs-lsp-metals-treeview")
-    (propagated-inputs
-     (list emacs-lsp-metals-protocol
-           emacs-lsp-treemacs
-           emacs-lsp-mode
-           emacs-treemacs-treelib
-           emacs-f
-           emacs-dash
-           emacs-ht))))

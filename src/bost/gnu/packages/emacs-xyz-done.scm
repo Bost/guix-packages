@@ -122,8 +122,8 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
 
-  #:use-module (gnu packages emacs-xyz)
-  #:use-module (bost gnu packages emacs-xyz--dap-mode)
+  ;; #:use-module (gnu packages emacs-xyz)
+  ;; #:use-module (bost gnu packages emacs-xyz--dap-mode)
   )
 
 (define-public emacs-color-theme-sanityinc-tomorrow
@@ -177,17 +177,17 @@ theme pair.")
       (license license:gpl3+))))
 
 ;; $ guix refresh
-;; bost/packages/emacs-xyz.scm:397:13: emacs-eziam-theme-emacs would be upgraded from 0.1 to 2.0
-;; bost/packages/emacs-xyz.scm:451:13: emacs-moe-theme would be upgraded from 0.1 to 1.0.1
-;; bost/packages/emacs-xyz.scm:475:13: emacs-slim-mode would be upgraded from 0.1 to 1.1
-;; bost/packages/emacs-xyz.scm:686:13: emacs-treemacs-magit would be upgraded from 0 to 3.0
-;; bost/packages/emacs-xyz.scm:313:13: emacs-color-theme-sanityinc-tomorrow would be upgraded from 0.1 to 1.17
-;; bost/packages/emacs-xyz.scm:426:13: emacs-lsp-python-ms would be upgraded from 0.1 to 0.7.2
-;; bost/packages/emacs-xyz.scm:520:13: emacs-font-utils would be upgraded from 0.1 to 0.7.8
-;; bost/packages/emacs-xyz.scm:152:17: emacs-font-lock+ would be upgraded from 0-233.aa1c82d to 208
-;; bost/packages/emacs-xyz.scm:498:13: emacs-zop-to-char would be upgraded from 0.1 to 1.1
-;; bost/packages/emacs-xyz.scm:338:13: emacs-gruvbox would be upgraded from 0.1 to 1.30.1
-;; bost/packages/emacs-xyz.scm:604:13: emacs-popwin would be upgraded from 0.1 to 1.0.2
+;; emacs-eziam-theme-emacs would be upgraded from 0.1 to 2.0
+;; emacs-moe-theme would be upgraded from 0.1 to 1.0.1
+;; emacs-slim-mode would be upgraded from 0.1 to 1.1
+;; emacs-treemacs-magit would be upgraded from 0 to 3.0
+;; emacs-color-theme-sanityinc-tomorrow would be upgraded from 0.1 to 1.17
+;; emacs-lsp-python-ms would be upgraded from 0.1 to 0.7.2
+;; emacs-font-utils would be upgraded from 0.1 to 0.7.8
+;; emacs-font-lock+ would be upgraded from 0-233.aa1c82d to 208
+;; emacs-zop-to-char would be upgraded from 0.1 to 1.1
+;; emacs-gruvbox would be upgraded from 0.1 to 1.30.1
+;; emacs-popwin would be upgraded from 0.1 to 1.0.2
 
 ;; following redirection to `https://api.github.com/repositories/13679783/releases'...
 ;; following redirection to `https://api.github.com/repositories/13679783/tags'...
@@ -443,7 +443,7 @@ annoying buffers such like *Help*, *Completions*, *compilation*, and etc.")
          "12mwviz1mwx4ywks2lkmybbgh1wny67wkzlq5y3ml8gvyc288n3i"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-company))
+     (list (@(gnu packages emacs-xyz) emacs-company)))
     (home-page
      "https://github.com/company-mode/company-statistics")
     (synopsis "")
@@ -517,7 +517,7 @@ color for syntax, and easily allows multiple variants.")
             "18j4ikb3q8ygdq74zqzm83wgb39x7w209n3186mm051n8lfmkaif"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-helm))
+     (list (@(gnu packages emacs-xyz) emacs-helm)))
     (home-page
       "https://github.com/Kungi/helm-cider-history")
     (synopsis "")
@@ -562,7 +562,7 @@ color for syntax, and easily allows multiple variants.")
             "1xadlsg4c52anbk3dqz6blkrid8lzsd28rw402gy17vnk7lwg9i7"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-helm))
+     (list (@(gnu packages emacs-xyz) emacs-helm)))
     (home-page
       "https://github.com/ShingoFukuyama/helm-css-scss")
     (synopsis "")
@@ -674,7 +674,7 @@ color for syntax, and easily allows multiple variants.")
          "1d8a9jwv9y0sncw24k840c8yyrig30f2d6q2zqlc09f05yzq9p9p"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-autothemer))
+     (list (@(gnu packages emacs-xyz) emacs-autothemer)))
     (home-page
      "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
     (synopsis "")
@@ -970,18 +970,13 @@ color for syntax, and easily allows multiple variants.")
 
 (define-public emacs-writeroom-mode
   (package
-    (inherit emacs-writeroom)
+    (inherit (@(gnu packages emacs-xyz) emacs-writeroom))
     (name "emacs-writeroom-mode")))
 
 (define-public emacs-js2-refactor
   (package
-    (inherit emacs-js2-refactor-el)
+    (inherit (@(gnu packages emacs-xyz) emacs-js2-refactor-el))
     (name "emacs-js2-refactor")))
-
-(define-public emacs-origami
-  (package
-    (inherit emacs-origami-el)
-    (name "emacs-origami")))
 
 ;; emacs-pdf-view unbound
 ;; (define-public emacs-pdf-view-restore
@@ -1375,8 +1370,8 @@ company-web.")
            "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-company
-             emacs-dash
+       (list (@(gnu packages emacs-xyz) emacs-company)
+             (@(gnu packages emacs-xyz) emacs-dash)
              emacs-web-completion-data))
       (home-page "https://github.com/osv/company-web")
       (synopsis "Emacs company backend for html, jade and slim")
@@ -1414,7 +1409,7 @@ company-mode.")
                   ("gptel-use-curl"
                    (search-input-file inputs "/bin/curl"))))))))
       (inputs (list curl))
-      (propagated-inputs (list emacs-map))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-map)))
       (home-page "https://github.com/karthink/gptel")
       (synopsis "GPTel is a simple ChatGPT client for Emacs")
       (description
@@ -1586,7 +1581,9 @@ manual for details.
                    (search-input-file inputs "/bin/node"))))))))
       (inputs (list node-lts))
       (propagated-inputs
-       (list emacs-dash emacs-editorconfig emacs-s))
+       (list (@(gnu packages emacs-xyz) emacs-dash)
+             (@(gnu packages emacs-xyz) emacs-editorconfig)
+             (@(gnu packages emacs-xyz) emacs-s)))
       (home-page
        "https://github.com/zerolfx/copilot.el.git")
       (synopsis "An unofficial Copilot plugin for Emacs")
@@ -1926,7 +1923,7 @@ access to GitHub Copilot to use this plugin.")
             (base32
               "0dvfk9kyza6yq0jn9g2ffb5gv07xnjg6myxkqfxpll7m2s0zasi7"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-autothemer))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-autothemer)))
       (home-page
         "http://github.com/emacsfodder/emacs-theme-darktooth")
       (synopsis "")
@@ -3366,8 +3363,8 @@ Build in fish-shell:
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-hydra
-        emacs-cider
+        (@(gnu packages emacs-xyz) emacs-hydra)
+        (@(gnu packages emacs-xyz) emacs-cider)
         ;; emacs-cider-inspector
         ;; emacs-cider-test
         ;; emacs-cider-repl
@@ -3403,7 +3400,7 @@ Build in fish-shell:
           (base32
            "0h0cbiifzjfm5ymwf98h6nlkaqavdlxvccdsb1h0yf4246scf251"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-flycheck))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-flycheck)))
       (home-page
        "https://github.com/borkdude/flycheck-clj-kondo")
       (synopsis "")
@@ -3428,7 +3425,7 @@ Build in fish-shell:
           (base32
            "1hz5nlrhbrlwwk8rcjvc3jhj0g9wgm6xw903ap8fxq470mj99gln"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-flycheck))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-flycheck)))
       (home-page
        "https://github.com/candid82/flycheck-joker")
       (synopsis "")
@@ -3454,7 +3451,9 @@ Build in fish-shell:
            "0slspzc3zppavmdnw8xpih1iiqyqbyx4mm286lz0naw7g4yrpb12"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-s emacs-parseedn emacs-cider))
+       (list (@(gnu packages emacs-xyz) emacs-s)
+             (@(gnu packages emacs-xyz) emacs-parseedn)
+             (@(gnu packages emacs-xyz) emacs-cider)))
       (home-page
        "https://github.com/magnars/kaocha-runner.el")
       (synopsis "")
@@ -3508,7 +3507,7 @@ Build in fish-shell:
       (arguments
        (list
         #:include #~(cons "^src/el/" %default-include)))
-      (propagated-inputs (list emacs-cider))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-cider)))
       (home-page
        "https://github.com/clojure-emacs/sayid")
       (synopsis "")
@@ -3537,8 +3536,8 @@ Build in fish-shell:
        (list
         ;; emacs-kaolin-themes-lib
         ;; emacs-color
-        emacs-map
-        emacs-autothemer))
+        (@(gnu packages emacs-xyz) emacs-map)
+        (@(gnu packages emacs-xyz) emacs-autothemer)))
       (home-page
        "https://github.com/ogdenwebb/emacs-kaolin-themes")
       (synopsis "")
@@ -3577,11 +3576,11 @@ Build in fish-shell:
                    (("\\(executable-find \"sqlite3\"\\)")
                     (string-append "\"" (which "sqlite3") "\""))))))))
       (native-inputs
-       (list emacs-ert-runner))
+       (list (@(gnu packages emacs-xyz) emacs-ert-runner)))
       (inputs
        (list sqlite))
       (propagated-inputs
-       (list emacs-emacsql))
+       (list (@(gnu packages emacs-xyz) emacs-emacsql)))
       (home-page "https://github.com/cireu/emacsql-sqlite3")
       (synopsis "EmacSQL backend for SQLite")
       (description "This is yet another EmacSQL backend for SQLite which uses
@@ -3608,7 +3607,7 @@ official @command{sqlite3} executable to access SQL database.")
       (build-system emacs-build-system)
       (propagated-inputs (list
                           ;; emacs-color
-                          emacs-dash))
+                          (@(gnu packages emacs-xyz) emacs-dash)))
       (home-page
        "https://github.com/ZehCnaS34/zonokai-emacs")
       (synopsis "")
@@ -3654,15 +3653,6 @@ official @command{sqlite3} executable to access SQL database.")
 ;;      (synopsis "")
 ;;      (description "")
 ;;      (license license:gpl3+))))
-
-(define* (%emacs-lsp-treemacs-upstream-source #:key commit version hash)
-  (origin
-    (method git-fetch)
-    (uri (git-reference
-          (url "https://github.com/emacs-lsp/lsp-treemacs")
-          (commit commit)))
-    (file-name (git-file-name "emacs-lsp-treemacs" version))
-    (hash hash)))
 
 ;; (define-public emacs-lsp-metals
 ;;   (package
@@ -3729,7 +3719,7 @@ official @command{sqlite3} executable to access SQL database.")
           (base32
            "0ssnyvy80h1pc1khimcazxf0mqkzz0xmzjg2if7xc6js235rcksf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-cider))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-cider)))
       (home-page
        "https://github.com/Bost/kill-buffers")
       (synopsis "Kill various unwanted buffers")
@@ -3755,7 +3745,8 @@ official @command{sqlite3} executable to access SQL database.")
            "1pd6nrgv6b6134w60zlxb3dnvn3nw8975wq5h6smach9cfxf7iry"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-smartparens emacs-eval-sexp-fu-el))
+       (list (@(gnu packages emacs-xyz) emacs-smartparens)
+             (@(gnu packages emacs-xyz) emacs-eval-sexp-fu-el)))
       (home-page "https://github.com/Bost/copy-sexp")
       (synopsis "")
       (description "")
@@ -3779,7 +3770,7 @@ official @command{sqlite3} executable to access SQL database.")
           (base32
            "0r31d7597dzi01y09acqvzqxn7fqb1amxngjq7zk5gp5n61frf9s"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-goto-chg))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-goto-chg)))
       (home-page "https://github.com/Bost/jump-last")
       (synopsis "Jump to the Last Edit Location, regardless of the file")
       (description "Jump to the Last Edit Location, regardless of the file.")
@@ -3804,8 +3795,8 @@ official @command{sqlite3} executable to access SQL database.")
            "0vjzjmp3ba0nzf0v04bhxvzgdwwm11vivxqjzgnvp3kq95kajr5h"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-evil
-             emacs-iedit
+       (list (@(gnu packages emacs-xyz) emacs-evil)
+             (@(gnu packages emacs-xyz) emacs-iedit)
              ))
       (home-page "https://github.com/syl20bnr/evil-iedit-state")
       (synopsis "Slick Evil states for iedit")
@@ -3837,14 +3828,13 @@ current selected text by pressing e.")
       (propagated-inputs
        (list
         emacs-copy-sexp
-        emacs-drag-stuff
-        emacs-evil
+        (@(gnu packages emacs-xyz) emacs-drag-stuff)
+        (@(gnu packages emacs-xyz) emacs-evil)
         emacs-evil-iedit-state
         emacs-jump-last
         emacs-kill-buffers
-        emacs-magit
-        emacs-yasnippet
-        emacs-yasnippet
+        (@(gnu packages emacs-xyz) emacs-magit)
+        (@(gnu packages emacs-xyz) emacs-yasnippet)
         emacs-zoom-frm
         ))
       (home-page "https://github.com/Bost/tweaks")
@@ -3898,7 +3888,7 @@ with GUI Emacs behavior.")
           (base32
            "0lj4cp7ml7cjhkd66f6ivcl6sbfs2my8ajjlynzl3pm5qansfw5i"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-dash))
+      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-dash)))
       (home-page
        "https://github.com/deb0ch/emacs-winum")
       (synopsis "Navigate windows and frames using numbers")
