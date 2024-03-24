@@ -18,111 +18,14 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
-  #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages bash)
+  ;; #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages python)
+  #:use-module (gnu packages python-xyz)
   )
-
-(define-public emacs-lsp-mode
-  (let ((commit "fd0a4f1fa5abc601b01a234e96798961b8a417c1")
-        (revision "0"))
-    (package
-      (name "emacs-lsp-mode")
-      (version (git-version "8.0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacs-lsp/lsp-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0f92rp1z9512ms444j9yx9wrfn7ca23v4ywq7jd1nlfd4n006bjv"))))
-      (build-system emacs-build-system)
-      (arguments
-       `(
-         ;; #:exclude #~(cons* "^lsp-lense\\.el$" %default-exclude)
-         #:emacs ,emacs                 ;need libxml support
-         #:phases
-         (modify-phases %standard-phases
-           (add-after 'unpack 'move-clients-libraries
-             ;; Move all clients libraries at top-level, as is done, e.g., in
-             ;; MELPA.
-             (lambda _
-               (for-each (lambda (f)
-                           (install-file f "."))
-                         (find-files "clients/" "\\.el$"))))
-           (add-before 'move-clients-libraries 'fix-patch-el-files
-             ;; /bin/ksh is only used on macOS, which we don't support, so we
-             ;; don't want to add it as input.
-             (lambda _
-               (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
-                 (("/bin/ksh") "ksh")))))))
-      (propagated-inputs
-       (list emacs-dash
-             emacs-f
-             emacs-ht
-             emacs-hydra
-             emacs-markdown-mode
-             emacs-spinner))
-      (home-page "https://emacs-lsp.github.io/lsp-mode/")
-      (synopsis "Emacs client and library for the Language Server Protocol")
-      (description
-       "LSP mode is a client and library implementation for the Language
-Server Protocol.  This mode creates an IDE-like experience by providing
-optional integration with other popular Emacs packages like Company, Flycheck,
-and Projectile.")
-      (license license:gpl3+))))
-
-(define-public emacs-lsp-volar
-  (package
-    (name "emacs-lsp-volar")
-    (version "0.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jadestrong/lsp-volar")
-             (commit
-              "6f0c2bc3be5fc4d8d8aa1cf5ee3546fcf6ef36be")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-lsp-mode))
-    (home-page
-     "https://github.com/jadestrong/lsp-volar")
-    (synopsis "Language support for Vue3")
-    (description "Language support for Vue3
-This package has been merged into lsp-mode, so you can use lsp-mode
-directly. There will only be some experimental updates here. Once stable, they
-will be submitted to lsp-mode.")
-    (license license:gpl3+)))
-
-(define-public emacs-lsp-haskell
-  (package
-    (name "emacs-lsp-haskell")
-    (version "1.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacs-lsp/lsp-haskell")
-             (commit
-              "3249cde75fb411f95fe173c222b848182fd0b752")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "06n16v278wzzh1iq4lp0k508dnynrz5c0qbv86hksm7sa4a4w4s7"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-haskell-mode emacs-lsp-mode))
-    (home-page
-     "https://github.com/emacs-lsp/lsp-haskell")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
 
 (define-public emacs-treemacs
   (let* ((commit
@@ -185,17 +88,18 @@ will be submitted to lsp-mode.")
                    "src/scripts"
                    (string-append (elpa-directory #$output) "/scripts"))))))))
       (native-inputs
-       (list emacs-buttercup emacs-el-mock))
+       (list (@(gnu packages emacs-xyz) emacs-buttercup)
+             (@(gnu packages emacs-xyz) emacs-el-mock)))
       (inputs
        (list python))
       (propagated-inputs
-       (list emacs-ace-window
-             emacs-dash
-             emacs-f
-             emacs-ht
-             emacs-hydra
-             emacs-pfuture
-             emacs-s))
+       (list (@(gnu packages emacs-xyz) emacs-ace-window)
+             (@(gnu packages emacs-xyz) emacs-dash)
+             (@(gnu packages emacs-xyz) emacs-f)
+             (@(gnu packages emacs-xyz) emacs-ht)
+             (@(gnu packages emacs-xyz) emacs-hydra)
+             (@(gnu packages emacs-xyz) emacs-pfuture)
+             (@(gnu packages emacs-xyz) emacs-s)))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "Emacs tree style file explorer")
       (description
@@ -205,6 +109,261 @@ the file system outlines of your projects in a simple tree layout allowing
 quick navigation and exploration, while also possessing basic file management
 utilities.")
       (license license:gpl3+))))
+
+(define-public emacs-lsp-mode
+  (let ((commit "fd0a4f1fa5abc601b01a234e96798961b8a417c1")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-mode")
+      (version (git-version "8.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0f92rp1z9512ms444j9yx9wrfn7ca23v4ywq7jd1nlfd4n006bjv"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(
+         ;; #:exclude #~(cons* "^lsp-lense\\.el$" %default-exclude)
+         #:emacs ,emacs                 ;need libxml support
+         #:phases
+         (modify-phases %standard-phases
+           (add-after 'unpack 'move-clients-libraries
+             ;; Move all clients libraries at top-level, as is done, e.g., in
+             ;; MELPA.
+             (lambda _
+               (for-each (lambda (f)
+                           (install-file f "."))
+                         (find-files "clients/" "\\.el$"))))
+           (add-before 'move-clients-libraries 'fix-patch-el-files
+             ;; /bin/ksh is only used on macOS, which we don't support, so we
+             ;; don't want to add it as input.
+             (lambda _
+               (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
+                 (("/bin/ksh") "ksh")))))))
+      (propagated-inputs
+       (list (@(gnu packages emacs-xyz) emacs-dash)
+             (@(gnu packages emacs-xyz) emacs-f)
+             (@(gnu packages emacs-xyz) emacs-ht)
+             (@(gnu packages emacs-xyz) emacs-hydra)
+             (@(gnu packages emacs-xyz) emacs-markdown-mode)
+             (@(gnu packages emacs-xyz) emacs-spinner)))
+      (home-page "https://emacs-lsp.github.io/lsp-mode/")
+      (synopsis "Emacs client and library for the Language Server Protocol")
+      (description
+       "LSP mode is a client and library implementation for the Language
+Server Protocol.  This mode creates an IDE-like experience by providing
+optional integration with other popular Emacs packages like Company, Flycheck,
+and Projectile.")
+      (license license:gpl3+))))
+
+(define-public emacs-helm-lsp
+  (package
+    (name "emacs-helm-lsp")
+    (version "0.2")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/emacs-lsp/helm-lsp")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1vq3qpqm3ndqyvf5bk8qhqcr60x9ykc0ipk2a43rr3yjm4z1b6s9"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list (@(gnu packages emacs-xyz) emacs-helm)
+           emacs-lsp-mode
+           (@(gnu packages emacs-xyz) emacs-dash)))
+    (home-page "https://github.com/emacs-lsp/helm-lsp")
+    (synopsis "Provide LSP-enhanced completion for symbols")
+    (description
+     "This package enhances @code{helm} with completion for symbols from
+workspaces with a LSP-compliant server running.")
+    (license license:gpl3+)))
+
+(define-public emacs-lsp-lens
+  (package
+    (inherit emacs-lsp-mode)
+    (name "emacs-lsp-lens")
+    (propagated-inputs
+     (list emacs-lsp-mode))))
+
+(define-public emacs-lsp-protocol
+  (package
+    (inherit emacs-lsp-mode)
+    (name "emacs-lsp-procotol")))
+
+(define-public emacs-lsp-java
+  (package
+    (name "emacs-lsp-java")
+    (version "3.1")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/emacs-lsp/lsp-java")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1h0hqgjpk5mbylma1fkva0vx45achf0k7ab2c5y8a2449niww90h"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-cc-mode)
+      emacs-dap-mode
+      (@(gnu packages emacs-xyz) emacs-dash)
+      (@(gnu packages emacs-xyz) emacs-f)
+      (@(gnu packages emacs-xyz) emacs-ht)
+      emacs-lsp-mode
+      (@(gnu packages emacs-xyz) emacs-markdown-mode)
+      (@(gnu packages emacs-xyz) emacs-request)
+      emacs-treemacs
+      ))
+    (home-page "https://github.com/emacs-lsp/lsp-java/")
+    (synopsis "Java support for lsp-mode")
+    (description "Emacs Java IDE using Eclipse JDT Language Server.")
+    (license license:gpl3+)))
+
+(define-public emacs-treemacs-treelib
+  (package
+    (inherit emacs-treemacs)
+    (name "emacs-treemacs-treelib")
+    (propagated-inputs
+     (list
+      emacs-treemacs
+      (@(gnu packages emacs-xyz) emacs-dash)
+      (@(gnu packages emacs-xyz) emacs-s)))))
+
+(define emacs-lsp-metals-base
+  (let ((commit
+         "da7e54ed65f4e153c94b9c54689908dce142ef37")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-metals-base")
+      (version (git-version "8.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-metals.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "17zs7s6dmaprdc000b9779flk4iw61gi1xgn2wxwq9bxn1l2p9ny"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/emacs-lsp/lsp-metals.git")
+      (synopsis "Scala support for LSP mode")
+      (description "This package is an Emacs Scala IDE using LSP mode to connect
+to Metals.")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-metals
+  (package
+    (inherit emacs-lsp-metals-base)
+    (name "emacs-lsp-metals")
+    (propagated-inputs
+     (list emacs-lsp-metals-treeview
+           emacs-lsp-metals-protocol
+           emacs-lsp-mode
+           emacs-lsp-lens
+           emacs-dap-mode))))
+
+(define-public emacs-lsp-metals-protocol
+  (package
+    (inherit emacs-lsp-metals-base)
+    (name "emacs-lsp-metals-protocol")
+    ;; Consider using `native-inputs' instead of `propagated-inputs'.
+    ;; `native-inputs' is typically used to list tools needed at build time,
+    ;; but not at run time.
+    (propagated-inputs
+     (list
+      emacs-lsp-protocol
+      emacs-treemacs-treelib ;; needed, but not via (require 'treemacs-treelib)
+      emacs-lsp-treemacs     ;; needed, but not via (require 'lsp-treemacs)
+      emacs-dap-mode         ;; needed, but not via (require 'dap-mode)
+      ))))
+
+(define-public emacs-lsp-metals-treeview
+  (package
+    (inherit emacs-lsp-metals-base)
+    (name "emacs-lsp-metals-treeview")
+    (propagated-inputs
+     (list emacs-lsp-metals-protocol
+           emacs-lsp-treemacs
+           emacs-lsp-mode
+           emacs-treemacs-treelib
+           (@(gnu packages emacs-xyz) emacs-f)
+           (@(gnu packages emacs-xyz) emacs-dash)
+           (@(gnu packages emacs-xyz) emacs-ht)))))
+
+(define-public emacs-lsp-volar
+  (package
+    (name "emacs-lsp-volar")
+    (version "0.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jadestrong/lsp-volar")
+             (commit
+              "6f0c2bc3be5fc4d8d8aa1cf5ee3546fcf6ef36be")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-lsp-mode))
+    (home-page
+     "https://github.com/jadestrong/lsp-volar")
+    (synopsis "Language support for Vue3")
+    (description "Language support for Vue3
+This package has been merged into lsp-mode, so you can use lsp-mode
+directly. There will only be some experimental updates here. Once stable, they
+will be submitted to lsp-mode.")
+    (license license:gpl3+)))
+
+(define-public emacs-lsp-haskell
+  (package
+    (name "emacs-lsp-haskell")
+    (version "1.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacs-lsp/lsp-haskell")
+             (commit
+              "3249cde75fb411f95fe173c222b848182fd0b752")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "06n16v278wzzh1iq4lp0k508dnynrz5c0qbv86hksm7sa4a4w4s7"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-haskell-mode)
+      emacs-lsp-mode))
+    (home-page
+     "https://github.com/emacs-lsp/lsp-haskell")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+(define* (%emacs-lsp-treemacs-upstream-source #:key commit version hash)
+  (origin
+    (method git-fetch)
+    (uri (git-reference
+          (url "https://github.com/emacs-lsp/lsp-treemacs")
+          (commit commit)))
+    (file-name (git-file-name "emacs-lsp-treemacs" version))
+    (hash hash)))
 
 (define-public emacs-lsp-treemacs
   (package
@@ -301,12 +460,19 @@ and implementation of treeview controls using treemacs as a tree renderer.")
            "1gk23a56jf1v4f4ag07hzji5pw3mq1rq622ggbvqcbc2i2bnvdn1"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-ht emacs-dash emacs-lsp-mode))
+       (list (@(gnu packages emacs-xyz) emacs-ht)
+             (@(gnu packages emacs-xyz) emacs-dash)
+             emacs-lsp-mode))
       (home-page
        "https://github.com/emacs-lsp/lsp-pyright")
       (synopsis "lsp-mode client leveraging Pyright language server")
       (description "lsp-mode client leveraging Pyright language server.")
       (license license:gpl3+))))
+
+(define-public emacs-origami
+  (package
+    (inherit (@(gnu packages emacs-xyz) emacs-origami-el))
+    (name "emacs-origami")))
 
 (define-public emacs-lsp-origami
   (let ((commit
@@ -327,7 +493,8 @@ and implementation of treeview controls using treemacs as a tree renderer.")
            "1nvz60iwdh5wkcflyk53lfwsd2yjniribvw95x9968sf9icf2dqw"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-lsp-mode emacs-origami))
+       (list emacs-lsp-mode
+             emacs-origami))
       (home-page
        "https://github.com/emacs-lsp/lsp-origami")
       (synopsis "origami.el support for lsp-mode")
@@ -440,11 +607,11 @@ textDocument/foldingRange functionality. It can be enabled with.")
            "1ybcnha6kbqcx7jrm666jbrnw5hkbws7n541zl2d4jl1gpv09g5y"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-ht
-             emacs-yaml
-             emacs-s
-             emacs-f
-             emacs-dash
+       (list (@(gnu packages emacs-xyz) emacs-ht)
+             (@(gnu packages emacs-xyz) emacs-yaml)
+             (@(gnu packages emacs-xyz) emacs-s)
+             (@(gnu packages emacs-xyz) emacs-f)
+             (@(gnu packages emacs-xyz) emacs-dash)
              emacs-lsp-mode))
       (home-page
        "https://github.com/emacs-lsp/lsp-docker.git")
@@ -468,11 +635,11 @@ textDocument/foldingRange functionality. It can be enabled with.")
     (propagated-inputs
      (list
       emacs-lsp-mode
-      emacs-f
-      emacs-dash
+      (@(gnu packages emacs-xyz) emacs-f)
+      (@(gnu packages emacs-xyz) emacs-dash)
       emacs-dap-overlays
-      emacs-posframe
-      emacs-ht
+      (@(gnu packages emacs-xyz) emacs-posframe)
+      (@(gnu packages emacs-xyz) emacs-ht)
       emacs-lsp-docker
       emacs-dap-launch
       emacs-dap-tasks
@@ -520,3 +687,31 @@ Debug server.")))
                   "^dap-overlays\\.el$"
                   ,all-info-include
                   )))))
+
+
+(define-public emacs-lsp-ui
+  (package
+    (name "emacs-lsp-ui")
+    (version "8.0.1")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/emacs-lsp/lsp-ui")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1pd5lvjlmd6zq64py21yi5zxhcza9g5q48ngfivv7fi7pf3vsv00"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list (@(gnu packages emacs-xyz) emacs-dash)
+           emacs-lsp-mode
+           (@(gnu packages emacs-xyz) emacs-markdown-mode)
+           (@(gnu packages emacs-xyz) emacs-flycheck)))
+    (home-page "https://github.com/emacs-lsp/lsp-ui")
+    (synopsis "User interface extensions for @code{lsp-mode}")
+    (description
+     "@code{LSP-ui} contains several enhancements and integrations for
+@code{lsp-mode}, such as visual flychecking, displaying references in-line,
+and code peeking.")
+    (license license:gpl3+)))
