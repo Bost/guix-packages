@@ -100,6 +100,266 @@ directly. There will only be some experimental updates here. Once stable, they
 will be submitted to lsp-mode.")
     (license license:gpl3+)))
 
+(define-public emacs-lsp-haskell
+  (package
+    (name "emacs-lsp-haskell")
+    (version "1.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacs-lsp/lsp-haskell")
+             (commit
+              "3249cde75fb411f95fe173c222b848182fd0b752")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "06n16v278wzzh1iq4lp0k508dnynrz5c0qbv86hksm7sa4a4w4s7"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-haskell-mode emacs-lsp-mode))
+    (home-page
+     "https://github.com/emacs-lsp/lsp-haskell")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
+(define-public emacs-treemacs
+  (let* ((commit
+          ;; Jun 15, 2023
+          "58ed4538a7e5e3481571566101748a2bee29bc1d")
+         (revision "1"))
+    (package
+      (name "emacs-treemacs")
+      (version (git-version "3.1" revision commit)) ;; (version "3.1")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/treemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0166y4pw1njv2dkjkh54f9s16b8n2zihs4r7dxwllcm890rsa067"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #t
+        #:test-command #~(list "make" "-C" "../.." "test")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'fix-makefile
+              (lambda _
+                (substitute* "Makefile"
+                  (("@\\$\\(CASK\\) exec ") "")
+                  ;; Guix does not need to prepare dependencies before testing.
+                  (("test: prepare") "test:"))))
+            (add-after 'fix-makefile 'chdir-elisp
+              ;; Elisp directory is not in root of the source.
+              (lambda _
+                (chdir "src/elisp")))
+            (add-before 'install 'patch-paths
+              (lambda* (#:key inputs #:allow-other-keys)
+                (make-file-writable "treemacs-core-utils.el")
+                (emacs-substitute-variables "treemacs-core-utils.el"
+                  ("treemacs-dir" (string-append #$output "/")))
+                (make-file-writable "treemacs-icons.el")
+                (substitute* "treemacs-icons.el"
+                  (("icons/default")
+                   (string-append (elpa-directory #$output) "/icons/default")))
+                (make-file-writable "treemacs-customization.el")
+                (emacs-substitute-variables "treemacs-customization.el"
+                  ("treemacs-python-executable"
+                   (search-input-file inputs "/bin/python3")))
+                (make-file-writable "treemacs-async.el")
+                (substitute* "treemacs-async.el"
+                  (("src/scripts")
+                   (string-append (elpa-directory #$output) "/scripts")))))
+            (add-after 'install 'install-data
+              (lambda _
+                (with-directory-excursion "../.." ;treemacs root
+                  (copy-recursively
+                   "icons/default"
+                   (string-append (elpa-directory #$output) "/icons/default"))
+                  (copy-recursively
+                   "src/scripts"
+                   (string-append (elpa-directory #$output) "/scripts"))))))))
+      (native-inputs
+       (list emacs-buttercup emacs-el-mock))
+      (inputs
+       (list python))
+      (propagated-inputs
+       (list emacs-ace-window
+             emacs-dash
+             emacs-f
+             emacs-ht
+             emacs-hydra
+             emacs-pfuture
+             emacs-s))
+      (home-page "https://github.com/Alexander-Miller/treemacs")
+      (synopsis "Emacs tree style file explorer")
+      (description
+       "Treemacs is a file and project explorer similar to NeoTree or Vim's
+NerdTree, but largely inspired by the Project Explorer in Eclipse.  It shows
+the file system outlines of your projects in a simple tree layout allowing
+quick navigation and exploration, while also possessing basic file management
+utilities.")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-treemacs
+  (package
+    (name "emacs-lsp-treemacs")
+    (version "0.4")
+    (source
+     (origin
+       (method (@@ (guix packages) computed-origin-method))
+       (file-name (string-append name "-" version ".tar.gz"))
+       (sha256 #f)
+       (uri
+        (delay
+          (with-imported-modules '((guix build emacs-utils)
+                                   (guix build utils))
+            #~(begin
+                (use-modules (guix build utils)
+                             (guix build emacs-utils))
+                (let* ((dir (string-append "emacs-lsp-treemacs-" #$version)))
+
+                  (set-path-environment-variable
+                   "PATH" '("bin")
+                   (list #+emacs-minimal
+                         #+(canonical-package bash)
+                         #+(canonical-package coreutils)
+                         #+(canonical-package gzip)
+                         #+(canonical-package tar)))
+
+                  ;; Copy the upstream source
+                  (copy-recursively
+                   #+(%emacs-lsp-treemacs-upstream-source
+                      #:commit version #:version version
+                      #:hash
+                      (content-hash
+                       "05ivqa5900139jzjhwc3nggwznhm8564dz4ydcxym2ddd63571k0"))
+                   dir)
+
+                  (with-directory-excursion dir
+                    ;; The icons are unclearly licensed and possibly non-free,
+                    ;; see <https://github.com/emacs-lsp/lsp-treemacs/issues/123>
+                    (with-directory-excursion "icons"
+                      (for-each delete-file-recursively
+                                '("eclipse" "idea" "netbeans")))
+
+                    ;; Also remove any mentions in the source code.
+                    (make-file-writable "lsp-treemacs-themes.el")
+                    (emacs-batch-edit-file "lsp-treemacs-themes.el"
+                      '(progn
+                        (while (search-forward-regexp
+                                "(treemacs-create-theme \"\\([^\"]*\\)\""
+                                nil t)
+                          (pcase (match-string 1)
+                                 ("Iconless" nil)
+                                 (_ (beginning-of-line)
+                                    (kill-sexp)))
+                          (basic-save-buffer)))))
+
+                  (invoke "tar" "cvfa" #$output
+                          "--mtime=@0"
+                          "--owner=root:0"
+                          "--group=root:0"
+                          "--sort=name"
+                          "--hard-dereference"
+                          dir))))))))
+    (build-system emacs-build-system)
+    (arguments
+     (list #:include #~(cons "^icons\\/" %default-include)))
+    (propagated-inputs
+     (list emacs-lsp-mode emacs-treemacs))
+    (home-page "https://github.com/emacs-lsp/lsp-treemacs")
+    (synopsis "Integration between LSP mode and treemacs")
+    (description
+     "This package provides integration between LSP mode and treemacs,
+and implementation of treeview controls using treemacs as a tree renderer.")
+    (license (list license:gpl3+
+                   license:cc-by4.0  ; microsoft/vscode-icons
+                   license:expat))))
+
+(define-public emacs-lsp-pyright
+  (let ((commit
+         "2f2631ae242d5770dbe6cb924e44c1ee5671789d")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-pyright")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-pyright")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1gk23a56jf1v4f4ag07hzji5pw3mq1rq622ggbvqcbc2i2bnvdn1"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-ht emacs-dash emacs-lsp-mode))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-pyright")
+      (synopsis "lsp-mode client leveraging Pyright language server")
+      (description "lsp-mode client leveraging Pyright language server.")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-origami
+  (let ((commit
+         "86aa06517910141c3d5054eea5f7723461fce6a6")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-origami")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-origami")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1nvz60iwdh5wkcflyk53lfwsd2yjniribvw95x9968sf9icf2dqw"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-lsp-mode emacs-origami))
+      (home-page
+       "https://github.com/emacs-lsp/lsp-origami")
+      (synopsis "origami.el support for lsp-mode")
+      (description "lsp-origami provides support for origami.el using language server protocol’s
+textDocument/foldingRange functionality. It can be enabled with.")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-python-ms
+  (package
+    (name "emacs-lsp-python-ms")
+    (version "0.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacs-lsp/lsp-python-ms")
+             (commit
+              "f8e7c4bcaefbc3fd96e1ca53d17589be0403b828")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1z7cs2linikm54a7dqn66p58vnsnhy2rj99l2wixa6cdfxlmacn0"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-lsp-mode))
+    (home-page
+     "https://github.com/emacs-lsp/lsp-python-ms")
+    (synopsis "lsp-mode loves Microsoft's python language server.")
+    (description
+     "lsp-mode client leveraging Microsoft’s python-language-server.")
+    (license license:bsd-3)))
+
 (define emacs-dap-base
   (let ((commit
          "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
