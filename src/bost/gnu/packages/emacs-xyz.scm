@@ -355,6 +355,9 @@ to Metals.")
   (package
     (inherit emacs-lsp-metals-base)
     (name "emacs-lsp-metals-protocol")
+    ;; Consider using `native-inputs' instead of `propagated-inputs'.
+    ;; `native-inputs' is typically used to list tools needed at build time,
+    ;; but not at run time.
     (propagated-inputs
      (list
       emacs-lsp-protocol

@@ -430,33 +430,6 @@ annoying buffers such like *Help*, *Completions*, *compilation*, and etc.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-(define-public emacs-lsp-volar
-  (package
-    (name "emacs-lsp-volar")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jadestrong/lsp-volar")
-               (commit
-                 "6f0c2bc3be5fc4d8d8aa1cf5ee3546fcf6ef36be")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-lsp-mode))
-    (home-page
-      "https://github.com/jadestrong/lsp-volar")
-    (synopsis "Language support for Vue3")
-    (description "Language support for Vue3
-This package has been merged into lsp-mode, so you can use lsp-mode
-directly. There will only be some experimental updates here. Once stable, they
-will be submitted to lsp-mode.")
-    (license license:gpl3+)))
-
 ;; 44444444444444444444444444444444444444444444
 
 (define-public emacs-centered-cursor-mode
