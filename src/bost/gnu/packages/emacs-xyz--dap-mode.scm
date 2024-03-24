@@ -1,7 +1,6 @@
 (define-module (bost gnu packages emacs-xyz--dap-mode)
   ;; #:use-module (utils)
   #:use-module (bost utils)  ;; for build
-  #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -19,7 +18,60 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
+  #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages emacs)
   )
+
+(define-public emacs-lsp-mode
+  (let ((commit "fd0a4f1fa5abc601b01a234e96798961b8a417c1")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-mode")
+      (version (git-version "8.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0f92rp1z9512ms444j9yx9wrfn7ca23v4ywq7jd1nlfd4n006bjv"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(
+         ;; #:exclude #~(cons* "^lsp-lense\\.el$" %default-exclude)
+         #:emacs ,emacs                 ;need libxml support
+         #:phases
+         (modify-phases %standard-phases
+           (add-after 'unpack 'move-clients-libraries
+             ;; Move all clients libraries at top-level, as is done, e.g., in
+             ;; MELPA.
+             (lambda _
+               (for-each (lambda (f)
+                           (install-file f "."))
+                         (find-files "clients/" "\\.el$"))))
+           (add-before 'move-clients-libraries 'fix-patch-el-files
+             ;; /bin/ksh is only used on macOS, which we don't support, so we
+             ;; don't want to add it as input.
+             (lambda _
+               (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
+                 (("/bin/ksh") "ksh")))))))
+      (propagated-inputs
+       (list emacs-dash
+             emacs-f
+             emacs-ht
+             emacs-hydra
+             emacs-markdown-mode
+             emacs-spinner))
+      (home-page "https://emacs-lsp.github.io/lsp-mode/")
+      (synopsis "Emacs client and library for the Language Server Protocol")
+      (description
+       "LSP mode is a client and library implementation for the Language
+Server Protocol.  This mode creates an IDE-like experience by providing
+optional integration with other popular Emacs packages like Company, Flycheck,
+and Projectile.")
+      (license license:gpl3+))))
 
 (define emacs-dap-base
   (let ((commit
@@ -79,11 +131,7 @@
     (inherit emacs-dap-base)
     (name "emacs-dap-tasks")
     (arguments
-     (list
-      #:include `(cons*
-                  "^dap-tasks.\\el^"
-                  ,all-info-include
-                  )))
+     (list #:include `(cons* "^dap-tasks.\\el$" ,all-info-include)))
     (propagated-inputs (list emacs-lsp-mode))))
 
 (define-public emacs-lsp-docker
