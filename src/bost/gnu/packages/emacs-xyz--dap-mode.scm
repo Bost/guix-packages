@@ -547,12 +547,12 @@ textDocument/foldingRange functionality. It can be enabled with.")
       (build-system emacs-build-system)
       (arguments
        (list
-        ;; Exclusions are done on top of the inclusions. However using
-        ;; (inherit emacs-dap-base) we can effectivelly invert that. So then
-        ;; the order is will be:
-        ;; 1. emacs-dap-base include
-        ;; 2. emacs-dap-base exclude
-        ;; 3. emacs-dap-<..> include
+;;; Exclusions are done on top of the inclusions. However using (inherit
+;;; emacs-dap-base) we can effectivelly invert that. So then the order is will
+;;; be:
+;;; 1. emacs-dap-base include
+;;; 2. emacs-dap-base exclude
+;;; 3. emacs-dap-<..> include
 
         ;; Exclude all;
         ;; Also, matching every string except "foo" using lookahead assertion
