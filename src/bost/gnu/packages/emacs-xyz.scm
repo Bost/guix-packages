@@ -276,3 +276,144 @@
    emacs-frame-cmds
    emacs-zoom-frm
    ))
+
+;;; Multiple possibilities: 1. either add a single from from URI:
+;; (define-public emacs-zoom-frm
+;;   (package
+;;     (name "emacs-zoom-frm")
+;;     (version "0")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri "https://www.emacswiki.org/emacs/download/zoom-frm.el")
+;;        (sha256
+;;         (base32
+;;          "1l39hw0n3w96980varljd3z37d8a2x0yj577hcaf3qbwqywfgv9v"))))
+;;     (build-system emacs-build-system)
+;;     (propagated-inputs (list emacs-frame-cmds))
+;;     (home-page "https://www.emacswiki.org/emacs/zoom-frm.el")
+;;     (synopsis "Commands to zoom frame font size")
+;;     (description "Commands to zoom frame font size.")
+;;     (license license:gpl3+)))
+
+;;; Multiple possibilities: 2. or inherit from an empty non-public package:
+;; (define emacs-dap-base
+;;   (let ((commit
+;;          "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-dap-base")
+;;       (version (git-version "0.7" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/emacs-lsp/dap-mode.git")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
+;;       (build-system emacs-build-system)
+;;       (arguments
+;;        (list
+;;         ;; Exclusions are done on top of the inclusions. However using
+;;         ;; (inherit emacs-dap-base) we can effectivelly invert that. So then
+;;         ;; the order is will be:
+;;         ;; 1. emacs-dap-base include
+;;         ;; 2. emacs-dap-base exclude
+;;         ;; 3. emacs-dap-<..> include
+
+;;         ;; Exclude all;
+;;         ;; Also, matching every string except "foo" using lookahead assertion
+;;         ;; "^\\(?!foo$\\).*" doesn't work. Lookahead assertions are not
+;;         ;; supported in POSIX regular expressions used by Guile
+;;         #:exclude #~(cons*
+;;                      "^[^/]*\\.el$"
+;;                      %default-exclude)))
+;;       (home-page
+;;        "https://github.com/emacs-lsp/dap-mode.git")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define emacs-spacemacs-base
+  (let ((commit
+         "2254b9c16150165f459895bb49bc309b029b54e4")
+        (revision "0"))
+    (package
+      (name "emacs-spacemacs-base")
+      (version (git-version "0.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/spacemacs.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "07mnf0669awwr454s94qyd4j2kzcfg8hc7q98lii9lf66fyaciyb"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+;;; Exclusions are done on top of the inclusions. However using (inherit
+;;; emacs-dap-base) we can effectivelly invert that. So then the order is will
+;;; be:
+;;; 1. emacs-dap-base include
+;;; 2. emacs-dap-base exclude
+;;; 3. emacs-dap-<..> include
+
+        ;; Exclude all;
+        ;; Also, matching every string except "foo" using lookahead assertion
+        ;; "^\\(?!foo$\\).*" doesn't work. Lookahead assertions are not
+        ;; supported in POSIX regular expressions used by Guile
+        #:exclude #~(cons*
+                     "^[^/]*\\.el$"
+                     %default-exclude)))
+      (home-page "http://spacemacs.org/")
+      (synopsis "Community-driven Emacs distribution - The best editor is neither Emacs nor
+Vim, it's Emacs *and* Vim!")
+      (description
+       "Spacemacs is a new way of experiencing Emacs -- it's a sophisticated
+ and polished set-up, focused on ergonomics, mnemonics and consistency.")
+      (license license:gpl3+))))
+
+(define all-info-include (quote (list "^[^/]*\\.info$" "^doc/.*\\.info$")))
+
+(define-public emacs-rst-lists
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-rst-lists")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+lang/restructuredtext/local/rst-lists/rst-lists\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-versions
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-versions")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-versions\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-load-paths
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-load-paths")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-load-paths\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-spacemacs-ht
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spacemacs-ht")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/forks/spacemacs-ht\\.el$"
+                       ,all-info-include)))))
+
