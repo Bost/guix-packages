@@ -147,6 +147,7 @@
    emacs-lsp-metals-treeview
    emacs-treemacs-treelib
 
+   emacs-auto-highlight-symbol
    emacs-color-theme-sanityinc-tomorrow
    emacs-color-theme-sanityinc-solarized
    emacs-lsp-python-ms
@@ -275,36 +276,3 @@
    emacs-frame-cmds
    emacs-zoom-frm
    ))
-
-(define-public emacs-auto-highlight-symbol
-  (let ((commit
-         "5847f06f86fd50be3fa041d65528d9665eea25dd")
-        (revision "0"))
-    (package
-     (name "emacs-auto-highlight-symbol")
-     (version (git-version "1.61" revision commit))
-     (source
-      (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/elp-revive/auto-highlight-symbol")
-             (commit commit)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "04iz99x942i5awngj6fdshm2jh1ghnm47sck6xflj17pa2rzjyp4"))))
-     (build-system emacs-build-system)
-     (propagated-inputs
-      (list (@(gnu packages emacs-xyz) emacs-ht)))
-     (home-page
-      "https://github.com/elp-revive/auto-highlight-symbol")
-     (synopsis "Automatic highlighting current symbol minor mode")
-     (description
-      "Minor mode for Emacs for automatic highlighting current symbol minor
- mode:
-
-   * automatic highlighting current symbol like eclipse IDE.
-   * cycle through highlighted locations.
-   * can specify the range to highlight.
-   * can edit the highlighted symbols at a time.")
-     (license license:gpl3+))))

@@ -561,8 +561,7 @@ textDocument/foldingRange functionality. It can be enabled with.")
         #:exclude #~(cons*
                      "^[^/]*\\.el$"
                      %default-exclude)))
-      (home-page
-       "https://github.com/emacs-lsp/dap-mode.git")
+      (home-page "https://github.com/emacs-lsp/dap-mode.git")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -577,7 +576,9 @@ textDocument/foldingRange functionality. It can be enabled with.")
       (inherit emacs-dap-base)
       (name "emacs-dap-launch")
       (arguments
-       (list #:include `(cons* "^dap-launch\\.el$" ,all-info-include)))
+       (list #:include `(cons*
+                         "^dap-launch\\.el$"
+                         ,all-info-include)))
       (propagated-inputs (list emacs-lsp-mode)))))
 
 (define-public emacs-dap-tasks
@@ -585,7 +586,9 @@ textDocument/foldingRange functionality. It can be enabled with.")
     (inherit emacs-dap-base)
     (name "emacs-dap-tasks")
     (arguments
-     (list #:include `(cons* "^dap-tasks.\\el$" ,all-info-include)))
+     (list #:include `(cons*
+                       "^dap-tasks.\\el$"
+                       ,all-info-include)))
     (propagated-inputs (list emacs-lsp-mode))))
 
 (define-public emacs-lsp-docker
@@ -624,14 +627,12 @@ textDocument/foldingRange functionality. It can be enabled with.")
     (inherit emacs-dap-base)
     (name "emacs-dap-mode")
     (arguments
-     (list
-      #:include `(cons*
-                  "^dap-mode\\.el$"
-                  "^dap-overlays\\.el$"
-                  "^dap-launch\\.el$"
-                  "^dap-tasks\\.el$"
-                  ,all-info-include
-                  )))
+     (list #:include `(cons*
+                       "^dap-mode\\.el$"
+                       "^dap-overlays\\.el$"
+                       "^dap-launch\\.el$"
+                       "^dap-tasks\\.el$"
+                       ,all-info-include)))
     (propagated-inputs
      (list
       emacs-lsp-mode
@@ -642,8 +643,7 @@ textDocument/foldingRange functionality. It can be enabled with.")
       (@(gnu packages emacs-xyz) emacs-ht)
       emacs-lsp-docker
       emacs-dap-launch
-      emacs-dap-tasks
-      ))
+      emacs-dap-tasks))
     (synopsis "Emacs client/library for Debug Adapter Protocol")
     (description
      "Dap mode is an Emacs client/library for Debug Adapter
@@ -656,11 +656,9 @@ Debug server.")))
     (inherit emacs-dap-base)
     (name "emacs-dap-utils")
     (arguments
-     (list
-      #:include `(cons*
-                  "^dap-utils\\.el$"
-                  ,all-info-include
-                  )))
+     (list #:include `(cons*
+                       "^dap-utils\\.el$"
+                       ,all-info-include)))
     (propagated-inputs
      (list emacs-dap-mode))))
 
@@ -669,11 +667,9 @@ Debug server.")))
     (inherit emacs-dap-base)
     (name "emacs-dap-chrome")
     (arguments
-     (list
-      #:include `(cons*
-                  "^dap-chrome\\.el$"
-                  ,all-info-include
-                  )))
+     (list #:include `(cons*
+                       "^dap-chrome\\.el$"
+                       ,all-info-include)))
     (propagated-inputs
      (list emacs-dap-utils emacs-dap-mode))))
 
@@ -682,12 +678,9 @@ Debug server.")))
     (inherit emacs-dap-base)
     (name "emacs-dap-overlays")
     (arguments
-     (list
-      #:include `(cons*
-                  "^dap-overlays\\.el$"
-                  ,all-info-include
-                  )))))
-
+     (list #:include `(cons*
+                       "^dap-overlays\\.el$"
+                       ,all-info-include)))))
 
 (define-public emacs-lsp-ui
   (package
