@@ -153,7 +153,6 @@
    emacs-lsp-python-ms
    emacs-moe-theme
    emacs-slim-mode
-   emacs-zop-to-char
    emacs-font-utils
    emacs-lush-theme
    emacs-vi-tilde-fringe
