@@ -185,7 +185,6 @@ theme pair.")
 ;; emacs-lsp-python-ms would be upgraded from 0.1 to 0.7.2
 ;; emacs-font-utils would be upgraded from 0.1 to 0.7.8
 ;; emacs-font-lock+ would be upgraded from 0-233.aa1c82d to 208
-;; emacs-zop-to-char would be upgraded from 0.1 to 1.1
 ;; emacs-gruvbox would be upgraded from 0.1 to 1.30.1
 ;; emacs-popwin would be upgraded from 0.1 to 1.0.2
 
@@ -238,30 +237,6 @@ theme pair.")
      "slim-mode provides Emacs support for editing Slim templates. It's based
 on haml-mode.")
     (license license:gpl3+)))
-
-(define-public emacs-zop-to-char
-  (let ((commit "00152aa666354b27e56e20565f186b363afa0dce")
-        (revision "0"))
-    (package
-      (name "emacs-zop-to-char")
-      (version (git-version "1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/thierryvolpiatto/zop-to-char")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1s4adi9hyhxn7ynx195mgg10h817hxdmlzlp09633bj0llr1mjn3"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/thierryvolpiatto/zop-to-char")
-      (synopsis "A visual zap-to-char command for Emacs.")
-      (description "A visual zap-to-char command for Emacs.")
-      (license license:gpl3+))))
-
 
 #|
 The license was identified as 'bsd-2' by ChatGPT using following prompt:
