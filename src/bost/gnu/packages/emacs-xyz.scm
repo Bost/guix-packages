@@ -854,3 +854,30 @@ comments and Org files in the Magit status buffer.  Activating an item jumps
 to it in its file.  By default, it uses keywords from @code{hl-todo}, minus a
 few (like NOTE).")
     (license license:gpl3)))
+
+(define-public emacs-orgit
+  (package
+    (name "emacs-orgit")
+    (version "1.9.0")
+    (home-page "https://github.com/magit/orgit")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url home-page)
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "00fkj88yddan80q8zbx0jy66d958srkm06jiy1nraamxqr15mmyz"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-dash)
+      emacs-magit))
+    (synopsis "Support for Org links to Magit buffers")
+    (description "This package defines several Org link types, which can be
+used to link to certain Magit buffers.  Use the command
+@command{org-store-link} while such a buffer is current to store a link.
+Later you can insert it into an Org buffer using the command
+@code{org-insert-link}.")
+    (license license:gpl3+)))
