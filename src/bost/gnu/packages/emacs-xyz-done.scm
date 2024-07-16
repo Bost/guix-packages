@@ -3720,41 +3720,6 @@ It has also a nice integration with expand-region for quick edit of the
 current selected text by pressing e.")
       (license license:gpl3+))))
 
-(define-public emacs-tweaks
-  (let ((commit
-         "f512f65790fecb58a9682d966c9e820129241c27")
-        (revision "0"))
-    (package
-      (name "emacs-tweaks")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Bost/tweaks")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1a0fdg54n92i765kvdr3n7m21n9cal4m89kkkspwzf86g908xh7d"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-copy-sexp
-        (@(gnu packages emacs-xyz) emacs-drag-stuff)
-        (@(gnu packages emacs-xyz) emacs-evil)
-        emacs-evil-iedit-state
-        emacs-jump-last
-        emacs-kill-buffers
-        (@(gnu packages emacs-xyz) emacs-magit)
-        (@(gnu packages emacs-xyz) emacs-yasnippet)
-        emacs-zoom-frm
-        ))
-      (home-page "https://github.com/Bost/tweaks")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-term-cursor
   (let ((commit
          "d6c9b46c6ad73875db4ce04cac335846f86fb7e7")

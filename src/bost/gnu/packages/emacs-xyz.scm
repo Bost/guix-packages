@@ -264,7 +264,6 @@
    emacs-copy-sexp
    emacs-jump-last
    emacs-evil-iedit-state
-   emacs-tweaks
    emacs-term-cursor
    emacs-lsp-pyright
    emacs-lsp-origami
@@ -973,4 +972,39 @@ Emacs that Evil does not cover properly by default, such as @code{help-mode},
       (synopsis "Frontend for diffing based on vimdiff")
       (description "This package permits comparisons of two or three buffers
 based on diff output.")
+      (license license:gpl3+))))
+
+(define-public emacs-tweaks
+  (let ((commit
+         "f512f65790fecb58a9682d966c9e820129241c27")
+        (revision "0"))
+    (package
+      (name "emacs-tweaks")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/tweaks")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1a0fdg54n92i765kvdr3n7m21n9cal4m89kkkspwzf86g908xh7d"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-copy-sexp
+        (@(gnu packages emacs-xyz) emacs-drag-stuff)
+        (@(gnu packages emacs-xyz) emacs-evil)
+        emacs-evil-iedit-state
+        emacs-jump-last
+        emacs-kill-buffers
+        emacs-magit
+        (@(gnu packages emacs-xyz) emacs-yasnippet)
+        emacs-zoom-frm
+        ))
+      (home-page "https://github.com/Bost/tweaks")
+      (synopsis "")
+      (description "")
       (license license:gpl3+))))
