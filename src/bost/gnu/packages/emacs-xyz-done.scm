@@ -3231,30 +3231,6 @@ Build in fish-shell:
       (description "A dark, soothing theme for Emacs with a cold bluish touch.")
       (license license:gpl3+))))
 
-(define-public emacs-unicode-fonts
-  (let ((commit
-         "44d0a22420c39709d1e1fa659a3f135facf3c986")
-        (revision "0"))
-    (package
-      (name "emacs-unicode-fonts")
-      (version (git-version "0.4.10" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/rolandwalker/unicode-fonts")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "00qdwkphwpc5kddn3k3ck1isykbhlvqmfb45877a65274am79pd7"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/rolandwalker/unicode-fonts")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-sublime-themes
   (let ((commit
          "60ee40af82eb55b79d5ed4026f1911326311603f")
