@@ -675,3 +675,51 @@ rebasing, and other common Git operations.")
      (description "Work with Git forges, such as Github and Gitlab, from the
 comfort of Magit and the rest of Emacs.")
      (license license:gpl3+)))
+
+(define-public emacs-magit-annex
+  (package
+    (name "emacs-magit-annex")
+    (version "1.8.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/magit/magit-annex")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1amr2c08mq1nnn6k66mgz4rzyni4np7gxm96g4qyla2cbfbachgk"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-magit))
+    (home-page "https://github.com/magit/magit-annex/")
+    (synopsis "Git-annex support for Magit")
+    (description
+     "Magit-annex adds a few git-annex operations to the Magit interface.")
+    (license license:gpl3+)))
+
+(define-public emacs-magit-svn
+  (package
+    (name "emacs-magit-svn")
+    (version "2.2.3")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/magit/magit-svn")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1v1y4fir1plz4kj0cvkcd29wibli4dw7vp4fmbxq4df76d8iy8yd"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-dash)
+      (@(gnu packages emacs-xyz) emacs-with-editor)
+      emacs-magit
+      ))
+    (home-page "https://github.com/magit/magit-svn")
+    (synopsis "Git-SVN extension to Magit")
+    (description
+     "This package is an extension to Magit, the Git Emacs mode, providing
+support for Git-SVN.")
+    (license license:gpl3+)))
