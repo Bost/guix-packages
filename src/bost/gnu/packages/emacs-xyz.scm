@@ -905,3 +905,72 @@ Later you can insert it into an Org buffer using the command
         (@(gnu packages emacs-xyz) emacs-perspective)
         (@(gnu packages mail) mu)
         )))))
+
+(define-public emacs-evil-collection
+  (package
+    (name "emacs-evil-collection")
+    (version "0.0.10")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacs-evil/evil-collection")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "09hnxb8nh3g0hi93fz9f1y164gv9iyh5994wfn6fsq2v1xdz8phm"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:include #~(cons* "^modes\\/" %default-include)
+      #:tests? #true
+      #:test-command #~(list "emacs" "-Q" "--batch"
+                             "-L" "."
+                             "-L" "./test"
+                             "-l" "evil-collection-test.el"
+                             "-l" "evil-collection-magit-tests.el"
+                             "-f" "ert-run-tests-batch-and-exit")))
+    (native-inputs
+     (list emacs-magit))
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-annalist)
+      (@(gnu packages emacs-xyz) emacs-evil)
+      ))
+    (home-page "https://github.com/emacs-evil/evil-collection")
+    (synopsis "Collection of Evil bindings for many major and minor modes")
+    (description "This is a collection of Evil bindings for the parts of
+Emacs that Evil does not cover properly by default, such as @code{help-mode},
+@code{M-x calendar}, Eshell and more.")
+    (license license:gpl3+)))
+
+(define-public emacs-vdiff-magit
+  ;; Need to use a more recent commit than the latest release version because
+  ;; of Magit and Transient
+  (let ((commit "b100d126c69e5c26a61ae05aa1778bcc4302b597")
+        (version "0.3.2")
+        (revision "8"))
+    (package
+      (name "emacs-vdiff-magit")
+      (version (git-version version revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/justbur/emacs-vdiff-magit/")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "16cjmrzflf2i1w01973sl944xrfanakba8sb4dpwi79d92xp03xy"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-vdiff)
+        emacs-magit
+        ))
+      (home-page "https://github.com/justbur/emacs-vdiff-magit/")
+      (synopsis "Frontend for diffing based on vimdiff")
+      (description "This package permits comparisons of two or three buffers
+based on diff output.")
+      (license license:gpl3+))))
