@@ -723,3 +723,134 @@ comfort of Magit and the rest of Emacs.")
      "This package is an extension to Magit, the Git Emacs mode, providing
 support for Git-SVN.")
     (license license:gpl3+)))
+
+(define-public emacs-taxy
+  (package
+    (name "emacs-taxy")
+    (version "0.10.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://elpa.gnu.org/packages/taxy-" version ".tar"))
+       (sha256
+        (base32
+         "05czw8fkifb25rwl99dmncr1g0rjfx1bqijl7igqs9j6h9ia2xvg"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-magit))
+    (home-page "https://github.com/alphapapa/taxy.el")
+    (synopsis "Programmable taxonomical grouping for arbitrary objects")
+    (description
+     "Taxy provides a programmable way to classify arbitrary objects into
+a hierarchical taxonomy.  Allows you to automatically put things in nested
+groups.")
+    (license license:gpl3+)))
+
+(define-public emacs-taxy-magit-section
+  (package
+    (name "emacs-taxy-magit-section")
+    (version "0.13")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://elpa.gnu.org/packages/taxy-magit-section-" version
+                    ".tar"))
+              (sha256
+               (base32
+                "1712hbcna0ph9chaq28a6fanv4sccdiphd5z0hg34ig3g6pslgn9"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-magit emacs-taxy))
+    (home-page "https://github.com/alphapapa/taxy.el")
+    (synopsis "View Taxy structs in a Magit Section buffer")
+    (description
+     "This library provides a way to view @code{taxy} structs in a column-based,
+@code{magit-section} buffer.  Columns are defined using simple top-level
+forms, and new columns may be easily defined by users in their
+configurations.")
+    (license license:gpl3+)))
+
+(define-public emacs-magit-gerrit
+  (let ((commit "a97521574c5b7d4b7ab89e25c358c87fd5b1887f")
+        (revision "1"))
+    (package
+      (name "emacs-magit-gerrit")
+      (version (git-version "0.4" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/magit-gerrit")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0p6h67x7f6iraw6jqn7dmqy2m2mwwvbwcs61hq8jc602v6hkslqn"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-magit))
+      (home-page "https://github.com/emacsorphanage/magit-gerrit")
+      (synopsis "Magit extension for Gerrit")
+      (description "This Magit extension provides integration with Gerrit,
+which makes it possible to conduct Gerrit code reviews directly from within
+Emacs.")
+      (license license:gpl3+))))
+
+(define-public emacs-magit-org-todos-el
+  (package
+    (name "emacs-magit-org-todos-el")
+    (version "0.1.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/danielma/magit-org-todos.el")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "07r5x256k1fjjxs1yfg41kc94nwvnjlk2vvknkra3j8v9p0j88m7"))))
+    (propagated-inputs
+     (list emacs-magit))
+    (build-system emacs-build-system)
+    (home-page "https://github.com/danielma/magit-org-todos.el")
+    (synopsis "Get todo.org into Emacs Magit status")
+    (description "This package allows you to get @file{todo.org} into your
+magit status.
+
+If you have a @file{todo.org} file with @code{TODO} items in the root of your
+repository, @code{magit-org-todos} will create a section in your Magit status
+buffer with each of your todos.")
+    (license license:gpl3+)))
+
+(define-public emacs-magit-todos
+  (package
+    (name "emacs-magit-todos")
+    (version "1.7.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/alphapapa/magit-todos")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1ygn1498ji785bkbi7ziazk1bkzinq5srpjh2yhw70v3cr5sfk8g"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      emacs-magit
+      (@(gnu packages emacs-xyz) emacs-async)
+      (@(gnu packages emacs-xyz) emacs-dash)
+      (@(gnu packages emacs-xyz) emacs-f)
+      (@(gnu packages emacs-xyz) emacs-hl-todo)
+      (@(gnu packages emacs-xyz) emacs-pcre2el)
+      (@(gnu packages emacs-xyz) emacs-s)
+      ))
+    (home-page "https://github.com/alphapapa/magit-todos")
+    (synopsis "Show source files' TODOs (and FIXMEs, etc) in Magit status buffer")
+    (description "This package displays keyword entries from source code
+comments and Org files in the Magit status buffer.  Activating an item jumps
+to it in its file.  By default, it uses keywords from @code{hl-todo}, minus a
+few (like NOTE).")
+    (license license:gpl3)))
