@@ -881,3 +881,27 @@ used to link to certain Magit buffers.  Use the command
 Later you can insert it into an Org buffer using the command
 @code{org-insert-link}.")
     (license license:gpl3+)))
+
+(define-public emacs-treemacs-extra
+  (package
+    (inherit emacs-treemacs)
+    (name "emacs-treemacs-extra")
+    (arguments
+     (substitute-keyword-arguments
+         (package-arguments emacs-treemacs)
+       ((#:phases phases)
+        #~(modify-phases #$phases
+            (add-after 'chdir-elisp 'copy-extra
+              (lambda _
+                (copy-recursively "../extra" ".")))))))
+    (propagated-inputs
+     (modify-inputs (package-propagated-inputs emacs-treemacs)
+       (append
+        emacs-magit
+        (@(gnu packages emacs-xyz) emacs-all-the-icons)
+        (@(gnu packages emacs-xyz) emacs-evil)
+        (@(gnu packages emacs-xyz) emacs-projectile)
+        (@(gnu packages emacs-xyz) emacs-persp-mode)
+        (@(gnu packages emacs-xyz) emacs-perspective)
+        (@(gnu packages mail) mu)
+        )))))
