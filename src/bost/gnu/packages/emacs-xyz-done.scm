@@ -238,44 +238,6 @@ theme pair.")
 on haml-mode.")
     (license license:gpl3+)))
 
-#|
-The license was identified as 'bsd-2' by ChatGPT using following prompt:
-
-Have a look at the BSD License definitions 'bsd-0', 'bsd-1', 'bsd-2',
-'bsd-3', 'bsd-4', in the 'guix/guix/licenses.scm' from the source code of the
-GNU Guix project identify the definition to which the text bellow
-corresponds. The solution MUST be one of the aforementioned 'bsd-0', 'bsd-1',
-'bsd-2', 'bsd-3', 'bsd-4'.
-
-============================
-
-<Text between the lines 98 - 129:
-https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c7273a10003/font-utils.el#L98-L129
->
-|#
-(define-public emacs-font-utils
-  (let ((commit "abc572eb0dc30a26584c0058c3fe6c7273a10003")
-        (revision "0"))
-    (package
-      (name "emacs-font-utils")
-      (version (git-version "0.7.8" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "http://github.com/rolandwalker/font-utils")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0hx3k2zx2kdavivr1b957jq7kcwk301yzw77aprxzbs7jz73a35x"))))
-      (build-system emacs-build-system)
-      (home-page "http://github.com/rolandwalker/font-utils")
-      (synopsis "Utility functions for working with fonts in Emacs")
-      (description
-       "Font-utils is a collection of functions for working with fonts.  This library
-has no user-level interface, it is only useful for programming in Emacs Lisp.")
-      (license license:bsd-2))))
-
 (define-public emacs-lush-theme
   (package
     (name "emacs-lush-theme")

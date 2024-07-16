@@ -153,7 +153,6 @@
    emacs-lsp-python-ms
    emacs-moe-theme
    emacs-slim-mode
-   emacs-font-utils
    emacs-lush-theme
    emacs-vi-tilde-fringe
    emacs-popwin
@@ -416,3 +415,66 @@ Vim, it's Emacs *and* Vim!")
                        "^core/libs/forks/spacemacs-ht\\.el$"
                        ,all-info-include)))))
 
+(define-public emacs-persistent-soft
+  (let ((commit
+         "a1e0ddf2a12a6f18cab565dee250f070384cbe02")
+        (revision "0"))
+    (package
+      (name "emacs-persistent-soft")
+      (version (git-version "0.8.10" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rolandwalker/persistent-soft.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "14p20br8vzxs39d4hswzrrkgwql5nnmn5j17cpbabzjvck42rixc"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/rolandwalker/persistent-soft.git")
+      (synopsis "Persistent storage for Emacs, returning nil on failure")
+      (description "Wrapper around pcache.el, providing \"soft\" fetch and
+ store routines which never throw an error, but instead return nil on failure.")
+      (license license:gpl3+))))
+
+#|
+The license was identified as 'bsd-2' by ChatGPT using following prompt:
+
+Have a look at the BSD License definitions 'bsd-0', 'bsd-1', 'bsd-2',
+'bsd-3', 'bsd-4', in the 'guix/guix/licenses.scm' from the source code of the
+GNU Guix project identify the definition to which the text bellow
+corresponds. The solution MUST be one of the aforementioned 'bsd-0', 'bsd-1',
+'bsd-2', 'bsd-3', 'bsd-4'.
+
+----------------------------
+
+Text between the lines 98 - 129:
+https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c7273a10003/font-utils.el#L98-L129
+|#
+(define-public emacs-font-utils
+  (let ((commit "abc572eb0dc30a26584c0058c3fe6c7273a10003")
+        (revision "0"))
+    (package
+      (name "emacs-font-utils")
+      (version (git-version "0.7.8" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/rolandwalker/font-utils")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0hx3k2zx2kdavivr1b957jq7kcwk301yzw77aprxzbs7jz73a35x"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-persistent-soft))
+      (home-page "http://github.com/rolandwalker/font-utils")
+      (synopsis "Utility functions for working with fonts in Emacs")
+      (description
+       "Font-utils is a collection of functions for working with fonts.  This library
+has no user-level interface, it is only useful for programming in Emacs Lisp.")
+      (license license:bsd-2))))
