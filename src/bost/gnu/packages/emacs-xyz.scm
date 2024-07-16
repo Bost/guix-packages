@@ -249,7 +249,6 @@
    emacs-white-sand-theme
    emacs-zen-and-art-theme
    emacs-omtose-phellack-theme
-   emacs-unicode-fonts
    emacs-sublime-themes
    emacs-cider-hydra
    emacs-flycheck-clj-kondo
@@ -478,3 +477,58 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
        "Font-utils is a collection of functions for working with fonts.  This library
 has no user-level interface, it is only useful for programming in Emacs Lisp.")
       (license license:bsd-2))))
+
+(define-public emacs-ucs-utils
+  (let ((commit
+         "91b9e0207fff5883383fd39c45ad5522e9b90e65")
+        (revision "0"))
+    (package
+      (name "emacs-ucs-utils")
+      (version (git-version "0.9.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rolandwalker/ucs-utils")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "18yqzy8w4icp60z25ckbrx6wradm3m26vic35kmzr88msc0qdsva"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/rolandwalker/ucs-utils")
+      (synopsis "Utilities for Unicode characters in Emacs")
+      (description
+       "Utilities for manipulating Unicode characters, with integrated ability
+ to return fallback characters when Unicode display is not possible.")
+      (license license:gpl3+))))
+
+(define-public emacs-unicode-fonts
+  (let ((commit
+         "44d0a22420c39709d1e1fa659a3f135facf3c986")
+        (revision "0"))
+    (package
+      (name "emacs-unicode-fonts")
+      (version (git-version "0.4.10" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rolandwalker/unicode-fonts")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "00qdwkphwpc5kddn3k3ck1isykbhlvqmfb45877a65274am79pd7"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-ucs-utils))
+      (home-page
+       "https://github.com/rolandwalker/unicode-fonts")
+      (synopsis "Configure Unicode fonts for Emacs")
+      (description
+       "Mappings for 233 of the 255 blocks in the Unicode 8.0 standard which
+ are public and have displayable characters.")
+      (license license:gpl3+))))
