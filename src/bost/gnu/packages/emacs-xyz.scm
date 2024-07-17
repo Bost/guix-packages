@@ -1008,3 +1008,48 @@ based on diff output.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-use-package
+  ;; XXX: Upstream did not tag latest release.  Using commit matching exact
+  ;; version bump.
+  (let ((commit "a6e856418d2ebd053b34e0ab2fda328abeba731c"))
+    (package
+      (name "emacs-use-package")
+      (version "2.4.4")
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/jwiegley/use-package")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "0g1smk27ry391gk8bb8q3i42s0p520zwhxfnxvzv5cjj93mcpd8f"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #t
+        #:test-command #~(list "emacs" "--batch"
+                               "-l" "use-package-tests.el"
+                               "-f" "ert-run-tests-batch-and-exit")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'install 'install-manual
+              (lambda _
+                (let ((info-dir (string-append #$output "/share/info")))
+                  (install-file "use-package.info" info-dir))))
+            (add-before 'install-manual 'build-manual
+              (lambda _
+                (invoke "make" "info" "use-package.texi"))))))
+      (native-inputs
+       (list
+        (@(gnu packages texinfo) texinfo)))
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-diminish)))
+      (home-page "https://github.com/jwiegley/use-package")
+      (synopsis "Declaration for simplifying your .emacs")
+      (description "The use-package macro allows you to isolate package
+configuration in your @file{.emacs} file in a way that is both
+performance-oriented and tidy.")
+      (license license:gpl2+))))
