@@ -1058,3 +1058,9 @@ performance-oriented and tidy.")
   (package
     (inherit emacs-magit)
     (name "emacs-git-commit")))
+
+(define-public emacs-treemacs-magit
+  (package
+    (inherit emacs-treemacs-extra)
+    (name "emacs-treemacs-magit")))
+
