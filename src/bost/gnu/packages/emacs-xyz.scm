@@ -1053,3 +1053,8 @@ based on diff output.")
 configuration in your @file{.emacs} file in a way that is both
 performance-oriented and tidy.")
       (license license:gpl2+))))
+
+(define-public emacs-git-commit
+  (package
+    (inherit emacs-magit)
+    (name "emacs-git-commit")))
