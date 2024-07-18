@@ -1064,3 +1064,12 @@ performance-oriented and tidy.")
     (inherit emacs-treemacs-extra)
     (name "emacs-treemacs-magit")))
 
+(define-public emacs-helm-files
+  (package
+    (inherit (@(gnu packages emacs-xyz) emacs-helm))
+    (name "emacs-helm-files")))
+
+(define-public emacs-helm-core
+  (package
+    (inherit (@(gnu packages emacs-xyz) emacs-helm))
+    (name "emacs-helm-core")))
