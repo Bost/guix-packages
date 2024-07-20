@@ -1073,3 +1073,20 @@ performance-oriented and tidy.")
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-core")))
+
+(define-public emacs-use-package-chords
+  (package
+    (inherit emacs-use-package)
+    (name "emacs-use-package-chords")))
+
+(define-public emacs-magit-section
+  (package
+    (inherit emacs-magit)
+    (name "emacs-magit-section")))
+
+;; helm-comint-20231102.2029
+;; helm-core-20240712.1822
+;; helm-dictionary-20230922.1111
+;; helm-git-grep-20170614.1411
+;; helm-purpose-20170114.1636
+;; helm-pydoc-20220721.433
