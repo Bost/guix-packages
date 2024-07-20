@@ -1073,6 +1073,23 @@ performance-oriented and tidy.")
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-core")))
 
+(define-public emacs-use-package-chords
+  (package
+    (inherit emacs-use-package)
+    (name "emacs-use-package-chords")))
+
+(define-public emacs-magit-section
+  (package
+    (inherit emacs-magit)
+    (name "emacs-magit-section")))
+
+;; helm-comint-20231102.2029
+;; helm-core-20240712.1822
+;; helm-dictionary-20230922.1111
+;; helm-git-grep-20170614.1411
+;; helm-purpose-20170114.1636
+;; helm-pydoc-20220721.433
+
 (define-public emacs-chatgpt-shell
   (let ((commit "fcc854e9699592d88a444b1eb711028c424a17b1")
         (revision "0"))
