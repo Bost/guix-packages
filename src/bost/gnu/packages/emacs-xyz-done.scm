@@ -1323,7 +1323,7 @@ company-mode.")
                 (emacs-substitute-variables "gptel.el"
                   ("gptel-use-curl"
                    (search-input-file inputs "/bin/curl"))))))))
-      (inputs (list curl))
+      (inputs (list (@(gnu packages curl) curl)))
       (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-map)))
       (home-page "https://github.com/karthink/gptel")
       (synopsis "GPTel is a simple ChatGPT client for Emacs")
@@ -1494,7 +1494,7 @@ manual for details.
                 (emacs-substitute-variables "copilot.el"
                   ("copilot-node-executable"
                    (search-input-file inputs "/bin/node"))))))))
-      (inputs (list node-lts))
+      (inputs (list (@(gnu packages node) node-lts)))
       (propagated-inputs
        (list (@(gnu packages emacs-xyz) emacs-dash)
              (@(gnu packages emacs-xyz) emacs-editorconfig)
