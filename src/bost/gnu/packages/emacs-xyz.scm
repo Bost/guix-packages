@@ -165,7 +165,6 @@
    emacs-flx
    emacs-lsp-haskell
    emacs-helm-css-scss
-   emacs-auto-yasnippet
    emacs-erc-social-graph
    emacs-hlint-refactor
    emacs-chocolate
@@ -272,6 +271,56 @@
    emacs-zoom-frm
    ))
 
+(define-public emacs-sly-named-readtables
+  (let ((commit "a5a42674ccffa97ccd5e4e9742beaf3ea719931f")
+        (revision "1"))
+    (package
+      (name "emacs-sly-named-readtables")
+      (version (git-version "0.1" revision commit))
+      (home-page "https://github.com/joaotavora/sly-named-readtables")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url home-page)
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "16asd119rzqrlclps2q6yrkis8jy5an5xgzzqvb7jdyq39zxg54q"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list (@(gnu packages emacs-xyz) emacs-sly)))
+      (arguments
+       '(#:include (cons* "\\.lisp$" "\\.asd$" %default-include)
+         #:phases (modify-phases %standard-phases
+                    ;; Byte compilation of the autoload file fails.
+                    (delete 'enable-autoloads-compilation))))
+      (synopsis "Named-readtables support for SLY")
+      (description
+       "@command{sly-named-readtables} is an external contrib for SLY that
+enables different readtables to be active in different parts of the same
+file.")
+      (license license:gpl3+))))
+
+;; (replace 'install
+;;   (lambda* (#:key outputs #:allow-other-keys)
+;;     (let* ((out (assoc-ref outputs "out"))
+;;            (el-dir (emacs:elpa-directory out))
+;;            (doc (string-append
+;;                  out "/share/doc/haskell-mode-" #$version))
+;;            (info (string-append out "/share/info")))
+;;       (define (copy-to-dir dir files)
+;;         (for-each (lambda (f)
+;;                     (install-file f dir))
+;;                   files))
+
+;;       (with-directory-excursion "doc"
+;;         (invoke "makeinfo" "haskell-mode.texi")
+;;         (install-file "haskell-mode.info" info))
+;;       (copy-to-dir doc '("CONTRIBUTING.md" "NEWS" "README.md"))
+;;       (copy-to-dir el-dir (find-files "." "\\.elc?")))))
+
 ;;; Multiple possibilities: 1. either add a single from from URI:
 ;; (define-public emacs-zoom-frm
 ;;   (package
@@ -359,23 +408,22 @@
 ;;; 2. emacs-dap-base exclude
 ;;; 3. emacs-dap-<..> include
 
-        ;; Exclude all;
-        ;; Also, matching every string except "foo" using lookahead assertion
-        ;; "^\\(?!foo$\\).*" doesn't work. Lookahead assertions are not
-        ;; supported in POSIX regular expressions used by Guile
+        ;; Exclude all el-files
         #:exclude #~(cons*
-                     "^[^/]*\\.el$"
+                     "^.*\\.el$"
                      %default-exclude)))
       (home-page "http://spacemacs.org/")
-      (synopsis "Community-driven Emacs distribution - The best editor is neither Emacs nor
-Vim, it's Emacs *and* Vim!")
+      (synopsis
+       "Community-driven Emacs distribution - The best editor is neither Emacs
+ nor Vim, it's Emacs *and* Vim!")
       (description
-       "Spacemacs is a new way of experiencing Emacs -- it's a sophisticated
+       "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
 
-(define all-info-include (quote (list "^[^/]*\\.info$" "^doc/.*\\.info$")))
+(define all-info-include (quote (list "^.*\\.info$")))
 
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-rst-lists)'
 (define-public emacs-rst-lists
   (package
     (inherit emacs-spacemacs-base)
@@ -385,6 +433,7 @@ Vim, it's Emacs *and* Vim!")
                        "^layers/\\+lang/restructuredtext/local/rst-lists/rst-lists\\.el$"
                        ,all-info-include)))))
 
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-versions)'
 (define-public emacs-core-versions
   (package
     (inherit emacs-spacemacs-base)
@@ -394,6 +443,7 @@ Vim, it's Emacs *and* Vim!")
                        "^core/core-versions\\.el$"
                        ,all-info-include)))))
 
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-load-paths)'
 (define-public emacs-core-load-paths
   (package
     (inherit emacs-spacemacs-base)
@@ -403,6 +453,7 @@ Vim, it's Emacs *and* Vim!")
                        "^core/core-load-paths\\.el$"
                        ,all-info-include)))))
 
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-spacemacs-ht)'
 (define-public emacs-spacemacs-ht
   (package
     (inherit emacs-spacemacs-base)
@@ -411,6 +462,683 @@ Vim, it's Emacs *and* Vim!")
      (list #:include `(cons*
                        "^core/libs/forks/spacemacs-ht\\.el$"
                        ,all-info-include)))))
+
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-dotspacemacs)'
+(define-public emacs-core-dotspacemacs
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-dotspacemacs")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-dotspacemacs\\.el$"
+                       ,all-info-include)))))
+
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-spacemacs-buffer)'
+(define-public emacs-core-spacemacs-buffer
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-spacemacs-buffer")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-spacemacs-buffer\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs
+     (list emacs-core-dotspacemacs))))
+
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-use-package-ext)'
+(define-public emacs-core-use-package-ext
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-use-package-ext")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-use-package-ext\\.el$"
+                       ,all-info-include)))))
+
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-fonts-support)'
+(define-public emacs-core-fonts-support
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-fonts-support")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-fonts-support\\.el$"
+                       ,all-info-include)))))
+
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-command-line)'
+(define-public emacs-core-command-line
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-command-line")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-command-line\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-transient-state
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-transient-state")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-transient-state\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-early-funcs
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-early-funcs")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-early-funcs\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-documentation
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-documentation")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-documentation\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-compilation
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-compilation")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-compilation\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-env
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-env")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-env\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-hooks
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-hooks")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-hooks\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-display-init
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-display-init")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-display-init\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-zemacs
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-zemacs")
+    (arguments
+     (list #:include `(cons*
+                       "^core/aprilfool/zemacs\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-irfc
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-irfc")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+misc/ietf/local/irfc/irfc\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-package-build
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-package-build")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/package-build\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-spacebind
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-spacebind")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-spacebind\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-package-build-badges
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-package-build-badges")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/package-build-badges\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-custom-settings
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-custom-settings")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-custom-settings\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-ido-vertical-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-ido-vertical-mode")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/ido-vertical-mode\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-configuration-layer
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-configuration-layer")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-configuration-layer\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs
+     (list
+      emacs-core-load-paths
+      emacs-core-spacemacs-buffer
+      emacs-core-progress-bar
+      emacs-core-funcs
+      emacs-core-dotspacemacs
+      emacs-spacemacs-ht
+      (@(gnu packages emacs-xyz) emacs-help-mode)
+      (@(gnu packages emacs-xyz) emacs-warnings)
+      (@(gnu packages emacs-xyz) emacs-epg)))))
+
+(define-public emacs-core-customization
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-customization")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-customization\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs
+     (list (@(gnu packages emacs-xyz) emacs-validate)))))
+
+(define-public emacs-spacemacs-common
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spacemacs-common")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/spacemacs-theme/spacemacs-common\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-spacemacs-theme
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spacemacs-theme")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/spacemacs-theme/spacemacs-theme\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-page-break-lines
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-page-break-lines")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/page-break-lines\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-package-recipe-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-package-recipe-mode")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/package-recipe-mode\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-nyan-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-nyan-mode")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+themes/colors/local/nyan-mode/nyan-mode\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-erc-yank
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-erc-yank")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+chat/erc/local/erc-yank/erc-yank\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-debug
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-debug")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-debug\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-load-env-vars
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-load-env-vars")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/forks/load-env-vars\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-themes-support
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-themes-support")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-themes-support\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-mocker
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-mocker")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/mocker\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-release-management
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-release-management")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-release-management\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-compleseus-spacemacs-help
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-compleseus-spacemacs-help")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs
+     (list (@(gnu packages emacs-xyz) emacs-consult)
+           emacs-core-configuration-layer))))
+
+(define-public emacs-erc-tex
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-erc-tex")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+chat/erc/local/erc-tex/erc-tex\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-keybindings
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-keybindings")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-keybindings\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-spinner
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spinner")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/spinner\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-erc-sasl
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-erc-sasl")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+chat/erc/local/erc-sasl/erc-sasl\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-dumper
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-dumper")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-dumper\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-cycle
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-cycle")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-cycle\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-ox-gfm
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-ox-gfm")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+emacs/org/local/ox-gfm/ox-gfm\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-jump
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-jump")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-jump\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-package-recipe
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-package-recipe")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/package-recipe\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-helm-spacemacs-faq
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-helm-spacemacs-faq")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+completion/helm/local/helm-spacemacs-help/helm-spacemacs-faq\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-quelpa
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-quelpa")
+    (arguments
+     (list #:include `(cons*
+                       "^core/libs/quelpa\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-helm-spacemacs-help
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-helm-spacemacs-help")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+completion/helm/local/helm-spacemacs-help/helm-spacemacs-help\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-ivy-spacemacs-help
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-ivy-spacemacs-help")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-funcs
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-funcs")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-funcs\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-tmux
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-tmux")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+tools/tmux/local/tmux/tmux\\.el$"
+                       ,all-info-include)))))
+
+;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-progress-bar)'
+(define-public emacs-core-progress-bar
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-progress-bar")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-progress-bar\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-micro-state
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-micro-state")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-micro-state\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-toggle
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-toggle")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-toggle\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-emacs-backports
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-emacs-backports")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-emacs-backports\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-spacemacs-purpose-popwin
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spacemacs-purpose-popwin")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-spacemacs-whitespace-cleanup
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spacemacs-whitespace-cleanup")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-help-fns-plus
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-help-fns-plus")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-defaults/local/help-fns\\+/help-fns\\+\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-helm-games
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-helm-games")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+fun/games/local/helm-games/helm-games\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-hybrid-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-hybrid-mode")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-vim-colors
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-vim-colors")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-colors\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-space-doc
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-space-doc")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-org/local/space-doc/space-doc\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-rst-sphinx
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-rst-sphinx")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+tools/sphinx/local/rst-sphinx/rst-sphinx\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-vim-powerline-theme
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-vim-powerline-theme")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-powerline-theme\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-evil-unimpaired
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-evil-unimpaired")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-pylookup
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-pylookup")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-evil-evilified-state
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-evil-evilified-state")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-spacemacs-xclipboard
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-spacemacs-xclipboard")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-theme-changer
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-theme-changer")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+tools/geolocation/extensions/theme-changer/theme-changer\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-jr-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-jr-mode")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+lang/jr/local/jr-mode/jr-mode\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-rst-directives
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-rst-directives")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+lang/restructuredtext/local/rst-directives/rst-directives\\.el$"
+                       ,all-info-include)))))
+
+(define-public emacs-core-spacemacs
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-core-spacemacs")
+    (arguments
+     (list #:include `(cons*
+                       "^core/core-spacemacs\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs
+     (list
+      emacs-core-versions
+      emacs-core-versions
+      emacs-core-load-paths
+      emacs-core-emacs-backports
+      emacs-core-env
+      emacs-page-break-lines
+      emacs-core-hooks
+      emacs-core-debug
+      emacs-core-command-line
+      emacs-core-configuration-layer
+      emacs-core-dotspacemacs
+      emacs-core-custom-settings
+      emacs-core-release-management
+      emacs-core-jump
+      emacs-core-display-init
+      emacs-core-themes-support
+      emacs-core-fonts-support
+      emacs-core-spacemacs-buffer
+      emacs-core-keybindings
+      emacs-core-toggle
+      emacs-core-early-funcs
+      emacs-core-cycle
+      emacs-core-funcs
+      emacs-core-micro-state
+      emacs-core-transient-state
+      emacs-core-use-package-ext
+      emacs-core-spacebind
+      emacs-core-compilation
+      emacs-core-dumper
+      ))))
 
 (define-public emacs-persistent-soft
   (let ((commit
@@ -1083,10 +1811,45 @@ performance-oriented and tidy.")
     (inherit emacs-magit)
     (name "emacs-magit-section")))
 
+(define-public emacs-helm-git-grep
+  (let (
+        (commit
+         "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
+        (revision "0")
+        )
+    (package
+      (name "emacs-helm-git-grep")
+      (version
+       "0.9.0"
+       ;; "0.10.1"
+       ;; (git-version "0.10.1" revision commit)
+       )
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/yasuyk/helm-git-grep")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0qmxccwpv7l5lbhv9n7ylikzcggdr99qzci868ghf33p4zhqyrj5"    ;; 0.9.0
+           ;; "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv" ;; 0.10.1
+           ))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-helm-files
+        (@(gnu packages emacs-xyz) emacs-helm)))
+      (home-page
+       "https://github.com/yasuyk/helm-git-grep")
+      (synopsis "Helm for git grep ")
+      (description "Helm for git-grep, an incremental git-grep.")
+      (license license:gpl3+))))
+
 ;; helm-comint-20231102.2029
 ;; helm-core-20240712.1822
 ;; helm-dictionary-20230922.1111
-;; helm-git-grep-20170614.1411
 ;; helm-purpose-20170114.1636
 ;; helm-pydoc-20220721.433
 
