@@ -508,6 +508,28 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
+(define-public emacs-composer
+  (package
+    (name "emacs-composer")
+    (version "0.2.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/zonuexe/composer.el")
+             (commit
+              "5af1707fefbd9d7db1102afdaeb8f2da893fea37")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "0m67sidj9rqbxfm3lfxsi8ljf8160060979kcdmw0bsvfzz1ns4r"))))
+    (build-system emacs-build-system)
+    (home-page
+     "https://github.com/zonuexe/composer.el")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
+
 (define-public emacs-erc-social-graph
   (package
     (name "emacs-erc-social-graph")
