@@ -506,28 +506,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-(define-public emacs-auto-yasnippet
-  (package
-    (name "emacs-auto-yasnippet")
-    (version "1.0.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/abo-abo/auto-yasnippet")
-             (commit
-              "6a9e406d0d7f9dfd6dff7647f358cb05a0b1637e")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0ifzbwnm2axb8kmfp3jvg05wq02j121iwp2m64pi70c7mza0i886"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/abo-abo/auto-yasnippet")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
 (define-public emacs-erc-social-graph
   (package
     (name "emacs-erc-social-graph")
