@@ -509,26 +509,31 @@ color for syntax, and easily allows multiple variants.")
     (license license:gpl3+)))
 
 (define-public emacs-composer
-  (package
-    (name "emacs-composer")
-    (version "0.2.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/zonuexe/composer.el")
-             (commit
-              "5af1707fefbd9d7db1102afdaeb8f2da893fea37")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0m67sidj9rqbxfm3lfxsi8ljf8160060979kcdmw0bsvfzz1ns4r"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/zonuexe/composer.el")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
+  (let ((commit "791a7104be2ef2748757a186094c1e8f7f531a01")
+        (revision "0"))
+    (package
+      (name "emacs-composer")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/zonuexe/composer.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "01kb74nlkp4fvpbz6wdx776q3v7jfknhax1qmg85kj2ilkadfrd0"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/zonuexe/composer.el")
+      (synopsis "Emacs interface for managing PHP dependencies with Composer")
+      (description
+       "This package provides an Emacs interface for working with PHP
+ dependencies managed by Composer.  It allows users to run Composer commands
+ directly from Emacs, including installing and updating packages, and managing
+ Composer configurations.  The package aims to streamline the development
+ workflow for PHP projects within Emacs.")
+      (license license:gpl3+))))
 
 (define-public emacs-erc-social-graph
   (package
