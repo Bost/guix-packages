@@ -166,7 +166,6 @@
    emacs-lsp-haskell
    emacs-helm-css-scss
    emacs-auto-yasnippet
-   emacs-composer
    emacs-erc-social-graph
    emacs-hlint-refactor
    emacs-chocolate
