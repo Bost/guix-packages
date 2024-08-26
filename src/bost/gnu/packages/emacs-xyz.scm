@@ -1072,3 +1072,40 @@ performance-oriented and tidy.")
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-core")))
+
+(define-public emacs-chatgpt-shell
+  (let ((commit "fcc854e9699592d88a444b1eb711028c424a17b1")
+        (revision "0"))
+    (package
+      (name "emacs-chatgpt-shell")
+      (version (git-version "1.4.1" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/xenodium/chatgpt-shell")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "085il9gag91s4scjcc4m4vxpdb88gxgl7frbxwrrcylqq996p01q"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'disable-save-variables
+              (lambda _
+                ;; Override chatgpt-shell--save-variables
+                ;; chatgpt-shell--load-variables to prevent writing to
+                ;; ~/.emacs.d
+                (substitute* "chatgpt-shell.el"
+                  (("\\(provide 'chatgpt-shell\\)")
+                   (string-append
+                    "(defun chatgpt-shell--save-variables () nil)"
+                    "(defun chatgpt-shell--load-variables () nil)"
+                    "(provide 'chatgpt-shell)"))))))))
+      (home-page "https://github.com/xenodium/chatgpt-shell")
+      (synopsis "ChatGPT and DALL-E Emacs shells + Org Babel")
+      (description
+       "chatgpt-shell is a comint-based ChatGPT shell for Emacs.")
+      (license license:gpl3+))))
