@@ -657,7 +657,6 @@ file.")
       emacs-core-funcs
       emacs-core-dotspacemacs
       emacs-spacemacs-ht
-      (@(gnu packages emacs-xyz) emacs-help-mode)
       (@(gnu packages emacs-xyz) emacs-warnings)
       (@(gnu packages emacs-xyz) emacs-epg)))))
 
