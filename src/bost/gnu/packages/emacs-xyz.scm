@@ -656,9 +656,7 @@ file.")
       emacs-core-progress-bar
       emacs-core-funcs
       emacs-core-dotspacemacs
-      emacs-spacemacs-ht
-      (@(gnu packages emacs-xyz) emacs-warnings)
-      (@(gnu packages emacs-xyz) emacs-epg)))))
+      emacs-spacemacs-ht))))
 
 (define-public emacs-core-customization
   (package
