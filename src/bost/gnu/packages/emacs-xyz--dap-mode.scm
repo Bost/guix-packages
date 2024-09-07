@@ -29,12 +29,13 @@
 
 (define-public emacs-treemacs
   (let* ((commit
-          ;; Jun 15, 2023
-          "58ed4538a7e5e3481571566101748a2bee29bc1d")
-         (revision "1"))
+          ;; 15 Aug 2024, Corresponds to treemacs 20240815.1227 on melpa
+          "488dfc0a3aa7c1d35802d4f89be058e761578663"
+          )
+         (revision "0"))
     (package
       (name "emacs-treemacs")
-      (version (git-version "3.1" revision commit)) ;; (version "3.1")
+      (version (git-version "3.1" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -43,7 +44,7 @@
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0166y4pw1njv2dkjkh54f9s16b8n2zihs4r7dxwllcm890rsa067"))))
+          (base32 "01gljyihn9wyishd39vxav8rdzy19wsp0jyd0kr7w7xv83rbm57n"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -88,12 +89,15 @@
                    "src/scripts"
                    (string-append (elpa-directory #$output) "/scripts"))))))))
       (native-inputs
-       (list (@(gnu packages emacs-xyz) emacs-buttercup)
-             (@(gnu packages emacs-xyz) emacs-el-mock)))
+       (list
+        ;; not needed in the 3.1 version from the upstream
+        (@(gnu packages emacs-xyz) emacs-buttercup)
+        (@(gnu packages emacs-xyz) emacs-el-mock)))
       (inputs
        (list python))
       (propagated-inputs
        (list (@(gnu packages emacs-xyz) emacs-ace-window)
+             (@(gnu packages emacs-xyz) emacs-cfrs)
              (@(gnu packages emacs-xyz) emacs-dash)
              (@(gnu packages emacs-xyz) emacs-f)
              (@(gnu packages emacs-xyz) emacs-ht)
