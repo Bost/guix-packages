@@ -924,6 +924,8 @@
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-spacemacs-purpose-popwin")
+    (propagated-inputs
+     (list (@(gnu packages emacs-xyz) emacs-window-purpose)))
     (arguments
      (list #:include `(cons*
                        "^layers/\\+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin\\.el$"
