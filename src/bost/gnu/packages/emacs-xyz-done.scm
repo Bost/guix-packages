@@ -3705,8 +3705,7 @@ with GUI Emacs behavior.")
       (license license:gpl3+))))
 
 (define-public emacs-winum
-  (let ((commit
-         "c5455e866e8a5f7eab6a7263e2057aff5f1118b9")
+  (let ((commit "c5455e866e8a5f7eab6a7263e2057aff5f1118b9")
         (revision "0"))
     (package
       (name "emacs-winum")
@@ -3719,23 +3718,16 @@ with GUI Emacs behavior.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0lj4cp7ml7cjhkd66f6ivcl6sbfs2my8ajjlynzl3pm5qansfw5i"))))
+          (base32 "0lj4cp7ml7cjhkd66f6ivcl6sbfs2my8ajjlynzl3pm5qansfw5i"))))
       (build-system emacs-build-system)
       (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-dash)))
-      (home-page
-       "https://github.com/deb0ch/emacs-winum")
-      (synopsis "Navigate windows and frames using numbers")
+      (home-page "https://github.com/deb0ch/emacs-winum")
+      (synopsis "Window number management for Emacs")
       (description
-       "Window numbers for Emacs: Navigate your windows and frames using
- numbers!
-
-This package is an extended and actively maintained version of the
-window-numbering package by Nikolaj Schumacher, with some ideas and code taken
-from ace-window.
-
-This version brings, among other things, support for number sets across
-multiple frames, giving the user a smoother experience of multi-screen Emacs.")
+       "This package provides window number management for Emacs, enabling
+ quick and easy navigation between windows using numbers.  It assigns numbers
+ to windows dynamically and allows users to switch to a specific window by its
+ number with minimal keystrokes.")
       (license license:gpl3+))))
 
 (define-public emacs-frame-fns
