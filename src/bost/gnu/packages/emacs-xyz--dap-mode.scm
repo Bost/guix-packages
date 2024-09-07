@@ -558,7 +558,8 @@ textDocument/foldingRange functionality. It can be enabled with.")
 ;;; 2. emacs-dap-base exclude
 ;;; 3. emacs-dap-<..> include
 
-        ;; Exclude all;
+        ;; Exclude all el-files in the working directory. el-files in the
+        ;; subdirectories are NOT excluded.
         ;; Also, matching every string except "foo" using lookahead assertion
         ;; "^\\(?!foo$\\).*" doesn't work. Lookahead assertions are not
         ;; supported in POSIX regular expressions used by Guile
