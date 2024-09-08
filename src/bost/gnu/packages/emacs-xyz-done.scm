@@ -1313,137 +1313,92 @@ conversations, not just one-off queries and multiple independent sessions.
 Requires an OpenAI API key.")
       (license license:gpl3+))))
 
-#|
-Error: void-function (make-tramp-file-name)
-mapbacktrace(#f(compiled-function (evald func args flags) #<bytecode -0xabc85104510e41>))
-debug-early-backtrace()
-debug-early(error (void-function make-tramp-file-name))
-(make-tramp-file-name :method "cache")
-(defconst tramp-cache-version (make-tramp-file-name :method "cache") "Virtual connection vector for Tramp version.")
+(define-public emacs-pythonic
+  (let ((commit "c1e5643e044f1faaf6ecfadc719b981c048aeb79")
+        (revision "0"))
+    (package
+      (name "emacs-pythonic")
+      (version (git-version "0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/proofit404/pythonic")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1bl2ds73g59v8q90kmjpchvzqrjdli3hmigzw5gv2yl548p7yppb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-tramp)))
+      (home-page
+       "https://github.com/proofit404/pythonic")
+      (synopsis "Utility functions for writing Pythonic Emacs package.")
+      (description
+       "The Pythonic Emacs package provides function for convenient running
+Python on different platforms on local and remote hosts including Docker
+containers and Vagrant virtual machines.  To use Pythonic with Docker you need
+to install docker-tramp Emacs package.")
+      (license license:gpl3+))))
 
------------------------
-
-make-tramp-file-name is a byte-compiled Lisp function in ‘tramp.el’.
-
-(make-tramp-file-name &key METHOD USER DOMAIN HOST PORT LOCALNAME HOP)
-
-Constructor for objects of type ‘tramp-file-name’.
-
-This function does not change global state, including the match data.
-This function has a compiler macro ‘make-tramp-file-name--cmacro’. See the
-manual for details.
-|#
-;; (define-public emacs-pythonic
-;;   (let ((commit "8250de0c1bc27e46175d11cfc14e5dac308cc02e")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-pythonic")
-;;       (version (git-version "0.2" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/proofit404/pythonic")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "0drg3ng8ycvlyh55m23rbkgqm5i2qis89b3xa596fsssm2yydpj7"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs
-;;        (list emacs-f
-;;              emacs-s
-;;              emacs-tramp
-;;              ))
-;;       (home-page
-;;        "https://github.com/proofit404/pythonic")
-;;       (synopsis "Utility functions for writing Pythonic Emacs package.")
-;;       (description
-;;        "The Pythonic Emacs package provides function for convenient running
-;; Python on different platforms on local and remote hosts including Docker
-;; containers and Vagrant virtual machines.  To use Pythonic with Docker you need
-;; to install docker-tramp Emacs package.")
-;;       (license license:gpl3+))))
-
-;; ;; depends on emacs-pythonic which doesn't compile
-;; (define-public emacs-anaconda-mode
-;;   (let ((commit "efd42aa8736d855a3c95e06e6daf4aa797290a93")
-;;         (revision "0"))
-;;       (package
-;;         (name "emacs-anaconda-mode")
-;;         (version (git-version "0.1.15" revision commit))
-;;         (source
-;;          (origin
-;;            (method git-fetch)
-;;            (uri (git-reference
-;;                  (url "https://github.com/proofit404/anaconda-mode")
-;;                  (commit commit)))
-;;            (file-name (git-file-name name version))
-;;            (sha256
-;;             (base32
-;;              "0r46zb5p9gmv60pkr0m6md89hha97dfswhybmilr39al6amk8j3w"))))
-;;         (build-system emacs-build-system)
-;;         (arguments
-;;          (list
-;;           #:include #~(cons "^anaconda-mode\\.py$" %default-include)
-;;           #:phases
-;;           #~(modify-phases %standard-phases
-;;               (add-after 'unpack 'substitute-anaconda-mode-installation-directory
-;;                 (lambda* (#:key outputs #:allow-other-keys)
-;;                   (let* ((out (assoc-ref outputs "out"))
-;;                          ;; this path must be writable probably
-;;                          (inst-dir (string-append
-;;                                         out
-;;                                         "/share/emacs/site-lisp/anaconda-mode-"
-;;                                         #$version)))
-;;                     (emacs-substitute-variables "anaconda-mode.el"
-;;                       ("anaconda-mode-installation-directory"
-;;                        inst-dir)))))
-;; ;;; sys.executable is an implicit dependency.
-;; ;;; See:
-;; ;;; https://github.com/pythonic-emacs/anaconda-mode/pull/422
-;; ;;; https://github.com/pythonic-emacs/anaconda-mode/issues/421
-;;               ;; def install_deps_pip():
-;;               ;;   import subprocess
-;;               ;;   # import sys
-;;               ;;   cmd = [sys.executable, '-m', 'pip', 'install', '--target', server_directory]
-;;               ;;   cmd.extend(missing_dependencies)
-;;               ;;   subprocess.check_call(cmd)
-;;               ;;   instrument_installation()
-
-;;               ;; (add-after 'unpack 'substitute-python-path
-;;               ;;   (lambda* (#:key inputs #:allow-other-keys)
-;;               ;;     (emacs-substitute-variables "pippel.el"
-;;               ;;       ("pippel-python-command"
-;;               ;;        (search-input-file
-;;               ;;         inputs
-;;               ;;         "/bin/python")))))
-;;               )))
-;;         ;; To use this package you need to install setuptools
-;;         (inputs (list ))
-;;         (propagated-inputs
-;;          (list
-;;           emacs-dash
-;;           emacs-f
-;;           emacs-pythonic
-;;           emacs-s
-;;           emacs-tramp
-;;           emacs-xref
-;;           ))
-;;         (home-page
-;;          "https://github.com/proofit404/anaconda-mode")
-;;         (synopsis
-;;          "Python code navigation, documentation lookup & completion in Emacs")
-;;         (description
-;;          "Anaconda mode provides the following features:
-;; * context-sensitive code completion
-;; * jump to definitions
-;; * find references
-;; * view documentation
-;; * virtual environment
-;; * eldoc mode
-;; * all this stuff inside vagrant, docker and remote hosts")
-;;         (license license:gpl3+))))
+(define-public emacs-anaconda-mode
+  (let ((commit "f900bd7656a03aa24ef3295251f266736f7756eb")
+        (revision "0"))
+      (package
+        (name "emacs-anaconda-mode")
+        (version (git-version "0.1.16" revision commit))
+        (source
+         (origin
+           (method git-fetch)
+           (uri (git-reference
+                 (url "https://github.com/proofit404/anaconda-mode")
+                 (commit commit)))
+           (file-name (git-file-name name version))
+           (sha256
+            (base32
+             "1gricygbs9f210z7bnzdhcmqpwnpzs4mwbw8rvabfplcbiw7sg6r"))))
+        (build-system emacs-build-system)
+        (arguments
+         (list
+          #:include #~(cons "^anaconda-mode\\.py$" %default-include)
+          ;; #:phases
+          ;; #~(modify-phases %standard-phases
+          ;;     (add-after 'unpack 'substitute-anaconda-mode-installation-directory
+          ;;       (lambda* (#:key outputs #:allow-other-keys)
+          ;;         (let* ((out (assoc-ref outputs "out"))
+          ;;                ;; this path must be writable probably
+          ;;                (inst-dir (string-append
+          ;;                               out
+          ;;                               "/share/emacs/site-lisp/anaconda-mode-"
+          ;;                               #$version)))
+          ;;           (emacs-substitute-variables "anaconda-mode.el"
+          ;;             ("anaconda-mode-installation-directory"
+          ;;              inst-dir))))))
+          ))
+        (propagated-inputs
+         (list
+          emacs-pythonic
+          (@(gnu packages emacs-xyz) emacs-dash)
+          (@(gnu packages emacs-xyz) emacs-f)
+          (@(gnu packages emacs-xyz) emacs-s)
+          (@(gnu packages emacs-xyz) emacs-tramp)
+          (@(gnu packages emacs-xyz) emacs-xref)))
+        (home-page
+         "https://github.com/proofit404/anaconda-mode")
+        (synopsis
+         "Python code navigation, documentation lookup & completion in Emacs")
+        (description
+         "This package provides Python code navigation, documentation lookup,
+ and code completion for Emacs.  It uses a lightweight Python backend to offer
+ features like jumping to definitions, finding references, and viewing
+ documentation, enhancing the Python development experience within Emacs.  The
+ package integrates seamlessly to support efficient coding and workflow
+ management.")
+        (license license:gpl3+))))
 
 (define-public emacs-copilot
   (let ((commit "15a698ebc1d6ffa10da7d6d7e9f972786d0ce526")
