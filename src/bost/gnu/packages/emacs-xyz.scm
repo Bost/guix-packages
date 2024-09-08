@@ -1007,6 +1007,10 @@
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-evil-unimpaired")
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-dash)
+      (@(gnu packages emacs-xyz) emacs-f)))
     (arguments
      (list #:include `(cons*
                        "^layers/\\+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired\\.el$"
