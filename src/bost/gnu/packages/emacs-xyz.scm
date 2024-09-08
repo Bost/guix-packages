@@ -1029,6 +1029,10 @@
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-evil-evilified-state")
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-evil)
+      (@(gnu packages emacs-xyz) emacs-bind-map)))
     (arguments
      (list #:include `(cons*
                        "^layers/\\+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state\\.el$"
