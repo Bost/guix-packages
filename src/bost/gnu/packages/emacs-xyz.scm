@@ -1901,3 +1901,32 @@ performance-oriented and tidy.")
 enables different readtables to be active in different parts of the same
 file.")
       (license license:gpl3+))))
+
+(define-public emacs-markdown-toc
+  (let ((commit "3d724e518a897343b5ede0b976d6fb46c46bcc01")
+        (revision "0"))
+    (package
+      (name "emacs-markdown-toc")
+      (version (git-version "0.1.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ardumont/markdown-toc.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "01l48njg0x7gkssvw9nv3yq97866r945izbggx9y3z5ckr1w4hlc"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list (@ (gnu packages emacs-xyz) emacs-dash)
+                               (@ (gnu packages emacs-xyz) emacs-markdown-mode)
+                               (@ (gnu packages emacs-xyz) emacs-s)))
+      (home-page "https://github.com/ardumont/markdown-toc")
+      (synopsis "Generate a table of contents for Markdown files in Emacs")
+      (description
+       "This package provides a tool to generate and update a table of
+ contents (TOC) for Markdown files within Emacs.  It automatically creates TOC
+ entries based on the headers in the document and updates them as the file
+ changes.  This simplifies navigation and organization in large Markdown
+ documents.")
+      (license license:gpl3+))))
