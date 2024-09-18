@@ -285,28 +285,30 @@ on haml-mode.")
     (license license:gpl3+)))
 
 (define-public emacs-popwin
-  (package
-    (name "emacs-popwin")
-    (version "1.2.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacsorphanage/popwin")
-             (commit
-              "b64499bb29663886b8f09f308eac609ce03fa601")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1nig4rxkbks9dbppcjpwd7hhaiqj404m4pxijy44hn7qhy9fp8n1"))))
-    (build-system emacs-build-system)
-    (home-page
-     "https://github.com/emacsorphanage/popwin")
-    (synopsis "Popup Window Manager for Emacs.")
-    (description
-     "Popup window manager for Emacs which makes you free from the hell of
-annoying buffers such like *Help*, *Completions*, *compilation*, and etc.")
-    (license license:gpl3+)))
+  (let ((commit "ba9435363fb7c5faccd07178a175fac6b3d99147")
+        (revision "0"))
+    (package
+      (name "emacs-popwin")
+      (version (git-version "1.0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/popwin.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xzp58ilw697waagbf843xjqmb35sfq65j31na6z6dz5lrh306i3"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacsorphanage/popwin")
+      (synopsis "Popup Window Manager for Emacs")
+      (description
+       "This package provides a popup window manager for Emacs.  It allows for
+ the dynamic display of temporary windows, such as help buffers or compilation
+ results, without disrupting the layout of existing windows.  Popwin
+ automatically manages the size and position of popup windows, improving
+ workflow efficiency and keeping the main editing environment intact.")
+      (license license:gpl3+))))
 
 ;; (define-public emacs-paradox
 ;;   (package
