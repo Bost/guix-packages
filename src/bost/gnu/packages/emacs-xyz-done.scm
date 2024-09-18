@@ -1313,7 +1313,7 @@ conversations, not just one-off queries and multiple independent sessions.
 Requires an OpenAI API key.")
       (license license:gpl3+))))
 
-(define-public emacs-pythonic
+(define-public emacs-pythonic ;; pull request sent
   (let ((commit "c1e5643e044f1faaf6ecfadc719b981c048aeb79")
         (revision "0"))
     (package
@@ -1345,7 +1345,7 @@ containers and Vagrant virtual machines.  To use Pythonic with Docker you need
 to install docker-tramp Emacs package.")
       (license license:gpl3+))))
 
-(define-public emacs-anaconda-mode
+(define-public emacs-anaconda-mode ;; pull request sent
   (let ((commit "f900bd7656a03aa24ef3295251f266736f7756eb")
         (revision "0"))
       (package
@@ -1364,21 +1364,7 @@ to install docker-tramp Emacs package.")
         (build-system emacs-build-system)
         (arguments
          (list
-          #:include #~(cons "^anaconda-mode\\.py$" %default-include)
-          ;; #:phases
-          ;; #~(modify-phases %standard-phases
-          ;;     (add-after 'unpack 'substitute-anaconda-mode-installation-directory
-          ;;       (lambda* (#:key outputs #:allow-other-keys)
-          ;;         (let* ((out (assoc-ref outputs "out"))
-          ;;                ;; this path must be writable probably
-          ;;                (inst-dir (string-append
-          ;;                               out
-          ;;                               "/share/emacs/site-lisp/anaconda-mode-"
-          ;;                               #$version)))
-          ;;           (emacs-substitute-variables "anaconda-mode.el"
-          ;;             ("anaconda-mode-installation-directory"
-          ;;              inst-dir))))))
-          ))
+          #:include #~(cons "^anaconda-mode\\.py$" %default-include)))
         (propagated-inputs
          (list
           emacs-pythonic
