@@ -2306,27 +2306,29 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 (define-public emacs-monochrome-theme
-  (let ((commit
-          "bfca67fe7365310bc47ae9ca96c417caada54896")
+  (let ((commit "bfca67fe7365310bc47ae9ca96c417caada54896")
         (revision "0"))
     (package
       (name "emacs-monochrome-theme")
       (version (git-version "" revision commit))
       (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/fxn/monochrome-theme.el")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "0jvsss38rgry37dnshxbqxcj7qh1q6iyza58kix47h5wbnrpvszn"))))
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/fxn/monochrome-theme.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0jvsss38rgry37dnshxbqxcj7qh1q6iyza58kix47h5wbnrpvszn"))))
       (build-system emacs-build-system)
-      (home-page
-        "https://github.com/fxn/monochrome-theme.el")
-      (synopsis "")
-      (description "")
+      (home-page "https://github.com/fxn/monochrome-theme.el")
+      (synopsis "Minimalistic monochrome color theme for Emacs")
+      (description
+       "This package provides a minimalistic monochrome color theme for Emacs.
+  It uses shades of gray to create a distraction-free, high-contrast
+ environment, ideal for users who prefer a simple, non-intrusive interface.
+  The theme aims to reduce eye strain while maintaining readability and focus
+ on content, without relying on multiple colors.")
       (license license:gpl3+))))
 
 (define-public emacs-mustang-theme
