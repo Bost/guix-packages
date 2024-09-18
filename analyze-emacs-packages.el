@@ -42,6 +42,7 @@
                 cus-face
                 dired
                 dom
+                easy-mmode
                 eieio
                 erc
                 eshell
@@ -55,6 +56,7 @@
                 ob-core
                 org
                 package
+                pcase
                 regexp-opt
                 rx
                 seq
