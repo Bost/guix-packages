@@ -2274,8 +2274,7 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 (define-public emacs-molokai-theme
-  (let ((commit
-         "cc53e997e7eff93b58ad16a376a292c1dd66044b")
+  (let ((commit "cc53e997e7eff93b58ad16a376a292c1dd66044b")
         (revision "0"))
     (package
       (name "emacs-molokai-theme")
@@ -2288,15 +2287,22 @@ access to GitHub Copilot to use this plugin.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
+          (base32 "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-color-theme))
-      ;; (inputs (list color-theme))
-      (home-page
-       "https://github.com/alloy-d/color-theme-molokai")
-      (synopsis "")
-      (description "")
+      (arguments
+       (list
+        #:exclude #~(cons* "^[^/]*\\.el$" %default-exclude)))
+      (propagated-inputs (list (@ (gnu packages emacs-xyz)
+                                  emacs-color-theme-modern)))
+      (home-page "https://github.com/alloy-d/color-theme-molokai")
+      (synopsis "Molokai color theme for Emacs")
+      (description
+       "This package provides the Molokai color theme for Emacs, inspired by
+ the popular Molokai theme from Vim.  It features a dark background with
+ vibrant, contrasting colors, designed to reduce eye strain and improve code
+ readability, especially during long coding sessions.  The theme is
+ well-suited for developers who prefer a visually appealing and functional
+ dark theme in their Emacs setup.")
       (license license:gpl3+))))
 
 (define-public emacs-monochrome-theme
