@@ -1831,11 +1831,11 @@ performance-oriented and tidy.")
 ;; helm-pydoc-20220721.433
 
 (define-public emacs-chatgpt-shell
-  (let ((commit "fcc854e9699592d88a444b1eb711028c424a17b1")
+  (let ((commit "4f10a22021e6c58d61a226e07c883721bc0f3997")
         (revision "0"))
     (package
       (name "emacs-chatgpt-shell")
-      (version (git-version "1.4.1" revision commit))
+      (version (git-version "1.6.1" revision commit))
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
@@ -1844,7 +1844,7 @@ performance-oriented and tidy.")
                 (file-name (git-file-name name version))
                 (sha256
                  (base32
-                  "085il9gag91s4scjcc4m4vxpdb88gxgl7frbxwrrcylqq996p01q"))))
+                  "1cpfjy47h4xnrk1g7hgxyxc5dwz30xy89ch37ab38nvaqv5ajlqd"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -1852,9 +1852,10 @@ performance-oriented and tidy.")
         #~(modify-phases %standard-phases
             (add-after 'unpack 'disable-save-variables
               (lambda _
-                ;; Override chatgpt-shell--save-variables
-                ;; chatgpt-shell--load-variables to prevent writing to
-                ;; ~/.emacs.d
+;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
+;;; prevent writing to ~/.emacs.d
+;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
+;;; needed after all.
                 (substitute* "chatgpt-shell.el"
                   (("\\(provide 'chatgpt-shell\\)")
                    (string-append
