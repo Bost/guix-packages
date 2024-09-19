@@ -1933,3 +1933,18 @@ file.")
  changes.  This simplifies navigation and organization in large Markdown
  documents.")
       (license license:gpl3+))))
+
+(define-public emacs-ac-php-core
+  (package
+    (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
+    (name "emacs-ac-php-core")))
+
+(define-public emacs-company-php
+  (package
+    (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
+    (name "emacs-company-php")))
+
+(define-public emacs-company-phpactor
+  (package
+    (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
+    (name "emacs-company-phpactor")))
