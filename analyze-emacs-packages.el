@@ -57,6 +57,7 @@
                 org
                 package
                 pcase
+                python
                 regexp-opt
                 rx
                 seq
