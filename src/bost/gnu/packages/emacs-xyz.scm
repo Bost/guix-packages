@@ -127,6 +127,8 @@
   #:use-module (bost gnu packages emacs-xyz--dap-mode)
   #:re-export
   (
+   emacs-company-anaconda
+
    emacs-lsp-ui
 
    emacs-dap-launch

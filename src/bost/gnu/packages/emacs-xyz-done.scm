@@ -1388,6 +1388,37 @@ to install docker-tramp Emacs package.")
  management.")
         (license license:gpl3+))))
 
+(define-public emacs-company-anaconda
+  (let ((commit "169252fca79a79da41ef22f2ec0eab0cf1313966")
+        (revision "0"))
+    (package
+      (name "emacs-company-anaconda")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pythonic-emacs/company-anaconda.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1kq035si3syi3pcacr6i5pbayqag5rfx4xw8brmrc92z5wlqm3ba"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-anaconda-mode
+                               (@ (gnu packages emacs-xyz) emacs-company)
+                               (@ (gnu packages emacs-xyz) emacs-dash)
+                               (@ (gnu packages emacs-xyz) emacs-s)))
+      (home-page "https://github.com/pythonic-emacs/company-anaconda.git")
+      (synopsis
+       "Company backend for Python code completion using Anaconda mode")
+      (description
+       "This package provides a Company backend for Python code completion,
+ leveraging Anaconda mode in Emacs.  It integrates with the Company (Complete
+ Anything) framework to offer intelligent and context-aware code completions
+ for Python, enhancing the coding experience with more accurate and efficient
+ suggestions.")
+      (license license:gpl3+))))
+
 (define-public emacs-copilot
   (let ((commit "15a698ebc1d6ffa10da7d6d7e9f972786d0ce526")
         (revision "0"))
