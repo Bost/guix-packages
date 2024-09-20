@@ -55,6 +55,7 @@
                 ispell
                 ido
                 json
+                lv
                 magit
                 ob-core
                 org
