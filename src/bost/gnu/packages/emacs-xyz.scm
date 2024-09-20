@@ -1948,3 +1948,30 @@ file.")
   (package
     (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
     (name "emacs-company-phpactor")))
+
+(define-public emacs-auto-dictionary
+  (let ((commit "b364e08009fe0062cf0927d8a0582fad5a12b8e7")
+        (revision "0"))
+    (package
+      (name "emacs-auto-dictionary")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nschum/auto-dictionary-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0rfjx0x2an28821shgb4v5djza4kwn5nnrsl2cvh3px4wrvw3izp"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/nschum/auto-dictionary-mode.git")
+      (synopsis "Automatic dictionary switcher for Emacs")
+      (description
+       "This package provides an automatic dictionary switcher for Emacs.  It
+ detects the language of the text being edited and automatically selects the
+ appropriate dictionary for spell-checking.  This is especially useful for
+ multilingual users who frequently switch between languages, ensuring that the
+ correct dictionary is always in use.")
+      (license license:gpl3+))))
+
