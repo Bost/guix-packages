@@ -36,6 +36,7 @@
                 advice
                 ansi-color
                 avoid
+                auth-source
                 cl
                 cl-lib
                 compile
@@ -48,8 +49,10 @@
                 eshell
                 find-func
                 flymake
+                flyspell
                 help-fns
                 hierarchy
+                ispell
                 ido
                 json
                 magit
@@ -57,6 +60,7 @@
                 org
                 package
                 pcase
+                pp
                 python
                 regexp-opt
                 rx
