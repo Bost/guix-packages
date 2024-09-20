@@ -167,7 +167,6 @@
    emacs-flx
    emacs-lsp-haskell
    emacs-helm-css-scss
-   emacs-composer
    emacs-erc-social-graph
    emacs-hlint-refactor
    emacs-chocolate
