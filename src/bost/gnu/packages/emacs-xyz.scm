@@ -1975,3 +1975,116 @@ file.")
  correct dictionary is always in use.")
       (license license:gpl3+))))
 
+(define-public emacs-tblui
+  (let ((commit
+         "62ab5f62982c061a902fd3e54d94a68a4706572c")
+        (revision "0"))
+    (package
+      (name "emacs-tblui")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Yuki-Inoue/tblui.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1fq0dsvh9a8h7n4d4cj7sn73nzbg5chqjby9pzpbs5grx4kf0zi6"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-magit-popup)
+        (@(gnu packages emacs-xyz) emacs-dash)
+        (@(gnu packages emacs-xyz) emacs-tablist)
+        ))
+      (home-page
+       "https://github.com/Yuki-Inoue/tblui.el")
+      (synopsis "Emacs library for building table-based user interfaces")
+      (description
+       "This package provides a library for building table-based user
+ interfaces in Emacs.  It allows users to create and manipulate tables within
+ Emacs buffers, offering an easy way to organize and display data in a
+ structured format.  The package is designed to be flexible and integrates
+ well with other Emacs features, making it a useful tool for developers and
+ users who need to present tabular data in their workflows.")
+      (license license:gpl3+))))
+
+(define-public emacs-openai
+  (let ((commit
+         "04296c91c1517fb3d8a6297a1073684039773dae")
+        (revision "0"))
+    (package
+      (name "emacs-openai")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/openai")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0gki266kpdf05pxdy1shbirw1z65xq5hqwn6n324simaznbjqbla"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-tblui
+        (@ (gnu packages emacs-xyz) emacs-request)
+        (@ (gnu packages emacs-xyz) emacs-let-alist)
+        ))
+      (home-page
+       "https://github.com/emacs-openai/openai")
+      (synopsis "Emacs client for OpenAI API interaction")
+      (description
+       "This package provides an Emacs client for interacting with the OpenAI
+ API, allowing users to send requests and receive responses directly within
+ the Emacs environment.  It supports a range of OpenAI services, including
+ text completion, code generation, and more, enabling seamless integration of
+ AI-powered tools into various Emacs workflows.")
+      (license license:gpl3+))))
+
+(define-public emacs-lv
+  (package
+    (inherit (@ (gnu packages emacs-xyz) emacs-hydra))
+    (name "emacs-lv")))
+
+(define-public emacs-chatgpt
+  (let ((commit
+         "5c1b8568f79147d25e43e317e161a6f19109e9a2")
+        (revision "0"))
+    (package
+      (name "emacs-chatgpt")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/chatgpt.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0f8p7isssig3kxy89xj69fbjliwqjdww1r7spvslw6xbiac51dxa"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@ (gnu packages emacs-xyz) emacs-ht)
+        (@ (gnu packages emacs-xyz) emacs-let-alist)
+        emacs-lv
+        (@ (gnu packages emacs-xyz) emacs-markdown-mode)
+        emacs-openai
+        (@ (gnu packages emacs-xyz) emacs-spinner)
+        ))
+      (home-page
+       "https://github.com/emacs-openai/chatgpt.git")
+      (synopsis "Emacs client for interacting with ChatGPT")
+      (description
+       "This package provides an Emacs client for interacting with ChatGPT,
+ allowing users to send prompts and receive AI-generated responses directly
+ within Emacs.  It supports maintaining conversations, integrating AI-driven
+ assistance into various text-based workflows, and enhancing productivity by
+ making AI tools easily accessible in the Emacs environment.")
+      (license license:gpl3+))))
