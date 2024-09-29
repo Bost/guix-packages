@@ -7,11 +7,11 @@
 (setq
  pkgs
  '(
-   (
-    "<git-repo>"
-    "<version-number>"
-    "<path-to-el-file>"
-    )
+   ;; (
+   ;;  "<git-repo>"
+   ;;  "<version-number>"
+   ;;  "<path-to-el-file>"
+   ;;  )
    ))
 
 (defun lint-get-forms (filename)
@@ -114,12 +114,12 @@
   (lambda (s)
     (f-write-text (format "%s" (pp
                                 `(define pkgs-analyzed
-                                   ',s)))
+                                         ',s)))
                   'utf-8 (format "%s/analyzed.scm" (getenv "dotf"))))
   ;; (-partial #'mapcar #'print)
   (-partial #'mapcar
             (lambda (pkg)
-"(git-url, version, elisp-file). E.g.:
+              "(git-url, version, elisp-file). E.g.:
    (
     \"https://github.com/osv/web-completion-data\"
     \"0.2\"
