@@ -170,7 +170,7 @@ workspaces with a LSP-compliant server running.")
     (propagated-inputs
      (list
       (@(gnu packages emacs-xyz) emacs-cc-mode)
-      emacs-dap-mode
+      (@(gnu packages emacs-xyz) emacs-dap-mode)
       (@(gnu packages emacs-xyz) emacs-dash)
       (@(gnu packages emacs-xyz) emacs-f)
       (@(gnu packages emacs-xyz) emacs-ht)
@@ -228,7 +228,8 @@ to Metals.")
            emacs-lsp-metals-protocol
            (@(gnu packages emacs-xyz) emacs-lsp-mode)
            emacs-lsp-lens
-           emacs-dap-mode))))
+           (@(gnu packages emacs-xyz) emacs-dap-mode)
+           ))))
 
 (define-public emacs-lsp-metals-protocol
   (package
@@ -242,7 +243,7 @@ to Metals.")
       emacs-lsp-protocol
       emacs-treemacs-treelib ;; needed, but not via (require 'treemacs-treelib)
       (@(gnu packages emacs-xyz) emacs-lsp-treemacs)
-      emacs-dap-mode         ;; needed, but not via (require 'dap-mode)
+      (@(gnu packages emacs-xyz) emacs-dap-mode)
       ))))
 
 (define-public emacs-lsp-metals-treeview
@@ -516,35 +517,6 @@ textDocument/foldingRange functionality. It can be enabled with.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-dap-mode
-  (package
-    (inherit emacs-dap-base)
-    (name "emacs-dap-mode")
-    (arguments
-     (list #:include `(cons*
-                       "^dap-mode\\.el$"
-                       "^dap-overlays\\.el$"
-                       "^dap-launch\\.el$"
-                       "^dap-tasks\\.el$"
-                       ,all-info-include)))
-    (propagated-inputs
-     (list
-      emacs-lsp-mode
-      (@(gnu packages emacs-xyz) emacs-f)
-      (@(gnu packages emacs-xyz) emacs-dash)
-      emacs-dap-overlays
-      (@(gnu packages emacs-xyz) emacs-posframe)
-      (@(gnu packages emacs-xyz) emacs-ht)
-      emacs-lsp-docker
-      emacs-dap-launch
-      emacs-dap-tasks))
-    (synopsis "Emacs client/library for Debug Adapter Protocol")
-    (description
-     "Dap mode is an Emacs client/library for Debug Adapter
-Protocol (DAP), a wire protocol for communication between client and
-debug server.  It is similar to the LSP but provides integration with
-Debug server.")))
-
 (define-public emacs-dap-utils
   (package
     (inherit emacs-dap-base)
@@ -554,7 +526,9 @@ Debug server.")))
                        "^dap-utils\\.el$"
                        ,all-info-include)))
     (propagated-inputs
-     (list emacs-dap-mode))))
+     (list
+      (@(gnu packages emacs-xyz) emacs-dap-mode)
+      ))))
 
 (define-public emacs-dap-chrome
   (package
@@ -565,7 +539,10 @@ Debug server.")))
                        "^dap-chrome\\.el$"
                        ,all-info-include)))
     (propagated-inputs
-     (list emacs-dap-utils emacs-dap-mode))))
+     (list
+      emacs-dap-utils
+      (@(gnu packages emacs-xyz) emacs-dap-mode)
+      ))))
 
 (define-public emacs-dap-overlays
   (package
