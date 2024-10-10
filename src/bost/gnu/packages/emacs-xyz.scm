@@ -1238,103 +1238,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-magit
-    ;; Use this unreleased commit to benefit from a recent improvements with
-    ;; regard to adding git trailers such as "Reviewed-by".
-  (let ((commit "b9948f9571928bb7f39f4b3a112bd76e52a072ce")
-        (revision "8"))
-    (package
-      (name "emacs-magit")
-      (version (git-version "3.3.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/magit")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0yw62knfz5xvmfbcvdg2li1lla5hkyfnz0cmc6lqzisy4yscjjyr"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:tests? #t
-        #:test-command #~(list "make" "test")
-        #:exclude #~(cons* "magit-libgit.el"
-                           "magit-libgit-pkg.el"
-                           %default-exclude)
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'build-info-manual
-              (lambda _
-                (invoke "make" "info")
-                ;; Copy info files to the lisp directory, which acts as
-                ;; the root of the project for the emacs-build-system.
-                (for-each (lambda (f)
-                            (install-file f "lisp"))
-                          (find-files "docs" "\\.info$"))))
-            (add-after 'build-info-manual 'set-magit-version
-              (lambda _
-                (make-file-writable "lisp/magit.el")
-                (emacs-substitute-variables "lisp/magit.el"
-                  ("magit-version" #$version))))
-            (add-after 'set-magit-version 'patch-exec-paths
-              (lambda* (#:key inputs #:allow-other-keys)
-                (for-each make-file-writable
-                          (list "lisp/magit-git.el" "lisp/magit-sequence.el"))
-                (emacs-substitute-variables "lisp/magit-git.el"
-                  ("magit-git-executable"
-                   (search-input-file inputs "/bin/git")))
-                (emacs-substitute-variables "lisp/magit-sequence.el"
-                  ("magit-perl-executable"
-                   (search-input-file inputs "/bin/perl")))))
-            (add-before 'check 'configure-git
-              (lambda _
-                ;; Otherwise some tests fail with error "unable to auto-detect
-                ;; email address".
-                (setenv "HOME" (getcwd))
-                (invoke "git" "config" "--global" "user.name" "toto")
-                (invoke "git" "config" "--global" "user.email"
-                        "toto@toto.com")))
-            (replace 'expand-load-path
-              (lambda args
-                (with-directory-excursion "lisp"
-                  (apply (assoc-ref %standard-phases 'expand-load-path) args))))
-            (replace 'make-autoloads
-              (lambda args
-                (with-directory-excursion "lisp"
-                  (apply (assoc-ref %standard-phases 'make-autoloads) args))))
-            (replace 'install
-              (lambda args
-                (with-directory-excursion "lisp"
-                  (apply (assoc-ref %standard-phases 'install) args))))
-            (replace 'build
-              (lambda args
-                (with-directory-excursion "lisp"
-                  (apply (assoc-ref %standard-phases 'build) args)))))))
-      (native-inputs
-       (list texinfo))
-      (inputs
-       (list git perl))
-      (propagated-inputs
-       ;; Note: the 'git-commit' and 'magit-section' dependencies are part of
-       ;; magit itself.
-       (list
-        (@(gnu packages emacs-xyz) emacs-compat)
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-transient)
-        (@(gnu packages emacs-xyz) emacs-with-editor)
-        ))
-      (home-page "https://magit.vc/")
-      (synopsis "Emacs interface for the Git version control system")
-      (description
-       "With Magit, you can inspect and modify your Git repositories
-with Emacs.  You can review and commit the changes you have made to
-the tracked files, for example, and you can browse the history of past
-changes.  There is support for cherry picking, reverting, merging,
-rebasing, and other common Git operations.")
-      (license license:gpl3+))))
-
 (define-public emacs-forge
   (package
      (name "emacs-forge")
@@ -1366,7 +1269,7 @@ rebasing, and other common Git operations.")
       (list texinfo))
      (propagated-inputs
       (list
-       emacs-magit
+       (@(gnu packages emacs-xyz) emacs-magit)
        (@(gnu packages emacs-xyz) emacs-closql)
        (@(gnu packages emacs-xyz) emacs-dash)
        (@(gnu packages emacs-xyz) emacs-emacsql)
@@ -1395,7 +1298,10 @@ comfort of Magit and the rest of Emacs.")
        (sha256
         (base32 "1amr2c08mq1nnn6k66mgz4rzyni4np7gxm96g4qyla2cbfbachgk"))))
     (build-system emacs-build-system)
-    (propagated-inputs (list emacs-magit))
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-magit)
+      ))
     (home-page "https://github.com/magit/magit-annex/")
     (synopsis "Git-annex support for Magit")
     (description
@@ -1420,7 +1326,7 @@ comfort of Magit and the rest of Emacs.")
      (list
       (@(gnu packages emacs-xyz) emacs-dash)
       (@(gnu packages emacs-xyz) emacs-with-editor)
-      emacs-magit
+      (@(gnu packages emacs-xyz) emacs-magit)
       ))
     (home-page "https://github.com/magit/magit-svn")
     (synopsis "Git-SVN extension to Magit")
@@ -1443,7 +1349,9 @@ support for Git-SVN.")
          "05czw8fkifb25rwl99dmncr1g0rjfx1bqijl7igqs9j6h9ia2xvg"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-magit))
+     (list
+      (@(gnu packages emacs-xyz) emacs-magit)
+      ))
     (home-page "https://github.com/alphapapa/taxy.el")
     (synopsis "Programmable taxonomical grouping for arbitrary objects")
     (description
@@ -1465,7 +1373,10 @@ groups.")
                (base32
                 "1712hbcna0ph9chaq28a6fanv4sccdiphd5z0hg34ig3g6pslgn9"))))
     (build-system emacs-build-system)
-    (propagated-inputs (list emacs-magit emacs-taxy))
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-magit)
+      emacs-taxy))
     (home-page "https://github.com/alphapapa/taxy.el")
     (synopsis "View Taxy structs in a Magit Section buffer")
     (description
@@ -1492,7 +1403,9 @@ configurations.")
           (base32 "0p6h67x7f6iraw6jqn7dmqy2m2mwwvbwcs61hq8jc602v6hkslqn"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-magit))
+       (list
+        (@(gnu packages emacs-xyz) emacs-magit)
+        ))
       (home-page "https://github.com/emacsorphanage/magit-gerrit")
       (synopsis "Magit extension for Gerrit")
       (description "This Magit extension provides integration with Gerrit,
@@ -1515,7 +1428,9 @@ Emacs.")
         (base32
          "07r5x256k1fjjxs1yfg41kc94nwvnjlk2vvknkra3j8v9p0j88m7"))))
     (propagated-inputs
-     (list emacs-magit))
+     (list
+      (@(gnu packages emacs-xyz) emacs-magit)
+      ))
     (build-system emacs-build-system)
     (home-page "https://github.com/danielma/magit-org-todos.el")
     (synopsis "Get todo.org into Emacs Magit status")
@@ -1544,7 +1459,7 @@ buffer with each of your todos.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      emacs-magit
+      (@(gnu packages emacs-xyz) emacs-magit)
       (@(gnu packages emacs-xyz) emacs-async)
       (@(gnu packages emacs-xyz) emacs-dash)
       (@(gnu packages emacs-xyz) emacs-f)
@@ -1578,7 +1493,8 @@ few (like NOTE).")
     (propagated-inputs
      (list
       (@(gnu packages emacs-xyz) emacs-dash)
-      emacs-magit))
+      (@(gnu packages emacs-xyz) emacs-magit)
+      ))
     (synopsis "Support for Org links to Magit buffers")
     (description "This package defines several Org link types, which can be
 used to link to certain Magit buffers.  Use the command
@@ -1602,7 +1518,7 @@ Later you can insert it into an Org buffer using the command
     (propagated-inputs
      (modify-inputs (package-propagated-inputs emacs-treemacs)
        (append
-        emacs-magit
+        (@(gnu packages emacs-xyz) emacs-magit)
         (@(gnu packages emacs-xyz) emacs-all-the-icons)
         (@(gnu packages emacs-xyz) emacs-evil)
         (@(gnu packages emacs-xyz) emacs-projectile)
@@ -1636,7 +1552,9 @@ Later you can insert it into an Org buffer using the command
                              "-l" "evil-collection-magit-tests.el"
                              "-f" "ert-run-tests-batch-and-exit")))
     (native-inputs
-     (list emacs-magit))
+     (list
+      (@(gnu packages emacs-xyz) emacs-magit)
+      ))
     (propagated-inputs
      (list
       (@(gnu packages emacs-xyz) emacs-annalist)
@@ -1672,7 +1590,7 @@ Emacs that Evil does not cover properly by default, such as @code{help-mode},
       (propagated-inputs
        (list
         (@(gnu packages emacs-xyz) emacs-vdiff)
-        emacs-magit
+        (@(gnu packages emacs-xyz) emacs-magit)
         ))
       (home-page "https://github.com/justbur/emacs-vdiff-magit/")
       (synopsis "Frontend for diffing based on vimdiff")
@@ -1706,7 +1624,7 @@ based on diff output.")
         emacs-evil-iedit-state
         emacs-jump-last
         emacs-kill-buffers
-        emacs-magit
+        (@(gnu packages emacs-xyz) emacs-magit)
         (@(gnu packages emacs-xyz) emacs-yasnippet)
         emacs-zoom-frm
         ))
@@ -1762,7 +1680,9 @@ performance-oriented and tidy.")
 
 (define-public emacs-git-commit
   (package
-    (inherit emacs-magit)
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-magit)
+     )
     (name "emacs-git-commit")))
 
 (define-public emacs-treemacs-magit
@@ -1787,7 +1707,9 @@ performance-oriented and tidy.")
 
 (define-public emacs-magit-section
   (package
-    (inherit emacs-magit)
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-magit)
+     )
     (name "emacs-magit-section")))
 
 (define-public emacs-helm-git-grep
