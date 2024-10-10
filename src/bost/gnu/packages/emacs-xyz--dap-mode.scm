@@ -114,57 +114,6 @@ quick navigation and exploration, while also possessing basic file management
 utilities.")
       (license license:gpl3+))))
 
-(define-public emacs-lsp-mode
-  (let ((commit "fd0a4f1fa5abc601b01a234e96798961b8a417c1")
-        (revision "0"))
-    (package
-      (name "emacs-lsp-mode")
-      (version (git-version "8.0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacs-lsp/lsp-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0f92rp1z9512ms444j9yx9wrfn7ca23v4ywq7jd1nlfd4n006bjv"))))
-      (build-system emacs-build-system)
-      (arguments
-       `(
-         ;; #:exclude #~(cons* "^lsp-lense\\.el$" %default-exclude)
-         #:emacs ,emacs                 ;need libxml support
-         #:phases
-         (modify-phases %standard-phases
-           (add-after 'unpack 'move-clients-libraries
-             ;; Move all clients libraries at top-level, as is done, e.g., in
-             ;; MELPA.
-             (lambda _
-               (for-each (lambda (f)
-                           (install-file f "."))
-                         (find-files "clients/" "\\.el$"))))
-           (add-before 'move-clients-libraries 'fix-patch-el-files
-             ;; /bin/ksh is only used on macOS, which we don't support, so we
-             ;; don't want to add it as input.
-             (lambda _
-               (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
-                 (("/bin/ksh") "ksh")))))))
-      (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-dash)
-             (@(gnu packages emacs-xyz) emacs-f)
-             (@(gnu packages emacs-xyz) emacs-ht)
-             (@(gnu packages emacs-xyz) emacs-hydra)
-             (@(gnu packages emacs-xyz) emacs-markdown-mode)
-             (@(gnu packages emacs-xyz) emacs-spinner)))
-      (home-page "https://emacs-lsp.github.io/lsp-mode/")
-      (synopsis "Emacs client and library for the Language Server Protocol")
-      (description
-       "LSP mode is a client and library implementation for the Language
-Server Protocol.  This mode creates an IDE-like experience by providing
-optional integration with other popular Emacs packages like Company, Flycheck,
-and Projectile.")
-      (license license:gpl3+))))
-
 (define-public emacs-helm-lsp
   (package
     (name "emacs-helm-lsp")
@@ -181,7 +130,7 @@ and Projectile.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list (@(gnu packages emacs-xyz) emacs-helm)
-           emacs-lsp-mode
+           (@(gnu packages emacs-xyz) emacs-lsp-mode)
            (@(gnu packages emacs-xyz) emacs-dash)))
     (home-page "https://github.com/emacs-lsp/helm-lsp")
     (synopsis "Provide LSP-enhanced completion for symbols")
@@ -192,14 +141,16 @@ workspaces with a LSP-compliant server running.")
 
 (define-public emacs-lsp-lens
   (package
-    (inherit emacs-lsp-mode)
-    (name "emacs-lsp-lens")
-    (propagated-inputs
-     (list emacs-lsp-mode))))
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-lsp-mode)
+     )
+    (name "emacs-lsp-lens")))
 
 (define-public emacs-lsp-protocol
   (package
-    (inherit emacs-lsp-mode)
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-lsp-mode)
+     )
     (name "emacs-lsp-procotol")))
 
 (define-public emacs-lsp-java
@@ -223,7 +174,7 @@ workspaces with a LSP-compliant server running.")
       (@(gnu packages emacs-xyz) emacs-dash)
       (@(gnu packages emacs-xyz) emacs-f)
       (@(gnu packages emacs-xyz) emacs-ht)
-      emacs-lsp-mode
+      (@(gnu packages emacs-xyz) emacs-lsp-mode)
       (@(gnu packages emacs-xyz) emacs-markdown-mode)
       (@(gnu packages emacs-xyz) emacs-request)
       emacs-treemacs
@@ -275,7 +226,7 @@ to Metals.")
     (propagated-inputs
      (list emacs-lsp-metals-treeview
            emacs-lsp-metals-protocol
-           emacs-lsp-mode
+           (@(gnu packages emacs-xyz) emacs-lsp-mode)
            emacs-lsp-lens
            emacs-dap-mode))))
 
@@ -301,7 +252,7 @@ to Metals.")
     (propagated-inputs
      (list emacs-lsp-metals-protocol
            emacs-lsp-treemacs
-           emacs-lsp-mode
+           (@(gnu packages emacs-xyz) emacs-lsp-mode)
            emacs-treemacs-treelib
            (@(gnu packages emacs-xyz) emacs-f)
            (@(gnu packages emacs-xyz) emacs-dash)
@@ -324,7 +275,9 @@ to Metals.")
          "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-lsp-mode))
+     (list
+      (@(gnu packages emacs-xyz) emacs-lsp-mode)
+      ))
     (home-page
      "https://github.com/jadestrong/lsp-volar")
     (synopsis "Language support for Vue3")
@@ -353,7 +306,8 @@ will be submitted to lsp-mode.")
     (propagated-inputs
      (list
       (@(gnu packages emacs-xyz) emacs-haskell-mode)
-      emacs-lsp-mode))
+      (@(gnu packages emacs-xyz) emacs-lsp-mode)
+      ))
     (home-page
      "https://github.com/emacs-lsp/lsp-haskell")
     (synopsis "")
@@ -466,7 +420,8 @@ and implementation of treeview controls using treemacs as a tree renderer.")
       (propagated-inputs
        (list (@(gnu packages emacs-xyz) emacs-ht)
              (@(gnu packages emacs-xyz) emacs-dash)
-             emacs-lsp-mode))
+             (@(gnu packages emacs-xyz) emacs-lsp-mode)
+             ))
       (home-page
        "https://github.com/emacs-lsp/lsp-pyright")
       (synopsis "lsp-mode client leveraging Pyright language server")
@@ -497,8 +452,9 @@ and implementation of treeview controls using treemacs as a tree renderer.")
            "1nvz60iwdh5wkcflyk53lfwsd2yjniribvw95x9968sf9icf2dqw"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-lsp-mode
-             emacs-origami))
+       (list
+        (@(gnu packages emacs-xyz) emacs-lsp-mode)
+        emacs-origami))
       (home-page
        "https://github.com/emacs-lsp/lsp-origami")
       (synopsis "origami.el support for lsp-mode")
@@ -523,7 +479,9 @@ textDocument/foldingRange functionality. It can be enabled with.")
          "1z7cs2linikm54a7dqn66p58vnsnhy2rj99l2wixa6cdfxlmacn0"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list emacs-lsp-mode))
+     (list
+      (@(gnu packages emacs-xyz) emacs-lsp-mode)
+      ))
     (home-page
      "https://github.com/emacs-lsp/lsp-python-ms")
     (synopsis "lsp-mode loves Microsoft's python language server.")
@@ -584,7 +542,10 @@ textDocument/foldingRange functionality. It can be enabled with.")
        (list #:include `(cons*
                          "^dap-launch\\.el$"
                          ,all-info-include)))
-      (propagated-inputs (list emacs-lsp-mode)))))
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-lsp-mode)
+        )))))
 
 (define-public emacs-dap-tasks
   (package
@@ -594,7 +555,10 @@ textDocument/foldingRange functionality. It can be enabled with.")
      (list #:include `(cons*
                        "^dap-tasks.\\el$"
                        ,all-info-include)))
-    (propagated-inputs (list emacs-lsp-mode))))
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-lsp-mode)
+      ))))
 
 (define-public emacs-lsp-docker
   (let ((commit
@@ -620,7 +584,8 @@ textDocument/foldingRange functionality. It can be enabled with.")
              (@(gnu packages emacs-xyz) emacs-s)
              (@(gnu packages emacs-xyz) emacs-f)
              (@(gnu packages emacs-xyz) emacs-dash)
-             emacs-lsp-mode))
+             (@(gnu packages emacs-xyz) emacs-lsp-mode)
+             ))
       (home-page
        "https://github.com/emacs-lsp/lsp-docker.git")
       (synopsis "")
@@ -703,7 +668,7 @@ Debug server.")))
     (build-system emacs-build-system)
     (propagated-inputs
      (list (@(gnu packages emacs-xyz) emacs-dash)
-           emacs-lsp-mode
+           (@(gnu packages emacs-xyz) emacs-lsp-mode)
            (@(gnu packages emacs-xyz) emacs-markdown-mode)
            (@(gnu packages emacs-xyz) emacs-flycheck)))
     (home-page "https://github.com/emacs-lsp/lsp-ui")

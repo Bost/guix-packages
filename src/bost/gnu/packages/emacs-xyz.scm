@@ -138,7 +138,6 @@
    emacs-dap-utils
    emacs-dap-chrome
    emacs-dap-overlays
-   emacs-lsp-mode
    emacs-helm-lsp
 
    emacs-lsp-lens
