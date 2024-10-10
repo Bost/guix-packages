@@ -1272,57 +1272,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
 support for Git-SVN.")
     (license license:gpl3+)))
 
-(define-public emacs-taxy
-  (package
-    (name "emacs-taxy")
-    (version "0.10.1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (string-append
-             "https://elpa.gnu.org/packages/taxy-" version ".tar"))
-       (sha256
-        (base32
-         "05czw8fkifb25rwl99dmncr1g0rjfx1bqijl7igqs9j6h9ia2xvg"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-magit)
-      ))
-    (home-page "https://github.com/alphapapa/taxy.el")
-    (synopsis "Programmable taxonomical grouping for arbitrary objects")
-    (description
-     "Taxy provides a programmable way to classify arbitrary objects into
-a hierarchical taxonomy.  Allows you to automatically put things in nested
-groups.")
-    (license license:gpl3+)))
-
-(define-public emacs-taxy-magit-section
-  (package
-    (name "emacs-taxy-magit-section")
-    (version "0.13")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append
-                    "https://elpa.gnu.org/packages/taxy-magit-section-" version
-                    ".tar"))
-              (sha256
-               (base32
-                "1712hbcna0ph9chaq28a6fanv4sccdiphd5z0hg34ig3g6pslgn9"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-magit)
-      emacs-taxy))
-    (home-page "https://github.com/alphapapa/taxy.el")
-    (synopsis "View Taxy structs in a Magit Section buffer")
-    (description
-     "This library provides a way to view @code{taxy} structs in a column-based,
-@code{magit-section} buffer.  Columns are defined using simple top-level
-forms, and new columns may be easily defined by users in their
-configurations.")
-    (license license:gpl3+)))
-
 (define-public emacs-magit-gerrit
   (let ((commit "a97521574c5b7d4b7ab89e25c358c87fd5b1887f")
         (revision "1"))
