@@ -1238,52 +1238,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-forge
-  (package
-     (name "emacs-forge")
-     (version "0.3.2")
-     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-              (url "https://github.com/magit/forge")
-              (commit (string-append "v" version))))
-        (file-name (git-file-name name version))
-        (sha256
-         (base32 "0p1jlq169hpalhzmjm3h4q3x5xr9kdmz0qig8jwfvisyqay5vbih"))))
-     (build-system emacs-build-system)
-     (arguments
-      `(#:tests? #f                     ;no tests
-        #:phases
-        (modify-phases %standard-phases
-          (add-after 'unpack 'build-info-manual
-            (lambda _
-              (invoke "make" "info")
-              ;; Move the info file to lisp so that it gets installed by the
-              ;; emacs-build-system.
-              (rename-file "docs/forge.info" "lisp/forge.info")))
-          (add-after 'build-info-manual 'chdir-lisp
-            (lambda _
-              (chdir "lisp"))))))
-     (native-inputs
-      (list texinfo))
-     (propagated-inputs
-      (list
-       (@(gnu packages emacs-xyz) emacs-magit)
-       (@(gnu packages emacs-xyz) emacs-closql)
-       (@(gnu packages emacs-xyz) emacs-dash)
-       (@(gnu packages emacs-xyz) emacs-emacsql)
-       (@(gnu packages emacs-xyz) emacs-ghub)
-       (@(gnu packages emacs-xyz) emacs-let-alist)
-       (@(gnu packages emacs-xyz) emacs-markdown-mode)
-       (@(gnu packages emacs-xyz) emacs-yaml)
-       ))
-     (home-page "https://github.com/magit/forge/")
-     (synopsis "Access Git forges from Magit")
-     (description "Work with Git forges, such as Github and Gitlab, from the
-comfort of Magit and the rest of Emacs.")
-     (license license:gpl3+)))
-
 (define-public emacs-magit-annex
   (package
     (name "emacs-magit-annex")
