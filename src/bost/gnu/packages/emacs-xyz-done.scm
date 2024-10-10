@@ -3194,31 +3194,6 @@ Build in fish-shell:
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-flycheck-clj-kondo
-  (let ((commit
-         "ff7bed2315755cfe02ef471edf522e27b78cd5ca")
-        (revision "0"))
-    (package
-      (name "emacs-flycheck-clj-kondo")
-      (version (git-version "" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/borkdude/flycheck-clj-kondo")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0h0cbiifzjfm5ymwf98h6nlkaqavdlxvccdsb1h0yf4246scf251"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-flycheck)))
-      (home-page
-       "https://github.com/borkdude/flycheck-clj-kondo")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-flycheck-joker
   (let ((commit
          "93576295fef7a749bf779eeece5edd85e21868e2")

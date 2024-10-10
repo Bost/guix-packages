@@ -245,7 +245,6 @@
    emacs-omtose-phellack-theme
    emacs-sublime-themes
    emacs-cider-hydra
-   emacs-flycheck-clj-kondo
    emacs-flycheck-joker
    emacs-kaocha-runner
    emacs-sayid
