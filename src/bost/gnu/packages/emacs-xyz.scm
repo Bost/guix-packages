@@ -250,7 +250,6 @@
    emacs-kaolin-themes
    emacs-emacsql-sqlite3
    emacs-zonokai-emacs
-   emacs-treemacs
    emacs-kill-buffers
    emacs-copy-sexp
    emacs-jump-last
@@ -1362,18 +1361,21 @@ few (like NOTE).")
 
 (define-public emacs-treemacs-extra
   (package
-    (inherit emacs-treemacs)
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-treemacs))
     (name "emacs-treemacs-extra")
     (arguments
      (substitute-keyword-arguments
-         (package-arguments emacs-treemacs)
+         (package-arguments
+          (@(gnu packages emacs-xyz) emacs-treemacs))
        ((#:phases phases)
         #~(modify-phases #$phases
             (add-after 'chdir-elisp 'copy-extra
               (lambda _
                 (copy-recursively "../extra" ".")))))))
     (propagated-inputs
-     (modify-inputs (package-propagated-inputs emacs-treemacs)
+     (modify-inputs (package-propagated-inputs
+                     (@(gnu packages emacs-xyz) emacs-treemacs))
        (append
         (@(gnu packages emacs-xyz) emacs-magit)
         (@(gnu packages emacs-xyz) emacs-all-the-icons)
