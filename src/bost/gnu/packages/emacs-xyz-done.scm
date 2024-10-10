@@ -1276,45 +1276,6 @@ html-mode, web-mode, jade-mode, slim-mode and use data of ac-html.  It uses
 company-mode.")
       (license license:gpl3+))))
 
-(define-public emacs-gptel
-  (let ((commit
-         "1c07a94e18a914ae69ea0061f81fda4bba29afd5")
-        (revision "0"))
-    (package
-      (name "emacs-gptel")
-      (version (git-version "0.2.5" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/karthink/gptel")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "190nrxf6nqmfrsza3vyc51f02hw10wzydi45phkswydjkgsllkmp"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'substitute-gptel-use-curl
-              (lambda* (#:key inputs #:allow-other-keys)
-                (emacs-substitute-variables "gptel.el"
-                  ("gptel-use-curl"
-                   (search-input-file inputs "/bin/curl"))))))))
-      (inputs (list (@(gnu packages curl) curl)))
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-map)))
-      (home-page "https://github.com/karthink/gptel")
-      (synopsis "GPTel is a simple ChatGPT client for Emacs")
-      (description
-        "GPTel is a simple, no-frills ChatGPT asynchronous client for Emacs with no
-external dependencies.  It can interact with ChatGPT from any Emacs buffer
-with ChatGPT responses encoded in Markdown or Org markup.  It supports
-conversations, not just one-off queries and multiple independent sessions.
-Requires an OpenAI API key.")
-      (license license:gpl3+))))
-
 (define-public emacs-pythonic ;; pull request sent
   (let ((commit "c1e5643e044f1faaf6ecfadc719b981c048aeb79")
         (revision "0"))

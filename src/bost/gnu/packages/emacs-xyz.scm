@@ -178,7 +178,6 @@
    emacs-farmhouse-light-mod-theme
    emacs-web-completion-data
    emacs-company-web
-   emacs-gptel
    emacs-copilot
    emacs-ample-zen-theme
    emacs-anti-zenburn-theme
