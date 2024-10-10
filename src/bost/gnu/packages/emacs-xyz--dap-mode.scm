@@ -553,29 +553,3 @@ textDocument/foldingRange functionality. It can be enabled with.")
                        "^dap-overlays\\.el$"
                        ,all-info-include)))))
 
-(define-public emacs-lsp-ui
-  (package
-    (name "emacs-lsp-ui")
-    (version "8.0.1")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/emacs-lsp/lsp-ui")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "1pd5lvjlmd6zq64py21yi5zxhcza9g5q48ngfivv7fi7pf3vsv00"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-dash)
-           (@(gnu packages emacs-xyz) emacs-lsp-mode)
-           (@(gnu packages emacs-xyz) emacs-markdown-mode)
-           (@(gnu packages emacs-xyz) emacs-flycheck)))
-    (home-page "https://github.com/emacs-lsp/lsp-ui")
-    (synopsis "User interface extensions for @code{lsp-mode}")
-    (description
-     "@code{LSP-ui} contains several enhancements and integrations for
-@code{lsp-mode}, such as visual flychecking, displaying references in-line,
-and code peeking.")
-    (license license:gpl3+)))
