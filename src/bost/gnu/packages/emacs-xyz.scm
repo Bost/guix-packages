@@ -128,9 +128,6 @@
   #:re-export
   (
    emacs-company-anaconda
-
-   emacs-lsp-ui
-
    emacs-dap-launch
    emacs-dap-tasks
    emacs-lsp-docker
