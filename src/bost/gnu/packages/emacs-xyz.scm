@@ -257,7 +257,6 @@
    emacs-emacsql-sqlite3
    emacs-zonokai-emacs
    emacs-treemacs
-   emacs-lsp-treemacs
    emacs-kill-buffers
    emacs-copy-sexp
    emacs-jump-last
