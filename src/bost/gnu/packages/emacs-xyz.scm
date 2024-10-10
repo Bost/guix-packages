@@ -130,7 +130,6 @@
    emacs-company-anaconda
    emacs-dap-launch
    emacs-dap-tasks
-   emacs-lsp-docker
    emacs-dap-utils
    emacs-dap-chrome
    emacs-dap-overlays
