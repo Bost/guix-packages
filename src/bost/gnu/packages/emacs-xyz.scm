@@ -134,7 +134,6 @@
    emacs-dap-launch
    emacs-dap-tasks
    emacs-lsp-docker
-   emacs-dap-mode
    emacs-dap-utils
    emacs-dap-chrome
    emacs-dap-overlays
