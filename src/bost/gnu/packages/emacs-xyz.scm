@@ -1219,30 +1219,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-magit-annex
-  (package
-    (name "emacs-magit-annex")
-    (version "1.8.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/magit/magit-annex")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1amr2c08mq1nnn6k66mgz4rzyni4np7gxm96g4qyla2cbfbachgk"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-magit)
-      ))
-    (home-page "https://github.com/magit/magit-annex/")
-    (synopsis "Git-annex support for Magit")
-    (description
-     "Magit-annex adds a few git-annex operations to the Magit interface.")
-    (license license:gpl3+)))
-
 (define-public emacs-magit-svn
   (package
     (name "emacs-magit-svn")
