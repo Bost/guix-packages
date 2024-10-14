@@ -1302,39 +1302,6 @@ repository, @code{magit-org-todos} will create a section in your Magit status
 buffer with each of your todos.")
     (license license:gpl3+)))
 
-(define-public emacs-magit-todos
-  (package
-    (name "emacs-magit-todos")
-    (version "1.7.2")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/alphapapa/magit-todos")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1ygn1498ji785bkbi7ziazk1bkzinq5srpjh2yhw70v3cr5sfk8g"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-magit)
-      (@(gnu packages emacs-xyz) emacs-async)
-      (@(gnu packages emacs-xyz) emacs-dash)
-      (@(gnu packages emacs-xyz) emacs-f)
-      (@(gnu packages emacs-xyz) emacs-hl-todo)
-      (@(gnu packages emacs-xyz) emacs-pcre2el)
-      (@(gnu packages emacs-xyz) emacs-s)
-      ))
-    (home-page "https://github.com/alphapapa/magit-todos")
-    (synopsis "Show source files' TODOs (and FIXMEs, etc) in Magit status buffer")
-    (description "This package displays keyword entries from source code
-comments and Org files in the Magit status buffer.  Activating an item jumps
-to it in its file.  By default, it uses keywords from @code{hl-todo}, minus a
-few (like NOTE).")
-    (license license:gpl3)))
-
 (define-public emacs-treemacs-extra
   (package
     (inherit
