@@ -64,6 +64,7 @@
                 pp
                 python
                 regexp-opt
+                ring
                 rx
                 seq
                 server
