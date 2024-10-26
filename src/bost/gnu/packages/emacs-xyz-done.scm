@@ -761,30 +761,6 @@ color for syntax, and easily allows multiple variants.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-phpactor unbound
-;; (define-public emacs-company-phpactor
-;;   (package
-;;     (name "emacs-company-phpactor")
-;;     (version "0.1.0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-php/phpactor.el")
-;;                (commit
-;;                  "9440005814c4858880ad45afdaa7d2e637a9d280")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "08pq03mvi887g0bl0s5mg3psmn43wxw8bl78k9m5r3yw4xdy8mhz"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-phpactor))
-;;     (home-page
-;;       "https://github.com/emacs-php/phpactor.el")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-goto-chg exist already
 
 ;; emacs-thingatpt unbound
