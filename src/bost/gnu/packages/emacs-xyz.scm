@@ -1656,10 +1656,166 @@ file.")
  documents.")
       (license license:gpl3+))))
 
+;; (define-public emacs-ac-php-core
+;;   (package
+;;     (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
+;;     (name "emacs-ac-php-core")))
+
 (define-public emacs-ac-php-core
   (package
-    (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
-    (name "emacs-ac-php-core")))
+    (name "emacs-ac-php-core")
+    (version "2.7.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/xcwen/ac-php")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1yn5cc6cmj3hwqgmjj44dz847xn5k99kirj36qwc04q7vhl8z8k7"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:tests? #true
+      #:test-command #~(list "ert-runner")
+      #:phases
+      #~(modify-phases %standard-phases
+          (replace
+              'ensure-package-description
+            (lambda* (#:key outputs #:allow-other-keys)
+
+              (define (find-root-library-file name)
+                (let loop ((parts (string-split
+                                   (package-name-version->elpa-name-version name) #\-))
+                           (candidate ""))
+                  (format #t "#### [find-root-library-file] parts : ~a\n" parts)
+                  (format #t "#### [find-root-library-file] candidate : ~a\n" candidate)
+                  (format #t "#### [find-root-library-file] (null? parts) : ~a\n" (null? parts))
+                  (format #t "#### [find-root-library-file] (string-null? candidate) : ~a\n" (string-null? candidate))
+                  (let* [(f (string-append candidate ".el"))]
+                    (format #t "#### [find-root-library-file] (file-exists? ~a) : ~a\n" f (file-exists? f)))
+                  (format #t "\n")
+                  (cond
+                   ;; at least one version part is given, so we don't terminate "early"
+                   ((null? parts) #f)
+                   ((string-null? candidate) (loop (cdr parts) (car parts)))
+                   ((file-exists? (string-append candidate ".el")) candidate)
+                   (else
+                    (loop (cdr parts) (string-append candidate "-" (car parts)))))))
+
+              (define (emacs-package? name)
+                "Check if NAME correspond to the name of an Emacs package."
+                (string-prefix? "emacs-" name))
+
+              (define (package-name-version->elpa-name-version name-ver)
+                "Convert the Guix package NAME-VER to the corresponding ELPA name-version
+format.  Essentially drop the prefix used in Guix."
+                (if (emacs-package? name-ver)  ; checks for "emacs-" prefix
+                    (string-drop name-ver (string-length "emacs-"))
+                    name-ver))
+
+              (define (store-file->elisp-source-file file)
+                "Convert FILE, a store file name for an Emacs Lisp source file, into a file
+name that has been stripped of the hash and version number."
+                (let ((suffix ".el"))
+                  (let-values (((name version)
+                                (package-name->name+version
+                                 (basename
+                                  (strip-store-file-name file) suffix))))
+                    (string-append name suffix))))
+
+              (define (store-directory->elpa-name-version store-dir)
+                "Given a store directory STORE-DIR return the part of the basename after the
+second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
+                ((compose package-name-version->elpa-name-version
+                          strip-store-file-name)
+                 store-dir))
+
+              (define (write-pkg-file name)
+                (define summary-regexp
+                  "^;;; [^ ]*\\.el ---[ \t]*\\(.*?\\)[ \t]*\\(-\\*-.*-\\*-[ \t]*\\)?$")
+                (define %write-pkg-file-form
+                  `(progn
+                    (require 'lisp-mnt)
+                    (require 'package)
+
+                    (defun build-package-desc-from-library (name)
+                      (package-desc-from-define
+                       name
+                       ;; Workaround for malformed version string (for example "24 (beta)"
+                       ;; in paredit.el), try to parse version obtained by lm-version,
+                       ;; before trying to create package-desc.  Otherwise the whole process
+                       ;; of generation -pkg.el will fail.
+                       (condition-case
+                        nil
+                        (let ((version (lm-version)))
+                          ;; raises an error if version is invalid
+                          (and (version-to-list version) version))
+                        (error "0.0.0"))
+                       (or (save-excursion
+                            (goto-char (point-min))
+                            (and (re-search-forward ,summary-regexp nil t)
+                                 (match-string-no-properties 1)))
+                           package--default-summary)
+                       (let ((require-lines (lm-header-multiline "package-requires")))
+                         (and require-lines
+                              (package--prepare-dependencies
+                               (package-read-from-string
+                                (mapconcat 'identity require-lines " ")))))
+                       :kind       'single
+                       :url        (lm-homepage)
+                       :keywords   (lm-keywords-list)
+                       :maintainer (lm-maintainer)
+                       :authors    (lm-authors)))
+
+                    (defun generate-package-description-file (name)
+                      (package-generate-description-file
+                       (build-package-desc-from-library name)
+                       (concat name "-pkg.el")))
+
+                    (condition-case
+                     err
+                     (let ((name (file-name-base (buffer-file-name))))
+                       (generate-package-description-file name)
+                       (message (concat name "-pkg.el file generated.")))
+                     (error
+                      (message "There are some errors during generation of -pkg.el file:")
+                      (message "%s" (error-message-string err))))))
+
+                (format #t "#### [%write-pkg-file-form] file-exists?: ~a\n" (file-exists? (string-append name "-pkg.el")))
+                (unless (file-exists? (string-append name "-pkg.el"))
+                  (emacs-batch-edit-file (string-append name ".el")
+                    %write-pkg-file-form)))
+
+              (let ((name (store-directory->elpa-name-version (assoc-ref outputs "out"))))
+                (format #t "#### [ensure-package-description] name: ~a\n" name)
+
+                (let* [(r (find-root-library-file name))]
+                  (format #t "#### [ensure-package-description] (find-root-library-file name): ~a\n" r)
+                  (and=> r write-pkg-file)))
+              )))
+      ))
+    (inputs
+     (list
+      (@ (gnu packages emacs-xyz) emacs-auto-complete)
+      (@ (gnu packages emacs-xyz) emacs-company)
+      (@ (gnu packages emacs-xyz) emacs-dash)
+      (@ (gnu packages emacs-xyz) emacs-f)
+      (@ (gnu packages emacs-xyz) emacs-helm)
+      (@ (gnu packages emacs-xyz) emacs-php-mode)
+      (@ (gnu packages emacs-xyz) emacs-popup)
+      (@ (gnu packages emacs-xyz) emacs-s)
+      (@ (gnu packages emacs-xyz) emacs-xcscope)
+      ))
+    (native-inputs
+     (list
+      (@ (gnu packages emacs-xyz) emacs-ert-runner)
+      ))
+    (home-page "https://github.com/xcwen/ac-php")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
 
 (define-public emacs-company-php
   (package
