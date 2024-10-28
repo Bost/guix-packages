@@ -35,8 +35,8 @@
               '(
                 advice
                 ansi-color
-                avoid
                 auth-source
+                avoid
                 cl
                 cl-lib
                 compile
@@ -54,8 +54,8 @@
                 help-fns
                 help-mode
                 hierarchy
-                ispell
                 ido
+                ispell
                 json
                 lv
                 magit
