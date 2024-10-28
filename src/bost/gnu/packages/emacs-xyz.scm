@@ -1557,49 +1557,74 @@ performance-oriented and tidy.")
       (description "Helm for git-grep, an incremental git-grep.")
       (license license:gpl3+))))
 
-;; helm-comint-20231102.2029
-;; helm-core-20240712.1822
-;; helm-dictionary-20230922.1111
-;; helm-purpose-20170114.1636
-;; helm-pydoc-20220721.433
-
 (define-public emacs-chatgpt-shell
-  (let ((commit "4f10a22021e6c58d61a226e07c883721bc0f3997")
-        (revision "0"))
-    (package
-      (name "emacs-chatgpt-shell")
-      (version (git-version "1.6.1" revision commit))
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://github.com/xenodium/chatgpt-shell")
-                      (commit commit)))
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "1cpfjy47h4xnrk1g7hgxyxc5dwz30xy89ch37ab38nvaqv5ajlqd"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'disable-save-variables
-              (lambda _
-;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
-;;; prevent writing to ~/.emacs.d
-;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
-;;; needed after all.
-                (substitute* "chatgpt-shell.el"
-                  (("\\(provide 'chatgpt-shell\\)")
-                   (string-append
-                    "(defun chatgpt-shell--save-variables () nil)"
-                    "(defun chatgpt-shell--load-variables () nil)"
-                    "(provide 'chatgpt-shell)"))))))))
-      (home-page "https://github.com/xenodium/chatgpt-shell")
-      (synopsis "ChatGPT and DALL-E Emacs shells + Org Babel")
-      (description
-       "chatgpt-shell is a comint-based ChatGPT shell for Emacs.")
-      (license license:gpl3+))))
+  (package
+    (name "emacs-chatgpt-shell")
+    (version "1.15.1")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/xenodium/chatgpt-shell")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "11j0phgm0mk68lzfpiqp3rj42s4s5mzrwnf8lcdijq9djigiq89f"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list #:phases
+           #~(modify-phases %standard-phases
+;;                (add-after 'unpack 'disable-save-variables
+;;                  (lambda _
+;; ;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
+;; ;;; prevent writing to ~/.emacs.d
+;; ;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
+;; ;;; needed after all.
+;;                    (substitute* "chatgpt-shell.el"
+;;                      (("\\(provide 'chatgpt-shell\\)")
+;;                       (string-append
+;;                        "(defun chatgpt-shell--save-variables () nil)"
+;;                        "(defun chatgpt-shell--load-variables () nil)"
+;;                        "(provide 'chatgpt-shell)")))))
+
+               ;; (add-before 'build 'inspect-environment-before-build
+               ;;   (lambda* (#:key inputs #:allow-other-keys)
+               ;;     (let* (
+               ;;            (h                  "/homeless-shelter")
+               ;;            (d (string-append h "/.emacs.d"))
+               ;;            (f (string-append d "/.chatgpt-shell.el")))
+               ;;       (format #t "### ~a exists?   ~a\n" h (access? h F_OK))
+               ;;       (format #t "### ~a writable? ~a\n" h (access? h W_OK))
+               ;;       (format #t "### ~a exists?   ~a\n" d (access? d F_OK))
+               ;;       (format #t "### ~a writable? ~a\n" d (access? d W_OK))
+               ;;       (format #t "### ~a exists?   ~a\n" f (access? f F_OK))
+               ;;       (format #t "### ~a writable? ~a\n" f (access? f W_OK)))
+               ;;     (substitute* "chatgpt-shell.el"
+               ;;       #;(("user-emacs-directory") ".")
+               ;;       (("user-emacs-directory") "\"./\""))
+               ;;     ))
+
+               ;; This phase prevents build phase failure.
+               (add-before 'build 'generate-empty-config-file
+                 ;; (lambda _
+                 ;;   (call-with-output-file
+                 ;;       (string-append
+                 ;;        "~/.emacs.d.distros/spguimacs/" ;; user-emacs-directory
+                 ;;        ".chatgpt-shell.el")
+                 ;;     (lambda (port)
+                 ;;       (display "nil" port))))
+                 (lambda _
+                   (setenv "HOME" (getcwd))
+                   (mkdir-p ".emacs.d")
+                   (call-with-output-file ".emacs.d/.chatgpt-shell.el"
+                     (lambda (port)
+                       (display "nil" port))))
+                 ))))
+    (home-page "https://github.com/xenodium/chatgpt-shell")
+    (synopsis "ChatGPT and DALL-E Emacs shells and Org Babel libraries")
+    (description
+     "Chatgpt Shell is a Comint-based ChatGPT shell for Emacs.")
+    (license license:gpl3+)))
 
 (define-public emacs-markdown-toc
   (let ((commit "3d724e518a897343b5ede0b976d6fb46c46bcc01")
