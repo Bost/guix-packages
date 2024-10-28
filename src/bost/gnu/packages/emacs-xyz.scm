@@ -665,6 +665,15 @@
                        "^core/libs/package-recipe-mode\\.el$"
                        ,all-info-include)))))
 
+(define-public emacs-nyan-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-nyan-mode")
+    (arguments
+     (list #:include `(cons*
+                       "^layers/\\+themes/colors/local/nyan-mode/nyan-mode\\.el$"
+                       ,all-info-include)))))
+
 (define-public emacs-erc-yank
   (package
     (inherit emacs-spacemacs-base)
