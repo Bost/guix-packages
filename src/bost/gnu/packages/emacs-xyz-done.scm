@@ -1252,79 +1252,6 @@ html-mode, web-mode, jade-mode, slim-mode and use data of ac-html.  It uses
 company-mode.")
       (license license:gpl3+))))
 
-(define-public emacs-pythonic ;; pull request sent
-  (let ((commit "c1e5643e044f1faaf6ecfadc719b981c048aeb79")
-        (revision "0"))
-    (package
-      (name "emacs-pythonic")
-      (version (git-version "0.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/proofit404/pythonic")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1bl2ds73g59v8q90kmjpchvzqrjdli3hmigzw5gv2yl548p7yppb"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-tramp)))
-      (home-page
-       "https://github.com/proofit404/pythonic")
-      (synopsis "Utility functions for writing Pythonic Emacs package.")
-      (description
-       "The Pythonic Emacs package provides function for convenient running
-Python on different platforms on local and remote hosts including Docker
-containers and Vagrant virtual machines.  To use Pythonic with Docker you need
-to install docker-tramp Emacs package.")
-      (license license:gpl3+))))
-
-(define-public emacs-anaconda-mode ;; pull request sent
-  (let ((commit "f900bd7656a03aa24ef3295251f266736f7756eb")
-        (revision "0"))
-      (package
-        (name "emacs-anaconda-mode")
-        (version (git-version "0.1.16" revision commit))
-        (source
-         (origin
-           (method git-fetch)
-           (uri (git-reference
-                 (url "https://github.com/proofit404/anaconda-mode")
-                 (commit commit)))
-           (file-name (git-file-name name version))
-           (sha256
-            (base32
-             "1gricygbs9f210z7bnzdhcmqpwnpzs4mwbw8rvabfplcbiw7sg6r"))))
-        (build-system emacs-build-system)
-        (arguments
-         (list
-          #:include #~(cons "^anaconda-mode\\.py$" %default-include)))
-        (propagated-inputs
-         (list
-          emacs-pythonic
-          (@(gnu packages emacs-xyz) emacs-dash)
-          (@(gnu packages emacs-xyz) emacs-f)
-          (@(gnu packages emacs-xyz) emacs-s)
-          (@(gnu packages emacs-xyz) emacs-tramp)
-          (@(gnu packages emacs-xyz) emacs-xref)))
-        (home-page
-         "https://github.com/proofit404/anaconda-mode")
-        (synopsis
-         "Python code navigation, documentation lookup & completion in Emacs")
-        (description
-         "This package provides Python code navigation, documentation lookup,
- and code completion for Emacs.  It uses a lightweight Python backend to offer
- features like jumping to definitions, finding references, and viewing
- documentation, enhancing the Python development experience within Emacs.  The
- package integrates seamlessly to support efficient coding and workflow
- management.")
-        (license license:gpl3+))))
-
 (define-public emacs-company-anaconda
   (let ((commit "169252fca79a79da41ef22f2ec0eab0cf1313966")
         (revision "0"))
@@ -1341,10 +1268,11 @@ to install docker-tramp Emacs package.")
          (sha256
           (base32 "1kq035si3syi3pcacr6i5pbayqag5rfx4xw8brmrc92z5wlqm3ba"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-anaconda-mode
-                               (@ (gnu packages emacs-xyz) emacs-company)
-                               (@ (gnu packages emacs-xyz) emacs-dash)
-                               (@ (gnu packages emacs-xyz) emacs-s)))
+      (propagated-inputs (list
+                          (@ (gnu packages emacs-xyz) emacs-anaconda-mode)
+                          (@ (gnu packages emacs-xyz) emacs-company)
+                          (@ (gnu packages emacs-xyz) emacs-dash)
+                          (@ (gnu packages emacs-xyz) emacs-s)))
       (home-page "https://github.com/pythonic-emacs/company-anaconda.git")
       (synopsis
        "Company backend for Python code completion using Anaconda mode")
