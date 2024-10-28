@@ -261,8 +261,6 @@
    emacs-frame-fns
    emacs-frame-cmds
    emacs-zoom-frm
-   emacs-pythonic
-   emacs-anaconda-mode
    ))
 
 ;; (replace 'install
