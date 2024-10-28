@@ -45,12 +45,14 @@
                 dom
                 easy-mmode
                 eieio
+                epg
                 erc
                 eshell
                 find-func
                 flymake
                 flyspell
                 help-fns
+                help-mode
                 hierarchy
                 ispell
                 ido
@@ -73,6 +75,7 @@
                 url
                 vc-hooks
                 view
+                warnings
                 wid-edit
                 xml
                 )))
