@@ -1592,41 +1592,6 @@ performance-oriented and tidy.")
        "chatgpt-shell is a comint-based ChatGPT shell for Emacs.")
       (license license:gpl3+))))
 
-(define-public emacs-sly-named-readtables
-  (let ((commit "a5a42674ccffa97ccd5e4e9742beaf3ea719931f")
-        (revision "1"))
-    (package
-      (name "emacs-sly-named-readtables")
-      (version (git-version "0.1" revision commit))
-      (home-page "https://github.com/joaotavora/sly-named-readtables")
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url home-page)
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "16asd119rzqrlclps2q6yrkis8jy5an5xgzzqvb7jdyq39zxg54q"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-sly)))
-      (arguments
-       '(#:include (cons* "\\.lisp$" "\\.asd$" %default-include)
-         #:phases
-         ;; The package provides autoloads.
-         (modify-phases %standard-phases
-           (delete 'make-autoloads)
-           (delete 'enable-autoloads-compilation))))
-      (synopsis "Named-readtables support for SLY")
-      (description
-       "@command{sly-named-readtables} is an external contrib for SLY that
-enables different readtables to be active in different parts of the same
-file.")
-      (license license:gpl3+))))
-
 (define-public emacs-markdown-toc
   (let ((commit "3d724e518a897343b5ede0b976d6fb46c46bcc01")
         (revision "0"))
