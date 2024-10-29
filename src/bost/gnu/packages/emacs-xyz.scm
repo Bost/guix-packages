@@ -1684,25 +1684,6 @@ performance-oriented and tidy.")
               'ensure-package-description
             (lambda* (#:key outputs #:allow-other-keys)
 
-              (define (find-root-library-file name)
-                (let loop ((parts (string-split
-                                   (package-name-version->elpa-name-version name) #\-))
-                           (candidate ""))
-                  (format #t "#### [find-root-library-file] parts : ~a\n" parts)
-                  (format #t "#### [find-root-library-file] candidate : ~a\n" candidate)
-                  (format #t "#### [find-root-library-file] (null? parts) : ~a\n" (null? parts))
-                  (format #t "#### [find-root-library-file] (string-null? candidate) : ~a\n" (string-null? candidate))
-                  (let* [(f (string-append candidate ".el"))]
-                    (format #t "#### [find-root-library-file] (file-exists? ~a) : ~a\n" f (file-exists? f)))
-                  (format #t "\n")
-                  (cond
-                   ;; at least one version part is given, so we don't terminate "early"
-                   ((null? parts) #f)
-                   ((string-null? candidate) (loop (cdr parts) (car parts)))
-                   ((file-exists? (string-append candidate ".el")) candidate)
-                   (else
-                    (loop (cdr parts) (string-append candidate "-" (car parts)))))))
-
               (define (emacs-package? name)
                 "Check if NAME correspond to the name of an Emacs package."
                 (string-prefix? "emacs-" name))
@@ -1713,6 +1694,32 @@ format.  Essentially drop the prefix used in Guix."
                 (if (emacs-package? name-ver)  ; checks for "emacs-" prefix
                     (string-drop name-ver (string-length "emacs-"))
                     name-ver))
+
+              (define (find-root-library-file name)
+                (format #t "#### [find-root-library-file] name : ~a\n" name)
+                (format #t "#### [find-root-library-file] #$name : ~a\n" #$name)
+                ;; (format #t "#### [find-root-library-file] (package-name-version->elpa-name-version #$name) : ~a\n" (package-name-version->elpa-name-version #$name))
+                (let [(candidate (package-name-version->elpa-name-version #$name))]
+                  (format #t "#### [find-root-library-file] candidate : ~a\n" candidate)
+                  (if (file-exists? (string-append candidate ".el"))
+                      candidate
+                      (let loop ((parts (string-split
+                                         (package-name-version->elpa-name-version name) #\-))
+                                 (candidate ""))
+                        (format #t "#### [find-root-library-file] parts : ~a\n" parts)
+                        (format #t "#### [find-root-library-file] candidate : ~a\n" candidate)
+                        (format #t "#### [find-root-library-file] (null? parts) : ~a\n" (null? parts))
+                        (format #t "#### [find-root-library-file] (string-null? candidate) : ~a\n" (string-null? candidate))
+                        (let* [(f (string-append candidate ".el"))]
+                          (format #t "#### [find-root-library-file] (file-exists? ~a) : ~a\n" f (file-exists? f)))
+                        (format #t "\n")
+                        (cond
+                         ;; at least one version part is given, so we don't terminate "early"
+                         ((null? parts) #f)
+                         ((string-null? candidate) (loop (cdr parts) (car parts)))
+                         ((file-exists? (string-append candidate ".el")) candidate)
+                         (else
+                          (loop (cdr parts) (string-append candidate "-" (car parts)))))))))
 
               (define (store-file->elisp-source-file file)
                 "Convert FILE, a store file name for an Emacs Lisp source file, into a file
@@ -1732,6 +1739,7 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
                  store-dir))
 
               (define (write-pkg-file name)
+                (format #t "#### [write-pkg-file] name : ~a\n" name)
                 (define summary-regexp
                   "^;;; [^ ]*\\.el ---[ \t]*\\(.*?\\)[ \t]*\\(-\\*-.*-\\*-[ \t]*\\)?$")
                 (define %write-pkg-file-form
@@ -1775,14 +1783,18 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
 
                     (condition-case
                      err
-                     (let ((name (file-name-base (buffer-file-name))))
-                       (generate-package-description-file name)
-                       (message (concat name "-pkg.el file generated.")))
+                     (progn
+                      (message "#### [write-pkg-file-form] (buffer-file-name) : %s" (buffer-file-name))
+                      (let ((name (file-name-base (buffer-file-name))))
+                        (generate-package-description-file name)
+                        (message (concat name "-pkg.el file generated."))))
                      (error
-                      (message "There are some errors during generation of -pkg.el file:")
+                      (message "Some errors during generation of -pkg.el file occured:")
                       (message "%s" (error-message-string err))))))
 
-                (format #t "#### [%write-pkg-file-form] file-exists?: ~a\n" (file-exists? (string-append name "-pkg.el")))
+                (format #t "#### [write-pkg-file-form] (file-exists? \"~a\") : ~a\n"
+                        (string-append name "-pkg.el")
+                        (file-exists? (string-append name "-pkg.el")))
                 (unless (file-exists? (string-append name "-pkg.el"))
                   (emacs-batch-edit-file (string-append name ".el")
                     %write-pkg-file-form)))
@@ -1791,7 +1803,7 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
                 (format #t "#### [ensure-package-description] name: ~a\n" name)
 
                 (let* [(r (find-root-library-file name))]
-                  (format #t "#### [ensure-package-description] (find-root-library-file name): ~a\n" r)
+                  (format #t "#### [ensure-package-description] (find-root-library-file \"~a\"): ~a\n" name r)
                   (and=> r write-pkg-file)))
               )))
       ))
