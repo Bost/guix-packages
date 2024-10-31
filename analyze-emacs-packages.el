@@ -38,6 +38,7 @@
                 auth-source
                 avoid
                 cl
+                cl-extra
                 cl-lib
                 compile
                 cus-face
@@ -45,6 +46,7 @@
                 dom
                 easy-mmode
                 eieio
+                eieio-base
                 epg
                 erc
                 eshell
@@ -72,6 +74,7 @@
                 server
                 shell
                 subr-x
+                thingatpt
                 url
                 vc-hooks
                 view
