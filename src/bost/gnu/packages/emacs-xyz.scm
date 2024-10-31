@@ -263,6 +263,62 @@
    emacs-zoom-frm
    ))
 
+(define-public emacs-pcache
+  (let ((commit "507230d094cc4a5025fe09b62569ad60c71c4226")
+        (revision "0"))
+    (package
+      (name "emacs-pcache")
+      (version (git-version "0.5.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sigma/pcache")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1fjdn4g9ww70f3x6vbzi3gqs9dsmqg16isajlqlflzw2716zf2nh"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/sigma/pcache")
+      (synopsis "Persistent caching library for Emacs")
+      (description
+       "This package provides a persistent caching library for Emacs, enabling
+ data to be stored and retrieved across Emacs sessions.  It supports storing
+ arbitrary objects in a cache that persists on disk, improving performance for
+ tasks that benefit from cached data.  The library is designed to be flexible
+ and easily integrated into other Emacs packages.")
+      (license license:gpl3+))))
+
+(define-public emacs-groovy-imports
+  (let ((commit "a60c3202973e3185091db623d960f71840a22205")
+        (revision "0"))
+    (package
+      (name "emacs-groovy-imports")
+      (version (git-version "1.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mbezjak/emacs-groovy-imports.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1bsmf64ycmfnsb0r0nyaky1h3x2fpr4qyck3ihw16pa6d7spaw8c"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-pcache
+        (@(gnu packages emacs-xyz) emacs-s)))
+      (home-page "https://github.com/mbezjak/emacs-groovy-imports.git")
+      (synopsis "Automatic import management for Groovy in Emacs")
+      (description
+       "This package provides automatic import management for Groovy files in
+ Emacs.  It enables users to add and manage import statements based on the
+ classes used in the code, streamlining the development process for Groovy
+ projects.  The package helps keep imports organized and reduces the need for
+ manual import adjustments.")
+      (license license:gpl3+))))
+
 ;; (replace 'install
 ;;   (lambda* (#:key outputs #:allow-other-keys)
 ;;     (let* ((out (assoc-ref outputs "out"))
