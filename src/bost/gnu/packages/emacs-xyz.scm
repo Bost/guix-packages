@@ -263,6 +263,44 @@
    emacs-zoom-frm
    ))
 
+(define-public emacs-multi-line
+  (let ((commit "06ea7294c4e4ace0c3253b7952a6d937a169eb55")
+        (revision "0"))
+    (package
+      (name "emacs-multi-line")
+      (version (git-version "0.1.5" revision commit))
+      (source
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/colonelpanic8/multi-line")
+                 (commit commit)))
+          (file-name (git-file-name name version))
+          (sha256
+            (base32 "0iby3h9ypmnd35f9mvs53cghlpl9jjj97z5p191y99k3w4dzp4z1"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+        (list
+         (@(gnu packages emacs-xyz) emacs-shut-up)
+         (@(gnu packages emacs-xyz) emacs-dash)
+         (@(gnu packages emacs-xyz) emacs-s)
+         ;; emacs-multi-line-shared
+         ;; emacs-multi-line-respace
+         ;; emacs-multi-line-find
+         ;; emacs-multi-line-enter
+         ;; emacs-multi-line-decorator
+         ;; emacs-multi-line-cycle
+         ))
+      (home-page "https://github.com/colonelpanic8/multi-line")
+      (synopsis
+       "Emacs package for splitting single-line statements into multiple lines")
+      (description
+       "This package provides functionality for splitting single-line
+ statements into multiple lines in Emacs, improving code readability and
+ organization.  It is especially useful for languages with long expressions or
+ complex statements, allowing users to easily format code for better clarity.")
+      (license license:gpl3+))))
+
 (define-public emacs-helm-dictionary
   (let ((commit "fefacdd5955e4c3cb69623b04f25f673748552a8")
         (revision "0"))

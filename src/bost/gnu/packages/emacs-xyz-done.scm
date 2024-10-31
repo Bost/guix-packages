@@ -176,21 +176,6 @@ extensive face definitions than the \"official\" Emacs variant.")
 theme pair.")
       (license license:gpl3+))))
 
-;; $ guix refresh
-;; emacs-eziam-theme-emacs would be upgraded from 0.1 to 2.0
-;; emacs-moe-theme would be upgraded from 0.1 to 1.0.1
-;; emacs-slim-mode would be upgraded from 0.1 to 1.1
-;; emacs-treemacs-magit would be upgraded from 0 to 3.0
-;; emacs-color-theme-sanityinc-tomorrow would be upgraded from 0.1 to 1.17
-;; emacs-lsp-python-ms would be upgraded from 0.1 to 0.7.2
-;; emacs-font-utils would be upgraded from 0.1 to 0.7.8
-;; emacs-font-lock+ would be upgraded from 0-233.aa1c82d to 208
-;; emacs-gruvbox would be upgraded from 0.1 to 1.30.1
-;; emacs-popwin would be upgraded from 0.1 to 1.0.2
-
-;; following redirection to `https://api.github.com/repositories/13679783/releases'...
-;; following redirection to `https://api.github.com/repositories/13679783/tags'...
-
 (define-public emacs-moe-theme
   (package
     (name "emacs-moe-theme")
@@ -560,37 +545,6 @@ color for syntax, and easily allows multiple variants.")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
-
-;; emacs-multi-line-shared unbound
-;; (define-public emacs-multi-line
-;;   (package
-;;     (name "emacs-multi-line")
-;;     (version "0.1.5")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/IvanMalison/multi-line")
-;;                (commit
-;;                  "625c608443f98bb34b4d5600d52c198509fb64d0")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0f4wkkv34990ks58dbdywlvdxw4bj7d4h0rjy64qxv7n14blndgv"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-multi-line-shared
-;;             emacs-multi-line-respace
-;;             emacs-multi-line-find
-;;             emacs-multi-line-enter
-;;             emacs-multi-line-decorator
-;;             emacs-multi-line-cycle
-;;             emacs-eieio))
-;;     (home-page
-;;       "https://github.com/IvanMalison/multi-line")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
 
 ;; emacs-paradox-menu unbound
 ;; (define-public emacs-paradox
