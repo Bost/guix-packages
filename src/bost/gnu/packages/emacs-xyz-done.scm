@@ -546,33 +546,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-;; emacs-thingatpt unbound
-;; (define-public emacs-php-auto-yasnippets
-;;   (package
-;;     (name "emacs-php-auto-yasnippets")
-;;     (version "2.3.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/ejmr/php-auto-yasnippets")
-;;                (commit
-;;                  "03e1f0899c081813901ac15c2f7a675a37cca9f5")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0d7y6njsd1s2r5df2k8wvvwgxpwwyaqkhdd2b3p1php8rrbj3mg8"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-yasnippet
-;;             emacs-php-mode
-;;             emacs-thingatpt))
-;;     (home-page
-;;       "https://github.com/ejmr/php-auto-yasnippets")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-python unbound
 ;; (define-public emacs-helm-pydoc
 ;;   (package
