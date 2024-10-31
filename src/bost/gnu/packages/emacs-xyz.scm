@@ -1693,6 +1693,46 @@ performance-oriented and tidy.")
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-core")))
 
+(define-public emacs-helm-pydoc
+  (let ((commit "cac7b8953adcab85e898bc42b699c3afde5d33c6")
+        (revision "0"))
+    (package
+      (name "emacs-helm-pydoc")
+      (version (git-version "0.07" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/helm-pydoc.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "11d34283zh1yffrb2ad4h1ib1n00yx5avas0l39hm56m2gvx6d89"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:include #~(cons "^helm-pydoc\\.py$" %default-include)
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'patch-exec-paths
+              (lambda* (#:key inputs #:allow-other-keys)
+                (let ((python (search-input-file inputs "bin/python")))
+                  (substitute* "helm-pydoc.py"
+                    (("/usr/bin/env python") python))
+                  (substitute* "helm-pydoc.el"
+                    (("/bin/python") python))))))))
+      (inputs (list python-wrapper))
+      (propagated-inputs (list emacs-helm-core))
+      (home-page "https://github.com/emacsorphanage/helm-pydoc.git")
+      (synopsis "Python documentation lookup with Helm in Emacs")
+      (description
+       "This package provides an interface for searching and viewing Python
+ documentation within Emacs using Helm.  It enables quick access to Python
+ docstrings, module documentation, and function descriptions, improving
+ efficiency by integrating comprehensive documentation lookup directly into
+ the Emacs environment.")
+      (license license:gpl3+))))
+
 (define-public emacs-use-package-chords
   (package
     (inherit emacs-use-package)

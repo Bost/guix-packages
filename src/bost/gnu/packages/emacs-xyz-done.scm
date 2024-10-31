@@ -546,31 +546,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-;; emacs-python unbound
-;; (define-public emacs-helm-pydoc
-;;   (package
-;;     (name "emacs-helm-pydoc")
-;;     (version "0.07")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/syohex/emacs-helm-pydoc")
-;;                (commit
-;;                  "85480a29b56dacde425655bc8f5a597c785afdf5")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1wrs2d84xzjnsmw255bmnd1wcpwd36m0vyni48aa7661d4dh10x3"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-python emacs-helm))
-;;     (home-page
-;;       "https://github.com/syohex/emacs-helm-pydoc")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-flymake unbound
 ;; (define-public emacs-scss-mode
 ;;   (package
