@@ -263,6 +263,39 @@
    emacs-zoom-frm
    ))
 
+(define-public emacs-helm-dictionary
+  (let ((commit "fefacdd5955e4c3cb69623b04f25f673748552a8")
+        (revision "0"))
+    (package
+      (name "emacs-helm-dictionary")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-helm/helm-dictionary")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0xg3p72vph9gbm9yj54xrnkcn13bq1lj4np3zlspzwg8raj02g74"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-helm)
+        ;; emacs-helm-easymenu ;; apparently not needed
+        ;; emacs-helm-net      ;; apparently not needed
+        ))
+      (home-page "https://github.com/emacs-helm/helm-dictionary")
+      (synopsis "Dictionary search interface for Emacs using Helm")
+      (description
+       "This package provides a dictionary search interface for
+ Emacs,utilizing Helm for quick and efficient lookups.  It allows users to
+ search and browse dictionary definitions directly within Emacs, enhancing
+ productivity by integrating language resources into the editing environment.
+ The package supports various dictionary sources and offers an intuitive way
+ to access definitions.")
+      (license license:gpl3+))))
+
 (define-public emacs-pcache
   (let ((commit "507230d094cc4a5025fe09b62569ad60c71c4226")
         (revision "0"))
