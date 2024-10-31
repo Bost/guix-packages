@@ -546,59 +546,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-;; emacs-paradox-menu unbound
-;; (define-public emacs-paradox
-;;   (package
-;;     (name "emacs-paradox")
-;;     (version "2.5.5")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/Malabarba/paradox")
-;;                (commit
-;;                  "dec73d4ba3512e0f85983a4b992080b225d199ee")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-paradox-menu
-;;             emacs-paradox-execute
-;;             emacs-paradox-core
-;;             emacs-package))
-;;     (home-page
-;;       "https://github.com/Malabarba/paradox")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-iswitchb unbound
-;; (define-public emacs-js-doc
-;;   (package
-;;     (name "emacs-js-doc")
-;;     (version "0.0.5")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/mooz/js-doc")
-;;                (commit
-;;                  "f0606e89d5aa89146f96edb38cf69af0068a9d1e")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1ffayl6hca9zanbznh6rkql7fbr53id1lyrj2vllx8zakfac4dyv"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-iswitchb))
-;;     (home-page "https://github.com/mooz/js-doc")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-goto-chg exist already
-
 ;; emacs-thingatpt unbound
 ;; (define-public emacs-php-auto-yasnippets
 ;;   (package
