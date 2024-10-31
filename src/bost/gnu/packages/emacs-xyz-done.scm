@@ -284,9 +284,9 @@ on haml-mode.")
     (description "Display tildes on empty lines in the Emacs fringe a la Vi.")
     (license license:gpl3+)))
 
-(define-public emacs-popwin
-  (let ((commit "ba9435363fb7c5faccd07178a175fac6b3d99147")
-        (revision "0"))
+(define-public emacs-popwin ;; PR sent
+  (let ((commit "58adcd0ca7c3dbd58626ec7019252d64cbc73042")
+        (revision "2"))
     (package
       (name "emacs-popwin")
       (version (git-version "1.0.2" revision commit))
@@ -294,20 +294,18 @@ on haml-mode.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacsorphanage/popwin.git")
+               (url "https://github.com/emacsorphanage/popwin")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1xzp58ilw697waagbf843xjqmb35sfq65j31na6z6dz5lrh306i3"))))
+          (base32 "1mqwzc6fwhwq1kl8b3i1hm2ylfh8blrxrw6mzr5wyifbwpg7dq10"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/emacsorphanage/popwin")
-      (synopsis "Popup Window Manager for Emacs")
+      (synopsis "Popup window manager for Emacs")
       (description
-       "This package provides a popup window manager for Emacs.  It allows for
- the dynamic display of temporary windows, such as help buffers or compilation
- results, without disrupting the layout of existing windows.  Popwin
- automatically manages the size and position of popup windows, improving
- workflow efficiency and keeping the main editing environment intact.")
+       "This package provides utilities for treating certain windows as @dfn{pop
+up windows}, which close automatically when quitting a command or selecting
+another window.")
       (license license:gpl3+))))
 
 ;; (define-public emacs-paradox
