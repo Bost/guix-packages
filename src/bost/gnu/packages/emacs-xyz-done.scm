@@ -260,8 +260,6 @@ on haml-mode.")
     (description "A dark theme with lush colors for Emacs24.")
     (license license:expat)))
 
-;; 33333333333333333333333333333333
-
 (define-public emacs-vi-tilde-fringe ;; PR sent
   (let ((commit "f1597a8d54535bb1d84b442577b2024e6f910308")
         (revision "0"))
@@ -307,39 +305,6 @@ on haml-mode.")
 up windows}, which close automatically when quitting a command or selecting
 another window.")
       (license license:gpl3+))))
-
-;; (define-public emacs-paradox
-;;   (package
-;;     (name "emacs-paradox")
-;;     (version "0.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/Malabarba/paradox")
-;;                (commit
-;;                  "dec73d4ba3512e0f85983a4b992080b225d199ee")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;      (list
-;; ;;; <stdin>:499:6: warning: possibly unbound variable `emacs-paradox-core'
-;; ;;; <stdin>:500:6: warning: possibly unbound variable `emacs-paradox-execute'
-;; ;;; <stdin>:501:6: warning: possibly unbound variable `emacs-paradox-menu'
-;;       emacs-paradox-core
-;;       emacs-paradox-execute
-;;       emacs-paradox-menu
-;;       ))
-;;     (home-page
-;;       "https://github.com/Malabarba/paradox")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; 44444444444444444444444444444444444444444444
 
 (define-public emacs-centered-cursor-mode
   (package
@@ -595,33 +560,6 @@ color for syntax, and easily allows multiple variants.")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
-
-;; emacs-helm-easymenu undefined
-;; (define-public emacs-helm-dictionary
-;;   (package
-;;     (name "emacs-helm-dictionary")
-;;     (version "1.0.0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-helm/helm-dictionary")
-;;                (commit
-;;                  "65fdf36e9a5c6dd8dffa71dfb6c65bc03879abe2")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1r62xrq95lzgg3if0q86idl9l8gmks76pgpxr615vm8ndhq8a545"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-helm-easymenu
-;;             emacs-helm-net
-;;             emacs-helm))
-;;     (home-page
-;;       "https://github.com/emacs-helm/helm-dictionary")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
 
 ;; emacs-multi-line-shared unbound
 ;; (define-public emacs-multi-line
