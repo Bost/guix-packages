@@ -263,6 +263,32 @@
    emacs-zoom-frm
    ))
 
+(define-public emacs-js-doc
+  (let ((commit "f0606e89d5aa89146f96edb38cf69af0068a9d1e")
+        (revision "0"))
+    (package
+      (name "emacs-js-doc")
+      (version (git-version "0.0.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mooz/js-doc.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ffayl6hca9zanbznh6rkql7fbr53id1lyrj2vllx8zakfac4dyv"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/mooz/js-doc.git")
+      (synopsis "Generate JSDoc comments for JavaScript in Emacs")
+      (description
+       "This package provides tools to automatically generate JSDoc comments
+ for JavaScript code in Emacs.  It helps streamline documentation by creating
+ standardized comment templates based on function and variable definitions,
+ allowing developers to maintain consistent and informative documentation in
+ their code.")
+      (license license:gpl3+))))
+
 (define-public emacs-multi-line
   (let ((commit "06ea7294c4e4ace0c3253b7952a6d937a169eb55")
         (revision "0"))
