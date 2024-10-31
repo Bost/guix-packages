@@ -596,60 +596,6 @@ color for syntax, and easily allows multiple variants.")
     (description "")
     (license license:gpl3+)))
 
-;; ;; emacs-eieio-base unbound
-;; (define-public emacs-pcache
-;;   (package
-;;     (name "emacs-pcache")
-;;     (version "0.5.1")
-;;     (source
-;;      (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url "https://github.com/sigma/pcache")
-;;              (commit
-;;               "507230d094cc4a5025fe09b62569ad60c71c4226")))
-;;        (file-name (git-file-name name version))
-;;        (sha256
-;;         (base32
-;;          "1fjdn4g9ww70f3x6vbzi3gqs9dsmqg16isajlqlflzw2716zf2nh"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;      (list emacs-eieio-base
-;;            emacs-eieio
-;;            emacs-cl-extra))
-;;     (home-page "https://github.com/sigma/pcache")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; ;; emacs-pcache unbound
-;; (define-public emacs-groovy-imports
-;;   (package
-;;     (name "emacs-groovy-imports")
-;;     (version "1.0.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/mbezjak/emacs-groovy-imports")
-;;                (commit
-;;                  "a60c3202973e3185091db623d960f71840a22205")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1bsmf64ycmfnsb0r0nyaky1h3x2fpr4qyck3ihw16pa6d7spaw8c"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-pcache
-;;             emacs-s
-;;             emacs-subr-x
-;;             emacs-thingatpt))
-;;     (home-page
-;;       "https://github.com/mbezjak/emacs-groovy-imports")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-helm-easymenu undefined
 ;; (define-public emacs-helm-dictionary
 ;;   (package
