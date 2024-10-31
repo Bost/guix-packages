@@ -262,27 +262,27 @@ on haml-mode.")
 
 ;; 33333333333333333333333333333333
 
-(define-public emacs-vi-tilde-fringe
-  (package
-    (name "emacs-vi-tilde-fringe")
-    (version "0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
+(define-public emacs-vi-tilde-fringe ;; PR sent
+  (let ((commit "f1597a8d54535bb1d84b442577b2024e6f910308")
+        (revision "0"))
+    (package
+      (name "emacs-vi-tilde-fringe")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
                (url "https://github.com/syl20bnr/vi-tilde-fringe")
-               (commit
-                 "f1597a8d54535bb1d84b442577b2024e6f910308")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "0wdm8k49zl6i6wnh7vjkswdh5m9lix56jv37xvc90inipwgs402z"))))
-    (build-system emacs-build-system)
-    (home-page
-      "https://github.com/syl20bnr/vi-tilde-fringe")
-    (synopsis "Display tildes on empty lines in the Emacs fringe a la Vi.")
-    (description "Display tildes on empty lines in the Emacs fringe a la Vi.")
-    (license license:gpl3+)))
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wdm8k49zl6i6wnh7vjkswdh5m9lix56jv37xvc90inipwgs402z"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/syl20bnr/vi-tilde-fringe")
+      (synopsis "Display tildes on empty lines in the Emacs fringe a la Vi")
+      (description
+       "Display tildes on empty lines in the Emacs fringe a la Vi.")
+      (license license:gpl3+))))
 
 (define-public emacs-popwin ;; PR sent
   (let ((commit "58adcd0ca7c3dbd58626ec7019252d64cbc73042")
