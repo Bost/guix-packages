@@ -1205,6 +1205,11 @@
 ;;                        "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-powerline-theme\\.el$"
 ;;                        ,all-info-include)))))
 
+;; emacs-vim-powerline-theme not loaded by Spguimacs
+;;
+;; NOTE: This project is in maintenance mode and not currently being developed
+;; or maintained. Pull requests will be reviewed and accepted but may not get
+;; an immediate response. Sorry for the inconvenience.
 (define-public emacs-vim-powerline-theme
   (let ((commit "c35c35bdf5ce2d992882c1f06f0f078058870d4a")
         (revision "0"))
