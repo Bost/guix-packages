@@ -151,8 +151,8 @@
 extensive face definitions than the \"official\" Emacs variant.")
       (license license:gpl3+))))
 
-(define-public emacs-color-theme-sanityinc-solarized
-  (let ((commit "b8f4a65bd53b97b56b93fff2fb14f71b2831aa6f")
+(define-public emacs-color-theme-sanityinc-solarized ;; PL sent
+  (let ((commit "9c62a49fe0a5ff456bcf3984ba825e75861534b9")
         (revision "0"))
     (package
       (name "emacs-color-theme-sanityinc-solarized")
@@ -166,11 +166,10 @@ extensive face definitions than the \"official\" Emacs variant.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "10vfbl9dry03dw264w7b4grmzcv78x3p7r86bsyhyl74hwwvx1hp"))))
+           "0vakjdm5xf7ahxf39j4bc38irkwyv8xkp45akqfc7z252vpxi44k"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/purcell/color-theme-sanityinc-solarized")
-      (synopsis
-       "Emacs color themes based on Ethan Schoonover's 'solarized' theme")
+      (synopsis "Solarized color themes for Emacs")
       (description
        "An alternate Emacs color-theme version of Ethan Schoonover's \"Solarized\"
 theme pair.")
