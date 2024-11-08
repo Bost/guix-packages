@@ -436,6 +436,7 @@ the higher it scores. This maps well to how we think about matching.
 Flx has support for ido (interactively do things) through flx-ido.")
       (license license:gpl3+))))
 
+;; Upstream uses https://github.com/emacsorphanage/helm-css-scss
 (define-public emacs-helm-css-scss
   (package
     (name "emacs-helm-css-scss")

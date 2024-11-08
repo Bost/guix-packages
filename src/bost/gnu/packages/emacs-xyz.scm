@@ -755,6 +755,7 @@
                        "^core/aprilfool/zemacs\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://www.emacswiki.org/emacs/download/irfc.el
 (define-public emacs-irfc
   (package
     (inherit emacs-spacemacs-base)
@@ -764,6 +765,7 @@
                        "^layers/\\+misc/ietf/local/irfc/irfc\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/melpa/package-build
 (define-public emacs-package-build
   (package
     (inherit emacs-spacemacs-base)
@@ -800,6 +802,7 @@
                        "^core/core-custom-settings\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/creichert/ido-vertical-mode.el
 (define-public emacs-ido-vertical-mode
   (package
     (inherit emacs-spacemacs-base)
@@ -846,6 +849,7 @@
                        "^core/libs/spacemacs-theme/spacemacs-common\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/nashamri/spacemacs-theme
 (define-public emacs-spacemacs-theme
   (package
     (inherit emacs-spacemacs-base)
@@ -855,6 +859,7 @@
                        "^core/libs/spacemacs-theme/spacemacs-theme\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/purcell/page-break-lines
 (define-public emacs-page-break-lines
   (package
     (inherit emacs-spacemacs-base)
@@ -873,6 +878,7 @@
                        "^core/libs/package-recipe-mode\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/TeMPOraL/nyan-mode/
 (define-public emacs-nyan-mode
   (package
     (inherit emacs-spacemacs-base)
@@ -918,6 +924,7 @@
                        "^core/core-themes-support\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/sigma/mocker.el
 (define-public emacs-mocker
   (package
     (inherit emacs-spacemacs-base)
@@ -966,6 +973,8 @@
                        "^core/core-keybindings\\.el$"
                        ,all-info-include)))))
 
+
+;; Upstream uses https://elpa.gnu.org/packages/spinner-1.7.4.tar
 (define-public emacs-spinner
   (package
     (inherit emacs-spacemacs-base)
@@ -1002,6 +1011,7 @@
                        "^core/core-cycle\\.el$"
                        ,all-info-include)))))
 
+;; Upstream uses https://github.com/larstvei/ox-gfm
 (define-public emacs-ox-gfm
   (package
     (inherit emacs-spacemacs-base)

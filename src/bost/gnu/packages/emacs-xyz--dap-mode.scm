@@ -73,6 +73,7 @@
 to Metals.")
       (license license:gpl3+))))
 
+;; Upstream uses https://github.com/emacs-lsp/lsp-metals commit "01060e9df33bb077ba6bb56ccfebc140aef8f8f3"
 (define-public emacs-lsp-metals
   (package
     (inherit emacs-lsp-metals-base)
