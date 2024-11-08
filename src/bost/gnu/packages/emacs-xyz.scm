@@ -1461,46 +1461,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-evil-collection
-  (package
-    (name "emacs-evil-collection")
-    (version "0.0.10")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacs-evil/evil-collection")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "09hnxb8nh3g0hi93fz9f1y164gv9iyh5994wfn6fsq2v1xdz8phm"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:include #~(cons* "^modes\\/" %default-include)
-      #:tests? #true
-      #:test-command #~(list "emacs" "-Q" "--batch"
-                             "-L" "."
-                             "-L" "./test"
-                             "-l" "evil-collection-test.el"
-                             "-l" "evil-collection-magit-tests.el"
-                             "-f" "ert-run-tests-batch-and-exit")))
-    (native-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-magit)
-      ))
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-annalist)
-      (@(gnu packages emacs-xyz) emacs-evil)
-      ))
-    (home-page "https://github.com/emacs-evil/evil-collection")
-    (synopsis "Collection of Evil bindings for many major and minor modes")
-    (description "This is a collection of Evil bindings for the parts of
-Emacs that Evil does not cover properly by default, such as @code{help-mode},
-@code{M-x calendar}, Eshell and more.")
-    (license license:gpl3+)))
-
 (define-public emacs-tweaks
   (let ((commit
          "f512f65790fecb58a9682d966c9e820129241c27")
