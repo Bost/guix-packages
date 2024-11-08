@@ -42,9 +42,11 @@
                 cl-lib
                 compile
                 cus-face
+                derived
                 dired
                 dom
                 easy-mmode
+                edmacro
                 eieio
                 eieio-base
                 epg
@@ -53,14 +55,18 @@
                 find-func
                 flymake
                 flyspell
+                goto-addr
                 help-fns
                 help-mode
                 hierarchy
                 ido
                 ispell
+                iswitchb ;; deprecated
                 json
+                latex
                 lv
                 magit
+                map
                 ob-core
                 org
                 package
@@ -75,6 +81,8 @@
                 shell
                 subr-x
                 thingatpt
+                tramp
+                transient
                 url
                 vc-hooks
                 view
