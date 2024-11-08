@@ -411,25 +411,30 @@ color for syntax, and easily allows multiple variants.")
     (license license:gpl3+)))
 
 (define-public emacs-flx
-  (package
-    (name "emacs-flx")
-    (version "0.6.2")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
+  (let ((commit "7b44a5abb254bbfbeca7a29336f7f4ebd8aabbf2")
+        (revision "0"))
+    (package
+      (name "emacs-flx")
+      (version (git-version "0.6.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
                (url "https://github.com/lewang/flx")
-               (commit
-                 "7b44a5abb254bbfbeca7a29336f7f4ebd8aabbf2")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "18vzjsscm9hsxxnacqfaskwayxhlg258rj8m7m8kim12nndgkzcy"))))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/lewang/flx")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "18vzjsscm9hsxxnacqfaskwayxhlg258rj8m7m8kim12nndgkzcy"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/lewang/flx")
+      (synopsis "Fuzzy matching for Emacs")
+      (description
+       "Flx provides fuzzy matching for emacs a la sublime text.
+The sorting algorithm is a balance between word beginnings (abbreviation)
+and contiguous matches (substring).  The longer the substring match,
+the higher it scores. This maps well to how we think about matching.
+Flx has support for ido (interactively do things) through flx-ido.")
+      (license license:gpl3+))))
 
 (define-public emacs-helm-css-scss
   (package
