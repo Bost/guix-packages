@@ -137,7 +137,6 @@
 
    emacs-lsp-lens
    emacs-lsp-protocol
-   emacs-lsp-java
    emacs-lsp-metals
    emacs-lsp-metals-protocol
    emacs-lsp-metals-treeview
