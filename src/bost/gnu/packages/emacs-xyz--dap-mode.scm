@@ -27,31 +27,6 @@
   #:use-module (gnu packages python-xyz)
   )
 
-(define-public emacs-helm-lsp
-  (package
-    (name "emacs-helm-lsp")
-    (version "0.2")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/emacs-lsp/helm-lsp")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "1vq3qpqm3ndqyvf5bk8qhqcr60x9ykc0ipk2a43rr3yjm4z1b6s9"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-helm)
-           (@(gnu packages emacs-xyz) emacs-lsp-mode)
-           (@(gnu packages emacs-xyz) emacs-dash)))
-    (home-page "https://github.com/emacs-lsp/helm-lsp")
-    (synopsis "Provide LSP-enhanced completion for symbols")
-    (description
-     "This package enhances @code{helm} with completion for symbols from
-workspaces with a LSP-compliant server running.")
-    (license license:gpl3+)))
-
 (define-public emacs-lsp-lens
   (package
     (inherit
