@@ -1463,33 +1463,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-magit-gerrit
-  (let ((commit "a97521574c5b7d4b7ab89e25c358c87fd5b1887f")
-        (revision "1"))
-    (package
-      (name "emacs-magit-gerrit")
-      (version (git-version "0.4" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacsorphanage/magit-gerrit")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0p6h67x7f6iraw6jqn7dmqy2m2mwwvbwcs61hq8jc602v6hkslqn"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-magit)
-        ))
-      (home-page "https://github.com/emacsorphanage/magit-gerrit")
-      (synopsis "Magit extension for Gerrit")
-      (description "This Magit extension provides integration with Gerrit,
-which makes it possible to conduct Gerrit code reviews directly from within
-Emacs.")
-      (license license:gpl3+))))
-
 (define-public emacs-evil-collection
   (package
     (name "emacs-evil-collection")
