@@ -1463,33 +1463,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-magit-svn
-  (package
-    (name "emacs-magit-svn")
-    (version "2.2.3")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/magit/magit-svn")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "1v1y4fir1plz4kj0cvkcd29wibli4dw7vp4fmbxq4df76d8iy8yd"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-dash)
-      (@(gnu packages emacs-xyz) emacs-with-editor)
-      (@(gnu packages emacs-xyz) emacs-magit)
-      ))
-    (home-page "https://github.com/magit/magit-svn")
-    (synopsis "Git-SVN extension to Magit")
-    (description
-     "This package is an extension to Magit, the Git Emacs mode, providing
-support for Git-SVN.")
-    (license license:gpl3+)))
-
 (define-public emacs-magit-gerrit
   (let ((commit "a97521574c5b7d4b7ab89e25c358c87fd5b1887f")
         (revision "1"))
