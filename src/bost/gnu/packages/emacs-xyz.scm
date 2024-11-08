@@ -1490,35 +1490,6 @@ which makes it possible to conduct Gerrit code reviews directly from within
 Emacs.")
       (license license:gpl3+))))
 
-(define-public emacs-magit-org-todos-el
-  (package
-    (name "emacs-magit-org-todos-el")
-    (version "0.1.2")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/danielma/magit-org-todos.el")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "07r5x256k1fjjxs1yfg41kc94nwvnjlk2vvknkra3j8v9p0j88m7"))))
-    (propagated-inputs
-     (list
-      (@(gnu packages emacs-xyz) emacs-magit)
-      ))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/danielma/magit-org-todos.el")
-    (synopsis "Get todo.org into Emacs Magit status")
-    (description "This package allows you to get @file{todo.org} into your
-magit status.
-
-If you have a @file{todo.org} file with @code{TODO} items in the root of your
-repository, @code{magit-org-todos} will create a section in your Magit status
-buffer with each of your todos.")
-    (license license:gpl3+)))
-
 (define-public emacs-evil-collection
   (package
     (name "emacs-evil-collection")
