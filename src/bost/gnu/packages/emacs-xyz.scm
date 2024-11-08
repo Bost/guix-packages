@@ -1546,33 +1546,6 @@ repository, @code{magit-org-todos} will create a section in your Magit status
 buffer with each of your todos.")
     (license license:gpl3+)))
 
-(define-public emacs-treemacs-extra
-  (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-treemacs))
-    (name "emacs-treemacs-extra")
-    (arguments
-     (substitute-keyword-arguments
-         (package-arguments
-          (@(gnu packages emacs-xyz) emacs-treemacs))
-       ((#:phases phases)
-        #~(modify-phases #$phases
-            (add-after 'chdir-elisp 'copy-extra
-              (lambda _
-                (copy-recursively "../extra" ".")))))))
-    (propagated-inputs
-     (modify-inputs (package-propagated-inputs
-                     (@(gnu packages emacs-xyz) emacs-treemacs))
-       (append
-        (@(gnu packages emacs-xyz) emacs-magit)
-        (@(gnu packages emacs-xyz) emacs-all-the-icons)
-        (@(gnu packages emacs-xyz) emacs-evil)
-        (@(gnu packages emacs-xyz) emacs-projectile)
-        (@(gnu packages emacs-xyz) emacs-persp-mode)
-        (@(gnu packages emacs-xyz) emacs-perspective)
-        (@(gnu packages mail) mu)
-        )))))
-
 (define-public emacs-evil-collection
   (package
     (name "emacs-evil-collection")
@@ -1733,7 +1706,8 @@ performance-oriented and tidy.")
 
 (define-public emacs-treemacs-magit
   (package
-    (inherit emacs-treemacs-extra)
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-treemacs-extra))
     (name "emacs-treemacs-magit")))
 
 (define-public emacs-helm-files
