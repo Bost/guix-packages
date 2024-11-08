@@ -1652,10 +1652,10 @@ performance-oriented and tidy.")
       (description "Helm for git-grep, an incremental git-grep.")
       (license license:gpl3+))))
 
-(define-public emacs-chatgpt-shell
+(define-public emacs-chatgpt-shell ;; PR sent
   (package
     (name "emacs-chatgpt-shell")
-    (version "1.15.1")
+    (version "1.20.1")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -1664,7 +1664,7 @@ performance-oriented and tidy.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "11j0phgm0mk68lzfpiqp3rj42s4s5mzrwnf8lcdijq9djigiq89f"))))
+                "161q8d2b4sq481jh4zwagvh88wg51dsnf76n2l2b7wv3nh7cjh2m"))))
     (build-system emacs-build-system)
     (arguments
      (list #:phases
