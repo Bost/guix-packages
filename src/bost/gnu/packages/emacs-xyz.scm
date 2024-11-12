@@ -142,7 +142,6 @@
    emacs-treemacs-treelib
 
    emacs-auto-highlight-symbol
-   emacs-color-theme-sanityinc-tomorrow
    emacs-color-theme-sanityinc-solarized
    emacs-lsp-python-ms
    emacs-moe-theme
