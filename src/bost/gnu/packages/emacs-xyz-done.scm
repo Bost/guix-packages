@@ -126,31 +126,6 @@
   ;; #:use-module (bost gnu packages emacs-xyz--dap-mode)
   )
 
-(define-public emacs-color-theme-sanityinc-tomorrow
-  (let ((commit "d34e8db507ee0c7b465ff18a8f220c33ed77cd79")
-        (revision "0"))
-    (package
-      (name "emacs-color-theme-sanityinc-tomorrow")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/purcell/color-theme-sanityinc-tomorrow")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1mfildi7rav2j42avii7z4gp4ghl04cqv8wp1vyxzl8vkyj60nkb"))))
-      (build-system emacs-build-system)
-      (home-page
-       "https://github.com/purcell/color-theme-sanityinc-tomorrow")
-      (synopsis "Emacs color themes based on Chris Kempson's 'tomorrow' themes")
-      (description
-       "An Emacs version of Chris Kempson's \"Tomorrow\" themes, with much more
-extensive face definitions than the \"official\" Emacs variant.")
-      (license license:gpl3+))))
-
 (define-public emacs-color-theme-sanityinc-solarized ;; PL sent
   (let ((commit "9c62a49fe0a5ff456bcf3984ba825e75861534b9")
         (revision "0"))
