@@ -70,17 +70,19 @@ See also
   ;;   (format #t "version : ~a\n" version)
   ;;   (format #t "propagated-inputs : ~a\n" propagated-inputs)
   ;;   (format #t "file : ~a\n" file))
+  (format #t "[make-pkg] pkg : ~a\n" pkg)
 
   (let* [(url (plist-get pkg 'repo-url))
          (dst-dir (git-clone-to-tmp url))]
-    ;; (format #t "[make-pkg] dst-dir ~a\n" dst-dir)
-    ;; (format #t "[make-pkg] (basename dst-dir) ~a\n" (basename dst-dir))
+    (format #t "[make-pkg] dst-dir : ~a\n" dst-dir)
+    (format #t "[make-pkg] (basename dst-dir) : ~a\n" (basename dst-dir))
     (when dst-dir
       (let* [
              ;; (emacs-pkg-name (str (car pkg) "-theme"))
              (emacs-pkg-name (plist-get pkg 'emacs-pkg-name))
              ]
-        ;; (format #t "emacs-pkg-name ~a\n" emacs-pkg-name)
+        (format #t "[make-pkg] emacs-pkg-name : ~a\n" emacs-pkg-name)
+        #;
         (let* [
                (verbose               #f)
                (version               (plist-get pkg 'version))
