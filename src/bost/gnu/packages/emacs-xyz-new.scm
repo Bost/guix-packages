@@ -1,0 +1,2757 @@
+(define-module (bost gnu packages emacs-xyz-new)
+  ;; #:use-module (utils)
+  #:use-module (bost utils)  ;; for build
+  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix packages)
+  #:use-module (guix cvs-download)
+  #:use-module (guix download)
+  #:use-module (guix bzr-download)
+  #:use-module (guix gexp)
+  #:use-module (guix i18n)
+  #:use-module (guix git-download)
+  #:use-module (guix hg-download)
+  #:use-module (guix build-system gnu)
+  #:use-module (guix build-system cmake)
+  #:use-module (guix build-system copy)
+  #:use-module (guix build-system emacs)
+  #:use-module (guix build-system trivial)
+  #:use-module (gnu packages)
+  #:use-module (gnu packages admin)
+  #:use-module (gnu packages aspell)
+  #:use-module (gnu packages audio)
+  #:use-module (gnu packages bash)
+  #:use-module (gnu packages chez)
+  #:use-module (gnu packages cmake)
+  #:use-module (gnu packages code)
+  #:use-module (gnu packages cpp)
+  #:use-module (gnu packages curl)
+  #:use-module (gnu packages databases)
+  #:use-module (gnu packages dictionaries)
+  #:use-module (gnu packages djvu)
+  #:use-module (gnu packages ebook)
+  #:use-module (gnu packages emacs)
+  #:use-module (gnu packages fonts)
+  #:use-module (gnu packages freedesktop)
+  #:use-module (gnu packages games)
+  #:use-module (gnu packages gawk)
+  #:use-module (gnu packages golang)
+  #:use-module (gnu packages guile)
+  #:use-module (gnu packages gtk)
+  #:use-module (gnu packages gnome)
+  #:use-module (gnu packages graphviz)
+  #:use-module (gnu packages haskell-apps)
+  #:use-module (gnu packages ibus)
+  #:use-module (gnu packages java)
+  #:use-module (gnu packages julia-xyz)
+  #:use-module (gnu packages ncurses)
+  #:use-module (gnu packages networking)
+  #:use-module (gnu packages python)
+  #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages telephony)
+  #:use-module (gnu packages terminals)
+  #:use-module (gnu packages tex)
+  #:use-module (gnu packages texinfo)
+  #:use-module (gnu packages tcl)
+  #:use-module (gnu packages tls)
+  #:use-module (gnu packages tree-sitter)
+  #:use-module (gnu packages pkg-config)
+  #:use-module (gnu packages xorg)
+  #:use-module (gnu packages lesstif)
+  #:use-module (gnu packages llvm)
+  #:use-module (gnu packages image)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages libevent)
+  #:use-module (gnu packages lisp)
+  #:use-module (gnu packages lisp-xyz)
+  #:use-module (gnu packages lsof)
+  #:use-module (gnu packages lua)
+  #:use-module (gnu packages maths)
+  #:use-module (gnu packages music)
+  #:use-module (gnu packages version-control)
+  #:use-module (gnu packages imagemagick)
+  #:use-module (gnu packages w3m)
+  #:use-module (gnu packages web)
+  #:use-module (gnu packages wget)
+  #:use-module (gnu packages autotools)
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages node)
+  #:use-module (gnu packages xml)
+  #:use-module (gnu packages glib)
+  #:use-module (gnu packages acl)
+  #:use-module (gnu packages mail)
+  #:use-module (gnu packages messaging)
+  #:use-module (gnu packages package-management)
+  #:use-module (gnu packages perl)
+  #:use-module (gnu packages pdf)
+  #:use-module (gnu packages racket)
+  #:use-module (gnu packages ruby)
+  #:use-module (gnu packages rust-apps)
+  #:use-module (gnu packages scheme)
+  #:use-module (gnu packages serialization)
+  #:use-module (gnu packages speech)
+  #:use-module (gnu packages xiph)
+  #:use-module (gnu packages mp3)
+  #:use-module (gnu packages gettext)
+  #:use-module (gnu packages fribidi)
+  #:use-module (gnu packages gd)
+  #:use-module (gnu packages fontutils)
+  #:use-module (gnu packages password-utils)
+  #:use-module (gnu packages pulseaudio)
+  #:use-module (gnu packages sphinx)
+  #:use-module (gnu packages screen)
+  #:use-module (gnu packages xdisorg)
+  #:use-module (gnu packages shells)
+  #:use-module (gnu packages shellutils)
+  #:use-module (gnu packages sqlite)
+  #:use-module (gnu packages ghostscript)
+  #:use-module (gnu packages gnupg)
+  #:use-module (gnu packages video)
+  #:use-module (gnu packages haskell-xyz)
+  #:use-module (gnu packages wordnet)
+  #:use-module (gnu packages photo)
+  #:use-module (gnu packages uml)
+  #:use-module (gnu packages finance)
+  #:use-module (gnu packages ocaml)
+  #:use-module (gnu packages erlang)
+  #:use-module (gnu packages statistics)
+  #:use-module (gnu packages libcanberra)
+  #:use-module (gnu packages web-browsers)
+  #:use-module (gnu packages wget)
+  #:use-module (guix utils)
+  #:use-module (srfi srfi-1)
+  #:use-module (ice-9 match)
+  )
+
+(format #t "############## emacs-xyz-new \n")
+;; (define-public emacs-auctex-latexmk
+;;   (let ((commit "4d353522650d7685acbf1d38f7dbc504f734bd84")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-auctex-latexmk")
+;;       (version (git-version "20220529.161054" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/tom-tan/auctex-latexmk")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0qvscgffmzqk8lkcg3yk91vciim5ygk2m4crk02qn72ipkw5q13m"))))
+;;       (build-system emacs-build-system)
+;;       (home-page "https://github.com/tom-tan/auctex-latexmk")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-clean-aindent-mode
+  (let ((commit "a97bcae8f43a9ff64e95473e4ef0d8bafe829211")
+        (revision "0"))
+    (package
+      (name "emacs-clean-aindent-mode")
+      (version (git-version "1.5.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pmarinov/clean-aindent-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07dgx09j6nn5dl9vpqfcs5yqm79kza3h3r1lb7r09wpkmrg0c2cr"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/pmarinov/clean-aindent-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; exists already
+;; (define-public emacs-closql
+;;   (let ((commit "c1a346d56ecee16d1f0d7707f0d62c72604a8802")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-closql")
+;;       (version (git-version "2.0.0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/emacscollective/closql")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0fh7mvm2qcwkkmzpkagwzrsi11nm4laj2bvjdmyrv8pnmjigwwqw"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list emacsql-sqlite-common emacsql compat))
+;;       (home-page "https://github.com/emacscollective/closql")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-codegpt
+  (let ((commit "55ccb75cf4c01d95c5e5cdad026c62ce484a8ca5")
+        (revision "0"))
+    (package
+      (name "emacs-codegpt")
+      (version (git-version "20240101.102013\n0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/codegpt")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1f5ld4p278nx2rc705am72mc1kdshbccwmy414kzihwy2xk43isn"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list spinner markdown-mode openai-completion openai-chat openai))
+      (home-page "https://github.com/emacs-openai/codegpt")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-company-shell
+  (let ((commit "5f959a63a6e66eb0cbdac3168cad523a62cc2ccd")
+        (revision "0"))
+    (package
+      (name "emacs-company-shell")
+      (version (git-version "1.3.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/company-shell")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0lrkvfg0z9gwfcj90yihanysg8icxpbqq3wqyb734bi5fpmgmzr4"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list subr-x dash company))
+      (home-page "https://github.com/Alexander-Miller/company-shell")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-concurrent
+  (let ((commit "2239671d94b38d92e9b28d4e12fd79814cfb9c16")
+        (revision "0"))
+    (package
+      (name "emacs-concurrent")
+      (version (git-version "0.5.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kiwanami/emacs-deferred")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0vz59lm7pfz0gbsgrb44y555js85wbdjn0zm6p8wfqjiqf63ds3i"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list deferred lib))
+      (home-page "https://github.com/kiwanami/emacs-deferred")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-consult
+  (let ((commit "7a7af8dcdda02b9aa4a680a228b3f3a5cfa95334")
+        (revision "0"))
+    (package
+      (name "emacs-consult")
+      (version (git-version "20241016.1007" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/minad/consult")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0d7ywqhqbkvifynxks6iqd39ycl58nghafy8ab59bbywihjbf2m2"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list bookmark compat))
+      (home-page "https://github.com/minad/consult")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ctable
+  (let ((commit "48b73742757a3ae5736d825fe49e00034cc453b5")
+        (revision "0"))
+    (package
+      (name "emacs-ctable")
+      (version (git-version "0.1.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kiwanami/emacs-ctable")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "16yrx1z44xs24z2a0gwzf1xhhks1wrzafc5ihf6lbw843rq2jar0"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/kiwanami/emacs-ctable")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-cython-mode
+  (let ((commit "3e4790559d3168fe992cf2aa62f01423038cedb5")
+        (revision "0"))
+    (package
+      (name "emacs-cython-mode")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/cython/emacs-cython-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03kilbl9mp1hs7mpqb6vs6sbmhplpm4qg93sn1vhn34q710iccb0"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/cython/emacs-cython-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dall-e
+  (let ((commit "98743d452ba8644d0da9f5ebbed1adfe79b65f32")
+        (revision "0"))
+    (package
+      (name "emacs-dall-e")
+      (version (git-version "20240101.102018\n0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/dall-e")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0qgyf0z3pwz03bnfbs88kcijg9s0lhn8fryr5cywrx9nipzn7d7n"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list async
+             reveal-in-folder
+             spinner
+             ht
+             lv
+             openai-image
+             openai
+             subr-x
+             let-alist
+             image
+             ))
+      (home-page "https://github.com/emacs-openai/dall-e")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-define-word
+  (let ((commit "31a8c67405afa99d0e25e7c86a4ee7ef84a808fe")
+        (revision "0"))
+    (package
+      (name "emacs-define-word")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/abo-abo/define-word")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0h3dasg81f1b08xvz38nyd887pdlv60kj8q50kk2aqlpkr8j0y18"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list nxml-mode url-http url-parse))
+      (home-page "https://github.com/abo-abo/define-word")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dired-quick-sort
+  (let ((commit "eaeab1021b391e3d6275ba7c186c5ac95fb8a10e")
+        (revision "0"))
+    (package
+      (name "emacs-dired-quick-sort")
+      (version (git-version "0.2+" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://gitlab.com/xuhdev/dired-quick-sort.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1sxdiw1qwpr49a0l2q899r78mnwcwqhj4dfs22261acw7ifk07yb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list hydra savehist ls-lisp dired))
+      (home-page "https://gitlab.com/xuhdev/dired-quick-sort.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-disable-mouse
+  (let ((commit "b42e98b71f4aa545aeaac07130b91513ccc79a5b")
+        (revision "0"))
+    (package
+      (name "emacs-disable-mouse")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/disable-mouse")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "18hfcfyvsdhpmm6nkpd8klrahxn0aza1vwx0yz0bz3npfig2pivk"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/purcell/disable-mouse")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-drupal-mode
+  (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
+        (revision "0"))
+    (package
+      (name "emacs-drupal-mode")
+      (version (git-version "0.8.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arnested/drupal-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list sql json format-spec php-mode))
+      (home-page "https://github.com/arnested/drupal-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-eat
+  (let ((commit "3a6f418f55d183b9d86f99c140caed4ba3d44f93")
+        (revision "0"))
+    (package
+      (name "emacs-eat")
+      (version (git-version "0.9.4" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://codeberg.org/akib/emacs-eat")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wbfkhsy5c3agm7bw0g4n37mf6jghqp79hsxpbgrfy8bbb77j5pb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list url term shell color ansi-color subr-x compat))
+      (home-page "https://codeberg.org/akib/emacs-eat")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ef-themes
+  (let ((commit "10515381c7c0016e349dc5d736b80d1e699d9cdf")
+        (revision "0"))
+    (package
+      (name "emacs-ef-themes")
+      (version (git-version "1.8.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://git.sr.ht/~protesilaos/ef-themes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0m50dvs5nh522b1nah26m7gqgdshrgg2cj8yv0n6s5262kc8cm49"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list seq))
+      (home-page "https://git.sr.ht/~protesilaos/ef-themes")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-elisp-def
+  (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
+        (revision "0"))
+    (package
+      (name "emacs-elisp-def")
+      (version (git-version "1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Wilfred/elisp-def")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0k1r4fyai53p7y5vqwqjxdiqlnmrrxqaxglc22j54kdic8j1lbl7"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list ert xref find-func f s dash))
+      (home-page "https://github.com/Wilfred/elisp-def")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ellama
+  (let ((commit "882b0b241c2f69124edce70d41dc95ff49cb40e8")
+        (revision "0"))
+    (package
+      (name "emacs-ellama")
+      (version (git-version "20241025.2349" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/s-kostyaev/ellama")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0b55m87dqrc07y6jbjf3lf4d2gjyd0s6ndvap43y3fpwz1yq28fp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list compat
+             vc
+             eww
+             shr
+             info
+             transient
+             spinner
+             llm-provider-utils
+             llm
+             json
+             eieio))
+      (home-page "https://github.com/s-kostyaev/ellama")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-emacsql
+  (let ((commit "fb05d0f72729a4b4452a3b1168a9b7b35a851a53")
+        (revision "0"))
+    (package
+      (name "emacs-emacsql")
+      (version (git-version "4.0.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/emacsql")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "15nmp5dl2a1iyc99wlaywclnqsi2p34vgrp2x62671ccxnvzg8ii"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacsql-compiler eieio cl-generic))
+      (home-page "https://github.com/magit/emacsql")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-emr
+  (let ((commit "cac1b52932926f56d7f6d2923732d20bbd20670d")
+        (revision "0"))
+    (package
+      (name "emacs-emr")
+      (version (git-version "0.4.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Wilfred/emacs-refactor")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "06rmknnhzcm3fy1iipvryl85fcshpalz50500rrz8k3vkl2dps2i"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list popup s dash))
+      (home-page "https://github.com/Wilfred/emacs-refactor")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-epc
+  (let ((commit "e1bfa5ca163273859336e3cc89b4b6460f7f8cda")
+        (revision "0"))
+    (package
+      (name "emacs-epc")
+      (version (git-version "0.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kiwanami/emacs-epc")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "15nkrjgi64f829isfd6xrhl4zw8jirr8pkas7nisrbk1av868hx0"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list ctable concurrent))
+      (home-page "https://github.com/kiwanami/emacs-epc")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-image
+  (let ((commit "883084f0801d46a5ccf183e51ae9a734755bbb97")
+        (revision "0"))
+    (package
+      (name "emacs-erc-image")
+      (version (git-version "0.9" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kidd/erc-image.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "081c8pjmpwnmqah7dbpkj20bk7ln57g4n7c1zxzdlsz80pxnfay4"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list image-dired url-queue erc))
+      (home-page "https://github.com/kidd/erc-image.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-tweet
+  (let ((commit "91fed61e139fa788d66a7358f0d50acc896414b8")
+        (revision "0"))
+    (package
+      (name "emacs-erc-tweet")
+      (version (git-version "0.9" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kidd/erc-tweet.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "118q4zj9dh5xnimcsi229j5pflhcd8qz0p212kc4p9dmyrx2iw0n"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list url-queue erc))
+      (home-page "https://github.com/kidd/erc-tweet.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-view-log
+  (let ((commit "c5a25f0cbca84ed2e4f72068c02b66bd0ea3b266")
+        (revision "0"))
+    (package
+      (name "emacs-erc-view-log")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Niluge-KiWi/erc-view-log")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0bzi2sh2fhrz49j5y53h6jgf41av6rx78smb3bbk6m74is8vim2y"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list erc))
+      (home-page "https://github.com/Niluge-KiWi/erc-view-log")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-yt
+  (let ((commit "43e7d49325b17a3217a6ffb4a9daf75c5ff4e6f8")
+        (revision "0"))
+    (package
+      (name "emacs-erc-yt")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/yhvh/erc-yt.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dlw34kaslyvnsrahf4rm76r2b7qqqn589i4mmhr23prl8xbz9z9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list dash json erc))
+      (home-page "https://github.com/yhvh/erc-yt.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-eval-sexp-fu
+  (let ((commit "36d2fe3bcf602e15ca10a7f487da103515ef391a")
+        (revision "0"))
+    (package
+      (name "emacs-eval-sexp-fu")
+      (version (git-version "0.6.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/hchbaw/eval-sexp-fu.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "19rv0kwajq0j8inglp84sml23ci74wdcvp5bl6zxbw5skqpf6phr"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/hchbaw/eval-sexp-fu.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-easymotion
+  (let ((commit "f96c2ed38ddc07908db7c3c11bcd6285a3e8c2e9")
+        (revision "0"))
+    (package
+      (name "emacs-evil-easymotion")
+      (version (git-version "20160228" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pythonnut/evil-easymotion")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0xsva9bnlfwfmccm38qh3yvn4jr9za5rxqn4pwxbmhnx4rk47cch"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/pythonnut/evil-easymotion")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-lisp-state
+  (let ((commit "3c65fecd9917a41eaf6460f22187e2323821f3ce")
+        (revision "0"))
+    (package
+      (name "emacs-evil-lisp-state")
+      (version (git-version "8.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/evil-lisp-state")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1n6r8xs670r5qp4b5f72nr9g8nlqcrx1v7yqqlbkgv8gns8n5xgh"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list bind-map smartparens evil))
+      (home-page "https://github.com/syl20bnr/evil-lisp-state")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-textobj-line
+  (let ((commit "9eaf9a5485c2b5c05e16552b34632ca520cd681d")
+        (revision "0"))
+    (package
+      (name "emacs-evil-textobj-line")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/evil-textobj-line")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1w98gc1sqik8ab35a1hg5853dwar98a8qd94lxpq4ckabpgypins"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list evil))
+      (home-page "https://github.com/emacsorphanage/evil-textobj-line")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-tutor
+  (let ((commit "4e124cd3911dc0d1b6817ad2c9e59b4753638f28")
+        (revision "0"))
+    (package
+      (name "emacs-evil-tutor")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/evil-tutor")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "00yfq8aflxvp2nnz7smgq0c5wlb7cips5irj8qs6193ixlkpffvx"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list evil))
+      (home-page "https://github.com/syl20bnr/evil-tutor")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-visual-mark-mode
+  (let ((commit "2bbaaae56ae53e68a8bcc7bc2cfe830a14843b4d")
+        (revision "0"))
+    (package
+      (name "emacs-evil-visual-mark-mode")
+      (version (git-version "0.0.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/roman/evil-visual-mark-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ggxifiz2qm26v2fw8m9ccjp3jbmhyhb8wv93m8k1pnyh8b7la2m"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list dash evil))
+      (home-page "https://github.com/roman/evil-visual-mark-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flx-ido
+  (let ((commit "4b1346eb9a8a76ee9c9dede69738c63ad97ac5b6")
+        (revision "0"))
+    (package
+      (name "emacs-flx-ido")
+      (version (git-version "0.6.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/lewang/flx")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0q49p1y3kpx140h0f97kfw4kfx8mlzzxbninbarvygmlg2fkfi1n"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list flx ido))
+      (home-page "https://github.com/lewang/flx")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-bashate
+  (let ((commit "5e673c591d017329d0a07a61dc1223fa98639ee2")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-bashate")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alexmurray/flycheck-bashate")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1gaih50mkyby0r4qnmc03dy111ik4and5p6r3lvsflpvd3hcxjn3"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list flycheck))
+      (home-page "https://github.com/alexmurray/flycheck-bashate")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-credo
+  (let ((commit "e285bd042a535d0f13e0b4c5226df404cdda4033")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-credo")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/aaronjensen/flycheck-credo")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1n41liayykjmh1xwfnhdvw9bdxjca7d274gkpjfzhvhmbv7dig19"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list flycheck))
+      (home-page "https://github.com/aaronjensen/flycheck-credo")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-elsa
+  (let ((commit "d60db9544d0c4213f2478bcea0fd0e668e31cf34")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-elsa")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-elsa/flycheck-elsa")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ig9dc7ch3cdxp4p24v21h7hrdph9y5jy9421bfww6agymbj8i85"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list flycheck))
+      (home-page "https://github.com/emacs-elsa/flycheck-elsa")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-pos-tip
+  (let ((commit "dc57beac0e59669926ad720c7af38b27c3a30467")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-pos-tip")
+      (version (git-version "0.4-cvs" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/flycheck/flycheck-pos-tip")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "15h4m5cfk0vh1g630vlwfxmcpa1jdalrrldnvijsqla99mb2jm1w"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list pos-tip flycheck))
+      (home-page "https://github.com/flycheck/flycheck-pos-tip")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flyspell-correct-helm
+  (let ((commit "1e7a5a56362dd875dddf848b9a9e25d1395b9d37")
+        (revision "0"))
+    (package
+      (name "emacs-flyspell-correct-helm")
+      (version (git-version "0.6.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/d12frosted/flyspell-correct")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0q6y40mm6z5ifngwzah9ax6z9dlka3rw3q1am08hmia15vk7bx4g"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list helm flyspell-correct))
+      (home-page "https://github.com/d12frosted/flyspell-correct")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-forge
+  (let ((commit "1037fe3a9147824fa8b97b559da4d866193b664a")
+        (revision "0"))
+    (package
+      (name "emacs-forge")
+      (version (git-version "0.4.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/forge")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "06w0mrkhaxbv75lgmqcbynjrs2bd1pgkqd40b0q2rsnmhs65l3ls"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list forge-repos
+             forge-topics
+             forge-commands
+             forge-semi
+             forge-bitbucket
+             forge-gogs
+             forge-gitea
+             forge-gitlab
+             forge-github
+             forge-notify
+             forge-revnote
+             forge-pullreq
+             forge-issue
+             forge-topic
+             forge-post
+             forge-repo
+             forge-core
+             forge-db
+             magit))
+      (home-page "https://github.com/magit/forge")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-geben
+  (let ((commit "1779492d73534e18fbcfdd7c6cc175859527d019")
+        (revision "0"))
+    (package
+      (name "emacs-geben")
+      (version (git-version "1.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ahungry/geben")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "161916kz125ah5msh8c02inmlr3rr858k6ywb18x27pnqx6n8lvg"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/ahungry/geben")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-gh-md
+  (let ((commit "e721fd5e41e682f47f2dd4ce26ef2ba28c7fa0b5")
+        (revision "0"))
+    (package
+      (name "emacs-gh-md")
+      (version (git-version "0.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-pe/gh-md.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xnfq6bbc5bgkd0mzkr7r66sd85qfn859swpsp6sr0xfl8cq12wm"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list shr json))
+      (home-page "https://github.com/emacs-pe/gh-md.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ghub
+  (let ((commit "23d1cd6b089db6619d02d66957c6a274311abd60")
+        (revision "0"))
+    (package
+      (name "emacs-ghub")
+      (version (git-version "4.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/ghub")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1p5lx781z603q943p73p6q9k6qz75ldjwrr9z3h6zvi80gxd7afy"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list ghub-graphql
+             url-http
+             url-auth
+             let-alist
+             gnutls
+             compat))
+      (home-page "https://github.com/magit/ghub")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-gitignore-templates
+  (let ((commit "d28cd1cec00242b688861648d36d086818b06099")
+        (revision "0"))
+    (package
+      (name "emacs-gitignore-templates")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/xuchunyang/gitignore-templates.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0x4pg4jpgmbvfw854ps9w3xgp8bgm7n7vmcvk3kp7h2s56l8s2xb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list url json))
+      (home-page "https://github.com/xuchunyang/gitignore-templates.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-groovy-mode
+  (let ((commit "7b8520b2e2d3ab1d62b35c426e17ac25ed0120bb")
+        (revision "0"))
+    (package
+      (name "emacs-groovy-mode")
+      (version (git-version "2.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0190k4hbc3pjxf7zs2ckp4c7z4rbb7nsam2kmw8mvkyj7kq5gb8d"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list dash s))
+      (home-page "https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-haml-mode
+  (let ((commit "a64d58df8f098f858c6c11fa1629a90969f9c7e8")
+        (revision "0"))
+    (package
+      (name "emacs-haml-mode")
+      (version (git-version "3.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nex3/haml-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0d0b8xy8d6vd79y0vcjbgjgakn3nz5vdysw5m1ci2xz31agggf6f"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list ruby-mode))
+      (home-page "https://github.com/nex3/haml-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-helm-comint
+  (let ((commit "5f435ede181818b6f8c58ad7b45f47acd2721daf")
+        (revision "0"))
+    (package
+      (name "emacs-helm-comint")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/benedicthw/helm-comint.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0k95q7hdy7sp3l8yifjnc6f7xfplnqy8qff806yfgqiyy7gpx72p"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list helm-elisp helm-help helm-lib helm))
+      (home-page "https://github.com/benedicthw/helm-comint.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-helm-git-grep
+  (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
+        (revision "0"))
+    (package
+      (name "emacs-helm-git-grep")
+      (version (git-version "0.10.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/yasuyk/helm-git-grep")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list helm-files helm))
+      (home-page "https://github.com/yasuyk/helm-git-grep")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-helm-purpose
+  (let ((commit "9ff4c21c1e9ebc7afb851b738f815df7343bb287")
+        (revision "0"))
+    (package
+      (name "emacs-helm-purpose")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/bmag/helm-purpose")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xh6v5xlf1prgk6mrvkc6qa0r0bz74s5f4z3dl7d00chsi7i2m5v"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list window-purpose helm-buffers))
+      (home-page "https://github.com/bmag/helm-purpose")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-highlight-parentheses
+  (let ((commit "965b18dd69eff4457e17c9e84b3cbfdbfca2ddfb")
+        (revision "0"))
+    (package
+      (name "emacs-highlight-parentheses")
+      (version (git-version "2.2.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://sr.ht/~tsdh/highlight-parentheses.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wvhr5gzaxhn9lk36mrw9h4qpdax5kpbhqj44745nvd75g9awpld"))))
+      (build-system emacs-build-system)
+      (home-page "https://sr.ht/~tsdh/highlight-parentheses.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-hungry-delete
+  (let ((commit "d919e555e5c13a2edf4570f3ceec84f0ade71657")
+        (revision "0"))
+    (package
+      (name "emacs-hungry-delete")
+      (version (git-version "1.1.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/nflath/hungry-delete")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1hjihncj6q971zj1xfnfmyvx8wv19wdnglnmz1278fwsgrcs050d"))))
+      (build-system emacs-build-system)
+      (home-page "http://github.com/nflath/hungry-delete")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-iedit
+  (let ((commit "27c61866b1b9b8d77629ac702e5f48e67dfe0d3b")
+        (revision "0"))
+    (package
+      (name "emacs-iedit")
+      (version (git-version "0.9.9.9.9" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/victorhge/iedit")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07z659w9m94h79wnvs2fg80f5impidqhsmg6awc3fxwd3ib0yzih"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list iedit-lib))
+      (home-page "https://github.com/victorhge/iedit")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-impatient-mode
+  (let ((commit "7b54b015de4b3b81266291e9cfe688f7e20eb40a")
+        (revision "0"))
+    (package
+      (name "emacs-impatient-mode")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/netguy204/imp.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0qcrza3c4iigzv79mqy2xqi1x2fgvz2b2hmfsjaig6z9w5lgfnz8"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list htmlize simple-httpd url-util))
+      (home-page "https://github.com/netguy204/imp.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-importmagic
+  (let ((commit "570fb4f519d5e84dd681f932447cb995e8460840")
+        (revision "0"))
+    (package
+      (name "emacs-importmagic")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/anachronic/importmagic.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xrlnighvzgmfb4fwnp07bnj1wyym1pn4ap62swq0h0mcq8gjr80"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list f epc))
+      (home-page "https://github.com/anachronic/importmagic.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-indent-guide
+  (let ((commit "d388c3387781a370ca13233ff445d03f3c5cf12f")
+        (revision "0"))
+    (package
+      (name "emacs-indent-guide")
+      (version (git-version "2.3.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/zk-phi/indent-guide")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/zk-phi/indent-guide")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-insert-shebang
+  (let ((commit "cc8cea997a8523bce9f303de993af3a73eb0d2e2")
+        (revision "0"))
+    (package
+      (name "emacs-insert-shebang")
+      (version (git-version "0.9.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://gitlab.com/psachin/insert-shebang")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wvcdv2lfv68r3zyfzr9yahm3gvc60yzk8zi39l70vsgzh4yfq91"))))
+      (build-system emacs-build-system)
+      (home-page "https://gitlab.com/psachin/insert-shebang")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-journalctl-mode
+  (let ((commit "631d10a5c8f466c94c38c3cd7410a27026f5f822")
+        (revision "0"))
+    (package
+      (name "emacs-journalctl-mode")
+      (version (git-version "1.1\n1.1 New features:" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/SebastianMeisel/journalctl-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1p3mgza73yls8f7v063jb49z0ylmvni4v812abqvvvrn5q396286"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list transient array))
+      (home-page "https://github.com/SebastianMeisel/journalctl-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-kbd-mode
+  (let ((commit "b07f3e16043fbb268b3e47fb49abc419e8b7e2d7")
+        (revision "0"))
+    (package
+      (name "emacs-kbd-mode")
+      (version (git-version "20241014.215821\n0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kmonad/kbd-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0lnnr71g1nvqlyvzaiq7nqcnwhwh34xg2wfig1j5xb9wvblrg621"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list compile))
+      (home-page "https://github.com/kmonad/kbd-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-live-py-mode
+  (let ((commit "931fcff56a2fc22059f77b3ddde4ecc38f3d7e24")
+        (revision "0"))
+    (package
+      (name "emacs-live-py-mode")
+      (version (git-version "4.10.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/donkirkby/live-py-plugin")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0mhdsd3p5mp1xa4q4vxrjp06xnd800rmn3jm4ij82jl72wkf025i"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/donkirkby/live-py-plugin")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-livid-mode
+  (let ((commit "dfe5212fa64738bc4138bfebf349fbc8bc237c26")
+        (revision "0"))
+    (package
+      (name "emacs-livid-mode")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pandeiro/livid-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "178ldzpk8a9m9abn8xlplxn5jgcca71dpkp82bs5g7bsccp3rx6p"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list s skewer-mode))
+      (home-page "https://github.com/pandeiro/livid-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-llm
+  (let ((commit "14dbbde595adbcb621e0bb0429f4982c9a9bc2cc")
+        (revision "0"))
+    (package
+      (name "emacs-llm")
+      (version (git-version "0.17.4" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ahyatt/llm")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1x43ghb5lg3y7p6jwz52lyy5rwyy245lm7kdbwwx3alisdn21nmj"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/ahyatt/llm")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-load-env-vars
+  (let ((commit "3808520efaf9492033f6e11a9bffd68eabf02a0f")
+        (revision "0"))
+    (package
+      (name "emacs-load-env-vars")
+      (version (git-version "0.0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/diasjorge/emacs-load-env-vars")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0yw1ihns914k8va5mhphch1zix09x22cpgrbw968mh8hviknyvzr"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/diasjorge/emacs-load-env-vars")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-latex
+  (let ((commit "36a37a8e0a6b0edbea8e67dab89d12980d2a368f")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-latex")
+      (version (git-version "20241006.800" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ROCKTAKEY/lsp-latex")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0yfmqjp1bmp8rp9vl9y5qmic3wr2f5p10gyb2rlmpgfnx5c8575g"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list consult lsp-mode))
+      (home-page "https://github.com/ROCKTAKEY/lsp-latex")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-mode
+  (let ((commit "9b104105adecf637188f4e3bf5cc228bda12374a")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-mode")
+      (version (git-version "9.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0lgkj8czspjscyj090g9kwcqb7j01l7cgx89m8ac5n715lk7n9nd"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list lsp-protocol
+             minibuffer
+             xref
+             widget
+             url-util
+             url-parse
+             tree-widget
+             spinner
+             s
+             network-stream
+             markdown-mode
+             inline
+             imenu
+             ht
+             files
+             filenotify
+             f
+             ewoc
+             dash
+             cl-generic))
+      (home-page "https://github.com/emacs-lsp/lsp-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-magit
+  (let ((commit "1c30bb1f9fb0668ec385fc3fb899b30d5507fad8")
+        (revision "0"))
+    (package
+      (name "emacs-magit")
+      (version (git-version "4.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/magit")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1s1ch16j0d6ycj7xmijsjbxyldv386g274q3cfknvhciprq45nkl"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list with-editor
+             format-spec
+             git-commit
+             magit-repos
+             magit-apply
+             magit-wip
+             magit-log
+             magit-diff
+             magit-core))
+      (home-page "https://github.com/magit/magit")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-magit-popup
+  (let ((commit "d8585fa39f88956963d877b921322530257ba9f5")
+        (revision "0"))
+    (package
+      (name "emacs-magit-popup")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/magit-popup")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0znp6gx6vpcsybg774ab06mdgxb7sfk3gki1yp2qhkanav13i6q1"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list format-spec dash button))
+      (home-page "https://github.com/magit/magit-popup")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-magit-section
+  (let ((commit "1c30bb1f9fb0668ec385fc3fb899b30d5507fad8")
+        (revision "0"))
+    (package
+      (name "emacs-magit-section")
+      (version (git-version "4.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/magit")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1s1ch16j0d6ycj7xmijsjbxyldv386g274q3cfknvhciprq45nkl"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list format-spec cursor-sensor dash compat))
+      (home-page "https://github.com/magit/magit")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-maven-test-mode
+  (let ((commit "a19151861df2ad8ae4880a2e7c86ddf848cb569a")
+        (revision "0"))
+    (package
+      (name "emacs-maven-test-mode")
+      (version (git-version "0.1.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/rranelli/maven-test-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xn2yyr8mr90cynbxgv0h5v180pzf0ydnjr9spg34mrdicqlki6c"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list compile s))
+      (home-page "http://github.com/rranelli/maven-test-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-molokai
+  (let ((commit "cc53e997e7eff93b58ad16a376a292c1dd66044b")
+        (revision "0"))
+    (package
+      (name "emacs-molokai")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alloy-d/color-theme-molokai")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "109z13y6f54idzxk4incd4r0d3fr7wm7r8ifmd0s5hv1v1i93jc0"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/alloy-d/color-theme-molokai")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-mvn
+  (let ((commit "223723d9ceeb2878b884e83abb8ca74ad2e42081")
+        (revision "0"))
+    (package
+      (name "emacs-mvn")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/apgwoz/mvn-el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1sl7kfg5w73cw9mv4x1m497dg27h42zgx2ywl4s8fmx2k9f2pq1q"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/apgwoz/mvn-el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-nose
+  (let ((commit "3b517aff31529bab33f8d7b562bd17aff0107fd1")
+        (revision "0"))
+    (package
+      (name "emacs-nose")
+      (version (git-version "0.3\n20150423.34839" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rasmus-toftdahl-olesen/iss-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0992lzgar0kz9i1sk5vz17q9qzfgl8fkyxa1q0hmhgnpjf503cnj"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list cl))
+      (home-page "https://github.com/rasmus-toftdahl-olesen/iss-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-ob-elixir
+  (let ((commit "8990a8178b2f7bd93504a9ab136622aab6e82e32")
+        (revision "0"))
+    (package
+      (name "emacs-ob-elixir")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/zweifisch/ob-elixir")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "19awvfbjsnd5la14ad8cfd20pdwwlf3d2wxmz7kz6x6rf48x38za"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list ob))
+      (home-page "http://github.com/zweifisch/ob-elixir")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-omtose-phellack-themes
+  (let ((commit "b96905deb9b2bef097e0c573100874812c1e9aa8")
+        (revision "0"))
+    (package
+      (name "emacs-omtose-phellack-themes")
+      (version (git-version "20240928.1241" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/omtose-phellack-themes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1kyg55njj19licj4wkp5ahabnbmpjfksv89l75axcib6hj3rgk5k"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacsorphanage/omtose-phellack-themes")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-open-junk-file
+  (let ((commit "558bec7372b0fed4c4cb6074ab906535fae615bd")
+        (revision "0"))
+    (package
+      (name "emacs-open-junk-file")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rubikitch/open-junk-file")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0kcgkxn5v9bsbkcvpjxjqhj1w3c29bfb33bmiw32gzbfphmrvhh1"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/rubikitch/open-junk-file")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-openai
+  (let ((commit "04296c91c1517fb3d8a6297a1073684039773dae")
+        (revision "0"))
+    (package
+      (name "emacs-openai")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/openai")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gki266kpdf05pxdy1shbirw1z65xq5hqwn6n324simaznbjqbla"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list tblui request let-alist))
+      (home-page "https://github.com/emacs-openai/openai")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-org-category-capture
+  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
+        (revision "0"))
+    (package
+      (name "emacs-org-category-capture")
+      (version (git-version "3.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/colonelpanic8/org-project-capture")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list org-capture))
+      (home-page "https://github.com/colonelpanic8/org-project-capture")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-org-project-capture
+  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
+        (revision "0"))
+    (package
+      (name "emacs-org-project-capture")
+      (version (git-version "3.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/colonelpanic8/org-project-capture")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list s
+             org-project-capture-backend
+             org-category-capture
+             dash))
+      (home-page "https://github.com/colonelpanic8/org-project-capture")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-org-projectile
+  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
+        (revision "0"))
+    (package
+      (name "emacs-org-projectile")
+      (version (git-version "3.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/colonelpanic8/org-project-capture")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list org-project-capture-backend
+             org-project-capture
+             org-category-capture
+             projectile
+             dash))
+      (home-page "https://github.com/colonelpanic8/org-project-capture")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-orgit
+  (let ((commit "59d21fdb21f84238c3172d37fdd2446b753e98dc")
+        (revision "0"))
+    (package
+      (name "emacs-orgit")
+      (version (git-version "2.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/orgit")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0864y78kvcvha0rx0pzrxlyivr65zk21ji4md757alw1lr4zf408"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list format-spec compat))
+      (home-page "https://github.com/magit/orgit")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-orgit-forge
+  (let ((commit "2718a6aaf0f64cb52c64c419053fbc80eb358c8d")
+        (revision "0"))
+    (package
+      (name "emacs-orgit-forge")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/orgit-forge")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xcv7kqsrv39rk8fjd2sbl2wrr8mdb6y1xipifki4q7mry1c6v6w"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list orgit forge compat))
+      (home-page "https://github.com/magit/orgit-forge")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-overseer
+  (let ((commit "7fdcf1a6fba6b1569a09c1666b4e51bcde266ed9")
+        (revision "0"))
+    (package
+      (name "emacs-overseer")
+      (version (git-version "0.3.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/tonini/overseer.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1f0nm253n0k2rcx0zydj8c4nn5gmvhabzraajxdqycb2ak77nbif"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list ansi-color pkg-info f dash compile))
+      (home-page "https://github.com/tonini/overseer.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pcsv
+  (let ((commit "aa421d12c0da0adb9bc74a050a591dcbabf934ae")
+        (revision "0"))
+    (package
+      (name "emacs-pcsv")
+      (version (git-version "1.4.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mhayashi1120/Emacs-pcsv")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "15pwxzr8k98k82p9ni49hh84fh4mrcdcd7nx7xgv3lpm5nj0ix9z"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/mhayashi1120/Emacs-pcsv")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; (define-public emacs-pdf-tools
+;;   (let ((commit "30b50544e55b8dbf683c2d932d5c33ac73323a16")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-pdf-tools")
+;;       (version (git-version "1.1.0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/vedang/pdf-tools")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "1ci9g8aj77a34pgp21d768pglfw1h0dcw68d61xxlzwrrclzfhgx"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list package compile cus-edit pdf-info pdf-util pdf-view))
+;;       (home-page "https://github.com/vedang/pdf-tools")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-pdf-view-restore
+  (let ((commit "5a1947c01a3edecc9e0fe7629041a2f53e0610c9")
+        (revision "0"))
+    (package
+      (name "emacs-pdf-view-restore")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/007kevin/pdf-view-restore")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list pdf-view))
+      (home-page "https://github.com/007kevin/pdf-view-restore")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-php-extras
+  (let ((commit "d410c5af663c30c01d461ac476d1cbfbacb49367")
+        (revision "0"))
+    (package
+      (name "emacs-php-extras")
+      (version (git-version "2.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arnested/php-extras")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0mcgwisnqplav0ga8xqqw72523iv841wp2cyw7d4lkzgpiav51dg"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list thingatpt eldoc))
+      (home-page "https://github.com/arnested/php-extras")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; (define-public emacs-php-mode
+;;   (let ((commit "31f702ee2de35d514fb633c0c37531cb648bff70")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-php-mode")
+;;       (version (git-version "1.25.1" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/emacs-php/php-mode")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0rz0qdi82swvvqmb44jdzwfkaz9xl4y4ic70i6i950rmrbz970pd"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list php-project
+;;              mode-local
+;;              nadvice
+;;              package
+;;              imenu
+;;              speedbar
+;;              custom
+;;              font-lock
+;;              cc-mode
+;;              php-face
+;;              php))
+;;       (home-page "https://github.com/emacs-php/php-mode")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+;; (format #t "############## emacs-php-mode \n")
+
+(define-public emacs-phpunit
+  (let ((commit "650a50898de1fa4eeb47360b12aeb1126b2448c2")
+        (revision "0"))
+    (package
+      (name "emacs-phpunit")
+      (version (git-version "0.17.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nlamirault/phpunit.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03vs9ni9nhm7rzr3qkgcjbldqxcds20ai2c52sw8wc6zpp5qijsc"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list f s))
+      (home-page "https://github.com/nlamirault/phpunit.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pip-requirements
+  (let ((commit "31e0dc62abb2d88fa765e0ea88b919d756cc0e4f")
+        (revision "0"))
+    (package
+      (name "emacs-pip-requirements")
+      (version (git-version "0.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Wilfred/pip-requirements.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "08q225h8kahh632qkzpb1ih3jqg5imlzgrrh8ynkyxrr710madkl"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list dash))
+      (home-page "https://github.com/Wilfred/pip-requirements.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pipenv
+  (let ((commit "3af159749824c03f59176aff7f66ddd6a5785a10")
+        (revision "0"))
+    (package
+      (name "emacs-pipenv")
+      (version (git-version "0.0.1-beta" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pwalsh/pipenv.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ak9dvjqhdm12i7yamgbqjmc4zmvy2f0gd1nia1q9dy3n6576ryq"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list pyvenv subr-x s python))
+      (home-page "https://github.com/pwalsh/pipenv.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-plz
+  (let ((commit "9fb22d84d9e39692392276d7b7b9979ca6ca1c01")
+        (revision "0"))
+    (package
+      (name "emacs-plz")
+      (version (git-version "0.9.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alphapapa/plz.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07b578mbg6x0s7m4cjggsjq85avp4h3vgsqcqrf6mbb41r700bnb"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/alphapapa/plz.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-poetry
+  (let ((commit "1dff0d4a51ea8aff5f6ce97b154ea799902639ad")
+        (revision "0"))
+    (package
+      (name "emacs-poetry")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/cybniv/poetry.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0n5v6c75pal2xd8p453jrd046zkv0y1pzgn5w2n2ws1009pw6crs"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list pyvenv))
+      (home-page "https://github.com/cybniv/poetry.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pos-tip
+  (let ((commit "4889e08cf9077c8589ea6fea4e2ce558614dfcde")
+        (revision "0"))
+    (package
+      (name "emacs-pos-tip")
+      (version (git-version "0.4.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pitkali/pos-tip")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wnmh9a9ks0pmcjy9df5higfbz9gy1ydj4n8s84hkhd4wq4fndvv"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/pitkali/pos-tip")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-prettier-js
+  (let ((commit "e9b73e81d3e1642aec682195f127a42dfb0b5774")
+        (revision "0"))
+    (package
+      (name "emacs-prettier-js")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/prettier/prettier-emacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0hj4fv3fgc60i6jrsx4a81s5c9fsxxafhhs3q2q1dypsscjci9ph"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/prettier/prettier-emacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-py-isort
+  (let ((commit "e67306f459c47c53a65604e4eea88a3914596560")
+        (revision "0"))
+    (package
+      (name "emacs-py-isort")
+      (version (git-version "2016.1\n0.4" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/paetzke/py-isort.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "08i55gv392wc12x8v3dca0dmz8a8p9ljsqhyajsb6qv1k120wqhx"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/paetzke/py-isort.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pydoc
+  (let ((commit "c9d8b5249c1b3814da062ed9976e4137d6e8d869")
+        (revision "0"))
+    (package
+      (name "emacs-pydoc")
+      (version
+       (git-version
+        "grep: /home/bost/.emacs.d.distros/spguimacs/elpa/29.4/develop/pydoc-20221222.1426/pydoc.el: binary file matches"
+        revision
+        commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/statmobile/pydoc")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ifyhdcvj25rnrvq78qjma3dg826hpj3x5ic1sydrvj0yb13jhim"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/statmobile/pydoc")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pyenv-mode
+  (let ((commit "76787ea44f633426df402341663784db3a9e9639")
+        (revision "0"))
+    (package
+      (name "emacs-pyenv-mode")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/proofit404/pyenv-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07nm4a5g6krflsyn232sg3zyzf79djf4pfwdwzlph4r3wspr9ix9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list pythonic))
+      (home-page "https://github.com/proofit404/pyenv-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pytest
+  (let ((commit "8692f965bf4ddf3d755cf1fbf77a7a768e22460e")
+        (revision "0"))
+    (package
+      (name "emacs-pytest")
+      (version (git-version "0.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ionrock/pytest-el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "13s3zqxjlas4rq70gxgl8nrhasrx8j8ml9xls7lgghk12ppiqil9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list s))
+      (home-page "https://github.com/ionrock/pytest-el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pyvenv
+  (let ((commit "31ea715f2164dd611e7fc77b26390ef3ca93509b")
+        (revision "0"))
+    (package
+      (name "emacs-pyvenv")
+      (version (git-version "1.21" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jorgenschaefer/pyvenv")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1708xh2sq7xvs4z5zkik9ircxvzimhzi6phc2j43fvvxgglcgrk5"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list subr-x json eshell))
+      (home-page "https://github.com/jorgenschaefer/pyvenv")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-reformatter
+  (let ((commit "8962e1dd0c949997413380ea1f8d8a25ada5f624")
+        (revision "0"))
+    (package
+      (name "emacs-reformatter")
+      (version (git-version "0.8" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/emacs-reformatter")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0lp7lmfaq23hpk5lvl0b291jnky1xq7ixi8ry2lrxdl64rr9fwvf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list ansi-color))
+      (home-page "https://github.com/purcell/emacs-reformatter")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-reveal-in-folder
+  (let ((commit "f5991b8e4f4e86bd47629688a05fabd92dfe25ac")
+        (revision "0"))
+    (package
+      (name "emacs-reveal-in-folder")
+      (version (git-version "20240226.13721\n0.1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jcs-elpa/reveal-in-folder")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "156fb1zcjr2i1f6dv10vnz74wbiylawi7npd2kwr2zrpdf8sflqi"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list s ffap f))
+      (home-page "https://github.com/jcs-elpa/reveal-in-folder")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-sass-mode
+  (let ((commit "247a0d4b509f10b28e4687cd8763492bca03599b")
+        (revision "0"))
+    (package
+      (name "emacs-sass-mode")
+      (version (git-version "3.0.16" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nex3/sass-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1nhk12lhvkwdk8s8fx33p6rssi0gcfx2zkanq23rz6k28v5zi5yp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list haml-mode))
+      (home-page "https://github.com/nex3/sass-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-shell-maker
+  (let ((commit "f0f4ff4c0b14d933f83b3a39043722c9869da0e5")
+        (revision "0"))
+    (package
+      (name "emacs-shell-maker")
+      (version (git-version "20241011.805" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/xenodium/chatgpt-shell")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1w15y2x3j5d3ac6lagmc3qa2n7gpyjp0bk0dn3kinrpj0sqcnds9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list view shell seq map json goto-addr comint))
+      (home-page "https://github.com/xenodium/chatgpt-shell")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-shfmt
+  (let ((commit "78a96e66d2685672de3d0b7d627cd57a3b0caaf2")
+        (revision "0"))
+    (package
+      (name "emacs-shfmt")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/emacs-shfmt")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0x96q2ag85859mzfqjq4gy7s2h883nwc99nw4l4r9cfw7hpplwxb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list reformatter))
+      (home-page "https://github.com/purcell/emacs-shfmt")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-smeargle
+  (let ((commit "afe34e7e3ce811d44880bca11f9fe1e3d91e272f")
+        (revision "0"))
+    (package
+      (name "emacs-smeargle")
+      (version (git-version "0.03" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/smeargle")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1yy2lqvn67dr6jhbyqv3zd93rmpw7bggklb1hbhp8spagflvj6li"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacsorphanage/smeargle")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-sqlite3
+  (let ((commit "a601c9965e4d0178705a64b7d4f88709ca9aea66")
+        (revision "0"))
+    (package
+      (name "emacs-sqlite3")
+      (version (git-version "0.17" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pekingduck/emacs-sqlite3-api")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1d1r65ybcf5idbs8sv0l3dna4l1wy3jba9dvv1kkz7zj6qhr48fs"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/pekingduck/emacs-sqlite3-api")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-string-edit-at-point
+  (let ((commit "87936d816ae24184dd83688136531b6b6f1943fe")
+        (revision "0"))
+    (package
+      (name "emacs-string-edit-at-point")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magnars/string-edit.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0ggn7l3bisjx1ab4jrhija3z3bh6zbafhzjl5cq92n7i2plz8qdm"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list dash))
+      (home-page "https://github.com/magnars/string-edit.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-systemd
+  (let ((commit "8742607120fbc440821acbc351fda1e8e68a8806")
+        (revision "0"))
+    (package
+      (name "emacs-systemd")
+      (version (git-version "1.6.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/holomorph/systemd-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1cf63r0f8mg4zl6min48f8wby2k7g4v60lyw6j8gsjz8ppww8gx2"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list url-parse thingatpt conf-mode))
+      (home-page "https://github.com/holomorph/systemd-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-tblui
+  (let ((commit "62ab5f62982c061a902fd3e54d94a68a4706572c")
+        (revision "0"))
+    (package
+      (name "emacs-tblui")
+      (version (git-version "20231201.120006\n0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Yuki-Inoue/tblui.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1fq0dsvh9a8h7n4d4cj7sn73nzbg5chqjby9pzpbs5grx4kf0zi6"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list magit-popup dash tablist))
+      (home-page "https://github.com/Yuki-Inoue/tblui.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-transient
+  (let ((commit "a541b996bd03a21a81edc02f333016fd906b91b6")
+        (revision "0"))
+    (package
+      (name "emacs-transient")
+      (version (git-version "0.7.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/transient")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0d86dpws6bvv5qy7xfc3j8iljgckqqd0a17zvrrgsq92ky28s5n1"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list format-spec compat))
+      (home-page "https://github.com/magit/transient")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-treemacs-evil
+  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
+        (revision "0"))
+    (package
+      (name "emacs-treemacs-evil")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/treemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list treemacs evil))
+      (home-page "https://github.com/Alexander-Miller/treemacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-treemacs-icons-dired
+  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
+        (revision "0"))
+    (package
+      (name "emacs-treemacs-icons-dired")
+      (version (git-version "20241017.2046" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/treemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list pcase dired hl-line treemacs))
+      (home-page "https://github.com/Alexander-Miller/treemacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-treemacs-persp
+  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
+        (revision "0"))
+    (package
+      (name "emacs-treemacs-persp")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/treemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list dash eieio persp-mode treemacs))
+      (home-page "https://github.com/Alexander-Miller/treemacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-treemacs-projectile
+  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
+        (revision "0"))
+    (package
+      (name "emacs-treemacs-projectile")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/treemacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list projectile treemacs))
+      (home-page "https://github.com/Alexander-Miller/treemacs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-treepy
+  (let ((commit "651e2634f01f346da9ec8a64613c51f54b444bc3")
+        (revision "0"))
+    (package
+      (name "emacs-treepy")
+      (version (git-version "0.1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/volrath/treepy.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0y34sb1b3sgkn3kfsw0hxv9sw4xshizyynbnbica6vdckfvxdnqn"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/volrath/treepy.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-uuidgen
+  (let ((commit "cebbe09d27c63abe61fe8c2e2248587d90265b59")
+        (revision "0"))
+    (package
+      (name "emacs-uuidgen")
+      (version (git-version "1.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kanru/uuidgen-el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ih6kj3inwdxypbqj2n5vnfxmc6rfrx114w8bdy60yd8klx7273d"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list sha1 calc-ext))
+      (home-page "https://github.com/kanru/uuidgen-el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-wfnames
+  (let ((commit "164e4efa2a96bed201a0a5402e137ebeef15bcc6")
+        (revision "0"))
+    (package
+      (name "emacs-wfnames")
+      (version (git-version "1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/thierryvolpiatto/wfnames")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0bv0jky553kyvp8g2fhglnq5af6nqassswmjxlr8vz3ahyy06l3y"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/thierryvolpiatto/wfnames")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-xhair
+  (let ((commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")
+        (revision "0"))
+    (package
+      (name "emacs-xhair")
+      (version (git-version "20210801.42255\n1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Boruch-Baum/emacs-xhair")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list vline hl-line))
+      (home-page "https://github.com/Boruch-Baum/emacs-xhair")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-yapfify
+  (let ((commit "c9347e3b1dec5fc8d34883e206fcdc8500d22368")
+        (revision "0"))
+    (package
+      (name "emacs-yapfify")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/JorisE/yapfify")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gkz4f0yfpfchh78v1c0plbjafag23y18gcg8a8rc5s21nqqhkj4"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/JorisE/yapfify")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(format #t "############## emacs-xyz-new done.\n")
