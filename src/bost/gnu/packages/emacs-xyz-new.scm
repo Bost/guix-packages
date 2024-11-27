@@ -1,5 +1,8 @@
 (define-module (bost gnu packages emacs-xyz-new)
   ;; #:use-module (utils)
+
+  #:use-module (gnu packages emacs-xyz)
+
   #:use-module (bost utils)  ;; for build
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -124,6 +127,57 @@
   )
 
 (format #t "############## emacs-xyz-new \n")
+
+(define-public emacs-code-review
+  (let ((commit "26f426e99221a1f9356aabf874513e9105b68140")
+        (revision "0"))
+    (package
+     (name "emacs-code-review")
+     (version (git-version "0.0.7" revision commit))
+     (source
+      (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/wandersoncferreira/code-review")
+             (commit commit)))
+       (file-name (git-file-name name version))
+       (sha256 (base32 "1031sq40kysbkvl0cl4lq39ls13n0y3kafbmf4c30grbydljbd52"))))
+     (build-system emacs-build-system)
+     (propagated-inputs
+      (list
+       ;; emacs-code-review-actions
+       ;; emacs-code-review-faces
+       ;; emacs-code-review-interfaces
+       ;; emacs-code-review-db
+       ;; emacs-code-review-utils
+       ;; emacs-code-review-comment
+       ;; emacs-code-review-section
+       ;; emacs-code-review-gitlab
+       ;; emacs-code-review-github
+       emacs-deferred
+       emacs-emojify
+       emacs-let-alist
+       emacs-ghub
+       emacs-a
+       emacs-dash
+       emacs-magit-section
+       emacs-markdown-mode
+       emacs-closql
+
+       emacs-uuidgen           ; missing
+       emacs-magit-diff        ; missing
+       emacs-magit-git         ; missing
+       emacs-forge-pullreq
+       emacs-forge-post
+       emacs-forge-core
+       emacs-forge-github
+
+       ))
+     (home-page "https://github.com/wandersoncferreira/code-review")
+     (synopsis "")
+     (description "")
+     (license license:gpl3+))))
+
 ;; (define-public emacs-auctex-latexmk
 ;;   (let ((commit "4d353522650d7685acbf1d38f7dbc504f734bd84")
 ;;         (revision "0"))
@@ -419,27 +473,27 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-drupal-mode
-  (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
-        (revision "0"))
-    (package
-      (name "emacs-drupal-mode")
-      (version (git-version "0.8.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/arnested/drupal-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list sql json format-spec php-mode))
-      (home-page "https://github.com/arnested/drupal-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
+;; (define-public emacs-drupal-mode
+;;   (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-drupal-mode")
+;;       (version (git-version "0.8.1" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/arnested/drupal-mode")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list sql json format-spec php-mode))
+;;       (home-page "https://github.com/arnested/drupal-mode")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
 
 (define-public emacs-eat
   (let ((commit "3a6f418f55d183b9d86f99c140caed4ba3d44f93")
@@ -1544,82 +1598,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-magit
-  (let ((commit "1c30bb1f9fb0668ec385fc3fb899b30d5507fad8")
-        (revision "0"))
-    (package
-      (name "emacs-magit")
-      (version (git-version "4.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/magit")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1s1ch16j0d6ycj7xmijsjbxyldv386g274q3cfknvhciprq45nkl"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list with-editor
-             format-spec
-             git-commit
-             magit-repos
-             magit-apply
-             magit-wip
-             magit-log
-             magit-diff
-             magit-core))
-      (home-page "https://github.com/magit/magit")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-magit-popup
-  (let ((commit "d8585fa39f88956963d877b921322530257ba9f5")
-        (revision "0"))
-    (package
-      (name "emacs-magit-popup")
-      (version (git-version "" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/magit-popup")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0znp6gx6vpcsybg774ab06mdgxb7sfk3gki1yp2qhkanav13i6q1"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list format-spec dash button))
-      (home-page "https://github.com/magit/magit-popup")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-magit-section
-  (let ((commit "1c30bb1f9fb0668ec385fc3fb899b30d5507fad8")
-        (revision "0"))
-    (package
-      (name "emacs-magit-section")
-      (version (git-version "4.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/magit")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1s1ch16j0d6ycj7xmijsjbxyldv386g274q3cfknvhciprq45nkl"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list format-spec cursor-sensor dash compat))
-      (home-page "https://github.com/magit/magit")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-maven-test-mode
   (let ((commit "a19151861df2ad8ae4880a2e7c86ddf848cb569a")
         (revision "0"))
@@ -2664,28 +2642,6 @@
           (base32 "0y34sb1b3sgkn3kfsw0hxv9sw4xshizyynbnbica6vdckfvxdnqn"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/volrath/treepy.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-uuidgen
-  (let ((commit "cebbe09d27c63abe61fe8c2e2248587d90265b59")
-        (revision "0"))
-    (package
-      (name "emacs-uuidgen")
-      (version (git-version "1.3" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/kanru/uuidgen-el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1ih6kj3inwdxypbqj2n5vnfxmc6rfrx114w8bdy60yd8klx7273d"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list sha1 calc-ext))
-      (home-page "https://github.com/kanru/uuidgen-el")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
