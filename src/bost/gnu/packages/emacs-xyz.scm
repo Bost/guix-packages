@@ -2323,7 +2323,7 @@ hashing), and random UUID generation, facilitating the creation of
 unique identifiers directly in Emacs.")
      (license license:gpl3+))))
 
-(define-public emacs-lsp-java
+(define-public emacs-lsp-java ;; PR sent
   (let ((commit "4909c14b9012eed669a9c3f11a8df055d5bb8a0e")
         (revision "1"))
     (package
