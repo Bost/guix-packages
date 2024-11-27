@@ -2294,3 +2294,31 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
  assistance into various text-based workflows, and enhancing productivity by
  making AI tools easily accessible in the Emacs environment.")
       (license license:gpl3+))))
+
+(define-public emacs-uuidgen
+  (let ((commit "cebbe09d27c63abe61fe8c2e2248587d90265b59")
+        (revision "0"))
+    (package
+     (name "emacs-uuidgen")
+     (version (git-version "1.3" revision commit))
+     (source
+      (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/kanru/uuidgen-el")
+             (commit commit)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1ih6kj3inwdxypbqj2n5vnfxmc6rfrx114w8bdy60yd8klx7273d"))))
+     (build-system emacs-build-system)
+     (home-page "https://github.com/kanru/uuidgen-el")
+     (synopsis "UUID generation library for Emacs")
+     (description
+      "This package provides functions to generate Universally Unique
+Identifiers (UUIDs) within Emacs.  It supports the creation of UUIDs
+conforming to RFC 4122, including versions 1, 3, 4, and 5.  The
+library allows for time-based, name-based (using MD5 or SHA-1
+hashing), and random UUID generation, facilitating the creation of
+unique identifiers directly in Emacs.")
+     (license license:gpl3+))))
