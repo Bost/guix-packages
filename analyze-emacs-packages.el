@@ -37,6 +37,7 @@
                 ansi-color
                 auth-source
                 avoid
+                calc-ext
                 cl
                 cl-extra
                 cl-lib
@@ -78,7 +79,9 @@
                 rx
                 seq
                 server
+                sha1
                 shell
+                shr
                 subr-x
                 thingatpt
                 tramp
