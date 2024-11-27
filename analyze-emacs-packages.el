@@ -329,26 +329,31 @@ associated with :url."
          'file (caddr pkg)
          )))))
 
-(funcall
- (-compose
-  ;; (lambda (_) (message "%s" "Now run ./create-elisp-package-definition.scm"))
-  (lambda (s)
-    (f-write-text (format "%s" (pp
-                                `(define pkgs-analyzed
-                                         ',s)))
-                  'utf-8 (format "%s/analyzed.scm" (getenv "dotf"))))
-  ;; (-partial #'mapcar #'print)
-  (-partial #'mapcar #'extract-infomation)
-  ;; (-partial #'mapcar (lambda (pkg) (message "pkg : %s" pkg) pkg))
-  )
- ;; (let ((lst (package-files))) (butlast lst (- (length lst) 1)))
- (package-files)
+(defun run ()
+  (funcall
+   (-compose
+    ;; (lambda (_) (message "%s" "Now run ./create-elisp-package-definition.scm"))
+    (lambda (s)
+      (f-write-text (format "%s" (pp
+                                  `(define pkgs-analyzed
+                                           ',s)))
+                    'utf-8 (format "%s/analyzed.scm" (getenv "dotf"))))
+    ;; (-partial #'mapcar #'print)
+    (-partial #'mapcar #'extract-infomation)
+    ;; (-partial #'mapcar (lambda (pkg) (message "pkg : %s" pkg) pkg))
+    )
+   ;; (let ((lst (package-files))) (butlast lst (- (length lst) 1)))
+   ;; (package-files)
+   '(
+     ("https://github.com/wandersoncferreira/code-review" "0.0.7" "/home/bost/.emacs.d.distros/spguimacs/elpa/29.4/develop/code-review-20240823.222949/code-review.el")
+     )
+   ;; '(
+   ;;     (
+   ;;      "<git-repo>"
+   ;;      "<version-number>"
+   ;;      "<path-to-el-file>"
+   ;;     )
+   ;;  )
+   ))
 
- ;; '(
- ;;     (
- ;;      "<git-repo>"
- ;;      "<version-number>"
- ;;      "<path-to-el-file>"
- ;;     )
- ;;  )
- )
+(run)

@@ -4,6 +4,7 @@
 
 (define-module (create-elisp-package-definition)
   #:use-module (ice-9 match)
+  #:use-module (ice-9 pretty-print)
   #:use-module (utils)
   #:use-module (scm-bin gcl)
   #:use-module (srfi srfi-1) ;; remove
@@ -52,77 +53,92 @@ See also
 ;; (access? some-file W_OK) ;; check if file is writable
 ;;   file-is-directory? (? file-exists?)
 
-(define (make-pkg pkg)
-  ;; (format #t "pkg : ~a\n" pkg)
-  ;; (let* [
-  ;;        (emacs-pkg-name (plist-get pkg    'emacs-pkg-name))
-  ;;        (local-repo (plist-get pkg        'local-repo))
-  ;;        (guix-package (plist-get pkg      'guix-package))
-  ;;        (repo-url (plist-get pkg          'repo-url))
-  ;;        (version (plist-get pkg           'version))
-  ;;        (propagated-inputs (plist-get pkg 'propagated-inputs))
-  ;;        (file (plist-get pkg              'file))
-  ;;        ]
-  ;;   (format #t "emacs-pkg-name : ~a\n" emacs-pkg-name)
-  ;;   (format #t "local-repo : ~a\n" local-repo)
-  ;;   (format #t "guix-package : ~a\n" guix-package)
-  ;;   (format #t "repo-url : ~a\n" repo-url)
-  ;;   (format #t "version : ~a\n" version)
-  ;;   (format #t "propagated-inputs : ~a\n" propagated-inputs)
-  ;;   (format #t "file : ~a\n" file))
-  (format #t "[make-pkg] pkg : ~a\n" pkg)
+(define (make-emacs-pkg-name pkg-name) (str "emacs-" pkg-name))
+(define (make-emacs-pkg-symb pkg-symb)
+  (let* [(f "[(make-emacs-pkg-symb pkg-symb)]")]
+    (if (symbol? pkg-symb)
+        (symbol-append 'emacs- pkg-symb)
+        (begin
+          (format #t "~a (symbol? pkg-symb) : ~a\n" f (symbol? pkg-symb))
+          pkg-symb))))
 
-  (let* [(url (plist-get pkg 'repo-url))
-         (dst-dir (git-clone-to-tmp url))]
-    (format #t "[make-pkg] dst-dir : ~a\n" dst-dir)
-    (format #t "[make-pkg] (basename dst-dir) : ~a\n" (basename dst-dir))
-    (when dst-dir
-      (let* [
-             ;; (emacs-pkg-name (str (car pkg) "-theme"))
-             (emacs-pkg-name (plist-get pkg 'emacs-pkg-name))
-             ]
-        (format #t "[make-pkg] emacs-pkg-name : ~a\n" emacs-pkg-name)
-        #;
+(define (make-pkg pkg)
+  (let* [(f "[make-pkg]")]
+    ;; (format #t "pkg : ~a\n" pkg)
+    ;; (let* [
+    ;;        (emacs-pkg-name (plist-get pkg    'emacs-pkg-name))
+    ;;        (local-repo (plist-get pkg        'local-repo))
+    ;;        (guix-package (plist-get pkg      'guix-package))
+    ;;        (repo-url (plist-get pkg          'repo-url))
+    ;;        (version (plist-get pkg           'version))
+    ;;        (propagated-inputs (plist-get pkg 'propagated-inputs))
+    ;;        (file (plist-get pkg              'file))
+    ;;        ]
+    ;;   (format #t "emacs-pkg-name : ~a\n" emacs-pkg-name)
+    ;;   (format #t "local-repo : ~a\n" local-repo)
+    ;;   (format #t "guix-package : ~a\n" guix-package)
+    ;;   (format #t "repo-url : ~a\n" repo-url)
+    ;;   (format #t "version : ~a\n" version)
+    ;;   (format #t "propagated-inputs : ~a\n" propagated-inputs)
+    ;;   (format #t "file : ~a\n" file))
+    (format #t "~a pkg : ~a\n" f pkg)
+
+    (let* [(url (plist-get pkg 'repo-url))
+           (dst-dir (git-clone-to-tmp url))]
+      (format #t "~a dst-dir : ~a\n" f dst-dir)
+      (format #t "~a (basename dst-dir) : ~a\n" f (basename dst-dir))
+      (when dst-dir
         (let* [
+               ;; (emacs-pkg-name (str (car pkg) "-theme"))
+               (emacs-pkg-name        (make-emacs-pkg-name (plist-get pkg 'emacs-pkg-name)))
                (verbose               #f)
                (version               (plist-get pkg 'version))
-               (propagated-inputs     (plist-get pkg 'propagated-inputs))
+               (emacs-propagated-inputs (map make-emacs-pkg-symb
+                                             (cdr (cadr (plist-get pkg 'propagated-inputs)))))
+               (propagated-inputs     `(propagated-inputs (list ,@emacs-propagated-inputs)))
+               ;; (propagated-inputs     (plist-get pkg 'propagated-inputs))
                (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
                (commit                (latest-commit-hash dst-dir #:verbose verbose))
 
-               (package-specification
-                (remove unspecified?
-                        (list
-                         `(name ,emacs-pkg-name)
-                         `(version (git-version ,version revision commit))
-                         `(source
-                           (origin
-                             (method git-fetch)
-                             (uri (git-reference
-                                   (url ,url)
-                                   (commit commit)))
-                             (file-name (git-file-name name version))
-                             (sha256
-                              (base32 ,(latest-base32 dst-dir #:verbose verbose)))))
-                         `(build-system emacs-build-system)
-                         (unless (equal? '(propagated-inputs (list))
-                                         propagated-inputs)
-                           propagated-inputs)
-                         `(home-page ,url)
-                         `(synopsis "") ;; TODO synopsis
-                         `(description "") ;; TODO description
-                         `(license license:gpl3+))))
                ]
+          ;; (format #t "~a emacs-propagated-inputs : ~a\n" f emacs-propagated-inputs)
+          ;; (format #t "~a propagated-inputs : ~a\n" f propagated-inputs)
+          ;; (format #t "~a (cadr (plist-get pkg 'propagated-inputs)) : ~a\n" f (cadr (plist-get pkg 'propagated-inputs)))
+          ;; (format #t "~a emacs-pkg-name : ~a\n" f emacs-pkg-name)
+          (let* [
+                 (package-specification
+                  (remove unspecified?
+                          (list
+                           `(name ,emacs-pkg-name)
+                           `(version (git-version ,version revision commit))
+                           `(source
+                             (origin
+                               (method git-fetch)
+                               (uri (git-reference
+                                     (url ,url)
+                                     (commit commit)))
+                               (file-name (git-file-name name version))
+                               (sha256
+                                (base32 ,(latest-base32 dst-dir #:verbose verbose)))))
+                           `(build-system emacs-build-system)
+                           (unless (equal? '(propagated-inputs (list))
+                                           propagated-inputs)
+                             propagated-inputs)
+                           `(home-page ,url)
+                           `(synopsis "") ;; TODO synopsis
+                           `(description "") ;; TODO description
+                           `(license license:gpl3+))))
+                 ]
 
-          ;; (format #t "(equal? '(propagated-inputs (list)) propagated-inputs): ~a\n"
-          ;;         (equal? '(propagated-inputs (list)) propagated-inputs))
-          ;; (format #t "package-specification: ~a\n" package-specification)
+            ;; (format #t "(equal? '(propagated-inputs (list)) propagated-inputs): ~a\n"
+            ;;         (equal? '(propagated-inputs (list)) propagated-inputs))
+            ;; (format #t "package-specification: ~a\n" package-specification)
 
-          (pretty-print->string
-           `(define-public ,emacs-pkg-name-symbol
-              (let ((commit ,commit)
-                    (revision "0"))
-                (package ,@package-specification)))))))))
+            (pretty-print->string
+             `(define-public ,emacs-pkg-name-symbol
+                (let ((commit ,commit)
+                      (revision "0"))
+                  (package ,@package-specification))))))))))
 
 ;; (define (prepare pkg)
 ;;   (pretty-print->string
