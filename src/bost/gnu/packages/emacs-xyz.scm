@@ -1277,9 +1277,48 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-pylookup")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         ;; "^layers\\/\\+lang\\/python\\/local\\/pylookup\\/pylookup\\.py$" ;; doesn't work
+         ;; "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"           ;; doesn't work
+         ;; "^layers/.*\\.py$"                                               ;; doesn't work
+         ;; "^.*\\.py$"                                                      ;; works
+         "\\.py$"
+         %default-include)
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'specify-python-location
+            (lambda* (#:key inputs #:allow-other-keys)
+              (let ((python3 (search-input-file inputs "/bin/python3")))
+                (substitute* '("layers/+lang/python/local/pylookup/pylookup.py")
+                  (("/usr/bin/env python3?") python3)))))
+          (replace 'expand-load-path
+            (lambda args
+              (with-directory-excursion
+                  "layers/+lang/python/local/pylookup"
+                (apply (assoc-ref %standard-phases 'expand-load-path) args))))
+          (replace 'make-autoloads
+            (lambda args
+              (with-directory-excursion
+                  "layers/+lang/python/local/pylookup"
+                (apply (assoc-ref %standard-phases 'make-autoloads) args))))
+          (replace 'install
+            (lambda args
+              (with-directory-excursion
+                  "layers/+lang/python/local/pylookup"
+                (apply (assoc-ref %standard-phases 'install) args))))
+          (replace 'build
+            (lambda args
+              (with-directory-excursion
+                  "layers/+lang/python/local/pylookup"
+                (apply (assoc-ref %standard-phases 'build) args)))))))
+    ;; (propagated-inputs
+    ;;  (list
+    ;;   emacs-browse-url ;; missing
+    ;;   emacs-simple     ;; missing
+    ;;   ))
+    (inputs (list python))))
 
 (define-public emacs-evil-evilified-state
   (package
