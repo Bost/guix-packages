@@ -1136,9 +1136,33 @@
     (propagated-inputs
      (list (@(gnu packages emacs-xyz) emacs-window-purpose)))
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+        "^layers/\\+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin\\.el$"
+        %default-include)
+      #:phases
+      #~(modify-phases %standard-phases
+          (replace 'expand-load-path
+            (lambda args
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                (apply (assoc-ref %standard-phases 'expand-load-path) args))))
+          (replace 'make-autoloads
+            (lambda args
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                (apply (assoc-ref %standard-phases 'make-autoloads) args))))
+          (replace 'install
+            (lambda args
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                (apply (assoc-ref %standard-phases 'install) args))))
+          (replace 'build
+            (lambda args
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                (apply (assoc-ref %standard-phases 'build) args)))))))))
 
 (define-public emacs-spacemacs-whitespace-cleanup
   (package
