@@ -1253,21 +1253,24 @@
       #~(modify-phases %standard-phases
           (replace 'expand-load-path
             (lambda args
-              (with-directory-excursion "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
                 (apply (assoc-ref %standard-phases 'expand-load-path) args))))
           (replace 'make-autoloads
             (lambda args
-              (with-directory-excursion "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
                 (apply (assoc-ref %standard-phases 'make-autoloads) args))))
           (replace 'install
             (lambda args
-              (with-directory-excursion "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
                 (apply (assoc-ref %standard-phases 'install) args))))
           (replace 'build
             (lambda args
-              (with-directory-excursion "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
-                (apply (assoc-ref %standard-phases 'build) args))))
-          )))))
+              (with-directory-excursion
+                  "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+                (apply (assoc-ref %standard-phases 'build) args)))))))))
 
 (define-public emacs-pylookup
   (package
