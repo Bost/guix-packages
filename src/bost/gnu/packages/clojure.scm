@@ -5,6 +5,10 @@
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix build-system ant)
+  #:use-module (guix build-system ant)
+  #:use-module (guix build-system copy)
+  #:use-module (guix build-system clojure)
+
   #:use-module (ice-9 match))
 
 (define-public clojure
@@ -172,3 +176,49 @@ designs.")
                      license:bsd-3
                      license:asl2.0
                      license:cpl1.0)))))
+
+(define-public clojure-tools ;; PR sent
+  (package
+    (name "clojure-tools")
+    (version "1.12.0.1488")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "https://download.clojure.org/install/clojure-tools-"
+                           version
+                           ".tar.gz"))
+       (sha256 (base32 "0hh78b22shj530armm9850cqr85wqdxyqfzx4qf45w5y200bw6dw"))))
+    (build-system copy-build-system)
+    (arguments
+     `(#:install-plan
+       '(("deps.edn" "lib/clojure/")
+         ("example-deps.edn" "lib/clojure/")
+         ("tools.edn" "lib/clojure/")
+         ("exec.jar" "lib/clojure/libexec/")
+         (,(string-append "clojure-tools-" version ".jar") "lib/clojure/libexec/")
+         ("clojure" "bin/")
+         ("clj" "bin/"))
+       #:modules ((guix build copy-build-system)
+                  (guix build utils)
+                  (srfi srfi-1)
+                  (ice-9 match))
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'fix-paths
+           (lambda* (#:key outputs #:allow-other-keys)
+             (substitute* "clojure"
+               (("PREFIX") (string-append (assoc-ref outputs "out") "/lib/clojure")))
+             (substitute* "clj"
+               (("BINDIR") (string-append (assoc-ref outputs "out") "/bin"))
+               (("rlwrap") (which "rlwrap"))))))))
+    (inputs (list
+             (@(gnu packages readline) rlwrap)
+             (@(gnu packages clojure) clojure)
+             (@(gnu packages clojure) clojure-tools-deps)
+             (@(gnu packages java) java-commons-logging-minimal)))
+    (home-page "https://clojure.org/releases/tools")
+    (synopsis "CLI tools for the Clojure programming language")
+    (description "The Clojure command line tools can be used to start a
+Clojure repl, use Clojure and Java libraries, and start Clojure programs.")
+    (license license:epl1.0)))
+
