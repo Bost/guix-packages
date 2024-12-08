@@ -193,8 +193,9 @@ designs.")
        (sha256 (base32 "0hh78b22shj530armm9850cqr85wqdxyqfzx4qf45w5y200bw6dw"))
        ;; Remove AOT compiled JAR.  The other JAR only contains uncompiled
        ;; Clojure source code.
-       (snippet
-        `(delete-file ,(string-append "clojure-tools-" version ".jar")))))
+       ;; (snippet
+       ;;  `(delete-file ,(string-append "clojure-tools-" version ".jar")))
+       ))
     (build-system copy-build-system)
     (arguments
      `(#:install-plan
