@@ -2493,3 +2493,30 @@ unique identifiers directly in Emacs.")
  or headers.  The extension streamlines script creation by ensuring the
  correct interpreter is specified, enhancing workflow efficiency.")
       (license license:gpl3+))))
+
+(define-public emacs-indent-guide
+  (let ((commit "d388c3387781a370ca13233ff445d03f3c5cf12f")
+        (revision "0"))
+    (package
+      (name "emacs-indent-guide")
+      (version (git-version "2.3.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/zk-phi/indent-guide")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/zk-phi/indent-guide")
+      (synopsis "Show vertical lines to guide indentation in Emacs")
+      (description
+       "This package provides a minor mode for Emacs that displays vertical
+ lines to visually guide indentation levels.  It enhances code readability by
+ indicating indentation depth, making it easier to understand code structure.
+  The mode is customizable, allowing users to adjust the appearance of the
+ guide lines to fit their preferences.")
+      (license license:gpl3+))))
