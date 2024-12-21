@@ -2465,3 +2465,31 @@ unique identifiers directly in Emacs.")
  manually, set to activate until the next keypress, or applied for a specified
  interval, enhancing the user's focus on the active point in the buffer.")
       (license license:gpl3+))))
+
+(define-public emacs-insert-shebang
+  (let ((commit "cc8cea997a8523bce9f303de993af3a73eb0d2e2")
+        (revision "0"))
+    (package
+      (name "emacs-insert-shebang")
+      (version (git-version "0.9.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://gitlab.com/psachin/insert-shebang.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0wvcdv2lfv68r3zyfzr9yahm3gvc60yzk8zi39l70vsgzh4yfq91"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://gitlab.com/psachin/insert-shebang.git")
+      (synopsis "Automatic shebang line insertion for Emacs")
+      (description
+       "This package provides an Emacs extension that automatically inserts
+ shebang lines into scripts based on their file types.  It supports various
+ scripting languages and can be customized to recognize additional file types
+ or headers.  The extension streamlines script creation by ensuring the
+ correct interpreter is specified, enhancing workflow efficiency.")
+      (license license:gpl3+))))
