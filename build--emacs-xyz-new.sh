@@ -104,7 +104,6 @@ guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xy
 guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-sqlite3)'
 guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-string-edit-at-point)'
 guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-systemd)'
-guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-tblui)'
 guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-transient)'
 guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-treemacs-evil)'
 guix build -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz-new) emacs-treemacs-icons-dired)'

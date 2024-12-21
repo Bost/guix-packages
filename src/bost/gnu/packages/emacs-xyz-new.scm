@@ -2451,28 +2451,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-tblui
-  (let ((commit "62ab5f62982c061a902fd3e54d94a68a4706572c")
-        (revision "0"))
-    (package
-      (name "emacs-tblui")
-      (version (git-version "20231201.120006\n0.2.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Yuki-Inoue/tblui.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1fq0dsvh9a8h7n4d4cj7sn73nzbg5chqjby9pzpbs5grx4kf0zi6"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list magit-popup dash tablist))
-      (home-page "https://github.com/Yuki-Inoue/tblui.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-transient
   (let ((commit "a541b996bd03a21a81edc02f333016fd906b91b6")
         (revision "0"))
