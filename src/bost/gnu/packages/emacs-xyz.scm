@@ -2405,3 +2405,63 @@ library allows for time-based, name-based (using MD5 or SHA-1
 hashing), and random UUID generation, facilitating the creation of
 unique identifiers directly in Emacs.")
      (license license:gpl3+))))
+
+(define-public emacs-vline
+  (let ((commit "f5d7b5743dceca75b81c8c95287cd5b0341debf9")
+        (revision "0"))
+    (package
+      (name "emacs-vline")
+      (version (git-version "1.11" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/buzztaiki/vline")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "06qqpjaxsacslxb3f2bm790lwygbq6387n9ccn4v9vz9xlyn9dmi"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/buzztaiki/vline")
+      (synopsis "Column highlighting mode for Emacs")
+      (description
+       "This package provides `vline-mode`, a minor mode for Emacs that
+ highlights the entire column at the cursor's current position.  It enhances
+ text editing by visually indicating the vertical line, aiding in code
+ readability and alignment.  The mode is customizable, allowing users to
+ adjust the appearance and behavior of the column highlighting to suit their
+ preferences.")
+      (license license:gpl3+))))
+
+(define-public emacs-xhair
+  (let ((commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")
+        (revision "0"))
+    (package
+      (name "emacs-xhair")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Boruch-Baum/emacs-xhair")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-vline
+        ))
+      (home-page "https://github.com/Boruch-Baum/emacs-xhair")
+      (synopsis "Highlight current line and column in Emacs")
+      (description
+       "This package provides functionality to highlight the current line and
+ column in Emacs, creating a crosshair effect at the point.  It combines
+ `vline-mode` and `hl-line-mode` to visually emphasize the cursor position,
+ aiding in text navigation and editing.  The highlighting can be toggled
+ manually, set to activate until the next keypress, or applied for a specified
+ interval, enhancing the user's focus on the active point in the buffer.")
+      (license license:gpl3+))))
