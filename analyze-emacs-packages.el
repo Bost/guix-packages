@@ -60,6 +60,7 @@
                 help-fns
                 help-mode
                 hierarchy
+                hl-line
                 ido
                 ispell
                 iswitchb ;; deprecated
