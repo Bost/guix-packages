@@ -1363,48 +1363,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-indent-guide
-  (let ((commit "d388c3387781a370ca13233ff445d03f3c5cf12f")
-        (revision "0"))
-    (package
-      (name "emacs-indent-guide")
-      (version (git-version "2.3.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/zk-phi/indent-guide")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/zk-phi/indent-guide")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-insert-shebang
-  (let ((commit "cc8cea997a8523bce9f303de993af3a73eb0d2e2")
-        (revision "0"))
-    (package
-      (name "emacs-insert-shebang")
-      (version (git-version "0.9.7" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://gitlab.com/psachin/insert-shebang")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0wvcdv2lfv68r3zyfzr9yahm3gvc60yzk8zi39l70vsgzh4yfq91"))))
-      (build-system emacs-build-system)
-      (home-page "https://gitlab.com/psachin/insert-shebang")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-journalctl-mode
   (let ((commit "631d10a5c8f466c94c38c3cd7410a27026f5f822")
         (revision "0"))
@@ -2663,28 +2621,6 @@
           (base32 "0bv0jky553kyvp8g2fhglnq5af6nqassswmjxlr8vz3ahyy06l3y"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/thierryvolpiatto/wfnames")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-xhair
-  (let ((commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")
-        (revision "0"))
-    (package
-      (name "emacs-xhair")
-      (version (git-version "20210801.42255\n1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Boruch-Baum/emacs-xhair")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list vline hl-line))
-      (home-page "https://github.com/Boruch-Baum/emacs-xhair")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
