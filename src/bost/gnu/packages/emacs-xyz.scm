@@ -2520,3 +2520,46 @@ unique identifiers directly in Emacs.")
   The mode is customizable, allowing users to adjust the appearance of the
  guide lines to fit their preferences.")
       (license license:gpl3+))))
+
+(define-public emacs-wfnames
+  (let ((commit "164e4efa2a96bed201a0a5402e137ebeef15bcc6")
+        (revision "0"))
+    (package
+      (name "emacs-wfnames")
+      (version (git-version "1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/thierryvolpiatto/wfnames")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0bv0jky553kyvp8g2fhglnq5af6nqassswmjxlr8vz3ahyy06l3y"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/thierryvolpiatto/wfnames")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-yapfify
+  (let ((commit "c9347e3b1dec5fc8d34883e206fcdc8500d22368")
+        (revision "0"))
+    (package
+      (name "emacs-yapfify")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/JorisE/yapfify")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gkz4f0yfpfchh78v1c0plbjafag23y18gcg8a8rc5s21nqqhkj4"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/JorisE/yapfify")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
