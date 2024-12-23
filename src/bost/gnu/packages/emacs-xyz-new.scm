@@ -917,28 +917,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-helm-git-grep
-  (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
-        (revision "0"))
-    (package
-      (name "emacs-helm-git-grep")
-      (version (git-version "0.10.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/yasuyk/helm-git-grep")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list helm-files helm))
-      (home-page "https://github.com/yasuyk/helm-git-grep")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-helm-purpose
   (let ((commit "9ff4c21c1e9ebc7afb851b738f815df7343bb287")
         (revision "0"))
@@ -1983,5 +1961,115 @@
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+;; (define-public emacs-helm-git-grep
+;; ;;; guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz) emacs-helm-git-grep)'
+;; ;;; doesn't compile:
+;; ;;;   Error: void-variable (helm-git-grep-with-exclude-file-pattern-obsolete-message)
+;;   (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-helm-git-grep")
+;;       (version (git-version "0.10.1" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/yasuyk/helm-git-grep")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list
+;;         emacs-helm-files
+;;         (@(gnu packages emacs-xyz) emacs-helm)))
+;;       (home-page "https://github.com/yasuyk/helm-git-grep")
+;;       (synopsis "Helm interface for Git grep in Emacs")
+;;       (description
+;;        "This package provides a Helm interface for Git's grep functionality
+;;  within Emacs. It allows users to perform searches across a Git repository,
+;;  including submodules, and view results in an interactive Helm buffer.
+;;  Features include opening results in other windows or frames, toggling case
+;;  sensitivity during searches, and saving search results to a writable grep
+;;  buffer for further editing. Integration with tools like wgrep enhances the
+;;  usability of search results.")
+;;       (license license:gpl3+))))
+
+;; (define-public emacs-helm-git-grep
+;; ;;; guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz) emacs-helm-git-grep)'
+;; ;;; doesn't compile:
+;; ;;;   Error: void-variable (helm-git-grep-with-exclude-file-pattern-obsolete-message)
+;;   (let ((commit "e3ae5f60585ac0213876dca5093aca467db1ac5b")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-helm-git-grep")
+;;       (version (git-version "0.10.0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/yasuyk/helm-git-grep")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "0bld5kjzgjhkjcjc7b66kg55yb7pzrbnxfqx79f5glxckbp2pxjr"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list
+;;         emacs-helm-files
+;;         (@(gnu packages emacs-xyz) emacs-helm)))
+;;       (home-page
+;;        "https://github.com/yasuyk/helm-git-grep")
+;;       (synopsis "Helm interface for Git grep in Emacs")
+;;       (description
+;;        "This package provides a Helm interface for Git's grep functionality
+;;  within Emacs. It allows users to perform searches across a Git repository,
+;;  including submodules, and view results in an interactive Helm buffer.
+;;  Features include opening results in other windows or frames, toggling case
+;;  sensitivity during searches, and saving search results to a writable grep
+;;  buffer for further editing. Integration with tools like wgrep enhances the
+;;  usability of search results.")
+;;       (license license:gpl3+))))
+
+;; (define-public emacs-helm-git-grep
+;; ;;; guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz) emacs-helm-git-grep)'
+;; ;;; doesn't compile:
+;; ;;;   Error: file-missing ("Cannot open load file" "No such file or directory" "helm-elscreen")
+;;   (let ((commit "6ca2fcd44510305cf019815d61bf65eca200c238")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-helm-git-grep")
+;;       (version (git-version "0.9.0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/yasuyk/helm-git-grep")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32
+;;            "0qmxccwpv7l5lbhv9n7ylikzcggdr99qzci868ghf33p4zhqyrj5"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list
+;;         emacs-helm-files
+;;         (@(gnu packages emacs-xyz) emacs-helm)))
+;;       (home-page
+;;        "https://github.com/yasuyk/helm-git-grep")
+;;       (synopsis "Helm interface for Git grep in Emacs")
+;;       (description
+;;        "This package provides a Helm interface for Git's grep functionality
+;;  within Emacs. It allows users to perform searches across a Git repository,
+;;  including submodules, and view results in an interactive Helm buffer.
+;;  Features include opening results in other windows or frames, toggling case
+;;  sensitivity during searches, and saving search results to a writable grep
+;;  buffer for further editing. Integration with tools like wgrep enhances the
+;;  usability of search results.")
+;;       (license license:gpl3+))))
 
 (format #t "############## emacs-xyz-new done.\n")
