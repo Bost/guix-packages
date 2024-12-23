@@ -1708,42 +1708,6 @@ performance-oriented and tidy.")
      )
     (name "emacs-magit-section")))
 
-(define-public emacs-helm-git-grep
-  (let (
-        (commit
-         "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
-        (revision "0")
-        )
-    (package
-      (name "emacs-helm-git-grep")
-      (version
-       "0.9.0"
-       ;; "0.10.1"
-       ;; (git-version "0.10.1" revision commit)
-       )
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/yasuyk/helm-git-grep")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0qmxccwpv7l5lbhv9n7ylikzcggdr99qzci868ghf33p4zhqyrj5"    ;; 0.9.0
-           ;; "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv" ;; 0.10.1
-           ))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-helm-files
-        (@(gnu packages emacs-xyz) emacs-helm)))
-      (home-page
-       "https://github.com/yasuyk/helm-git-grep")
-      (synopsis "Helm for git grep ")
-      (description "Helm for git-grep, an incremental git-grep.")
-      (license license:gpl3+))))
-
 (define-public emacs-chatgpt-shell ;; PR sent
   (package
     (name "emacs-chatgpt-shell")
