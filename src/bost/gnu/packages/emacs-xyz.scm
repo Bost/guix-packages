@@ -2708,3 +2708,10 @@ unique identifiers directly in Emacs.")
  Additionally, it supports forward and inverse search between Emacs and PDF
  viewers, enhancing the LaTeX editing workflow.")
       (license license:gpl3+))))
+
+(define-public emacs-sqlite3
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-sqlite3-api))
+    (name "emacs-sqlite3")))
+
