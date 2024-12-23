@@ -2900,3 +2900,43 @@ unique identifiers directly in Emacs.")
  Users can switch between the darker and softer variants to suit their
  preferences.")
       (license license:gpl3+))))
+
+(define-public emacs-org-project-capture
+  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
+        (revision "0"))
+    (package
+      (name "emacs-org-project-capture")
+      (version (git-version "3.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/colonelpanic8/org-project-capture")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)
+        (@(gnu packages emacs-xyz) emacs-helm)
+        (@(gnu packages emacs-xyz) emacs-helm-org)
+        (@(gnu packages emacs-xyz) emacs-projectile)
+        (@(gnu packages emacs-xyz) emacs-s)
+        ))
+      (home-page "https://github.com/colonelpanic8/org-project-capture")
+      (synopsis "Integrate Org-mode TODOs with project management in Emacs")
+      (description
+       "This package integrates Org-mode TODOs with project management tools
+ like Projectile and project.el in Emacs. It allows maintaining
+ project-specific TODO lists, specifying storage locations for these lists,
+ and offers customizable capture strategies. Keybindings can be established
+ for easy access, enhancing the organization and management of tasks within
+ Emacs.")
+      (license license:gpl3+))))
+
+(define-public emacs-org-category-capture
+  (package
+    (inherit emacs-org-project-capture)
+    (name "emacs-org-category-capture")))
