@@ -495,29 +495,6 @@
 ;;       (description "")
 ;;       (license license:gpl3+))))
 
-(define-public emacs-eat
-  (let ((commit "3a6f418f55d183b9d86f99c140caed4ba3d44f93")
-        (revision "0"))
-    (package
-      (name "emacs-eat")
-      (version (git-version "0.9.4" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://codeberg.org/akib/emacs-eat")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0wbfkhsy5c3agm7bw0g4n37mf6jghqp79hsxpbgrfy8bbb77j5pb"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list url term shell color ansi-color subr-x compat))
-      (home-page "https://codeberg.org/akib/emacs-eat")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-ef-themes
   (let ((commit "10515381c7c0016e349dc5d736b80d1e699d9cdf")
         (revision "0"))
@@ -1297,28 +1274,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-iedit
-  (let ((commit "27c61866b1b9b8d77629ac702e5f48e67dfe0d3b")
-        (revision "0"))
-    (package
-      (name "emacs-iedit")
-      (version (git-version "0.9.9.9.9" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/victorhge/iedit")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "07z659w9m94h79wnvs2fg80f5impidqhsmg6awc3fxwd3ib0yzih"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list iedit-lib))
-      (home-page "https://github.com/victorhge/iedit")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-impatient-mode
   (let ((commit "7b54b015de4b3b81266291e9cfe688f7e20eb40a")
         (revision "0"))
@@ -1488,28 +1443,6 @@
           (base32 "0yw1ihns914k8va5mhphch1zix09x22cpgrbw968mh8hviknyvzr"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/diasjorge/emacs-load-env-vars")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-lsp-latex
-  (let ((commit "36a37a8e0a6b0edbea8e67dab89d12980d2a368f")
-        (revision "0"))
-    (package
-      (name "emacs-lsp-latex")
-      (version (git-version "20241006.800" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/ROCKTAKEY/lsp-latex")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0yfmqjp1bmp8rp9vl9y5qmic3wr2f5p10gyb2rlmpgfnx5c8575g"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list consult lsp-mode))
-      (home-page "https://github.com/ROCKTAKEY/lsp-latex")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2015,27 +1948,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-prettier-js
-  (let ((commit "e9b73e81d3e1642aec682195f127a42dfb0b5774")
-        (revision "0"))
-    (package
-      (name "emacs-prettier-js")
-      (version (git-version "0.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/prettier/prettier-emacs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0hj4fv3fgc60i6jrsx4a81s5c9fsxxafhhs3q2q1dypsscjci9ph"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/prettier/prettier-emacs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-py-isort
   (let ((commit "e67306f459c47c53a65604e4eea88a3914596560")
         (revision "0"))
@@ -2254,27 +2166,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list reformatter))
       (home-page "https://github.com/purcell/emacs-shfmt")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-sqlite3
-  (let ((commit "a601c9965e4d0178705a64b7d4f88709ca9aea66")
-        (revision "0"))
-    (package
-      (name "emacs-sqlite3")
-      (version (git-version "0.17" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/pekingduck/emacs-sqlite3-api")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1d1r65ybcf5idbs8sv0l3dna4l1wy3jba9dvv1kkz7zj6qhr48fs"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/pekingduck/emacs-sqlite3-api")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
