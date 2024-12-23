@@ -2642,3 +2642,69 @@ unique identifiers directly in Emacs.")
  workflows.  The package supports customization for non-standard Maven setups
  and offers functions for running specific Maven goals.")
       (license license:gpl3+))))
+
+(define-public emacs-systemd
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-systemd-mode))
+    (name "emacs-systemd")))
+
+(define-public emacs-prettier-js
+  (let ((commit "e9b73e81d3e1642aec682195f127a42dfb0b5774")
+        (revision "0"))
+    (package
+      (name "emacs-prettier-js")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/prettier/prettier-emacs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0hj4fv3fgc60i6jrsx4a81s5c9fsxxafhhs3q2q1dypsscjci9ph"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/prettier/prettier-emacs")
+      (synopsis "Emacs minor mode for formatting code with Prettier")
+      (description
+       "This package provides an Emacs minor mode that formats code using
+ Prettier, an opinionated code formatter supporting multiple languages. It
+ enables automatic code formatting on file save, ensuring consistent code
+ style across JavaScript, TypeScript, JSON, CSS, and other supported
+ languages. The package allows customization of Prettier's command-line
+ arguments and integrates seamlessly with popular Emacs modes like `js2-mode`
+ and `web-mode`. For optimal performance, ensure that the Prettier executable
+ is installed and accessible in your system's PATH.")
+      (license license:gpl3+))))
+
+(define-public emacs-lsp-latex
+  (let ((commit "36a37a8e0a6b0edbea8e67dab89d12980d2a368f")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-latex")
+      (version (git-version "20241006.800" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ROCKTAKEY/lsp-latex")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0yfmqjp1bmp8rp9vl9y5qmic3wr2f5p10gyb2rlmpgfnx5c8575g"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-consult)
+        (@(gnu packages emacs-xyz) emacs-lsp-mode)))
+      (home-page "https://github.com/ROCKTAKEY/lsp-latex")
+      (synopsis "Enhanced LSP support for LaTeX in Emacs using Texlab")
+      (description
+       "This package provides comprehensive Language Server Protocol (LSP)
+ support for LaTeX editing in Emacs, utilizing the Texlab server. It extends
+ the basic functionality offered by lsp-mode's lsp-tex.el, delivering features
+ such as real-time syntax checking, code completion, and document formatting.
+ Additionally, it supports forward and inverse search between Emacs and PDF
+ viewers, enhancing the LaTeX editing workflow.")
+      (license license:gpl3+))))
