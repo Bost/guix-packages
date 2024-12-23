@@ -569,8 +569,15 @@
       (build-system emacs-build-system)
       (propagated-inputs (list popup s dash))
       (home-page "https://github.com/Wilfred/emacs-refactor")
-      (synopsis "")
-      (description "")
+      (synopsis "Framework for language-specific code refactoring in Emacs")
+      (description
+       "This package provides Emacs Refactor (EMR), a framework that offers
+ language-specific refactoring commands within Emacs. It supports various
+ programming languages, including Emacs Lisp, JavaScript, Ruby, and Scheme,
+ enabling context-sensitive refactoring operations such as extracting
+ functions or variables, inlining code, and tidying imports. EMR enhances code
+ maintainability and development efficiency by integrating refactoring tools
+ directly into the Emacs environment.")
       (license license:gpl3+))))
 
 (define-public emacs-erc-tweet
@@ -591,8 +598,14 @@
       (build-system emacs-build-system)
       (propagated-inputs (list url-queue erc))
       (home-page "https://github.com/kidd/erc-tweet.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Display inline tweets in ERC buffers")
+      (description
+       "This package enhances Emacs' ERC (Emacs IRC client) by displaying
+ tweet content directly within IRC buffers. When a Twitter URL is detected in
+ the chat, the corresponding tweet text is fetched and shown inline, providing
+ immediate context without the need to open external links. This feature
+ improves the chat experience by integrating external content seamlessly into
+ the conversation.")
       (license license:gpl3+))))
 
 (define-public emacs-erc-view-log
