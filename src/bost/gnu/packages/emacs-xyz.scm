@@ -2538,8 +2538,14 @@ unique identifiers directly in Emacs.")
           (base32 "0bv0jky553kyvp8g2fhglnq5af6nqassswmjxlr8vz3ahyy06l3y"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/thierryvolpiatto/wfnames")
-      (synopsis "")
-      (description "")
+      (synopsis "Edit multiple filenames directly within Emacs buffers")
+      (description
+       "This package allows users to edit multiple filenames directly within
+ an Emacs buffer. It supports editing lists of absolute file paths, enabling
+ modifications to both filenames and their directory components. Changes are
+ highlighted, and file completion is provided to streamline the renaming
+ process. This tool is particularly useful for batch renaming files across
+ various directories without leaving the Emacs environment.")
       (license license:gpl3+))))
 
 (define-public emacs-yapfify
@@ -2559,8 +2565,13 @@ unique identifiers directly in Emacs.")
           (base32 "0gkz4f0yfpfchh78v1c0plbjafag23y18gcg8a8rc5s21nqqhkj4"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/JorisE/yapfify")
-      (synopsis "")
-      (description "")
+      (synopsis "Emacs minor mode for formatting Python code with YAPF")
+      (description
+       "This package provides an Emacs minor mode, `yapf-mode`, which formats
+ Python code using YAPF. It can be configured to automatically format buffers
+ before saving, ensuring consistent code style. Unlike similar tools, `yapfify`
+ operates directly on the original file, respecting project-specific YAPF
+ configurations.")
       (license license:gpl3+))))
 
 (define-public emacs-smeargle
