@@ -996,25 +996,25 @@ company-mode.")
       (license license:gpl3+))))
 
 (define-public emacs-copilot
-  (let ((commit "15a698ebc1d6ffa10da7d6d7e9f972786d0ce526")
+  (let ((commit "d2126f288cebd9cd7e768c53a4cbfa6eedcb0666")
         (revision "0"))
     (package
       (name "emacs-copilot")
-      (version (git-version "0" revision commit))
+      (version (git-version "0.0.1" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/zerolfx/copilot.el.git")
+               (url "https://github.com/copilot-emacs/copilot.el")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0j45sq1ayrcydzlabcszzqybsajwdlnjrr0zs4ghckr2iw8g5rgz"))))
+           "14qnhp9pzilkrkaz2w52ylanjg44idi41dg6g7lqqc4fk0ib12kj"))))
       (build-system emacs-build-system)
       (arguments
        (list
-        #:include #~(cons "^dist/" %default-include)
+        #:include #~(cons "^assets/" %default-include)
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'substitute-copilot-node-executable
@@ -1024,11 +1024,15 @@ company-mode.")
                    (search-input-file inputs "/bin/node"))))))))
       (inputs (list (@(gnu packages node) node-lts)))
       (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-dash)
-             (@(gnu packages emacs-xyz) emacs-editorconfig)
-             (@(gnu packages emacs-xyz) emacs-s)))
-      (home-page
-       "https://github.com/zerolfx/copilot.el.git")
+       (list
+        ;; emacs-copilot-balancer
+        (@(gnu packages emacs-xyz) emacs-dash)
+        (@(gnu packages emacs-xyz) emacs-editorconfig)
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-jsonrpc)
+        ))
+      (home-page "https://github.com/copilot-emacs/copilot.el")
       (synopsis "An unofficial Copilot plugin for Emacs")
       (description
        "Copilot.el is an Emacs plugin for GitHub Copilot. This plugin is
