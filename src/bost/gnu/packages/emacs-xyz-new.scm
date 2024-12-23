@@ -1599,27 +1599,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-mvn
-  (let ((commit "223723d9ceeb2878b884e83abb8ca74ad2e42081")
-        (revision "0"))
-    (package
-      (name "emacs-mvn")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/apgwoz/mvn-el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1sl7kfg5w73cw9mv4x1m497dg27h42zgx2ywl4s8fmx2k9f2pq1q"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/apgwoz/mvn-el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-nose
   (let ((commit "3b517aff31529bab33f8d7b562bd17aff0107fd1")
         (revision "0"))
@@ -1866,27 +1845,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list ansi-color pkg-info f dash compile))
       (home-page "https://github.com/tonini/overseer.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-pcsv
-  (let ((commit "aa421d12c0da0adb9bc74a050a591dcbabf934ae")
-        (revision "0"))
-    (package
-      (name "emacs-pcsv")
-      (version (git-version "1.4.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/mhayashi1120/Emacs-pcsv")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "15pwxzr8k98k82p9ni49hh84fh4mrcdcd7nx7xgv3lpm5nj0ix9z"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/mhayashi1120/Emacs-pcsv")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2365,27 +2323,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-smeargle
-  (let ((commit "afe34e7e3ce811d44880bca11f9fe1e3d91e272f")
-        (revision "0"))
-    (package
-      (name "emacs-smeargle")
-      (version (git-version "0.03" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacsorphanage/smeargle")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1yy2lqvn67dr6jhbyqv3zd93rmpw7bggklb1hbhp8spagflvj6li"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/emacsorphanage/smeargle")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-sqlite3
   (let ((commit "a601c9965e4d0178705a64b7d4f88709ca9aea66")
         (revision "0"))
@@ -2578,48 +2515,6 @@
           (base32 "0y34sb1b3sgkn3kfsw0hxv9sw4xshizyynbnbica6vdckfvxdnqn"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/volrath/treepy.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-wfnames
-  (let ((commit "164e4efa2a96bed201a0a5402e137ebeef15bcc6")
-        (revision "0"))
-    (package
-      (name "emacs-wfnames")
-      (version (git-version "1.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/thierryvolpiatto/wfnames")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0bv0jky553kyvp8g2fhglnq5af6nqassswmjxlr8vz3ahyy06l3y"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/thierryvolpiatto/wfnames")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-yapfify
-  (let ((commit "c9347e3b1dec5fc8d34883e206fcdc8500d22368")
-        (revision "0"))
-    (package
-      (name "emacs-yapfify")
-      (version (git-version "1.0.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/JorisE/yapfify")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0gkz4f0yfpfchh78v1c0plbjafag23y18gcg8a8rc5s21nqqhkj4"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/JorisE/yapfify")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
