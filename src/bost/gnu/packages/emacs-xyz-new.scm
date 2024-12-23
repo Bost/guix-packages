@@ -939,27 +939,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-highlight-parentheses
-  (let ((commit "965b18dd69eff4457e17c9e84b3cbfdbfca2ddfb")
-        (revision "0"))
-    (package
-      (name "emacs-highlight-parentheses")
-      (version (git-version "2.2.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://sr.ht/~tsdh/highlight-parentheses.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0wvhr5gzaxhn9lk36mrw9h4qpdax5kpbhqj44745nvd75g9awpld"))))
-      (build-system emacs-build-system)
-      (home-page "https://sr.ht/~tsdh/highlight-parentheses.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-hungry-delete
   (let ((commit "d919e555e5c13a2edf4570f3ceec84f0ade71657")
         (revision "0"))
@@ -1236,54 +1215,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list cl))
       (home-page "https://github.com/rasmus-toftdahl-olesen/iss-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-org-category-capture
-  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
-        (revision "0"))
-    (package
-      (name "emacs-org-category-capture")
-      (version (git-version "3.1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/colonelpanic8/org-project-capture")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list org-capture))
-      (home-page "https://github.com/colonelpanic8/org-project-capture")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-org-project-capture
-  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
-        (revision "0"))
-    (package
-      (name "emacs-org-project-capture")
-      (version (git-version "3.1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/colonelpanic8/org-project-capture")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list s
-             org-project-capture-backend
-             org-category-capture
-             dash))
-      (home-page "https://github.com/colonelpanic8/org-project-capture")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
