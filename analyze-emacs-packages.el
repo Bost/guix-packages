@@ -69,6 +69,7 @@
                 lv
                 magit
                 map
+                ob
                 ob-core
                 org
                 package
