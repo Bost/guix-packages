@@ -333,27 +333,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-ctable
-  (let ((commit "48b73742757a3ae5736d825fe49e00034cc453b5")
-        (revision "0"))
-    (package
-      (name "emacs-ctable")
-      (version (git-version "0.1.3" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/kiwanami/emacs-ctable")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "16yrx1z44xs24z2a0gwzf1xhhks1wrzafc5ihf6lbw843rq2jar0"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/kiwanami/emacs-ctable")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-cython-mode
   (let ((commit "3e4790559d3168fe992cf2aa62f01423038cedb5")
         (revision "0"))
@@ -495,28 +474,6 @@
 ;;       (description "")
 ;;       (license license:gpl3+))))
 
-(define-public emacs-ef-themes
-  (let ((commit "10515381c7c0016e349dc5d736b80d1e699d9cdf")
-        (revision "0"))
-    (package
-      (name "emacs-ef-themes")
-      (version (git-version "1.8.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://git.sr.ht/~protesilaos/ef-themes")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0m50dvs5nh522b1nah26m7gqgdshrgg2cj8yv0n6s5262kc8cm49"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list seq))
-      (home-page "https://git.sr.ht/~protesilaos/ef-themes")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-elisp-def
   (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
         (revision "0"))
@@ -612,50 +569,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list popup s dash))
       (home-page "https://github.com/Wilfred/emacs-refactor")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-epc
-  (let ((commit "e1bfa5ca163273859336e3cc89b4b6460f7f8cda")
-        (revision "0"))
-    (package
-      (name "emacs-epc")
-      (version (git-version "0.1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/kiwanami/emacs-epc")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "15nkrjgi64f829isfd6xrhl4zw8jirr8pkas7nisrbk1av868hx0"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list ctable concurrent))
-      (home-page "https://github.com/kiwanami/emacs-epc")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-erc-image
-  (let ((commit "883084f0801d46a5ccf183e51ae9a734755bbb97")
-        (revision "0"))
-    (package
-      (name "emacs-erc-image")
-      (version (git-version "0.9" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/kidd/erc-image.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "081c8pjmpwnmqah7dbpkj20bk7ln57g4n7c1zxzdlsz80pxnfay4"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list image-dired url-queue erc))
-      (home-page "https://github.com/kidd/erc-image.el")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
