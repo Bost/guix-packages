@@ -72,6 +72,7 @@
                 ob
                 ob-core
                 org
+                org-capture
                 package
                 pcase
                 pp
