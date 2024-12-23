@@ -84,3 +84,35 @@ guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pydoc)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pyenv-mode)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pytest)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pyvenv)'
+
+gxse emacs-flycheck-bashate
+gxse emacs-flycheck-credo
+gxse emacs-flycheck-elsa
+gxse emacs-flycheck-pos-tip
+gxse emacs-flyspell-correct-helm
+gxse emacs-gitignore-templates
+gxse emacs-haml-mode
+gxse emacs-helm-comint
+gxse emacs-helm-git-grep
+gxse emacs-helm-purpose
+gxse emacs-highlight-parentheses
+gxse emacs-hungry-delete
+gxse emacs-live-py-mode
+gxse emacs-livid-mode
+gxse emacs-llm
+gxse emacs-load-env-vars
+gxse emacs-molokai
+gxse emacs-ob-elixir
+gxse emacs-omtose-phellack-themes
+gxse emacs-open-junk-file
+gxse emacs-openai
+gxse emacs-org-category-capture
+gxse emacs-org-project-capture
+gxse emacs-org-projectile
+gxse emacs-orgit
+gxse emacs-orgit-forge
+gxse emacs-phpunit
+gxse emacs-pip-requirements
+gxse emacs-py-isort
+gxse emacs-pyenv-mode
+gxse emacs-pytest
