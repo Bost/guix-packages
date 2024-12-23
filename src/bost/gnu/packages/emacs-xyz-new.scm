@@ -1133,27 +1133,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-load-env-vars
-  (let ((commit "3808520efaf9492033f6e11a9bffd68eabf02a0f")
-        (revision "0"))
-    (package
-      (name "emacs-load-env-vars")
-      (version (git-version "0.0.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/diasjorge/emacs-load-env-vars")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0yw1ihns914k8va5mhphch1zix09x22cpgrbw968mh8hviknyvzr"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/diasjorge/emacs-load-env-vars")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-lsp-mode
   (let ((commit "9b104105adecf637188f4e3bf5cc228bda12374a")
         (revision "0"))
@@ -1321,29 +1300,6 @@
           (base32 "0kcgkxn5v9bsbkcvpjxjqhj1w3c29bfb33bmiw32gzbfphmrvhh1"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/rubikitch/open-junk-file")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-openai
-  (let ((commit "04296c91c1517fb3d8a6297a1073684039773dae")
-        (revision "0"))
-    (package
-      (name "emacs-openai")
-      (version (git-version "0.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacs-openai/openai")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0gki266kpdf05pxdy1shbirw1z65xq5hqwn6n324simaznbjqbla"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list tblui request let-alist))
-      (home-page "https://github.com/emacs-openai/openai")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
