@@ -2940,3 +2940,28 @@ unique identifiers directly in Emacs.")
   (package
     (inherit emacs-org-project-capture)
     (name "emacs-org-category-capture")))
+
+(define-public emacs-highlight-parentheses
+  (let ((commit "965b18dd69eff4457e17c9e84b3cbfdbfca2ddfb")
+        (revision "0"))
+    (package
+      (name "emacs-highlight-parentheses")
+      (version (git-version "2.2.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://sr.ht/~tsdh/highlight-parentheses.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wvhr5gzaxhn9lk36mrw9h4qpdax5kpbhqj44745nvd75g9awpld"))))
+      (build-system emacs-build-system)
+      (home-page "https://sr.ht/~tsdh/highlight-parentheses.el")
+      (synopsis "Highlight surrounding parentheses in Emacs")
+      (description
+       "This package provides an Emacs minor mode that dynamically highlights
+ the parentheses surrounding the point, based on nesting level. It uses
+ configurable lists of colors and other properties to enhance code readability
+ by visually indicating the scope of nested expressions.")
+      (license license:gpl3+))))
