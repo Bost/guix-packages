@@ -311,49 +311,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-consult
-  (let ((commit "7a7af8dcdda02b9aa4a680a228b3f3a5cfa95334")
-        (revision "0"))
-    (package
-      (name "emacs-consult")
-      (version (git-version "20241016.1007" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/minad/consult")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0d7ywqhqbkvifynxks6iqd39ycl58nghafy8ab59bbywihjbf2m2"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list bookmark compat))
-      (home-page "https://github.com/minad/consult")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-cython-mode
-  (let ((commit "3e4790559d3168fe992cf2aa62f01423038cedb5")
-        (revision "0"))
-    (package
-      (name "emacs-cython-mode")
-      (version (git-version "" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/cython/emacs-cython-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "03kilbl9mp1hs7mpqb6vs6sbmhplpm4qg93sn1vhn34q710iccb0"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/cython/emacs-cython-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-dall-e
   (let ((commit "98743d452ba8644d0da9f5ebbed1adfe79b65f32")
         (revision "0"))
@@ -427,27 +384,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list hydra savehist ls-lisp dired))
       (home-page "https://gitlab.com/xuhdev/dired-quick-sort.git")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-disable-mouse
-  (let ((commit "b42e98b71f4aa545aeaac07130b91513ccc79a5b")
-        (revision "0"))
-    (package
-      (name "emacs-disable-mouse")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/purcell/disable-mouse")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "18hfcfyvsdhpmm6nkpd8klrahxn0aza1vwx0yz0bz3npfig2pivk"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/purcell/disable-mouse")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -648,27 +584,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list dash json erc))
       (home-page "https://github.com/yhvh/erc-yt.git")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-eval-sexp-fu
-  (let ((commit "36d2fe3bcf602e15ca10a7f487da103515ef391a")
-        (revision "0"))
-    (package
-      (name "emacs-eval-sexp-fu")
-      (version (git-version "0.6.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/hchbaw/eval-sexp-fu.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "19rv0kwajq0j8inglp84sml23ci74wdcvp5bl6zxbw5skqpf6phr"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/hchbaw/eval-sexp-fu.el")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -914,68 +829,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-forge
-  (let ((commit "1037fe3a9147824fa8b97b559da4d866193b664a")
-        (revision "0"))
-    (package
-      (name "emacs-forge")
-      (version (git-version "0.4.3" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/forge")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "06w0mrkhaxbv75lgmqcbynjrs2bd1pgkqd40b0q2rsnmhs65l3ls"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list forge-repos
-             forge-topics
-             forge-commands
-             forge-semi
-             forge-bitbucket
-             forge-gogs
-             forge-gitea
-             forge-gitlab
-             forge-github
-             forge-notify
-             forge-revnote
-             forge-pullreq
-             forge-issue
-             forge-topic
-             forge-post
-             forge-repo
-             forge-core
-             forge-db
-             magit))
-      (home-page "https://github.com/magit/forge")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-geben
-  (let ((commit "1779492d73534e18fbcfdd7c6cc175859527d019")
-        (revision "0"))
-    (package
-      (name "emacs-geben")
-      (version (git-version "1.1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/ahungry/geben")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "161916kz125ah5msh8c02inmlr3rr858k6ywb18x27pnqx6n8lvg"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/ahungry/geben")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-gh-md
   (let ((commit "e721fd5e41e682f47f2dd4ce26ef2ba28c7fa0b5")
         (revision "0"))
@@ -998,34 +851,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-ghub
-  (let ((commit "23d1cd6b089db6619d02d66957c6a274311abd60")
-        (revision "0"))
-    (package
-      (name "emacs-ghub")
-      (version (git-version "4.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/ghub")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1p5lx781z603q943p73p6q9k6qz75ldjwrr9z3h6zvi80gxd7afy"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list ghub-graphql
-             url-http
-             url-auth
-             let-alist
-             gnutls
-             compat))
-      (home-page "https://github.com/magit/ghub")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-gitignore-templates
   (let ((commit "d28cd1cec00242b688861648d36d086818b06099")
         (revision "0"))
@@ -1044,28 +869,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list url json))
       (home-page "https://github.com/xuchunyang/gitignore-templates.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-groovy-mode
-  (let ((commit "7b8520b2e2d3ab1d62b35c426e17ac25ed0120bb")
-        (revision "0"))
-    (package
-      (name "emacs-groovy-mode")
-      (version (git-version "2.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0190k4hbc3pjxf7zs2ckp4c7z4rbb7nsam2kmw8mvkyj7kq5gb8d"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list dash s))
-      (home-page "https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -1895,53 +1698,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-pydoc
-  (let ((commit "c9d8b5249c1b3814da062ed9976e4137d6e8d869")
-        (revision "0"))
-    (package
-      (name "emacs-pydoc")
-      (version
-       (git-version
-        "grep: /home/bost/.emacs.d.distros/spguimacs/elpa/29.4/develop/pydoc-20221222.1426/pydoc.el: binary file matches"
-        revision
-        commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/statmobile/pydoc")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1ifyhdcvj25rnrvq78qjma3dg826hpj3x5ic1sydrvj0yb13jhim"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/statmobile/pydoc")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-pyenv-mode
-  (let ((commit "76787ea44f633426df402341663784db3a9e9639")
-        (revision "0"))
-    (package
-      (name "emacs-pyenv-mode")
-      (version (git-version "0.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/proofit404/pyenv-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "07nm4a5g6krflsyn232sg3zyzf79djf4pfwdwzlph4r3wspr9ix9"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list pythonic))
-      (home-page "https://github.com/proofit404/pyenv-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-pytest
   (let ((commit "8692f965bf4ddf3d755cf1fbf77a7a768e22460e")
         (revision "0"))
@@ -1960,28 +1716,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list s))
       (home-page "https://github.com/ionrock/pytest-el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-pyvenv
-  (let ((commit "31ea715f2164dd611e7fc77b26390ef3ca93509b")
-        (revision "0"))
-    (package
-      (name "emacs-pyvenv")
-      (version (git-version "1.21" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/jorgenschaefer/pyvenv")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1708xh2sq7xvs4z5zkik9ircxvzimhzi6phc2j43fvvxgglcgrk5"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list subr-x json eshell))
-      (home-page "https://github.com/jorgenschaefer/pyvenv")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
