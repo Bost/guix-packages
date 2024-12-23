@@ -2563,3 +2563,82 @@ unique identifiers directly in Emacs.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-smeargle
+  (let ((commit "afe34e7e3ce811d44880bca11f9fe1e3d91e272f")
+        (revision "0"))
+    (package
+      (name "emacs-smeargle")
+      (version (git-version "0.03" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/smeargle")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1yy2lqvn67dr6jhbyqv3zd93rmpw7bggklb1hbhp8spagflvj6li"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacsorphanage/smeargle")
+      (synopsis "Highlighting regions in Emacs based on version control history")
+      (description
+       "This package provides an Emacs minor mode that highlights regions of a
+ buffer based on version control history.  It visually indicates lines
+ modified since the last commit, helping users quickly identify recent
+ changes.  The mode supports various version control systems and offers
+ customizable highlighting styles.")
+      (license license:gpl3+))))
+
+(define-public emacs-pcsv
+  (let ((commit "aa421d12c0da0adb9bc74a050a591dcbabf934ae")
+        (revision "0"))
+    (package
+      (name "emacs-pcsv")
+      (version (git-version "1.4.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mhayashi1120/Emacs-pcsv")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "15pwxzr8k98k82p9ni49hh84fh4mrcdcd7nx7xgv3lpm5nj0ix9z"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/mhayashi1120/Emacs-pcsv")
+      (synopsis "RFC 4180-compliant CSV parser for Emacs")
+      (description
+       "This package provides a CSV parser for Emacs that adheres to RFC 4180
+ standards.  It offers functions to parse CSV data from buffers, files, and
+ regions, facilitating the handling of CSV content within Emacs.  For large
+ CSV files, it includes a lazy parser to efficiently process data without
+ excessive memory usage.")
+      (license license:gpl3+))))
+
+(define-public emacs-mvn
+  (let ((commit "223723d9ceeb2878b884e83abb8ca74ad2e42081")
+        (revision "0"))
+    (package
+      (name "emacs-mvn")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/apgwoz/mvn-el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1sl7kfg5w73cw9mv4x1m497dg27h42zgx2ywl4s8fmx2k9f2pq1q"))))
+      (build-system emacs-build-system)
+      ;; contains (defvar mvn-command "mvn")
+      (home-page "https://github.com/apgwoz/mvn-el")
+      (synopsis "Emacs integration for Apache Maven build automation")
+      (description
+       "This package provides Emacs helpers for interacting with Apache Maven,
+ facilitating build automation within the editor.  It allows users to execute
+ Maven commands directly from Emacs, such as compile, clean, and test, and
+ integrates with Emacs' compilation mode for streamlined development
+ workflows.  The package supports customization for non-standard Maven setups
+ and offers functions for running specific Maven goals.")
+      (license license:gpl3+))))
