@@ -1849,29 +1849,6 @@
       (description "")
       (license license:gpl3+))))
 
-;; (define-public emacs-pdf-tools
-;;   (let ((commit "30b50544e55b8dbf683c2d932d5c33ac73323a16")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-pdf-tools")
-;;       (version (git-version "1.1.0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/vedang/pdf-tools")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "1ci9g8aj77a34pgp21d768pglfw1h0dcw68d61xxlzwrrclzfhgx"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs
-;;        (list package compile cus-edit pdf-info pdf-util pdf-view))
-;;       (home-page "https://github.com/vedang/pdf-tools")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 (define-public emacs-pdf-view-restore
   (let ((commit "5a1947c01a3edecc9e0fe7629041a2f53e0610c9")
         (revision "0"))
@@ -2016,27 +1993,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-plz
-  (let ((commit "9fb22d84d9e39692392276d7b7b9979ca6ca1c01")
-        (revision "0"))
-    (package
-      (name "emacs-plz")
-      (version (git-version "0.9.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/alphapapa/plz.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "07b578mbg6x0s7m4cjggsjq85avp4h3vgsqcqrf6mbb41r700bnb"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/alphapapa/plz.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-poetry
   (let ((commit "1dff0d4a51ea8aff5f6ce97b154ea799902639ad")
         (revision "0"))
@@ -2055,27 +2011,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list pyvenv))
       (home-page "https://github.com/cybniv/poetry.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-pos-tip
-  (let ((commit "4889e08cf9077c8589ea6fea4e2ce558614dfcde")
-        (revision "0"))
-    (package
-      (name "emacs-pos-tip")
-      (version (git-version "0.4.7" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/pitkali/pos-tip")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0wnmh9a9ks0pmcjy9df5higfbz9gy1ydj4n8s84hkhd4wq4fndvv"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/pitkali/pos-tip")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2494,27 +2429,6 @@
       (build-system emacs-build-system)
       (propagated-inputs (list projectile treemacs))
       (home-page "https://github.com/Alexander-Miller/treemacs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-treepy
-  (let ((commit "651e2634f01f346da9ec8a64613c51f54b444bc3")
-        (revision "0"))
-    (package
-      (name "emacs-treepy")
-      (version (git-version "0.1.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/volrath/treepy.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0y34sb1b3sgkn3kfsw0hxv9sw4xshizyynbnbica6vdckfvxdnqn"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/volrath/treepy.el")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
