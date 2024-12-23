@@ -2690,3 +2690,99 @@ unique identifiers directly in Emacs.")
      (@(gnu packages emacs-xyz) emacs-sqlite3-api))
     (name "emacs-sqlite3")))
 
+(define-public emacs-geben
+  (let ((commit "1779492d73534e18fbcfdd7c6cc175859527d019")
+        (revision "0"))
+    (package
+      (name "emacs-geben")
+      (version (git-version "1.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ahungry/geben")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "161916kz125ah5msh8c02inmlr3rr858k6ywb18x27pnqx6n8lvg"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/ahungry/geben")
+      (synopsis "DBGp protocol debugger integration for Emacs")
+      (description
+       "Geben is an Emacs package that interfaces with the DBGp protocol,
+ enabling interactive debugging of scripts within Emacs. It supports multiple
+ scripting languages through DBGp-compatible extensions, including PHP with
+ Xdebug, and Perl, Python, Ruby, and Tcl with Komodo Debugger Extensions. Key
+ features include setting and managing breakpoints, stepping through code,
+ evaluating expressions, inspecting variables, and viewing backtraces, all
+ within the Emacs environment.")
+      (license license:gpl3+))))
+
+(define-public emacs-cython-mode
+  (let ((commit "3e4790559d3168fe992cf2aa62f01423038cedb5")
+        (revision "0"))
+    (package
+      (name "emacs-cython-mode")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/cython/emacs-cython-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03kilbl9mp1hs7mpqb6vs6sbmhplpm4qg93sn1vhn34q710iccb0"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/cython/emacs-cython-mode")
+      (synopsis "Major mode for editing Cython files in Emacs")
+      (description
+       "This package provides `cython-mode`, a major mode for Emacs tailored
+ for editing Cython source files. It offers syntax highlighting, indentation
+ support, and integration with Emacs' compilation framework, enhancing the
+ development experience for Cython code.")
+      (license license:gpl3+))))
+
+(define-public emacs-eval-sexp-fu
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-eval-sexp-fu-el))
+    (name "emacs-eval-sexp-fu")))
+
+(define-public emacs-pyenv-mode
+  (let ((commit "76787ea44f633426df402341663784db3a9e9639")
+        (revision "0"))
+    (package
+      (name "emacs-pyenv-mode")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/proofit404/pyenv-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07nm4a5g6krflsyn232sg3zyzf79djf4pfwdwzlph4r3wspr9ix9"))))
+      (build-system emacs-build-system)
+      ;; contains (executable-find "pyenv")
+      (propagated-inputs (list
+                          (@(gnu packages emacs-xyz) emacs-pythonic)
+                          ))
+      (home-page "https://github.com/proofit404/pyenv-mode")
+      (synopsis "Integrate pyenv with Emacs python-mode")
+      (description
+       "This package integrates pyenv with Emacs' python-mode, allowing
+ seamless switching between different Python versions and virtual environments
+ within Emacs. It sets the `PYENV_VERSION` environment variable and
+ `python-shell-virtualenv-path` based on user input, enabling packages that
+ utilize python.el to support pyenv virtual environments out-of-the-box. This
+ integration enhances the Python development workflow by providing flexibility
+ in managing Python versions directly from the Emacs environment.")
+      (license license:gpl3+))))
+
+(define-public emacs-groovy-mode
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-groovy-modes))
+    (name "emacs-groovy-mode")))
