@@ -49,6 +49,12 @@ set -x
 # guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-evil-lisp-state)'
 # guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-evil-textobj-line)'
 # guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-evil-visual-mark-mode)'
+# guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-org-category-capture)'
+# guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-org-project-capture)'
+# guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-org-projectile)'
+# guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-phpunit)'
+# guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pip-requirements)'
+
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-flycheck-bashate)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-flycheck-credo)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-flycheck-elsa)'
@@ -66,53 +72,18 @@ guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-hungry-d
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-live-py-mode)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-livid-mode)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-llm)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-load-env-vars)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-molokai)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-ob-elixir)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-omtose-phellack-themes)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-open-junk-file)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-openai)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-org-category-capture)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-org-project-capture)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-org-projectile)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-orgit)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-orgit-forge)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-phpunit)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pip-requirements)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-py-isort)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pydoc)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pyenv-mode)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pytest)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pyvenv)'
 
-gxse emacs-flycheck-bashate
-gxse emacs-flycheck-credo
-gxse emacs-flycheck-elsa
-gxse emacs-flycheck-pos-tip
-gxse emacs-flyspell-correct-helm
-gxse emacs-gitignore-templates
-gxse emacs-haml-mode
-gxse emacs-helm-comint
-gxse emacs-helm-git-grep
-gxse emacs-helm-purpose
-gxse emacs-highlight-parentheses
-gxse emacs-hungry-delete
-gxse emacs-live-py-mode
-gxse emacs-livid-mode
+# exists:
 gxse emacs-llm
-gxse emacs-load-env-vars
-gxse emacs-molokai
-gxse emacs-ob-elixir
-gxse emacs-omtose-phellack-themes
-gxse emacs-open-junk-file
-gxse emacs-openai
-gxse emacs-org-category-capture
-gxse emacs-org-project-capture
-gxse emacs-org-projectile
-gxse emacs-orgit
-gxse emacs-orgit-forge
-gxse emacs-phpunit
-gxse emacs-pip-requirements
+gxse emacs-molokai  # emacs-molokai-theme
 gxse emacs-py-isort
 gxse emacs-pyenv-mode
-gxse emacs-pytest
