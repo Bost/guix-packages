@@ -2786,3 +2786,117 @@ unique identifiers directly in Emacs.")
     (inherit
      (@(gnu packages emacs-xyz) emacs-groovy-modes))
     (name "emacs-groovy-mode")))
+
+(define-public emacs-orgit-forge
+  (let ((commit "2718a6aaf0f64cb52c64c419053fbc80eb358c8d")
+        (revision "0"))
+    (package
+      (name "emacs-orgit-forge")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/orgit-forge")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xcv7kqsrv39rk8fjd2sbl2wrr8mdb6y1xipifki4q7mry1c6v6w"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-orgit)
+        (@(gnu packages emacs-xyz) emacs-forge)
+        (@(gnu packages emacs-xyz) emacs-compat)
+        ))
+      (home-page "https://github.com/magit/orgit-forge")
+      (synopsis "Org links to Forge topic buffers in Emacs")
+      (description
+       "This package defines the Org link type `orgit-topic`, enabling users
+ to create links to Forge topic buffers within Org-mode documents in Emacs.
+ Similar to the `orgit` package, which links to various Magit buffers,
+ `orgit-forge` facilitates seamless navigation between Org documents and Forge
+ topics, enhancing integration between version control and documentation
+ workflows.")
+      (license license:gpl3+))))
+
+(define-public emacs-ob-elixir
+  (let ((commit "8990a8178b2f7bd93504a9ab136622aab6e82e32")
+        (revision "0"))
+    (package
+      (name "emacs-ob-elixir")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/zweifisch/ob-elixir")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "19awvfbjsnd5la14ad8cfd20pdwwlf3d2wxmz7kz6x6rf48x38za"))))
+      (build-system emacs-build-system)
+      (home-page "http://github.com/zweifisch/ob-elixir")
+      (synopsis "Org-babel support for Elixir code blocks in Emacs")
+      (description
+       "This package enables the execution of Elixir code blocks within
+ Org-mode documents using org-babel in Emacs. It allows users to write and
+ evaluate Elixir code seamlessly alongside documentation, supporting
+ interactive and reproducible workflows. The package also facilitates
+ connections to remote Elixir shells, enhancing the integration between
+ Org-mode and Elixir development.")
+      (license license:gpl3+))))
+
+(define-public emacs-open-junk-file
+  (let ((commit "558bec7372b0fed4c4cb6074ab906535fae615bd")
+        (revision "0"))
+    (package
+      (name "emacs-open-junk-file")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rubikitch/open-junk-file")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0kcgkxn5v9bsbkcvpjxjqhj1w3c29bfb33bmiw32gzbfphmrvhh1"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/rubikitch/open-junk-file")
+      (synopsis "Quickly open a new buffer for temporary notes in Emacs")
+      (description
+       "This package provides a command to open a new buffer with a unique
+ name based on the current date and time, allowing users to quickly jot down
+ temporary notes or test code snippets without disrupting their workflow. The
+ buffers are saved in a designated directory, making it easy to review or
+ manage them later.")
+      (license license:gpl3+))))
+
+(define-public emacs-omtose-phellack-themes
+  (let ((commit "b96905deb9b2bef097e0c573100874812c1e9aa8")
+        (revision "0"))
+    (package
+      (name "emacs-omtose-phellack-themes")
+      (version (git-version "20240928.1241" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/omtose-phellack-themes")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1kyg55njj19licj4wkp5ahabnbmpjfksv89l75axcib6hj3rgk5k"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacsorphanage/omtose-phellack-themes")
+      (synopsis "Dark, soothing themes for Emacs with a cold bluish touch")
+      (description
+       "This package provides two dark themes for Emacs, 'omtose-darker' and
+ 'omtose-softer', both featuring a cold bluish aesthetic. Inspired by the
+ 'Omtose Phellack' realm from the Malazan Book of the Fallen series by Steven
+ Erikson, these themes aim to offer a visually soothing coding environment.
+ They require Emacs version 24.0 or higher and can be installed via MELPA.
+ Users can switch between the darker and softer variants to suit their
+ preferences.")
+      (license license:gpl3+))))
