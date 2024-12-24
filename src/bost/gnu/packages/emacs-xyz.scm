@@ -2965,3 +2965,59 @@ unique identifiers directly in Emacs.")
  configurable lists of colors and other properties to enhance code readability
  by visually indicating the scope of nested expressions.")
       (license license:gpl3+))))
+
+(define-public emacs-hungry-delete
+  (let ((commit "d919e555e5c13a2edf4570f3ceec84f0ade71657")
+        (revision "0"))
+    (package
+      (name "emacs-hungry-delete")
+      (version (git-version "1.1.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/nflath/hungry-delete")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1hjihncj6q971zj1xfnfmyvx8wv19wdnglnmz1278fwsgrcs050d"))))
+      (build-system emacs-build-system)
+      (home-page "http://github.com/nflath/hungry-delete")
+      (synopsis "Minor mode for hungry deletion of whitespace in Emacs")
+      (description
+       "This package provides a minor mode for Emacs that enables hungry
+ deletion, allowing the deletion of all contiguous whitespace characters with
+ a single keystroke. It enhances editing efficiency by reducing the number of
+ key presses needed to remove unwanted spaces.")
+      (license license:gpl3+))))
+
+(define-public emacs-pytest
+  (let ((commit "8692f965bf4ddf3d755cf1fbf77a7a768e22460e")
+        (revision "0"))
+    (package
+      (name "emacs-pytest")
+      (version (git-version "0.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/ionrock/pytest-el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "13s3zqxjlas4rq70gxgl8nrhasrx8j8ml9xls7lgghk12ppiqil9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-s)
+        ))
+      (home-page "https://github.com/ionrock/pytest-el")
+      (synopsis "Emacs integration for running pytest on Python code")
+      (description
+       "This package provides a set of functions to run pytest on Python code
+ within Emacs. It allows executing tests on specific functions, classes,
+ modules, or entire suites directly from the editor. Users can configure the
+ test runner executable, integrate with project-specific virtual environments,
+ and define custom keybindings for test operations, enhancing the Python
+ development workflow in Emacs.")
+      (license license:gpl3+))))
