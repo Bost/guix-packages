@@ -1646,6 +1646,30 @@ performance-oriented and tidy.")
      (@(gnu packages emacs-xyz) emacs-treemacs-extra))
     (name "emacs-treemacs-magit")))
 
+(define-public emacs-treemacs-projectile
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (name "emacs-treemacs-projectile")))
+
+(define-public emacs-treemacs-persp
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (name "emacs-treemacs-persp")))
+
+(define-public emacs-treemacs-icons-dired
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (name "emacs-treemacs-icons-dired")))
+
+(define-public emacs-treemacs-evil
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (name "emacs-treemacs-evil")))
+
 (define-public emacs-helm-files
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
@@ -3253,6 +3277,99 @@ unique identifiers directly in Emacs.")
         (@(gnu packages emacs-xyz) emacs-s)
         (@(gnu packages emacs-xyz) emacs-f)))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-haml-mode
+  (let ((commit "a64d58df8f098f858c6c11fa1629a90969f9c7e8")
+        (revision "0"))
+    (package
+      (name "emacs-haml-mode")
+      (version (git-version "3.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nex3/haml-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0d0b8xy8d6vd79y0vcjbgjgakn3nz5vdysw5m1ci2xz31agggf6f"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/nex3/haml-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-sass-mode
+  (let ((commit "247a0d4b509f10b28e4687cd8763492bca03599b")
+        (revision "0"))
+    (package
+      (name "emacs-sass-mode")
+      (version (git-version "3.0.16" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nex3/sass-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1nhk12lhvkwdk8s8fx33p6rssi0gcfx2zkanq23rz6k28v5zi5yp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-haml-mode))
+      (home-page "https://github.com/nex3/sass-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-shfmt
+  (let ((commit "78a96e66d2685672de3d0b7d627cd57a3b0caaf2")
+        (revision "0"))
+    (package
+      (name "emacs-shfmt")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/emacs-shfmt")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0x96q2ag85859mzfqjq4gy7s2h883nwc99nw4l4r9cfw7hpplwxb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-reformatter)))
+      (home-page "https://github.com/purcell/emacs-shfmt")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-string-edit-at-point
+  (let ((commit "87936d816ae24184dd83688136531b6b6f1943fe")
+        (revision "0"))
+    (package
+      (name "emacs-string-edit-at-point")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magnars/string-edit.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0ggn7l3bisjx1ab4jrhija3z3bh6zbafhzjl5cq92n7i2plz8qdm"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)))
+      (home-page "https://github.com/magnars/string-edit.el")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
