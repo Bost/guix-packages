@@ -3137,3 +3137,122 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-pdf-view-restore
+  (let ((commit "5a1947c01a3edecc9e0fe7629041a2f53e0610c9")
+        (revision "0"))
+    (package
+      (name "emacs-pdf-view-restore")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/007kevin/pdf-view-restore")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-pdf-tools)))
+      (home-page "https://github.com/007kevin/pdf-view-restore")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-clean-aindent-mode
+  (let ((commit "a97bcae8f43a9ff64e95473e4ef0d8bafe829211")
+        (revision "0"))
+    (package
+      (name "emacs-clean-aindent-mode")
+      (version (git-version "1.5.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pmarinov/clean-aindent-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07dgx09j6nn5dl9vpqfcs5yqm79kza3h3r1lb7r09wpkmrg0c2cr"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/pmarinov/clean-aindent-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pipenv
+  (let ((commit "3af159749824c03f59176aff7f66ddd6a5785a10")
+        (revision "0"))
+    (package
+      (name "emacs-pipenv")
+      (version (git-version "0.0.1-beta" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pwalsh/pipenv.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ak9dvjqhdm12i7yamgbqjmc4zmvy2f0gd1nia1q9dy3n6576ryq"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-pyvenv)
+        (@(gnu packages emacs-xyz) emacs-s)))
+      (home-page "https://github.com/pwalsh/pipenv.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-poetry
+  (let ((commit "1dff0d4a51ea8aff5f6ce97b154ea799902639ad")
+        (revision "0"))
+    (package
+      (name "emacs-poetry")
+      (version (git-version "0.2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/cybniv/poetry.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0n5v6c75pal2xd8p453jrd046zkv0y1pzgn5w2n2ws1009pw6crs"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-pyvenv)))
+      (home-page "https://github.com/cybniv/poetry.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-reveal-in-folder
+  (let ((commit "f5991b8e4f4e86bd47629688a05fabd92dfe25ac")
+        (revision "0"))
+    (package
+      (name "emacs-reveal-in-folder")
+      (version (git-version "0.1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jcs-elpa/reveal-in-folder")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "156fb1zcjr2i1f6dv10vnz74wbiylawi7npd2kwr2zrpdf8sflqi"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-f)))
+      (home-page "https://github.com/jcs-elpa/reveal-in-folder")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))

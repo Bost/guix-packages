@@ -560,30 +560,6 @@ Flx has support for ido (interactively do things) through flx-ido.")
     (inherit (@(gnu packages emacs-xyz) emacs-js2-refactor-el))
     (name "emacs-js2-refactor")))
 
-;; emacs-pdf-view unbound
-;; (define-public emacs-pdf-view-restore
-;;   (package
-;;     (name "emacs-pdf-view-restore")
-;;     (version "0.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/007kevin/pdf-view-restore")
-;;                (commit
-;;                  "5a1947c01a3edecc9e0fe7629041a2f53e0610c9")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-pdf-view))
-;;     (home-page
-;;       "https://github.com/007kevin/pdf-view-restore")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-kaolin-themes-lib unbound
 ;; (define-public emacs-kaolin-themes
 ;;   (package
