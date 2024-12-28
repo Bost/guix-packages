@@ -154,7 +154,7 @@
        ;; emacs-code-review-section
        ;; emacs-code-review-gitlab
        ;; emacs-code-review-github
-       emacs-deferred
+       emacs-deferred  ;; seems to be in Emacs, however also in Guix (require 'deferred)
        emacs-emojify
        emacs-let-alist
        emacs-ghub
@@ -220,30 +220,6 @@
       (description "")
       (license license:gpl3+))))
 
-;; exists already
-;; (define-public emacs-closql
-;;   (let ((commit "c1a346d56ecee16d1f0d7707f0d62c72604a8802")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-closql")
-;;       (version (git-version "2.0.0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacscollective/closql")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "0fh7mvm2qcwkkmzpkagwzrsi11nm4laj2bvjdmyrv8pnmjigwwqw"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs
-;;        (list emacsql-sqlite-common emacsql compat))
-;;       (home-page "https://github.com/emacscollective/closql")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 (define-public emacs-codegpt
   (let ((commit "55ccb75cf4c01d95c5e5cdad026c62ce484a8ca5")
         (revision "0"))
@@ -261,7 +237,11 @@
           (base32 "1f5ld4p278nx2rc705am72mc1kdshbccwmy414kzihwy2xk43isn"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list spinner markdown-mode openai-completion openai-chat openai))
+       (list emacs-spinner
+             emacs-markdown-mode
+             emacs-openai-completion
+             emacs-openai-chat
+             emacs-openai))
       (home-page "https://github.com/emacs-openai/codegpt")
       (synopsis "")
       (description "")
@@ -283,7 +263,10 @@
          (sha256
           (base32 "0lrkvfg0z9gwfcj90yihanysg8icxpbqq3wqyb734bi5fpmgmzr4"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list subr-x dash company))
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-company))
       (home-page "https://github.com/Alexander-Miller/company-shell")
       (synopsis "")
       (description "")
@@ -305,7 +288,11 @@
          (sha256
           (base32 "0vz59lm7pfz0gbsgrb44y555js85wbdjn0zm6p8wfqjiqf63ds3i"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list deferred lib))
+      (propagated-inputs
+       (list
+        emacs-deferred  ;; seems to be in Emacs, however also in Guix (require 'deferred)
+        emacs-lib       ;; doesn't exist
+        ))
       (home-page "https://github.com/kiwanami/emacs-deferred")
       (synopsis "")
       (description "")
@@ -328,17 +315,17 @@
           (base32 "0qgyf0z3pwz03bnfbs88kcijg9s0lhn8fryr5cywrx9nipzn7d7n"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list async
-             reveal-in-folder
-             spinner
-             ht
-             lv
-             openai-image
-             openai
-             subr-x
-             let-alist
-             image
-             ))
+       (list
+        emacs-async
+        emacs-reveal-in-folder
+        emacs-spinner
+        emacs-ht
+        emacs-lv
+        emacs-openai-image
+        emacs-openai
+        emacs-let-alist
+        emacs-image
+        ))
       (home-page "https://github.com/emacs-openai/dall-e")
       (synopsis "")
       (description "")
@@ -360,7 +347,12 @@
          (sha256
           (base32 "0h3dasg81f1b08xvz38nyd887pdlv60kj8q50kk2aqlpkr8j0y18"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list nxml-mode url-http url-parse))
+      (propagated-inputs
+       (list
+        emacs-nxml-mode
+        emacs-url-http
+        emacs-url-parse
+        ))
       (home-page "https://github.com/abo-abo/define-word")
       (synopsis "")
       (description "")
@@ -382,7 +374,13 @@
          (sha256
           (base32 "1sxdiw1qwpr49a0l2q899r78mnwcwqhj4dfs22261acw7ifk07yb"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list hydra savehist ls-lisp dired))
+      (propagated-inputs
+       (list
+        emacs-hydra
+        emacs-savehist
+        emacs-ls-lisp
+        emacs-dired
+        ))
       (home-page "https://gitlab.com/xuhdev/dired-quick-sort.git")
       (synopsis "")
       (description "")
@@ -426,7 +424,15 @@
          (sha256
           (base32 "0k1r4fyai53p7y5vqwqjxdiqlnmrrxqaxglc22j54kdic8j1lbl7"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list ert xref find-func f s dash))
+      (propagated-inputs
+       (list
+        emacsert
+        emacs-xref
+        emacs-find-func
+        emacs-f
+        emacs-s
+        emacs-dash
+        ))
       (home-page "https://github.com/Wilfred/elisp-def")
       (synopsis "")
       (description "")
@@ -449,17 +455,13 @@
           (base32 "0b55m87dqrc07y6jbjf3lf4d2gjyd0s6ndvap43y3fpwz1yq28fp"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list compat
-             vc
-             eww
-             shr
-             info
-             transient
-             spinner
-             llm-provider-utils
-             llm
-             json
-             eieio))
+       (list
+        emacs-compat
+        emacs-transient
+        emacs-spinner
+        emacs-llm-provider-utils
+        emacs-llm
+        ))
       (home-page "https://github.com/s-kostyaev/ellama")
       (synopsis "")
       (description "")
@@ -481,7 +483,10 @@
          (sha256
           (base32 "15nmp5dl2a1iyc99wlaywclnqsi2p34vgrp2x62671ccxnvzg8ii"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacsql-compiler eieio cl-generic))
+      (propagated-inputs
+       (list
+        emacsql-compiler
+        ))
       (home-page "https://github.com/magit/emacsql")
       (synopsis "")
       (description "")
@@ -503,7 +508,11 @@
          (sha256
           (base32 "06rmknnhzcm3fy1iipvryl85fcshpalz50500rrz8k3vkl2dps2i"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list popup s dash))
+      (propagated-inputs
+       (list
+        emacs-popup
+        emacs-s
+        emacs-dash))
       (home-page "https://github.com/Wilfred/emacs-refactor")
       (synopsis "Framework for language-specific code refactoring in Emacs")
       (description
@@ -532,7 +541,10 @@
          (sha256
           (base32 "118q4zj9dh5xnimcsi229j5pflhcd8qz0p212kc4p9dmyrx2iw0n"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list url-queue erc))
+      (propagated-inputs
+       (list
+        emacs-erc ;; missing
+        ))
       (home-page "https://github.com/kidd/erc-tweet.el")
       (synopsis "Display inline tweets in ERC buffers")
       (description
@@ -560,7 +572,10 @@
          (sha256
           (base32 "0bzi2sh2fhrz49j5y53h6jgf41av6rx78smb3bbk6m74is8vim2y"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list erc))
+      (propagated-inputs
+       (list
+        emacs-erc ;; missing
+        ))
       (home-page "https://github.com/Niluge-KiWi/erc-view-log")
       (synopsis "")
       (description "")
@@ -582,7 +597,11 @@
          (sha256
           (base32 "1dlw34kaslyvnsrahf4rm76r2b7qqqn589i4mmhr23prl8xbz9z9"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list dash json erc))
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-erc ;; missing
+        ))
       (home-page "https://github.com/yhvh/erc-yt.git")
       (synopsis "")
       (description "")
@@ -625,7 +644,11 @@
          (sha256
           (base32 "1n6r8xs670r5qp4b5f72nr9g8nlqcrx1v7yqqlbkgv8gns8n5xgh"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list bind-map smartparens evil))
+      (propagated-inputs
+       (list
+        emacs-bind-map
+        emacs-smartparens
+        emacs-evil))
       (home-page "https://github.com/syl20bnr/evil-lisp-state")
       (synopsis "")
       (description "")
@@ -647,7 +670,9 @@
          (sha256
           (base32 "1w98gc1sqik8ab35a1hg5853dwar98a8qd94lxpq4ckabpgypins"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list evil))
+      (propagated-inputs
+       (list
+        emacs-evil))
       (home-page "https://github.com/emacsorphanage/evil-textobj-line")
       (synopsis "")
       (description "")
@@ -669,7 +694,9 @@
          (sha256
           (base32 "00yfq8aflxvp2nnz7smgq0c5wlb7cips5irj8qs6193ixlkpffvx"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list evil))
+      (propagated-inputs
+       (list
+        emacs-evil))
       (home-page "https://github.com/syl20bnr/evil-tutor")
       (synopsis "")
       (description "")
@@ -691,7 +718,10 @@
          (sha256
           (base32 "1ggxifiz2qm26v2fw8m9ccjp3jbmhyhb8wv93m8k1pnyh8b7la2m"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list dash evil))
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-evil))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
       (synopsis "")
       (description "")
@@ -713,7 +743,9 @@
          (sha256
           (base32 "0q49p1y3kpx140h0f97kfw4kfx8mlzzxbninbarvygmlg2fkfi1n"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list flx ido))
+      (propagated-inputs
+       (list
+        emacs-flx))
       (home-page "https://github.com/lewang/flx")
       (synopsis "")
       (description "")
@@ -735,7 +767,9 @@
          (sha256
           (base32 "1gaih50mkyby0r4qnmc03dy111ik4and5p6r3lvsflpvd3hcxjn3"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list flycheck))
+      (propagated-inputs
+       (list
+        emacs-flycheck))
       (home-page "https://github.com/alexmurray/flycheck-bashate")
       (synopsis "")
       (description "")
@@ -757,7 +791,9 @@
          (sha256
           (base32 "1n41liayykjmh1xwfnhdvw9bdxjca7d274gkpjfzhvhmbv7dig19"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list flycheck))
+      (propagated-inputs
+       (list
+        emacs-flycheck))
       (home-page "https://github.com/aaronjensen/flycheck-credo")
       (synopsis "")
       (description "")
@@ -779,7 +815,9 @@
          (sha256
           (base32 "1ig9dc7ch3cdxp4p24v21h7hrdph9y5jy9421bfww6agymbj8i85"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list flycheck))
+      (propagated-inputs
+       (list
+        emacs-flycheck))
       (home-page "https://github.com/emacs-elsa/flycheck-elsa")
       (synopsis "")
       (description "")
@@ -801,7 +839,10 @@
          (sha256
           (base32 "15h4m5cfk0vh1g630vlwfxmcpa1jdalrrldnvijsqla99mb2jm1w"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list pos-tip flycheck))
+      (propagated-inputs
+       (list
+        emacs-pos-tip
+        emacs-flycheck))
       (home-page "https://github.com/flycheck/flycheck-pos-tip")
       (synopsis "")
       (description "")
@@ -823,7 +864,10 @@
          (sha256
           (base32 "0q6y40mm6z5ifngwzah9ax6z9dlka3rw3q1am08hmia15vk7bx4g"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list helm flyspell-correct))
+      (propagated-inputs
+       (list
+        emacs-helm
+        emacs-flyspell-correct))
       (home-page "https://github.com/d12frosted/flyspell-correct")
       (synopsis "")
       (description "")
@@ -845,7 +889,6 @@
          (sha256
           (base32 "1xnfq6bbc5bgkd0mzkr7r66sd85qfn859swpsp6sr0xfl8cq12wm"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list shr json))
       (home-page "https://github.com/emacs-pe/gh-md.el")
       (synopsis "")
       (description "")
@@ -867,7 +910,6 @@
          (sha256
           (base32 "0x4pg4jpgmbvfw854ps9w3xgp8bgm7n7vmcvk3kp7h2s56l8s2xb"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list url json))
       (home-page "https://github.com/xuchunyang/gitignore-templates.el")
       (synopsis "")
       (description "")
@@ -889,7 +931,6 @@
          (sha256
           (base32 "0d0b8xy8d6vd79y0vcjbgjgakn3nz5vdysw5m1ci2xz31agggf6f"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list ruby-mode))
       (home-page "https://github.com/nex3/haml-mode")
       (synopsis "")
       (description "")
@@ -911,7 +952,12 @@
          (sha256
           (base32 "0k95q7hdy7sp3l8yifjnc6f7xfplnqy8qff806yfgqiyy7gpx72p"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list helm-elisp helm-help helm-lib helm))
+      (propagated-inputs
+       (list
+        emacs-helm-elisp
+        emacs-helm-help
+        emacs-helm-lib
+        emacs-helm))
       (home-page "https://github.com/benedicthw/helm-comint.git")
       (synopsis "")
       (description "")
@@ -933,7 +979,10 @@
          (sha256
           (base32 "1xh6v5xlf1prgk6mrvkc6qa0r0bz74s5f4z3dl7d00chsi7i2m5v"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list window-purpose helm-buffers))
+      (propagated-inputs
+       (list
+        emacs-window-purpose
+        emacs-helm-buffers))
       (home-page "https://github.com/bmag/helm-purpose")
       (synopsis "")
       (description "")
@@ -976,7 +1025,10 @@
          (sha256
           (base32 "0qcrza3c4iigzv79mqy2xqi1x2fgvz2b2hmfsjaig6z9w5lgfnz8"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list htmlize simple-httpd url-util))
+      (propagated-inputs
+       (list
+        emacs-htmlize
+        emacs-simple-httpd))
       (home-page "https://github.com/netguy204/imp.el")
       (synopsis "")
       (description "")
@@ -998,7 +1050,10 @@
          (sha256
           (base32 "1xrlnighvzgmfb4fwnp07bnj1wyym1pn4ap62swq0h0mcq8gjr80"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list f epc))
+      (propagated-inputs
+       (list
+        emacs-f
+        emacs-epc))
       (home-page "https://github.com/anachronic/importmagic.el")
       (synopsis "")
       (description "")
@@ -1020,7 +1075,6 @@
          (sha256
           (base32 "1p3mgza73yls8f7v063jb49z0ylmvni4v812abqvvvrn5q396286"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list transient array))
       (home-page "https://github.com/SebastianMeisel/journalctl-mode")
       (synopsis "")
       (description "")
@@ -1042,7 +1096,6 @@
          (sha256
           (base32 "0lnnr71g1nvqlyvzaiq7nqcnwhwh34xg2wfig1j5xb9wvblrg621"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list compile))
       (home-page "https://github.com/kmonad/kbd-mode")
       (synopsis "")
       (description "")
@@ -1085,7 +1138,10 @@
          (sha256
           (base32 "178ldzpk8a9m9abn8xlplxn5jgcca71dpkp82bs5g7bsccp3rx6p"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list s skewer-mode))
+      (propagated-inputs
+       (list
+        emacs-s
+        emacs-skewer-mode))
       (home-page "https://github.com/pandeiro/livid-mode")
       (synopsis "")
       (description "")
@@ -1129,26 +1185,14 @@
           (base32 "0lgkj8czspjscyj090g9kwcqb7j01l7cgx89m8ac5n715lk7n9nd"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list lsp-protocol
-             minibuffer
-             xref
-             widget
-             url-util
-             url-parse
-             tree-widget
-             spinner
-             s
-             network-stream
-             markdown-mode
-             inline
-             imenu
-             ht
-             files
-             filenotify
-             f
-             ewoc
-             dash
-             cl-generic))
+       (list
+        emacs-lsp-protocol
+        emacs-spinner
+        emacs-s
+        emacs-markdown-mode
+        emacs-ht
+        emacs-f
+        emacs-dash))
       (home-page "https://github.com/emacs-lsp/lsp-mode")
       (synopsis "")
       (description "")
@@ -1170,7 +1214,9 @@
          (sha256
           (base32 "1xn2yyr8mr90cynbxgv0h5v180pzf0ydnjr9spg34mrdicqlki6c"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list compile s))
+      (propagated-inputs
+       (list
+        emacs-s))
       (home-page "http://github.com/rranelli/maven-test-mode")
       (synopsis "")
       (description "")
@@ -1213,7 +1259,6 @@
          (sha256
           (base32 "0992lzgar0kz9i1sk5vz17q9qzfgl8fkyxa1q0hmhgnpjf503cnj"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list cl))
       (home-page "https://github.com/rasmus-toftdahl-olesen/iss-mode")
       (synopsis "")
       (description "")
@@ -1236,11 +1281,12 @@
           (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list org-project-capture-backend
-             org-project-capture
-             org-category-capture
-             projectile
-             dash))
+       (list
+        emacs-dash
+        emacs-org-category-capture
+        emacs-org-project-capture
+        emacs-org-project-capture-backend
+        emacs-projectile))
       (home-page "https://github.com/colonelpanic8/org-project-capture")
       (synopsis "")
       (description "")
@@ -1284,7 +1330,9 @@
          (sha256
           (base32 "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list pdf-view))
+      (propagated-inputs
+       (list
+        emacs-pdf-view))
       (home-page "https://github.com/007kevin/pdf-view-restore")
       (synopsis "")
       (description "")
@@ -1306,45 +1354,10 @@
          (sha256
           (base32 "0mcgwisnqplav0ga8xqqw72523iv841wp2cyw7d4lkzgpiav51dg"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list thingatpt eldoc))
       (home-page "https://github.com/arnested/php-extras")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-;; (define-public emacs-php-mode
-;;   (let ((commit "31f702ee2de35d514fb633c0c37531cb648bff70")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-php-mode")
-;;       (version (git-version "1.25.1" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "0rz0qdi82swvvqmb44jdzwfkaz9xl4y4ic70i6i950rmrbz970pd"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs
-;;        (list php-project
-;;              mode-local
-;;              nadvice
-;;              package
-;;              imenu
-;;              speedbar
-;;              custom
-;;              font-lock
-;;              cc-mode
-;;              php-face
-;;              php))
-;;       (home-page "https://github.com/emacs-php/php-mode")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-;; (format #t "############## emacs-php-mode \n")
 
 (define-public emacs-phpunit
   (let ((commit "650a50898de1fa4eeb47360b12aeb1126b2448c2")
@@ -1362,7 +1375,10 @@
          (sha256
           (base32 "03vs9ni9nhm7rzr3qkgcjbldqxcds20ai2c52sw8wc6zpp5qijsc"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list f s))
+      (propagated-inputs
+       (list
+        emacs-f
+        emacs-s))
       (home-page "https://github.com/nlamirault/phpunit.el")
       (synopsis "")
       (description "")
@@ -1384,7 +1400,9 @@
          (sha256
           (base32 "08q225h8kahh632qkzpb1ih3jqg5imlzgrrh8ynkyxrr710madkl"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list dash))
+      (propagated-inputs
+       (list
+        emasc-dash))
       (home-page "https://github.com/Wilfred/pip-requirements.el")
       (synopsis "")
       (description "")
@@ -1406,7 +1424,10 @@
          (sha256
           (base32 "1ak9dvjqhdm12i7yamgbqjmc4zmvy2f0gd1nia1q9dy3n6576ryq"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list pyvenv subr-x s python))
+      (propagated-inputs
+       (list
+        emacs-pyvenv
+        emacs-s))
       (home-page "https://github.com/pwalsh/pipenv.el")
       (synopsis "")
       (description "")
@@ -1428,7 +1449,9 @@
          (sha256
           (base32 "0n5v6c75pal2xd8p453jrd046zkv0y1pzgn5w2n2ws1009pw6crs"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list pyvenv))
+      (propagated-inputs
+       (list
+        emacs-pyvenv))
       (home-page "https://github.com/cybniv/poetry.el")
       (synopsis "")
       (description "")
@@ -1471,7 +1494,9 @@
          (sha256
           (base32 "13s3zqxjlas4rq70gxgl8nrhasrx8j8ml9xls7lgghk12ppiqil9"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list s))
+      (propagated-inputs
+       (list
+        emacs-s))
       (home-page "https://github.com/ionrock/pytest-el")
       (synopsis "")
       (description "")
@@ -1493,7 +1518,6 @@
          (sha256
           (base32 "0lp7lmfaq23hpk5lvl0b291jnky1xq7ixi8ry2lrxdl64rr9fwvf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list ansi-color))
       (home-page "https://github.com/purcell/emacs-reformatter")
       (synopsis "")
       (description "")
@@ -1515,7 +1539,10 @@
          (sha256
           (base32 "156fb1zcjr2i1f6dv10vnz74wbiylawi7npd2kwr2zrpdf8sflqi"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list s ffap f))
+      (propagated-inputs
+       (list
+        emacs-s
+        emacs-f))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
       (synopsis "")
       (description "")
@@ -1537,7 +1564,9 @@
          (sha256
           (base32 "1nhk12lhvkwdk8s8fx33p6rssi0gcfx2zkanq23rz6k28v5zi5yp"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list haml-mode))
+      (propagated-inputs
+       (list
+        emacs-haml-mode))
       (home-page "https://github.com/nex3/sass-mode")
       (synopsis "")
       (description "")
@@ -1559,7 +1588,6 @@
          (sha256
           (base32 "1w15y2x3j5d3ac6lagmc3qa2n7gpyjp0bk0dn3kinrpj0sqcnds9"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list view shell seq map json goto-addr comint))
       (home-page "https://github.com/xenodium/chatgpt-shell")
       (synopsis "")
       (description "")
@@ -1581,7 +1609,9 @@
          (sha256
           (base32 "0x96q2ag85859mzfqjq4gy7s2h883nwc99nw4l4r9cfw7hpplwxb"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list reformatter))
+      (propagated-inputs
+       (list
+        emacs-reformatter))
       (home-page "https://github.com/purcell/emacs-shfmt")
       (synopsis "")
       (description "")
@@ -1603,7 +1633,9 @@
          (sha256
           (base32 "0ggn7l3bisjx1ab4jrhija3z3bh6zbafhzjl5cq92n7i2plz8qdm"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list dash))
+      (propagated-inputs
+       (list
+        emacs-dash))
       (home-page "https://github.com/magnars/string-edit.el")
       (synopsis "")
       (description "")
@@ -1625,7 +1657,6 @@
          (sha256
           (base32 "1cf63r0f8mg4zl6min48f8wby2k7g4v60lyw6j8gsjz8ppww8gx2"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list url-parse thingatpt conf-mode))
       (home-page "https://github.com/holomorph/systemd-mode")
       (synopsis "")
       (description "")
@@ -1647,7 +1678,9 @@
          (sha256
           (base32 "0d86dpws6bvv5qy7xfc3j8iljgckqqd0a17zvrrgsq92ky28s5n1"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list format-spec compat))
+      (propagated-inputs
+       (list
+         emacs-compat))
       (home-page "https://github.com/magit/transient")
       (synopsis "")
       (description "")
@@ -1669,7 +1702,10 @@
          (sha256
           (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list treemacs evil))
+      (propagated-inputs
+       (list
+        emacs-treemacs
+        emacs-evil))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "")
       (description "")
@@ -1691,7 +1727,9 @@
          (sha256
           (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list pcase dired hl-line treemacs))
+      (propagated-inputs
+       (list
+        emacs-treemacs))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "")
       (description "")
@@ -1713,7 +1751,11 @@
          (sha256
           (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list dash eieio persp-mode treemacs))
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-persp-mode
+        emacs-treemacs))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "")
       (description "")
@@ -1735,7 +1777,10 @@
          (sha256
           (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list projectile treemacs))
+      (propagated-inputs
+       (list
+        emacs-projectile
+        emacs-treemacs))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "")
       (description "")
