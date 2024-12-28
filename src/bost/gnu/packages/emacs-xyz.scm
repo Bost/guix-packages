@@ -3373,3 +3373,29 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-overseer
+  (let ((commit "7fdcf1a6fba6b1569a09c1666b4e51bcde266ed9")
+        (revision "0"))
+    (package
+      (name "emacs-overseer")
+      (version (git-version "0.3.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/tonini/overseer.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1f0nm253n0k2rcx0zydj8c4nn5gmvhabzraajxdqycb2ak77nbif"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-pkg-info)
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-dash)))
+      (home-page "https://github.com/tonini/overseer.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
