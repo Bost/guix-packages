@@ -178,7 +178,7 @@
      (description "")
      (license license:gpl3+))))
 
-;; (define-public emacs-auctex-latexmk
+;; (define-public emacs-auctex-latexmk  ;; not needed
 ;;   (let ((commit "4d353522650d7685acbf1d38f7dbc504f734bd84")
 ;;         (revision "0"))
 ;;     (package
@@ -198,27 +198,6 @@
 ;;       (synopsis "")
 ;;       (description "")
 ;;       (license license:gpl3+))))
-
-(define-public emacs-clean-aindent-mode
-  (let ((commit "a97bcae8f43a9ff64e95473e4ef0d8bafe829211")
-        (revision "0"))
-    (package
-      (name "emacs-clean-aindent-mode")
-      (version (git-version "1.5.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/pmarinov/clean-aindent-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "07dgx09j6nn5dl9vpqfcs5yqm79kza3h3r1lb7r09wpkmrg0c2cr"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/pmarinov/clean-aindent-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
 
 (define-public emacs-codegpt
   (let ((commit "55ccb75cf4c01d95c5e5cdad026c62ce484a8ca5")
@@ -1177,30 +1156,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-pdf-view-restore
-  (let ((commit "5a1947c01a3edecc9e0fe7629041a2f53e0610c9")
-        (revision "0"))
-    (package
-      (name "emacs-pdf-view-restore")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/007kevin/pdf-view-restore")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-pdf-view))
-      (home-page "https://github.com/007kevin/pdf-view-restore")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-php-extras
   (let ((commit "d410c5af663c30c01d461ac476d1cbfbacb49367")
         (revision "0"))
@@ -1271,76 +1226,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-pipenv
-  (let ((commit "3af159749824c03f59176aff7f66ddd6a5785a10")
-        (revision "0"))
-    (package
-      (name "emacs-pipenv")
-      (version (git-version "0.0.1-beta" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/pwalsh/pipenv.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1ak9dvjqhdm12i7yamgbqjmc4zmvy2f0gd1nia1q9dy3n6576ryq"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-pyvenv
-        emacs-s))
-      (home-page "https://github.com/pwalsh/pipenv.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-poetry
-  (let ((commit "1dff0d4a51ea8aff5f6ce97b154ea799902639ad")
-        (revision "0"))
-    (package
-      (name "emacs-poetry")
-      (version (git-version "0.2.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/cybniv/poetry.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0n5v6c75pal2xd8p453jrd046zkv0y1pzgn5w2n2ws1009pw6crs"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-pyvenv))
-      (home-page "https://github.com/cybniv/poetry.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-py-isort
-  (let ((commit "e67306f459c47c53a65604e4eea88a3914596560")
-        (revision "0"))
-    (package
-      (name "emacs-py-isort")
-      (version (git-version "2016.1\n0.4" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/paetzke/py-isort.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "08i55gv392wc12x8v3dca0dmz8a8p9ljsqhyajsb6qv1k120wqhx"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/paetzke/py-isort.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-pytest
   (let ((commit "8692f965bf4ddf3d755cf1fbf77a7a768e22460e")
         (revision "0"))
@@ -1365,145 +1250,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-reformatter
-  (let ((commit "8962e1dd0c949997413380ea1f8d8a25ada5f624")
-        (revision "0"))
-    (package
-      (name "emacs-reformatter")
-      (version (git-version "0.8" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/purcell/emacs-reformatter")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0lp7lmfaq23hpk5lvl0b291jnky1xq7ixi8ry2lrxdl64rr9fwvf"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/purcell/emacs-reformatter")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-reveal-in-folder
-  (let ((commit "f5991b8e4f4e86bd47629688a05fabd92dfe25ac")
-        (revision "0"))
-    (package
-      (name "emacs-reveal-in-folder")
-      (version (git-version "20240226.13721\n0.1.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/jcs-elpa/reveal-in-folder")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "156fb1zcjr2i1f6dv10vnz74wbiylawi7npd2kwr2zrpdf8sflqi"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-s
-        emacs-f))
-      (home-page "https://github.com/jcs-elpa/reveal-in-folder")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-sass-mode
-  (let ((commit "247a0d4b509f10b28e4687cd8763492bca03599b")
-        (revision "0"))
-    (package
-      (name "emacs-sass-mode")
-      (version (git-version "3.0.16" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/nex3/sass-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1nhk12lhvkwdk8s8fx33p6rssi0gcfx2zkanq23rz6k28v5zi5yp"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-haml-mode))
-      (home-page "https://github.com/nex3/sass-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-shell-maker
-  (let ((commit "f0f4ff4c0b14d933f83b3a39043722c9869da0e5")
-        (revision "0"))
-    (package
-      (name "emacs-shell-maker")
-      (version (git-version "20241011.805" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/xenodium/chatgpt-shell")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1w15y2x3j5d3ac6lagmc3qa2n7gpyjp0bk0dn3kinrpj0sqcnds9"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/xenodium/chatgpt-shell")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-shfmt
-  (let ((commit "78a96e66d2685672de3d0b7d627cd57a3b0caaf2")
-        (revision "0"))
-    (package
-      (name "emacs-shfmt")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/purcell/emacs-shfmt")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0x96q2ag85859mzfqjq4gy7s2h883nwc99nw4l4r9cfw7hpplwxb"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-reformatter))
-      (home-page "https://github.com/purcell/emacs-shfmt")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-string-edit-at-point
-  (let ((commit "87936d816ae24184dd83688136531b6b6f1943fe")
-        (revision "0"))
-    (package
-      (name "emacs-string-edit-at-point")
-      (version (git-version "0.1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magnars/string-edit.el")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0ggn7l3bisjx1ab4jrhija3z3bh6zbafhzjl5cq92n7i2plz8qdm"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-dash))
-      (home-page "https://github.com/magnars/string-edit.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-systemd
   (let ((commit "8742607120fbc440821acbc351fda1e8e68a8806")
         (revision "0"))
@@ -1521,130 +1267,6 @@
           (base32 "1cf63r0f8mg4zl6min48f8wby2k7g4v60lyw6j8gsjz8ppww8gx2"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/holomorph/systemd-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-transient
-  (let ((commit "a541b996bd03a21a81edc02f333016fd906b91b6")
-        (revision "0"))
-    (package
-      (name "emacs-transient")
-      (version (git-version "0.7.5" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/transient")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0d86dpws6bvv5qy7xfc3j8iljgckqqd0a17zvrrgsq92ky28s5n1"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-         emacs-compat))
-      (home-page "https://github.com/magit/transient")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-treemacs-evil
-  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
-        (revision "0"))
-    (package
-      (name "emacs-treemacs-evil")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Alexander-Miller/treemacs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-treemacs
-        emacs-evil))
-      (home-page "https://github.com/Alexander-Miller/treemacs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-treemacs-icons-dired
-  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
-        (revision "0"))
-    (package
-      (name "emacs-treemacs-icons-dired")
-      (version (git-version "20241017.2046" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Alexander-Miller/treemacs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-treemacs))
-      (home-page "https://github.com/Alexander-Miller/treemacs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-treemacs-persp
-  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
-        (revision "0"))
-    (package
-      (name "emacs-treemacs-persp")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Alexander-Miller/treemacs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-dash
-        emacs-persp-mode
-        emacs-treemacs))
-      (home-page "https://github.com/Alexander-Miller/treemacs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-treemacs-projectile
-  (let ((commit "2f0668439dfa246b2807497f2824ec7c7fbbeb49")
-        (revision "0"))
-    (package
-      (name "emacs-treemacs-projectile")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Alexander-Miller/treemacs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1dhxg30jiix9s94al2n88nafm9vs4p1343lqnx1pi729zqkxc5yf"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-projectile
-        emacs-treemacs))
-      (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "")
       (description "")
       (license license:gpl3+))))

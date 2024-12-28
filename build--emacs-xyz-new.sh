@@ -3,23 +3,6 @@
 set -e
 set -x
 
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pdf-view-restore)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-auctex-latexmk)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-clean-aindent-mode)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-closql)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pipenv)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-poetry)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-reformatter)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-reveal-in-folder)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-sass-mode)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-shell-maker)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-shfmt)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-string-edit-at-point)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-transient)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-treemacs-evil)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-treemacs-icons-dired)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-treemacs-persp)'
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-treemacs-projectile)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-overseer)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-php-extras)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-php-mode)'
