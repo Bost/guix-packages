@@ -3021,3 +3021,119 @@ unique identifiers directly in Emacs.")
  and define custom keybindings for test operations, enhancing the Python
  development workflow in Emacs.")
       (license license:gpl3+))))
+
+(define-public emacs-impatient-mode
+  (let ((commit "7b54b015de4b3b81266291e9cfe688f7e20eb40a")
+        (revision "0"))
+    (package
+      (name "emacs-impatient-mode")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/netguy204/imp.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0qcrza3c4iigzv79mqy2xqi1x2fgvz2b2hmfsjaig6z9w5lgfnz8"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-htmlize)
+        (@(gnu packages emacs-xyz) emacs-simple-httpd)))
+      (home-page "https://github.com/netguy204/imp.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-importmagic
+  (let ((commit "570fb4f519d5e84dd681f932447cb995e8460840")
+        (revision "0"))
+    (package
+      (name "emacs-importmagic")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/anachronic/importmagic.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xrlnighvzgmfb4fwnp07bnj1wyym1pn4ap62swq0h0mcq8gjr80"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-epc)))
+      (home-page "https://github.com/anachronic/importmagic.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-journalctl-mode
+  (let ((commit "631d10a5c8f466c94c38c3cd7410a27026f5f822")
+        (revision "0"))
+    (package
+      (name "emacs-journalctl-mode")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/SebastianMeisel/journalctl-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1p3mgza73yls8f7v063jb49z0ylmvni4v812abqvvvrn5q396286"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/SebastianMeisel/journalctl-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-kbd-mode
+  (let ((commit "b07f3e16043fbb268b3e47fb49abc419e8b7e2d7")
+        (revision "0"))
+    (package
+      (name "emacs-kbd-mode")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kmonad/kbd-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0lnnr71g1nvqlyvzaiq7nqcnwhwh34xg2wfig1j5xb9wvblrg621"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/kmonad/kbd-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-maven-test-mode
+  (let ((commit "a19151861df2ad8ae4880a2e7c86ddf848cb569a")
+        (revision "0"))
+    (package
+      (name "emacs-maven-test-mode")
+      (version (git-version "0.1.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "http://github.com/rranelli/maven-test-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xn2yyr8mr90cynbxgv0h5v180pzf0ydnjr9spg34mrdicqlki6c"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-s)))
+      (home-page "http://github.com/rranelli/maven-test-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
