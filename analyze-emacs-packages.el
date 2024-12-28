@@ -75,6 +75,7 @@
                 org-capture
                 package
                 pcase
+                pdf-view  ;; in pdf-tools
                 pp
                 python
                 regexp-opt
