@@ -3,7 +3,6 @@
 set -e
 set -x
 
-guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-nose)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-pdf-view-restore)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-auctex-latexmk)'
 guix build -c 24 -L ./src -e '(@(bost gnu packages emacs-xyz-new) emacs-clean-aindent-mode)'

@@ -1127,27 +1127,6 @@
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-nose
-  (let ((commit "3b517aff31529bab33f8d7b562bd17aff0107fd1")
-        (revision "0"))
-    (package
-      (name "emacs-nose")
-      (version (git-version "0.3\n20150423.34839" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/rasmus-toftdahl-olesen/iss-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0992lzgar0kz9i1sk5vz17q9qzfgl8fkyxa1q0hmhgnpjf503cnj"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/rasmus-toftdahl-olesen/iss-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-org-projectile
   (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
         (revision "0"))
