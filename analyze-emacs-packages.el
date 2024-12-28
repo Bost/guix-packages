@@ -153,13 +153,17 @@ associated with :url."
               '(
                 advice
                 ansi-color
+                array
                 auth-source
                 avoid
                 calc-ext
                 cl
                 cl-extra
-                cl-lib
+                cl-generic
+                cl-libs
+                comint
                 compile
+                conf-mode
                 cus-face
                 derived
                 dired
@@ -168,10 +172,16 @@ associated with :url."
                 edmacro
                 eieio
                 eieio-base
+                eldoc
                 epg
                 erc
                 ert
                 eshell
+                ewoc
+                eww
+                ffap
+                filenotify
+                files
                 find-func
                 flymake
                 flyspell
@@ -181,8 +191,11 @@ associated with :url."
                 help-mode
                 hierarchy
                 hl-line
+                goto-addr
                 ido
                 image
+                imenu
+                inline
                 ispell
                 iswitchb ;; deprecated
                 json
@@ -192,6 +205,8 @@ associated with :url."
                 magit
                 map
                 nxml-mode
+                minibuffer
+                network-stream
                 ob
                 ob-core
                 org
@@ -217,13 +232,18 @@ associated with :url."
                 thingatpt
                 tramp
                 transient
+                tree-widget
                 url
+                url-queue
                 url-parse
                 url-http
+                url-util
+                vc
                 vc-hooks
                 view
                 warnings
                 wid-edit
+                widget
                 xml
                 xref
                 )))
