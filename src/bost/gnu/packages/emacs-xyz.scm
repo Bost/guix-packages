@@ -3533,34 +3533,79 @@ unique identifiers directly in Emacs.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-drupal-mode
-  (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
+(define-public emacs-flymake-easy
+  (let ((commit "048482a97294585c4833d0311e9254a81db39b6b")
         (revision "0"))
     (package
-      (name "emacs-drupal-mode")
-      (version (git-version "0.8.1" revision commit))
+      (name "emacs-flymake-easy")
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/arnested/drupal-mode")
+               (url "https://github.com/purcell/flymake-easy")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
+          (base32 "08ijmbdz0cybh9jicvl0hx8j2kc13rmv11z2igl1psmj472989f1"))))
       (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-php-mode)))
-      (home-page "https://github.com/arnested/drupal-mode")
+      (home-page "https://github.com/purcell/flymake-easy")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-drupal-pcomplete
-  (package
-    (inherit emacs-drupal-mode)
-    (name "emacs-drupal-pcomplete")))
+(define-public emacs-flymake-phpcs
+  (let ((commit "65ef3ff8ac1e1f48c8cbe66f273835c73680b991")
+        (revision "0"))
+    (package
+      (name "emacs-flymake-phpcs")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/flymake/flymake-phpcs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "13w251mgr8lvlwa8nj51gyikaiqjbyggc4dh92phf148135jam3l"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-flymake-easy))
+      (home-page "https://github.com/flymake/flymake-phpcs")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+;; (define-public emacs-drupal-mode
+;;   (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-drupal-mode")
+;;       (version (git-version "0.8.1" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/arnested/drupal-mode")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
+;;       (build-system emacs-build-system)
+;;       (arguments
+;;        (list
+;;         #:include #~(cons* "^drupal/.*\\.el$" %default-include)))
+;;       (propagated-inputs
+;;        (list
+;;         emacs-flymake-phpcs
+;;         (@(gnu packages emacs-xyz) emacs-flycheck)
+;;         (@(gnu packages emacs-xyz) emacs-php-mode)))
+;;       (home-page "https://github.com/arnested/drupal-mode")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
 
 (define-public emacs-elisp-def
   (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
@@ -3661,6 +3706,27 @@ unique identifiers directly in Emacs.")
         emacs-flx ;; prefer my 0.6.2-0.7b44a5a over 0.6.1 from upstream
         ))
       (home-page "https://github.com/lewang/flx")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-define-word
+  (let ((commit "31a8c67405afa99d0e25e7c86a4ee7ef84a808fe")
+        (revision "0"))
+    (package
+      (name "emacs-define-word")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/abo-abo/define-word")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0h3dasg81f1b08xvz38nyd887pdlv60kj8q50kk2aqlpkr8j0y18"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/abo-abo/define-word")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
