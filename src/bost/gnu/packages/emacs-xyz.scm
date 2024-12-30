@@ -3557,6 +3557,11 @@ unique identifiers directly in Emacs.")
       (description "")
       (license license:gpl3+))))
 
+(define-public emacs-drupal-pcomplete
+  (package
+    (inherit emacs-drupal-mode)
+    (name "emacs-drupal-pcomplete")))
+
 (define-public emacs-elisp-def
   (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
         (revision "0"))
