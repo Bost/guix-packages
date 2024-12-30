@@ -3399,3 +3399,136 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-php-extras
+  (let ((commit "d410c5af663c30c01d461ac476d1cbfbacb49367")
+        (revision "0"))
+    (package
+      (name "emacs-php-extras")
+      (version (git-version "2.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arnested/php-extras")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0mcgwisnqplav0ga8xqqw72523iv841wp2cyw7d4lkzgpiav51dg"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-php-mode)))
+      (home-page "https://github.com/arnested/php-extras")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-emr
+  (let ((commit "cac1b52932926f56d7f6d2923732d20bbd20670d")
+        (revision "0"))
+    (package
+      (name "emacs-emr")
+      (version (git-version "0.4.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https //github.com/Wilfred/emacs-refactor")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "06rmknnhzcm3fy1iipvryl85fcshpalz50500rrz8k3vkl2dps2i"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-popup)
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-dash)
+        (@(gnu packages emacs-xyz) emacs-list-utils)
+        (@(gnu packages emacs-xyz) emacs-iedit)
+        ))
+      (home-page "https://github.com/Wilfred/emacs-refactor")
+      (synopsis "Framework for language-specific code refactoring in Emacs")
+      (description
+       "This package provides Emacs Refactor (EMR), a framework that offers
+ language-specific refactoring commands within Emacs. It supports various
+ programming languages, including Emacs Lisp, JavaScript, Ruby, and Scheme,
+ enabling context-sensitive refactoring operations such as extracting
+ functions or variables, inlining code, and tidying imports. EMR enhances code
+ maintainability and development efficiency by integrating refactoring tools
+ directly into the Emacs environment.")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-tweet
+  (let ((commit "91fed61e139fa788d66a7358f0d50acc896414b8")
+        (revision "0"))
+    (package
+      (name "emacs-erc-tweet")
+      (version (git-version "0.9" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kidd/erc-tweet.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "118q4zj9dh5xnimcsi229j5pflhcd8qz0p212kc4p9dmyrx2iw0n"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/kidd/erc-tweet.el")
+      (synopsis "Display inline tweets in ERC buffers")
+      (description
+       "This package enhances Emacs' ERC (Emacs IRC client) by displaying
+ tweet content directly within IRC buffers. When a Twitter URL is detected in
+ the chat, the corresponding tweet text is fetched and shown inline, providing
+ immediate context without the need to open external links. This feature
+ improves the chat experience by integrating external content seamlessly into
+ the conversation.")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-view-log
+  (let ((commit "c5a25f0cbca84ed2e4f72068c02b66bd0ea3b266")
+        (revision "0"))
+    (package
+      (name "emacs-erc-view-log")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Niluge-KiWi/erc-view-log")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0bzi2sh2fhrz49j5y53h6jgf41av6rx78smb3bbk6m74is8vim2y"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/Niluge-KiWi/erc-view-log")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-erc-yt
+  (let ((commit "43e7d49325b17a3217a6ffb4a9daf75c5ff4e6f8")
+        (revision "0"))
+    (package
+      (name "emacs-erc-yt")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/yhvh/erc-yt.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dlw34kaslyvnsrahf4rm76r2b7qqqn589i4mmhr23prl8xbz9z9"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)
+        ))
+      (home-page "https://github.com/yhvh/erc-yt.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
