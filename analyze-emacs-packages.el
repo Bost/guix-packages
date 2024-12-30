@@ -52,33 +52,40 @@
                 eieio-base
                 epg
                 erc
+                ert
                 eshell
                 find-func
                 flymake
                 flyspell
+                format-spec
                 goto-addr
                 help-fns
                 help-mode
                 hierarchy
                 hl-line
                 ido
+                image
                 ispell
                 iswitchb ;; deprecated
                 json
                 latex
+                let-alist
                 lv
                 magit
                 map
+                nxml-mode
                 ob
                 ob-core
                 org
                 org-capture
                 package
                 pcase
+                pcomplete
                 pdf-view  ;; in pdf-tools
                 pp
                 python
                 regexp-opt
+                reveal
                 ring
                 rx
                 seq
@@ -86,16 +93,21 @@
                 sha1
                 shell
                 shr
+                sql
+                sqlite
                 subr-x
                 thingatpt
                 tramp
                 transient
                 url
+                url-parse
+                url-http
                 vc-hooks
                 view
                 warnings
                 wid-edit
                 xml
+                xref
                 )))
 
 (defun find-sexps (kw lst)
