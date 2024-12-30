@@ -3532,3 +3532,130 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-drupal-mode
+  (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
+        (revision "0"))
+    (package
+      (name "emacs-drupal-mode")
+      (version (git-version "0.8.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arnested/drupal-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-php-mode)))
+      (home-page "https://github.com/arnested/drupal-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-elisp-def
+  (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
+        (revision "0"))
+    (package
+      (name "emacs-elisp-def")
+      (version (git-version "1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Wilfred/elisp-def")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0k1r4fyai53p7y5vqwqjxdiqlnmrrxqaxglc22j54kdic8j1lbl7"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-dash)
+        ))
+      (home-page "https://github.com/Wilfred/elisp-def")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dall-e
+  (let ((commit "98743d452ba8644d0da9f5ebbed1adfe79b65f32")
+        (revision "0"))
+    (package
+      (name "emacs-dall-e")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/dall-e")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0qgyf0z3pwz03bnfbs88kcijg9s0lhn8fryr5cywrx9nipzn7d7n"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-reveal-in-folder
+        emacs-openai
+        emacs-lv
+        (@(gnu packages emacs-xyz) emacs-async)
+        (@(gnu packages emacs-xyz) emacs-spinner)
+        (@(gnu packages emacs-xyz) emacs-ht)
+        ))
+      (home-page "https://github.com/emacs-openai/dall-e")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-gh-md
+  (let ((commit "e721fd5e41e682f47f2dd4ce26ef2ba28c7fa0b5")
+        (revision "0"))
+    (package
+      (name "emacs-gh-md")
+      (version (git-version "0.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-pe/gh-md.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xnfq6bbc5bgkd0mzkr7r66sd85qfn859swpsp6sr0xfl8cq12wm"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacs-pe/gh-md.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flx-ido
+  (let ((commit "4b1346eb9a8a76ee9c9dede69738c63ad97ac5b6")
+        (revision "0"))
+    (package
+      (name "emacs-flx-ido")
+      (version (git-version "0.6.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/lewang/flx")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0q49p1y3kpx140h0f97kfw4kfx8mlzzxbninbarvygmlg2fkfi1n"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-flx ;; prefer my 0.6.2-0.7b44a5a over 0.6.1 from upstream
+        ))
+      (home-page "https://github.com/lewang/flx")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
