@@ -588,33 +588,6 @@ Flx has support for ido (interactively do things) through flx-ido.")
 ;;     (description "")
 ;;     (license license:gpl3+)))
 
-;; emacs-sql unbound
-;; (define-public emacs-drupal-mode
-;;   (package
-;;     (name "emacs-drupal-mode")
-;;     (version "0.7.4")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/arnested/drupal-mode")
-;;                (commit
-;;                  "17927723adc5921e8058f7c29e5e50e88b975639")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1j0zlcjrz0pswcc8wh476vx503qvlyzjscwh0gs3cfss8j6r6gd5"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-sql
-;;             emacs-format-spec
-;;             emacs-php-mode))
-;;     (home-page
-;;       "https://github.com/arnested/drupal-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 ;; emacs-subr-x unbound
 ;; (define-public emacs-code-cells
 ;;   (package
