@@ -3730,3 +3730,53 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+;; (define-public emacs-concurrent
+;;   (let ((commit "2239671d94b38d92e9b28d4e12fd79814cfb9c16")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-concurrent")
+;;       (version (git-version "0.5.0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/kiwanami/emacs-deferred")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0vz59lm7pfz0gbsgrb44y555js85wbdjn0zm6p8wfqjiqf63ds3i"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs
+;;        (list
+;;         (@(gnu packages emacs-xyz) emacs-deferred)
+;;         ))
+;;       (home-page "https://github.com/kiwanami/emacs-deferred")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
+
+(define-public emacs-company-shell
+  (let ((commit "5f959a63a6e66eb0cbdac3168cad523a62cc2ccd")
+        (revision "0"))
+    (package
+      (name "emacs-company-shell")
+      (version (git-version "1.3.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Alexander-Miller/company-shell")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0lrkvfg0z9gwfcj90yihanysg8icxpbqq3wqyb734bi5fpmgmzr4"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)
+        (@(gnu packages emacs-xyz) emacs-company)))
+      (home-page "https://github.com/Alexander-Miller/company-shell")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
