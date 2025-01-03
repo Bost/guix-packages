@@ -3780,3 +3780,52 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-evil-easymotion
+  (let ((commit "f96c2ed38ddc07908db7c3c11bcd6285a3e8c2e9")
+        (revision "0"))
+    (package
+      (name "emacs-evil-easymotion")
+      (version (git-version "20160228" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pythonnut/evil-easymotion")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0xsva9bnlfwfmccm38qh3yvn4jr9za5rxqn4pwxbmhnx4rk47cch"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-avy)
+        (@(gnu packages emacs-xyz) emacs-evil)))
+      (home-page "https://github.com/pythonnut/evil-easymotion")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-tutor
+  (let ((commit "4e124cd3911dc0d1b6817ad2c9e59b4753638f28")
+        (revision "0"))
+    (package
+      (name "emacs-evil-tutor")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/evil-tutor")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "00yfq8aflxvp2nnz7smgq0c5wlb7cips5irj8qs6193ixlkpffvx"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-evil)))
+      (home-page "https://github.com/syl20bnr/evil-tutor")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
