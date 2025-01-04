@@ -4208,3 +4208,77 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-helm-comint
+  (let ((commit "5f435ede181818b6f8c58ad7b45f47acd2721daf")
+        (revision "0"))
+    (package
+      (name "emacs-helm-comint")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/benedicthw/helm-comint.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0k95q7hdy7sp3l8yifjnc6f7xfplnqy8qff806yfgqiyy7gpx72p"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-helm)))
+      (home-page "https://github.com/benedicthw/helm-comint.git")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-helm-purpose
+  (let ((commit "9ff4c21c1e9ebc7afb851b738f815df7343bb287")
+        (revision "0"))
+    (package
+      (name "emacs-helm-purpose")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/bmag/helm-purpose")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1xh6v5xlf1prgk6mrvkc6qa0r0bz74s5f4z3dl7d00chsi7i2m5v"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-window-purpose)
+        (@(gnu packages emacs-xyz) emacs-helm)))
+      (home-page "https://github.com/bmag/helm-purpose")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-livid-mode
+  (let ((commit "dfe5212fa64738bc4138bfebf349fbc8bc237c26")
+        (revision "0"))
+    (package
+      (name "emacs-livid-mode")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/pandeiro/livid-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "178ldzpk8a9m9abn8xlplxn5jgcca71dpkp82bs5g7bsccp3rx6p"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-skewer-mode)))
+      (home-page "https://github.com/pandeiro/livid-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
