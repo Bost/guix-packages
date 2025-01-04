@@ -3875,3 +3875,130 @@ unique identifiers directly in Emacs.")
       (description
        "From doomelpa/code-review not from wandersoncferreira/code-review")
       (license license:gpl3+))))
+
+(define-public emacs-codegpt
+  (let ((commit "12b79c3a7f8d84709f065aa286ca2559573a9206")
+        (revision "0"))
+    (package
+      (name "emacs-codegpt")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-openai/codegpt")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wzghpbvy8ac1sjnj2070vnb699q9bsqjx7r6bvva22325ggpspm"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-spinner)
+        (@(gnu packages emacs-xyz) emacs-markdown-mode)
+        emacs-openai
+        ))
+      (home-page "https://github.com/emacs-openai/codegpt")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-dired-quick-sort
+  (let ((commit "eaeab1021b391e3d6275ba7c186c5ac95fb8a10e")
+        (revision "0"))
+    (package
+      (name "emacs-dired-quick-sort")
+      (version (git-version "0.2+" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://gitlab.com/xuhdev/dired-quick-sort")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1sxdiw1qwpr49a0l2q899r78mnwcwqhj4dfs22261acw7ifk07yb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-hydra)
+        ))
+      (home-page "https://gitlab.com/xuhdev/dired-quick-sort")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-lisp-state
+  (let ((commit "3c65fecd9917a41eaf6460f22187e2323821f3ce")
+        (revision "0"))
+    (package
+      (name "emacs-evil-lisp-state")
+      (version (git-version "8.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/syl20bnr/evil-lisp-state")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1n6r8xs670r5qp4b5f72nr9g8nlqcrx1v7yqqlbkgv8gns8n5xgh"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-bind-map)
+        (@(gnu packages emacs-xyz) emacs-smartparens)
+        (@(gnu packages emacs-xyz) emacs-evil)))
+      (home-page "https://github.com/syl20bnr/evil-lisp-state")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-textobj-line
+  (let ((commit "9eaf9a5485c2b5c05e16552b34632ca520cd681d")
+        (revision "0"))
+    (package
+      (name "emacs-evil-textobj-line")
+      (version (git-version "" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/evil-textobj-line")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1w98gc1sqik8ab35a1hg5853dwar98a8qd94lxpq4ckabpgypins"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-evil)))
+      (home-page "https://github.com/emacsorphanage/evil-textobj-line")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-visual-mark-mode
+  (let ((commit "2bbaaae56ae53e68a8bcc7bc2cfe830a14843b4d")
+        (revision "0"))
+    (package
+      (name "emacs-evil-visual-mark-mode")
+      (version (git-version "0.0.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/roman/evil-visual-mark-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ggxifiz2qm26v2fw8m9ccjp3jbmhyhb8wv93m8k1pnyh8b7la2m"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)
+        (@(gnu packages emacs-xyz) emacs-evil)))
+      (home-page "https://github.com/roman/evil-visual-mark-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
