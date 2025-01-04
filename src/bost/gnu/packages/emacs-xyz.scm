@@ -4108,3 +4108,103 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-flycheck-credo
+  (let ((commit "e285bd042a535d0f13e0b4c5226df404cdda4033")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-credo")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/aaronjensen/flycheck-credo")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1n41liayykjmh1xwfnhdvw9bdxjca7d274gkpjfzhvhmbv7dig19"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-flycheck)))
+      (home-page "https://github.com/aaronjensen/flycheck-credo")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-elsa
+  (let ((commit "d60db9544d0c4213f2478bcea0fd0e668e31cf34")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-elsa")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-elsa/flycheck-elsa")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ig9dc7ch3cdxp4p24v21h7hrdph9y5jy9421bfww6agymbj8i85"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-flycheck)))
+      (home-page "https://github.com/emacs-elsa/flycheck-elsa")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-pos-tip
+  (let ((commit "dc57beac0e59669926ad720c7af38b27c3a30467")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-pos-tip")
+      (version (git-version "0.4-cvs" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/flycheck/flycheck-pos-tip")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "15h4m5cfk0vh1g630vlwfxmcpa1jdalrrldnvijsqla99mb2jm1w"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-pos-tip)
+        (@(gnu packages emacs-xyz) emacs-flycheck)))
+      (home-page "https://github.com/flycheck/flycheck-pos-tip")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flyspell-correct-helm
+  (package
+    (inherit
+     (@(gnu packages emacs-xyz) emacs-flyspell-correct))
+    (name "emacs-flyspell-correct-helm")))
+
+(define-public emacs-gitignore-templates
+  (let ((commit "d28cd1cec00242b688861648d36d086818b06099")
+        (revision "0"))
+    (package
+      (name "emacs-gitignore-templates")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/xuchunyang/gitignore-templates.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0x4pg4jpgmbvfw854ps9w3xgp8bgm7n7vmcvk3kp7h2s56l8s2xb"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/xuchunyang/gitignore-templates.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
