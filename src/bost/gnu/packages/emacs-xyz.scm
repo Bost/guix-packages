@@ -2965,6 +2965,11 @@ unique identifiers directly in Emacs.")
     (inherit emacs-org-project-capture)
     (name "emacs-org-category-capture")))
 
+(define-public emacs-org-project-capture-backend
+  (package
+    (inherit emacs-org-project-capture)
+    (name "emacs-org-project-capture-backend")))
+
 (define-public emacs-highlight-parentheses
   (let ((commit "965b18dd69eff4457e17c9e84b3cbfdbfca2ddfb")
         (revision "0"))
@@ -3999,6 +4004,107 @@ unique identifiers directly in Emacs.")
         (@(gnu packages emacs-xyz) emacs-dash)
         (@(gnu packages emacs-xyz) emacs-evil)))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-org-projectile
+  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
+        (revision "0"))
+    (package
+      (name "emacs-org-projectile")
+      (version (git-version "3.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/colonelpanic8/org-project-capture")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)
+        emacs-org-category-capture
+        emacs-org-project-capture
+        emacs-org-project-capture-backend
+        (@(gnu packages emacs-xyz) emacs-projectile)))
+      (home-page "https://github.com/colonelpanic8/org-project-capture")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-phpunit
+  (let ((commit "650a50898de1fa4eeb47360b12aeb1126b2448c2")
+        (revision "0"))
+    (package
+      (name "emacs-phpunit")
+      (version (git-version "0.17.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/nlamirault/phpunit.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03vs9ni9nhm7rzr3qkgcjbldqxcds20ai2c52sw8wc6zpp5qijsc"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-s)))
+      (home-page "https://github.com/nlamirault/phpunit.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-pip-requirements
+  (let ((commit "31e0dc62abb2d88fa765e0ea88b919d756cc0e4f")
+        (revision "0"))
+    (package
+      (name "emacs-pip-requirements")
+      (version (git-version "0.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Wilfred/pip-requirements.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "08q225h8kahh632qkzpb1ih3jqg5imlzgrrh8ynkyxrr710madkl"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-dash)))
+      (home-page "https://github.com/Wilfred/pip-requirements.el")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-flycheck-bashate
+  (let ((commit "5e673c591d017329d0a07a61dc1223fa98639ee2")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-bashate")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alexmurray/flycheck-bashate")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1gaih50mkyby0r4qnmc03dy111ik4and5p6r3lvsflpvd3hcxjn3"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-flycheck)))
+      (home-page "https://github.com/alexmurray/flycheck-bashate")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
