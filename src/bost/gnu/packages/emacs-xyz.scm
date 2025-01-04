@@ -3829,3 +3829,49 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-code-review
+  (let ((commit
+         "eeffdd9e20ad133e5981f216965445bfae20292a"
+         ;; "26f426e99221a1f9356aabf874513e9105b68140"
+         )
+        (revision "0"))
+    (package
+      (name "emacs-code-review")
+      (version (git-version "0.0.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url
+                "https://github.com/doomelpa/code-review"
+                ;; "https://github.com/wandersoncferreira/code-review"
+                )
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256 (base32
+                  "12y2209mkk6c2p1fh8zbzbk044m52690ji1dqjb1a7s2i5yaka2p"
+                  ;; "1031sq40kysbkvl0cl4lq39ls13n0y3kafbmf4c30grbydljbd52"
+                  ))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-uuidgen
+        (@(gnu packages emacs-xyz) emacs-deferred)
+        (@(gnu packages emacs-xyz) emacs-emojify)
+        (@(gnu packages emacs-xyz) emacs-forge)
+        (@(gnu packages emacs-xyz) emacs-closql)
+        (@(gnu packages emacs-xyz) emacs-magit)
+        (@(gnu packages emacs-xyz) emacs-a)
+        (@(gnu packages emacs-xyz) emacs-ghub)
+        (@(gnu packages emacs-xyz) emacs-transient)
+        (@(gnu packages emacs-xyz) emacs-markdown-mode)
+        ))
+      (home-page
+       "https://github.com/doomelpa/code-review"
+       ;; "https://github.com/wandersoncferreira/code-review"
+       )
+      (synopsis "")
+      (description
+       "From doomelpa/code-review not from wandersoncferreira/code-review")
+      (license license:gpl3+))))
