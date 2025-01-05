@@ -5107,3 +5107,65 @@ unique identifiers directly in Emacs.")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
+
+(define-public emacs-php-mode
+  (let ((commit "b45992a6a9d019fafe7a9dcde19401b0f20a20bf") (revision "0"))
+    (package
+     (name "emacs-php-mode")
+     (version (git-version "20250103.157" revision commit))
+     (source
+      (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacs-php/php-mode")
+             (commit commit)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "0810hbdakjasldl4vanigjhj7pixkq3dxad2w60grg0kb8xj9rz6"))))
+     (build-system emacs-build-system)
+     (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'move-source-files
+            (lambda _
+              (let ((el-files
+                     (find-files
+                      "lisp"
+                      ".*\\.el$")))
+                (for-each (lambda (f) (rename-file f (basename f)))
+                          el-files)))))))
+     (propagated-inputs
+      (list
+       emacs-nadvice
+       emacs-cc-mode))
+     (home-page "https://github.com/emacs-php/php-mode")
+     (synopsis "")
+     (description "")
+     (license license:gpl3+))))
+
+(define-public emacs-drupal-mode
+  (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
+        (revision "0"))
+    (package
+      (name "emacs-drupal-mode")
+      (version (git-version "20240816.1236" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arnested/drupal-mode")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-php-mode))
+      (home-page "https://github.com/arnested/drupal-mode")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
