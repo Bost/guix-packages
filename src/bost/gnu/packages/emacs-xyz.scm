@@ -1195,9 +1195,14 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-hybrid-mode")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      `(cons*
+        "^layers/\\+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode\\.el$"
+        ,all-info-include)))
+    (propagated-inputs
+     (list
+      (@(gnu packages emacs-xyz) emacs-evil)))))
 
 (define-public emacs-vim-colors
   (package
