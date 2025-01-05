@@ -1888,10 +1888,10 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
-(define-public emacs-vim-powerline-theme
+(define-public emacs-vim-powerline
   (package
     (inherit emacs-spacemacs-base)
-    (name "emacs-vim-powerline-theme")
+    (name "emacs-vim-powerline")
     (arguments
      (list
       #:phases
@@ -1909,11 +1909,6 @@
     (propagated-inputs
      (list
       emacs-vim-colors))))
-
-(define-public emacs-vim-powerline
-  (package
-    (inherit emacs-vim-powerline-theme)
-    (name "emacs-vim-powerline")))
 
 (define-public emacs-evil-unimpaired
   (package
