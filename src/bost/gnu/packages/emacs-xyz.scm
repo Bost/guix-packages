@@ -4369,3 +4369,20 @@ unique identifiers directly in Emacs.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
+
+(define-public emacs-hide-cmnt
+  (package
+    (name "emacs-hide-cmnt")
+    (version "0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri "https://www.emacswiki.org/emacs/download/hide-comnt.el")
+       (sha256
+        (base32
+         "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n"))))
+    (build-system emacs-build-system)
+    (home-page "https://www.emacswiki.org/emacs/download/hide-comnt.el")
+    (synopsis "")
+    (description "")
+    (license license:gpl3+)))
