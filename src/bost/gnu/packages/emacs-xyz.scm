@@ -4320,3 +4320,47 @@ unique identifiers directly in Emacs.")
      emacs-molokai-theme)
     (name "emacs-molokai")))
 
+(define-public emacs-vimish-fold
+  (let ((commit "a6501cbfe3db791f9ca17fd986c7202a87f3adb8") (revision "0"))
+    (package
+      (name "emacs-vimish-fold")
+      (version (git-version "20201205.1156" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mrkkrp/vimish-fold")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256 (base32 "0w0r951c6vn890h1cz5l8rl6hicna6rbdzfgbg4lpm280yds9lpb"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-f)))
+      (home-page "https://github.com/mrkkrp/vimish-fold")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-vimish-fold
+  (let ((commit "b6e0e6b91b8cd047e80debef1a536d9d49eef31a") (revision "0"))
+    (package
+      (name "emacs-evil-vimish-fold")
+      (version (git-version "20200122.117" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alexmurray/evil-vimish-fold")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256 (base32 "14qhfhk3d4c7v4jhr909dbxy8222flpqwk73bwg0pqwpkcifyv7n"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-vimish-fold
+        (@(gnu packages emacs-xyz) emacs-evil)))
+      (home-page "https://github.com/alexmurray/evil-vimish-fold")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
