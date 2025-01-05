@@ -595,9 +595,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-rst-lists")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+lang/restructuredtext/local/rst-lists/rst-lists\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+lang/restructuredtext/local/rst-lists/rst-lists\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-versions)'
 (define-public emacs-core-versions
@@ -605,9 +607,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-versions")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-versions\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+        "^core/core-versions\\.el$"
+        %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-load-paths)'
 (define-public emacs-core-load-paths
@@ -615,9 +619,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-load-paths")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-load-paths\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-load-paths\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-spacemacs-ht)'
 (define-public emacs-spacemacs-ht
@@ -625,9 +631,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-spacemacs-ht")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/forks/spacemacs-ht\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/forks/spacemacs-ht\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-dotspacemacs)'
 (define-public emacs-core-dotspacemacs
@@ -635,9 +643,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-dotspacemacs")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-dotspacemacs\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-dotspacemacs\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-spacemacs-buffer)'
 (define-public emacs-core-spacemacs-buffer
@@ -645,9 +655,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-spacemacs-buffer")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-spacemacs-buffer\\.el$"
-                       ,all-info-include)))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-spacemacs-buffer\\.el$"
+         %default-include)))
     (propagated-inputs
      (list emacs-core-dotspacemacs))))
 
@@ -657,9 +669,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-use-package-ext")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-use-package-ext\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-use-package-ext\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-fonts-support)'
 (define-public emacs-core-fonts-support
@@ -667,9 +681,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-fonts-support")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-fonts-support\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-fonts-support\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-command-line)'
 (define-public emacs-core-command-line
@@ -677,81 +693,99 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-command-line")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-command-line\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-command-line\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-transient-state
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-transient-state")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-transient-state\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-transient-state\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-early-funcs
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-early-funcs")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-early-funcs\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-early-funcs\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-documentation
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-documentation")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-documentation\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-documentation\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-compilation
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-compilation")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-compilation\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-compilation\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-env
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-env")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-env\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-env\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-hooks
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-hooks")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-hooks\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-hooks\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-display-init
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-display-init")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-display-init\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-display-init\\.el$"
+         %default-include)))))
 
 (define-public emacs-zemacs
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-zemacs")
     (arguments
-     (list #:include `(cons*
-                       "^core/aprilfool/zemacs\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/aprilfool/zemacs\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://www.emacswiki.org/emacs/download/irfc.el
 (define-public emacs-irfc
@@ -759,9 +793,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-irfc")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+misc/ietf/local/irfc/irfc\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+misc/ietf/local/irfc/irfc\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/melpa/package-build
 (define-public emacs-package-build
@@ -769,36 +805,44 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-package-build")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/package-build\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/package-build\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-spacebind
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-spacebind")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-spacebind\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-spacebind\\.el$"
+         %default-include)))))
 
 (define-public emacs-package-build-badges
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-package-build-badges")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/package-build-badges\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/package-build-badges\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-custom-settings
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-custom-settings")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-custom-settings\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-custom-settings\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/creichert/ido-vertical-mode.el
 (define-public emacs-ido-vertical-mode
@@ -806,18 +850,22 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-ido-vertical-mode")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/ido-vertical-mode\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/ido-vertical-mode\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-configuration-layer
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-configuration-layer")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-configuration-layer\\.el$"
-                       ,all-info-include)))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-configuration-layer\\.el$"
+         %default-include)))
     (propagated-inputs
      (list
       emacs-core-load-paths
@@ -832,9 +880,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-customization")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-customization\\.el$"
-                       ,all-info-include)))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-customization\\.el$"
+         %default-include)))
     (propagated-inputs
      (list (@(gnu packages emacs-xyz) emacs-validate)))))
 
@@ -843,9 +893,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-spacemacs-common")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/spacemacs-theme/spacemacs-common\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/spacemacs-theme/spacemacs-common\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/nashamri/spacemacs-theme
 (define-public emacs-spacemacs-theme
@@ -853,9 +905,11 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-spacemacs-theme")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/spacemacs-theme/spacemacs-theme\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/spacemacs-theme/spacemacs-theme\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/purcell/page-break-lines
 (define-public emacs-page-break-lines
@@ -863,18 +917,22 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-page-break-lines")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/page-break-lines\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/page-break-lines\\.el$"
+         %default-include)))))
 
 (define-public emacs-package-recipe-mode
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-package-recipe-mode")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/package-recipe-mode\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/package-recipe-mode\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/TeMPOraL/nyan-mode/
 (define-public emacs-nyan-mode
@@ -882,45 +940,55 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-nyan-mode")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+themes/colors/local/nyan-mode/nyan-mode\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+themes/colors/local/nyan-mode/nyan-mode\\.el$"
+         %default-include)))))
 
 (define-public emacs-erc-yank
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-erc-yank")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+chat/erc/local/erc-yank/erc-yank\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+chat/erc/local/erc-yank/erc-yank\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-debug
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-debug")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-debug\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-debug\\.el$"
+         %default-include)))))
 
 (define-public emacs-load-env-vars
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-load-env-vars")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/forks/load-env-vars\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/forks/load-env-vars\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-themes-support
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-themes-support")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-themes-support\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-themes-support\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/sigma/mocker.el
 (define-public emacs-mocker
@@ -928,27 +996,33 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-mocker")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/mocker\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/mocker\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-release-management
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-release-management")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-release-management\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-release-management\\.el$"
+         %default-include)))))
 
 (define-public emacs-compleseus-spacemacs-help
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-compleseus-spacemacs-help")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help\\.el$"
-                       ,all-info-include)))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help\\.el$"
+         %default-include)))
     (propagated-inputs
      (list (@(gnu packages emacs-xyz) emacs-consult)
            emacs-core-configuration-layer))))
@@ -958,18 +1032,22 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-erc-tex")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+chat/erc/local/erc-tex/erc-tex\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+chat/erc/local/erc-tex/erc-tex\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-keybindings
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-keybindings")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-keybindings\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-keybindings\\.el$"
+         %default-include)))))
 
 
 ;; Upstream uses https://elpa.gnu.org/packages/spinner-1.7.4.tar
@@ -978,36 +1056,44 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-spinner")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/spinner\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/spinner\\.el$"
+         %default-include)))))
 
 (define-public emacs-erc-sasl
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-erc-sasl")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+chat/erc/local/erc-sasl/erc-sasl\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+chat/erc/local/erc-sasl/erc-sasl\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-dumper
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-dumper")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-dumper\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-dumper\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-cycle
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-cycle")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-cycle\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-cycle\\.el$"
+         %default-include)))))
 
 ;; Upstream uses https://github.com/larstvei/ox-gfm
 (define-public emacs-ox-gfm
@@ -1015,81 +1101,99 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-ox-gfm")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+emacs/org/local/ox-gfm/ox-gfm\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+emacs/org/local/ox-gfm/ox-gfm\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-jump
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-jump")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-jump\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-jump\\.el$"
+         %default-include)))))
 
 (define-public emacs-package-recipe
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-package-recipe")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/package-recipe\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/package-recipe\\.el$"
+         %default-include)))))
 
 (define-public emacs-helm-spacemacs-faq
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-helm-spacemacs-faq")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+completion/helm/local/helm-spacemacs-help/helm-spacemacs-faq\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+completion/helm/local/helm-spacemacs-help/helm-spacemacs-faq\\.el$"
+         %default-include)))))
 
 (define-public emacs-quelpa
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-quelpa")
     (arguments
-     (list #:include `(cons*
-                       "^core/libs/quelpa\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/libs/quelpa\\.el$"
+         %default-include)))))
 
 (define-public emacs-helm-spacemacs-help
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-helm-spacemacs-help")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+completion/helm/local/helm-spacemacs-help/helm-spacemacs-help\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+completion/helm/local/helm-spacemacs-help/helm-spacemacs-help\\.el$"
+         %default-include)))))
 
 (define-public emacs-ivy-spacemacs-help
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-ivy-spacemacs-help")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-funcs
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-funcs")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-funcs\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-funcs\\.el$"
+         %default-include)))))
 
 (define-public emacs-tmux
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-tmux")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+tools/tmux/local/tmux/tmux\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+tools/tmux/local/tmux/tmux\\.el$"
+         %default-include)))))
 
 ;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-progress-bar)'
 (define-public emacs-core-progress-bar
@@ -1097,36 +1201,44 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-core-progress-bar")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-progress-bar\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-progress-bar\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-micro-state
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-micro-state")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-micro-state\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-micro-state\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-toggle
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-toggle")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-toggle\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-toggle\\.el$"
+         %default-include)))))
 
 (define-public emacs-core-emacs-backports
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-core-emacs-backports")
     (arguments
-     (list #:include `(cons*
-                       "^core/core-emacs-backports\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^core/core-emacs-backports\\.el$"
+         %default-include)))))
 
 (define-public emacs-spacemacs-purpose-popwin
   (package
@@ -1168,27 +1280,33 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-spacemacs-whitespace-cleanup")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup\\.el$"
+         %default-include)))))
 
 (define-public emacs-help-fns-plus
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-help-fns-plus")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+spacemacs/spacemacs-defaults/local/help-fns\\+/help-fns\\+\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+spacemacs/spacemacs-defaults/local/help-fns\\+/help-fns\\+\\.el$"
+         %default-include)))))
 
 (define-public emacs-helm-games
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-helm-games")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+fun/games/local/helm-games/helm-games\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+fun/games/local/helm-games/helm-games\\.el$"
+         %default-include)))))
 
 (define-public emacs-hybrid-mode
   (package
@@ -1197,9 +1315,9 @@
     (arguments
      (list
       #:include
-      `(cons*
+      #~(cons*
         "^layers/\\+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode\\.el$"
-        ,all-info-include)))
+        %default-include)))
     (propagated-inputs
      (list
       (@(gnu packages emacs-xyz) emacs-evil)))))
@@ -1209,27 +1327,41 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-vim-colors")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-colors\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          ;; Move the source files to the top level, which is included in
+          ;; the EMACSLOADPATH.
+          (add-after 'unpack 'move-source-files
+            (lambda _
+              (let ((el-files
+                     (find-files
+                      "./layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
+                      "vim-colors\\.el$")))
+                (for-each (lambda (f) (rename-file f (basename f)))
+                          el-files)))))))))
 
 (define-public emacs-space-doc
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-space-doc")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+spacemacs/spacemacs-org/local/space-doc/space-doc\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+spacemacs/spacemacs-org/local/space-doc/space-doc\\.el$"
+         %default-include)))))
 
 (define-public emacs-rst-sphinx
   (package
     (inherit emacs-spacemacs-base)
     (name "emacs-rst-sphinx")
     (arguments
-     (list #:include `(cons*
-                       "^layers/\\+tools/sphinx/local/rst-sphinx/rst-sphinx\\.el$"
-                       ,all-info-include)))))
+     (list
+      #:include
+      #~(cons*
+         "^layers/\\+tools/sphinx/local/rst-sphinx/rst-sphinx\\.el$"
+         %default-include)))))
 
 (define-public emacs-vim-powerline-theme
   (package
@@ -1237,36 +1369,21 @@
     (name "emacs-vim-powerline-theme")
     (arguments
      (list
-      #:include
-      `(cons*
-        "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-powerline-theme\\.el$"
-        ,all-info-include)))))
-
-;; emacs-vim-powerline-theme not loaded by Spguimacs
-;;
-;; NOTE: This project is in maintenance mode and not currently being developed
-;; or maintained. Pull requests will be reviewed and accepted but may not get
-;; an immediate response. Sorry for the inconvenience.
-;; (define-public emacs-vim-powerline-theme
-;;   (let ((commit "c35c35bdf5ce2d992882c1f06f0f078058870d4a")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-vim-powerline-theme")
-;;       (version (git-version "2.0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/milkypostman/powerline.git")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "0k1n5pg8v3ybkqxcipw80jqv94ka0dp63qxl0hvjwlxk16gxp8kb"))))
-;;       (build-system emacs-build-system)
-;;       (home-page "https://github.com/milkypostman/powerline")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
+      #:phases
+      #~(modify-phases %standard-phases
+          ;; Move the source files to the top level, which is included in
+          ;; the EMACSLOADPATH.
+          (add-after 'unpack 'move-source-files
+            (lambda _
+              (let ((el-files
+                     (find-files
+                      "./layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
+                      "vim-powerline-theme\\.el$")))
+                (for-each (lambda (f) (rename-file f (basename f)))
+                          el-files)))))))
+    (propagated-inputs
+     (list
+      emacs-vim-colors))))
 
 (define-public emacs-evil-unimpaired
   (package
@@ -1360,7 +1477,7 @@
     (arguments
      (list #:include `(cons*
                        "^layers/\\+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state\\.el$"
-                       ,all-info-include)))))
+                       ,%default-include)))))
 
 (define-public emacs-spacemacs-xclipboard
   (package
@@ -1369,7 +1486,7 @@
     (arguments
      (list #:include `(cons*
                        "^layers/\\+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard\\.el$"
-                       ,all-info-include)))))
+                       ,%default-include)))))
 
 (define-public emacs-theme-changer
   (package
@@ -1378,7 +1495,7 @@
     (arguments
      (list #:include `(cons*
                        "^layers/\\+tools/geolocation/extensions/theme-changer/theme-changer\\.el$"
-                       ,all-info-include)))))
+                       ,%default-include)))))
 
 (define-public emacs-jr-mode
   (package
@@ -1387,7 +1504,7 @@
     (arguments
      (list #:include `(cons*
                        "^layers/\\+lang/jr/local/jr-mode/jr-mode\\.el$"
-                       ,all-info-include)))))
+                       ,%default-include)))))
 
 (define-public emacs-rst-directives
   (package
@@ -1396,7 +1513,7 @@
     (arguments
      (list #:include `(cons*
                        "^layers/\\+lang/restructuredtext/local/rst-directives/rst-directives\\.el$"
-                       ,all-info-include)))))
+                       ,%default-include)))))
 
 (define-public emacs-core-spacemacs
   (package
@@ -1405,7 +1522,7 @@
     (arguments
      (list #:include `(cons*
                        "^core/core-spacemacs\\.el$"
-                       ,all-info-include)))
+                       ,%default-include)))
     (propagated-inputs
      (list
       emacs-core-versions
