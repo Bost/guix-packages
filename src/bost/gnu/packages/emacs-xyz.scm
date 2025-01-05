@@ -5091,9 +5091,9 @@ unique identifiers directly in Emacs.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-hide-cmnt
+(define-public emacs-hide-comnt
   (package
-    (name "emacs-hide-cmnt")
+    (name "emacs-hide-comnt")
     (version "0")
     (source
      (origin
