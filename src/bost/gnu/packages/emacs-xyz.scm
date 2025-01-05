@@ -5138,8 +5138,8 @@ unique identifiers directly in Emacs.")
                           el-files)))))))
      (propagated-inputs
       (list
-       emacs-nadvice
-       emacs-cc-mode))
+       (@(gnu packages emacs-xyz) emacs-nadvice)
+       (@(gnu packages emacs-xyz) emacs-cc-mode)))
      (home-page "https://github.com/emacs-php/php-mode")
      (synopsis "")
      (description "")
