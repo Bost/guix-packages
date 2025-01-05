@@ -65,6 +65,7 @@
                 hl-line
                 ido
                 image
+                image-dired
                 ispell
                 iswitchb ;; deprecated
                 json
@@ -100,6 +101,7 @@
                 tramp
                 transient
                 url
+                url-queue
                 url-parse
                 url-http
                 vc-hooks
