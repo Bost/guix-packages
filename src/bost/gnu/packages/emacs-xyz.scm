@@ -1231,41 +1231,42 @@
                        "^layers/\\+tools/sphinx/local/rst-sphinx/rst-sphinx\\.el$"
                        ,all-info-include)))))
 
-;; (define-public emacs-vim-powerline-theme
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-vim-powerline-theme")
-;;     (arguments
-;;      (list #:include `(cons*
-;;                        "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-powerline-theme\\.el$"
-;;                        ,all-info-include)))))
+(define-public emacs-vim-powerline-theme
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-vim-powerline-theme")
+    (arguments
+     (list
+      #:include
+      `(cons*
+        "^layers/\\+spacemacs/spacemacs-modeline/local/vim-powerline/vim-powerline-theme\\.el$"
+        ,all-info-include)))))
 
 ;; emacs-vim-powerline-theme not loaded by Spguimacs
 ;;
 ;; NOTE: This project is in maintenance mode and not currently being developed
 ;; or maintained. Pull requests will be reviewed and accepted but may not get
 ;; an immediate response. Sorry for the inconvenience.
-(define-public emacs-vim-powerline-theme
-  (let ((commit "c35c35bdf5ce2d992882c1f06f0f078058870d4a")
-        (revision "0"))
-    (package
-      (name "emacs-vim-powerline-theme")
-      (version (git-version "2.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/milkypostman/powerline.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0k1n5pg8v3ybkqxcipw80jqv94ka0dp63qxl0hvjwlxk16gxp8kb"))))
-      (build-system emacs-build-system)
-      (propagated-inputs (list emacs-vim-colors))
-      (home-page "https://github.com/milkypostman/powerline")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
+;; (define-public emacs-vim-powerline-theme
+;;   (let ((commit "c35c35bdf5ce2d992882c1f06f0f078058870d4a")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-vim-powerline-theme")
+;;       (version (git-version "2.0" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/milkypostman/powerline.git")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0k1n5pg8v3ybkqxcipw80jqv94ka0dp63qxl0hvjwlxk16gxp8kb"))))
+;;       (build-system emacs-build-system)
+;;       (home-page "https://github.com/milkypostman/powerline")
+;;       (synopsis "")
+;;       (description "")
+;;       (license license:gpl3+))))
 
 (define-public emacs-evil-unimpaired
   (package
