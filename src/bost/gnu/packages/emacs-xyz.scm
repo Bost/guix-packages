@@ -1910,6 +1910,11 @@
      (list
       emacs-vim-colors))))
 
+(define-public emacs-vim-powerline
+  (package
+    (inherit emacs-vim-powerline-theme)
+    (name "emacs-vim-powerline")))
+
 (define-public emacs-evil-unimpaired
   (package
     (inherit emacs-spacemacs-base)
