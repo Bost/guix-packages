@@ -1812,9 +1812,21 @@
                       "hybrid-mode\\.el$"
                       )))
                 (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))
+                          el-files))
+              (substitute* "hybrid-mode.el"
+                ((";;; Code:")
+                 ;; The following doesn't work. The macro must be autoloaded
+                 ;; ";;; Code:\n(require 'core-funcs)"
+                 (string-append
+                  ";;; Code:\n\n"
+                  ";;;###autoload\n"
+                  "(defmacro spacemacs|dotspacemacs-backward-compatibility (variable default)
+  \"Return `if' sexp for backward compatibility with old dotspacemacs
+  values.\"
+  `(if (boundp ',variable) ,variable ',default))"))))))))
     (propagated-inputs
      (list
+      ;; emacs-core-funcs ;; Doesn't work - see above
       (@(gnu packages emacs-xyz) emacs-evil)))))
 
 (define-public emacs-vim-colors
