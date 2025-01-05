@@ -43,6 +43,7 @@
                 cl-lib
                 compile
                 cus-face
+                custom
                 derived
                 dired
                 dom
@@ -57,6 +58,7 @@
                 find-func
                 flymake
                 flyspell
+                font-lock
                 format-spec
                 goto-addr
                 help-fns
@@ -66,6 +68,7 @@
                 ido
                 image
                 image-dired
+                imenu
                 ispell
                 iswitchb ;; deprecated
                 json
@@ -74,6 +77,7 @@
                 lv
                 magit
                 map
+                mode-local
                 nxml-mode
                 ob
                 ob-core
@@ -96,6 +100,7 @@
                 shr
                 sql
                 sqlite
+                speedbar
                 subr-x
                 thingatpt
                 tramp
