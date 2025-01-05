@@ -1679,6 +1679,42 @@ performance-oriented and tidy.")
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-files")))
 
+(define-public emacs-helm-git-grep
+  (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
+        (revision "0"))
+    (package
+      (name "emacs-helm-git-grep")
+      (version (git-version "0.10.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/yasuyk/helm-git-grep")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'fix-make-obsolete
+              (lambda _
+                (invoke
+                 "sed" "--in-place" "742s/make-obsolete/make-obsolete-variable/"
+                 "helm-git-grep.el"))))))
+      (propagated-inputs
+       (list
+        ;; (@(gnu packages emacs-xyz) emacs-helm)
+        ;; emacs-helm-files
+        emacs-helm-core
+        ))
+      (home-page "https://github.com/yasuyk/helm-git-grep")
+      (synopsis "")
+      (description "")
+      (license license:gpl3+))))
+
 (define-public emacs-helm-core
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
