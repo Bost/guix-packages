@@ -4341,9 +4341,7 @@ unique identifiers directly in Emacs.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:exclude #~(cons* "^[^/]*\\.el$" %default-exclude)))
-      (propagated-inputs (list (@ (gnu packages emacs-xyz)
-                                  emacs-color-theme-modern)))
+        #:exclude #~(cons* "^color-theme-molokai.el$" %default-exclude)))
       (home-page "https://github.com/alloy-d/color-theme-molokai")
       (synopsis "Molokai color theme for Emacs")
       (description
@@ -4354,12 +4352,6 @@ unique identifiers directly in Emacs.")
  well-suited for developers who prefer a visually appealing and functional
  dark theme in their Emacs setup.")
       (license license:gpl3+))))
-
-(define-public emacs-molokai
-  (package
-    (inherit
-     emacs-molokai-theme)
-    (name "emacs-molokai")))
 
 (define-public emacs-vimish-fold
   (let ((commit "a6501cbfe3db791f9ca17fd986c7202a87f3adb8") (revision "0"))
