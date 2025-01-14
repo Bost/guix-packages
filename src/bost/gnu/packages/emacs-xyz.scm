@@ -614,7 +614,6 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
-;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-load-paths)'
 (define-public emacs-core-load-paths
   (package
     (inherit emacs-spacemacs-base)
@@ -5108,6 +5107,7 @@ unique identifiers directly in Emacs.")
     (description "")
     (license license:gpl3+)))
 
+;; emacs-php-mode exists in the upstream already
 ;; (define-public emacs-php-mode
 ;;   (let ((commit "b45992a6a9d019fafe7a9dcde19401b0f20a20bf")
 ;;         (revision "0"))
