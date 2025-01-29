@@ -1019,7 +1019,7 @@ devices.")
      "This application is developed and issued by the German government to be
 used for online authentication with electronic German ID cards and residence
 titles.  To use this app, a supported RFID card reader or NFC-enabled smart
-phone is required.")
+phone and a running pcscd service are required.")
     (license license:eupl1.2)))
 
 (define-deprecated/public ausweisapp2 ausweisapp
