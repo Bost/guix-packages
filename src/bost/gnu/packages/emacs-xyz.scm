@@ -2331,9 +2331,7 @@ performance-oriented and tidy.")
 
 (define-public emacs-git-commit
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-magit)
-     )
+    (inherit (@(gnu packages emacs-xyz) emacs-magit))
     (name "emacs-git-commit")))
 
 (define-public emacs-treemacs-magit
@@ -5314,3 +5312,8 @@ unique identifiers directly in Emacs.")
      (synopsis "")
      (description "")
      (license license:gpl3+))))
+
+(define-public emacs-info+
+  (package
+    (inherit (@(gnu packages emacs-xyz) emacs-info-plus))
+    (name "emacs-info+")))
