@@ -1980,6 +1980,42 @@
     ;;   ))
     (inputs (list python))))
 
+(define-public emacs-erc-image
+  (let ((commit "82fb3871f02e24b1e880770b9a3d187aab43d0f0")
+        (revision "4"))
+    (package
+      (name "emacs-erc-image")
+      (version (git-version "0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kidd/erc-image.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1q8mkf612fb4fjp8h4kbr107wn083iqfdgv8f80pcmil8y33dw9i"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            ;; The package autoloader fails to provide the image module when
+            ;; handled by Guix. Don't autoload the (eval-after-load 'erc ...),
+            ;; and let the package handle the `eval-after-load' procedure.
+            (add-before 'make-autoloads 'patch-autoloads
+              (lambda _
+                (lambda _
+                  (substitute* "erc-image.el"
+                    ((";;;###autoload")
+                     ";; do not autoload this ;;;###autoload"))))))))
+      (home-page "https://github.com/kidd/erc-image.el")
+      (synopsis "Show inlined images (png/jpg/gif/svg) in ERC buffers")
+      (description "This plugin subscribes to hooks @code{erc-insert-modify-hook}
+and @code{erc-send-modify-hook} to download and show images.")
+      (license license:gpl3+))))
+
 (define-public emacs-evil-evilified-state
   (package
     (inherit emacs-spacemacs-base)
