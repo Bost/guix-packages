@@ -5136,3 +5136,28 @@ unique identifiers directly in Emacs.")
 based on top of PHP mode and defines among other things indentation etc.  to
 match Drupal Coding Standards.")
      (license license:gpl3+))))
+
+(define-public emacs-live-py-mode
+  (package
+    (name "emacs-live-py-mode")
+    (version "4.12")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/donkirkby/live-py-plugin.git")
+             (commit "38367a19f81acf9d96d713a88677d34d94ab874a")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1vrl3038b5ln5isszzbicwp9wyrk7kmi5br8dyqx8a43ixfgiggr"))))
+    (build-system emacs-build-system)
+    (arguments
+     '(#:include (cons* "^emacs-live-py-mode/live-py-mode.el$"
+                        "^plugin/PySrc/[^/]+$"
+                        %default-include)))
+    (home-page "http://donkirkby.github.io/live-py-plugin/")
+    (synopsis "Live Coding in Python")
+    (description
+     "To use it, open a Python file and run M-x live-py-mode If that doesn't work,
+put the following in your Emacs configuration file: (require live-py-mode).")
+    (license license:expat-0)))
