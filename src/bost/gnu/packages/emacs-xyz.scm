@@ -2041,6 +2041,25 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
+(define-public emacs-holy-mode
+  (package
+    (inherit emacs-spacemacs-base)
+    (name "emacs-holy-mode")
+    (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          ;; Move the source files to the top level, which is included in
+          ;; the EMACSLOADPATH.
+          (add-after 'unpack 'move-source-files
+            (lambda _
+              (let ((el-files
+                     (find-files
+                      "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
+                      "holy-mode\\.el$")))
+                (for-each (lambda (f) (rename-file f (basename f)))
+                          el-files)))))))))
+
 (define-public emacs-jr-mode
   (package
     (inherit emacs-spacemacs-base)
