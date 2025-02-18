@@ -4289,59 +4289,6 @@ unique identifiers directly in Emacs.")
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-flymake-phpcs
-  (let ((commit "65ef3ff8ac1e1f48c8cbe66f273835c73680b991")
-        (revision "0"))
-    (package
-      (name "emacs-flymake-phpcs")
-      (version (git-version "1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/flymake/flymake-phpcs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "13w251mgr8lvlwa8nj51gyikaiqjbyggc4dh92phf148135jam3l"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-flymake-easy))
-      (home-page "https://github.com/flymake/flymake-phpcs")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-;; (define-public emacs-drupal-mode
-;;   (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-drupal-mode")
-;;       (version (git-version "0.8.1" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/arnested/drupal-mode")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
-;;       (build-system emacs-build-system)
-;;       (arguments
-;;        (list
-;;         #:include #~(cons* "^drupal/.*\\.el$" %default-include)))
-;;       (propagated-inputs
-;;        (list
-;;         emacs-flymake-phpcs
-;;         (@(gnu packages emacs-xyz) emacs-flycheck)
-;;         (@(gnu packages emacs-xyz) emacs-php-mode)))
-;;       (home-page "https://github.com/arnested/drupal-mode")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 (define-public emacs-elisp-def
   (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
         (revision "0"))
@@ -5105,44 +5052,40 @@ unique identifiers directly in Emacs.")
     (description "")
     (license license:gpl3+)))
 
-;; emacs-php-mode exists in the upstream already
-;; (define-public emacs-php-mode
-;;   (let ((commit "b45992a6a9d019fafe7a9dcde19401b0f20a20bf")
-;;         (revision "0"))
-;;     (package
-;;      (name "emacs-php-mode")
-;;      (version (git-version "20250103.157" revision commit))
-;;      (source
-;;       (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url "https://github.com/emacs-php/php-mode")
-;;              (commit commit)))
-;;        (file-name (git-file-name name version))
-;;        (sha256
-;;         (base32
-;;          "0810hbdakjasldl4vanigjhj7pixkq3dxad2w60grg0kb8xj9rz6"))))
-;;      (build-system emacs-build-system)
-;;      (arguments
-;;      (list
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "lisp"
-;;                       ".*\\.el$")))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;      (propagated-inputs
-;;       (list
-;;        (@(gnu packages emacs-xyz) emacs-nadvice)
-;;        (@(gnu packages emacs-xyz) emacs-cc-mode)))
-;;      (home-page "https://github.com/emacs-php/php-mode")
-;;      (synopsis "")
-;;      (description "")
-;;      (license license:gpl3+))))
+(define-public emacs-info+
+  (package
+    (inherit (@(gnu packages emacs-xyz) emacs-info-plus))
+    (name "emacs-info+")))
+
+(define-public emacs-flymake-phpcs
+  (let ((commit "65ef3ff8ac1e1f48c8cbe66f273835c73680b991")
+        (revision "0"))
+    (package
+      (name "emacs-flymake-phpcs")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/flymake/flymake-phpcs")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "13w251mgr8lvlwa8nj51gyikaiqjbyggc4dh92phf148135jam3l"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-flymake-easy))
+      (home-page "https://github.com/flymake/flymake-phpcs")
+      (synopsis "Flymake integration for PHP CodeSniffer in Emacs")
+      (description
+       "This package integrates PHP CodeSniffer with Emacs' Flymake mode,
+ providing on-the-fly syntax checking for PHP code. It highlights coding
+ standard violations as you type, enhancing code quality and adherence to
+ defined standards. Users can customize the coding standard and specify the
+ location of the `phpcs` command. Note: The package requires `flymake-easy`
+ and a working installation of PHP CodeSniffer.")
+      (license license:gpl3+))))
 
 (define-public emacs-drupal-mode
   (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
@@ -5163,29 +5106,6 @@ unique identifiers directly in Emacs.")
      (build-system emacs-build-system)
      (arguments
       (list
-       ;; #:phases
-       ;; #~(modify-phases %standard-phases
-       ;;     (replace 'expand-load-path
-       ;;       (lambda args
-       ;;         (with-directory-excursion
-       ;;             "drupal"
-       ;;           (apply (assoc-ref %standard-phases 'expand-load-path) args))))
-       ;;     (replace 'make-autoloads
-       ;;       (lambda args
-       ;;         (with-directory-excursion
-       ;;             "drupal"
-       ;;           (apply (assoc-ref %standard-phases 'make-autoloads) args))))
-       ;;     (replace 'install
-       ;;       (lambda args
-       ;;         (with-directory-excursion
-       ;;             "drupal"
-       ;;           (apply (assoc-ref %standard-phases 'install) args))))
-       ;;     (replace 'build
-       ;;       (lambda args
-       ;;         (with-directory-excursion
-       ;;             "drupal"
-       ;;           (apply (assoc-ref %standard-phases 'build) args)))))
-
        #:include #~(cons* "^drupal/.*\\.el$" %default-include)
        #:phases
        #~(modify-phases
@@ -5193,127 +5113,26 @@ unique identifiers directly in Emacs.")
           (add-after
            'unpack 'move-source-files
            (lambda _
-
-             ;; lines 904,921
-             (invoke
-              "sed" "--in-place" "894,911s/^/;;; /"
-              "drupal-mode.el")
-
-             (substitute*
-              "drupal-mode.el"
-              ((";;; Code:")
-               (string-append
-                ";;; Code:\n\n"
-                "(require 'drupal/autoinsert)\n"
-                "(require 'drupal/eldoc)\n"
-                "(require 'drupal/etags)\n"
-                "(require 'drupal/gtags)\n"
-                "(require 'drupal/gxref)\n"
-                "(require 'drupal/helm-gtags)\n"
-                "(require 'drupal/ggtags)\n"
-                "(require 'drupal/ispell)\n"
-                "(require 'drupal/flymake-phpcs)\n"
-                "(require 'drupal/flycheck)\n"
-                "(require 'drupal/pcomplete)\n"
-                "(require 'drupal/webjump)\n"
-                "(require 'drupal/emacs-drush)\n"
-                )))
-
              (substitute*
               "drupal/flymake-phpcs.el"
-              (
-               ("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard\\)")
+              (("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard\\)")
                "(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard \"28.1\")"
                )
-              (
-               ("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace\\)")
+              (("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace\\)")
                "(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace \"28.1\")"
-               )
-              )
-             )
-
-           ;; (lambda _
-           ;;   (substitute*
-           ;;    "drupal-mode.el"
-           ;;    ((";;; Code:")
-           ;;     (string-append
-           ;;      ";;; Code:\n\n"
-           ;;      "(require 'flycheck)\n"
-           ;;      "(require 'flymake-phpcs)\n"
-           ;;      "(require 'ggtags)\n"
-           ;;      "(require 'gtags)\n"
-           ;;      "(require 'helm-gtags)\n"
-           ;;      "(require 'ispell)\n"
-           ;;      "(require 'pcomplete)\n"
-           ;;      "(require 'webjump)\n"
-           ;;      )))
-
-           ;;   (substitute* "drupal/flycheck.el"      (("\\(require 'flycheck\\)")      ";;; (require 'flycheck)"))
-           ;;   (substitute* "drupal/flymake-phpcs.el" (("\\(require 'flymake-phpcs\\)") ";;; (require 'flymake-phpcs)"))
-           ;;   (substitute* "drupal/ggtags.el"        (("\\(require 'ggtags\\)")        ";;; (require 'ggtags)"))
-           ;;   (substitute* "drupal/gtags.el"         (("\\(require 'gtags\\)")         ";;; (require 'gtags)"))
-           ;;   (substitute* "drupal/helm-gtags.el"    (("\\(require 'helm-gtags\\)")    ";;; (require 'helm-gtags)"))
-           ;;   (substitute* "drupal/ispell.el"        (("\\(require 'ispell\\)")        ";;; (require 'ispell)"))
-           ;;   (substitute* "drupal/pcomplete.el"     (("\\(require 'pcomplete\\)")     ";;; (require 'pcomplete)"))
-           ;;   (substitute* "drupal/webjump.el"       (("\\(require 'webjump\\)")       ";;; (require 'webjump)"))
-
-           ;;   (substitute*
-           ;;    "drupal/flymake-phpcs.el"
-           ;;    (
-           ;;     ("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard\\)")
-           ;;     "(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard \"28.1\")"
-           ;;     )
-           ;;    (
-           ;;     ("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace\\)")
-           ;;     "(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace \"28.1\")"
-           ;;     )
-           ;;    )
-           ;;   )
-           )
-
-          ;; (add-after 'expand-load-path 'add-el-dir-to-emacs-load-path
-          ;;   (lambda _
-          ;;     (setenv "EMACSLOADPATH" (string-append (getcwd) "/drupal:" (getenv "EMACSLOADPATH"))))
-          ;;   )
-
-          ;; (replace 'expand-load-path
-          ;;          (lambda args
-          ;;            (format #t "### expand-load-path EMACSLOADPATH :\n~a\n\n" (getenv "EMACSLOADPATH"))
-          ;;            (with-directory-excursion
-          ;;             "drupal"
-          ;;             (apply (assoc-ref %standard-phases 'expand-load-path) args))))
-          ;; (replace 'make-autoloads
-          ;;          (lambda args
-          ;;            (format #t "### make-autoloads EMACSLOADPATH :\n~a\n\n" (getenv "EMACSLOADPATH"))
-          ;;            (with-directory-excursion
-          ;;             "drupal"
-          ;;             (apply (assoc-ref %standard-phases 'make-autoloads) args))))
-          ;; (replace 'install
-          ;;          (lambda args
-          ;;            (format #t "### install EMACSLOADPATH :\n~a\n\n" (getenv "EMACSLOADPATH"))
-          ;;            (with-directory-excursion
-          ;;             "drupal"
-          ;;             (apply (assoc-ref %standard-phases 'install) args))))
-          ;; (replace 'build
-          ;;          (lambda args
-          ;;            (format #t "### build EMACSLOADPATH :\n~a\n\n" (getenv "EMACSLOADPATH"))
-          ;;            (with-directory-excursion
-          ;;             "drupal"
-          ;;             (apply (assoc-ref %standard-phases 'build) args))))
-          )
-       ))
+               )))))))
      (propagated-inputs
       (list
        emacs-flymake-phpcs
+       (@(gnu packages code) global) ;; provides gtags
+       (@(gnu packages emacs-xyz) emacs-helm-gtags)
        (@(gnu packages emacs-xyz) emacs-ggtags)
        (@(gnu packages emacs-xyz) emacs-flycheck)
        (@(gnu packages emacs-xyz) emacs-php-mode)))
      (home-page "https://github.com/arnested/drupal-mode")
-     (synopsis "")
-     (description "")
+     (synopsis "Advanced minor mode for Drupal development")
+     (description
+      "Drupal mode is an advanced minor mode for developing in Drupal.  Drupal mode is
+based on top of PHP mode and defines among other things indentation etc.  to
+match Drupal Coding Standards.")
      (license license:gpl3+))))
-
-(define-public emacs-info+
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-info-plus))
-    (name "emacs-info+")))
