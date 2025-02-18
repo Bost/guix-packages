@@ -2388,6 +2388,11 @@ performance-oriented and tidy.")
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-files")))
 
+;; (define-public emacs-helm-core
+;;   (package
+;;     (inherit (@(gnu packages emacs-xyz) emacs-helm))
+;;     (name "emacs-helm-core")))
+
 (define-public emacs-helm-git-grep
   (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
         (revision "0"))
@@ -2415,19 +2420,14 @@ performance-oriented and tidy.")
                  "helm-git-grep.el"))))))
       (propagated-inputs
        (list
-        ;; (@(gnu packages emacs-xyz) emacs-helm)
+        (@(gnu packages emacs-xyz) emacs-helm)
         ;; emacs-helm-files
-        emacs-helm-core
+        ;; emacs-helm-core
         ))
       (home-page "https://github.com/yasuyk/helm-git-grep")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-(define-public emacs-helm-core
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-helm))
-    (name "emacs-helm-core")))
 
 (define-public emacs-helm-pydoc
   (let ((commit "cac7b8953adcab85e898bc42b699c3afde5d33c6")
@@ -2458,7 +2458,11 @@ performance-oriented and tidy.")
                   (substitute* "helm-pydoc.el"
                     (("/bin/python") python))))))))
       (inputs (list python-wrapper))
-      (propagated-inputs (list emacs-helm-core))
+      (propagated-inputs
+       (list
+        (@(gnu packages emacs-xyz) emacs-helm)
+        ;; emacs-helm-core
+        ))
       (home-page "https://github.com/emacsorphanage/helm-pydoc.git")
       (synopsis "Python documentation lookup with Helm in Emacs")
       (description
