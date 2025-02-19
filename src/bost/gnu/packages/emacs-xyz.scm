@@ -2310,43 +2310,33 @@ performance-oriented and tidy.")
 
 (define-public emacs-treemacs-magit
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-treemacs-extra))
+    (inherit (@(gnu packages emacs-xyz) emacs-treemacs-extra))
     (name "emacs-treemacs-magit")))
 
 (define-public emacs-treemacs-projectile
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
     (name "emacs-treemacs-projectile")))
 
 (define-public emacs-treemacs-persp
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
     (name "emacs-treemacs-persp")))
 
 (define-public emacs-treemacs-icons-dired
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
     (name "emacs-treemacs-icons-dired")))
 
 (define-public emacs-treemacs-evil
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-treemacs))
+    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
     (name "emacs-treemacs-evil")))
 
 (define-public emacs-helm-files
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-helm))
     (name "emacs-helm-files")))
-
-;; (define-public emacs-helm-core
-;;   (package
-;;     (inherit (@(gnu packages emacs-xyz) emacs-helm))
-;;     (name "emacs-helm-core")))
 
 (define-public emacs-helm-git-grep
   (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
@@ -2435,9 +2425,7 @@ performance-oriented and tidy.")
 
 (define-public emacs-magit-section
   (package
-    (inherit
-     (@(gnu packages emacs-xyz) emacs-magit)
-     )
+    (inherit (@(gnu packages emacs-xyz) emacs-magit))
     (name "emacs-magit-section")))
 
 (define-public emacs-chatgpt-shell ;; PR sent
@@ -2537,11 +2525,6 @@ performance-oriented and tidy.")
  changes.  This simplifies navigation and organization in large Markdown
  documents.")
       (license license:gpl3+))))
-
-;; (define-public emacs-ac-php-core
-;;   (package
-;;     (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
-;;     (name "emacs-ac-php-core")))
 
 (define-public emacs-ac-php-core
   (package
