@@ -469,84 +469,6 @@
  manual import adjustments.")
       (license license:gpl3+))))
 
-;; (replace 'install
-;;   (lambda* (#:key outputs #:allow-other-keys)
-;;     (let* ((out (assoc-ref outputs "out"))
-;;            (el-dir (emacs:elpa-directory out))
-;;            (doc (string-append
-;;                  out "/share/doc/haskell-mode-" #$version))
-;;            (info (string-append out "/share/info")))
-;;       (define (copy-to-dir dir files)
-;;         (for-each (lambda (f)
-;;                     (install-file f dir))
-;;                   files))
-
-;;       (with-directory-excursion "doc"
-;;         (invoke "makeinfo" "haskell-mode.texi")
-;;         (install-file "haskell-mode.info" info))
-;;       (copy-to-dir doc '("CONTRIBUTING.md" "NEWS" "README.md"))
-;;       (copy-to-dir el-dir (find-files "." "\\.elc?")))))
-
-;;; Multiple possibilities: 1. either add a single from from URI:
-;; (define-public emacs-zoom-frm
-;;   (package
-;;     (name "emacs-zoom-frm")
-;;     (version "0")
-;;     (source
-;;      (origin
-;;        (method url-fetch)
-;;        (uri "https://www.emacswiki.org/emacs/download/zoom-frm.el")
-;;        (sha256
-;;         (base32
-;;          "1l39hw0n3w96980varljd3z37d8a2x0yj577hcaf3qbwqywfgv9v"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-frame-cmds))
-;;     (home-page "https://www.emacswiki.org/emacs/zoom-frm.el")
-;;     (synopsis "Commands to zoom frame font size")
-;;     (description "Commands to zoom frame font size.")
-;;     (license license:gpl3+)))
-
-;;; Multiple possibilities: 2. or inherit from an empty non-public package:
-;; (define emacs-dap-base
-;;   (let ((commit
-;;          "2f0c5b28578ce65ec746e4084ba72ba5c652ea79")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-dap-base")
-;;       (version (git-version "0.7" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacs-lsp/dap-mode.git")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "0jkfj8x2ng8dbww4pscl1qqp3s1k3gzy3rv58fpagl9x38rb7h5h"))))
-;;       (build-system emacs-build-system)
-;;       (arguments
-;;        (list
-;;         ;; Exclusions are done on top of the inclusions. However using
-;;         ;; (inherit emacs-dap-base) we can effectivelly invert that. So then
-;;         ;; the order is will be:
-;;         ;; 1. emacs-dap-base include
-;;         ;; 2. emacs-dap-base exclude
-;;         ;; 3. emacs-dap-<..> include
-
-;;         ;; Exclude all;
-;;         ;; Also, matching every string except "foo" using lookahead assertion
-;;         ;; "^\\(?!foo$\\).*" doesn't work. Lookahead assertions are not
-;;         ;; supported in POSIX regular expressions used by Guile
-;;         #:exclude #~(cons*
-;;                      "^[^/]*\\.el$"
-;;                      %default-exclude)))
-;;       (home-page
-;;        "https://github.com/emacs-lsp/dap-mode.git")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 (define emacs-spacemacs-base
   (let ((commit "2254b9c16150165f459895bb49bc309b029b54e4")
         (revision "0"))
@@ -711,7 +633,6 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
-;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-fonts-support)'
 (define-public emacs-core-fonts-support
   (package
     (inherit emacs-spacemacs-base)
@@ -731,7 +652,6 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
-;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-command-line)'
 (define-public emacs-core-command-line
   (package
     (inherit emacs-spacemacs-base)
@@ -1630,7 +1550,6 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
-;; gx build -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-core-progress-bar)'
 (define-public emacs-core-progress-bar
   (package
     (inherit emacs-spacemacs-base)
