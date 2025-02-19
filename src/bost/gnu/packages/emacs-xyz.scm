@@ -2333,11 +2333,6 @@ performance-oriented and tidy.")
     (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
     (name "emacs-treemacs-evil")))
 
-(define-public emacs-helm-files
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-helm))
-    (name "emacs-helm-files")))
-
 (define-public emacs-helm-git-grep
   (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
         (revision "0"))
