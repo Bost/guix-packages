@@ -4493,7 +4493,7 @@ unique identifiers directly in Emacs.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/colonelpanic8/org-project-capture")
+               (url "https://github.com/colonelpanic8/org-project-capture.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4502,13 +4502,17 @@ unique identifiers directly in Emacs.")
       (propagated-inputs
        (list
         (@(gnu packages emacs-xyz) emacs-dash)
-        emacs-org-category-capture
-        emacs-org-project-capture
-        emacs-org-project-capture-backend
+        (@(gnu packages emacs-xyz) emacs-s)
+        (@(gnu packages emacs-xyz) emacs-helm)
+        (@(gnu packages emacs-xyz) emacs-helm-org)
         (@(gnu packages emacs-xyz) emacs-projectile)))
       (home-page "https://github.com/colonelpanic8/org-project-capture")
-      (synopsis "")
-      (description "")
+      (synopsis
+       "Repository todo capture and management for org-mode with projectile")
+      (description
+       "This package provides an easy interface to creating per project
+ org-mode TODO headings, whether in a single file, or in a file stored in each
+ project directory.")
       (license license:gpl3+))))
 
 (define-public emacs-phpunit
