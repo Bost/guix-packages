@@ -2863,9 +2863,8 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
     (name "emacs-lv")))
 
 (define-public emacs-chatgpt
-  (let ((commit
-         "5c1b8568f79147d25e43e317e161a6f19109e9a2")
-        (revision "0"))
+  (let ((commit "3ad5bc1bbfc548d90449f75417e05e6e071a6576")
+        (revision "1"))
     (package
       (name "emacs-chatgpt")
       (version (git-version "0.1.0" revision commit))
@@ -2878,7 +2877,7 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0f8p7isssig3kxy89xj69fbjliwqjdww1r7spvslw6xbiac51dxa"))))
+           "0m6z284f05sbfh5232iqkf572dsdpwg83q110x2bzfmm0250bp82"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
