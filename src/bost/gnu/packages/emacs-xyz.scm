@@ -3801,7 +3801,7 @@ unique identifiers directly in Emacs.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/jcs-elpa/reveal-in-folder")
+               (url "https://github.com/jcs-elpa/reveal-in-folder.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3809,11 +3809,11 @@ unique identifiers directly in Emacs.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-f)))
+        (@(gnu packages emacs-xyz) emacs-f)
+        (@(gnu packages emacs-xyz) emacs-s)))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
-      (synopsis "")
-      (description "")
+      (synopsis "Reveal current file/directory in folder")
+      (description "Reveal current file/directory in folder.")
       (license license:gpl3+))))
 
 (define-public emacs-haml-mode
