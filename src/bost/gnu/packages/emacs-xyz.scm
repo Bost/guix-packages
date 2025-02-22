@@ -2882,15 +2882,14 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@ (gnu packages emacs-xyz) emacs-ht)
-        (@ (gnu packages emacs-xyz) emacs-let-alist)
         emacs-lv
-        (@ (gnu packages emacs-xyz) emacs-markdown-mode)
+        (@(gnu packages emacs-xyz) emacs-ht)
+        (@(gnu packages emacs-xyz) emacs-let-alist)
+        (@(gnu packages emacs-xyz) emacs-markdown-mode)
+        (@(gnu packages emacs-xyz) emacs-spinner)
         emacs-openai
-        (@ (gnu packages emacs-xyz) emacs-spinner)
         ))
-      (home-page
-       "https://github.com/emacs-openai/chatgpt.git")
+      (home-page "https://github.com/emacs-openai/chatgpt")
       (synopsis "Emacs client for interacting with ChatGPT")
       (description
        "This package provides an Emacs client for interacting with ChatGPT,
