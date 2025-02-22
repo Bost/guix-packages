@@ -4124,7 +4124,7 @@ unique identifiers directly in Emacs.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-openai/dall-e")
+               (url "https://github.com/emacs-openai/dall-e.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4132,12 +4132,12 @@ unique identifiers directly in Emacs.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-reveal-in-folder
-        emacs-openai
         emacs-lv
+        emacs-openai
+        emacs-reveal-in-folder
         (@(gnu packages emacs-xyz) emacs-async)
-        (@(gnu packages emacs-xyz) emacs-spinner)
         (@(gnu packages emacs-xyz) emacs-ht)
+        (@(gnu packages emacs-xyz) emacs-spinner)
         ))
       (home-page "https://github.com/emacs-openai/dall-e")
       (synopsis "")
