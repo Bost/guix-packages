@@ -1,5 +1,4 @@
 (define-module (bost gnu packages emacs-xyz-done)
-  ;; #:use-module (utils)
   #:use-module (bost utils)  ;; for build
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -526,30 +525,6 @@ Flx has support for ido (interactively do things) through flx-ido.")
     (description "")
     (license license:gpl3+)))
 
-;; emacs-flymake unbound
-;; (define-public emacs-scss-mode
-;;   (package
-;;     (name "emacs-scss-mode")
-;;     (version "0.5.0")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/antonj/scss-mode")
-;;                (commit
-;;                  "cf58dbec5394280503eb5502938f3b5445d1b53d")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "0raja19l0igwr0pn0ghr1pj1d8i9k3m3764ma4r8nwzxcj9qw4ja"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-flymake emacs-derived))
-;;     (home-page "https://github.com/antonj/scss-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
 (define-public emacs-writeroom-mode
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-writeroom))
@@ -559,285 +534,6 @@ Flx has support for ido (interactively do things) through flx-ido.")
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-js2-refactor-el))
     (name "emacs-js2-refactor")))
-
-;; emacs-kaolin-themes-lib unbound
-;; (define-public emacs-kaolin-themes
-;;   (package
-;;     (name "emacs-kaolin-themes")
-;;     (version "1.6.7")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/ogdenwebb/emacs-kaolin-themes")
-;;                (commit
-;;                  "f16e5ca9133ea0b5c096c3f845bd5e0e284b1a0b")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1q7lnysh8v8vzr0s7y62ay0mcmiz40i504ixf7n4jhvpcsffcasr"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-kaolin-themes-lib
-;;             emacs-color
-;;             emacs-map
-;;             emacs-autothemer))
-;;     (home-page
-;;       "https://github.com/ogdenwebb/emacs-kaolin-themes")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-sql unbound
-;; (define-public emacs-drupal-mode
-;;   (package
-;;     (name "emacs-drupal-mode")
-;;     (version "0.7.4")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/arnested/drupal-mode")
-;;                (commit
-;;                  "17927723adc5921e8058f7c29e5e50e88b975639")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1j0zlcjrz0pswcc8wh476vx503qvlyzjscwh0gs3cfss8j6r6gd5"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-sql
-;;             emacs-format-spec
-;;             emacs-php-mode))
-;;     (home-page
-;;       "https://github.com/arnested/drupal-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-subr-x unbound
-;; (define-public emacs-code-cells
-;;   (package
-;;     (name "emacs-code-cells")
-;;     (version "0.3")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/astoff/code-cells.el")
-;;                (commit
-;;                  "fd68a33eb43b3cbd44fed767f48e230382903592")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "072d5vldjfg9mj4a86bw8xmxl3hmywsnx4f2k6nayqy4whry5fmq"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-subr-x
-;;             emacs-pulse
-;;             emacs-outline
-;;             emacs-map))
-;;     (home-page
-;;       "https://github.com/astoff/code-cells.el")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; doesn't compile
-;; (define-public emacs-php-project
-;;   (package
-;;     (name "emacs-php-project")
-;;     (version "1.24.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit
-;;                  "fb11df8268b7099766264cd53836ef159746adbd")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
-;;     (build-system emacs-build-system)
-;;     (home-page
-;;       "https://github.com/emacs-php/php-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-php-project unbound
-;; (define-public emacs-php
-;;   (package
-;;     (name "emacs-php")
-;;     (version "1.24.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit
-;;                  "fb11df8268b7099766264cd53836ef159746adbd")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-php-project
-;;             emacs-flymake
-;;             emacs-cc-engine))
-;;     (home-page
-;;       "https://github.com/emacs-php/php-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-php-project unbound
-;; (define-public emacs-php-mode
-;;   (package
-;;     (name "emacs-php-mode")
-;;     (version "1.24.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit
-;;                  "fb11df8268b7099766264cd53836ef159746adbd")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-php-project
-;;             emacs-mode-local
-;;             emacs-nadvice
-;;             emacs-package
-;;             emacs-imenu
-;;             emacs-speedbar
-;;             emacs-custom
-;;             emacs-font-lock
-;;             emacs-cc-mode
-;;             emacs-php-face
-;;             emacs-php))
-;;     (home-page
-;;       "https://github.com/emacs-php/php-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; emacs-php-project unbound
-;; (define-public emacs-php-align
-;;   (package
-;;     (name "emacs-php-align")
-;;     (version "1.24.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit
-;;                  "fb11df8268b7099766264cd53836ef159746adbd")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;       (list emacs-php-project
-;;             emacs-regexp-opt
-;;             emacs-align))
-;;     (home-page
-;;       "https://github.com/emacs-php/php-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; doesn't compile
-;; (define-public emacs-php-face
-;;   (package
-;;     (name "emacs-php-face")
-;;     (version "1.24.2")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit
-;;                  "fb11df8268b7099766264cd53836ef159746adbd")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "083nsw65d1zvknxyvwnxw8n8fjc566w940x5lgxz937afy6qxvfq"))))
-;;     (build-system emacs-build-system)
-;;     (home-page
-;;       "https://github.com/emacs-php/php-mode")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; avy-menu missing
-;; (define-public emacs-flyspell-correct-helm
-;;   (package
-;;     (name "emacs-flyspell-correct-helm")
-;;     (version "0.6.1")
-;;     (source
-;;       (origin
-;;         (method git-fetch)
-;;         (uri (git-reference
-;;                (url "https://github.com/d12frosted/flyspell-correct")
-;;                (commit
-;;                  "7d7b6b01188bd28e20a13736ac9f36c3367bd16e")))
-;;         (file-name (git-file-name name version))
-;;         (sha256
-;;           (base32
-;;             "1b6h3wjmxg9d1d3mfvw6fsgkr1w0d14zxllv9jb5cscl5lq8rbmm"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs (list emacs-helm emacs-flyspell-correct))
-;;     (home-page
-;;       "https://github.com/d12frosted/flyspell-correct")
-;;     (synopsis "")
-;;     (description "")
-;;     (license license:gpl3+)))
-
-;; (define-public emacs-php-mode-debug
-;;   (let ((commit "fb11df8268b7099766264cd53836ef159746adbd")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-php-mode-debug")
-;;       (version (git-version "1.24.3" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacs-php/php-mode")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "135hgrccpmn7z2228w98hwv9khdmfja89gmkg9im4s6daph4y5lc"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs
-;;        (list emacs-php-mode
-;;              emacs-cc-mode))
-;;       ;; emacs-eglot
-;;       ;; (arguments
-;;       ;;  (list
-;;       ;;   #:phases
-;;       ;;   #~(modify-phases %standard-phases
-;;       ;;       (add-after 'unpack 'substitute-php-ide-eglot-executable
-;;       ;;         (lambda* (#:key inputs #:allow-other-keys)
-;;       ;;           (emacs-substitute-variables "lisp/php-ide.el"
-;;       ;;             ;; see https://github.com/emacs-php/php-mode/blob/47e0813079cea6243139da2b6efedd36940367c8/lisp/php-ide.el#L75
-;;       ;;             ("php-ide-eglot-executable"
-;;       ;;              (search-input-file inputs "/bin/..."))))))))
-;;       (home-page
-;;        "https://github.com/emacs-php/php-mode")
-;;       (synopsis "Emacs major mode for editing PHP scripts")
-;;       (description "Emacs major mode for editing PHP scripts.")
-;;       (license license:gpl3+))))
 
 (define-public emacs-farmhouse-themes
   (let ((commit
@@ -1015,31 +711,6 @@ company-mode.")
 unofficial and based on binaries provided by copilot.vim. Note: You need
 access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
-
-;; part of emacs-use-package
-;; (define-public emacs-bind-key
-;;   (let ((commit "77945e002f11440eae72d8730d3de218163d551e")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-bind-key")
-;;       (version (git-version "2.4.1" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/jwiegley/use-package")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "1irr8a8r28n8c0c2x5w1flgv1f3z5jy2i5r5dknddiqa93b3rm84"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-easy-mmode))
-;;       (home-page
-;;        "https://github.com/jwiegley/use-package")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
 
 (define-public emacs-ample-zen-theme
   (let ((commit
@@ -1935,16 +1606,11 @@ access to GitHub Copilot to use this plugin.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-#|
-Build in fish-shell:
-  guix build --load-path=$dgxp/packages --keep-failed emacs-noctilux-theme
-|#
+
 (define-public emacs-noctilux-theme
   (let ((commit
           "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
         (revision "0"))
-    ;; (format #t "#### emacs-noctilux-theme %patch-path:\n  ~a\n\n"
-    ;;         (string-join (%patch-path) "\n  "))
     (package
       (name "emacs-noctilux-theme")
       (version (git-version "" revision commit))
@@ -2810,32 +2476,6 @@ Build in fish-shell:
       (description "")
       (license license:gpl3+))))
 
-;; Debugger entered--Lisp error: (void-variable counsel-gtags--prompts-alist)
-;; (define-public emacs-counsel-gtags
-;;   (let ((commit
-;;          "1d52eaeffeb60266434d4f7416a108ca058fde91")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-counsel-gtags")
-;;       (version (git-version "0.10" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/FelipeLema/emacs-counsel-gtags")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "13jx6hscdcfqwzk1pcmzrv7frglcnd1ywl22ddxzzymi339r4lyj"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-counsel))
-;;       (home-page
-;;        "https://github.com/FelipeLema/emacs-counsel-gtags")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 (define-public emacs-sayid
   (let ((commit
          "879aff586336a0ec4d46c0ed4720fb1de22082bd")
@@ -2963,71 +2603,6 @@ official @command{sqlite3} executable to access SQL database.")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-;; (define-public emacs-auctex-latexmk
-;;   (let ((commit
-;;          ;; emacsmirror/auctex-latexmk
-;;          "b00a95e6b34c94987fda5a57c20cfe2f064b1c7a"
-;;          ;; tom-tan/auctex-latexmk
-;;          ;; "4d353522650d7685acbf1d38f7dbc504f734bd84"
-;;          )
-;;         (revision "0"))
-;;     (package
-;;      (name "emacs-auctex-latexmk")
-;;      (version (git-version "1.0.2" revision commit))
-;;      (source
-;;       (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url
-;;               ;; the emacsmirror/auctex-latexmk differs from tom-tan/auctex-latexmk
-;;               "https://github.com/emacsmirror/auctex-latexmk"
-;;               ;; "https://github.com/tom-tan/auctex-latexmk"
-;;               )
-;;              (commit commit)))
-;;        (file-name (git-file-name name version))
-;;        (sha256
-;;         (base32
-;;          ;; emacsmirror/auctex-latexmk
-;;          "0bbvb4aw9frg4fc0z9qkc5xd2s9x65k6vdscy5svsy0h17iacsbb"
-;;          ;; tom-tan/auctex-latexmk
-;;          ;; "0qvscgffmzqk8lkcg3yk91vciim5ygk2m4crk02qn72ipkw5q13m"
-;;          ))))
-;;      (build-system emacs-build-system)
-;;      (propagated-inputs (list emacs-auctex))
-;;      (home-page
-;;       ;; the emacsmirror/auctex-latexmk differs from tom-tan/auctex-latexmk
-;;       "https://github.com/emacsmirror/auctex-latexmk"
-;;       ;; "https://github.com/tom-tan/auctex-latexmk"
-;;       )
-;;      (synopsis "")
-;;      (description "")
-;;      (license license:gpl3+))))
-
-;; (define-public emacs-hybrid-mode
-;;   (let ((commit
-;;          "26629bf3a5b8d0228be23827bb86dbd8d8087378")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-hybrid-mode")
-;;       (version (git-version "1" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/syl20bnr/spacemacs")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "0srvmjbwdp1ndmvks03ry5pn25fz7w87yrnpyqyq3796g981p1j9"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-evil))
-;;       (home-page
-;;        "https://github.com/syl20bnr/spacemacs")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
 
 (define-public emacs-kill-buffers
   (let ((commit
@@ -3206,29 +2781,6 @@ with GUI Emacs behavior.")
     (description "Non-interactive frame and window functions.")
     (license license:gpl3+)))
 
-;; (define-public emacs-frame-fns
-;;   (let ((commit
-;;          "291bc4cbb7d8504d8fddfc45debf1a8a3962bf7a")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-frame-fns")
-;;       (version (git-version "0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacsmirror/frame-fns")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "1z8alj9i2jxhg13zkwz3pvbvzwa0p1zp4awcyml7wq7w0p13077d"))))
-;;       (build-system emacs-build-system)
-;;       (home-page "https://www.emacswiki.org/emacs/frame-fns.el")
-;;       (synopsis "Non-interactive frame and window functions")
-;;       (description "Non-interactive frame and window functions.")
-;;       (license license:gpl3+))))
-
 (define-public emacs-frame-cmds
   (package
     (name "emacs-frame-cmds")
@@ -3246,30 +2798,6 @@ with GUI Emacs behavior.")
     (synopsis "Frame and window commands (interactive functions)")
     (description "Frame and window commands (interactive functions).")
     (license license:gpl3+)))
-
-;; (define-public emacs-frame-cmds
-;;   (let ((commit
-;;          "291bc4cbb7d8504d8fddfc45debf1a8a3962bf7a")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-frame-cmds")
-;;       (version (git-version "0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacsmirror/emacswiki.org.git")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "1z8alj9i2jxhg13zkwz3pvbvzwa0p1zp4awcyml7wq7w0p13077d"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-frame-fns))
-;;       (home-page "https://www.emacswiki.org/emacs/frame-cmds.el")
-;;       (synopsis "Frame and window commands (interactive functions)")
-;;       (description "Frame and window commands (interactive functions).")
-;;       (license license:gpl3+))))
 
 (define-public emacs-zoom-frm
   (package
@@ -3320,30 +2848,6 @@ with GUI Emacs behavior.")
    * can specify the range to highlight.
    * can edit the highlighted symbols at a time.")
      (license license:gpl3+))))
-
-;; (define-public emacs-zoom-frm
-;;   (let ((commit
-;;          "291bc4cbb7d8504d8fddfc45debf1a8a3962bf7a")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-zoom-frm")
-;;       (version (git-version "0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/emacsmirror/emacswiki.org.git")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "1z8alj9i2jxhg13zkwz3pvbvzwa0p1zp4awcyml7wq7w0p13077d"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-frame-cmds))
-;;       (home-page "https://www.emacswiki.org/emacs/zoom-frm.el")
-;;       (synopsis "Commands to zoom frame font size")
-;;       (description "Commands to zoom frame font size.")
-;;       (license license:gpl3+))))
 
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
