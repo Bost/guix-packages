@@ -4683,15 +4683,22 @@ unique identifiers directly in Emacs.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/xuchunyang/gitignore-templates.el")
+               (url "https://github.com/xuchunyang/gitignore-templates.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "0x4pg4jpgmbvfw854ps9w3xgp8bgm7n7vmcvk3kp7h2s56l8s2xb"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/xuchunyang/gitignore-templates.el")
-      (synopsis "")
-      (description "")
+      (synopsis
+       "Create .gitignore files in Emacs from GitHub or gitignore.io templates")
+      (description
+       "This package allows Emacs users to generate .gitignore files by
+ fetching templates from either GitHub's gitignore repository or the
+ gitignore.io API.  Users can insert templates directly into the current buffer
+ or create new .gitignore files based on specified templates.  The package
+ offers customization options to select the preferred API source and supports
+ proxy configurations for network access.")
       (license license:gpl3+))))
 
 (define-public emacs-helm-comint
