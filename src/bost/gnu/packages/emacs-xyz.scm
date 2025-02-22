@@ -2348,7 +2348,7 @@ performance-oriented and tidy.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/yasuyk/helm-git-grep")
+               (url "https://github.com/yasuyk/helm-git-grep.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2370,8 +2370,15 @@ performance-oriented and tidy.")
         ;; emacs-helm-core
         ))
       (home-page "https://github.com/yasuyk/helm-git-grep")
-      (synopsis "")
-      (description "")
+      (synopsis "Helm interface for an incremental Git grep in Emacs")
+      (description
+       "This package provides a Helm interface for Git's grep functionality
+ within Emacs.  It allows users to perform searches across a Git
+ repository,including submodules, and view results in an interactive Helm
+ buffer.  Features include opening results in other windows or frames,
+ toggling case sensitivity during searches, and saving search results to a
+ writable grep buffer for further editing.  Integration with tools like wgrep
+ enhances the usability of search results.")
       (license license:gpl3+))))
 
 (define-public emacs-helm-pydoc
