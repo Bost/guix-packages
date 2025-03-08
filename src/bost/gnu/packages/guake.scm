@@ -141,7 +141,10 @@
                 (mkdir-p LOGIN_DESTOP)
 
                 ;; Disable version lookup from git
-                (setenv "SETUPTOOLS_SCM_PRETEND_VERSION" #$version))))
+                (setenv "SETUPTOOLS_SCM_PRETEND_VERSION" #$version))
+
+              ;; Dependency check is misleading. Comment it out.
+              (invoke "sed" "--in-place" "397,437s/^/#/" "guake/main.py")))
 
           (add-before 'build 'set-env-vars
             (lambda* (#:key inputs #:allow-other-keys)
