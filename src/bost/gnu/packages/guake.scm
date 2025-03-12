@@ -67,6 +67,7 @@
     ;; see libutempter/COPYING
     (license license:lgpl2.1+)))
 
+;; guix shell vte python-pygobject -- python3 -c "from gi.repository import Vte; print(Vte.MAJOR_VERSION)"
 (define-public guake
   (package
     (name "guake")
@@ -84,7 +85,7 @@
      (list
       gettext-minimal
       glib
-      gtk+
+      gtk+     ;; inherits from gtk+-2
       keybinder
       libnotify
       libutempter
@@ -96,7 +97,7 @@
       python-pyinotify
       python-pyyaml
       python-wrapper
-      vte
+      vte      ;; this should be vte/gtk+-2; has gtk+-2 in propagated inputs
       (list glib "bin")
       python-setuptools-scm
       ;; dconf ; Low-level GNOME configuration system
@@ -144,7 +145,15 @@
                 (setenv "SETUPTOOLS_SCM_PRETEND_VERSION" #$version))
 
               ;; Dependency check is misleading. Comment it out.
-              (invoke "sed" "--in-place" "397,437s/^/#/" "guake/main.py")))
+              ;; (invoke "sed" "--in-place" "397,437s/^/#/" "guake/main.py")
+
+              ;; Update all Vte version requirements to match installed version
+              ;; (substitute* (find-files "guake" "\\.py$")
+              ;;   (("gi\\.require_version\\(\"Vte\", \"2\\.91\"\\)") "gi.require_version(\"Vte\", \"3.91\")")
+              ;;   (("gi\\.require_version\\(\"Gdk\", \"3\\.0\"\\)") "gi.require_version(\"Gdk\", \"4.0\")")
+              ;;   (("gi\\.require_version\\(\"Gtk\", \"3\\.0\"\\)") "gi.require_version(\"Gtk\", \"4.0\")")
+              ;;   )
+              ))
 
           (add-before 'build 'set-env-vars
             (lambda* (#:key inputs #:allow-other-keys)
@@ -197,10 +206,17 @@
                 (wrap-program (string-append out "/bin/guake")
                   `("LD_LIBRARY_PATH" ":" prefix
                     (,(string-append (assoc-ref inputs "libutempter")
-                                     "/lib"))))))))))
+                                     "/lib")))))))
+
+          ;; (add-after 'install-schemas 'stop
+          ;;   (lambda* (#:key inputs outputs #:allow-other-keys)
+          ;;     (/ 1 0)))
+          )))
     (synopsis "Drop-down terminal for GNOME")
     (description
      "Guake provides quick access to a terminal with a simple keystroke,
 inspired by the Quake console interface.")
     (home-page "https://github.com/Guake/guake")
     (license license:gpl2+)))
+
+guake
