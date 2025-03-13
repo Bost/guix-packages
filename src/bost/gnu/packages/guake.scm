@@ -67,7 +67,7 @@
     ;; see libutempter/COPYING
     (license license:lgpl2.1+)))
 
-;; guix shell vte python-pygobject -- python3 -c "from gi.repository import Vte; print(Vte.MAJOR_VERSION)"
+;; guix shell vte python-pygobject -- python3 -c "import gi; gi.require_version('Vte', '3.91'); from gi.repository import Vte; print(\"Vte: {0}.{1}\".format(Vte.MAJOR_VERSION, Vte.MINOR_VERSION))"
 (define-public guake
   (package
     (name "guake")
