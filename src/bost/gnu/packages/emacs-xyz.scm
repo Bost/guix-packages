@@ -2224,8 +2224,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
       (license license:gpl3+))))
 
 (define-public emacs-tweaks
-  (let ((commit
-         "f512f65790fecb58a9682d966c9e820129241c27")
+  (let ((commit "de511cbbeccdf94be3e1a15b6b39f7d411ae087b")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -2239,7 +2238,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1a0fdg54n92i765kvdr3n7m21n9cal4m89kkkspwzf86g908xh7d"))))
+           "0v9h4j1nyylynjp0yfxvf7wsaxpvl6jf5344i8if21g03dd95akb"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
