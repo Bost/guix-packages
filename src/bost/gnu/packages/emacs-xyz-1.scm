@@ -2960,37 +2960,31 @@ unique identifiers directly in Emacs.")
  preferences.")
       (license license:gpl3+))))
 
-(define-public emacs-xhair
-  (let ((commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")
-        (revision "0"))
-    (package
-      (name "emacs-xhair")
-      (version (git-version "1.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Boruch-Baum/emacs-xhair")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-vline
-        ))
-      (home-page "https://github.com/Boruch-Baum/emacs-xhair")
-      (synopsis "Highlight current line and column in Emacs")
-      (description
-       "This package provides functionality to highlight the current line and
- column in Emacs, creating a crosshair effect at the point.  It combines
- `vline-mode` and `hl-line-mode` to visually emphasize the cursor position,
- aiding in text navigation and editing.  The highlighting can be toggled
- manually, set to activate until the next keypress, or applied for a specified
- interval, enhancing the user's focus on the active point in the buffer.")
-      (license license:gpl3+))))
+(define-public emacs-xhair ;; PR sent https://issues.guix.gnu.org/issue/78045
+  (package
+    (name "emacs-xhair")
+    (version "20210801.222")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/Boruch-Baum/emacs-xhair.git")
+             (commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-vline))
+    (home-page "https://github.com/Boruch-Baum/emacs-xhair")
+    (synopsis "Highlight the current line and column")
+    (description
+     "This package simultaneously applies `vline-mode and `hl-line-mode', with
+tweaks,to present POINT in highlighted cross-hairs, reporting the value of
+POINT as a message in the echo area.  This will remain in effect until toggled
+manually (function `xhair-mode by default), or until the next
+keypress (function `xhair by default), or for a set interval (function
+`xhair-flash by default).")
+    (license license:gpl3+)))
 
 (define-public emacs-insert-shebang
   (let ((commit "cc8cea997a8523bce9f303de993af3a73eb0d2e2")
