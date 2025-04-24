@@ -2932,33 +2932,26 @@ hashing), and random UUID generation, facilitating the creation of
 unique identifiers directly in Emacs.")
      (license license:gpl3+))))
 
-(define-public emacs-vline
-  (let ((commit "f5d7b5743dceca75b81c8c95287cd5b0341debf9")
-        (revision "0"))
-    (package
-      (name "emacs-vline")
-      (version (git-version "1.11" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/buzztaiki/vline")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "06qqpjaxsacslxb3f2bm790lwygbq6387n9ccn4v9vz9xlyn9dmi"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/buzztaiki/vline")
-      (synopsis "Column highlighting mode for Emacs")
-      (description
-       "This package provides `vline-mode`, a minor mode for Emacs that
- highlights the entire column at the cursor's current position.  It enhances
- text editing by visually indicating the vertical line, aiding in code
- readability and alignment.  The mode is customizable, allowing users to
- adjust the appearance and behavior of the column highlighting to suit their
- preferences.")
-      (license license:gpl3+))))
+(define-public emacs-vline ;; PR sent https://issues.guix.gnu.org/78044
+  (package
+    (name "emacs-vline")
+    (version "20210805.1528")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/buzztaiki/vline.git")
+             (commit "f5d7b5743dceca75b81c8c95287cd5b0341debf9")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "06qqpjaxsacslxb3f2bm790lwygbq6387n9ccn4v9vz9xlyn9dmi"))))
+    (build-system emacs-build-system)
+    (home-page "https://www.emacswiki.org/emacs/VlineMode")
+    (synopsis "Column highlighting (vertical line displaying) mode")
+    (description
+     "`vline-mode is a minor mode for highlighting column at cursor position.  It
+enhances text editing by visually indicating the vertical line.")
+    (license license:gpl3+)))
 
 (define-public emacs-xhair ;; PR sent https://issues.guix.gnu.org/issue/78045
   (package
