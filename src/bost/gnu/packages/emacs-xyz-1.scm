@@ -4830,3 +4830,32 @@ match Drupal Coding Standards.")
      "To use it, open a Python file and run M-x live-py-mode If that doesn't work,
 put the following in your Emacs configuration file: (require live-py-mode).")
     (license license:expat-0)))
+
+(define-public emacs-nerd-icons
+  (package
+    (name "emacs-nerd-icons")
+    (version "20250324.147")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/rainstormstudio/nerd-icons.el.git")
+             (commit "14f7278dd7eb5eca762a6ff32467c72c661c0aae")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1r5wj13k6khlmkn5wy2q2n674bc551rpxn04x46j0brzgmd85k7g"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:include #~(cons* "^data/" %default-include)))
+    (home-page "https://github.com/rainstormstudio/nerd-icons.el")
+    (synopsis "Emacs Nerd Font Icons Library")
+    (description
+     "This package was inspired by - `all-the-icons', found at
+https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-all-the-icons.el
+- `vim-devicons for Vim, found at https://github.com/ryanoasis/vim-devicons -
+`nvim-web-devicons for @code{NeoVim}, found at
+https://github.com/nvim-tree/nvim-web-devicons This package provides an
+interface to the Nerd Fonts - `nerd-fonts', found at
+https://github.com/ryanoasis/nerd-fonts.")
+    (license license:gpl3+)))

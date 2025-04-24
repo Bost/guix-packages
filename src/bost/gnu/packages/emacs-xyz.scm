@@ -209,6 +209,7 @@
    emacs-mustang-theme
    emacs-mvn
    emacs-naquadah-theme
+   emacs-nerd-icons
    emacs-noctilux-theme
    emacs-nyan-mode
    emacs-ob-elixir
