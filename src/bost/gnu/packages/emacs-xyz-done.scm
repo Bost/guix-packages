@@ -121,7 +121,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
 
-  ;; #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages emacs-xyz)
   ;; #:use-module (bost gnu packages emacs-xyz--dap-mode)
   )
 
@@ -303,7 +303,7 @@ another window.")
          "12mwviz1mwx4ywks2lkmybbgh1wny67wkzlq5y3ml8gvyc288n3i"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-company)))
+     (list emacs-company))
     (home-page
      "https://github.com/company-mode/company-statistics")
     (synopsis "")
@@ -358,81 +358,6 @@ org-mode goodness of Leuven. Unlike Tao, keeps some very minimal color
 indications, while remaining mainly grayscale and trying to avoid the “angry
 fruit salad” syndrome. Unlike Leuven, it remains mostly grayscale, with no
 color for syntax, and easily allows multiple variants.")
-    (license license:gpl3+)))
-
-(define-public emacs-helm-cider-history
-  (package
-    (name "emacs-helm-cider-history")
-    (version "0.0.1")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/Kungi/helm-cider-history")
-               (commit
-                 "c391fcb2e162a02001605a0b9449783575a831fd")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "18j4ikb3q8ygdq74zqzm83wgb39x7w209n3186mm051n8lfmkaif"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-helm)))
-    (home-page
-      "https://github.com/Kungi/helm-cider-history")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-flx
-  (let ((commit "7b44a5abb254bbfbeca7a29336f7f4ebd8aabbf2")
-        (revision "0"))
-    (package
-      (name "emacs-flx")
-      (version (git-version "0.6.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/lewang/flx")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "18vzjsscm9hsxxnacqfaskwayxhlg258rj8m7m8kim12nndgkzcy"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/lewang/flx")
-      (synopsis "Fuzzy matching for Emacs")
-      (description
-       "Flx provides fuzzy matching for emacs a la sublime text.
-The sorting algorithm is a balance between word beginnings (abbreviation)
-and contiguous matches (substring).  The longer the substring match,
-the higher it scores. This maps well to how we think about matching.
-Flx has support for ido (interactively do things) through flx-ido.")
-      (license license:gpl3+))))
-
-;; Upstream uses https://github.com/emacsorphanage/helm-css-scss
-(define-public emacs-helm-css-scss
-  (package
-    (name "emacs-helm-css-scss")
-    (version "1.3")
-    (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/ShingoFukuyama/helm-css-scss")
-               (commit
-                 "48b996f73af1fef8d6e88a1c545d98f8c50b0cf3")))
-        (file-name (git-file-name name version))
-        (sha256
-          (base32
-            "1xadlsg4c52anbk3dqz6blkrid8lzsd28rw402gy17vnk7lwg9i7"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-helm)))
-    (home-page
-      "https://github.com/ShingoFukuyama/helm-css-scss")
-    (synopsis "")
-    (description "")
     (license license:gpl3+)))
 
 (define-public emacs-erc-social-graph
@@ -496,7 +421,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
          "1d8a9jwv9y0sncw24k840c8yyrig30f2d6q2zqlc09f05yzq9p9p"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-autothemer)))
+     (list emacs-autothemer))
     (home-page
      "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
     (synopsis "")
@@ -527,12 +452,12 @@ Flx has support for ido (interactively do things) through flx-ido.")
 
 (define-public emacs-writeroom-mode
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-writeroom))
+    (inherit emacs-writeroom)
     (name "emacs-writeroom-mode")))
 
 (define-public emacs-js2-refactor
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-js2-refactor-el))
+    (inherit emacs-js2-refactor-el)
     (name "emacs-js2-refactor")))
 
 (define-public emacs-farmhouse-themes
@@ -624,8 +549,8 @@ company-web.")
            "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-company)
-             (@(gnu packages emacs-xyz) emacs-dash)
+       (list emacs-company
+             emacs-dash
              emacs-web-completion-data))
       (home-page "https://github.com/osv/company-web")
       (synopsis "Emacs company backend for html, jade and slim")
@@ -698,11 +623,11 @@ company-mode.")
       (propagated-inputs
        (list
         ;; emacs-copilot-balancer
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-editorconfig)
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-jsonrpc)
+        emacs-dash
+        emacs-editorconfig
+        emacs-s
+        emacs-f
+        emacs-jsonrpc
         ))
       (home-page "https://github.com/copilot-emacs/copilot.el")
       (synopsis "An unofficial Copilot plugin for Emacs")
@@ -1017,7 +942,7 @@ access to GitHub Copilot to use this plugin.")
             (base32
               "0dvfk9kyza6yq0jn9g2ffb5gv07xnjg6myxkqfxpll7m2s0zasi7"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-autothemer)))
+      (propagated-inputs (list emacs-autothemer))
       (home-page
         "http://github.com/emacsfodder/emacs-theme-darktooth")
       (synopsis "")
@@ -1584,78 +1509,77 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 (define-public emacs-naquadah-theme
-  (let ((commit
-          "430c3b7bd51922cb616b3f60301f4e2604816ed8")
+  (let ((commit "430c3b7bd51922cb616b3f60301f4e2604816ed8")
         (revision "0"))
     (package
       (name "emacs-naquadah-theme")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/jd/naquadah-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "0z2dn05xgbdfw6rwgsq31rm5dr098dk411qk83fbx2bkdxxfr60w"))))
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jd/naquadah-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0z2dn05xgbdfw6rwgsq31rm5dr098dk411qk83fbx2bkdxxfr60w"))))
       (build-system emacs-build-system)
       (home-page
-        "https://github.com/jd/naquadah-theme")
-      (synopsis "")
-      (description "")
+       "https://github.com/jd/naquadah-theme")
+      (synopsis "Naquadah theme for Emacs")
+      (description "A theme based on Tango color set.")
       (license license:gpl3+))))
 
 (define-public emacs-noctilux-theme
-  (let ((commit
-          "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
+  (let ((commit "a3265a1be7f4d73f44acce6d968ca6f7add1f2ca")
         (revision "0"))
     (package
       (name "emacs-noctilux-theme")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/sjrmanning/noctilux-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))
-          (patches
-           (search-patches
-            "emacs-noctilux-theme--fix-byte-compilation.patch"))))
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sjrmanning/noctilux-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "12xx0v8d97kjvlkj0ii78vxxvzgmcfc4hzv4yvxymg50rsy0zzqi"))
+         (patches
+          (search-patches
+           "emacs-noctilux-theme--fix-byte-compilation.patch"))))
       (build-system emacs-build-system)
-      (home-page
-        "https://github.com/sjrmanning/noctilux-theme")
-      (synopsis "")
-      (description "")
+      (home-page "https://github.com/sjrmanning/noctilux-theme")
+      (synopsis "Dark theme inspired by LightTable")
+      (description
+       "Dark color theme for Emacs 24+ (using deftheme), inspired by the
+default dark theme in Light Table 0.4.0.  This color theme is based off the
+definitions and format in sellout's awesome emacs-color-theme-solarized,
+providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-obsidian-theme
-  (let ((commit
-          "f45efb2ebe9942466c1db6abbe2d0e6847b785ea")
+  (let ((commit "f45efb2ebe9942466c1db6abbe2d0e6847b785ea")
         (revision "0"))
     (package
       (name "emacs-obsidian-theme")
       (version (git-version "0.1" revision commit))
       (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/mswift42/obsidian-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "1d36mdq8b1q1x84a2nb93bwnzlpdldiafh7q7qfjjm9dsgbij73b"))))
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mswift42/obsidian-theme")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1d36mdq8b1q1x84a2nb93bwnzlpdldiafh7q7qfjjm9dsgbij73b"))))
       (build-system emacs-build-system)
-      (home-page
-        "https://github.com/mswift42/obsidian-theme")
-      (synopsis "")
-      (description "")
+      (home-page "https://github.com/mswift42/obsidian-theme")
+      (synopsis "Port of the Eclipse obsidian theme")
+      (description "Port of the Eclipse obsidian theme.")
       (license license:gpl3+))))
 
 (define-public emacs-occidental-theme
@@ -2404,8 +2328,8 @@ access to GitHub Copilot to use this plugin.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-hydra)
-        (@(gnu packages emacs-xyz) emacs-cider)
+        emacs-hydra
+        emacs-cider
         ;; emacs-cider-inspector
         ;; emacs-cider-test
         ;; emacs-cider-repl
@@ -2441,7 +2365,7 @@ access to GitHub Copilot to use this plugin.")
           (base32
            "1hz5nlrhbrlwwk8rcjvc3jhj0g9wgm6xw903ap8fxq470mj99gln"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-flycheck)))
+      (propagated-inputs (list emacs-flycheck))
       (home-page
        "https://github.com/candid82/flycheck-joker")
       (synopsis "")
@@ -2467,9 +2391,9 @@ access to GitHub Copilot to use this plugin.")
            "0slspzc3zppavmdnw8xpih1iiqyqbyx4mm286lz0naw7g4yrpb12"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-s)
-             (@(gnu packages emacs-xyz) emacs-parseedn)
-             (@(gnu packages emacs-xyz) emacs-cider)))
+       (list emacs-s
+             emacs-parseedn
+             emacs-cider))
       (home-page
        "https://github.com/magnars/kaocha-runner.el")
       (synopsis "")
@@ -2497,7 +2421,7 @@ access to GitHub Copilot to use this plugin.")
       (arguments
        (list
         #:include #~(cons "^src/el/" %default-include)))
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-cider)))
+      (propagated-inputs (list emacs-cider))
       (home-page
        "https://github.com/clojure-emacs/sayid")
       (synopsis "")
@@ -2526,8 +2450,8 @@ access to GitHub Copilot to use this plugin.")
        (list
         ;; emacs-kaolin-themes-lib
         ;; emacs-color
-        (@(gnu packages emacs-xyz) emacs-map)
-        (@(gnu packages emacs-xyz) emacs-autothemer)))
+        emacs-map
+        emacs-autothemer))
       (home-page
        "https://github.com/ogdenwebb/emacs-kaolin-themes")
       (synopsis "")
@@ -2566,11 +2490,11 @@ access to GitHub Copilot to use this plugin.")
                    (("\\(executable-find \"sqlite3\"\\)")
                     (string-append "\"" (which "sqlite3") "\""))))))))
       (native-inputs
-       (list (@(gnu packages emacs-xyz) emacs-ert-runner)))
+       (list emacs-ert-runner))
       (inputs
        (list sqlite))
       (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-emacsql)))
+       (list emacs-emacsql))
       (home-page "https://github.com/cireu/emacsql-sqlite3")
       (synopsis "EmacSQL backend for SQLite")
       (description "This is yet another EmacSQL backend for SQLite which uses
@@ -2597,7 +2521,7 @@ official @command{sqlite3} executable to access SQL database.")
       (build-system emacs-build-system)
       (propagated-inputs (list
                           ;; emacs-color
-                          (@(gnu packages emacs-xyz) emacs-dash)))
+                          emacs-dash))
       (home-page
        "https://github.com/ZehCnaS34/zonokai-emacs")
       (synopsis "")
@@ -2622,7 +2546,7 @@ official @command{sqlite3} executable to access SQL database.")
           (base32
            "0ssnyvy80h1pc1khimcazxf0mqkzz0xmzjg2if7xc6js235rcksf"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-cider)))
+      (propagated-inputs (list emacs-cider))
       (home-page
        "https://github.com/Bost/kill-buffers")
       (synopsis "Kill various unwanted buffers")
@@ -2648,8 +2572,8 @@ official @command{sqlite3} executable to access SQL database.")
            "1pd6nrgv6b6134w60zlxb3dnvn3nw8975wq5h6smach9cfxf7iry"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-smartparens)
-             (@(gnu packages emacs-xyz) emacs-eval-sexp-fu-el)))
+       (list emacs-smartparens
+             emacs-eval-sexp-fu-el))
       (home-page "https://github.com/Bost/copy-sexp")
       (synopsis "")
       (description "")
@@ -2673,7 +2597,7 @@ official @command{sqlite3} executable to access SQL database.")
           (base32
            "0r31d7597dzi01y09acqvzqxn7fqb1amxngjq7zk5gp5n61frf9s"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-goto-chg)))
+      (propagated-inputs (list emacs-goto-chg))
       (home-page "https://github.com/Bost/jump-last")
       (synopsis "Jump to the Last Edit Location, regardless of the file")
       (description "Jump to the Last Edit Location, regardless of the file.")
@@ -2698,8 +2622,8 @@ official @command{sqlite3} executable to access SQL database.")
            "0vjzjmp3ba0nzf0v04bhxvzgdwwm11vivxqjzgnvp3kq95kajr5h"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(gnu packages emacs-xyz) emacs-evil)
-             (@(gnu packages emacs-xyz) emacs-iedit)
+       (list emacs-evil
+             emacs-iedit
              ))
       (home-page "https://github.com/syl20bnr/evil-iedit-state")
       (synopsis "Slick Evil states for iedit")
@@ -2754,7 +2678,7 @@ with GUI Emacs behavior.")
          (sha256
           (base32 "0lj4cp7ml7cjhkd66f6ivcl6sbfs2my8ajjlynzl3pm5qansfw5i"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@(gnu packages emacs-xyz) emacs-dash)))
+      (propagated-inputs (list emacs-dash))
       (home-page "https://github.com/deb0ch/emacs-winum")
       (synopsis "Window number management for Emacs")
       (description
@@ -2836,7 +2760,7 @@ with GUI Emacs behavior.")
          "04iz99x942i5awngj6fdshm2jh1ghnm47sck6xflj17pa2rzjyp4"))))
      (build-system emacs-build-system)
      (propagated-inputs
-      (list (@(gnu packages emacs-xyz) emacs-ht)))
+      (list emacs-ht))
      (home-page
       "https://github.com/elp-revive/auto-highlight-symbol")
      (synopsis "Automatic highlighting current symbol minor mode")

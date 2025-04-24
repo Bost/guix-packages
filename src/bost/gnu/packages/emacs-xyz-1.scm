@@ -1,5 +1,4 @@
 (define-module (bost gnu packages emacs-xyz-1)
-  ;; #:use-module (utils)
   #:use-module (bost utils)  ;; for build
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -122,7 +121,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
 
-  ;; #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz--dap-mode)
   )
@@ -171,8 +170,8 @@
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-yasnippet)
-        (@(gnu packages emacs-xyz) emacs-php-mode)
+        emacs-yasnippet
+        emacs-php-mode
         ))
       (home-page "https://github.com/emacs-php/php-auto-yasnippets.git")
       (synopsis "Auto-generate Yasnippets for PHP in Emacs")
@@ -228,9 +227,9 @@
       (build-system emacs-build-system)
       (propagated-inputs
         (list
-         (@(gnu packages emacs-xyz) emacs-shut-up)
-         (@(gnu packages emacs-xyz) emacs-dash)
-         (@(gnu packages emacs-xyz) emacs-s)
+         emacs-shut-up
+         emacs-dash
+         emacs-s
          ;; emacs-multi-line-shared
          ;; emacs-multi-line-respace
          ;; emacs-multi-line-find
@@ -246,39 +245,6 @@
  statements into multiple lines in Emacs, improving code readability and
  organization.  It is especially useful for languages with long expressions or
  complex statements, allowing users to easily format code for better clarity.")
-      (license license:gpl3+))))
-
-(define-public emacs-helm-dictionary
-  (let ((commit "fefacdd5955e4c3cb69623b04f25f673748552a8")
-        (revision "0"))
-    (package
-      (name "emacs-helm-dictionary")
-      (version (git-version "1.0.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacs-helm/helm-dictionary")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0xg3p72vph9gbm9yj54xrnkcn13bq1lj4np3zlspzwg8raj02g74"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-helm)
-        ;; emacs-helm-easymenu ;; apparently not needed
-        ;; emacs-helm-net      ;; apparently not needed
-        ))
-      (home-page "https://github.com/emacs-helm/helm-dictionary")
-      (synopsis "Dictionary search interface for Emacs using Helm")
-      (description
-       "This package provides a dictionary search interface for
- Emacs,utilizing Helm for quick and efficient lookups.  It allows users to
- search and browse dictionary definitions directly within Emacs, enhancing
- productivity by integrating language resources into the editing environment.
- The package supports various dictionary sources and offers an intuitive way
- to access definitions.")
       (license license:gpl3+))))
 
 (define-public emacs-pcache
@@ -326,7 +292,7 @@
       (propagated-inputs
        (list
         emacs-pcache
-        (@(gnu packages emacs-xyz) emacs-s)))
+        emacs-s))
       (home-page "https://github.com/mbezjak/emacs-groovy-imports.git")
       (synopsis "Automatic import management for Groovy in Emacs")
       (description
@@ -867,7 +833,7 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))
     (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-validate)))))
+     (list emacs-validate))))
 
 (define-public emacs-spacemacs-common
   (package
@@ -1113,8 +1079,9 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))
     (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-consult)
-           emacs-core-configuration-layer))))
+     (list
+      emacs-consult
+      emacs-core-configuration-layer))))
 
 (define-public emacs-erc-tex
   (package
@@ -1152,27 +1119,6 @@
                      (find-files
                       "core"
                       "core-keybindings\\.el$"
-                      )))
-                (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))))
-
-;; Upstream uses https://elpa.gnu.org/packages/spinner-1.7.4.tar
-(define-public emacs-spinner
-  (package
-    (inherit emacs-spacemacs-base)
-    (name "emacs-spinner")
-    (arguments
-     (list
-      #:phases
-      #~(modify-phases %standard-phases
-          ;; Move the source files to the top level, which is included in
-          ;; the EMACSLOADPATH.
-          (add-after 'unpack 'move-source-files
-            (lambda _
-              (let ((el-files
-                     (find-files
-                      "core/libs"
-                      "spinner\\.el$"
                       )))
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
@@ -1503,7 +1449,7 @@
     (inherit emacs-spacemacs-base)
     (name "emacs-spacemacs-purpose-popwin")
     (propagated-inputs
-     (list (@(gnu packages emacs-xyz) emacs-window-purpose)))
+     (list emacs-window-purpose))
     (arguments
      (list
       #:phases
@@ -1613,7 +1559,7 @@
     (propagated-inputs
      (list
       ;; emacs-core-funcs ;; Doesn't work - see above
-      (@(gnu packages emacs-xyz) emacs-evil)))))
+      emacs-evil))))
 
 (define-public emacs-vim-colors
   (package
@@ -1702,8 +1648,8 @@
     (name "emacs-evil-unimpaired")
     (propagated-inputs
      (list
-      (@(gnu packages emacs-xyz) emacs-dash)
-      (@(gnu packages emacs-xyz) emacs-f)))
+      emacs-dash
+      emacs-f))
     (arguments
      (list
       #:phases
@@ -1809,8 +1755,8 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-evil-evilified-state")
     (propagated-inputs
      (list
-      (@(gnu packages emacs-xyz) emacs-evil)
-      (@(gnu packages emacs-xyz) emacs-bind-map)))
+      emacs-evil
+      emacs-bind-map))
     (arguments
      (list
       #:phases
@@ -2091,40 +2037,6 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-tweaks
-  (let ((commit "de511cbbeccdf94be3e1a15b6b39f7d411ae087b")
-        (revision "0"))
-    (package
-      (name "emacs-tweaks")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Bost/tweaks")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0v9h4j1nyylynjp0yfxvf7wsaxpvl6jf5344i8if21g03dd95akb"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-copy-sexp
-        (@(gnu packages emacs-xyz) emacs-drag-stuff)
-        (@(gnu packages emacs-xyz) emacs-evil)
-        emacs-evil-iedit-state
-        emacs-jump-last
-        emacs-kill-buffers
-        (@(gnu packages emacs-xyz) emacs-magit)
-        (@(gnu packages emacs-xyz) emacs-yasnippet)
-        emacs-zoom-frm
-        ))
-      (home-page "https://github.com/Bost/tweaks")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-use-package
   ;; XXX: Upstream did not tag latest release.  Using commit matching exact
   ;; version bump.
@@ -2162,7 +2074,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
         (@(gnu packages texinfo) texinfo)))
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-diminish)))
+        emacs-diminish))
       (home-page "https://github.com/jwiegley/use-package")
       (synopsis "Declaration for simplifying your .emacs")
       (description "The use-package macro allows you to isolate package
@@ -2170,137 +2082,10 @@ configuration in your @file{.emacs} file in a way that is both
 performance-oriented and tidy.")
       (license license:gpl2+))))
 
-(define-public emacs-git-commit
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-magit))
-    (name "emacs-git-commit")))
-
-(define-public emacs-treemacs-magit
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-treemacs-extra))
-    (name "emacs-treemacs-magit")))
-
-(define-public emacs-treemacs-projectile
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
-    (name "emacs-treemacs-projectile")))
-
-(define-public emacs-treemacs-persp
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
-    (name "emacs-treemacs-persp")))
-
-(define-public emacs-treemacs-icons-dired
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
-    (name "emacs-treemacs-icons-dired")))
-
-(define-public emacs-treemacs-evil
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-treemacs))
-    (name "emacs-treemacs-evil")))
-
-(define-public emacs-helm-files
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-helm))
-    (name "emacs-helm-files")))
-
-(define-public emacs-helm-git-grep
-  (let ((commit "744cea07dba6e6a5effbdba83f1b786c78fd86d3")
-        (revision "0"))
-    (package
-      (name "emacs-helm-git-grep")
-      (version (git-version "0.10.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/yasuyk/helm-git-grep.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "172m7wbgx9qnv9n1slbzpd9j24p6blddik49z6bq3zdg1vlnf3dv"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'fix-make-obsolete
-              (lambda _
-                (invoke
-                 "sed" "--in-place" "742s/make-obsolete/make-obsolete-variable/"
-                 "helm-git-grep.el"))))))
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-helm)
-        ;; emacs-helm-files
-        ;; emacs-helm-core
-        ))
-      (home-page "https://github.com/yasuyk/helm-git-grep")
-      (synopsis "Helm interface for an incremental Git grep in Emacs")
-      (description
-       "This package provides a Helm interface for Git's grep functionality
- within Emacs.  It allows users to perform searches across a Git
- repository,including submodules, and view results in an interactive Helm
- buffer.  Features include opening results in other windows or frames,
- toggling case sensitivity during searches, and saving search results to a
- writable grep buffer for further editing.  Integration with tools like wgrep
- enhances the usability of search results.")
-      (license license:gpl3+))))
-
-(define-public emacs-helm-pydoc
-  (let ((commit "cac7b8953adcab85e898bc42b699c3afde5d33c6")
-        (revision "0"))
-    (package
-      (name "emacs-helm-pydoc")
-      (version (git-version "0.07" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacsorphanage/helm-pydoc.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "11d34283zh1yffrb2ad4h1ib1n00yx5avas0l39hm56m2gvx6d89"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:include #~(cons "^helm-pydoc\\.py$" %default-include)
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'patch-exec-paths
-              (lambda* (#:key inputs #:allow-other-keys)
-                (let ((python (search-input-file inputs "bin/python")))
-                  (substitute* "helm-pydoc.py"
-                    (("/usr/bin/env python") python))
-                  (substitute* "helm-pydoc.el"
-                    (("/bin/python") python))))))))
-      (inputs (list python-wrapper))
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-helm)
-        ;; emacs-helm-core
-        ))
-      (home-page "https://github.com/emacsorphanage/helm-pydoc.git")
-      (synopsis "Python documentation lookup with Helm in Emacs")
-      (description
-       "This package provides an interface for searching and viewing Python
- documentation within Emacs using Helm.  It enables quick access to Python
- docstrings, module documentation, and function descriptions, improving
- efficiency by integrating comprehensive documentation lookup directly into
- the Emacs environment.")
-      (license license:gpl3+))))
-
 (define-public emacs-use-package-chords
   (package
     (inherit emacs-use-package)
     (name "emacs-use-package-chords")))
-
-(define-public emacs-magit-section
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-magit))
-    (name "emacs-magit-section")))
 
 (define-public emacs-chatgpt-shell ;; PR sent
   (package
@@ -2387,9 +2172,9 @@ performance-oriented and tidy.")
          (sha256
           (base32 "01l48njg0x7gkssvw9nv3yq97866r945izbggx9y3z5ckr1w4hlc"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@ (gnu packages emacs-xyz) emacs-dash)
-                               (@ (gnu packages emacs-xyz) emacs-markdown-mode)
-                               (@ (gnu packages emacs-xyz) emacs-s)))
+      (propagated-inputs (list emacs-dash
+                               emacs-markdown-mode
+                               emacs-s))
       (home-page "https://github.com/ardumont/markdown-toc")
       (synopsis "Generate a table of contents for Markdown files in Emacs")
       (description
@@ -2399,179 +2184,6 @@ performance-oriented and tidy.")
  changes.  This simplifies navigation and organization in large Markdown
  documents.")
       (license license:gpl3+))))
-
-(define-public emacs-ac-php-core
-  (package
-    (name "emacs-ac-php-core")
-    (version "2.7.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/xcwen/ac-php")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1yn5cc6cmj3hwqgmjj44dz847xn5k99kirj36qwc04q7vhl8z8k7"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:tests? #true
-      #:test-command #~(list "ert-runner")
-      #:phases
-      #~(modify-phases %standard-phases
-          (replace
-              'ensure-package-description
-            (lambda* (#:key outputs #:allow-other-keys)
-
-              (define (emacs-package? name)
-                "Check if NAME correspond to the name of an Emacs package."
-                (string-prefix? "emacs-" name))
-
-              (define (package-name-version->elpa-name-version name-ver)
-                "Convert the Guix package NAME-VER to the corresponding ELPA name-version
-format.  Essentially drop the prefix used in Guix."
-                (if (emacs-package? name-ver)  ; checks for "emacs-" prefix
-                    (string-drop name-ver (string-length "emacs-"))
-                    name-ver))
-
-              (define (find-root-library-file name)
-                (format #t "#### [find-root-library-file] name : ~a\n" name)
-                (format #t "#### [find-root-library-file] #$name : ~a\n" #$name)
-                ;; (format #t "#### [find-root-library-file] (package-name-version->elpa-name-version #$name) : ~a\n" (package-name-version->elpa-name-version #$name))
-                (let [(candidate (package-name-version->elpa-name-version #$name))]
-                  (format #t "#### [find-root-library-file] candidate : ~a\n" candidate)
-                  (if (file-exists? (string-append candidate ".el"))
-                      candidate
-                      (let loop ((parts (string-split
-                                         (package-name-version->elpa-name-version name) #\-))
-                                 (candidate ""))
-                        (format #t "#### [find-root-library-file] parts : ~a\n" parts)
-                        (format #t "#### [find-root-library-file] candidate : ~a\n" candidate)
-                        (format #t "#### [find-root-library-file] (null? parts) : ~a\n" (null? parts))
-                        (format #t "#### [find-root-library-file] (string-null? candidate) : ~a\n" (string-null? candidate))
-                        (let* [(f (string-append candidate ".el"))]
-                          (format #t "#### [find-root-library-file] (file-exists? ~a) : ~a\n" f (file-exists? f)))
-                        (format #t "\n")
-                        (cond
-                         ;; at least one version part is given, so we don't terminate "early"
-                         ((null? parts) #f)
-                         ((string-null? candidate) (loop (cdr parts) (car parts)))
-                         ((file-exists? (string-append candidate ".el")) candidate)
-                         (else
-                          (loop (cdr parts) (string-append candidate "-" (car parts)))))))))
-
-              (define (store-file->elisp-source-file file)
-                "Convert FILE, a store file name for an Emacs Lisp source file, into a file
-name that has been stripped of the hash and version number."
-                (let ((suffix ".el"))
-                  (let-values (((name version)
-                                (package-name->name+version
-                                 (basename
-                                  (strip-store-file-name file) suffix))))
-                    (string-append name suffix))))
-
-              (define (store-directory->elpa-name-version store-dir)
-                "Given a store directory STORE-DIR return the part of the basename after the
-second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
-                ((compose package-name-version->elpa-name-version
-                          strip-store-file-name)
-                 store-dir))
-
-              (define (write-pkg-file name)
-                (format #t "#### [write-pkg-file] name : ~a\n" name)
-                (define summary-regexp
-                  "^;;; [^ ]*\\.el ---[ \t]*\\(.*?\\)[ \t]*\\(-\\*-.*-\\*-[ \t]*\\)?$")
-                (define %write-pkg-file-form
-                  `(progn
-                    (require 'lisp-mnt)
-                    (require 'package)
-
-                    (defun build-package-desc-from-library (name)
-                      (package-desc-from-define
-                       name
-                       ;; Workaround for malformed version string (for example "24 (beta)"
-                       ;; in paredit.el), try to parse version obtained by lm-version,
-                       ;; before trying to create package-desc.  Otherwise the whole process
-                       ;; of generation -pkg.el will fail.
-                       (condition-case
-                        nil
-                        (let ((version (lm-version)))
-                          ;; raises an error if version is invalid
-                          (and (version-to-list version) version))
-                        (error "0.0.0"))
-                       (or (save-excursion
-                            (goto-char (point-min))
-                            (and (re-search-forward ,summary-regexp nil t)
-                                 (match-string-no-properties 1)))
-                           package--default-summary)
-                       (let ((require-lines (lm-header-multiline "package-requires")))
-                         (and require-lines
-                              (package--prepare-dependencies
-                               (package-read-from-string
-                                (mapconcat 'identity require-lines " ")))))
-                       :kind       'single
-                       :url        (lm-homepage)
-                       :keywords   (lm-keywords-list)
-                       :maintainer (lm-maintainer)
-                       :authors    (lm-authors)))
-
-                    (defun generate-package-description-file (name)
-                      (package-generate-description-file
-                       (build-package-desc-from-library name)
-                       (concat name "-pkg.el")))
-
-                    (condition-case
-                     err
-                     (progn
-                      (message "#### [write-pkg-file-form] (buffer-file-name) : %s" (buffer-file-name))
-                      (let ((name (file-name-base (buffer-file-name))))
-                        (generate-package-description-file name)
-                        (message (concat name "-pkg.el file generated."))))
-                     (error
-                      (message "Some errors during generation of -pkg.el file occured:")
-                      (message "%s" (error-message-string err))))))
-
-                (format #t "#### [write-pkg-file-form] (file-exists? \"~a\") : ~a\n"
-                        (string-append name "-pkg.el")
-                        (file-exists? (string-append name "-pkg.el")))
-                (unless (file-exists? (string-append name "-pkg.el"))
-                  (emacs-batch-edit-file (string-append name ".el")
-                    %write-pkg-file-form)))
-
-              (let ((name (store-directory->elpa-name-version (assoc-ref outputs "out"))))
-                (format #t "#### [ensure-package-description] name: ~a\n" name)
-
-                (let* [(r (find-root-library-file name))]
-                  (format #t "#### [ensure-package-description] (find-root-library-file \"~a\"): ~a\n" name r)
-                  (and=> r write-pkg-file)))
-              )))
-      ))
-    (inputs
-     (list
-      (@ (gnu packages emacs-xyz) emacs-auto-complete)
-      (@ (gnu packages emacs-xyz) emacs-company)
-      (@ (gnu packages emacs-xyz) emacs-dash)
-      (@ (gnu packages emacs-xyz) emacs-f)
-      (@ (gnu packages emacs-xyz) emacs-helm)
-      (@ (gnu packages emacs-xyz) emacs-php-mode)
-      (@ (gnu packages emacs-xyz) emacs-popup)
-      (@ (gnu packages emacs-xyz) emacs-s)
-      (@ (gnu packages emacs-xyz) emacs-xcscope)
-      ))
-    (native-inputs
-     (list
-      (@ (gnu packages emacs-xyz) emacs-ert-runner)
-      ))
-    (home-page "https://github.com/xcwen/ac-php")
-    (synopsis "")
-    (description "")
-    (license license:gpl3+)))
-
-(define-public emacs-company-php
-  (package
-    (inherit (@ (gnu packages emacs-xyz) emacs-ac-php))
-    (name "emacs-company-php")))
 
 (define-public emacs-php-runtime
   (let ((commit
@@ -2617,11 +2229,11 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@ (gnu packages emacs-xyz) emacs-xref)
-        (@ (gnu packages emacs-xyz) emacs-async)
-        (@ (gnu packages emacs-xyz) emacs-composer)
+        emacs-xref
+        emacs-async
+        emacs-composer
         emacs-php-runtime
-        (@ (gnu packages emacs-xyz) emacs-f)
+        emacs-f
         ))
       (home-page
        "https://github.com/emacs-php/phpactor.el")
@@ -2680,9 +2292,9 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-magit-popup)
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-tablist)
+        emacs-magit-popup
+        emacs-dash
+        emacs-tablist
         ))
       (home-page
        "https://github.com/Yuki-Inoue/tblui.el")
@@ -2717,8 +2329,8 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
       (propagated-inputs
        (list
         emacs-tblui
-        (@ (gnu packages emacs-xyz) emacs-request)
-        (@ (gnu packages emacs-xyz) emacs-let-alist)
+        emacs-request
+        emacs-let-alist
         ))
       (home-page
        "https://github.com/emacs-openai/openai")
@@ -2733,7 +2345,7 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
 
 (define-public emacs-lv
   (package
-    (inherit (@ (gnu packages emacs-xyz) emacs-hydra))
+    (inherit emacs-hydra)
     (name "emacs-lv")))
 
 (define-public emacs-chatgpt
@@ -2756,10 +2368,10 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
       (propagated-inputs
        (list
         emacs-lv
-        (@(gnu packages emacs-xyz) emacs-ht)
-        (@(gnu packages emacs-xyz) emacs-let-alist)
-        (@(gnu packages emacs-xyz) emacs-markdown-mode)
-        (@(gnu packages emacs-xyz) emacs-spinner)
+        emacs-ht
+        emacs-let-alist
+        emacs-markdown-mode
+        emacs-spinner
         emacs-openai
         ))
       (home-page "https://github.com/emacs-openai/chatgpt")
@@ -2771,34 +2383,6 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
  assistance into various text-based workflows, and enhancing productivity by
  making AI tools easily accessible in the Emacs environment.")
       (license license:gpl3+))))
-
-(define-public emacs-uuidgen
-  (let ((commit "cebbe09d27c63abe61fe8c2e2248587d90265b59")
-        (revision "0"))
-    (package
-     (name "emacs-uuidgen")
-     (version (git-version "1.3" revision commit))
-     (source
-      (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/kanru/uuidgen-el")
-             (commit commit)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1ih6kj3inwdxypbqj2n5vnfxmc6rfrx114w8bdy60yd8klx7273d"))))
-     (build-system emacs-build-system)
-     (home-page "https://github.com/kanru/uuidgen-el")
-     (synopsis "UUID generation library for Emacs")
-     (description
-      "This package provides functions to generate Universally Unique
-Identifiers (UUIDs) within Emacs.  It supports the creation of UUIDs
-conforming to RFC 4122, including versions 1, 3, 4, and 5.  The
-library allows for time-based, name-based (using MD5 or SHA-1
-hashing), and random UUID generation, facilitating the creation of
-unique identifiers directly in Emacs.")
-     (license license:gpl3+))))
 
 (define-public emacs-vline ;; PR sent https://issues.guix.gnu.org/78044
   (package
@@ -3037,7 +2621,7 @@ keypress (function `xhair by default), or for a set interval (function
 
 (define-public emacs-systemd
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-systemd-mode))
+    (inherit emacs-systemd-mode)
     (name "emacs-systemd")))
 
 (define-public emacs-prettier-js
@@ -3087,8 +2671,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-consult)
-        (@(gnu packages emacs-xyz) emacs-lsp-mode)))
+        emacs-consult
+        emacs-lsp-mode))
       (home-page "https://github.com/ROCKTAKEY/lsp-latex")
       (synopsis "Enhanced LSP support for LaTeX in Emacs using Texlab")
       (description
@@ -3102,7 +2686,7 @@ keypress (function `xhair by default), or for a set interval (function
 
 (define-public emacs-sqlite3
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-sqlite3-api))
+    (inherit emacs-sqlite3-api)
     (name "emacs-sqlite3")))
 
 (define-public emacs-geben
@@ -3160,7 +2744,7 @@ keypress (function `xhair by default), or for a set interval (function
 
 (define-public emacs-eval-sexp-fu
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-eval-sexp-fu-el))
+    (inherit emacs-eval-sexp-fu-el)
     (name "emacs-eval-sexp-fu")))
 
 (define-public emacs-pyenv-mode
@@ -3181,7 +2765,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       ;; contains (executable-find "pyenv")
       (propagated-inputs (list
-                          (@(gnu packages emacs-xyz) emacs-pythonic)
+                          emacs-pythonic
                           ))
       (home-page "https://github.com/proofit404/pyenv-mode")
       (synopsis "Integrate pyenv with Emacs python-mode")
@@ -3197,41 +2781,8 @@ keypress (function `xhair by default), or for a set interval (function
 
 (define-public emacs-groovy-mode
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-groovy-modes))
+    (inherit emacs-groovy-modes)
     (name "emacs-groovy-mode")))
-
-(define-public emacs-orgit-forge
-  (let ((commit "2718a6aaf0f64cb52c64c419053fbc80eb358c8d")
-        (revision "0"))
-    (package
-      (name "emacs-orgit-forge")
-      (version (git-version "1.0.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/orgit-forge")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1xcv7kqsrv39rk8fjd2sbl2wrr8mdb6y1xipifki4q7mry1c6v6w"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-orgit)
-        (@(gnu packages emacs-xyz) emacs-forge)
-        (@(gnu packages emacs-xyz) emacs-compat)
-        ))
-      (home-page "https://github.com/magit/orgit-forge")
-      (synopsis "Org links to Forge topic buffers in Emacs")
-      (description
-       "This package defines the Org link type `orgit-topic`, enabling users
- to create links to Forge topic buffers within Org-mode documents in Emacs.
- Similar to the `orgit` package, which links to various Magit buffers,
- `orgit-forge` facilitates seamless navigation between Org documents and Forge
- topics, enhancing integration between version control and documentation
- workflows.")
-      (license license:gpl3+))))
 
 (define-public emacs-ob-elixir
   (let ((commit "8990a8178b2f7bd93504a9ab136622aab6e82e32")
@@ -3314,51 +2865,6 @@ keypress (function `xhair by default), or for a set interval (function
  preferences.")
       (license license:gpl3+))))
 
-(define-public emacs-org-project-capture
-  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
-        (revision "0"))
-    (package
-      (name "emacs-org-project-capture")
-      (version (git-version "3.1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/colonelpanic8/org-project-capture")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-helm)
-        (@(gnu packages emacs-xyz) emacs-helm-org)
-        (@(gnu packages emacs-xyz) emacs-projectile)
-        (@(gnu packages emacs-xyz) emacs-s)
-        ))
-      (home-page "https://github.com/colonelpanic8/org-project-capture")
-      (synopsis "Integrate Org-mode TODOs with project management in Emacs")
-      (description
-       "This package integrates Org-mode TODOs with project management tools
- like Projectile and project.el in Emacs. It allows maintaining
- project-specific TODO lists, specifying storage locations for these lists,
- and offers customizable capture strategies. Keybindings can be established
- for easy access, enhancing the organization and management of tasks within
- Emacs.")
-      (license license:gpl3+))))
-
-(define-public emacs-org-category-capture
-  (package
-    (inherit emacs-org-project-capture)
-    (name "emacs-org-category-capture")))
-
-(define-public emacs-org-project-capture-backend
-  (package
-    (inherit emacs-org-project-capture)
-    (name "emacs-org-project-capture-backend")))
-
 (define-public emacs-highlight-parentheses
   (let ((commit "965b18dd69eff4457e17c9e84b3cbfdbfca2ddfb")
         (revision "0"))
@@ -3427,7 +2933,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-s)
+        emacs-s
         ))
       (home-page "https://github.com/ionrock/pytest-el")
       (synopsis "Emacs integration for running pytest on Python code")
@@ -3458,8 +2964,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-htmlize)
-        (@(gnu packages emacs-xyz) emacs-simple-httpd)))
+        emacs-htmlize
+        emacs-simple-httpd))
       (home-page "https://github.com/netguy204/imp.el")
       (synopsis "")
       (description "")
@@ -3483,8 +2989,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-epc)))
+        emacs-f
+        emacs-epc))
       (home-page "https://github.com/anachronic/importmagic.el")
       (synopsis "")
       (description "")
@@ -3550,32 +3056,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-s)))
+        emacs-s))
       (home-page "http://github.com/rranelli/maven-test-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-pdf-view-restore
-  (let ((commit "5a1947c01a3edecc9e0fe7629041a2f53e0610c9")
-        (revision "0"))
-    (package
-      (name "emacs-pdf-view-restore")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/007kevin/pdf-view-restore")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1b9zzvfsprf7x0v7l4dabdh5qdfhl7mm30vvqah8l10jvlf2wlc7"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-pdf-tools)))
-      (home-page "https://github.com/007kevin/pdf-view-restore")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -3619,8 +3101,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-pyvenv)
-        (@(gnu packages emacs-xyz) emacs-s)))
+        emacs-pyvenv
+        emacs-s))
       (home-page "https://github.com/pwalsh/pipenv.el")
       (synopsis "")
       (description "")
@@ -3644,7 +3126,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-pyvenv)))
+        emacs-pyvenv))
       (home-page "https://github.com/cybniv/poetry.el")
       (synopsis "")
       (description "")
@@ -3668,8 +3150,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-s)))
+        emacs-f
+        emacs-s))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
       (synopsis "Reveal current file/directory in folder")
       (description "Reveal current file/directory in folder.")
@@ -3738,7 +3220,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-reformatter)))
+        emacs-reformatter))
       (home-page "https://github.com/purcell/emacs-shfmt")
       (synopsis "")
       (description "")
@@ -3762,7 +3244,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-dash)))
+        emacs-dash))
       (home-page "https://github.com/magnars/string-edit.el")
       (synopsis "")
       (description "")
@@ -3786,9 +3268,9 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-pkg-info)
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-dash)))
+        emacs-pkg-info
+        emacs-f
+        emacs-dash))
       (home-page "https://github.com/tonini/overseer.el")
       (synopsis "")
       (description "")
@@ -3812,7 +3294,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-php-mode)))
+        emacs-php-mode))
       (home-page "https://github.com/arnested/php-extras")
       (synopsis "")
       (description "")
@@ -3836,11 +3318,11 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-popup)
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-list-utils)
-        (@(gnu packages emacs-xyz) emacs-iedit)
+        emacs-popup
+        emacs-s
+        emacs-dash
+        emacs-list-utils
+        emacs-iedit
         ))
       (home-page "https://github.com/Wilfred/emacs-refactor")
       (synopsis "Framework for language-specific code refactoring in Emacs")
@@ -3920,30 +3402,9 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-dash)
+        emacs-dash
         ))
       (home-page "https://github.com/yhvh/erc-yt.git")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-flymake-easy
-  (let ((commit "048482a97294585c4833d0311e9254a81db39b6b")
-        (revision "0"))
-    (package
-      (name "emacs-flymake-easy")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/purcell/flymake-easy")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "08ijmbdz0cybh9jicvl0hx8j2kc13rmv11z2igl1psmj472989f1"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/purcell/flymake-easy")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -3966,9 +3427,9 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-dash)
+        emacs-f
+        emacs-s
+        emacs-dash
         ))
       (home-page "https://github.com/Wilfred/elisp-def")
       (synopsis "")
@@ -3996,9 +3457,9 @@ keypress (function `xhair by default), or for a set interval (function
         emacs-lv
         emacs-openai
         emacs-reveal-in-folder
-        (@(gnu packages emacs-xyz) emacs-async)
-        (@(gnu packages emacs-xyz) emacs-ht)
-        (@(gnu packages emacs-xyz) emacs-spinner)
+        emacs-async
+        emacs-ht
+        emacs-spinner
         ))
       (home-page "https://github.com/emacs-openai/dall-e")
       (synopsis "")
@@ -4026,11 +3487,11 @@ keypress (function `xhair by default), or for a set interval (function
       (description "")
       (license license:gpl3+))))
 
-(define-public emacs-flx-ido
+(define-public emacs-flx
   (let ((commit "4b1346eb9a8a76ee9c9dede69738c63ad97ac5b6")
         (revision "0"))
     (package
-      (name "emacs-flx-ido")
+      (name "emacs-flx")
       (version (git-version "0.6.2" revision commit))
       (source
        (origin
@@ -4042,13 +3503,41 @@ keypress (function `xhair by default), or for a set interval (function
          (sha256
           (base32 "0q49p1y3kpx140h0f97kfw4kfx8mlzzxbninbarvygmlg2fkfi1n"))))
       (build-system emacs-build-system)
+      (home-page "https://github.com/lewang/flx")
+      (synopsis "Fuzzy matching for Emacs")
+      (description
+       "Flx provides fuzzy matching for emacs a la sublime text.
+The sorting algorithm is a balance between word beginnings (abbreviation)
+and contiguous matches (substring).  The longer the substring match,
+the higher it scores. This maps well to how we think about matching.
+Flx has support for ido (interactively do things) through flx-ido.")
+      (license license:gpl3+))))
+
+(define-public emacs-flx-ido
+  (let ((commit "4b1346eb9a8a76ee9c9dede69738c63ad97ac5b6")
+        (revision "0"))
+    (package
+      (name "emacs-flx-ido")
+      (version (git-version "0.6.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/lewang/flx.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0q49p1y3kpx140h0f97kfw4kfx8mlzzxbninbarvygmlg2fkfi1n"))))
+      (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flx ;; prefer my 0.6.2-0.7b44a5a over 0.6.1 from upstream
+        emacs-flx
         ))
       (home-page "https://github.com/lewang/flx")
-      (synopsis "")
-      (description "")
+      (synopsis "Flx integration for ido")
+      (description
+       "Fuzzy matching for Emacs a la Sublime Text.  A more powerful alternative to
+`ido-mode''s built-in flex matching.")
       (license license:gpl3+))))
 
 (define-public emacs-define-word
@@ -4090,7 +3579,7 @@ keypress (function `xhair by default), or for a set interval (function
 ;;       (build-system emacs-build-system)
 ;;       (propagated-inputs
 ;;        (list
-;;         (@(gnu packages emacs-xyz) emacs-deferred)
+;;         emacs-deferred
 ;;         ))
 ;;       (home-page "https://github.com/kiwanami/emacs-deferred")
 ;;       (synopsis "")
@@ -4115,8 +3604,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-company)))
+        emacs-dash
+        emacs-company))
       (home-page "https://github.com/Alexander-Miller/company-shell")
       (synopsis "")
       (description "")
@@ -4140,8 +3629,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-avy)
-        (@(gnu packages emacs-xyz) emacs-evil)))
+        emacs-avy
+        emacs-evil))
       (home-page "https://github.com/pythonnut/evil-easymotion")
       (synopsis "")
       (description "")
@@ -4165,56 +3654,10 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-evil)))
+        emacs-evil))
       (home-page "https://github.com/syl20bnr/evil-tutor")
       (synopsis "")
       (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-code-review
-  (let ((commit
-         "eeffdd9e20ad133e5981f216965445bfae20292a"
-         ;; "26f426e99221a1f9356aabf874513e9105b68140"
-         )
-        (revision "0"))
-    (package
-      (name "emacs-code-review")
-      (version (git-version "0.0.7" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url
-                "https://github.com/doomelpa/code-review"
-                ;; "https://github.com/wandersoncferreira/code-review"
-                )
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256 (base32
-                  "12y2209mkk6c2p1fh8zbzbk044m52690ji1dqjb1a7s2i5yaka2p"
-                  ;; "1031sq40kysbkvl0cl4lq39ls13n0y3kafbmf4c30grbydljbd52"
-                  ))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-uuidgen
-        (@(gnu packages emacs-xyz) emacs-deferred)
-        (@(gnu packages emacs-xyz) emacs-emojify)
-        (@(gnu packages emacs-xyz) emacs-forge)
-        (@(gnu packages emacs-xyz) emacs-closql)
-        (@(gnu packages emacs-xyz) emacs-magit)
-        (@(gnu packages emacs-xyz) emacs-a)
-        (@(gnu packages emacs-xyz) emacs-ghub)
-        (@(gnu packages emacs-xyz) emacs-transient)
-        (@(gnu packages emacs-xyz) emacs-markdown-mode)
-        ))
-      (home-page
-       "https://github.com/doomelpa/code-review"
-       ;; "https://github.com/wandersoncferreira/code-review"
-       )
-      (synopsis "")
-      (description
-       "From doomelpa/code-review not from wandersoncferreira/code-review")
       (license license:gpl3+))))
 
 (define-public emacs-codegpt
@@ -4235,8 +3678,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-spinner)
-        (@(gnu packages emacs-xyz) emacs-markdown-mode)
+        emacs-spinner
+        emacs-markdown-mode
         emacs-openai
         ))
       (home-page "https://github.com/emacs-openai/codegpt")
@@ -4262,7 +3705,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-hydra)
+        emacs-hydra
         ))
       (home-page "https://gitlab.com/xuhdev/dired-quick-sort")
       (synopsis "")
@@ -4287,9 +3730,9 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-bind-map)
-        (@(gnu packages emacs-xyz) emacs-smartparens)
-        (@(gnu packages emacs-xyz) emacs-evil)))
+        emacs-bind-map
+        emacs-smartparens
+        emacs-evil))
       (home-page "https://github.com/syl20bnr/evil-lisp-state")
       (synopsis "")
       (description "")
@@ -4313,7 +3756,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-evil)))
+        emacs-evil))
       (home-page "https://github.com/emacsorphanage/evil-textobj-line")
       (synopsis "")
       (description "")
@@ -4337,43 +3780,11 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-evil)))
+        emacs-dash
+        emacs-evil))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
       (synopsis "")
       (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-org-projectile
-  (let ((commit "bf1c30b750020ab8dd634dd66b2c7b76c56286c5")
-        (revision "0"))
-    (package
-      (name "emacs-org-projectile")
-      (version (git-version "3.1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/colonelpanic8/org-project-capture.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1wvw5y5s37p9j0m2ljp7n1s1casbhiyrcnfpvdghvdd0fk8wcybp"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-dash)
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-helm)
-        (@(gnu packages emacs-xyz) emacs-helm-org)
-        (@(gnu packages emacs-xyz) emacs-projectile)))
-      (home-page "https://github.com/colonelpanic8/org-project-capture")
-      (synopsis
-       "Repository todo capture and management for org-mode with projectile")
-      (description
-       "This package provides an easy interface to creating per project
- org-mode TODO headings, whether in a single file, or in a file stored in each
- project directory.")
       (license license:gpl3+))))
 
 (define-public emacs-phpunit
@@ -4394,8 +3805,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-f)
-        (@(gnu packages emacs-xyz) emacs-s)))
+        emacs-f
+        emacs-s))
       (home-page "https://github.com/nlamirault/phpunit.el")
       (synopsis "")
       (description "")
@@ -4419,7 +3830,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-dash)))
+        emacs-dash))
       (home-page "https://github.com/Wilfred/pip-requirements.el")
       (synopsis "")
       (description "")
@@ -4443,7 +3854,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-flycheck)))
+        emacs-flycheck))
       (home-page "https://github.com/alexmurray/flycheck-bashate")
       (synopsis "")
       (description "")
@@ -4467,7 +3878,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-flycheck)))
+        emacs-flycheck))
       (home-page "https://github.com/aaronjensen/flycheck-credo")
       (synopsis "")
       (description "")
@@ -4491,7 +3902,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-flycheck)))
+        emacs-flycheck))
       (home-page "https://github.com/emacs-elsa/flycheck-elsa")
       (synopsis "")
       (description "")
@@ -4515,17 +3926,12 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-pos-tip)
-        (@(gnu packages emacs-xyz) emacs-flycheck)))
+        emacs-pos-tip
+        emacs-flycheck))
       (home-page "https://github.com/flycheck/flycheck-pos-tip")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
-
-(define-public emacs-flyspell-correct-helm
-  (package
-    (inherit (@(gnu packages emacs-xyz) emacs-flyspell-correct))
-    (name "emacs-flyspell-correct-helm")))
 
 (define-public emacs-gitignore-templates
   (let ((commit "d28cd1cec00242b688861648d36d086818b06099")
@@ -4555,55 +3961,6 @@ keypress (function `xhair by default), or for a set interval (function
  proxy configurations for network access.")
       (license license:gpl3+))))
 
-(define-public emacs-helm-comint
-  (let ((commit "5f435ede181818b6f8c58ad7b45f47acd2721daf")
-        (revision "0"))
-    (package
-      (name "emacs-helm-comint")
-      (version (git-version "0.0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/benedicthw/helm-comint.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0k95q7hdy7sp3l8yifjnc6f7xfplnqy8qff806yfgqiyy7gpx72p"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-helm)))
-      (home-page "https://github.com/benedicthw/helm-comint.git")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
-(define-public emacs-helm-purpose
-  (let ((commit "9ff4c21c1e9ebc7afb851b738f815df7343bb287")
-        (revision "0"))
-    (package
-      (name "emacs-helm-purpose")
-      (version (git-version "0.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/bmag/helm-purpose")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1xh6v5xlf1prgk6mrvkc6qa0r0bz74s5f4z3dl7d00chsi7i2m5v"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        (@(gnu packages emacs-xyz) emacs-window-purpose)
-        (@(gnu packages emacs-xyz) emacs-helm)))
-      (home-page "https://github.com/bmag/helm-purpose")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
-
 (define-public emacs-livid-mode
   (let ((commit "dfe5212fa64738bc4138bfebf349fbc8bc237c26")
         (revision "0"))
@@ -4622,8 +3979,8 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-s)
-        (@(gnu packages emacs-xyz) emacs-skewer-mode)))
+        emacs-s
+        emacs-skewer-mode))
       (home-page "https://github.com/pandeiro/livid-mode")
       (synopsis "")
       (description "")
@@ -4675,7 +4032,7 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(gnu packages emacs-xyz) emacs-f)))
+        emacs-f))
       (home-page "https://github.com/mrkkrp/vimish-fold")
       (synopsis "")
       (description "")
@@ -4698,7 +4055,7 @@ keypress (function `xhair by default), or for a set interval (function
       (propagated-inputs
        (list
         emacs-vimish-fold
-        (@(gnu packages emacs-xyz) emacs-evil)))
+        emacs-evil))
       (home-page "https://github.com/alexmurray/evil-vimish-fold")
       (synopsis "")
       (description "")
@@ -4723,88 +4080,8 @@ keypress (function `xhair by default), or for a set interval (function
 
 (define-public emacs-info+
   (package
-    (inherit (@(gnu packages emacs-xyz) emacs-info-plus))
+    (inherit emacs-info-plus)
     (name "emacs-info+")))
-
-(define-public emacs-flymake-phpcs
-  (let ((commit "65ef3ff8ac1e1f48c8cbe66f273835c73680b991")
-        (revision "0"))
-    (package
-      (name "emacs-flymake-phpcs")
-      (version (git-version "1.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/flymake/flymake-phpcs")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "13w251mgr8lvlwa8nj51gyikaiqjbyggc4dh92phf148135jam3l"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-flymake-easy))
-      (home-page "https://github.com/flymake/flymake-phpcs")
-      (synopsis "Flymake integration for PHP CodeSniffer in Emacs")
-      (description
-       "This package integrates PHP CodeSniffer with Emacs' Flymake mode,
- providing on-the-fly syntax checking for PHP code. It highlights coding
- standard violations as you type, enhancing code quality and adherence to
- defined standards. Users can customize the coding standard and specify the
- location of the `phpcs` command. Note: The package requires `flymake-easy`
- and a working installation of PHP CodeSniffer.")
-      (license license:gpl3+))))
-
-(define-public emacs-drupal-mode
-  (let ((commit "3f91d1d44df11ebd0137a896055fca6a1bb2f554")
-        (revision "0"))
-    (package
-     (name "emacs-drupal-mode")
-     (version (git-version "20240816.1236" revision commit))
-     (source
-      (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/arnested/drupal-mode")
-             (commit commit)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0gia6qrzdai0qa903gnxvnfn5mnva577jdf8zccz3i3f2ki02ygb"))))
-     (build-system emacs-build-system)
-     (arguments
-      (list
-       #:include #~(cons* "^drupal/.*\\.el$" %default-include)
-       #:phases
-       #~(modify-phases
-          %standard-phases
-          (add-after
-           'unpack 'move-source-files
-           (lambda _
-             (substitute*
-              "drupal/flymake-phpcs.el"
-              (("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard\\)")
-               "(define-obsolete-variable-alias 'drupal/flymake-phpcs-standard 'drupal/phpcs-standard \"28.1\")"
-               )
-              (("\\(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace\\)")
-               "(define-obsolete-variable-alias 'drupal/flymake-phpcs-dont-show-trailing-whitespace 'drupal/phpcs-dont-show-trailing-whitespace \"28.1\")"
-               )))))))
-     (propagated-inputs
-      (list
-       emacs-flymake-phpcs
-       (@(gnu packages code) global) ;; provides gtags
-       (@(gnu packages emacs-xyz) emacs-helm-gtags)
-       (@(gnu packages emacs-xyz) emacs-ggtags)
-       (@(gnu packages emacs-xyz) emacs-flycheck)
-       (@(gnu packages emacs-xyz) emacs-php-mode)))
-     (home-page "https://github.com/arnested/drupal-mode")
-     (synopsis "Advanced minor mode for Drupal development")
-     (description
-      "Drupal mode is an advanced minor mode for developing in Drupal.  Drupal mode is
-based on top of PHP mode and defines among other things indentation etc.  to
-match Drupal Coding Standards.")
-     (license license:gpl3+))))
 
 (define-public emacs-live-py-mode
   (package

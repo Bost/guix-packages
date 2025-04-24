@@ -29,3 +29,7 @@ gxI '(emacs-spacemacs|spacemacs-rolling-release)'
          (format #f "file://~a/guix-packages" (getenv "dev"))))
       %default-channels)
 ```
+
+Fix
+XXX: emacs-avy-menu is not packaged, so we ignore the file below.
+
