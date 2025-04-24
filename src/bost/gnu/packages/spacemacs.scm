@@ -1,5 +1,5 @@
 ;;; GNU Guix --- Functional package management for GNU
-;;; Copyright © 2022,2023 Rostislav Svoboda <Rostislav.Svoboda@gmail.com>
+;;; Copyright © 2022 - 2025 Rostislav Svoboda <Rostislav.Svoboda@gmail.com>
 ;;;
 ;;; TODO This file is part of GNU Guix.
 ;;;
@@ -33,10 +33,13 @@
   #:use-module (guix packages)
   #:use-module (guix utils))
 
+
+;; Don't use evaluating-module from the (utils) module since the
+;; $dotf/guix/common/utils.scm is not loaded using -L
+
 (define m (module-name-for-logging))
 ;; (format #t "~a evaluating module ...\n" m)
 
-;; (format #t "~a (define-public spacemacs-rolling-release ...)" m)
 (define-public spacemacs-rolling-release
   #|
 git clone $dev/.spguimacs.d /tmp/.spguimacs.d
@@ -49,7 +52,7 @@ guix hash -x --serializer=nar .
   wp; guix --install-from-file=./src/bost/gnu/packages/spacemacs.scm
   |#
 
-  (let ((commit "6f0a4bfc21587e6a3d051aca4c25d3df167d4750"))
+  (let ((commit "77886bd9cd136ab47a83105fa318953b156bef50"))
     (package
       (name "spacemacs-rolling-release")
       (version (git-version "0.999.0" "0" commit))
@@ -67,11 +70,11 @@ guix hash -x --serializer=nar .
 
                 (method git-fetch)
                 (uri (git-reference
-                      (url "https://github.com/Bost/spacemacs")
+                      (url "https://github.com/Bost/spacemacs.git")
                       (commit commit)))
                 (sha256
                  (base32
-                  "14h8lpj1cmkzwh8s77xabjr22cimg6gx2j5m6arg7kg7i42i7y5x"))
+                  "0r9lx19fwdr6rx5g4b1f0al4234hj03nvziq5vcxy0v0gdalslzw"))
                 (file-name (string-append name "-" version))))
       (build-system emacs-build-system)
       (arguments

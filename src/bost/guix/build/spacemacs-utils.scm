@@ -17,13 +17,27 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
+#|
+
+TODO Launch emacs instances using the --init-directory paramater (, introduced
+in Emacs 29) instead of using Chemac2 from ~/.emacs.d/.
+
+TODO Compute the list of available (and also needed) dependencies and add to
+to the list of inputs/native-inputs of the emacs-spacemac package.
+
+A package is orphan if it's not distant and not protected. I.e. if it is local or unprotected
+
+TODO Add (write-pkg-file ...) to the every package where I get "Unable to
+activate package `%s'. Required package `%s-%s' is unavailable"
+
+|#
+
 (define-module (bost guix build spacemacs-utils)
   #:use-module (bost utils)
   #:use-module (guix build utils)
   #:use-module (oop goops)
   #:use-module (ice-9 pretty-print)
   #:use-module (srfi srfi-1)
-
   #:export (builder))
 
 (define m (module-name-for-logging))

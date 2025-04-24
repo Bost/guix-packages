@@ -1,16 +1,20 @@
 (define-module (bost gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-1)
+  #:use-module (bost gnu packages emacs-xyz-helm)
+  #:use-module (bost gnu packages emacs-xyz-magit)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz--dap-mode)
   #:re-export
   (
    ;; emacs-concurrent
-   emacs-ac-php-core
+   emacs-ac-php
+   emacs-ace-jump-helm-line
    emacs-ample-zen-theme
    emacs-anti-zenburn-theme
    emacs-apropospriate-theme
    emacs-auto-dictionary
    emacs-auto-highlight-symbol
+   emacs-avy-menu
    emacs-badwolf-theme
    emacs-birds-of-paradise-plus-theme
    emacs-bubbleberry-theme
@@ -28,7 +32,6 @@
    emacs-color-theme
    emacs-color-theme-sanityinc-solarized
    emacs-company-anaconda
-   emacs-company-php
    emacs-company-phpactor
    emacs-company-shell
    emacs-company-statistics
@@ -72,6 +75,7 @@
    emacs-dall-e
    emacs-dap-chrome
    emacs-dap-launch
+   emacs-dap-mode
    emacs-dap-overlays
    emacs-dap-tasks
    emacs-dap-utils
@@ -95,6 +99,7 @@
    emacs-erc-yt
    emacs-espresso-theme
    emacs-eval-sexp-fu
+   emacs-evil-collection
    emacs-evil-easymotion
    emacs-evil-evilified-state
    emacs-evil-iedit-state
@@ -118,14 +123,14 @@
    emacs-flycheck-pos-tip
    emacs-flymake-easy
    emacs-flymake-phpcs
-   emacs-flyspell-correct-helm
+   emacs-flyspell-correct
    emacs-font-utils
+   emacs-forge
    emacs-frame-cmds
    emacs-frame-fns
    emacs-gandalf-theme
    emacs-geben
    emacs-gh-md
-   emacs-git-commit
    emacs-gitignore-templates
    emacs-gotham-theme
    emacs-grandshell-theme
@@ -135,17 +140,37 @@
    emacs-gruber-darker-theme
    emacs-haml-mode
    emacs-hc-zenburn-theme
+   emacs-helm
+   emacs-helm-ag
+   emacs-helm-c-yasnippet
+   emacs-helm-cider
    emacs-helm-cider-history
    emacs-helm-comint
+   emacs-helm-company
    emacs-helm-css-scss
+   emacs-helm-descbinds
    emacs-helm-dictionary
-   emacs-helm-files
+   emacs-helm-fish-completion
    emacs-helm-games
    emacs-helm-git-grep
+   emacs-helm-ls-git
+   emacs-helm-lsp
+   emacs-helm-make
+   emacs-helm-mode-manager
+   emacs-helm-mu
+   emacs-helm-org
+   emacs-helm-org-rifle
+   emacs-helm-projectile
    emacs-helm-purpose
    emacs-helm-pydoc
+   emacs-helm-slime
+   emacs-helm-sly
    emacs-helm-spacemacs-faq
    emacs-helm-spacemacs-help
+   emacs-helm-swoop
+   emacs-helm-system-packages
+   emacs-helm-themes
+   emacs-helm-xref
    emacs-help-fns-plus
    emacs-hemisu-theme
    emacs-heroku-theme
@@ -177,25 +202,33 @@
    emacs-kaolin-themes
    emacs-kbd-mode
    emacs-kill-buffers
+   emacs-lean4-mode
    emacs-light-soap-theme
    emacs-live-py-mode
    emacs-livid-mode
    emacs-load-env-vars
    emacs-lsp-haskell
+   emacs-lsp-java
    emacs-lsp-latex
    emacs-lsp-lens
    emacs-lsp-metals
-   emacs-lsp-metals-protocol
-   emacs-lsp-metals-treeview
    emacs-lsp-origami
    emacs-lsp-protocol
    emacs-lsp-pyright
    emacs-lsp-python-ms
+   emacs-lsp-treemacs
    emacs-lsp-volar
    emacs-lush-theme
    emacs-lv
    emacs-madhat2r-theme
-   emacs-magit-section
+   emacs-magit
+   emacs-magit-annex
+   emacs-magit-gerrit
+   emacs-magit-org-todos-el
+   emacs-magit-stgit
+   emacs-magit-svn
+   emacs-magit-tbdiff
+   emacs-magit-todos
    emacs-majapahit-themes
    emacs-markdown-toc
    emacs-material-theme
@@ -210,6 +243,7 @@
    emacs-mvn
    emacs-naquadah-theme
    emacs-nerd-icons
+   emacs-nix-mode
    emacs-noctilux-theme
    emacs-nyan-mode
    emacs-ob-elixir
@@ -220,11 +254,9 @@
    emacs-omtose-phellack-themes
    emacs-open-junk-file
    emacs-openai
-   emacs-org-category-capture
    emacs-org-project-capture
-   emacs-org-project-capture-backend
-   emacs-org-projectile
    emacs-organic-green-theme
+   emacs-orgit
    emacs-orgit-forge
    emacs-origami
    emacs-overseer
@@ -236,6 +268,7 @@
    emacs-page-break-lines
    emacs-pcache
    emacs-pcsv
+   emacs-pdf-tools
    emacs-pdf-view-restore
    emacs-persistent-soft
    emacs-phoenix-dark-mono-theme
@@ -257,6 +290,7 @@
    emacs-pylookup
    emacs-pytest
    emacs-quelpa
+   emacs-repo
    emacs-reveal-in-folder
    emacs-reverse-theme
    emacs-rst-directives
@@ -280,7 +314,6 @@
    emacs-spacemacs-theme
    emacs-spacemacs-whitespace-cleanup
    emacs-spacemacs-xclipboard
-   emacs-spinner
    emacs-sqlite3
    emacs-string-edit-at-point
    emacs-subatomic-theme
@@ -291,17 +324,14 @@
    emacs-tango-2-theme
    emacs-tango-plus-theme
    emacs-tangotango-theme
+   emacs-taxy
+   emacs-taxy-magit-section
    emacs-tblui
    emacs-term-cursor
    emacs-theme-changer
    emacs-tmux
    emacs-toxi-theme
-   emacs-treemacs-evil
-   emacs-treemacs-icons-dired
-   emacs-treemacs-magit
-   emacs-treemacs-persp
-   emacs-treemacs-projectile
-   emacs-treemacs-treelib
+   emacs-treemacs
    emacs-tweaks
    emacs-twilight-anti-bright-theme
    emacs-twilight-bright-theme
@@ -313,6 +343,7 @@
    emacs-use-package
    emacs-use-package-chords
    emacs-uuidgen
+   emacs-vdiff-magit
    emacs-vi-tilde-fringe
    emacs-vim-colors
    emacs-vim-powerline
