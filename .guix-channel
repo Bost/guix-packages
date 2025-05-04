@@ -1,3 +1,5 @@
+;; -*- mode: scheme; -*-
+
 (channel
  (version 0)
  ;; (news-file "etc/news.scm")
@@ -7,7 +9,7 @@
 
   ;; See guix describe --format=channels
   (channel
-   (name guix)
+   (name guix) ; the channel name can't be quoted
    (url "https://git.savannah.gnu.org/git/guix.git")
    #|
    (introduction
@@ -26,7 +28,7 @@
    )
 
   (channel
-   (name nonguix)
+   (name nonguix) ; the channel name can't be quoted
    (url "https://gitlab.com/nonguix/nonguix.git")
    #|
    (introduction ;; enables signature verification
