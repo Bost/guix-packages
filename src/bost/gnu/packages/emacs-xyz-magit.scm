@@ -850,26 +850,25 @@ based on diff output.")
                   (copy-recursively
                    "src/scripts"
                    (string-append (elpa-directory #$output) "/scripts")))))
-            (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                ;; (format #t "(getcwd) : ~a\n" (getcwd))
-                ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                (bst:write-pkg-file "treemacs-treelib")
-
-                (chdir "../extra")
-                (bst:write-pkg-file "treemacs-all-the-icons")
-                (bst:write-pkg-file "treemacs-evil")
-                (bst:write-pkg-file "treemacs-icons-dired")
-                (bst:write-pkg-file "treemacs-magit")
-                (bst:write-pkg-file "treemacs-mu4e")
-                (bst:write-pkg-file "treemacs-persp")
-                (bst:write-pkg-file "treemacs-perspective")
-                (bst:write-pkg-file "treemacs-projectile")
-                (bst:write-pkg-file "treemacs-tab-bar")
-                (chdir "../elisp")
-
-                ;; The ../scripts directory contains python files
-                )))))
+            ;; (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            ;;   (lambda* (#:key outputs #:allow-other-keys)
+            ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
+            ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
+            ;;     (bst:write-pkg-file "treemacs-treelib")
+            ;;     (chdir "../extra")
+            ;;     (bst:write-pkg-file "treemacs-all-the-icons")
+            ;;     (bst:write-pkg-file "treemacs-evil")
+            ;;     (bst:write-pkg-file "treemacs-icons-dired")
+            ;;     (bst:write-pkg-file "treemacs-magit")
+            ;;     (bst:write-pkg-file "treemacs-mu4e")
+            ;;     (bst:write-pkg-file "treemacs-persp")
+            ;;     (bst:write-pkg-file "treemacs-perspective")
+            ;;     (bst:write-pkg-file "treemacs-projectile")
+            ;;     (bst:write-pkg-file "treemacs-tab-bar")
+            ;;     (chdir "../elisp")
+            ;;     ;; The ../scripts directory contains python files
+            ;;     ))
+            )))
       (native-inputs
        (list emacs-buttercup emacs-el-mock))
       (inputs
@@ -892,6 +891,72 @@ the file system outlines of your projects in a simple tree layout allowing
 quick navigation and exploration, while also possessing basic file management
 utilities.")
       (license license:gpl3+))))
+
+(define-public emacs-treemacs-extra
+  (package
+    (inherit emacs-treemacs)
+    (name "emacs-treemacs-extra")
+    (arguments
+     (substitute-keyword-arguments
+         (package-arguments emacs-treemacs)
+       ((#:phases phases)
+        #~(modify-phases #$phases
+            (add-after 'chdir-elisp 'copy-extra
+              (lambda _
+                (copy-recursively "../extra" ".")))
+            ;; (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            ;;   (lambda* (#:key outputs #:allow-other-keys)
+            ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
+            ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
+            ;;     (bst:write-pkg-file "treemacs-all-the-icons")
+            ;;     (bst:write-pkg-file "treemacs-evil")
+            ;;     (bst:write-pkg-file "treemacs-icons-dired")
+            ;;     (bst:write-pkg-file "treemacs-magit")
+            ;;     (bst:write-pkg-file "treemacs-mu4e")
+            ;;     (bst:write-pkg-file "treemacs-persp")
+            ;;     (bst:write-pkg-file "treemacs-perspective")
+            ;;     (bst:write-pkg-file "treemacs-projectile")
+            ;;     (bst:write-pkg-file "treemacs-tab-bar")))
+            ))))
+    (propagated-inputs
+     (modify-inputs (package-propagated-inputs emacs-treemacs)
+       (append emacs-all-the-icons
+               emacs-evil
+               emacs-magit
+               emacs-projectile
+               emacs-persp-mode
+               emacs-perspective
+               mu)))))
+
+;; (define-public emacs-treemacs-projectile
+;;   (package
+;;     (inherit emacs-treemacs)
+;;     (name "emacs-treemacs-projectile")))
+
+;; (define-public emacs-treemacs-projectile
+;;   (let ((commit "820b09db106a48db76d95e3a266d1e67ae1b6bdb")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-treemacs-projectile")
+;;       (version (git-version "3.2" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/Alexander-Miller/treemacs.git")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "1gmp3dvji3ank0qh0fhygla2iy9pc2pg07d342wzs1mysgcdj2l8"))))
+;;       (build-system emacs-build-system)
+;;       (propagated-inputs (list emacs-projectile emacs-treemacs))
+;;       (arguments
+;;        (list
+;;         #:include #~(list "^src/extra/treemacs-projectile.el$")))
+;;       (home-page "https://github.com/Alexander-Miller/treemacs")
+;;       (synopsis "Projectile integration for treemacs")
+;;       (description "Projectile integration for treemacs.")
+;;       (license license:gpl3+))))
 
 ;; (define* (%emacs-lsp-treemacs-upstream-source #:key commit version hash)
 ;;   (origin

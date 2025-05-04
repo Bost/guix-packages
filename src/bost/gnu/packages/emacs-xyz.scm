@@ -332,6 +332,7 @@
    emacs-tmux
    emacs-toxi-theme
    emacs-treemacs
+   emacs-treemacs-extra
    emacs-tweaks
    emacs-twilight-anti-bright-theme
    emacs-twilight-bright-theme
