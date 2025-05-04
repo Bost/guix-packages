@@ -187,7 +187,7 @@
             (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 (bst:write-pkg-file "git-commit")
-                (bst:write-pkg-file "magit-section")
+                ;; (bst:write-pkg-file "magit-section")
                 )))))
       (native-inputs
        (list texinfo pkg-config))
@@ -206,6 +206,11 @@ the tracked files, for example, and you can browse the history of past
 changes.  There is support for cherry picking, reverting, merging,
 rebasing, and other common Git operations.")
       (license license:gpl3+))))
+
+(define-public emacs-magit-section
+  (package
+    (inherit emacs-magit)
+    (name "emacs-magit-section")))
 
 (define-public emacs-taxy
   (package

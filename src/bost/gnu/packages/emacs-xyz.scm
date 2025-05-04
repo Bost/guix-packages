@@ -226,6 +226,7 @@
    emacs-magit-gerrit
    emacs-magit-org-todos-el
    emacs-magit-stgit
+   emacs-magit-section
    emacs-magit-svn
    emacs-magit-tbdiff
    emacs-magit-todos
