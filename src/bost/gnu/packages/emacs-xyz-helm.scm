@@ -280,8 +280,7 @@ Information will be saved relative to the pdf being viewed so ensure
     (propagated-inputs
      (list emacs-async emacs-popup))
     (home-page "https://emacs-helm.github.io/helm/")
-    (synopsis
-     "Incremental completion and selection narrowing framework for Emacs")
+    (synopsis "Incremental completion and selection narrowing framework for Emacs")
     (description
      "Helm is an incremental completion and selection narrowing framework for
 Emacs.  It will help steer you in the right direction when you're looking for
@@ -643,10 +642,10 @@ It also provides original Helm commands: @command{helm-cider-spec},
        "https://github.com/Kungi/helm-cider-history")
       (synopsis "Helm interface for CIDER REPL input history in Emacs")
       (description
-       "Helm interface to browse and reuse CIDER REPL input history within Emacs.  It
-displays past REPL inputs in a Helm buffer, allowing users to search and
-insert previous expressions efficiently.  The interface supports multiline
-entries and integrates seamlessly with CIDER and Helm.")
+       "Helm interface to browse and reuse CIDER REPL input history within
+ Emacs.  It displays past REPL inputs in a Helm buffer, allowing users to
+search and insert previous expressions efficiently.  The interface supports
+multiline entries and integrates seamlessly with CIDER and Helm.")
       (license license:gpl3+))))
 
 (define-public emacs-helm-css-scss
@@ -667,8 +666,7 @@ entries and integrates seamlessly with CIDER and Helm.")
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-helm))
       (home-page "https://github.com/emacsorphanage/helm-css-scss")
-      (synopsis
-       "Helm interface for navigating CSS/SCSS/LESS selectors in Emacs")
+      (synopsis "Helm interface for navigating CSS/SCSS/LESS selectors in Emacs")
       (description
        "Helm-powered interface for browsing and navigating CSS, SCSS, and LESS
  selectors within Emacs.  It allows users to view all selectors at once, jump
@@ -999,11 +997,11 @@ enable these features by calling `helm-purpose-setup` in their configuration.")
           (base32 "0l7cysci0cmg0mg64gjxismkwqc3rfwl4ixjz5a0434zc1pg502j"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-helm mu))
-      (home-page
-       "https://github.com/emacs-helm/helm-mu")
-      (synopsis
-       "Helm sources for searching emails and contacts")
+       (list
+        emacs-helm
+        mu))
+      (home-page "https://github.com/emacs-helm/helm-mu")
+      (synopsis "Helm sources for searching emails and contacts")
       (description
        "Helm sources for searching emails and contacts using @code{mu} and
 @code{mu4e}.  Mu is an indexer for maildirs and mu4e is a mutt-like MUA for
