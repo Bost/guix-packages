@@ -1,5 +1,4 @@
 (define-module (bost gnu packages emacs-xyz-done)
-  #:use-module (bost utils)  ;; for build
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)

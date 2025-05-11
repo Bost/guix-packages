@@ -1,5 +1,4 @@
 (define-module (bost gnu packages emacs-xyz-1)
-  #:use-module (bost utils)  ;; for build
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -316,8 +315,7 @@
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "07mnf0669awwr454s94qyd4j2kzcfg8hc7q98lii9lf66fyaciyb"))))
+          (base32 "07mnf0669awwr454s94qyd4j2kzcfg8hc7q98lii9lf66fyaciyb"))))
       (build-system emacs-build-system)
       (home-page "http://spacemacs.org/")
       (synopsis
@@ -810,7 +808,8 @@
       emacs-core-progress-bar
       emacs-core-funcs
       emacs-core-dotspacemacs
-      emacs-spacemacs-ht))))
+      emacs-spacemacs-ht
+      ))))
 
 (define-public emacs-core-customization
   (package
@@ -1080,7 +1079,8 @@
     (propagated-inputs
      (list
       emacs-consult
-      emacs-core-configuration-layer))))
+      emacs-core-configuration-layer
+      ))))
 
 (define-public emacs-erc-tex
   (package
@@ -1710,7 +1710,10 @@
     ;;   emacs-browse-url ;; missing
     ;;   emacs-simple     ;; missing
     ;;   ))
-    (inputs (list python))))
+    (inputs
+     (list
+      python
+      ))))
 
 (define-public emacs-erc-image
   (let ((commit "82fb3871f02e24b1e880770b9a3d187aab43d0f0")
@@ -1726,8 +1729,7 @@
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "1q8mkf612fb4fjp8h4kbr107wn083iqfdgv8f80pcmil8y33dw9i"))))
+          (base32 "1q8mkf612fb4fjp8h4kbr107wn083iqfdgv8f80pcmil8y33dw9i"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -1932,8 +1934,7 @@ and @code{erc-send-modify-hook} to download and show images.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "14p20br8vzxs39d4hswzrrkgwql5nnmn5j17cpbabzjvck42rixc"))))
+          (base32 "14p20br8vzxs39d4hswzrrkgwql5nnmn5j17cpbabzjvck42rixc"))))
       (build-system emacs-build-system)
       (home-page
        "https://github.com/rolandwalker/persistent-soft.git")
@@ -1996,8 +1997,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "18yqzy8w4icp60z25ckbrx6wradm3m26vic35kmzr88msc0qdsva"))))
+          (base32 "18yqzy8w4icp60z25ckbrx6wradm3m26vic35kmzr88msc0qdsva"))))
       (build-system emacs-build-system)
       (home-page
        "https://github.com/rolandwalker/ucs-utils")
@@ -2008,8 +2008,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
       (license license:gpl3+))))
 
 (define-public emacs-unicode-fonts
-  (let ((commit
-         "44d0a22420c39709d1e1fa659a3f135facf3c986")
+  (let ((commit "44d0a22420c39709d1e1fa659a3f135facf3c986")
         (revision "0"))
     (package
       (name "emacs-unicode-fonts")
@@ -2022,12 +2021,12 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "00qdwkphwpc5kddn3k3ck1isykbhlvqmfb45877a65274am79pd7"))))
+          (base32 "00qdwkphwpc5kddn3k3ck1isykbhlvqmfb45877a65274am79pd7"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-ucs-utils))
+        emacs-ucs-utils
+        ))
       (home-page
        "https://github.com/rolandwalker/unicode-fonts")
       (synopsis "Configure Unicode fonts for Emacs")
@@ -2043,15 +2042,15 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
     (package
       (name "emacs-use-package")
       (version "2.4.4")
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://github.com/jwiegley/use-package")
-                      (commit commit)))
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "0g1smk27ry391gk8bb8q3i42s0p520zwhxfnxvzv5cjj93mcpd8f"))))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/jwiegley/use-package")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0g1smk27ry391gk8bb8q3i42s0p520zwhxfnxvzv5cjj93mcpd8f"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -2090,15 +2089,15 @@ performance-oriented and tidy.")
   (package
     (name "emacs-chatgpt-shell")
     (version "1.20.1")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/xenodium/chatgpt-shell")
-                    (commit (string-append "v" version))))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "161q8d2b4sq481jh4zwagvh88wg51dsnf76n2l2b7wv3nh7cjh2m"))))
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/xenodium/chatgpt-shell.git")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "161q8d2b4sq481jh4zwagvh88wg51dsnf76n2l2b7wv3nh7cjh2m"))))
     (build-system emacs-build-system)
     (arguments
      (list #:phases
@@ -2199,8 +2198,7 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "1sd65nhbcxr5r935z1ik3skz73kkpyr4r259nahn5gjvvww3if20"))))
+          (base32 "1sd65nhbcxr5r935z1ik3skz73kkpyr4r259nahn5gjvvww3if20"))))
       (build-system emacs-build-system)
       (home-page
        "https://github.com/emacs-php/php-runtime.el")
@@ -2223,8 +2221,7 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0ax1i0s2ckhif6q9ps3pdbdi5xlp4w0dyysy81hmjn5x6y987ksj"))))
+          (base32 "0ax1i0s2ckhif6q9ps3pdbdi5xlp4w0dyysy81hmjn5x6y987ksj"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -2286,8 +2283,7 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "1fq0dsvh9a8h7n4d4cj7sn73nzbg5chqjby9pzpbs5grx4kf0zi6"))))
+          (base32 "1fq0dsvh9a8h7n4d4cj7sn73nzbg5chqjby9pzpbs5grx4kf0zi6"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -2322,8 +2318,7 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0gki266kpdf05pxdy1shbirw1z65xq5hqwn6n324simaznbjqbla"))))
+          (base32 "0gki266kpdf05pxdy1shbirw1z65xq5hqwn6n324simaznbjqbla"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -2361,8 +2356,7 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0m6z284f05sbfh5232iqkf572dsdpwg83q110x2bzfmm0250bp82"))))
+          (base32 "0m6z284f05sbfh5232iqkf572dsdpwg83q110x2bzfmm0250bp82"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -2444,8 +2438,7 @@ keypress (function `xhair by default), or for a set interval (function
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0wvcdv2lfv68r3zyfzr9yahm3gvc60yzk8zi39l70vsgzh4yfq91"))))
+          (base32 "0wvcdv2lfv68r3zyfzr9yahm3gvc60yzk8zi39l70vsgzh4yfq91"))))
       (build-system emacs-build-system)
       (home-page
        "https://gitlab.com/psachin/insert-shebang.git")
@@ -2472,8 +2465,7 @@ keypress (function `xhair by default), or for a set interval (function
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
+          (base32 "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/zk-phi/indent-guide")
       (synopsis "Show vertical lines to guide indentation in Emacs")
@@ -4069,8 +4061,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (method url-fetch)
        (uri "https://www.emacswiki.org/emacs/download/hide-comnt.el")
        (sha256
-        (base32
-         "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n"))))
+        (base32 "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n"))))
     (build-system emacs-build-system)
     (home-page "https://www.emacswiki.org/emacs/download/hide-comnt.el")
     (synopsis "")
