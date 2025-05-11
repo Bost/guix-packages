@@ -123,7 +123,6 @@
 
   #:use-module (gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-done)
-  #:use-module (bost gnu packages emacs-xyz--dap-mode)
   )
 
 (define-public emacs-scss-mode

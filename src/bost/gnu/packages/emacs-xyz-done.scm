@@ -122,7 +122,6 @@
   #:use-module (ice-9 match)
 
   #:use-module (gnu packages emacs-xyz)
-  ;; #:use-module (bost gnu packages emacs-xyz--dap-mode)
   )
 
 (define-public emacs-color-theme-sanityinc-solarized ;; PL sent
