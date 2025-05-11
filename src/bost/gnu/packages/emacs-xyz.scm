@@ -4,7 +4,6 @@
   #:use-module (bost gnu packages emacs-xyz-magit)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz-lsp)
-  #:use-module (bost gnu packages emacs-xyz--dap-mode)
   #:re-export
   (
    ;; emacs-concurrent
