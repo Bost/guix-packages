@@ -884,14 +884,16 @@ based on diff output.")
       (inputs
        (list python))
       (propagated-inputs
-       (list emacs-ace-window
-             emacs-cfrs
-             emacs-dash
-             emacs-f
-             emacs-ht
-             emacs-hydra
-             emacs-pfuture
-             emacs-s))
+       (list
+        emacs-ace-window
+        emacs-cfrs
+        emacs-dash
+        emacs-f
+        emacs-ht
+        emacs-hydra
+        emacs-pfuture
+        emacs-s
+        ))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "Emacs tree style file explorer")
       (description
