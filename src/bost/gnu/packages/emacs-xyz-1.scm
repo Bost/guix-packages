@@ -119,11 +119,11 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
-
   #:use-module (gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-done)
   )
 
+;; c -r 113082:113101 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-scss-mode
   (let ((commit "cf58dbec5394280503eb5502938f3b5445d1b53d")
         (revision "0"))
@@ -181,6 +181,7 @@
  productivity for PHP developers.")
       (license license:gpl3+))))
 
+;; bat -r 68039:68058 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-js-doc
   (let ((commit "f0606e89d5aa89146f96edb38cf69af0068a9d1e")
         (revision "0"))
@@ -207,6 +208,7 @@
  their code.")
       (license license:gpl3+))))
 
+;; bat -r 82671:82693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-multi-line
   (let ((commit "06ea7294c4e4ace0c3253b7952a6d937a169eb55")
         (revision "0"))
@@ -228,12 +230,6 @@
          emacs-shut-up
          emacs-dash
          emacs-s
-         ;; emacs-multi-line-shared
-         ;; emacs-multi-line-respace
-         ;; emacs-multi-line-find
-         ;; emacs-multi-line-enter
-         ;; emacs-multi-line-decorator
-         ;; emacs-multi-line-cycle
          ))
       (home-page "https://github.com/colonelpanic8/multi-line")
       (synopsis
@@ -245,6 +241,7 @@
  complex statements, allowing users to easily format code for better clarity.")
       (license license:gpl3+))))
 
+;; bat -r 98865:98884 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pcache
   (let ((commit "507230d094cc4a5025fe09b62569ad60c71c4226")
         (revision "0"))
@@ -271,6 +268,7 @@
  and easily integrated into other Emacs packages.")
       (license license:gpl3+))))
 
+;; bat -r 53684:53705 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-groovy-imports
   (let ((commit "a60c3202973e3185091db623d960f71840a22205")
         (revision "0"))
@@ -290,7 +288,8 @@
       (propagated-inputs
        (list
         emacs-pcache
-        emacs-s))
+        emacs-s
+        ))
       (home-page "https://github.com/mbezjak/emacs-groovy-imports.git")
       (synopsis "Automatic import management for Groovy in Emacs")
       (description
@@ -1715,21 +1714,22 @@
       python
       ))))
 
+;; bat -r 34665:34685 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-erc-image
-  (let ((commit "82fb3871f02e24b1e880770b9a3d187aab43d0f0")
+  (let ((commit "883084f0801d46a5ccf183e51ae9a734755bbb97")
         (revision "4"))
     (package
       (name "emacs-erc-image")
-      (version (git-version "0" revision commit))
+      (version (git-version "0.9" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/kidd/erc-image.el")
+               (url "https://github.com/kidd/erc-image.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1q8mkf612fb4fjp8h4kbr107wn083iqfdgv8f80pcmil8y33dw9i"))))
+          (base32 "081c8pjmpwnmqah7dbpkj20bk7ln57g4n7c1zxzdlsz80pxnfay4"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -1919,9 +1919,9 @@ and @code{erc-send-modify-hook} to download and show images.")
       emacs-core-dumper
       ))))
 
+;; bat -r 99599:99622 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-persistent-soft
-  (let ((commit
-         "a1e0ddf2a12a6f18cab565dee250f070384cbe02")
+  (let ((commit "a1e0ddf2a12a6f18cab565dee250f070384cbe02")
         (revision "0"))
     (package
       (name "emacs-persistent-soft")
@@ -1936,8 +1936,7 @@ and @code{erc-send-modify-hook} to download and show images.")
          (sha256
           (base32 "14p20br8vzxs39d4hswzrrkgwql5nnmn5j17cpbabzjvck42rixc"))))
       (build-system emacs-build-system)
-      (home-page
-       "https://github.com/rolandwalker/persistent-soft.git")
+      (home-page "https://github.com/rolandwalker/persistent-soft")
       (synopsis "Persistent storage for Emacs, returning nil on failure")
       (description "Wrapper around pcache.el, providing \"soft\" fetch and
  store routines which never throw an error, but instead return nil on failure.")
@@ -1957,6 +1956,7 @@ corresponds. The solution MUST be one of the aforementioned 'bsd-0', 'bsd-1',
 Text between the lines 98 - 129:
 https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c7273a10003/font-utils.el#L98-L129
 |#
+;; bat -r 46683:46706 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-font-utils
   (let ((commit "abc572eb0dc30a26584c0058c3fe6c7273a10003")
         (revision "0"))
@@ -1967,7 +1967,7 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "http://github.com/rolandwalker/font-utils")
+               (url "http://github.com/rolandwalker/font-utils.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -1982,9 +1982,9 @@ https://github.com/rolandwalker/font-utils/blob/abc572eb0dc30a26584c0058c3fe6c72
 has no user-level interface, it is only useful for programming in Emacs Lisp.")
       (license license:bsd-2))))
 
+;; bat -r 128301:128325 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-ucs-utils
-  (let ((commit
-         "91b9e0207fff5883383fd39c45ad5522e9b90e65")
+  (let ((commit "91b9e0207fff5883383fd39c45ad5522e9b90e65")
         (revision "0"))
     (package
       (name "emacs-ucs-utils")
@@ -1993,22 +1993,22 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/rolandwalker/ucs-utils")
+               (url "https://github.com/rolandwalker/ucs-utils.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "18yqzy8w4icp60z25ckbrx6wradm3m26vic35kmzr88msc0qdsva"))))
       (build-system emacs-build-system)
-      (home-page
-       "https://github.com/rolandwalker/ucs-utils")
+      (home-page "https://github.com/rolandwalker/ucs-utils")
       (synopsis "Utilities for Unicode characters in Emacs")
       (description
        "Utilities for manipulating Unicode characters, with integrated ability
  to return fallback characters when Unicode display is not possible.")
       (license license:gpl3+))))
 
+;; bat -r 128853:128879 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-unicode-fonts
-  (let ((commit "44d0a22420c39709d1e1fa659a3f135facf3c986")
+  (let ((commit "6245b97d8ddaeaf1de4dbe2cd85ca0f3b20ef81b")
         (revision "0"))
     (package
       (name "emacs-unicode-fonts")
@@ -2017,18 +2017,22 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/rolandwalker/unicode-fonts")
+               (url "https://github.com/rolandwalker/unicode-fonts.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "00qdwkphwpc5kddn3k3ck1isykbhlvqmfb45877a65274am79pd7"))))
+          (base32 "1ckcvy10sz4qvjy1bqrpvaijw92q2da4b6bxbgxaxvrw5d0ih81f"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
         emacs-ucs-utils
+        ;; the guix-dev channel lists also the following 4 inputs:
+        ;; emacs-font-utils
+        ;; emacs-list-utils
+        ;; emacs-persistent-soft
+        ;; emacs-pcache
         ))
-      (home-page
-       "https://github.com/rolandwalker/unicode-fonts")
+      (home-page "https://github.com/rolandwalker/unicode-fonts")
       (synopsis "Configure Unicode fonts for Emacs")
       (description
        "Mappings for 233 of the 255 blocks in the Unicode 8.0 standard which
@@ -2038,15 +2042,16 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
 (define-public emacs-use-package
   ;; XXX: Upstream did not tag latest release.  Using commit matching exact
   ;; version bump.
-  (let ((commit "a6e856418d2ebd053b34e0ab2fda328abeba731c"))
+  (let ((commit "a6e856418d2ebd053b34e0ab2fda328abeba731c")
+        (revision "0"))
     (package
       (name "emacs-use-package")
-      (version "2.4.4")
+      (version (git-version "2.4.4" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/jwiegley/use-package")
+               (url "https://github.com/jwiegley/use-package.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2069,10 +2074,12 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
                 (invoke "make" "info" "use-package.texi"))))))
       (native-inputs
        (list
-        (@(gnu packages texinfo) texinfo)))
+        (@(gnu packages texinfo) texinfo)
+        ))
       (propagated-inputs
        (list
-        emacs-diminish))
+        emacs-diminish
+        ))
       (home-page "https://github.com/jwiegley/use-package")
       (synopsis "Declaration for simplifying your .emacs")
       (description "The use-package macro allows you to isolate package
@@ -2085,77 +2092,111 @@ performance-oriented and tidy.")
     (inherit emacs-use-package)
     (name "emacs-use-package-chords")))
 
+;; TODO compare emacs-use-package-chords with:
+;; bat -r 129644:129667 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
+;; (define-public emacs-use-package-chords
+;;   (package
+;;     (name "emacs-use-package-chords")
+;;     (version "20250330.1852")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url "https://github.com/waymondo/use-package-chords.git")
+;;              (commit
+;;               "0793b50e2bf1ec8bfc532b10baeef716c5aa947a")))
+;;        (sha256
+;;         (base32
+;;          "0dkiic5yrdmjkyrahm10ggx0scp4ixqbb184i55f6fpf8yvy6nd8"))))
+;;     (build-system emacs-build-system)
+;;     (propagated-inputs
+;;      (list
+;;       emacs-bind-chord
+;;       emacs-key-chord
+;;       ))
+;;     (arguments '(#:files ("use-package-chords.el")))
+;;     (home-page
+;;      "https://github.com/jwiegley/use-package")
+;;     (synopsis "Key-chord keyword for use-package")
+;;     (description
+;;      "Documentation at https://melpa.org/#/use-package-chords")
+;;     (license #f)))
+
+;; bat -r 12662:12693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-chatgpt-shell ;; PR sent
-  (package
-    (name "emacs-chatgpt-shell")
-    (version "1.20.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/xenodium/chatgpt-shell.git")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "161q8d2b4sq481jh4zwagvh88wg51dsnf76n2l2b7wv3nh7cjh2m"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list #:phases
-           #~(modify-phases %standard-phases
-;;                (add-after 'unpack 'disable-save-variables
-;;                  (lambda _
-;; ;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
-;; ;;; prevent writing to ~/.emacs.d
-;; ;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
-;; ;;; needed after all.
-;;                    (substitute* "chatgpt-shell.el"
-;;                      (("\\(provide 'chatgpt-shell\\)")
-;;                       (string-append
-;;                        "(defun chatgpt-shell--save-variables () nil)"
-;;                        "(defun chatgpt-shell--load-variables () nil)"
-;;                        "(provide 'chatgpt-shell)")))))
+  (let ((commit "efed530f1cfc9eec878331abc9284b7893dce008")
+        (revision "0"))
+    (package
+      (name "emacs-chatgpt-shell")
+      (version (git-version "2.18.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/xenodium/chatgpt-shell.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "161q8d2b4sq481jh4zwagvh88wg51dsnf76n2l2b7wv3nh7cjh2m"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list #:phases
+             #~(modify-phases %standard-phases
+                 ;;                (add-after 'unpack 'disable-save-variables
+                 ;;                  (lambda _
+                 ;; ;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
+                 ;; ;;; prevent writing to ~/.emacs.d
+                 ;; ;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
+                 ;; ;;; needed after all.
+                 ;;                    (substitute* "chatgpt-shell.el"
+                 ;;                      (("\\(provide 'chatgpt-shell\\)")
+                 ;;                       (string-append
+                 ;;                        "(defun chatgpt-shell--save-variables () nil)"
+                 ;;                        "(defun chatgpt-shell--load-variables () nil)"
+                 ;;                        "(provide 'chatgpt-shell)")))))
 
-               ;; (add-before 'build 'inspect-environment-before-build
-               ;;   (lambda* (#:key inputs #:allow-other-keys)
-               ;;     (let* (
-               ;;            (h                  "/homeless-shelter")
-               ;;            (d (string-append h "/.emacs.d"))
-               ;;            (f (string-append d "/.chatgpt-shell.el")))
-               ;;       (format #t "### ~a exists?   ~a\n" h (access? h F_OK))
-               ;;       (format #t "### ~a writable? ~a\n" h (access? h W_OK))
-               ;;       (format #t "### ~a exists?   ~a\n" d (access? d F_OK))
-               ;;       (format #t "### ~a writable? ~a\n" d (access? d W_OK))
-               ;;       (format #t "### ~a exists?   ~a\n" f (access? f F_OK))
-               ;;       (format #t "### ~a writable? ~a\n" f (access? f W_OK)))
-               ;;     (substitute* "chatgpt-shell.el"
-               ;;       #;(("user-emacs-directory") ".")
-               ;;       (("user-emacs-directory") "\"./\""))
-               ;;     ))
+                 ;; (add-before 'build 'inspect-environment-before-build
+                 ;;   (lambda* (#:key inputs #:allow-other-keys)
+                 ;;     (let* (
+                 ;;            (h                  "/homeless-shelter")
+                 ;;            (d (string-append h "/.emacs.d"))
+                 ;;            (f (string-append d "/.chatgpt-shell.el")))
+                 ;;       (format #t "### ~a exists?   ~a\n" h (access? h F_OK))
+                 ;;       (format #t "### ~a writable? ~a\n" h (access? h W_OK))
+                 ;;       (format #t "### ~a exists?   ~a\n" d (access? d F_OK))
+                 ;;       (format #t "### ~a writable? ~a\n" d (access? d W_OK))
+                 ;;       (format #t "### ~a exists?   ~a\n" f (access? f F_OK))
+                 ;;       (format #t "### ~a writable? ~a\n" f (access? f W_OK)))
+                 ;;     (substitute* "chatgpt-shell.el"
+                 ;;       #;(("user-emacs-directory") ".")
+                 ;;       (("user-emacs-directory") "\"./\""))
+                 ;;     ))
 
-               ;; This phase prevents build phase failure.
-               (add-before 'build 'generate-empty-config-file
-                 ;; (lambda _
-                 ;;   (call-with-output-file
-                 ;;       (string-append
-                 ;;        "~/.emacs.d.distros/spguimacs/" ;; user-emacs-directory
-                 ;;        ".chatgpt-shell.el")
-                 ;;     (lambda (port)
-                 ;;       (display "nil" port))))
-                 (lambda _
-                   (setenv "HOME" (getcwd))
-                   (mkdir-p ".emacs.d")
-                   (call-with-output-file ".emacs.d/.chatgpt-shell.el"
-                     (lambda (port)
-                       (display "nil" port))))
-                 ))))
-    (home-page "https://github.com/xenodium/chatgpt-shell")
-    (synopsis "ChatGPT and DALL-E Emacs shells and Org Babel libraries")
-    (description
-     "Chatgpt Shell is a Comint-based ChatGPT shell for Emacs.")
-    (license license:gpl3+)))
+                 ;; This phase prevents build phase failure.
+                 (add-before 'build 'generate-empty-config-file
+                   ;; (lambda _
+                   ;;   (call-with-output-file
+                   ;;       (string-append
+                   ;;        "~/.emacs.d.distros/spguimacs/" ;; user-emacs-directory
+                   ;;        ".chatgpt-shell.el")
+                   ;;     (lambda (port)
+                   ;;       (display "nil" port))))
+                   (lambda _
+                     (setenv "HOME" (getcwd))
+                     (mkdir-p ".emacs.d")
+                     (call-with-output-file ".emacs.d/.chatgpt-shell.el"
+                       (lambda (port)
+                         (display "nil" port))))
+                   ))))
+      (home-page "https://github.com/xenodium/chatgpt-shell")
+      (synopsis "ChatGPT and DALL-E Emacs shells and Org Babel libraries")
+      (description
+       "Chatgpt Shell is a Comint-based ChatGPT shell for Emacs.")
+      (license license:gpl3+))))
 
+;; bat -r 77928:77951 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-markdown-toc
-  (let ((commit "3d724e518a897343b5ede0b976d6fb46c46bcc01")
+  (let ((commit "1b0c5ae7f306f60b909390cad009b76660dd5acd")
         (revision "0"))
     (package
       (name "emacs-markdown-toc")
@@ -2168,11 +2209,14 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "01l48njg0x7gkssvw9nv3yq97866r945izbggx9y3z5ckr1w4hlc"))))
+          (base32 "03z4yayf2wvpbig8s4z07pz4hy83vsf4pbq4gn56yz64qxv03jh5"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-dash
-                               emacs-markdown-mode
-                               emacs-s))
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-markdown-mode
+        emacs-s
+        ))
       (home-page "https://github.com/ardumont/markdown-toc")
       (synopsis "Generate a table of contents for Markdown files in Emacs")
       (description
@@ -2183,32 +2227,36 @@ performance-oriented and tidy.")
  documents.")
       (license license:gpl3+))))
 
+;; bat -r 100343:100364 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-php-runtime
-  (let ((commit
-         "37beef404c70d7b80dc085b1ee1e13fd9c375fe6")
+  (let ((commit "37beef404c70d7b80dc085b1ee1e13fd9c375fe6")
         (revision "0"))
     (package
       (name "emacs-php-runtime")
-      (version (git-version "0.3.1" revision commit))
+      (version (git-version "0.3.2" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-php/php-runtime.el")
+               (url "https://github.com/emacs-php/php-runtime.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "1sd65nhbcxr5r935z1ik3skz73kkpyr4r259nahn5gjvvww3if20"))))
       (build-system emacs-build-system)
-      (home-page
-       "https://github.com/emacs-php/php-runtime.el")
-      (synopsis "")
-      (description "")
+      (home-page "https://github.com/emacs-php/php-runtime.el")
+      (synopsis "Evaluate PHP code from Emacs using php-runtime.el")
+      (description
+       "Functions to evaluate PHP code directly from Emacs.  It enables
+ executing PHP expressions and scripts, retrieving results, and interacting
+with PHP's standard input.  Users can specify the PHP executable path and
+construct PHP expressions programmatically, facilitating seamless integration
+between Emacs and PHP.")
       (license license:gpl3+))))
 
+;; bat -r 100390:100418 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-phpactor
-  (let ((commit
-         "47c4311843dd523f0409016a1f2c93c9d13b213a")
+  (let ((commit "037187f9e204d3ed17017e7fb54236c005725fb7")
         (revision "0"))
     (package
       (name "emacs-phpactor")
@@ -2217,24 +2265,27 @@ performance-oriented and tidy.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-php/phpactor.el")
+               (url "https://github.com/emacs-php/phpactor.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0ax1i0s2ckhif6q9ps3pdbdi5xlp4w0dyysy81hmjn5x6y987ksj"))))
+          (base32 "0vz9ckpkbqcf30aca7swizc1nx2jaghmyr4b1s64cncwr8z4jg5h"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-xref
+        emacs-f
         emacs-async
         emacs-composer
         emacs-php-runtime
-        emacs-f
         ))
-      (home-page
-       "https://github.com/emacs-php/phpactor.el")
-      (synopsis "Interface to Phpactor (an intelligent code-completion and refactoring tool for PHP)")
-      (description "")
+      (home-page "https://github.com/emacs-php/phpactor.el")
+      (synopsis "Emacs interface to Phpactor for PHP code introspection and refactoring")
+      (description
+       "Emacs interface to Phpactor, an intelligent code-completion and
+ refactoring tool for PHP.  It enables features such as class navigation,
+ method extraction, variable renaming, and code generation through Phpactor's
+ RPC protocol.  Note: This package is in alpha stage and may be superseded by
+ LSP-based alternatives.")
       (license license:gpl3+))))
 
 (define-public emacs-company-phpactor
@@ -2242,6 +2293,7 @@ performance-oriented and tidy.")
     (inherit emacs-phpactor)
     (name "emacs-company-phpactor")))
 
+;; bat -r 5586:5607 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-auto-dictionary
   (let ((commit "b364e08009fe0062cf0927d8a0582fad5a12b8e7")
         (revision "0"))
@@ -2268,9 +2320,9 @@ performance-oriented and tidy.")
  correct dictionary is always in use.")
       (license license:gpl3+))))
 
+;; bat -r 123218:123240 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-tblui
-  (let ((commit
-         "62ab5f62982c061a902fd3e54d94a68a4706572c")
+  (let ((commit "62ab5f62982c061a902fd3e54d94a68a4706572c")
         (revision "0"))
     (package
       (name "emacs-tblui")
@@ -2291,8 +2343,7 @@ performance-oriented and tidy.")
         emacs-dash
         emacs-tablist
         ))
-      (home-page
-       "https://github.com/Yuki-Inoue/tblui.el")
+      (home-page "https://github.com/Yuki-Inoue/tblui.el")
       (synopsis "Emacs library for building table-based user interfaces")
       (description
        "This package provides a library for building table-based user
@@ -2304,8 +2355,7 @@ performance-oriented and tidy.")
       (license license:gpl3+))))
 
 (define-public emacs-openai
-  (let ((commit
-         "04296c91c1517fb3d8a6297a1073684039773dae")
+  (let ((commit "91115cd20781b2db9febadadc4ae89c35a9a6df5")
         (revision "0"))
     (package
       (name "emacs-openai")
@@ -2314,11 +2364,11 @@ performance-oriented and tidy.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-openai/openai")
+               (url "https://github.com/emacs-openai/openai.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0gki266kpdf05pxdy1shbirw1z65xq5hqwn6n324simaznbjqbla"))))
+          (base32 "0146abvgygs787x75jlqhgp0qz77jw0mjn3n7y7zsarxrb2c5hqh"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -2342,8 +2392,9 @@ performance-oriented and tidy.")
     (inherit emacs-hydra)
     (name "emacs-lv")))
 
+;; bat -r 12662:12693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-chatgpt
-  (let ((commit "3ad5bc1bbfc548d90449f75417e05e6e071a6576")
+  (let ((commit "05957238635b1b9087ca3486761f9e3f534cea37")
         (revision "1"))
     (package
       (name "emacs-chatgpt")
@@ -2356,7 +2407,7 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0m6z284f05sbfh5232iqkf572dsdpwg83q110x2bzfmm0250bp82"))))
+          (base32 "19ccm7f870dlvsbk5pg3r0sx4v2xwp7pd94n9i3cx6zwphvl7l23"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -2377,53 +2428,63 @@ performance-oriented and tidy.")
  making AI tools easily accessible in the Emacs environment.")
       (license license:gpl3+))))
 
+;; bat -r 131490:131511 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-vline ;; PR sent https://issues.guix.gnu.org/78044
-  (package
-    (name "emacs-vline")
-    (version "20210805.1528")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/buzztaiki/vline.git")
-             (commit "f5d7b5743dceca75b81c8c95287cd5b0341debf9")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "06qqpjaxsacslxb3f2bm790lwygbq6387n9ccn4v9vz9xlyn9dmi"))))
-    (build-system emacs-build-system)
-    (home-page "https://www.emacswiki.org/emacs/VlineMode")
-    (synopsis "Column highlighting (vertical line displaying) mode")
-    (description
-     "`vline-mode is a minor mode for highlighting column at cursor position.  It
-enhances text editing by visually indicating the vertical line.")
-    (license license:gpl3+)))
+  (let ((commit "f5d7b5743dceca75b81c8c95287cd5b0341debf9")
+        (revision "0"))
+    (package
+      (name "emacs-vline")
+      (version (git-version "1.11" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/buzztaiki/vline.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "06qqpjaxsacslxb3f2bm790lwygbq6387n9ccn4v9vz9xlyn9dmi"))))
+      (build-system emacs-build-system)
+      (home-page "https://www.emacswiki.org/emacs/VlineMode")
+      (synopsis "Column highlighting (vertical line displaying) mode")
+      (description
+       "Emacs minor mode for highlighting column at cursor position.  It
+ enhances text editing by visually indicating the vertical line.")
+      (license license:gpl3+))))
 
+;; bat -r 135318:135350 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-xhair ;; PR sent https://issues.guix.gnu.org/issue/78045
-  (package
-    (name "emacs-xhair")
-    (version "20210801.222")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/Boruch-Baum/emacs-xhair.git")
-             (commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
-    (build-system emacs-build-system)
-    (propagated-inputs (list emacs-vline))
-    (home-page "https://github.com/Boruch-Baum/emacs-xhair")
-    (synopsis "Highlight the current line and column")
-    (description
-     "This package simultaneously applies `vline-mode and `hl-line-mode', with
-tweaks,to present POINT in highlighted cross-hairs, reporting the value of
-POINT as a message in the echo area.  This will remain in effect until toggled
+  (let ((commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")
+        (revision "0"))
+    (package
+      (name "emacs-xhair")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Boruch-Baum/emacs-xhair.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03m15lbspk73x59wvb77wgvnkrmrlq4w6kmnrr2i69jgafqh0421"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-vline
+        ))
+      (home-page "https://github.com/Boruch-Baum/emacs-xhair")
+      (synopsis "Highlight the current line and column")
+      (description
+       "Simultaneously apply `vline-mode and `hl-line-mode', with tweaks,to
+ present POINT in highlighted cross-hairs, reporting the value of POINT as a
+message in the echo area.  This will remain in effect until toggled
 manually (function `xhair-mode by default), or until the next
 keypress (function `xhair by default), or for a set interval (function
 `xhair-flash by default).")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
+;; bat -r 64818:64838 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-insert-shebang
   (let ((commit "cc8cea997a8523bce9f303de993af3a73eb0d2e2")
         (revision "0"))
@@ -2451,6 +2512,7 @@ keypress (function `xhair by default), or for a set interval (function
  correct interpreter is specified, enhancing workflow efficiency.")
       (license license:gpl3+))))
 
+;; bat -r 63823:63843 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-indent-guide
   (let ((commit "d388c3387781a370ca13233ff445d03f3c5cf12f")
         (revision "0"))
@@ -2461,7 +2523,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/zk-phi/indent-guide")
+               (url "https://github.com/zk-phi/indent-guide.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2477,6 +2539,7 @@ keypress (function `xhair by default), or for a set interval (function
  guide lines to fit their preferences.")
       (license license:gpl3+))))
 
+;; bat -r 133178:133198 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-wfnames
   (let ((commit "164e4efa2a96bed201a0a5402e137ebeef15bcc6")
         (revision "0"))
@@ -2487,7 +2550,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/thierryvolpiatto/wfnames")
+               (url "https://github.com/thierryvolpiatto/wfnames.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2496,14 +2559,15 @@ keypress (function `xhair by default), or for a set interval (function
       (home-page "https://github.com/thierryvolpiatto/wfnames")
       (synopsis "Edit multiple filenames directly within Emacs buffers")
       (description
-       "This package allows users to edit multiple filenames directly within
- an Emacs buffer. It supports editing lists of absolute file paths, enabling
- modifications to both filenames and their directory components. Changes are
- highlighted, and file completion is provided to streamline the renaming
- process. This tool is particularly useful for batch renaming files across
- various directories without leaving the Emacs environment.")
+       "Edit multiple filenames directly within an Emacs buffer. It supports
+ editing lists of absolute file paths, enabling modifications to both
+filenames and their directory components. Changes are highlighted, and file
+completion is provided to streamline the renaming process. This tool is
+particularly useful for batch renaming files across various directories
+without leaving the Emacs environment.")
       (license license:gpl3+))))
 
+;; bat -r 136224:136244 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-yapfify
   (let ((commit "c9347e3b1dec5fc8d34883e206fcdc8500d22368")
         (revision "0"))
@@ -2514,7 +2578,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/JorisE/yapfify")
+               (url "https://github.com/JorisE/yapfify.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2530,6 +2594,7 @@ keypress (function `xhair by default), or for a set interval (function
  configurations.")
       (license license:gpl3+))))
 
+;; bat -r 117444:117465 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-smeargle
   (let ((commit "afe34e7e3ce811d44880bca11f9fe1e3d91e272f")
         (revision "0"))
@@ -2540,7 +2605,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacsorphanage/smeargle")
+               (url "https://github.com/emacsorphanage/smeargle.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2556,6 +2621,7 @@ keypress (function `xhair by default), or for a set interval (function
  customizable highlighting styles.")
       (license license:gpl3+))))
 
+;; bat -r 99016:99036 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pcsv
   (let ((commit "aa421d12c0da0adb9bc74a050a591dcbabf934ae")
         (revision "0"))
@@ -2566,7 +2632,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/mhayashi1120/Emacs-pcsv")
+               (url "https://github.com/mhayashi1120/Emacs-pcsv.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2582,6 +2648,7 @@ keypress (function `xhair by default), or for a set interval (function
  excessive memory usage.")
       (license license:gpl3+))))
 
+;; bat -r 83083:83102 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-mvn
   (let ((commit "223723d9ceeb2878b884e83abb8ca74ad2e42081")
         (revision "0"))
@@ -2592,7 +2659,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/apgwoz/mvn-el")
+               (url "https://github.com/apgwoz/mvn-el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2615,6 +2682,7 @@ keypress (function `xhair by default), or for a set interval (function
     (inherit emacs-systemd-mode)
     (name "emacs-systemd")))
 
+;; bat -r 103243:103264 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-prettier-js
   (let ((commit "e9b73e81d3e1642aec682195f127a42dfb0b5774")
         (revision "0"))
@@ -2625,7 +2693,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/prettier/prettier-emacs")
+               (url "https://github.com/prettier/prettier-emacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2644,17 +2712,18 @@ keypress (function `xhair by default), or for a set interval (function
  is installed and accessible in your system's PATH.")
       (license license:gpl3+))))
 
+;; bat -r 75388:75410 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-lsp-latex
   (let ((commit "36a37a8e0a6b0edbea8e67dab89d12980d2a368f")
         (revision "0"))
     (package
       (name "emacs-lsp-latex")
-      (version (git-version "20241006.800" revision commit))
+      (version (git-version "3.10.0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/ROCKTAKEY/lsp-latex")
+               (url "https://github.com/ROCKTAKEY/lsp-latex.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2663,7 +2732,8 @@ keypress (function `xhair by default), or for a set interval (function
       (propagated-inputs
        (list
         emacs-consult
-        emacs-lsp-mode))
+        emacs-lsp-mode
+        ))
       (home-page "https://github.com/ROCKTAKEY/lsp-latex")
       (synopsis "Enhanced LSP support for LaTeX in Emacs using Texlab")
       (description
@@ -2680,6 +2750,7 @@ keypress (function `xhair by default), or for a set interval (function
     (inherit emacs-sqlite3-api)
     (name "emacs-sqlite3")))
 
+;; bat -r 48473:48493 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-geben
   (let ((commit "1779492d73534e18fbcfdd7c6cc175859527d019")
         (revision "0"))
@@ -2690,7 +2761,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/ahungry/geben")
+               (url "https://github.com/ahungry/geben.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2708,6 +2779,7 @@ keypress (function `xhair by default), or for a set interval (function
  within the Emacs environment.")
       (license license:gpl3+))))
 
+;; bat -r 22060:22079 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-cython-mode
   (let ((commit "3e4790559d3168fe992cf2aa62f01423038cedb5")
         (revision "0"))
@@ -2718,7 +2790,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/cython/emacs-cython-mode")
+               (url "https://github.com/cython/emacs-cython-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2731,15 +2803,16 @@ keypress (function `xhair by default), or for a set interval (function
  for editing Cython source files. It offers syntax highlighting, indentation
  support, and integration with Emacs' compilation framework, enhancing the
  development experience for Cython code.")
-      (license license:gpl3+))))
+      (license license:asl2.0))))
 
 (define-public emacs-eval-sexp-fu
   (package
     (inherit emacs-eval-sexp-fu-el)
     (name "emacs-eval-sexp-fu")))
 
+;; bat -r 105754:105775 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pyenv-mode
-  (let ((commit "76787ea44f633426df402341663784db3a9e9639")
+  (let ((commit "ba1a8c7bd7d03c006f8411c856990c083c814c9c")
         (revision "0"))
     (package
       (name "emacs-pyenv-mode")
@@ -2748,16 +2821,17 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/proofit404/pyenv-mode")
+               (url "https://github.com/proofit404/pyenv-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "07nm4a5g6krflsyn232sg3zyzf79djf4pfwdwzlph4r3wspr9ix9"))))
+          (base32 "0yzz0fhbcknlf7ms9f00151iwz31avniaaa6793gxhqdkzd9i5wc"))))
       (build-system emacs-build-system)
       ;; contains (executable-find "pyenv")
-      (propagated-inputs (list
-                          emacs-pythonic
-                          ))
+      (propagated-inputs
+       (list
+        emacs-pythonic
+        ))
       (home-page "https://github.com/proofit404/pyenv-mode")
       (synopsis "Integrate pyenv with Emacs python-mode")
       (description
@@ -2775,6 +2849,7 @@ keypress (function `xhair by default), or for a set interval (function
     (inherit emacs-groovy-modes)
     (name "emacs-groovy-mode")))
 
+;; bat -r 87152:87173 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-ob-elixir
   (let ((commit "8990a8178b2f7bd93504a9ab136622aab6e82e32")
         (revision "0"))
@@ -2802,6 +2877,7 @@ keypress (function `xhair by default), or for a set interval (function
  Org-mode and Elixir development.")
       (license license:gpl3+))))
 
+;; bat -r 89347:89368 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-open-junk-file
   (let ((commit "558bec7372b0fed4c4cb6074ab906535fae615bd")
         (revision "0"))
@@ -2812,7 +2888,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/rubikitch/open-junk-file")
+               (url "https://github.com/rubikitch/open-junk-file.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2828,6 +2904,7 @@ keypress (function `xhair by default), or for a set interval (function
  manage them later.")
       (license license:gpl3+))))
 
+;; bat -r 89142:89163 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-omtose-phellack-themes
   (let ((commit "b96905deb9b2bef097e0c573100874812c1e9aa8")
         (revision "0"))
@@ -2838,7 +2915,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacsorphanage/omtose-phellack-themes")
+               (url "https://github.com/emacsorphanage/omtose-phellack-themes.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2856,6 +2933,7 @@ keypress (function `xhair by default), or for a set interval (function
  preferences.")
       (license license:gpl3+))))
 
+;; bat -r 60220:60240 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-highlight-parentheses
   (let ((commit "965b18dd69eff4457e17c9e84b3cbfdbfca2ddfb")
         (revision "0"))
@@ -2881,6 +2959,7 @@ keypress (function `xhair by default), or for a set interval (function
  by visually indicating the scope of nested expressions.")
       (license license:gpl3+))))
 
+;; bat -r 61724:61744 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-hungry-delete
   (let ((commit "d919e555e5c13a2edf4570f3ceec84f0ade71657")
         (revision "0"))
@@ -2891,7 +2970,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "http://github.com/nflath/hungry-delete")
+               (url "http://github.com/nflath/hungry-delete.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2906,6 +2985,7 @@ keypress (function `xhair by default), or for a set interval (function
  key presses needed to remove unwanted spaces.")
       (license license:gpl3+))))
 
+;; bat -r 106096:106117 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pytest
   (let ((commit "8692f965bf4ddf3d755cf1fbf77a7a768e22460e")
         (revision "0"))
@@ -2916,7 +2996,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/ionrock/pytest-el")
+               (url "https://github.com/ionrock/pytest-el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2929,16 +3009,17 @@ keypress (function `xhair by default), or for a set interval (function
       (home-page "https://github.com/ionrock/pytest-el")
       (synopsis "Emacs integration for running pytest on Python code")
       (description
-       "This package provides a set of functions to run pytest on Python code
- within Emacs. It allows executing tests on specific functions, classes,
- modules, or entire suites directly from the editor. Users can configure the
- test runner executable, integrate with project-specific virtual environments,
- and define custom keybindings for test operations, enhancing the Python
- development workflow in Emacs.")
+       "Set of functions to run pytest on Python code within Emacs. It allows
+executing tests on specific functions, classes,modules, or entire suites
+directly from the editor. Users can configure the test runner executable,
+integrate with project-specific virtual environments,and define custom
+keybindings for test operations, enhancing the Python development workflow in
+Emacs.")
       (license license:gpl3+))))
 
+;; bat -r 63632:63655 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-impatient-mode
-  (let ((commit "7b54b015de4b3b81266291e9cfe688f7e20eb40a")
+  (let ((commit "a4e4e12852840996b027cb8e9fb2b809c37a0ee3")
         (revision "0"))
     (package
       (name "emacs-impatient-mode")
@@ -2947,21 +3028,29 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/netguy204/imp.el")
+               (url "https://github.com/skeeto/impatient-mode.git")
                (commit commit)))
-         (file-name (git-file-name name version))
          (sha256
-          (base32 "0qcrza3c4iigzv79mqy2xqi1x2fgvz2b2hmfsjaig6z9w5lgfnz8"))))
+          (base32
+           "1cwascc08pzmvgjf0z5fh3w3jf85rgk13haz085qbdkhxsbivav2"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
+        emacs-simple-httpd
         emacs-htmlize
-        emacs-simple-httpd))
+        ))
       (home-page "https://github.com/netguy204/imp.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
+      (synopsis "Live preview of Emacs buffers in a web browser")
+      (description
+       "Enables real-time preview of Emacs buffers in a web browser.  It
+ utilizes an internal HTTP server to serve buffer contents,allowing users to
+see changes as they type.  Designed primarily for HTML editing, it can be
+extended to support other formats like Markdown by customizing the content
+filter.  Note: Activating this mode exposes the buffer's directory over HTTP,
+which may have security implications.")
+      (license license:gpl3))))
 
+;; bat -r 63730:63754 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-importmagic
   (let ((commit "570fb4f519d5e84dd681f932447cb995e8460840")
         (revision "0"))
@@ -2972,7 +3061,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/anachronic/importmagic.el")
+               (url "https://github.com/anachronic/importmagic.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -2981,12 +3070,20 @@ keypress (function `xhair by default), or for a set interval (function
       (propagated-inputs
        (list
         emacs-f
-        emacs-epc))
+        emacs-epc
+        ))
       (home-page "https://github.com/anachronic/importmagic.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Suggest and insert missing Python imports in Emacs buffers")
+      (description
+       "Emacs interface to the Python importmagic library.  It analyzes Python
+ buffers to identify unresolved symbols and suggests appropriate import
+statements.  Users can automatically insert missing imports, customize import
+formatting styles, and configure the Python interpreter path.  The package
+requires the `importmagic` and `epc` Python packages to be installed in the
+active environment.")
       (license license:gpl3+))))
 
+;; bat -r 67812:67833 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-journalctl-mode
   (let ((commit "631d10a5c8f466c94c38c3cd7410a27026f5f822")
         (revision "0"))
@@ -2997,19 +3094,26 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/SebastianMeisel/journalctl-mode")
+               (url "https://github.com/SebastianMeisel/journalctl-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "1p3mgza73yls8f7v063jb49z0ylmvni4v812abqvvvrn5q396286"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/SebastianMeisel/journalctl-mode")
-      (synopsis "")
-      (description "")
+      (synopsis "Major mode for viewing journalctl logs in Emacs")
+      (description
+       "Emacs major mode for viewing systemd's journalctl output. It offers
+features like syntax highlighting, chunked loading for performance,
+keyword-based highlighting, and a follow mode to simulate 'tail -f'
+functionality.  Users can customize log level appearances and define keywords
+for different log severities.  The mode includes keybindings for navigating
+through log chunks and integrates a transient interface for journalctl
+command-line options.")
       (license license:gpl3+))))
 
 (define-public emacs-kbd-mode
-  (let ((commit "b07f3e16043fbb268b3e47fb49abc419e8b7e2d7")
+  (let ((commit "f8951b2efc5c29954b0105a9e57e973515125b0d")
         (revision "0"))
     (package
       (name "emacs-kbd-mode")
@@ -3018,17 +3122,23 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/kmonad/kbd-mode")
+               (url "https://github.com/kmonad/kbd-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0lnnr71g1nvqlyvzaiq7nqcnwhwh34xg2wfig1j5xb9wvblrg621"))))
+          (base32 "1mzq240fz7z5m78qqlldvx3pw98kw9dg8a0zcip62gb1jd957b4g"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/kmonad/kbd-mode")
-      (synopsis "")
-      (description "")
+      (synopsis "Major mode for editing KMonad .kbd configuration files in Emacs")
+      (description "Emacs major mode for editing KMonad `.kbd` configuration
+files.  It offers syntax highlighting tailored to KMonad's Lisp-like
+configuration language, facilitating easier reading and editing.
+Additionally, it includes a demo mode that allows users to test configurations
+within Emacs by starting and stopping KMonad processes directly from the
+editor.")
       (license license:gpl3+))))
 
+;; bat -r 78404:78426 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-maven-test-mode
   (let ((commit "a19151861df2ad8ae4880a2e7c86ddf848cb569a")
         (revision "0"))
@@ -3039,7 +3149,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "http://github.com/rranelli/maven-test-mode")
+               (url "http://github.com/rranelli/maven-test-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3047,12 +3157,19 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-s))
+        emacs-s
+        ))
       (home-page "http://github.com/rranelli/maven-test-mode")
-      (synopsis "")
-      (description "")
+      (synopsis "Minor mode for running Maven tests in Emacs")
+      (description
+       "Emacs minor mode that enhances `java-mode` by integrating Maven test
+ tasks. It offers keybindings to toggle between test and implementation files,
+run tests at various scopes (method, class, project), and re-run the last test
+command.  Inspired by `rspec-mode`, it streamlines the testing workflow for
+Java projects using Maven.")
       (license license:gpl3+))))
 
+;; bat -r 14175:14196 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-clean-aindent-mode
   (let ((commit "a97bcae8f43a9ff64e95473e4ef0d8bafe829211")
         (revision "0"))
@@ -3063,17 +3180,24 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/pmarinov/clean-aindent-mode")
+               (url "https://github.com/pmarinov/clean-aindent-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "07dgx09j6nn5dl9vpqfcs5yqm79kza3h3r1lb7r09wpkmrg0c2cr"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/pmarinov/clean-aindent-mode")
-      (synopsis "")
-      (description "")
+      (synopsis "Minor mode for clean auto-indent and unindent in Emacs")
+      (description
+       "Minor mode for Emacs that enhances indentation behavior.  It offers an
+auto-indent function that removes unused whitespace when pressing RET and an
+unindent function (M-backspace) that aligns the cursor with the best
+indentation candidate from previous lines.  A simple auto-indent mode is
+available, which aligns lines based solely on the indentation of the line
+above, disregarding language-specific rules.")
       (license license:gpl3+))))
 
+;; bat -r 100949:100970 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pipenv
   (let ((commit "3af159749824c03f59176aff7f66ddd6a5785a10")
         (revision "0"))
@@ -3084,7 +3208,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/pwalsh/pipenv.el")
+               (url "https://github.com/pwalsh/pipenv.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3093,12 +3217,20 @@ keypress (function `xhair by default), or for a set interval (function
       (propagated-inputs
        (list
         emacs-pyvenv
-        emacs-s))
+        emacs-s
+        ))
       (home-page "https://github.com/pwalsh/pipenv.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Emacs integration for Pipenv-based Python workflows")
+      (description
+       "Pipenv integration into Emacs. It provides commands to manage virtual
+environments and dependencies directly from the editor.  It offers a minor
+mode with keybindings for common Pipenv operations, seamless integration with
+Projectile and Flycheck, and functions to activate or deactivate environments
+using pyvenv.  The package also includes an Emacs-native implementation of
+`pipenv open`, allowing users to open modules within Emacs.")
       (license license:gpl3+))))
 
+;; bat -r 101877:101897 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-poetry
   (let ((commit "1dff0d4a51ea8aff5f6ce97b154ea799902639ad")
         (revision "0"))
@@ -3109,7 +3241,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/cybniv/poetry.el")
+               (url "https://github.com/cybniv/poetry.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3117,14 +3249,21 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-pyvenv))
+        emacs-pyvenv
+        ))
       (home-page "https://github.com/cybniv/poetry.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Emacs interface for Python dependency management with Poetry")
+      (description
+       "Emacs interface to Poetry, a Python dependency management and
+ packaging tool.  It offers a transient-based UI for common tasks such as
+adding dependencies, building packages, and running scripts.  Additionally, it
+includes a global minor mode to automatically activate the appropriate virtual
+environment when visiting project files.")
       (license license:gpl3+))))
 
+;; bat -r 109979:110001 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-reveal-in-folder
-  (let ((commit "f5991b8e4f4e86bd47629688a05fabd92dfe25ac")
+  (let ((commit "cfa667ad1ef488e68c30f67e280985f205629dc3")
         (revision "0"))
     (package
       (name "emacs-reveal-in-folder")
@@ -3137,17 +3276,24 @@ keypress (function `xhair by default), or for a set interval (function
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "156fb1zcjr2i1f6dv10vnz74wbiylawi7npd2kwr2zrpdf8sflqi"))))
+          (base32 "1wmszjc54bvsgrcfci606z0qb4jrdjd51myqkc91wf21vmi8g1rw"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
         emacs-f
-        emacs-s))
+        emacs-s
+        ))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
-      (synopsis "Reveal current file/directory in folder")
-      (description "Reveal current file/directory in folder.")
+      (synopsis "Reveal current file or directory in system file manager from Emacs")
+      (description
+       "Provides commands to reveal the current file or directory in the
+ system's file manager directly from Emacs.  It supports various contexts,
+including the current buffer, point location, and default directory.  Unlike
+platform-specific alternatives, it aims to offer cross-platform compatibility,
+enhancing navigation between Emacs and the operating system's file explorer.")
       (license license:gpl3+))))
 
+;; bat -r 54504:54523 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-haml-mode
   (let ((commit "a64d58df8f098f858c6c11fa1629a90969f9c7e8")
         (revision "0"))
@@ -3158,17 +3304,24 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/nex3/haml-mode")
+               (url "https://github.com/nex3/haml-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "0d0b8xy8d6vd79y0vcjbgjgakn3nz5vdysw5m1ci2xz31agggf6f"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/nex3/haml-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
+      (synopsis "Major mode for editing Haml files in Emacs")
+      (description
+       "Emacs major mode for editing Haml files.  It offers syntax
+highlighting and indentation support tailored to Haml's indentation-based
+syntax.  Optional integration with Flycheck and Flymake enables real-time
+syntax checking.  Additional syntax highlighting is available for embedded
+`:javascript`, `:markdown`, and `:textile` blocks when corresponding modes are
+installed.")
+      (license license:expat)))) ; MIT
 
+;; bat -r 112243:112264 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-sass-mode
   (let ((commit "247a0d4b509f10b28e4687cd8763492bca03599b")
         (revision "0"))
@@ -3179,7 +3332,7 @@ keypress (function `xhair by default), or for a set interval (function
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/nex3/sass-mode")
+               (url "https://github.com/nex3/sass-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3187,11 +3340,17 @@ keypress (function `xhair by default), or for a set interval (function
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-haml-mode))
+        emacs-haml-mode
+        ))
       (home-page "https://github.com/nex3/sass-mode")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
+      (synopsis "Major mode for editing Sass files in Emacs")
+      (description
+       "Major mode for editing Sass files in Emacs.  It offers syntax
+ highlighting for selectors, variables, and directives, as well as indentation
+support tailored to Sass's indentation-based syntax.  The mode is derived from
+`haml-mode` and requires it as a dependency.  Users can customize indentation
+levels and other settings to fit their preferences.")
+      (license license:expat)))) ; MIT
 
 (define-public emacs-shfmt
   (let ((commit "78a96e66d2685672de3d0b7d627cd57a3b0caaf2")
