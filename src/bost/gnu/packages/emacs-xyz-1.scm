@@ -2124,7 +2124,7 @@ performance-oriented and tidy.")
 
 ;; bat -r 12662:12693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-chatgpt-shell ;; PR sent
-  (let ((commit "efed530f1cfc9eec878331abc9284b7893dce008")
+  (let ((commit "3c8d95d9a550d2fb278bdf32e8446fed1974af03")
         (revision "0"))
     (package
       (name "emacs-chatgpt-shell")
@@ -2137,57 +2137,61 @@ performance-oriented and tidy.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "161q8d2b4sq481jh4zwagvh88wg51dsnf76n2l2b7wv3nh7cjh2m"))))
+          (base32 "1fdav9jj06nav696xlqq4shmqshchsxyankmbllz6hlsjyxgfwvm"))))
       (build-system emacs-build-system)
       (arguments
-       (list #:phases
-             #~(modify-phases %standard-phases
-                 ;;                (add-after 'unpack 'disable-save-variables
-                 ;;                  (lambda _
-                 ;; ;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
-                 ;; ;;; prevent writing to ~/.emacs.d
-                 ;; ;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
-                 ;; ;;; needed after all.
-                 ;;                    (substitute* "chatgpt-shell.el"
-                 ;;                      (("\\(provide 'chatgpt-shell\\)")
-                 ;;                       (string-append
-                 ;;                        "(defun chatgpt-shell--save-variables () nil)"
-                 ;;                        "(defun chatgpt-shell--load-variables () nil)"
-                 ;;                        "(provide 'chatgpt-shell)")))))
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            ;; (add-after 'unpack 'disable-save-variables
+            ;;   (lambda _
+            ;; ;;; Override chatgpt-shell--save-variables chatgpt-shell--load-variables to
+            ;; ;;; prevent writing to ~/.emacs.d
+            ;; ;;; TODO try (locate-user-emacs-file "chatgpt-shell") however this may not be
+            ;; ;;; needed after all.
+            ;;     (substitute* "chatgpt-shell.el"
+            ;;       (("\\(provide 'chatgpt-shell\\)")
+            ;;        (string-append
+            ;;         "(defun chatgpt-shell--save-variables () nil)"
+            ;;         "(defun chatgpt-shell--load-variables () nil)"
+            ;;         "(provide 'chatgpt-shell)")))))
 
-                 ;; (add-before 'build 'inspect-environment-before-build
-                 ;;   (lambda* (#:key inputs #:allow-other-keys)
-                 ;;     (let* (
-                 ;;            (h                  "/homeless-shelter")
-                 ;;            (d (string-append h "/.emacs.d"))
-                 ;;            (f (string-append d "/.chatgpt-shell.el")))
-                 ;;       (format #t "### ~a exists?   ~a\n" h (access? h F_OK))
-                 ;;       (format #t "### ~a writable? ~a\n" h (access? h W_OK))
-                 ;;       (format #t "### ~a exists?   ~a\n" d (access? d F_OK))
-                 ;;       (format #t "### ~a writable? ~a\n" d (access? d W_OK))
-                 ;;       (format #t "### ~a exists?   ~a\n" f (access? f F_OK))
-                 ;;       (format #t "### ~a writable? ~a\n" f (access? f W_OK)))
-                 ;;     (substitute* "chatgpt-shell.el"
-                 ;;       #;(("user-emacs-directory") ".")
-                 ;;       (("user-emacs-directory") "\"./\""))
-                 ;;     ))
+            ;; (add-before 'build 'inspect-environment-before-build
+            ;;   (lambda* (#:key inputs #:allow-other-keys)
+            ;;     (let* (
+            ;;            (h                  "/homeless-shelter")
+            ;;            (d (string-append h "/.emacs.d"))
+            ;;            (f (string-append d "/.chatgpt-shell.el")))
+            ;;       (format #t "### ~a exists?   ~a\n" h (access? h F_OK))
+            ;;       (format #t "### ~a writable? ~a\n" h (access? h W_OK))
+            ;;       (format #t "### ~a exists?   ~a\n" d (access? d F_OK))
+            ;;       (format #t "### ~a writable? ~a\n" d (access? d W_OK))
+            ;;       (format #t "### ~a exists?   ~a\n" f (access? f F_OK))
+            ;;       (format #t "### ~a writable? ~a\n" f (access? f W_OK)))
+            ;;     (substitute* "chatgpt-shell.el"
+            ;;       #;(("user-emacs-directory") ".")
+            ;;       (("user-emacs-directory") "\"./\""))
+            ;;     ))
 
-                 ;; This phase prevents build phase failure.
-                 (add-before 'build 'generate-empty-config-file
-                   ;; (lambda _
-                   ;;   (call-with-output-file
-                   ;;       (string-append
-                   ;;        "~/.emacs.d.distros/spguimacs/" ;; user-emacs-directory
-                   ;;        ".chatgpt-shell.el")
-                   ;;     (lambda (port)
-                   ;;       (display "nil" port))))
-                   (lambda _
-                     (setenv "HOME" (getcwd))
-                     (mkdir-p ".emacs.d")
-                     (call-with-output-file ".emacs.d/.chatgpt-shell.el"
-                       (lambda (port)
-                         (display "nil" port))))
-                   ))))
+            ;; This phase prevents build phase failure.
+            (add-before 'build 'generate-empty-config-file
+              ;; (lambda _
+              ;;   (call-with-output-file
+              ;;       (string-append
+              ;;        "~/.emacs.d.distros/spguimacs/" ;; user-emacs-directory
+              ;;        ".chatgpt-shell.el")
+              ;;     (lambda (port)
+              ;;       (display "nil" port))))
+              (lambda _
+                (setenv "HOME" (getcwd))
+                (mkdir-p ".emacs.d")
+                (call-with-output-file ".emacs.d/.chatgpt-shell.el"
+                  (lambda (port)
+                    (display "nil" port))))))))
+      (propagated-inputs
+       (list
+        emacs-shell-maker
+        ))
       (home-page "https://github.com/xenodium/chatgpt-shell")
       (synopsis "ChatGPT and DALL-E Emacs shells and Org Babel libraries")
       (description
