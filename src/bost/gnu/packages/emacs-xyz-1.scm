@@ -3356,6 +3356,7 @@ support tailored to Sass's indentation-based syntax.  The mode is derived from
 levels and other settings to fit their preferences.")
       (license license:expat)))) ; MIT
 
+;; bat -r 114781:114802 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-shfmt
   (let ((commit "78a96e66d2685672de3d0b7d627cd57a3b0caaf2")
         (revision "0"))
@@ -3366,7 +3367,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/purcell/emacs-shfmt")
+               (url "https://github.com/purcell/emacs-shfmt.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3374,12 +3375,19 @@ levels and other settings to fit their preferences.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-reformatter))
+        emacs-reformatter
+        ))
       (home-page "https://github.com/purcell/emacs-shfmt")
-      (synopsis "")
-      (description "")
+      (synopsis "Emacs integration for formatting shell scripts using shfmt")
+      (description
+       "Emacs commands and a minor mode for formatting shell script source code
+ using the external `shfmt` program.  Users can format entire buffers or
+selected regions, and enable automatic formatting on save in `sh-mode`
+buffers.  The `shfmt-command` variable allows customization of the formatter's
+invocation.")
       (license license:gpl3+))))
 
+;; bat -r 120658:120679 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-string-edit-at-point
   (let ((commit "87936d816ae24184dd83688136531b6b6f1943fe")
         (revision "0"))
@@ -3390,7 +3398,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/magnars/string-edit.el")
+               (url "https://github.com/magnars/string-edit.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3398,12 +3406,18 @@ levels and other settings to fit their preferences.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash))
+        emacs-dash
+        ))
       (home-page "https://github.com/magnars/string-edit.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Edit string literals in a separate buffer with unescaped content")
+      (description
+       "Command to edit string literals in Emacs by opening their unescaped
+ content in a temporary buffer.  After editing, the content is re-escaped and
+inserted back into the original string.  It is particularly useful for editing
+embedded HTML or JavaScript templates within code.")
       (license license:gpl3+))))
 
+;; bat -r 96170:96192 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-overseer
   (let ((commit "7fdcf1a6fba6b1569a09c1666b4e51bcde266ed9")
         (revision "0"))
@@ -3414,7 +3428,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/tonini/overseer.el")
+               (url "https://github.com/tonini/overseer.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3424,10 +3438,16 @@ levels and other settings to fit their preferences.")
        (list
         emacs-pkg-info
         emacs-f
-        emacs-dash))
+        emacs-dash
+        ))
       (home-page "https://github.com/tonini/overseer.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Integrate ert-runner with Emacs for running ERT tests")
+      (description
+       "Integrate the ert-runner test framework into Emacs, allowing users to
+ run ERT tests directly from the editor.  It provides a minor mode with
+keybindings for executing tests at point, in the current buffer, or across the
+project.  The package leverages Cask for managing dependencies and supports
+interactive commands for various test operations.")
       (license license:gpl3+))))
 
 (define-public emacs-php-extras
@@ -3440,7 +3460,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/arnested/php-extras")
+               (url "https://github.com/arnested/php-extras.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3448,12 +3468,20 @@ levels and other settings to fit their preferences.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-php-mode))
+        emacs-php-mode
+        ))
       (home-page "https://github.com/arnested/php-extras")
-      (synopsis "")
-      (description "")
+      (synopsis "Extra features for Emacs php-mode")
+      (description
+       "Additional features for Emacs' php-mode.  It includes a command to
+ insert the most recently used variable, support for eldoc-mode to display PHP
+function signatures in the minibuffer, and completion backends for
+auto-complete and company-mode based on core PHP functions.  The package can
+generate a local function signature database by downloading and parsing the
+PHP manual.")
       (license license:gpl3+))))
 
+;; bat -r 33957:33986 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-emr
   (let ((commit "cac1b52932926f56d7f6d2923732d20bbd20670d")
         (revision "0"))
@@ -3464,7 +3492,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https //github.com/Wilfred/emacs-refactor")
+               (url "https://github.com/Wilfred/emacs-refactor.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3481,15 +3509,14 @@ levels and other settings to fit their preferences.")
       (home-page "https://github.com/Wilfred/emacs-refactor")
       (synopsis "Framework for language-specific code refactoring in Emacs")
       (description
-       "This package provides Emacs Refactor (EMR), a framework that offers
- language-specific refactoring commands within Emacs. It supports various
- programming languages, including Emacs Lisp, JavaScript, Ruby, and Scheme,
- enabling context-sensitive refactoring operations such as extracting
- functions or variables, inlining code, and tidying imports. EMR enhances code
- maintainability and development efficiency by integrating refactoring tools
- directly into the Emacs environment.")
+       "Emacs Refactor framework offering language-specific refactoring
+commands. It supports various programming languages, including Emacs Lisp,
+JavaScript, Ruby, and Scheme, enabling context-sensitive refactoring
+operations such as extracting functions or variables, inlining code, and
+tidying imports.")
       (license license:gpl3+))))
 
+;; bat -r 34802:34822 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-erc-tweet
   (let ((commit "91fed61e139fa788d66a7358f0d50acc896414b8")
         (revision "0"))
@@ -3500,7 +3527,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/kidd/erc-tweet.el")
+               (url "https://github.com/kidd/erc-tweet.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3509,14 +3536,15 @@ levels and other settings to fit their preferences.")
       (home-page "https://github.com/kidd/erc-tweet.el")
       (synopsis "Display inline tweets in ERC buffers")
       (description
-       "This package enhances Emacs' ERC (Emacs IRC client) by displaying
- tweet content directly within IRC buffers. When a Twitter URL is detected in
- the chat, the corresponding tweet text is fetched and shown inline, providing
- immediate context without the need to open external links. This feature
- improves the chat experience by integrating external content seamlessly into
- the conversation.")
+       "Enhance ERC (Emacs IRC client) by displaying tweet content directly
+ within IRC buffers. When a Twitter URL is detected in the chat, the
+corresponding tweet text is fetched and shown inline, providing immediate
+context without the need to open external links. This feature improves the
+chat experience by integrating external content seamlessly into the
+conversation.")
       (license license:gpl3+))))
 
+;; bat -r 34846:34866 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-erc-view-log
   (let ((commit "c5a25f0cbca84ed2e4f72068c02b66bd0ea3b266")
         (revision "0"))
@@ -3527,17 +3555,23 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/Niluge-KiWi/erc-view-log")
+               (url "https://github.com/Niluge-KiWi/erc-view-log.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "0bzi2sh2fhrz49j5y53h6jgf41av6rx78smb3bbk6m74is8vim2y"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/Niluge-KiWi/erc-view-log")
-      (synopsis "")
-      (description "")
+      (synopsis "Major mode for viewing ERC logs with syntax highlighting")
+      (description
+       "Major mode for viewing logs generated by ERC (Emacs IRC client).  It
+applies syntax highlighting to nicknames, timestamps, and messages, enhancing
+readability.  Users can customize nickname highlighting and integrate with
+`auto-revert-tail-mode` for real-time log updates.  Note: This mode is
+incompatible with `erc-fill-mode`.")
       (license license:gpl3+))))
 
+;; bat -r 34913:34934 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-erc-yt
   (let ((commit "43e7d49325b17a3217a6ffb4a9daf75c5ff4e6f8")
         (revision "0"))
@@ -3558,11 +3592,17 @@ levels and other settings to fit their preferences.")
        (list
         emacs-dash
         ))
-      (home-page "https://github.com/yhvh/erc-yt.git")
-      (synopsis "")
-      (description "")
+      (home-page "https://github.com/yhvh/erc-yt")
+      (synopsis "Display inline YouTube previews in ERC buffers")
+      (description
+       "Enhances Emacs' ERC (IRC client) by displaying inline clickable YouTube
+thumbnails, titles, and descriptions when YouTube links are shared in chat.
+It uses the YouTube Data API v3 to fetch video metadata and supports
+customization of thumbnail click behavior, image caching, and description
+length.")
       (license license:gpl3+))))
 
+;; bat -r 32008:32030 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-elisp-def
   (let ((commit "1ad4baccbf3d0d13e7607d332ae6bc60a5dd7360")
         (revision "0"))
@@ -3573,7 +3613,7 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/Wilfred/elisp-def")
+               (url "https://github.com/Wilfred/elisp-def.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3586,12 +3626,18 @@ levels and other settings to fit their preferences.")
         emacs-dash
         ))
       (home-page "https://github.com/Wilfred/elisp-def")
-      (synopsis "")
-      (description "")
+      (synopsis "Enhanced Emacs Lisp symbol definition navigation")
+      (description
+       "Enhance navigation for Emacs Lisp development by accurately locating
+definitions of functions, variables, and macros.  It supports global and local
+bindings, handles macro-generated code, and distinguishes between function and
+variable namespaces.  Additionally, it integrates with various Emacs modes to
+improve the developer experience.")
       (license license:gpl3+))))
 
+;; bat -r 22261:22282 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-dall-e
-  (let ((commit "98743d452ba8644d0da9f5ebbed1adfe79b65f32")
+  (let ((commit "24b1315b57d8e9329f5af1c9d7f8be9e8a6f932e")
         (revision "0"))
     (package
       (name "emacs-dall-e")
@@ -3604,7 +3650,7 @@ levels and other settings to fit their preferences.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0qgyf0z3pwz03bnfbs88kcijg9s0lhn8fryr5cywrx9nipzn7d7n"))))
+          (base32 "03b9r8am5i4rkf3hqvnqzslbh1636vidlsmqkzyqk73a5hhvhqnd"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -3616,10 +3662,16 @@ levels and other settings to fit their preferences.")
         emacs-spinner
         ))
       (home-page "https://github.com/emacs-openai/dall-e")
-      (synopsis "")
-      (description "")
+      (synopsis "Generate images from text prompts using DALL·E in Emacs")
+      (description
+       "Emacs interface to OpenAI's DALL·E API, enabling users to generate
+ images from text prompts directly within the editor.  It supports
+customization options such as the number of images, image size, and display
+width.  Generated images are cached locally and displayed in a dedicated
+buffer.  An OpenAI API key is required for usage.")
       (license license:gpl3+))))
 
+;; bat -r 49221:49241 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-gh-md
   (let ((commit "e721fd5e41e682f47f2dd4ce26ef2ba28c7fa0b5")
         (revision "0"))
@@ -3630,17 +3682,23 @@ levels and other settings to fit their preferences.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-pe/gh-md.el")
+               (url "https://github.com/emacs-pe/gh-md.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "1xnfq6bbc5bgkd0mzkr7r66sd85qfn859swpsp6sr0xfl8cq12wm"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/emacs-pe/gh-md.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Render Markdown using GitHub API in Emacs")
+      (description
+       "Functions to render Markdown content in Emacs using GitHub's Markdown
+ API.  It offers commands to preview Markdown from a region or buffer,
+displaying the rendered HTML within Emacs.  The package supports GitHub
+Flavored Markdown (GFM) and allows exporting the rendered content to an HTML
+file.")
       (license license:gpl3+))))
 
+;; bat -r 41925:41945 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-flx
   (let ((commit "4b1346eb9a8a76ee9c9dede69738c63ad97ac5b6")
         (revision "0"))
@@ -3667,6 +3725,7 @@ the higher it scores. This maps well to how we think about matching.
 Flx has support for ido (interactively do things) through flx-ido.")
       (license license:gpl3+))))
 
+;; bat -r 41947:41968 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-flx-ido
   (let ((commit "4b1346eb9a8a76ee9c9dede69738c63ad97ac5b6")
         (revision "0"))
@@ -3690,10 +3749,11 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (home-page "https://github.com/lewang/flx")
       (synopsis "Flx integration for ido")
       (description
-       "Fuzzy matching for Emacs a la Sublime Text.  A more powerful alternative to
-`ido-mode''s built-in flex matching.")
+       "Fuzzy matching for Emacs a la Sublime Text.  A more powerful
+alternative to `ido-mode''s built-in flex matching.")
       (license license:gpl3+))))
 
+;; bat -r 23602:23623 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-define-word
   (let ((commit "31a8c67405afa99d0e25e7c86a4ee7ef84a808fe")
         (revision "0"))
@@ -3704,15 +3764,20 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/abo-abo/define-word")
+               (url "https://github.com/abo-abo/define-word.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "0h3dasg81f1b08xvz38nyd887pdlv60kj8q50kk2aqlpkr8j0y18"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/abo-abo/define-word")
-      (synopsis "")
-      (description "")
+      (synopsis "Display word definitions in Emacs using online dictionaries")
+      (description
+       "Commands to display the definition of the word or phrase at point
+ within Emacs.  It retrieves definitions from online dictionary services and
+presents them in a popup buffer, eliminating the need to switch to a web
+browser.  Users can customize the backend service and keybindings to suit
+their workflow.")
       (license license:gpl3+))))
 
 ;; (define-public emacs-concurrent
@@ -3740,6 +3805,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
 ;;       (description "")
 ;;       (license license:gpl3+))))
 
+;; bat -r 17763:17786 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-company-shell
   (let ((commit "5f959a63a6e66eb0cbdac3168cad523a62cc2ccd")
         (revision "0"))
@@ -3750,7 +3816,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/Alexander-Miller/company-shell")
+               (url "https://github.com/Alexander-Miller/company-shell.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3759,12 +3825,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (propagated-inputs
        (list
         emacs-dash
-        emacs-company))
+        emacs-company
+        ))
       (home-page "https://github.com/Alexander-Miller/company-shell")
-      (synopsis "")
-      (description "")
+      (synopsis "Company-mode backends for shell command and environment completion")
+      (description
+       "Company-mode backends for shell scripting in Emacs.  It offers
+ completions for shell commands available in the system's PATH, environment
+variables, and fish shell functions.  The completions are cached for
+performance, and optional documentation strings can be retrieved from man
+pages or the '--help' output of commands.")
       (license license:gpl3+))))
 
+;; bat -r 37134:37155 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-evil-easymotion
   (let ((commit "f96c2ed38ddc07908db7c3c11bcd6285a3e8c2e9")
         (revision "0"))
@@ -3775,7 +3848,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/pythonnut/evil-easymotion")
+               (url "https://github.com/pythonnut/evil-easymotion.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3784,12 +3857,20 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (propagated-inputs
        (list
         emacs-avy
-        emacs-evil))
+        emacs-evil
+        ))
       (home-page "https://github.com/pythonnut/evil-easymotion")
-      (synopsis "")
-      (description "")
+      (synopsis "Vim-style quick navigation for evil-mode in Emacs")
+      (description
+       "Port of Vim's EasyMotion for Emacs' evil-mode.  It enables rapid cursor
+ movement by displaying target labels for jump points, allowing users to
+navigate efficiently with minimal keystrokes.  The package supports most
+standard motions and offers macros for defining custom motions with optional
+scoping and hooks.  It leverages avy for visual selection and can be
+configured with a prefix key using `evilem-default-keybindings`.")
       (license license:gpl3+))))
 
+;; bat -r 38633:38650 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-evil-tutor
   (let ((commit "4e124cd3911dc0d1b6817ad2c9e59b4753638f28")
         (revision "0"))
@@ -3800,7 +3881,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/syl20bnr/evil-tutor")
+               (url "https://github.com/syl20bnr/evil-tutor.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3808,14 +3889,20 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-evil))
+        emacs-evil
+        ))
       (home-page "https://github.com/syl20bnr/evil-tutor")
-      (synopsis "")
-      (description "")
+      (synopsis "Interactive Evil-mode tutorial inspired by Vimtutor")
+      (description
+       "Interactive tutorial for Emacs users learning Evil-mode, modeled after
+ Vim's vimtutor.  It guides users through modal editing concepts within a
+dedicated major mode, allowing navigation between lessons using `C-j` and
+`C-k`.  The tutorial preserves progress between sessions and is accessible via
+`M-x evil-tutor-start`.")
       (license license:gpl3+))))
 
 (define-public emacs-codegpt
-  (let ((commit "12b79c3a7f8d84709f065aa286ca2559573a9206")
+  (let ((commit "4c2af3fc359afb90d2da21653a52e17a128e0249")
         (revision "0"))
     (package
       (name "emacs-codegpt")
@@ -3824,11 +3911,11 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-openai/codegpt")
+               (url "https://github.com/emacs-openai/codegpt.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1wzghpbvy8ac1sjnj2070vnb699q9bsqjx7r6bvva22325ggpspm"))))
+          (base32 "17pb2khgxl4x3cvmi6bsi345fqi4g9bwx1cfr0xivr2vgd434l8m"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -3837,12 +3924,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
         emacs-openai
         ))
       (home-page "https://github.com/emacs-openai/codegpt")
-      (synopsis "")
-      (description "")
+      (synopsis "Emacs interface to OpenAI's GPT models for code generation and editing")
+      (description
+       "Integrates OpenAI's GPT models into Emacs, allowing users to generate,
+ explain, refactor, and document code directly within the editor.  It provides
+commands such as `codegpt-explain`, `codegpt-fix`, and `codegpt-doc`, and
+supports both completion and chat-based interactions.  Users can customize the
+model, temperature, and token limits, and an OpenAI API key is required for
+usage.")
       (license license:gpl3+))))
 
+;; bat -r 25658:25678 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-dired-quick-sort
-  (let ((commit "eaeab1021b391e3d6275ba7c186c5ac95fb8a10e")
+  (let ((commit "611acc82919e99ac37ce504934f5e8c605ad7efa")
         (revision "0"))
     (package
       (name "emacs-dired-quick-sort")
@@ -3851,21 +3945,28 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://gitlab.com/xuhdev/dired-quick-sort")
+               (url "https://gitlab.com/xuhdev/dired-quick-sort.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1sxdiw1qwpr49a0l2q899r78mnwcwqhj4dfs22261acw7ifk07yb"))))
+          (base32 "176zr0qcagfcmiqx5hg3vzbw41xfdmc8ws0sr6drc00izl8kj5jp"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
         emacs-hydra
         ))
       (home-page "https://gitlab.com/xuhdev/dired-quick-sort")
-      (synopsis "")
-      (description "")
+      (synopsis "Hydra-based quick sorting for Dired buffers in Emacs")
+      (description
+       "Persistent quick sorting of Dired buffers in Emacs using Hydra.  It
+ allows users to sort files by various criteria—such as name, size, or
+modification time—via an interactive menu.  The last used sorting preference
+is remembered across sessions when `savehist-mode` is enabled.  The package
+requires GNU `ls` and is compatible with TRAMP, though with limited
+functionality.")
       (license license:gpl3+))))
 
+;; bat -r 37562:37586 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-evil-lisp-state
   (let ((commit "3c65fecd9917a41eaf6460f22187e2323821f3ce")
         (revision "0"))
@@ -3876,7 +3977,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/syl20bnr/evil-lisp-state")
+               (url "https://github.com/syl20bnr/evil-lisp-state.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3886,12 +3987,17 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (list
         emacs-bind-map
         emacs-smartparens
-        emacs-evil))
+        emacs-evil
+        ))
       (home-page "https://github.com/syl20bnr/evil-lisp-state")
-      (synopsis "")
-      (description "")
+      (synopsis "Evil-mode state for structured Lisp editing with smartparens")
+      (description
+       "Dedicated Evil-mode state for structured editing of Lisp code using
+ smartparens.  It provides keybindings for operations like slurping, barfing,
+wrapping, and transposing s-expressions.")
       (license license:gpl3+))))
 
+;; bat -r 38510:38530 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-evil-textobj-line
   (let ((commit "9eaf9a5485c2b5c05e16552b34632ca520cd681d")
         (revision "0"))
@@ -3902,7 +4008,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacsorphanage/evil-textobj-line")
+               (url "https://github.com/emacsorphanage/evil-textobj-line.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3910,12 +4016,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-evil))
+        emacs-evil
+        ))
       (home-page "https://github.com/emacsorphanage/evil-textobj-line")
-      (synopsis "")
-      (description "")
+      (synopsis "Evil-mode text object for entire lines")
+      (description
+       "Emacs port of Vim's textobj-line, introducing a line-based text object
+ for evil-mode.  It allows users to select entire lines using the 'vil' (inner
+line) and 'val' (a line) motions.  The default keybinding is 'l' for both
+inner and outer line objects, customizable via `evil-textobj-line-i-key` and
+`evil-textobj-line-a-key`.")
       (license license:gpl3+))))
 
+;; bat -r 38733:38753 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-evil-visual-mark-mode
   (let ((commit "2bbaaae56ae53e68a8bcc7bc2cfe830a14843b4d")
         (revision "0"))
@@ -3926,7 +4039,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/roman/evil-visual-mark-mode")
+               (url "https://github.com/roman/evil-visual-mark-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3935,12 +4048,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (propagated-inputs
        (list
         emacs-dash
-        emacs-evil))
+        emacs-evil
+        ))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
-      (synopsis "")
-      (description "")
+      (synopsis "Display Evil-mode marks visually in Emacs buffers")
+      (description
+       "Minor mode for Emacs that displays all active Evil-mode marks directly
+ within the buffer.  It enhances navigation by making marks visible, allowing
+users to track important positions without manually cycling through them.
+Users can customize which marks are displayed by modifying the
+`evil-visual-mark-exclude-marks` list.")
       (license license:gpl3+))))
 
+;; bat -r 100472:100494 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-phpunit
   (let ((commit "650a50898de1fa4eeb47360b12aeb1126b2448c2")
         (revision "0"))
@@ -3951,7 +4071,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/nlamirault/phpunit.el")
+               (url "https://github.com/nlamirault/phpunit.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3960,12 +4080,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (propagated-inputs
        (list
         emacs-f
-        emacs-s))
+        emacs-s
+        ))
       (home-page "https://github.com/nlamirault/phpunit.el")
-      (synopsis "")
-      (description "")
-      (license license:gpl3+))))
+      (synopsis "Run PHPUnit tests from Emacs")
+      (description
+       "Emacs commands to execute PHPUnit tests directly from the editor.  It
+ allows running tests in the current buffer or project, supports customizable
+test commands, and integrates with `php-mode`.  Users can configure the
+PHPUnit executable path and additional options to suit their development
+environment.")
+      (license license:gpl2))))
 
+;; bat -r 100926:100947 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pip-requirements
   (let ((commit "31e0dc62abb2d88fa765e0ea88b919d756cc0e4f")
         (revision "0"))
@@ -3976,7 +4103,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/Wilfred/pip-requirements.el")
+               (url "https://github.com/Wilfred/pip-requirements.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -3984,12 +4111,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash))
+        emacs-dash
+        ))
       (home-page "https://github.com/Wilfred/pip-requirements.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Major mode for editing pip requirements files in Emacs")
+      (description
+       "Major mode for editing pip requirements files in Emacs.  It offers
+syntax highlighting, toggling of comments, and auto-completion of package
+names from PyPI using Emacs' built-in completion mechanisms.  The mode
+supports files like `requirements.txt` and `requirements.in`, and integrates
+with completion frameworks such as Company and Auto Complete.")
       (license license:gpl3+))))
 
+;; bat -r 42133:42154 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-flycheck-bashate
   (let ((commit "5e673c591d017329d0a07a61dc1223fa98639ee2")
         (revision "0"))
@@ -4000,7 +4134,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/alexmurray/flycheck-bashate")
+               (url "https://github.com/alexmurray/flycheck-bashate.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4008,12 +4142,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flycheck))
+        emacs-flycheck
+        ))
       (home-page "https://github.com/alexmurray/flycheck-bashate")
-      (synopsis "")
-      (description "")
+      (synopsis "Flycheck checker for Bash scripts using bashate")
+      (description
+       "Integrate the `bashate` linter with Flycheck in Emacs, enabling
+ real-time syntax checking of Bash scripts.  It helps enforce coding style
+guidelines and detect common issues in shell scripts.  The checker activates
+automatically in `sh-mode` buffers when `bashate` is available in the system
+path.")
       (license license:gpl3+))))
 
+;; bat -r 42468:42489 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-flycheck-credo
   (let ((commit "e285bd042a535d0f13e0b4c5226df404cdda4033")
         (revision "0"))
@@ -4024,7 +4165,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/aaronjensen/flycheck-credo")
+               (url "https://github.com/aaronjensen/flycheck-credo.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4032,12 +4173,19 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flycheck))
+        emacs-flycheck
+        ))
       (home-page "https://github.com/aaronjensen/flycheck-credo")
-      (synopsis "")
-      (description "")
+      (synopsis "Flycheck checker for Elixir using Credo")
+      (description
+       "Integrate the Credo static code analysis tool with Flycheck in Emacs,
+ enabling real-time linting of Elixir code.  It provides a Flycheck checker
+that runs Credo, allowing developers to identify code issues and maintain code
+quality directly within the editor.  Users can configure the checker to run in
+strict mode and customize its behavior through Flycheck variables.")
       (license license:gpl3+))))
 
+;; bat -r 42908:42929 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-flycheck-elsa
   (let ((commit "d60db9544d0c4213f2478bcea0fd0e668e31cf34")
         (revision "0"))
@@ -4048,7 +4196,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-elsa/flycheck-elsa")
+               (url "https://github.com/emacs-elsa/flycheck-elsa.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4056,12 +4204,20 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flycheck))
+        emacs-flycheck
+        ))
       (home-page "https://github.com/emacs-elsa/flycheck-elsa")
-      (synopsis "")
-      (description "")
+      (synopsis "Flycheck integration for Elsa, the Emacs Lisp static analyzer")
+      (description
+       "Integrate Elsa, a static analysis and gradual type system for Emacs
+ Lisp, with Flycheck to provide real-time linting and type checking within
+Emacs.  It supports both Eask and Cask backends for dependency management.  To
+enable, install `flycheck-elsa` from MELPA and add `flycheck-elsa-setup` to
+your `emacs-lisp-mode-hook`.  Elsa analyzes code without executing it,
+ensuring safe and side-effect-free checks.")
       (license license:gpl3+))))
 
+;; bat -r 44002:44025 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-flycheck-pos-tip
   (let ((commit "dc57beac0e59669926ad720c7af38b27c3a30467")
         (revision "0"))
@@ -4072,7 +4228,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/flycheck/flycheck-pos-tip")
+               (url "https://github.com/flycheck/flycheck-pos-tip.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4081,12 +4237,20 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (propagated-inputs
        (list
         emacs-pos-tip
-        emacs-flycheck))
+        emacs-flycheck
+        ))
       (home-page "https://github.com/flycheck/flycheck-pos-tip")
-      (synopsis "")
-      (description "")
+      (synopsis "Display Flycheck errors using pos-tip tooltips")
+      (description
+       "Flycheck extension that displays syntax errors and warnings in
+graphical popups using the pos-tip library.  When enabled, it shows error
+messages at point in a tooltip, offering a more visually integrated
+alternative to the minibuffer.  The extension is particularly useful in GUI
+environments and can be customized via the `flycheck-pos-tip-timeout` variable
+to control the duration of tooltip visibility.")
       (license license:gpl3+))))
 
+;; bat -r 50529:50550 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-gitignore-templates
   (let ((commit "d28cd1cec00242b688861648d36d086818b06099")
         (revision "0"))
@@ -4107,14 +4271,14 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (synopsis
        "Create .gitignore files in Emacs from GitHub or gitignore.io templates")
       (description
-       "This package allows Emacs users to generate .gitignore files by
- fetching templates from either GitHub's gitignore repository or the
- gitignore.io API.  Users can insert templates directly into the current buffer
- or create new .gitignore files based on specified templates.  The package
- offers customization options to select the preferred API source and supports
- proxy configurations for network access.")
+       "Generate .gitignore files by fetching templates from either GitHub's
+gitignore repository or the gitignore.io API.  Users can insert templates
+directly into the current buffer or create new .gitignore files based on
+specified templates.  The package offers customization options to select the
+preferred API source and supports proxy configurations for network access.")
       (license license:gpl3+))))
 
+;; bat -r 74213:74236 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-livid-mode
   (let ((commit "dfe5212fa64738bc4138bfebf349fbc8bc237c26")
         (revision "0"))
@@ -4125,7 +4289,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/pandeiro/livid-mode")
+               (url "https://github.com/pandeiro/livid-mode.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4134,12 +4298,20 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (propagated-inputs
        (list
         emacs-s
-        emacs-skewer-mode))
+        emacs-skewer-mode
+        ))
       (home-page "https://github.com/pandeiro/livid-mode")
-      (synopsis "")
-      (description "")
+      (synopsis "Live JavaScript evaluation in Emacs via Skewer integration")
+      (description
+       "Minor mode for Emacs that automatically evaluates JavaScript code in the
+browser whenever the buffer changes.  Built on top of `skewer-mode`, it
+compares the current buffer content to the previously evaluated version,
+checks for syntax errors using the external `js` command, and sends the code
+to the browser for evaluation if valid.  This facilitates a live coding
+experience similar to browser-based HTML/JS/CSS editors.")
       (license license:gpl3+))))
 
+;; bat -r 81159:81181 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-molokai-theme
   (let ((commit "cc53e997e7eff93b58ad16a376a292c1dd66044b")
         (revision "0"))
@@ -4150,7 +4322,7 @@ Flx has support for ido (interactively do things) through flx-ido.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/alloy-d/color-theme-molokai")
+               (url "https://github.com/alloy-d/color-theme-molokai.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -4162,57 +4334,74 @@ Flx has support for ido (interactively do things) through flx-ido.")
       (home-page "https://github.com/alloy-d/color-theme-molokai")
       (synopsis "Molokai color theme for Emacs")
       (description
-       "This package provides the Molokai color theme for Emacs, inspired by
- the popular Molokai theme from Vim.  It features a dark background with
- vibrant, contrasting colors, designed to reduce eye strain and improve code
- readability, especially during long coding sessions.  The theme is
- well-suited for developers who prefer a visually appealing and functional
- dark theme in their Emacs setup.")
+       "Molokai color theme for Emacs, inspired by the popular Molokai theme
+ from Vim.  It features a dark background with vibrant, contrasting colors,
+ designed to reduce eye strain and improve code readability, especially during
+ long coding sessions.  The theme is well-suited for developers who prefer a
+ visually appealing and functional dark theme in their Emacs setup.")
       (license license:gpl3+))))
 
+;; bat -r 131167:131195 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-vimish-fold
   (let ((commit "a6501cbfe3db791f9ca17fd986c7202a87f3adb8") (revision "0"))
     (package
       (name "emacs-vimish-fold")
-      (version (git-version "20201205.1156" revision commit))
+      (version (git-version "0.3.0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/mrkkrp/vimish-fold")
+               (url "https://github.com/mrkkrp/vimish-fold.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256 (base32 "0w0r951c6vn890h1cz5l8rl6hicna6rbdzfgbg4lpm280yds9lpb"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-f))
+        emacs-f
+        ))
       (home-page "https://github.com/mrkkrp/vimish-fold")
-      (synopsis "")
-      (description "")
+      (synopsis "Persistent, Vim-style text folding for Emacs")
+      (description
+       "Vim-like text folding capabilities in Emacs.  It allows users to fold
+ active regions, automatically create folds from markers like `{{{` and `}}}`,
+and persist folds across sessions.  Features include visual indicators for
+folded regions, mouse support for toggling folds, and integration with `avy`
+for quick fold navigation.  The package is lightweight and scales well, making
+it suitable for managing folds in large projects.")
       (license license:gpl3+))))
 
+;; bat -r 38709:38731 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-evil-vimish-fold
-  (let ((commit "b6e0e6b91b8cd047e80debef1a536d9d49eef31a") (revision "0"))
+  (let ((commit "b6e0e6b91b8cd047e80debef1a536d9d49eef31a")
+        (revision "0"))
     (package
       (name "emacs-evil-vimish-fold")
-      (version (git-version "20200122.117" revision commit))
+      (version (git-version "0.3" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/alexmurray/evil-vimish-fold")
+               (url "https://github.com/alexmurray/evil-vimish-fold.git")
                (commit commit)))
          (file-name (git-file-name name version))
-         (sha256 (base32 "14qhfhk3d4c7v4jhr909dbxy8222flpqwk73bwg0pqwpkcifyv7n"))))
+         (sha256
+          (base32 "14qhfhk3d4c7v4jhr909dbxy8222flpqwk73bwg0pqwpkcifyv7n"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
         emacs-vimish-fold
-        emacs-evil))
+        emacs-evil
+        ))
       (home-page "https://github.com/alexmurray/evil-vimish-fold")
-      (synopsis "")
-      (description "")
+      (synopsis "Vim-style folding for Evil-mode using vimish-fold")
+      (description
+       "Integrate vimish-fold with Evil-mode in Emacs, providing Vim-like
+folding commands.  It enables users to create and delete folds using `zf` and
+`zd`, toggle folds with `za`, open and close folds with `zo` and `zc`, and
+navigate between folds using `zj` and `zk`.  The mode can be activated
+globally for specified major modes or configured per mode.  It requires both
+`evil` and `vimish-fold` to function.")
       (license license:gpl3+))))
 
 (define-public emacs-hide-comnt
@@ -4227,8 +4416,12 @@ Flx has support for ido (interactively do things) through flx-ido.")
         (base32 "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n"))))
     (build-system emacs-build-system)
     (home-page "https://www.emacswiki.org/emacs/download/hide-comnt.el")
-    (synopsis "")
-    (description "")
+    (synopsis "Hide or show comments in code buffers")
+    (description
+     "Commands to hide or show comments in the current buffer or active region.
+  It allows toggling comment visibility to reduce visual clutter when editing
+code.  The package also offers an option to hide whitespace preceding
+comments.")
     (license license:gpl3+)))
 
 (define-public emacs-info+
@@ -4236,56 +4429,64 @@ Flx has support for ido (interactively do things) through flx-ido.")
     (inherit emacs-info-plus)
     (name "emacs-info+")))
 
+;; bat -r 74119:74143 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-live-py-mode
-  (package
-    (name "emacs-live-py-mode")
-    (version "4.12")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/donkirkby/live-py-plugin.git")
-             (commit "38367a19f81acf9d96d713a88677d34d94ab874a")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1vrl3038b5ln5isszzbicwp9wyrk7kmi5br8dyqx8a43ixfgiggr"))))
-    (build-system emacs-build-system)
-    (arguments
-     '(#:include (cons* "^emacs-live-py-mode/live-py-mode.el$"
-                        "^plugin/PySrc/[^/]+$"
-                        %default-include)))
-    (home-page "http://donkirkby.github.io/live-py-plugin/")
-    (synopsis "Live Coding in Python")
-    (description
-     "To use it, open a Python file and run M-x live-py-mode If that doesn't work,
-put the following in your Emacs configuration file: (require live-py-mode).")
-    (license license:expat-0)))
+  (let ((commit "fa2ea9a45738012d4a391e0a35809a655692b0fc")
+        (revision "0"))
+    (package
+      (name "emacs-live-py-mode")
+      (version (git-version "4.12" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/donkirkby/live-py-plugin.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "03gk9nxjafgzgqrch159zf1r1575wf50pc5yjc9q4qmvcisyaf6j"))))
+      (build-system emacs-build-system)
+      (arguments
+       '(#:include (cons* "^emacs-live-py-mode/live-py-mode.el$"
+                          "^plugin/PySrc/[^/]+$"
+                          %default-include)))
+      (home-page "http://donkirkby.github.io/live-py-plugin/")
+      (synopsis "Live Python coding with real-time visualization in Emacs")
+      (description
+       "Minor mode for Emacs that enables live coding in Python.  As you type,
+ your code is continuously executed, and the results are displayed in
+real-time, including variable states, exceptions, and graphical outputs like
+matplotlib plots and turtle graphics.  This immediate feedback loop aids in
+understanding and debugging code more efficiently.  The mode is particularly
+beneficial for learning, teaching, and rapid prototyping in Python.")
+      (license license:expat-0))))
 
+;; bat -r 84174:84195 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-nerd-icons
-  (package
-    (name "emacs-nerd-icons")
-    (version "20250324.147")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/rainstormstudio/nerd-icons.el.git")
-             (commit "14f7278dd7eb5eca762a6ff32467c72c661c0aae")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1r5wj13k6khlmkn5wy2q2n674bc551rpxn04x46j0brzgmd85k7g"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:include #~(cons* "^data/" %default-include)))
-    (home-page "https://github.com/rainstormstudio/nerd-icons.el")
-    (synopsis "Emacs Nerd Font Icons Library")
-    (description
-     "This package was inspired by - `all-the-icons', found at
-https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-all-the-icons.el
-- `vim-devicons for Vim, found at https://github.com/ryanoasis/vim-devicons -
-`nvim-web-devicons for @code{NeoVim}, found at
-https://github.com/nvim-tree/nvim-web-devicons This package provides an
-interface to the Nerd Fonts - `nerd-fonts', found at
-https://github.com/ryanoasis/nerd-fonts.")
-    (license license:gpl3+)))
+  (let ((commit "1cb883d928ec046358d2b65db0bb898a1dfffd0a")
+        (revision "0"))
+    (package
+      (name "emacs-nerd-icons")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/rainstormstudio/nerd-icons.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0r3gv9z04asqjsnasjm2avk9gllqkng6ns14l0svrqxac4c2pp70"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:include #~(cons* "^data/" %default-include)))
+      (home-page "https://github.com/rainstormstudio/nerd-icons.el")
+      (synopsis "Nerd Font icon library for Emacs")
+      (description
+       "Library for integrating Nerd Font icons into Emacs.  It serves as an
+ alternative to all-the-icons, offering compatibility with both GUI and
+terminal environments.  The package includes functions to retrieve icons for
+files, modes, and URLs, enhancing the visual experience in Emacs interfaces
+such as Dired, Eshell, and modelines.")
+      (license license:gpl3+))))
