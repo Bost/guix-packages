@@ -420,7 +420,8 @@ debugging workflow.")
         emacs-dash
         emacs-f
         emacs-ht
-        emacs-treemacs))
+        (@(bost gnu packages emacs-xyz-magit) emacs-treemacs)
+        ))
       (home-page "https://github.com/emacs-lsp/lsp-metals")
       (synopsis "Scala support for LSP mode")
       (description "This package is an Emacs Scala IDE using LSP mode to connect
@@ -538,8 +539,9 @@ to Metals.")
         emacs-dash
         emacs-f
         emacs-ht
-        emacs-treemacs
-        emacs-lsp-mode))
+        (@(bost gnu packages emacs-xyz-magit) emacs-treemacs)
+        emacs-lsp-mode
+        ))
       (home-page "https://github.com/emacs-lsp/lsp-treemacs")
       (synopsis "Integration between LSP mode and treemacs")
       (description
@@ -607,7 +609,7 @@ Debug server.")
         emacs-f
         emacs-ht
         emacs-request
-        emacs-treemacs
+        (@(bost gnu packages emacs-xyz-magit) emacs-treemacs)
         ))
       (home-page "https://github.com/emacs-lsp/lsp-java/")
       (synopsis "Java support for lsp-mode")
