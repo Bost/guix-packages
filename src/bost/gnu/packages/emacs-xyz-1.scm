@@ -4514,3 +4514,35 @@ such as Dired, Eshell, and modelines.")
  various package managers, including Guix, Nix, APT, and Homebrew.  Users can
 install, update, and remove packages without leaving the editor.")
       (license license:gpl3+))))
+
+(define-public emacs-pet
+  (let ((commit "e5c963b38d9eedf4b01bf4843c8c9261514c58bb")
+        (revision "0"))
+    (package
+      (name "emacs-pet")
+      (version (git-version "3.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/wyuenho/emacs-pet.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "185qbqfnkvidqsqg1lw4gb2qbw9qlnqwiql5wbgwing4k3ahcddx"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-f
+        emacs-map
+        emacs-seq
+        ))
+      (home-page "https://github.com/wyuenho/emacs-pet/")
+      (synopsis "Automatically configure Python tooling paths in Emacs")
+      (description
+       "Minor mode for Emacs that automatically detects and sets the correct
+ paths to Python tooling executables (e.g., linters, formatters) based on the
+project's virtual environment.  It supports various virtual environment tools
+such as poetry, pipenv, conda, and direnv, ensuring seamless integration with
+Emacs packages like flycheck and lsp-mode.")
+      (license license:gpl3+))))

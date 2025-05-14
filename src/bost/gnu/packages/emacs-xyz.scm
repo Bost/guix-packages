@@ -280,6 +280,7 @@
    emacs-pdf-tools
    emacs-pdf-view-restore
    emacs-persistent-soft
+   emacs-pet
    emacs-phoenix-dark-mono-theme
    emacs-phoenix-dark-pink-theme
    emacs-php-auto-yasnippets
