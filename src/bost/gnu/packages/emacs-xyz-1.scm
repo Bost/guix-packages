@@ -4490,3 +4490,27 @@ terminal environments.  The package includes functions to retrieve icons for
 files, modes, and URLs, enhancing the visual experience in Emacs interfaces
 such as Dired, Eshell, and modelines.")
       (license license:gpl3+))))
+
+(define-public emacs-system-packages
+  (let ((commit "c087d2c6e598f85fc2760324dce20104ea442fa3")
+        (revision "0"))
+    (package
+      (name "emacs-system-packages")
+      (version (git-version "1.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://gitlab.com/jabranham/system-packages.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "00idwy8jzvkgs8qzafiy6s344rgms452n8mxbjg6yszwp3y3hmq1"))))
+      (build-system emacs-build-system)
+      (home-page "https://gitlab.com/jabranham/system-packages")
+      (synopsis "Manage system packages from within Emacs")
+      (description
+       "Manage installed system packages directly from Emacs.  It supports
+ various package managers, including Guix, Nix, APT, and Homebrew.  Users can
+install, update, and remove packages without leaving the editor.")
+      (license license:gpl3+))))
