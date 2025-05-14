@@ -855,17 +855,21 @@ comprehensive documentation lookup directly into the Emacs environment.")
               (bst:write-pkg-file "company-php")
               )))))
     (inputs
-     (list emacs-auto-complete
-           emacs-company
-           emacs-dash
-           emacs-f
-           emacs-helm
-           emacs-php-mode
-           emacs-popup
-           emacs-s
-           emacs-xcscope))
+     (list
+      emacs-auto-complete
+      emacs-company
+      emacs-dash
+      emacs-f
+      emacs-helm
+      emacs-php-mode
+      emacs-popup
+      emacs-s
+      emacs-xcscope
+      ))
     (native-inputs
-     (list emacs-ert-runner))
+     (list
+      emacs-ert-runner
+      ))
     (home-page "https://github.com/xcwen/ac-php")
     (synopsis "Emacs Auto Complete & Company mode for PHP")
     (description
