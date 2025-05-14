@@ -367,6 +367,7 @@
    emacs-wfnames
    emacs-white-sand-theme
    emacs-winum
+   emacs-with-editor
    emacs-writeroom-mode
    emacs-xhair
    emacs-yapfify

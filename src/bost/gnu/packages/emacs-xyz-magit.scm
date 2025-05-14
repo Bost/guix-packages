@@ -135,6 +135,74 @@
   #:use-module (bost guix build emacs-utils)
   )
 
+(define-public emacs-with-editor
+  (let ((commit "ca902ae02972bdd6919a902be2593d8cb6bd991b")
+        (revision "0"))
+    (package
+      (name "emacs-with-editor")
+      (version (git-version "3.4.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/magit/with-editor.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0h21qs60qihv4p72x5wbmc0xly4g74wc25qj8m9slfbc4am9mwys"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (replace 'make-autoloads
+              (lambda args
+                (with-directory-excursion "lisp"
+                  (apply (assoc-ref %standard-phases 'make-autoloads) args))))
+
+            (add-before 'install 'enter-lisp-directory
+              (lambda _
+                (chdir "lisp")))
+            (add-before 'install 'make-info
+              (lambda _
+                (with-directory-excursion "../docs"
+                  (invoke "makeinfo" "--no-split"
+                          "-o" "with-editor.info" "with-editor.texi")
+                  (install-file "with-editor.info" "../lisp"))))
+
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (chdir "lisp")
+                (bst:write-pkg-file "with-editor")
+                (chdir "..")
+                ))
+            )))
+      (native-inputs
+       (list
+        texinfo
+        ))
+      (propagated-inputs
+       (list
+        emacs-async
+        emacs-compat
+        ))
+      (home-page "https://github.com/magit/with-editor")
+      (synopsis "Emacs library for using Emacsclient as EDITOR")
+      (description
+       "This package provides an Emacs library to use the Emacsclient as
+@code{$EDITOR} of child processes, making sure they know how to call home.
+For remote processes a substitute is provided, which communicates with Emacs
+on stdout instead of using a socket as the Emacsclient does.")
+      (license license:gpl3+))))
+
 (define-public emacs-magit
   (let ((commit "04ee83d93fabbfbe202e9e7dc781b0dcd4d5b502")
         (revision "0"))
@@ -192,13 +260,24 @@
                 (bst:write-pkg-file "magit-section")
                 )))))
       (native-inputs
-       (list texinfo pkg-config))
+       (list
+        texinfo
+        pkg-config
+        ))
       (inputs
-       (list git perl))
+       (list
+        git
+        perl
+        ))
       (propagated-inputs
        ;; Note: the 'git-commit' and 'magit-section' dependencies are part of
        ;; magit itself.
-       (list emacs-compat emacs-transient emacs-with-editor emacs-llama))
+       (list
+        emacs-compat
+        emacs-transient
+        emacs-with-editor
+        emacs-llama
+        ))
       (home-page "https://magit.vc/")
       (synopsis "Emacs interface for the Git version control system")
       (description
@@ -526,7 +605,12 @@ as the current patch using @code{a}, and it can be discarded using @code{k}.  Ot
          (sha256
           (base32 "0x419qz80ir9ni94j3n08a5ygfq1265fpr13dsnxjjnlwjbq7sx7"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-dash emacs-with-editor emacs-magit))
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-with-editor
+        emacs-magit
+        ))
       (home-page "https://github.com/magit/magit-svn")
       (synopsis "Git-SVN extension to Magit")
       (description
