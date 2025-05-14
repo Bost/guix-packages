@@ -304,7 +304,11 @@ stuff in Emacs (like buffers, files, etc).")
           (base32 "0x3fwp059whrrqmdciacvchin5pfkvdv93ayw9vhvxzispp5nyw7"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-helm emacs-lsp-mode emacs-dash))
+       (list
+        emacs-helm
+        (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
+        emacs-dash
+        ))
       (home-page "https://github.com/emacs-lsp/helm-lsp")
       (synopsis "Provide LSP-enhanced completion for symbols")
       (description
