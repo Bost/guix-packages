@@ -945,35 +945,30 @@ utilities.")
         mu           ; emacs-lisp package which provides mu4e
         )))))
 
-;; (define-public emacs-treemacs-projectile
-;;   (package
-;;     (inherit emacs-treemacs)
-;;     (name "emacs-treemacs-projectile")))
+(define-public emacs-treemacs-evil
+  (package
+    (inherit emacs-treemacs-extra)
+    (name "emacs-treemacs-evil")))
 
-;; (define-public emacs-treemacs-projectile
-;;   (let ((commit "820b09db106a48db76d95e3a266d1e67ae1b6bdb")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-treemacs-projectile")
-;;       (version (git-version "3.2" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/Alexander-Miller/treemacs.git")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "1gmp3dvji3ank0qh0fhygla2iy9pc2pg07d342wzs1mysgcdj2l8"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs (list emacs-projectile emacs-treemacs))
-;;       (arguments
-;;        (list
-;;         #:include #~(list "^src/extra/treemacs-projectile.el$")))
-;;       (home-page "https://github.com/Alexander-Miller/treemacs")
-;;       (synopsis "Projectile integration for treemacs")
-;;       (description "Projectile integration for treemacs.")
-;;       (license license:gpl3+))))
+(define-public emacs-treemacs-icons-dired
+  (package
+    (inherit emacs-treemacs-extra)
+    (name "emacs-treemacs-icons-dired")))
+
+(define-public emacs-treemacs-magit
+  (package
+    (inherit emacs-treemacs-extra)
+    (name "emacs-treemacs-magit")))
+
+(define-public emacs-treemacs-persp
+  (package
+    (inherit emacs-treemacs-extra)
+    (name "emacs-treemacs-persp")))
+
+(define-public emacs-treemacs-projectile
+  (package
+    (inherit emacs-treemacs-extra)
+    (name "emacs-treemacs-projectile")))
 
 (define-public emacs-lsp-volar
   (package

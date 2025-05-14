@@ -231,8 +231,8 @@
    emacs-magit-annex
    emacs-magit-gerrit
    emacs-magit-org-todos-el
-   emacs-magit-stgit
    emacs-magit-section
+   emacs-magit-stgit
    emacs-magit-svn
    emacs-magit-tbdiff
    emacs-magit-todos
@@ -339,7 +339,12 @@
    emacs-tmux
    emacs-toxi-theme
    emacs-treemacs
+   emacs-treemacs-evil
    emacs-treemacs-extra
+   emacs-treemacs-icons-dired
+   emacs-treemacs-magit
+   emacs-treemacs-persp
+   emacs-treemacs-projectile
    emacs-tweaks
    emacs-twilight-anti-bright-theme
    emacs-twilight-bright-theme
