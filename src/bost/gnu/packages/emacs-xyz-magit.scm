@@ -919,29 +919,31 @@ utilities.")
             (add-after 'chdir-elisp 'copy-extra
               (lambda _
                 (copy-recursively "../extra" ".")))
-            ;; (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-            ;;   (lambda* (#:key outputs #:allow-other-keys)
-            ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
-            ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-            ;;     (bst:write-pkg-file "treemacs-all-the-icons")
-            ;;     (bst:write-pkg-file "treemacs-evil")
-            ;;     (bst:write-pkg-file "treemacs-icons-dired")
-            ;;     (bst:write-pkg-file "treemacs-magit")
-            ;;     (bst:write-pkg-file "treemacs-mu4e")
-            ;;     (bst:write-pkg-file "treemacs-persp")
-            ;;     (bst:write-pkg-file "treemacs-perspective")
-            ;;     (bst:write-pkg-file "treemacs-projectile")
-            ;;     (bst:write-pkg-file "treemacs-tab-bar")))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                ;; (format #t "(getcwd) : ~a\n" (getcwd))
+                ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
+                (bst:write-pkg-file "treemacs-all-the-icons")
+                (bst:write-pkg-file "treemacs-evil")
+                (bst:write-pkg-file "treemacs-icons-dired")
+                (bst:write-pkg-file "treemacs-magit")
+                (bst:write-pkg-file "treemacs-mu4e")
+                (bst:write-pkg-file "treemacs-persp")
+                (bst:write-pkg-file "treemacs-perspective")
+                (bst:write-pkg-file "treemacs-projectile")
+                (bst:write-pkg-file "treemacs-tab-bar")))
             ))))
     (propagated-inputs
      (modify-inputs (package-propagated-inputs emacs-treemacs)
-       (append emacs-all-the-icons
-               emacs-evil
-               emacs-magit
-               emacs-projectile
-               emacs-persp-mode
-               emacs-perspective
-               mu)))))
+       (append
+        emacs-all-the-icons
+        emacs-evil
+        emacs-magit
+        emacs-projectile
+        emacs-persp-mode
+        emacs-perspective
+        mu           ; emacs-lisp package which provides mu4e
+        )))))
 
 ;; (define-public emacs-treemacs-projectile
 ;;   (package
