@@ -862,7 +862,11 @@ based on diff output.")
                    (string-append (elpa-directory #$output) "/icons/default"))
                   (copy-recursively
                    "src/scripts"
-                   (string-append (elpa-directory #$output) "/scripts")))))
+                   (string-append (elpa-directory #$output) "/scripts"))
+                  ;; (copy-recursively
+                  ;;  "src/extra"
+                  ;;  (string-append (elpa-directory #$output) "/extra"))
+                  )))
             ;; (add-after 'ensure-package-description 'add-needed-pkg-descriptions
             ;;   (lambda* (#:key outputs #:allow-other-keys)
             ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
@@ -883,11 +887,23 @@ based on diff output.")
             ;;     ))
             )))
       (native-inputs
-       (list emacs-buttercup emacs-el-mock))
+       (list
+        emacs-buttercup
+        emacs-el-mock
+        ))
       (inputs
-       (list python))
+       (list
+        python
+        ))
       (propagated-inputs
        (list
+        ;; emacs-projectile    ; for src/extra
+        ;; emacs-perspective   ; for src/extra
+        ;; emacs-persp-mode    ; for src/extra
+        ;; mu                  ; for src/extra ; emacs-lisp package providing mu4e
+        ;; emacs-magit         ; for src/extra
+        ;; emacs-evil          ; for src/extra
+        ;; emacs-all-the-icons ; for src/extra
         emacs-ace-window
         emacs-cfrs
         emacs-dash
