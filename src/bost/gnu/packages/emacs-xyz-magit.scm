@@ -180,10 +180,8 @@
 
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (chdir "lisp")
-                (bst:write-pkg-file "with-editor")
-                (chdir "..")
-                ))
+                (with-directory-excursion "lisp"
+                  (bst:write-pkg-file "with-editor"))))
             )))
       (native-inputs
        (list
@@ -956,19 +954,17 @@ based on diff output.")
             ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
             ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
             ;;     (bst:write-pkg-file "treemacs-treelib")
-            ;;     (chdir "../extra")
-            ;;     (bst:write-pkg-file "treemacs-all-the-icons")
-            ;;     (bst:write-pkg-file "treemacs-evil")
-            ;;     (bst:write-pkg-file "treemacs-icons-dired")
-            ;;     (bst:write-pkg-file "treemacs-magit")
-            ;;     (bst:write-pkg-file "treemacs-mu4e")
-            ;;     (bst:write-pkg-file "treemacs-persp")
-            ;;     (bst:write-pkg-file "treemacs-perspective")
-            ;;     (bst:write-pkg-file "treemacs-projectile")
-            ;;     (bst:write-pkg-file "treemacs-tab-bar")
-            ;;     (chdir "../elisp")
-            ;;     ;; The ../scripts directory contains python files
-            ;;     ))
+            ;;     (with-directory-excursion "../extra"
+            ;;       (bst:write-pkg-file "treemacs-all-the-icons")
+            ;;       (bst:write-pkg-file "treemacs-evil")
+            ;;       (bst:write-pkg-file "treemacs-icons-dired")
+            ;;       (bst:write-pkg-file "treemacs-magit")
+            ;;       (bst:write-pkg-file "treemacs-mu4e")
+            ;;       (bst:write-pkg-file "treemacs-persp")
+            ;;       (bst:write-pkg-file "treemacs-perspective")
+            ;;       (bst:write-pkg-file "treemacs-projectile")
+            ;;       (bst:write-pkg-file "treemacs-tab-bar")
+            ;;       )))
             )))
       (native-inputs
        (list

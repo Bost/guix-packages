@@ -197,9 +197,8 @@
          ;; emacs-build-system The `gnu-build-system' doesn't contain it.
          (add-after 'unpack 'add-needed-pkg-descriptions
            (lambda* (#:key outputs #:allow-other-keys)
-             (chdir "./lisp")
-             (bst:write-pkg-file "pdf-tools")
-             (chdir ".."))))))
+             (with-directory-excursion "lisp"
+               (bst:write-pkg-file "pdf-tools")))))))
     (native-inputs
      (list
       autoconf
