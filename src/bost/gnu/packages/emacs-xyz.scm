@@ -8,6 +8,7 @@
   (
    ;; emacs-concurrent
    emacs-ac-php
+   emacs-ac-php-core
    emacs-ace-jump-helm-line
    emacs-ample-zen-theme
    emacs-anti-zenburn-theme
