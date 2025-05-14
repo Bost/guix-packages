@@ -2736,7 +2736,7 @@ without leaving the Emacs environment.")
       (propagated-inputs
        (list
         emacs-consult
-        emacs-lsp-mode
+        (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
         ))
       (home-page "https://github.com/ROCKTAKEY/lsp-latex")
       (synopsis "Enhanced LSP support for LaTeX in Emacs using Texlab")
