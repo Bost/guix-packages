@@ -189,7 +189,6 @@
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; (format #t "(getcwd) : ~a\n" (getcwd))
                 ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                ;; (chdir "")
                 (bst:write-pkg-file "lsp-mode")
                 ))
             )))
@@ -512,7 +511,6 @@ debugging workflow.")
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; (format #t "(getcwd) : ~a\n" (getcwd))
                 ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                ;; (chdir "")
                 (bst:write-pkg-file "lsp-metals-protocol")
                 (bst:write-pkg-file "lsp-metals-treeview")
                 )))))
