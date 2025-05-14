@@ -551,7 +551,7 @@ support for Git-SVN.")
       (propagated-inputs
        (list
         emacs-compat
-        emacs-lsp-mode
+        (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
         emacs-dash
         emacs-magit
         ))
@@ -988,7 +988,7 @@ utilities.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      emacs-lsp-mode
+      (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
       ))
     (home-page
      "https://github.com/jadestrong/lsp-volar")
