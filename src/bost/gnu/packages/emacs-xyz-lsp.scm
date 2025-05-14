@@ -209,6 +209,37 @@ optional integration with other popular Emacs packages like Company, Flycheck,
 and Projectile.")
       (license license:gpl3+))))
 
+(define-public emacs-lsp-ui
+  (let ((commit "a0dde8b52b4411cbac2eb053ef1515635ea0b7ed")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-ui")
+      (version (git-version "9.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-ui.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0zyv1rar9vmxxs5n0mly5m9k5m8gia85c8c5rjap8fvrrbmjcfaa"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-dash
+        emacs-lsp-mode
+        emacs-markdown-mode
+        emacs-flycheck
+        ))
+      (home-page "https://github.com/emacs-lsp/lsp-ui")
+      (synopsis "User interface extensions for @code{lsp-mode}")
+      (description
+       "@code{LSP-ui} contains several enhancements and integrations for
+@code{lsp-mode}, such as visual flychecking, displaying references in-line,
+and code peeking.")
+      (license license:gpl3+))))
+
 (define-public emacs-lsp-haskell
   (let [(commit "081d5115ceb1f1647497a8a3de4ca0702aaadb48")
         (revision "0")]

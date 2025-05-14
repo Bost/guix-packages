@@ -219,6 +219,7 @@
    emacs-lsp-pyright
    emacs-lsp-python-ms
    emacs-lsp-treemacs
+   emacs-lsp-ui
    emacs-lsp-volar
    emacs-lush-theme
    emacs-lv
