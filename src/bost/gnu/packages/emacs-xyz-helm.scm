@@ -878,6 +878,13 @@ comprehensive documentation lookup directly into the Emacs environment.")
     (inherit emacs-ac-php)
     (name "emacs-company-php")))
 
+;; Required from company-php
+;; See <path/to/spacemacs>/layers/+lang/php/packages.el
+(define-public emacs-ac-php-core
+  (package
+    (inherit emacs-ac-php)
+    (name "emacs-ac-php-core")))
+
 (define-public emacs-helm-org
   (let ((commit "4744ca7f8b35e17bafce9cb0093deb87a232699d")
         (revision "3"))
