@@ -966,6 +966,12 @@ as well as features for editing search results.")
  Emacs.")
       (license license:gpl3+))))
 
+;; Required by <path/to/spacemacs>/layers/+emacs/org/packages.el
+(define-public emacs-org-projectile
+  (package
+    (inherit emacs-org-project-capture)
+    (name "emacs-org-projectile")))
+
 (define-public emacs-helm-comint
   (let ((commit "5f435ede181818b6f8c58ad7b45f47acd2721daf")
         (revision "0"))

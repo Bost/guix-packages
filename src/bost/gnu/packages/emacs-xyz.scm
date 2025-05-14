@@ -263,6 +263,7 @@
    emacs-open-junk-file
    emacs-openai
    emacs-org-project-capture
+   emacs-org-projectile
    emacs-organic-green-theme
    emacs-orgit
    emacs-orgit-forge
