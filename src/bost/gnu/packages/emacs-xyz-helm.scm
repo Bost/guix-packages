@@ -256,47 +256,61 @@ Information will be saved relative to the pdf being viewed so ensure
       (license license:gpl3+))))
 
 (define-public emacs-helm
-  (package
-    (name "emacs-helm")
-    (version "4.0.2")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacs-helm/helm")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0l9p6yiv8w9s0rpa4fyrp9gw1dgwpyr9fmkhs53bhc6v9x7br8ix"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:modules '((guix build emacs-build-system)
-                  (guix build utils)
-                  (guix build emacs-utils)
-                  ((bost guix build emacs-utils) #:prefix bst:))
-      #:imported-modules `(,@%default-gnu-imported-modules
-                           (guix build emacs-build-system)
-                           (guix build emacs-utils)
-                           (bost guix build emacs-utils))
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-            (lambda* (#:key outputs #:allow-other-keys)
-              (bst:write-pkg-file "helm-core")
-              (bst:write-pkg-file "helm-easymenu")
-              (bst:write-pkg-file "helm-files")
-              (bst:write-pkg-file "helm-net")
-              )))))
-    (propagated-inputs
-     (list emacs-async emacs-popup))
-    (home-page "https://emacs-helm.github.io/helm/")
-    (synopsis "Incremental completion and selection narrowing framework for Emacs")
-    (description
-     "Helm is an incremental completion and selection narrowing framework for
+  (let ((commit "e03edf775af41053c8a4de98f370689d4525077b")
+        (revision "0"))
+    (package
+      (name "emacs-helm")
+      (version (git-version "4.0.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-helm/helm.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1amm4n5v2v5z2ln1qzhf0n2rj4v89flhk9dip3kbngdwy2a8q2h4"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "helm-core")
+                (bst:write-pkg-file "helm-easymenu")
+                (bst:write-pkg-file "helm-files")
+                (bst:write-pkg-file "helm-net")
+                )))))
+      (propagated-inputs
+       (list
+        emacs-async
+        emacs-popup
+        ))
+      (home-page "https://emacs-helm.github.io/helm/")
+      (synopsis "Incremental completion and selection narrowing framework for Emacs")
+      (description
+       "Helm is an incremental completion and selection narrowing framework for
 Emacs.  It will help steer you in the right direction when you're looking for
 stuff in Emacs (like buffers, files, etc).")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
+
+;; 1. <path/to/spacemacs>/layers/+checkers/spell-checking/packages.el requires flyspell-correct-helm
+;; 2. flyspell-correct-helm requires helm
+;; 3. helm requires helm-core
+;; See (configuration-layer//get-package-deps-from-archive 'flyspell-correct-helm)
+(define-public emacs-helm-core
+  (package
+    (inherit emacs-helm)
+    (name "emacs-helm-core")))
 
 (define-public emacs-helm-lsp
   (let ((commit "54926afd10da52039f8858a99d426cae2aa4c07d")
