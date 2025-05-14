@@ -329,6 +329,7 @@
    emacs-subatomic256-theme
    emacs-sublime-themes
    emacs-sunny-day-theme
+   emacs-system-packages
    emacs-systemd
    emacs-tango-2-theme
    emacs-tango-plus-theme
