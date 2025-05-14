@@ -187,7 +187,9 @@
             (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 (bst:write-pkg-file "git-commit")
-                ;; (bst:write-pkg-file "magit-section")
+                ;; `guix build ... emacs-magit-section` doesn't automatically
+                ;; create the magit-section-pkg.el
+                (bst:write-pkg-file "magit-section")
                 )))))
       (native-inputs
        (list texinfo pkg-config))
@@ -207,6 +209,7 @@ changes.  There is support for cherry picking, reverting, merging,
 rebasing, and other common Git operations.")
       (license license:gpl3+))))
 
+;; Required by <path/to/spacemacs>/layers/+source-control/git/packages.el
 (define-public emacs-magit-section
   (package
     (inherit emacs-magit)
