@@ -185,7 +185,7 @@
               (lambda _
                 (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
                   (("/bin/ksh") "ksh"))))
-            (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; (format #t "(getcwd) : ~a\n" (getcwd))
                 ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
@@ -508,7 +508,7 @@ debugging workflow.")
                              (bost guix build emacs-utils))
         #:phases
         #~(modify-phases %standard-phases
-            (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; (format #t "(getcwd) : ~a\n" (getcwd))
                 ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp

@@ -184,7 +184,7 @@
                 (emacs-substitute-variables "magit-sequence.el"
                   ("magit-perl-executable"
                    (search-input-file inputs "/bin/perl")))))
-            (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 (bst:write-pkg-file "git-commit")
                 ;; `guix build ... emacs-magit-section` doesn't automatically
@@ -863,7 +863,7 @@ based on diff output.")
                   (copy-recursively
                    "src/scripts"
                    (string-append (elpa-directory #$output) "/scripts")))))
-            ;; (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            ;; (add-after 'ensure-package-description 'add-needed-pkg-descriptions
             ;;   (lambda* (#:key outputs #:allow-other-keys)
             ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
             ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
@@ -919,7 +919,7 @@ utilities.")
             (add-after 'chdir-elisp 'copy-extra
               (lambda _
                 (copy-recursively "../extra" ".")))
-            ;; (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            ;; (add-after 'ensure-package-description 'add-needed-pkg-descriptions
             ;;   (lambda* (#:key outputs #:allow-other-keys)
             ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
             ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp

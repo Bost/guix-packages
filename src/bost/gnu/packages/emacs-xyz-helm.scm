@@ -193,21 +193,32 @@
            (assoc-ref emacs:%standard-phases 'install))
          (add-after 'emacs-install 'emacs-build
            (assoc-ref emacs:%standard-phases 'build))
-         (add-after
-             ;; The `ensure-package-description' is defined in the
-             ;; emacs-build-system The `gnu-build-system' doesn't contain it.
-             'unpack
-             'ensure-needed-pkg-descriptions
+         ;; The `ensure-package-description' is defined in the
+         ;; emacs-build-system The `gnu-build-system' doesn't contain it.
+         (add-after 'unpack 'add-needed-pkg-descriptions
            (lambda* (#:key outputs #:allow-other-keys)
              (chdir "./lisp")
              (bst:write-pkg-file "pdf-tools")
              (chdir ".."))))))
     (native-inputs
-     (list autoconf automake emacs-minimal pkg-config))
+     (list
+      autoconf
+      automake
+      emacs-minimal
+      pkg-config
+      ))
     (inputs
-     (list cairo glib libpng poppler zlib))
+     (list
+      cairo
+      glib
+      libpng
+      poppler
+      zlib
+      ))
     (propagated-inputs
-     (list emacs-tablist))
+     (list
+      emacs-tablist
+      ))
     (home-page "https://github.com/vedang/pdf-tools")
     (synopsis "Emacs support library for PDF files")
     (description
@@ -270,7 +281,7 @@ Information will be saved relative to the pdf being viewed so ensure
                            (bost guix build emacs-utils))
       #:phases
       #~(modify-phases %standard-phases
-          (add-after 'ensure-package-description 'needed-pkg-descs
+          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
             (lambda* (#:key outputs #:allow-other-keys)
               (bst:write-pkg-file "helm-core")
               (bst:write-pkg-file "helm-easymenu")
@@ -824,7 +835,7 @@ comprehensive documentation lookup directly into the Emacs environment.")
                            (bost guix build emacs-utils))
       #:phases
       #~(modify-phases %standard-phases
-          (add-after 'ensure-package-description 'needed-pkg-descs
+          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
             (lambda* (#:key outputs #:allow-other-keys)
               (bst:write-pkg-file "ac-php-core")
               (bst:write-pkg-file "company-php")
@@ -906,7 +917,7 @@ as well as features for editing search results.")
                              (bost guix build emacs-utils))
         #:phases
         #~(modify-phases %standard-phases
-            (add-after 'ensure-package-description 'needed-pkg-descs
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 (bst:write-pkg-file "org-projectile")
                 (bst:write-pkg-file "org-category-capture")
@@ -1225,7 +1236,7 @@ match Drupal Coding Standards.")
                              (bost guix build emacs-utils))
         #:phases
         #~(modify-phases %standard-phases
-            (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 (bst:write-pkg-file "flyspell-correct-avy-menu")
                 (bst:write-pkg-file "flyspell-correct-helm"))))))
