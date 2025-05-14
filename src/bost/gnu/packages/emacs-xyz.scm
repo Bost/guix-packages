@@ -32,6 +32,7 @@
    emacs-color-theme
    emacs-color-theme-sanityinc-solarized
    emacs-company-anaconda
+   emacs-company-php
    emacs-company-phpactor
    emacs-company-shell
    emacs-company-statistics

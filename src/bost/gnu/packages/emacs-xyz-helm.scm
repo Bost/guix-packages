@@ -847,6 +847,12 @@ comprehensive documentation lookup directly into the Emacs environment.")
      "This package provides Auto Complete and Company back-ends for PHP.")
     (license license:gpl3+)))
 
+;; Required by <path/to/spacemacs>/layers/+lang/php/packages.el
+(define-public emacs-company-php
+  (package
+    (inherit emacs-ac-php)
+    (name "emacs-company-php")))
+
 (define-public emacs-helm-org
   (let ((commit "4744ca7f8b35e17bafce9cb0093deb87a232699d")
         (revision "3"))
