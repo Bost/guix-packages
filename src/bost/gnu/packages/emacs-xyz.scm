@@ -125,6 +125,7 @@
    emacs-flymake-easy
    emacs-flymake-phpcs
    emacs-flyspell-correct
+   emacs-flyspell-correct-helm
    emacs-font-utils
    emacs-forge
    emacs-frame-cmds

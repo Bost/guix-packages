@@ -1255,7 +1255,12 @@ match Drupal Coding Standards.")
                 (bst:write-pkg-file "flyspell-correct-avy-menu")
                 (bst:write-pkg-file "flyspell-correct-helm"))))))
       (propagated-inputs
-       (list emacs-avy-menu emacs-helm emacs-ivy emacs-popup))
+       (list
+        emacs-avy-menu
+        emacs-helm
+        emacs-ivy
+        emacs-popup
+        ))
       (home-page "https://github.com/d12frosted/flyspell-correct")
       (synopsis "Correcting words with flyspell via custom interfaces")
       (description
@@ -1263,6 +1268,12 @@ match Drupal Coding Standards.")
 interfaces.  Several interfaces are supported beside the classic Ido: Popup,
 Helm and Ivy.")
       (license license:gpl3+))))
+
+;; Required by <path/to/spacemacs>/layers/+checkers/spell-checking/packages.el
+(define-public emacs-flyspell-correct-helm
+  (package
+    (inherit emacs-flyspell-correct)
+    (name "emacs-flyspell-correct-helm")))
 
 (define-public emacs-helm-fish-completion
   (let ((commit "1e7a5a56362dd875dddf848b9a9e25d1395b9d37")
@@ -1433,4 +1444,3 @@ target will call @code{compile} on it.")
       (description "This Emacs library provides Helm interface for
 Yasnippet.")
       (license license:gpl2+))))
-
