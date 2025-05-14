@@ -135,6 +135,80 @@
   #:use-module (bost guix build emacs-utils)
   )
 
+(define-public emacs-lsp-mode
+  (let ((commit "c77ba141063916ae5f36f84cb23230e1783b4f09")
+        (revision "0"))
+    (package
+      (name "emacs-lsp-mode")
+      (version (git-version "9.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-lsp/lsp-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0fkgd6bmdri6aa0f2qlxsp8imdn7zf2c30ymq9iqdcnly82ggd8k"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:emacs emacs                     ;need libxml support
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'move-clients-libraries
+              ;; Move all clients libraries at top-level, as is done, e.g., in
+              ;; MELPA.
+              (lambda _
+                (for-each (lambda (f)
+                            (install-file f "."))
+                          (find-files "clients/" "\\.el$"))))
+            (add-after 'unpack 'enable-plists
+              (lambda _
+                (substitute* "lsp-protocol.el"
+                  ;; This is faster, and it's officially recommended,
+                  ;; and it's required by emacs-lsp-booster.
+                  ;; See also:
+                  ;; <https://emacs-lsp.github.io/lsp-mode/page/performance/>.
+                  (("\\(getenv \"LSP_USE_PLISTS\"\\)") "t"))))
+            (add-before 'move-clients-libraries 'fix-patch-el-files
+              ;; /bin/ksh is only used on macOS, which we don't support, so we
+              ;; don't want to add it as input.
+              (lambda _
+                (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
+                  (("/bin/ksh") "ksh"))))
+            (add-after 'ensure-package-description 'ensure-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                ;; (format #t "(getcwd) : ~a\n" (getcwd))
+                ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
+                ;; (chdir "")
+                (bst:write-pkg-file "lsp-mode")
+                ))
+            )))
+      (propagated-inputs
+       (list emacs-dash
+             emacs-f
+             emacs-ht
+             emacs-hydra
+             emacs-markdown-mode
+             emacs-spinner))
+      (home-page "https://emacs-lsp.github.io/lsp-mode/")
+      (synopsis "Emacs client and library for the Language Server Protocol")
+      (description
+       "LSP mode is a client and library implementation for the Language
+Server Protocol.  This mode creates an IDE-like experience by providing
+optional integration with other popular Emacs packages like Company, Flycheck,
+and Projectile.")
+      (license license:gpl3+))))
+
 (define-public emacs-lsp-haskell
   (let [(commit "081d5115ceb1f1647497a8a3de4ca0702aaadb48")
         (revision "0")]

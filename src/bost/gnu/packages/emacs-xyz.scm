@@ -212,6 +212,7 @@
    emacs-lsp-latex
    emacs-lsp-lens
    emacs-lsp-metals
+   emacs-lsp-mode
    emacs-lsp-origami
    emacs-lsp-protocol
    emacs-lsp-pyright
