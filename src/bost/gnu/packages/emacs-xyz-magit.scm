@@ -136,11 +136,11 @@
   )
 
 (define-public emacs-magit
-  (let ((commit "531e7ca6190e71e6d500ddd1a1f6e5cf8402aeca")
+  (let ((commit "04ee83d93fabbfbe202e9e7dc781b0dcd4d5b502")
         (revision "0"))
     (package
       (name "emacs-magit")
-      (version (git-version "4.3.3" revision commit))
+      (version (git-version "4.3.5" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -149,7 +149,7 @@
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "08f2cq9i3n36gif3qq529s2w568alna98d47akv9c5sbiffmwad0"))))
+          (base32 "0g0ji4m39z8mcq1krj8v3kdhb2a8v2w0m00dqq3z925ibq0lv01r"))))
       (build-system emacs-build-system)
       (arguments
        (list
