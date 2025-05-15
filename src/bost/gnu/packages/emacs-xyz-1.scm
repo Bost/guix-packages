@@ -842,26 +842,48 @@
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
-;; Upstream uses https://github.com/purcell/page-break-lines
+;; (define-public emacs-page-break-lines
+;;   (package
+;;     (inherit emacs-spacemacs-base)
+;;     (name "emacs-page-break-lines")
+;;     (arguments
+;;      (list
+;;       #:phases
+;;       #~(modify-phases %standard-phases
+;;           ;; Move the source files to the top level, which is included in
+;;           ;; the EMACSLOADPATH.
+;;           (add-after 'unpack 'move-source-files
+;;             (lambda _
+;;               (let ((el-files
+;;                      (find-files
+;;                       "core/libs"
+;;                       "page-break-lines\\.el$"
+;;                       )))
+;;                 (for-each (lambda (f) (rename-file f (basename f)))
+;;                           el-files)))))))))
+
 (define-public emacs-page-break-lines
-  (package
-    (inherit emacs-spacemacs-base)
-    (name "emacs-page-break-lines")
-    (arguments
-     (list
-      #:phases
-      #~(modify-phases %standard-phases
-          ;; Move the source files to the top level, which is included in
-          ;; the EMACSLOADPATH.
-          (add-after 'unpack 'move-source-files
-            (lambda _
-              (let ((el-files
-                     (find-files
-                      "core/libs"
-                      "page-break-lines\\.el$"
-                      )))
-                (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))))
+  (let ((commit "982571749c8fe2b5e2997dd043003a1b9fe87b38")
+        (revision "0"))
+    (package
+      (name "emacs-page-break-lines")
+      (version (git-version "0.15" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/purcell/page-break-lines.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0d74j7mqgzbwj00sirz3wa37f5yv0y48lgp2v20k61lq54sxk75g"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/purcell/page-break-lines")
+      (synopsis "Display page breaks as tidy horizontal lines")
+      (description
+       "This library provides a global mode which displays form feed characters
+as horizontal rules.")
+      (license license:gpl3+))))
 
 (define-public emacs-package-recipe-mode
   (package
