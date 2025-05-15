@@ -947,6 +947,37 @@ documentation search and a source and class browser.")
     (inherit emacs-ac-php)
     (name "emacs-ac-php-core")))
 
+(define-public emacs-php-auto-yasnippets
+  (let ((commit "03e1f0899c081813901ac15c2f7a675a37cca9f5")
+        (revision "0"))
+    (package
+      (name "emacs-php-auto-yasnippets")
+      (version (git-version "2.3.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-php/php-auto-yasnippets.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0d7y6njsd1s2r5df2k8wvvwgxpwwyaqkhdd2b3p1php8rrbj3mg8"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-yasnippet
+        emacs-php-mode
+        ))
+      (home-page "https://github.com/emacs-php/php-auto-yasnippets.git")
+      (synopsis "Auto-generate Yasnippets for PHP in Emacs")
+      (description
+       "This package provides functionality to quickly generate Yasnippets for
+ PHP code in Emacs.  It allows users to create code snippets on the fly by
+ typing a trigger key and template code, making repetitive PHP coding tasks
+ faster and more efficient.  The package integrates with YASnippet, enhancing
+ productivity for PHP developers.")
+      (license license:gpl3+))))
+
 (define-public emacs-helm-org
   (let ((commit "4744ca7f8b35e17bafce9cb0093deb87a232699d")
         (revision "3"))
