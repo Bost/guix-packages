@@ -817,6 +817,65 @@ documentation, and function descriptions, improving efficiency by integrating
 comprehensive documentation lookup directly into the Emacs environment.")
       (license license:gpl3+))))
 
+(define-public emacs-php-mode
+  (let ((commit "462b62248f7b3c6550ceea1b44760ddd951ab7ab")
+        (revision "0"))
+    (package
+      (name "emacs-php-mode")
+      (version (git-version "1.27.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-php/php-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1krm4gs0z2n02j64sx9brp98lqxl2ygbwcjm1bssqdw19c8p7kps"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #true
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:test-command #~(list "emacs" "-Q" "--batch"
+                               "-l" "../tests/php-mode-test.el"
+                               "-f" "ert-run-tests-batch-and-exit")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'prepare-testing-bed
+              (lambda _
+                ;; This file is necessary for `php-project-root' test.
+                (call-with-output-file "tests/project/1/.git"
+                  (const #t))))
+            (add-after 'prepare-testing-bed 'enter-source-directory
+              (lambda _
+                (chdir "lisp")))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "php-mode")
+                (bst:write-pkg-file "company-php")
+                )))))
+      (propagated-inputs
+       (list
+        emacs-projectile
+        ))
+      (home-page "https://github.com/emacs-php/php-mode")
+      (synopsis "Major mode for editing PHP code")
+      (description
+       "PHP mode is a major mode for editing PHP source code.  It's an extension
+of C mode; thus it inherits all C mode's navigation functionality.  But it
+colors according to the PHP grammar and indents according to the PEAR coding
+guidelines.  It also includes a couple handy IDE-type features such as
+documentation search and a source and class browser.")
+      (license license:gpl3+))))
+
 (define-public emacs-ac-php
   ;; The latest commit "3d724e518a897343b5ede0b976d6fb46c46bcc01" contains
   ;; changes in the definition/declaration/inclusion-file provided by phpctags
