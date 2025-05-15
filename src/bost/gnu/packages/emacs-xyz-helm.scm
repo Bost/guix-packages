@@ -945,6 +945,10 @@ as well as features for editing search results.")
               (lambda* (#:key outputs #:allow-other-keys)
                 (bst:write-pkg-file "org-projectile")
                 (bst:write-pkg-file "org-category-capture")
+
+                ;; needed by emacs-org-projectile
+                (bst:write-pkg-file "org-project-capture")
+
                 (bst:write-pkg-file "org-project-capture-backend")
                 )))))
       (propagated-inputs
@@ -971,6 +975,11 @@ as well as features for editing search results.")
   (package
     (inherit emacs-org-project-capture)
     (name "emacs-org-projectile")))
+
+(define-public emacs-org-category-capture
+  (package
+    (inherit emacs-org-project-capture)
+    (name "emacs-org-category-capture")))
 
 (define-public emacs-helm-comint
   (let ((commit "5f435ede181818b6f8c58ad7b45f47acd2721daf")
