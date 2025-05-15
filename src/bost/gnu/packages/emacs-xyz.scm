@@ -286,6 +286,7 @@
    emacs-phoenix-dark-pink-theme
    emacs-php-auto-yasnippets
    emacs-php-extras
+   emacs-php-mode
    emacs-php-runtime
    emacs-phpactor
    emacs-phpunit
