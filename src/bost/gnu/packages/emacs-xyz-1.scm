@@ -3419,37 +3419,6 @@ project.  The package leverages Cask for managing dependencies and supports
 interactive commands for various test operations.")
       (license license:gpl3+))))
 
-(define-public emacs-php-extras
-  (let ((commit "d410c5af663c30c01d461ac476d1cbfbacb49367")
-        (revision "0"))
-    (package
-      (name "emacs-php-extras")
-      (version (git-version "2.2.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/arnested/php-extras.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0mcgwisnqplav0ga8xqqw72523iv841wp2cyw7d4lkzgpiav51dg"))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-php-mode
-        ))
-      (home-page "https://github.com/arnested/php-extras")
-      (synopsis "Extra features for Emacs php-mode")
-      (description
-       "Additional features for Emacs' php-mode.  It includes a command to
- insert the most recently used variable, support for eldoc-mode to display PHP
-function signatures in the minibuffer, and completion backends for
-auto-complete and company-mode based on core PHP functions.  The package can
-generate a local function signature database by downloading and parsing the
-PHP manual.")
-      (license license:gpl3+))))
-
 ;; bat -r 33957:33986 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-emr
   (let ((commit "cac1b52932926f56d7f6d2923732d20bbd20670d")

@@ -978,6 +978,37 @@ documentation search and a source and class browser.")
  productivity for PHP developers.")
       (license license:gpl3+))))
 
+(define-public emacs-php-extras
+  (let ((commit "d410c5af663c30c01d461ac476d1cbfbacb49367")
+        (revision "0"))
+    (package
+      (name "emacs-php-extras")
+      (version (git-version "2.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/arnested/php-extras.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0mcgwisnqplav0ga8xqqw72523iv841wp2cyw7d4lkzgpiav51dg"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-php-mode
+        ))
+      (home-page "https://github.com/arnested/php-extras")
+      (synopsis "Extra features for Emacs php-mode")
+      (description
+       "Additional features for Emacs' php-mode.  It includes a command to
+ insert the most recently used variable, support for eldoc-mode to display PHP
+function signatures in the minibuffer, and completion backends for
+auto-complete and company-mode based on core PHP functions.  The package can
+generate a local function signature database by downloading and parsing the
+PHP manual.")
+      (license license:gpl3+))))
+
 (define-public emacs-helm-org
   (let ((commit "4744ca7f8b35e17bafce9cb0093deb87a232699d")
         (revision "3"))
