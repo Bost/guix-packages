@@ -262,6 +262,7 @@
    emacs-omtose-phellack-themes
    emacs-open-junk-file
    emacs-openai
+   emacs-org-category-capture
    emacs-org-project-capture
    emacs-org-projectile
    emacs-organic-green-theme
