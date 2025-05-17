@@ -240,8 +240,8 @@ and code peeking.")
       (license license:gpl3+))))
 
 (define-public emacs-lsp-haskell
-  (let [(commit "081d5115ceb1f1647497a8a3de4ca0702aaadb48")
-        (revision "0")]
+  (let ((commit "081d5115ceb1f1647497a8a3de4ca0702aaadb48")
+        (revision "0"))
     (package
       (name "emacs-lsp-haskell")
       (version (git-version "1.1" revision commit))
@@ -271,8 +271,8 @@ and code peeking.")
       (license license:gpl3+))))
 
 (define-public emacs-lsp-pyright
-  (let [(commit "73377169beff8fe22cc6d52d65099db88bf49679")
-        (revision "0")]
+  (let ((commit "73377169beff8fe22cc6d52d65099db88bf49679")
+        (revision "0"))
     (package
       (name "emacs-lsp-pyright")
       (version (git-version "0.2.0" revision commit))
@@ -309,8 +309,8 @@ pyrightconfig.json.")
     (name "emacs-origami")))
 
 (define-public emacs-lsp-origami
-  (let [(commit "f757a7b45538b6cf1da04183e99171e59e92c9a7")
-        (revision "0")]
+  (let ((commit "f757a7b45538b6cf1da04183e99171e59e92c9a7")
+        (revision "0"))
     (package
       (name "emacs-lsp-origami")
       (version (git-version "1.0.0" revision commit))
@@ -340,8 +340,8 @@ pyrightconfig.json.")
       (license license:gpl3+))))
 
 (define-public emacs-lsp-python-ms
-  (let [(commit "7bda327bec7b219d140c34dab4b1e1fbd41bc516")
-        (revision "0")]
+  (let ((commit "7bda327bec7b219d140c34dab4b1e1fbd41bc516")
+        (revision "0"))
     (package
       (name "emacs-lsp-python-ms")
       (version (git-version "0.1" revision commit))
@@ -371,8 +371,8 @@ pyrightconfig.json.")
       (license license:bsd-3))))
 
 (define emacs-dap-base
-  (let [(commit "b97756665709bea37b9ffe262c5fa9196f1b4577")
-        (revision "0")]
+  (let ((commit "b97756665709bea37b9ffe262c5fa9196f1b4577")
+        (revision "0"))
     (package
       (name "emacs-dap-base")
       (version (git-version "0.8" revision commit))
