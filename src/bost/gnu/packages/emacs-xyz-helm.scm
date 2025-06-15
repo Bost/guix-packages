@@ -1,5 +1,6 @@
 (define-module (bost gnu packages emacs-xyz-helm)
   #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages emacs-build)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
