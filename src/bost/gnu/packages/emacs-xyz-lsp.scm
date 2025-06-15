@@ -1,5 +1,6 @@
 (define-module (bost gnu packages emacs-xyz-lsp)
   #:use-module (bost gnu packages emacs-xyz-done)
+  #:use-module (gnu packages emacs-build)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -193,12 +194,13 @@
                 ))
             )))
       (propagated-inputs
-       (list emacs-dash
-             emacs-f
-             emacs-ht
-             emacs-hydra
-             emacs-markdown-mode
-             emacs-spinner))
+       (list
+        emacs-dash
+        emacs-f
+        emacs-ht
+        emacs-hydra
+        emacs-markdown-mode
+        emacs-spinner))
       (home-page "https://emacs-lsp.github.io/lsp-mode/")
       (synopsis "Emacs client and library for the Language Server Protocol")
       (description
@@ -229,8 +231,7 @@ and Projectile.")
         emacs-dash
         emacs-lsp-mode
         emacs-markdown-mode
-        emacs-flycheck
-        ))
+        emacs-flycheck))
       (home-page "https://github.com/emacs-lsp/lsp-ui")
       (synopsis "User interface extensions for @code{lsp-mode}")
       (description
@@ -258,8 +259,7 @@ and code peeking.")
       (propagated-inputs
        (list
         emacs-haskell-mode
-        emacs-lsp-mode
-        ))
+        emacs-lsp-mode))
       (home-page "https://github.com/emacs-lsp/lsp-haskell")
       (synopsis "LSP client integration for Haskell in Emacs")
       (description
@@ -290,8 +290,7 @@ and code peeking.")
        (list
         emacs-ht
         emacs-dash
-        emacs-lsp-mode
-        ))
+        emacs-lsp-mode))
       (home-page "https://github.com/emacs-lsp/lsp-pyright")
       (synopsis "LSP client integration for Python using (Based)Pyright")
       (description
@@ -356,10 +355,7 @@ pyrightconfig.json.")
           (base32
            "1i7l06cw25fb202fbhqhx8xyfynz6sinka9ybh8n4cxjq19ffm8b"))))
       (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        emacs-lsp-mode
-        ))
+      (propagated-inputs (list emacs-lsp-mode))
       (home-page "https://github.com/emacs-lsp/lsp-python-ms")
       (synopsis "LSP client integration for Microsoft's Python Language
  Server in Emacs")
@@ -425,10 +421,7 @@ debugging workflow.")
      (list #:include `(cons*
                        "^dap-launch\\.el$"
                        ,all-info-include)))
-    (propagated-inputs
-     (list
-      emacs-lsp-mode
-      ))))
+    (propagated-inputs (list emacs-lsp-mode))))
 
 (define-public emacs-dap-tasks
   (package
@@ -438,10 +431,7 @@ debugging workflow.")
      (list #:include `(cons*
                        "^dap-tasks.\\el$"
                        ,all-info-include)))
-    (propagated-inputs
-     (list
-      emacs-lsp-mode
-      ))))
+    (propagated-inputs (list emacs-lsp-mode))))
 
 (define-public emacs-dap-utils
   (package
@@ -451,10 +441,7 @@ debugging workflow.")
      (list #:include `(cons*
                        "^dap-utils\\.el$"
                        ,all-info-include)))
-    (propagated-inputs
-     (list
-      emacs-dap-mode
-      ))))
+    (propagated-inputs (list emacs-dap-mode))))
 
 (define-public emacs-dap-chrome
   (package
@@ -467,8 +454,7 @@ debugging workflow.")
     (propagated-inputs
      (list
       emacs-dap-utils
-      emacs-dap-mode
-      ))))
+      emacs-dap-mode))))
 
 (define-public emacs-dap-overlays
   (package

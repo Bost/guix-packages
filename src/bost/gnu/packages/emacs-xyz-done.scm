@@ -28,6 +28,7 @@
   #:use-module (gnu packages djvu)
   #:use-module (gnu packages ebook)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-build)
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages games)
@@ -300,10 +301,8 @@ another window.")
         (base32
          "12mwviz1mwx4ywks2lkmybbgh1wny67wkzlq5y3ml8gvyc288n3i"))))
     (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-company))
-    (home-page
-     "https://github.com/company-mode/company-statistics")
+    (propagated-inputs (list emacs-company))
+    (home-page "https://github.com/company-mode/company-statistics")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
@@ -418,10 +417,8 @@ color for syntax, and easily allows multiple variants.")
         (base32
          "1d8a9jwv9y0sncw24k840c8yyrig30f2d6q2zqlc09f05yzq9p9p"))))
     (build-system emacs-build-system)
-    (propagated-inputs
-     (list emacs-autothemer))
-    (home-page
-     "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
+    (propagated-inputs (list emacs-autothemer))
+    (home-page "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
     (synopsis "")
     (description "")
     (license license:gpl3+)))
@@ -547,9 +544,10 @@ company-web.")
            "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-company
-             emacs-dash
-             emacs-web-completion-data))
+       (list
+        emacs-company
+        emacs-dash
+        emacs-web-completion-data))
       (home-page "https://github.com/osv/company-web")
       (synopsis "Emacs company backend for html, jade and slim")
       (description
@@ -574,11 +572,12 @@ company-mode.")
          (sha256
           (base32 "1kq035si3syi3pcacr6i5pbayqag5rfx4xw8brmrc92z5wlqm3ba"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list
-                          (@ (gnu packages emacs-xyz) emacs-anaconda-mode)
-                          (@ (gnu packages emacs-xyz) emacs-company)
-                          (@ (gnu packages emacs-xyz) emacs-dash)
-                          (@ (gnu packages emacs-xyz) emacs-s)))
+      (propagated-inputs
+       (list
+        emacs-anaconda-mode
+        emacs-company
+        emacs-dash
+        emacs-s))
       (home-page "https://github.com/pythonic-emacs/company-anaconda.git")
       (synopsis
        "Company backend for Python code completion using Anaconda mode")
@@ -625,8 +624,7 @@ company-mode.")
         emacs-editorconfig
         emacs-s
         emacs-f
-        emacs-jsonrpc
-        ))
+        emacs-jsonrpc))
       (home-page "https://github.com/copilot-emacs/copilot.el")
       (synopsis "An unofficial Copilot plugin for Emacs")
       (description
@@ -941,8 +939,7 @@ access to GitHub Copilot to use this plugin.")
               "0dvfk9kyza6yq0jn9g2ffb5gv07xnjg6myxkqfxpll7m2s0zasi7"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-autothemer))
-      (home-page
-        "http://github.com/emacsfodder/emacs-theme-darktooth")
+      (home-page "http://github.com/emacsfodder/emacs-theme-darktooth")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -1061,7 +1058,6 @@ access to GitHub Copilot to use this plugin.")
             (base32
               "0sn3y1ilbg532mg941qmzipvzq86q31x86ypaf0h0m4015r7l59v"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list))
       (home-page
         "https://github.com/ptrv/gandalf-theme-emacs")
       (synopsis "")
@@ -1206,7 +1202,6 @@ access to GitHub Copilot to use this plugin.")
           (base32
            "15hk0v6ck076mahsz4spq75jcnv587fx4d3w50c7bdh423fl0xvx"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list))
       (home-page
        "https://github.com/jonathanchu/heroku-theme")
       (synopsis "")
@@ -1279,7 +1274,6 @@ access to GitHub Copilot to use this plugin.")
             (base32
               "07m17yqhlc0fc3ga3dhkcrp9h8kr17s00ky3zwr8f2k6chj7xmn2"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list))
       (home-page
         "https://github.com/donderom/jazz-theme")
       (synopsis "")
@@ -1376,7 +1370,6 @@ access to GitHub Copilot to use this plugin.")
             (base32
               "0r47k03m21w206kq8n3q10374xxw0278l8wilb2ls1bmr2bsd2sa"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list))
       (home-page
         "https://github.com/emacsmirror/majapahit-themes")
       (synopsis "")
@@ -2339,8 +2332,7 @@ providing support for a lot of modes.")
         ;; emacs-cider-client
         ;; emacs-cider-apropos
         ))
-      (home-page
-        "https://github.com/clojure-emacs/cider-hydra")
+      (home-page "https://github.com/clojure-emacs/cider-hydra")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2364,8 +2356,7 @@ providing support for a lot of modes.")
            "1hz5nlrhbrlwwk8rcjvc3jhj0g9wgm6xw903ap8fxq470mj99gln"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-flycheck))
-      (home-page
-       "https://github.com/candid82/flycheck-joker")
+      (home-page "https://github.com/candid82/flycheck-joker")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2389,11 +2380,11 @@ providing support for a lot of modes.")
            "0slspzc3zppavmdnw8xpih1iiqyqbyx4mm286lz0naw7g4yrpb12"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-s
-             emacs-parseedn
-             emacs-cider))
-      (home-page
-       "https://github.com/magnars/kaocha-runner.el")
+       (list
+        emacs-s
+        emacs-parseedn
+        emacs-cider))
+      (home-page "https://github.com/magnars/kaocha-runner.el")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2420,8 +2411,7 @@ providing support for a lot of modes.")
        (list
         #:include #~(cons "^src/el/" %default-include)))
       (propagated-inputs (list emacs-cider))
-      (home-page
-       "https://github.com/clojure-emacs/sayid")
+      (home-page "https://github.com/clojure-emacs/sayid")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2450,8 +2440,7 @@ providing support for a lot of modes.")
         ;; emacs-color
         emacs-map
         emacs-autothemer))
-      (home-page
-       "https://github.com/ogdenwebb/emacs-kaolin-themes")
+      (home-page "https://github.com/ogdenwebb/emacs-kaolin-themes")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2487,12 +2476,9 @@ providing support for a lot of modes.")
                  (substitute* "emacsql-sqlite3.el"
                    (("\\(executable-find \"sqlite3\"\\)")
                     (string-append "\"" (which "sqlite3") "\""))))))))
-      (native-inputs
-       (list emacs-ert-runner))
-      (inputs
-       (list sqlite))
-      (propagated-inputs
-       (list emacs-emacsql))
+      (native-inputs (list emacs-ert-runner))
+      (inputs (list sqlite))
+      (propagated-inputs (list emacs-emacsql))
       (home-page "https://github.com/cireu/emacsql-sqlite3")
       (synopsis "EmacSQL backend for SQLite")
       (description "This is yet another EmacSQL backend for SQLite which uses
@@ -2517,11 +2503,11 @@ official @command{sqlite3} executable to access SQL database.")
           (base32
            "16ni0va1adpqdnrkiwmpxwrhyanxp5jwbknii2wnbhgq62s7gv43"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list
-                          ;; emacs-color
-                          emacs-dash))
-      (home-page
-       "https://github.com/ZehCnaS34/zonokai-emacs")
+      (propagated-inputs
+       (list
+        ;; emacs-color
+        emacs-dash))
+      (home-page "https://github.com/ZehCnaS34/zonokai-emacs")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2545,8 +2531,7 @@ official @command{sqlite3} executable to access SQL database.")
            "0ssnyvy80h1pc1khimcazxf0mqkzz0xmzjg2if7xc6js235rcksf"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-cider))
-      (home-page
-       "https://github.com/Bost/kill-buffers")
+      (home-page "https://github.com/Bost/kill-buffers")
       (synopsis "Kill various unwanted buffers")
       (description "Kill various unwanted buffers.")
       (license license:gpl3+))))
@@ -2570,8 +2555,9 @@ official @command{sqlite3} executable to access SQL database.")
            "1pd6nrgv6b6134w60zlxb3dnvn3nw8975wq5h6smach9cfxf7iry"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-smartparens
-             emacs-eval-sexp-fu-el))
+       (list
+        emacs-smartparens
+        emacs-eval-sexp-fu-el))
       (home-page "https://github.com/Bost/copy-sexp")
       (synopsis "")
       (description "")
@@ -2620,9 +2606,9 @@ official @command{sqlite3} executable to access SQL database.")
            "0vjzjmp3ba0nzf0v04bhxvzgdwwm11vivxqjzgnvp3kq95kajr5h"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-evil
-             emacs-iedit
-             ))
+       (list
+        emacs-evil
+        emacs-iedit))
       (home-page "https://github.com/syl20bnr/evil-iedit-state")
       (synopsis "Slick Evil states for iedit")
       (description "This package adds two new Evil states:
@@ -2757,10 +2743,8 @@ with GUI Emacs behavior.")
         (base32
          "04iz99x942i5awngj6fdshm2jh1ghnm47sck6xflj17pa2rzjyp4"))))
      (build-system emacs-build-system)
-     (propagated-inputs
-      (list emacs-ht))
-     (home-page
-      "https://github.com/elp-revive/auto-highlight-symbol")
+     (propagated-inputs (list emacs-ht))
+     (home-page "https://github.com/elp-revive/auto-highlight-symbol")
      (synopsis "Automatic highlighting current symbol minor mode")
      (description
       "Minor mode for Emacs for automatic highlighting current symbol minor

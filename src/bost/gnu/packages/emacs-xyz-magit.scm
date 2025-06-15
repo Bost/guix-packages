@@ -1,5 +1,7 @@
 (define-module (bost gnu packages emacs-xyz-magit)
   #:use-module (bost gnu packages emacs-xyz-done)
+  #:use-module (bost gnu packages emacs-xyz-lsp)
+  #:use-module (gnu packages emacs-build)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -183,15 +185,11 @@
                 (with-directory-excursion "lisp"
                   (bst:write-pkg-file "with-editor"))))
             )))
-      (native-inputs
-       (list
-        texinfo
-        ))
+      (native-inputs (list texinfo))
       (propagated-inputs
        (list
         emacs-async
-        emacs-compat
-        ))
+        emacs-compat))
       (home-page "https://github.com/magit/with-editor")
       (synopsis "Emacs library for using Emacsclient as EDITOR")
       (description
@@ -260,13 +258,11 @@ on stdout instead of using a socket as the Emacsclient does.")
       (native-inputs
        (list
         texinfo
-        pkg-config
-        ))
+        pkg-config))
       (inputs
        (list
         git
-        perl
-        ))
+        perl))
       (propagated-inputs
        ;; Note: the 'git-commit' and 'magit-section' dependencies are part of
        ;; magit itself.
@@ -274,8 +270,7 @@ on stdout instead of using a socket as the Emacsclient does.")
         emacs-compat
         emacs-transient
         emacs-with-editor
-        emacs-llama
-        ))
+        emacs-llama))
       (home-page "https://magit.vc/")
       (synopsis "Emacs interface for the Git version control system")
       (description
@@ -399,17 +394,17 @@ configurations.")
          (add-after 'build-info-manual 'chdir-lisp
            (lambda _
              (chdir "lisp"))))))
-    (native-inputs
-     (list texinfo))
+    (native-inputs (list texinfo))
     (propagated-inputs
-     (list emacs-closql
-           emacs-emacsql
-           emacs-ghub
-           emacs-llama
-           emacs-let-alist
-           emacs-magit
-           emacs-markdown-mode
-           emacs-yaml))
+     (list
+      emacs-closql
+      emacs-emacsql
+      emacs-ghub
+      emacs-llama
+      emacs-let-alist
+      emacs-magit
+      emacs-markdown-mode
+      emacs-yaml))
     (home-page "https://github.com/magit/forge/")
     (synopsis "Access Git forges from Magit")
     (description "Work with Git forges, such as Github and Gitlab, from the
@@ -607,8 +602,7 @@ as the current patch using @code{a}, and it can be discarded using @code{k}.  Ot
        (list
         emacs-dash
         emacs-with-editor
-        emacs-magit
-        ))
+        emacs-magit))
       (home-page "https://github.com/magit/magit-svn")
       (synopsis "Git-SVN extension to Magit")
       (description
@@ -636,7 +630,7 @@ support for Git-SVN.")
       (propagated-inputs
        (list
         emacs-compat
-        (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
+        (@ (bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
         emacs-dash
         emacs-magit
         ))
@@ -672,10 +666,8 @@ prover, version 4.")
                                "-l" "evil-collection-test.el"
                                "-l" "evil-collection-magit-tests.el"
                                "-f" "ert-run-tests-batch-and-exit")))
-      (native-inputs
-       (list emacs-magit))
-      (propagated-inputs
-       (list emacs-annalist emacs-evil))
+      (native-inputs (list emacs-magit))
+      (propagated-inputs (list emacs-annalist emacs-evil))
       (home-page "https://github.com/emacs-evil/evil-collection")
       (synopsis "Collection of Evil bindings for many major and minor modes")
       (description "This is a collection of Evil bindings for the parts of
@@ -784,10 +776,11 @@ comments.")
          (sha256
           (base32 "0y8j3hf5r69fxj2vsbaxwr9qdchddn53w25xzmxv1kfh6hbagzv3"))))
       (build-system emacs-build-system)
-      (native-inputs
-       (list emacs-el-mock emacs-ert-runner))
+      (native-inputs (list emacs-el-mock emacs-ert-runner))
       (propagated-inputs
-       (list emacs-f emacs-magit))
+       (list
+        emacs-f
+        emacs-magit))
       (home-page "https://github.com/canatella/repo-el")
       (synopsis "Emacs interface for the Google Repo tool")
       (description "This package provides integration of the Google Repo tool
@@ -812,7 +805,9 @@ buffer and launches Magit from the status buffer for the project at point.")
           (base32 "0pzcmd4d82nmg98nrnk73qr02k1hy0qyagsbrxyjdpfzrg3ysmp9"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-dash emacs-magit))
+       (list
+        emacs-dash
+        emacs-magit))
       (home-page "https://github.com/magit/orgit")
       (synopsis "Support for Org links to Magit buffers")
       (description "This package defines several Org link types, which can be
@@ -969,12 +964,8 @@ based on diff output.")
       (native-inputs
        (list
         emacs-buttercup
-        emacs-el-mock
-        ))
-      (inputs
-       (list
-        python
-        ))
+        emacs-el-mock))
+      (inputs (list python))
       (propagated-inputs
        (list
         ;; emacs-projectile    ; for src/extra
@@ -991,8 +982,7 @@ based on diff output.")
         emacs-ht
         emacs-hydra
         emacs-pfuture
-        emacs-s
-        ))
+        emacs-s))
       (home-page "https://github.com/Alexander-Miller/treemacs")
       (synopsis "Emacs tree style file explorer")
       (description
@@ -1084,7 +1074,7 @@ utilities.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
+      (@ (bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
       ))
     (home-page
      "https://github.com/jadestrong/lsp-volar")
