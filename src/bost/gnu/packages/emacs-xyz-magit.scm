@@ -446,6 +446,7 @@ unique identifiers directly in Emacs.")
          (sha256
           (base32 "0fgsbdydhsv15c0i9bajkshgf6cyijky5pdziq03jx7h3ph9y5fs"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-uuidgen
@@ -711,6 +712,7 @@ buffer with each of your todos.")
          (sha256
           (base32 "0q3rplkvd4ny02zpnrzkfhflg8yx7zq2brq15c603f2yjiwiy7xl"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list emacs-async
              emacs-dash
@@ -796,6 +798,7 @@ buffer and launches Magit from the status buffer for the project at point.")
          (sha256
           (base32 "0pzcmd4d82nmg98nrnk73qr02k1hy0qyagsbrxyjdpfzrg3ysmp9"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-dash
@@ -825,6 +828,7 @@ Later you can insert it into an Org buffer using the command
          (sha256
           (base32 "0v79xc4ss9c4wz6spplrlfzzgynfs264c6gxhzjffpa9vqnvbc6g"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-orgit

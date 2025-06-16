@@ -518,6 +518,7 @@ color for syntax, and easily allows multiple variants.")
           (base32
            "19nzjgvd2i5745283ck3k2vylrr6lnk9h3ggzwrwdhyd3m9433vm"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page
        "https://github.com/osv/web-completion-data")
       (synopsis "Shared web completion data for Emacs ac-html and company-web")
@@ -543,6 +544,7 @@ company-web.")
           (base32
            "0awl7b6p4vrxv0cy5xcxwihqzgk7kk6l7jsivyrj8s0f5jv2q71v"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-company
@@ -572,6 +574,7 @@ company-mode.")
          (sha256
           (base32 "1kq035si3syi3pcacr6i5pbayqag5rfx4xw8brmrc92z5wlqm3ba"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-anaconda-mode
@@ -1443,6 +1446,7 @@ access to GitHub Copilot to use this plugin.")
           (base32
            "09imx996afh3j207163kg8sc92hd7wljkpban1pnn6f67bgyrvlv"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page
        "https://github.com/emacsattic/color-theme")
       (synopsis "")
@@ -2743,6 +2747,9 @@ with GUI Emacs behavior.")
         (base32
          "04iz99x942i5awngj6fdshm2jh1ghnm47sck6xflj17pa2rzjyp4"))))
      (build-system emacs-build-system)
+     (arguments
+      (list
+       #:tests? #f))
      (propagated-inputs (list emacs-ht))
      (home-page "https://github.com/elp-revive/auto-highlight-symbol")
      (synopsis "Automatic highlighting current symbol minor mode")

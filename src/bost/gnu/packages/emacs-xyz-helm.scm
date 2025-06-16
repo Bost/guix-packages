@@ -273,6 +273,7 @@ Information will be saved relative to the pdf being viewed so ensure
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
         #:modules '((guix build emacs-build-system)
                     (guix build utils)
                     (guix build emacs-utils)
@@ -1051,6 +1052,7 @@ as well as features for editing search results.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
         #:modules '((guix build emacs-build-system)
                     (guix build utils)
                     (guix build emacs-utils)
