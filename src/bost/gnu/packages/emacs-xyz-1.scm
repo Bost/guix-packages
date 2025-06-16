@@ -1769,7 +1769,7 @@ as horizontal rules.")
     ;;   emacs-browse-url ;; missing
     ;;   emacs-simple     ;; missing
     ;;   ))
-    (inputs
+    (native-inputs
      (list
       python
       ))))
