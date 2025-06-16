@@ -896,8 +896,6 @@ documentation search and a source and class browser.")
     (build-system emacs-build-system)
     (arguments
      (list
-      #:tests? #true
-      #:test-command #~(list "ert-runner")
       #:modules '((guix build emacs-build-system)
                   (guix build utils)
                   (guix build emacs-utils)
@@ -915,19 +913,19 @@ documentation search and a source and class browser.")
               )))))
     (inputs
      (list
-      emacs-auto-complete
-      emacs-company
-      emacs-dash
-      emacs-f
-      emacs-helm
-      emacs-php-mode
-      emacs-popup
-      emacs-s
-      emacs-xcscope
+      (@(gnu packages emacs-xyz) emacs-auto-complete)
+      (@(gnu packages emacs-xyz) emacs-company)
+      (@(gnu packages emacs-build) emacs-dash)
+      (@(gnu packages emacs-build) emacs-f)
+      (@(gnu packages emacs-xyz) emacs-helm)
+      (@(gnu packages emacs-xyz) emacs-php-mode)
+      (@(gnu packages emacs-xyz) emacs-popup)
+      (@(gnu packages emacs-build) emacs-s)
+      (@(gnu packages emacs-xyz) emacs-xcscope)
       ))
     (native-inputs
      (list
-      emacs-ert-runner
+      (@(gnu packages emacs-build) emacs-ert-runner)
       ))
     (home-page "https://github.com/xcwen/ac-php")
     (synopsis "Emacs Auto Complete & Company mode for PHP")
