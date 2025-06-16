@@ -155,6 +155,8 @@
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f                       ; no test suite
+        #:lisp-directory "lisp"
         #:modules '((guix build emacs-build-system)
                     (guix build utils)
                     (guix build emacs-utils)
@@ -165,25 +167,15 @@
                              (bost guix build emacs-utils))
         #:phases
         #~(modify-phases %standard-phases
-            (replace 'make-autoloads
-              (lambda args
-                (with-directory-excursion "lisp"
-                  (apply (assoc-ref %standard-phases 'make-autoloads) args))))
-
-            (add-before 'install 'enter-lisp-directory
-              (lambda _
-                (chdir "lisp")))
             (add-before 'install 'make-info
               (lambda _
                 (with-directory-excursion "../docs"
                   (invoke "makeinfo" "--no-split"
                           "-o" "with-editor.info" "with-editor.texi")
                   (install-file "with-editor.info" "../lisp"))))
-
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (with-directory-excursion "lisp"
-                  (bst:write-pkg-file "with-editor"))))
+                (bst:write-pkg-file "with-editor")))
             )))
       (native-inputs (list texinfo))
       (propagated-inputs
