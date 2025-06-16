@@ -1771,7 +1771,7 @@ as horizontal rules.")
     ;;   ))
     (native-inputs
      (list
-      python
+      python-wrapper
       ))))
 
 ;; bat -r 34665:34685 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
