@@ -808,6 +808,7 @@ multiline entries and integrates seamlessly with CIDER and Helm.")
       (propagated-inputs
        (list
         emacs-helm
+        python-wrapper
         ;; emacs-helm-core  ;; part of emacs-helm
         ))
       (home-page "https://github.com/emacsorphanage/helm-pydoc.git")
