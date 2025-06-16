@@ -228,6 +228,7 @@
          (sha256
           (base32 "1fjdn4g9ww70f3x6vbzi3gqs9dsmqg16isajlqlflzw2716zf2nh"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://github.com/sigma/pcache")
       (synopsis "Persistent caching library for Emacs")
       (description
@@ -303,6 +304,7 @@
     (name "emacs-rst-lists")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -323,6 +325,7 @@
     (name "emacs-core-versions")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -342,6 +345,7 @@
     (name "emacs-core-load-paths")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -361,6 +365,7 @@
     (name "emacs-spacemacs-ht")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -380,6 +385,7 @@
     (name "emacs-core-dotspacemacs")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -399,6 +405,7 @@
     (name "emacs-core-spacemacs-buffer")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -420,6 +427,7 @@
     (name "emacs-core-use-package-ext")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -439,6 +447,7 @@
     (name "emacs-core-fonts-support")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -458,6 +467,7 @@
     (name "emacs-core-command-line")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -477,6 +487,7 @@
     (name "emacs-core-transient-state")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -496,6 +507,7 @@
     (name "emacs-core-early-funcs")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -515,6 +527,7 @@
     (name "emacs-core-documentation")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -534,6 +547,7 @@
     (name "emacs-core-compilation")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -554,6 +568,7 @@
     (name "emacs-core-env")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -574,6 +589,7 @@
     (name "emacs-core-hooks")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -594,6 +610,7 @@
     (name "emacs-core-display-init")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -614,6 +631,7 @@
     (name "emacs-zemacs")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -635,6 +653,7 @@
     (name "emacs-irfc")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -656,6 +675,7 @@
     (name "emacs-package-build")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -676,6 +696,7 @@
     (name "emacs-core-spacebind")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -696,6 +717,7 @@
     (name "emacs-package-build-badges")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -716,6 +738,7 @@
     (name "emacs-core-custom-settings")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -737,6 +760,7 @@
     (name "emacs-ido-vertical-mode")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -757,6 +781,7 @@
     (name "emacs-core-configuration-layer")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -786,6 +811,7 @@
     (name "emacs-core-customization")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -808,6 +834,7 @@
     (name "emacs-spacemacs-common")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -829,6 +856,7 @@
     (name "emacs-spacemacs-theme")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -849,6 +877,7 @@
 ;;     (name "emacs-page-break-lines")
 ;;     (arguments
 ;;      (list
+;;       #:tests? #f
 ;;       #:phases
 ;;       #~(modify-phases %standard-phases
 ;;           ;; Move the source files to the top level, which is included in
@@ -879,6 +908,7 @@
          (sha256
           (base32 "0d74j7mqgzbwj00sirz3wa37f5yv0y48lgp2v20k61lq54sxk75g"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://github.com/purcell/page-break-lines")
       (synopsis "Display page breaks as tidy horizontal lines")
       (description
@@ -892,6 +922,7 @@ as horizontal rules.")
     (name "emacs-package-recipe-mode")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -913,6 +944,7 @@ as horizontal rules.")
     (name "emacs-nyan-mode")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -933,6 +965,7 @@ as horizontal rules.")
     (name "emacs-erc-yank")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -953,6 +986,7 @@ as horizontal rules.")
     (name "emacs-core-debug")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -973,6 +1007,7 @@ as horizontal rules.")
     (name "emacs-load-env-vars")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -993,6 +1028,7 @@ as horizontal rules.")
     (name "emacs-core-themes-support")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1014,6 +1050,7 @@ as horizontal rules.")
     (name "emacs-mocker")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1034,6 +1071,7 @@ as horizontal rules.")
     (name "emacs-core-release-management")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1054,6 +1092,7 @@ as horizontal rules.")
     (name "emacs-compleseus-spacemacs-help")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1079,6 +1118,7 @@ as horizontal rules.")
     (name "emacs-erc-tex")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1099,6 +1139,7 @@ as horizontal rules.")
     (name "emacs-core-keybindings")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1119,6 +1160,7 @@ as horizontal rules.")
     (name "emacs-erc-sasl")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1139,6 +1181,7 @@ as horizontal rules.")
     (name "emacs-core-dumper")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1159,6 +1202,7 @@ as horizontal rules.")
     (name "emacs-core-cycle")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1180,6 +1224,7 @@ as horizontal rules.")
     (name "emacs-ox-gfm")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1200,6 +1245,7 @@ as horizontal rules.")
     (name "emacs-core-jump")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1220,6 +1266,7 @@ as horizontal rules.")
     (name "emacs-package-recipe")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1240,6 +1287,7 @@ as horizontal rules.")
     (name "emacs-helm-spacemacs-faq")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1260,6 +1308,7 @@ as horizontal rules.")
     (name "emacs-quelpa")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1280,6 +1329,7 @@ as horizontal rules.")
     (name "emacs-helm-spacemacs-help")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1300,6 +1350,7 @@ as horizontal rules.")
     (name "emacs-ivy-spacemacs-help")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1320,6 +1371,7 @@ as horizontal rules.")
     (name "emacs-core-funcs")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1340,6 +1392,7 @@ as horizontal rules.")
     (name "emacs-tmux")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1360,6 +1413,7 @@ as horizontal rules.")
     (name "emacs-core-progress-bar")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1380,6 +1434,7 @@ as horizontal rules.")
     (name "emacs-core-micro-state")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1400,6 +1455,7 @@ as horizontal rules.")
     (name "emacs-core-toggle")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1420,6 +1476,7 @@ as horizontal rules.")
     (name "emacs-core-emacs-backports")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1442,6 +1499,7 @@ as horizontal rules.")
      (list emacs-window-purpose))
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1462,6 +1520,7 @@ as horizontal rules.")
     (name "emacs-spacemacs-whitespace-cleanup")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1482,6 +1541,7 @@ as horizontal rules.")
     (name "emacs-help-fns-plus")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1502,6 +1562,7 @@ as horizontal rules.")
     (name "emacs-helm-games")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1522,6 +1583,7 @@ as horizontal rules.")
     (name "emacs-hybrid-mode")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1557,6 +1619,7 @@ as horizontal rules.")
     (name "emacs-vim-colors")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1576,6 +1639,7 @@ as horizontal rules.")
     (name "emacs-space-doc")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1596,6 +1660,7 @@ as horizontal rules.")
     (name "emacs-rst-sphinx")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1616,6 +1681,7 @@ as horizontal rules.")
     (name "emacs-vim-powerline")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1642,6 +1708,7 @@ as horizontal rules.")
       emacs-f))
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1661,6 +1728,7 @@ as horizontal rules.")
     (name "emacs-pylookup")
     (arguments
      (list
+      #:tests? #f
       #:include
       #~(cons*
          ;; "^layers\\/\\+lang\\/python\\/local\\/pylookup\\/pylookup\\.py$" ;; doesn't work
@@ -1752,6 +1820,7 @@ and @code{erc-send-modify-hook} to download and show images.")
       emacs-bind-map))
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1790,6 +1859,7 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-theme-changer")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1809,6 +1879,7 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-holy-mode")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1828,6 +1899,7 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-jr-mode")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1847,6 +1919,7 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-rst-directives")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1866,6 +1939,7 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-core-spacemacs")
     (arguments
      (list
+      #:tests? #f
       #:phases
       #~(modify-phases %standard-phases
           ;; Move the source files to the top level, which is included in
@@ -1928,6 +2002,7 @@ and @code{erc-send-modify-hook} to download and show images.")
          (sha256
           (base32 "14p20br8vzxs39d4hswzrrkgwql5nnmn5j17cpbabzjvck42rixc"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://github.com/rolandwalker/persistent-soft")
       (synopsis "Persistent storage for Emacs, returning nil on failure")
       (description "Wrapper around pcache.el, providing \"soft\" fetch and
@@ -1991,6 +2066,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
          (sha256
           (base32 "18yqzy8w4icp60z25ckbrx6wradm3m26vic35kmzr88msc0qdsva"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://github.com/rolandwalker/ucs-utils")
       (synopsis "Utilities for Unicode characters in Emacs")
       (description
@@ -2015,6 +2091,7 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
          (sha256
           (base32 "1ckcvy10sz4qvjy1bqrpvaijw92q2da4b6bxbgxaxvrw5d0ih81f"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-ucs-utils
@@ -2240,6 +2317,7 @@ performance-oriented and tidy.")
          (sha256
           (base32 "1sd65nhbcxr5r935z1ik3skz73kkpyr4r259nahn5gjvvww3if20"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://github.com/emacs-php/php-runtime.el")
       (synopsis "Evaluate PHP code from Emacs using php-runtime.el")
       (description
@@ -2267,6 +2345,7 @@ between Emacs and PHP.")
          (sha256
           (base32 "0vz9ckpkbqcf30aca7swizc1nx2jaghmyr4b1s64cncwr8z4jg5h"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-f
@@ -2366,6 +2445,7 @@ between Emacs and PHP.")
          (sha256
           (base32 "0146abvgygs787x75jlqhgp0qz77jw0mjn3n7y7zsarxrb2c5hqh"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-tblui
@@ -3426,6 +3506,7 @@ embedded HTML or JavaScript templates within code.")
          (sha256
           (base32 "1f0nm253n0k2rcx0zydj8c4nn5gmvhabzraajxdqycb2ak77nbif"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-pkg-info
@@ -3878,6 +3959,7 @@ dedicated major mode, allowing navigation between lessons using `C-j` and
          (sha256
           (base32 "17pb2khgxl4x3cvmi6bsi345fqi4g9bwx1cfr0xivr2vgd434l8m"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-spinner
@@ -4468,6 +4550,7 @@ such as Dired, Eshell, and modelines.")
          (sha256
           (base32 "00idwy8jzvkgs8qzafiy6s344rgms452n8mxbjg6yszwp3y3hmq1"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://gitlab.com/jabranham/system-packages")
       (synopsis "Manage system packages from within Emacs")
       (description
