@@ -468,29 +468,6 @@ debugging workflow.")
                        ,all-info-include)))
     (propagated-inputs (list emacs-lsp-mode))))
 
-(define-public emacs-dap-utils
-  (package
-    (inherit emacs-dap-base)
-    (name "emacs-dap-utils")
-    (arguments
-     (list #:include `(cons*
-                       "^dap-utils\\.el$"
-                       ,all-info-include)))
-    (propagated-inputs (list emacs-dap-mode))))
-
-(define-public emacs-dap-chrome
-  (package
-    (inherit emacs-dap-base)
-    (name "emacs-dap-chrome")
-    (arguments
-     (list #:include `(cons*
-                       "^dap-chrome\\.el$"
-                       ,all-info-include)))
-    (propagated-inputs
-     (list
-      emacs-dap-utils
-      emacs-dap-mode))))
-
 (define-public emacs-dap-overlays
   (package
     (inherit emacs-dap-base)
@@ -735,6 +712,29 @@ Protocol (DAP), a wire protocol for communication between client and
 debug server.  It is similar to the LSP but provides integration with
 Debug server.")
       (license license:gpl3+))))
+
+(define-public emacs-dap-utils
+  (package
+    (inherit emacs-dap-base)
+    (name "emacs-dap-utils")
+    (arguments
+     (list #:include `(cons*
+                       "^dap-utils\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs (list emacs-dap-mode))))
+
+(define-public emacs-dap-chrome
+  (package
+    (inherit emacs-dap-base)
+    (name "emacs-dap-chrome")
+    (arguments
+     (list #:include `(cons*
+                       "^dap-chrome\\.el$"
+                       ,all-info-include)))
+    (propagated-inputs
+     (list
+      emacs-dap-utils
+      emacs-dap-mode))))
 
 (define-public emacs-lsp-java
   (let ((commit "21c89243adfca4b70e244b0a10cfaa0cd78c61e7")
