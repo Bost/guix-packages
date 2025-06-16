@@ -51,6 +51,27 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
       (require 'lisp-mnt)
       (require 'package)
 
+      ;; WTF?!? The package--prepare-dependencies should be defined by (require 'package)
+      ;;   Symbol’s function definition is void: package--prepare-dependencies
+      (defun package--prepare-dependencies (deps)
+        "Turn DEPS into an acceptable list of dependencies.
+
+Any parts missing a version string get a default version string
+of \"0\" (meaning any version) and an appropriate level of lists
+is wrapped around any parts requiring it."
+        (cond
+         ((not (listp deps))
+          (error "Invalid requirement specifier: %S" deps))
+         (t (mapcar (lambda (dep)
+                      (cond
+                       ((symbolp dep) `(,dep "0"))
+                       ((stringp dep)
+                        (error "Invalid requirement specifier: %S" dep))
+                       ((and (listp dep) (null (cdr dep)))
+                        (list (car dep) "0"))
+                       (t dep)))
+                    deps))))
+
       (defun build-package-desc-from-library (name)
         (package-desc-from-define
          name
@@ -91,7 +112,7 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
          (generate-package-description-file name)
          (message (concat name "-pkg.el file generated.")))
        (error
-        (message "There are some errors during generation of -pkg.el file:")
+        (message "There are some errors during generation of %s-pkg.el file:" ,name)
         (message "%s" (error-message-string err))))))
 
   (unless (file-exists? (string-append name "-pkg.el"))
