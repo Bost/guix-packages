@@ -271,7 +271,7 @@
  manual import adjustments.")
       (license license:gpl3+))))
 
-(define emacs-spacemacs-base
+(define-public emacs-spacemacs-base
   (let ((commit "2254b9c16150165f459895bb49bc309b029b54e4")
         (revision "0"))
     (package
@@ -287,6 +287,28 @@
          (sha256
           (base32 "07mnf0669awwr454s94qyd4j2kzcfg8hc7q98lii9lf66fyaciyb"))))
       (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:include
+        #~(cons*
+           "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"
+           "^layers/\\+lang/c-c\\+\\+/global_conf\\.py$"
+           "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
+           %default-include)
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'patch-exec-paths
+              (lambda* (#:key inputs #:allow-other-keys)
+                (let ((python (search-input-file inputs "bin/python")))
+                  (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
+                    (("/usr/bin/env python") python))
+                  (substitute* "layers/+lang/c-c++/global_conf.py"
+                    (("/usr/bin/env python") python))))))))
+      (propagated-inputs
+       (list
+        python-wrapper
+        ))
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
@@ -346,18 +368,41 @@
     (arguments
      (list
       #:tests? #f
+      #:include #~(cons* "^core/.*" %default-include)
       #:phases
       #~(modify-phases %standard-phases
-          ;; Move the source files to the top level, which is included in
-          ;; the EMACSLOADPATH.
-          (add-after 'unpack 'move-source-files
-            (lambda _
-              (let ((el-files
-                     (find-files
-                      "core"
-                      "core-load-paths\\.el$")))
-                (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))))
+          ;; ;; Move the source files to the top level, which is included in
+          ;; ;; the EMACSLOADPATH.
+          ;; (add-after 'unpack 'move-source-files
+          ;;   (lambda _
+          ;;     (let ((el-files
+          ;;            (find-files
+          ;;             "core"
+          ;;             "core-load-paths\\.el$")))
+          ;;       (for-each (lambda (f) (rename-file f (basename f)))
+          ;;                 el-files))))
+          ;; ;; TODO check user-emacs-directory
+          ;; (add-after 'move-source-files 'fix-user-emacs-directory
+          ;;   (lambda _
+          ;;     (substitute* "core-load-paths.el"
+          ;;       (("user-emacs-directory") "\"./\""))))
+
+          ;; (add-after 'unpacs 'fix-user-emacs-directory
+          ;;   (lambda _
+          ;;     (substitute* "core/core-load-paths.el"
+          ;;       (("user-emacs-directory") "\"./\""))))
+          )))
+    (propagated-inputs
+     (list
+      emacs-spacemacs-theme
+      ;; emacs-core-spacemacs-buffer
+      ;; emacs-core-progress-bar
+      ;; emacs-core-funcs
+      ;; emacs-core-dotspacemacs
+      ;; emacs-spacemacs-ht
+      ;; python-wrapper
+      ))
+    ))
 
 (define-public emacs-spacemacs-ht
   (package
@@ -397,7 +442,17 @@
                       "core"
                       "core-dotspacemacs\\.el$")))
                 (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))))
+                          el-files)))))))
+    (propagated-inputs
+     (list
+      emacs-core-load-paths
+      ;; emacs-core-spacemacs-buffer
+      ;; emacs-core-progress-bar
+      ;; emacs-core-funcs
+      ;; emacs-core-dotspacemacs
+      ;; emacs-spacemacs-ht
+      python-wrapper
+      ))))
 
 (define-public emacs-core-spacemacs-buffer
   (package
@@ -1321,7 +1376,12 @@ as horizontal rules.")
                       "quelpa\\.el$"
                       )))
                 (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))))
+                          el-files))))
+          ;; TODO check user-emacs-directory
+          (add-after 'move-source-files 'fix-user-emacs-directory
+            (lambda _
+              (substitute* "quelpa.el"
+                (("user-emacs-directory") "\"./\"")))))))))
 
 (define-public emacs-helm-spacemacs-help
   (package
@@ -1384,7 +1444,12 @@ as horizontal rules.")
                       "core-funcs\\.el$"
                       )))
                 (for-each (lambda (f) (rename-file f (basename f)))
-                          el-files)))))))))
+                          el-files))))
+          ;; TODO check user-emacs-directory
+          (add-after 'move-source-files 'fix-user-emacs-directory
+            (lambda _
+              (substitute* "core-funcs.el"
+                (("user-emacs-directory") "\"./\"")))))))))
 
 (define-public emacs-tmux
   (package
@@ -1551,7 +1616,7 @@ as horizontal rules.")
               (let ((el-files
                      (find-files
                       "layers/+spacemacs/spacemacs-defaults/local/help-fns+"
-                      "help-fns\\+\\.el$"
+                      "help-fns+\\.el$"
                       )))
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
@@ -1731,11 +1796,8 @@ as horizontal rules.")
       #:tests? #f
       #:include
       #~(cons*
-         ;; "^layers\\/\\+lang\\/python\\/local\\/pylookup\\/pylookup\\.py$" ;; doesn't work
-         ;; "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"           ;; doesn't work
-         ;; "^layers/.*\\.py$"                                               ;; doesn't work
-         ;; "^.*\\.py$"                                                      ;; works
-         "\\.py$"
+         "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
+         "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"
          %default-include)
       #:phases
       #~(modify-phases %standard-phases
