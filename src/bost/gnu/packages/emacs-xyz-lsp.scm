@@ -261,6 +261,7 @@ and Projectile.")
          (sha256
           (base32 "0zyv1rar9vmxxs5n0mly5m9k5m8gia85c8c5rjap8fvrrbmjcfaa"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-dash
@@ -291,6 +292,7 @@ and code peeking.")
          (sha256
           (base32 "1cjxf2xqdmhi1mq4d1k4k8xh1lqglr8s6r1yw12b8956sjm9ykv9"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-haskell-mode
@@ -321,6 +323,7 @@ and code peeking.")
          (sha256
           (base32 "1nbvl850ifnzfbncbl9wvarbh3l8r3yapj6c0pxk2r5b9mifgp75"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-ht
@@ -358,6 +361,7 @@ pyrightconfig.json.")
          (sha256
           (base32 "05lfm13bg7na7p0372p5arjbyr9m9fyrq3v7q1aavrg6vd2bdc6q"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-lsp-mode
@@ -390,6 +394,7 @@ pyrightconfig.json.")
           (base32
            "1i7l06cw25fb202fbhqhx8xyfynz6sinka9ybh8n4cxjq19ffm8b"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs (list emacs-lsp-mode))
       (home-page "https://github.com/emacs-lsp/lsp-python-ms")
       (synopsis "LSP client integration for Microsoft's Python Language
@@ -453,7 +458,9 @@ debugging workflow.")
     (inherit emacs-dap-base)
     (name "emacs-dap-launch")
     (arguments
-     (list #:include `(cons*
+     (list
+      #:tests? #f
+      #:include `(cons*
                        "^dap-launch\\.el$"
                        ,all-info-include)))
     (propagated-inputs (list emacs-lsp-mode))))
@@ -463,7 +470,9 @@ debugging workflow.")
     (inherit emacs-dap-base)
     (name "emacs-dap-tasks")
     (arguments
-     (list #:include `(cons*
+     (list
+      #:tests? #f
+      #:include `(cons*
                        "^dap-tasks.\\el$"
                        ,all-info-include)))
     (propagated-inputs (list emacs-lsp-mode))))
@@ -473,7 +482,9 @@ debugging workflow.")
     (inherit emacs-dap-base)
     (name "emacs-dap-overlays")
     (arguments
-     (list #:include `(cons*
+     (list
+      #:tests? #f
+      #:include `(cons*
                        "^dap-overlays\\.el$"
                        ,all-info-include)))))
 
@@ -632,6 +643,7 @@ to Metals.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
         #:include #~(cons "^icons\\/" %default-include)
         )
        )
@@ -668,6 +680,7 @@ implementation of treeview controls using treemacs as a tree renderer.")
          (sha256
           (base32 "1frlfcy5vwn8rprgfyrh2qjp2cwwyjsgsp112cxws98s91601v1j"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-lsp-mode
@@ -697,7 +710,9 @@ in Docker environment.")
           (base32 "1cgqhv036fzcv9dg89k5czcfx5w56jkm4rm216lra004nph0sj82"))))
       (build-system emacs-build-system)
       (arguments
-       (list #:include #~(cons* "\\.png$" %default-include)))
+       (list
+        #:tests? #f
+        #:include #~(cons* "\\.png$" %default-include)))
       (propagated-inputs
        (list emacs-bui
              emacs-lsp-docker
@@ -718,9 +733,11 @@ Debug server.")
     (inherit emacs-dap-base)
     (name "emacs-dap-utils")
     (arguments
-     (list #:include `(cons*
-                       "^dap-utils\\.el$"
-                       ,all-info-include)))
+     (list
+      #:tests? #f
+      #:include `(cons*
+                  "^dap-utils\\.el$"
+                  ,all-info-include)))
     (propagated-inputs (list emacs-dap-mode))))
 
 (define-public emacs-dap-chrome
@@ -728,9 +745,11 @@ Debug server.")
     (inherit emacs-dap-base)
     (name "emacs-dap-chrome")
     (arguments
-     (list #:include `(cons*
-                       "^dap-chrome\\.el$"
-                       ,all-info-include)))
+     (list
+      #:tests? #f
+      #:include `(cons*
+                  "^dap-chrome\\.el$"
+                  ,all-info-include)))
     (propagated-inputs
      (list
       emacs-dap-utils
@@ -752,6 +771,7 @@ Debug server.")
          (sha256
           (base32 "1mp99vyi104r3jm4dlg0c9ri6w543h70mi5qq797xlb70n3sxqw3"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-dap-mode

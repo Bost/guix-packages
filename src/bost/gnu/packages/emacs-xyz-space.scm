@@ -1,5 +1,8 @@
 (define-module (bost gnu packages emacs-xyz-space)
-  #:use-module (utils)
+  ;; #:use-module (utils)
+  #:use-module (bost guix build emacs-utils)
+  #:use-module (bost gnu packages space-all)
+
   #:use-module (ice-9 pretty-print)
   #:use-module (srfi srfi-1) ;; sets, delete-duplicates
   #:use-module (srfi srfi-26)
@@ -157,9 +160,7 @@
    (list "core" "core-customization\\.el$")
    (list "core/libs/spacemacs-theme" "spacemacs-common\\.el$")
    (list "core/libs/spacemacs-theme" "spacemacs-theme\\.el$")
-   ;; (list "core/libs" "page-break-lines\\.el$")
    (list "core/libs" "package-recipe-mode\\.el$")
-   (list "layers/+themes/colors/local/nyan-mode" "nyan-mode\\.el$")
    (list "layers/+chat/erc/local/erc-yank" "erc-yank\\.el$")
    (list "core" "core-debug\\.el$")
    (list "core/libs/forks" "load-env-vars\\.el$")
@@ -169,10 +170,8 @@
    (list "layers/+completion/compleseus/local/compleseus-spacemacs-help" "compleseus-spacemacs-help\\.el$")
    (list "layers/+chat/erc/local/erc-tex" "erc-tex\\.el$")
    (list "core" "core-keybindings\\.el$")
-   (list "layers/+chat/erc/local/erc-sasl" "erc-sasl\\.el$")
    (list "core" "core-dumper\\.el$")
    (list "core" "core-cycle\\.el$")
-   (list "layers/+emacs/org/local/ox-gfm" "ox-gfm\\.el$")
    (list "core" "core-jump\\.el$")
    (list "core/libs" "package-recipe\\.el$")
    (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-faq\\.el$")
@@ -187,7 +186,6 @@
    (list "core" "core-emacs-backports\\.el$")
    (list "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin" "spacemacs-purpose-popwin\\.el$")
    (list "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup" "spacemacs-whitespace-cleanup\\.el$")
-   (list "layers/+spacemacs/spacemacs-defaults/local/help-fns+" "help-fns+\\.el$")
    (list "layers/+fun/games/local/helm-games" "helm-games\\.el$")
    (list "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode" "hybrid-mode\\.el$")
    (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-colors\\.el$")
@@ -197,7 +195,6 @@
    (list "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired" "evil-unimpaired\\.el$")
    (list "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state" "evil-evilified-state\\.el$")
    (list "layers/+tools/xclipboard/local/spacemacs-xclipboard" "spacemacs-xclipboard\\.el$")
-   (list "layers/+tools/geolocation/extensions/theme-changer" "theme-changer\\.el$")
    (list "layers/+distributions/spacemacs-bootstrap/local/holy-mode" "holy-mode\\.el$")
    (list "layers/+lang/jr/local/jr-mode" "jr-mode\\.el$")
    (list "layers/+lang/restructuredtext/local/rst-directives" "rst-directives\\.el$")
@@ -205,32 +202,36 @@
    ))
 
 (define (listing-el-files)
-  ((comp
-    ;; (partial map (partial format #t "~s\n"))
-    ;; (partial map (cut string-replace-substring <> "+" "\\+"))
-    (cut sort <> string<?)
-    (partial map (comp
-                  (partial str "^")
-                  (cut string-join <> "/"))))
-   paths-to-el-files
-   #;(take-smart 2 paths-to-el-files))
+  (begin
+    (use-modules (utils))
+    ((comp
+      pretty-print
+      ;; (partial map (cut string-replace-substring <> "+" "\\+"))
+      (cut sort <> string<?)
+      (partial map (comp
+                    (partial str "^")
+                    (cut string-join <> "/"))))
+     paths-to-el-files
+     #;(take-smart 2 paths-to-el-files)))
   )
 
 (define (listing-el-paths)
-  ((comp
-    ;; (partial map (partial format #t "~s\n"))
-    ;; (partial map (cut string-replace-substring <> "+" "\\+"))
-    pretty-print
-    (cut sort <> string<?)
-    (partial map str)
-    delete-duplicates
-    (partial map car))
-   paths-to-el-files
-   ;; (take-smart 2 paths-to-el-files)
-   )
+  (begin
+    (use-modules (utils))
+    ((comp
+      ;; (partial map (partial format #t "~s\n"))
+      ;; (partial map (cut string-replace-substring <> "+" "\\+"))
+      pretty-print
+      (cut sort <> string<?)
+      (partial map str)
+      delete-duplicates
+      (partial map car))
+     paths-to-el-files
+     ;; (take-smart 2 paths-to-el-files)
+     ))
   )
 
-(define-public emacs-spacemacs
+(define-public emacs-spacemacs-orig
   (let ((commit "3792071e5912e88faf62b942396380e9bd223c67")
         (revision "0"))
     (package
@@ -251,8 +252,6 @@
         #:tests? #f
         #:include
         #~(cons*
-           ;; "core/core-versions\\.el$"
-
            "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"
            "^layers/\\+lang/c-c\\+\\+/global_conf\\.py$"
            "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
@@ -300,7 +299,7 @@
            "^core/libs/quelpa\\.el$"
            "^core/libs/spacemacs-theme/spacemacs-common\\.el$"
            "^core/libs/spacemacs-theme/spacemacs-theme\\.el$"
-           "^layers/\\+chat/erc/local/erc-sasl/erc-sasl\\.el$"
+           ;; "^layers/\\+chat/erc/local/erc-sasl/erc-sasl\\.el$"
            "^layers/\\+chat/erc/local/erc-tex/erc-tex\\.el$"
            "^layers/\\+chat/erc/local/erc-yank/erc-yank\\.el$"
            "^layers/\\+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help\\.el$"
@@ -310,7 +309,7 @@
            "^layers/\\+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state\\.el$"
            "^layers/\\+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode\\.el$"
            "^layers/\\+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode\\.el$"
-           "^layers/\\+emacs/org/local/ox-gfm/ox-gfm\\.el$"
+           ;; "^layers/\\+emacs/org/local/ox-gfm/ox-gfm\\.el$"
            "^layers/\\+fun/games/local/helm-games/helm-games\\.el$"
            "^layers/\\+lang/jr/local/jr-mode/jr-mode\\.el$"
            "^layers/\\+lang/restructuredtext/local/rst-directives/rst-directives\\.el$"
@@ -334,47 +333,12 @@
             (add-after 'unpack 'patch-file
               (lambda* (#:key inputs #:allow-other-keys)
 
-                ;; It seems like I need to add every directory-path to EMACSLOADPATH or
-                ;; adjust the expand-load-path phase (see below)
-                ;; (setenv "EMACSLOADPATH"
-                ;;         (string-append (getcwd) "/test:"
-                ;;                        (getenv "EMACSLOADPATH")))
-                ;; (format #t "EMACSLOADPATH : ~a\n" (getenv "EMACSLOADPATH"))
-                (define paths
-                  (list
-                   "core"
-                   "core/aprilfool"
-                   "core/libs"
-                   "core/libs/forks"
-                   "core/libs/spacemacs-theme"
-                   "layers/+chat/erc/local/erc-sasl"
-                   "layers/+chat/erc/local/erc-tex"
-                   "layers/+chat/erc/local/erc-yank"
-                   "layers/+completion/compleseus/local/compleseus-spacemacs-help"
-                   "layers/+completion/helm/local/helm-spacemacs-help"
-                   "layers/+completion/ivy/local/ivy-spacemacs-help"
-                   "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
-                   "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
-                   "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
-                   "layers/+emacs/org/local/ox-gfm"
-                   "layers/+fun/games/local/helm-games"
-                   "layers/+lang/jr/local/jr-mode"
-                   "layers/+lang/restructuredtext/local/rst-directives"
-                   "layers/+lang/restructuredtext/local/rst-lists"
-                   "layers/+misc/ietf/local/irfc"
-                   "layers/+spacemacs/spacemacs-defaults/local/help-fns+"
-                   "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
-                   "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
-                   "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
-                   "layers/+spacemacs/spacemacs-org/local/space-doc"
-                   "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
-                   "layers/+themes/colors/local/nyan-mode"
-                   "layers/+tools/geolocation/extensions/theme-changer"
-                   "layers/+tools/sphinx/local/rst-sphinx"
-                   "layers/+tools/tmux/local/tmux"
-                   "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
-                ;; (/ 1 0)
-
+                (setenv "EMACSLOADPATH"
+                        (string-append
+                         (getcwd) "core/libs:"
+                         ;; ...
+                         ;; (getcwd) "/path/to/dirN:"
+                         (getenv "EMACSLOADPATH")))
                 (let ((python (search-input-file inputs "bin/python")))
                   (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
                     (("/usr/bin/env python") python))
@@ -425,1715 +389,203 @@
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
 
-;; (define-public emacs-rst-lists
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-rst-lists")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+lang/restructuredtext/local/rst-lists"
-;;                       "rst-lists\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-versions
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-versions")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-versions\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-load-paths
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-load-paths")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:include #~(cons* "^core/.*" %default-include)
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-load-paths\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files))))
-;;           ;; TODO check user-emacs-directory
-;;           (add-after 'move-source-files 'fix-user-emacs-directory
-;;             (lambda _
-;;               (substitute* "core-load-paths.el"
-;;                 (("user-emacs-directory") "\"./\""))))
-
-;;           (add-after 'unpacs 'fix-user-emacs-directory
-;;             (lambda _
-;;               (substitute* "core/core-load-paths.el"
-;;                 (("user-emacs-directory") "\"./\""))))
-;;           )))
-;;     (propagated-inputs
-;;      (list
-;;       ;; emacs-spacemacs-theme
-;;       ;; emacs-core-spacemacs-buffer
-;;       ;; emacs-core-progress-bar
-;;       ;; emacs-core-funcs
-;;       ;; emacs-core-dotspacemacs
-;;       ;; emacs-spacemacs-ht
-;;       ;; python-wrapper
-;;       ))
-;;     ))
-
-;; (define-public emacs-spacemacs-ht
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-spacemacs-ht")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs/forks"
-;;                       "spacemacs-ht\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-dotspacemacs
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-dotspacemacs")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-dotspacemacs\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list
-;;       emacs-core-load-paths
-;;       ;; emacs-core-spacemacs-buffer
-;;       ;; emacs-core-progress-bar
-;;       ;; emacs-core-funcs
-;;       ;; emacs-core-dotspacemacs
-;;       ;; emacs-spacemacs-ht
-;;       python-wrapper
-;;       ))))
-
-;; (define-public emacs-core-spacemacs-buffer
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-spacemacs-buffer")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-spacemacs-buffer\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list emacs-core-dotspacemacs))))
-
-;; (define-public emacs-core-use-package-ext
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-use-package-ext")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-use-package-ext\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-fonts-support
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-fonts-support")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-fonts-support\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-command-line
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-command-line")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-command-line\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-transient-state
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-transient-state")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-transient-state\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-early-funcs
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-early-funcs")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-early-funcs\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-documentation
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-documentation")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-documentation\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-compilation
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-compilation")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-compilation\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-env
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-env")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-env\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-hooks
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-hooks")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-hooks\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-display-init
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-display-init")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-display-init\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-zemacs
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-zemacs")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/aprilfool"
-;;                       "zemacs\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://www.emacswiki.org/emacs/download/irfc.el
-;; (define-public emacs-irfc
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-irfc")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+misc/ietf/local/irfc"
-;;                       "irfc\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://github.com/melpa/package-build
-;; (define-public emacs-package-build
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-package-build")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "package-build\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-spacebind
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-spacebind")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-spacebind\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-package-build-badges
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-package-build-badges")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "package-build-badges\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-custom-settings
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-custom-settings")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-custom-settings\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://github.com/creichert/ido-vertical-mode.el
-;; (define-public emacs-ido-vertical-mode
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-ido-vertical-mode")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "ido-vertical-mode\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-configuration-layer
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-configuration-layer")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-configuration-layer\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list
-;;       emacs-core-load-paths
-;;       emacs-core-spacemacs-buffer
-;;       emacs-core-progress-bar
-;;       emacs-core-funcs
-;;       emacs-core-dotspacemacs
-;;       emacs-spacemacs-ht
-;;       ))))
-
-;; (define-public emacs-core-customization
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-customization")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-customization\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list emacs-validate))))
-
-;; (define-public emacs-spacemacs-common
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-spacemacs-common")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs/spacemacs-theme"
-;;                       "spacemacs-common\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://github.com/nashamri/spacemacs-theme
-;; (define-public emacs-spacemacs-theme
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-spacemacs-theme")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs/spacemacs-theme"
-;;                       "spacemacs-theme\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; (define-public emacs-page-break-lines
-;; ;;   (package
-;; ;;     (inherit emacs-spacemacs-base)
-;; ;;     (name "emacs-page-break-lines")
-;; ;;     (arguments
-;; ;;      (list
-;; ;;       #:tests? #f
-;; ;;       #:phases
-;; ;;       #~(modify-phases %standard-phases
-;; ;;           ;; Move the source files to the top level, which is included in
-;; ;;           ;; the EMACSLOADPATH.
-;; ;;           (add-after 'unpack 'move-source-files
-;; ;;             (lambda _
-;; ;;               (let ((el-files
-;; ;;                      (find-files
-;; ;;                       "core/libs"
-;; ;;                       "page-break-lines\\.el$")
-;; ;;                      ))
-;; ;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;; ;;                           el-files)))))))))
-
-;; (define-public emacs-page-break-lines
-;;   (let ((commit "982571749c8fe2b5e2997dd043003a1b9fe87b38")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-page-break-lines")
-;;       (version (git-version "0.15" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/purcell/page-break-lines.git")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "0d74j7mqgzbwj00sirz3wa37f5yv0y48lgp2v20k61lq54sxk75g"))))
-;;       (build-system emacs-build-system)
-;;       (arguments (list #:tests? #f))
-;;       (home-page "https://github.com/purcell/page-break-lines")
-;;       (synopsis "Display page breaks as tidy horizontal lines")
-;;       (description
-;;        "This library provides a global mode which displays form feed characters
-;; as horizontal rules.")
-;;       (license license:gpl3+))))
-
-;; (define-public emacs-package-recipe-mode
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-package-recipe-mode")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "package-recipe-mode\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://github.com/TeMPOraL/nyan-mode/
-;; (define-public emacs-nyan-mode
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-nyan-mode")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+themes/colors/local/nyan-mode"
-;;                       "nyan-mode\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-erc-yank
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-erc-yank")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+chat/erc/local/erc-yank"
-;;                       "erc-yank\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-debug
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-debug")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-debug\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-load-env-vars
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-load-env-vars")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs/forks"
-;;                       "load-env-vars\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-themes-support
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-themes-support")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-themes-support\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://github.com/sigma/mocker.el
-;; (define-public emacs-mocker
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-mocker")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "mocker\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-release-management
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-release-management")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-release-management\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-compleseus-spacemacs-help
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-compleseus-spacemacs-help")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+completion/compleseus/local/compleseus-spacemacs-help"
-;;                       "compleseus-spacemacs-help\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list
-;;       emacs-consult
-;;       emacs-core-configuration-layer
-;;       ))))
-
-;; (define-public emacs-erc-tex
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-erc-tex")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+chat/erc/local/erc-tex"
-;;                       "erc-tex\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-keybindings
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-keybindings")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-keybindings\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-erc-sasl
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-erc-sasl")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+chat/erc/local/erc-sasl"
-;;                       "erc-sasl\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-dumper
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-dumper")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-dumper\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-cycle
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-cycle")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-cycle\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; ;; Upstream uses https://github.com/larstvei/ox-gfm
-;; (define-public emacs-ox-gfm
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-ox-gfm")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+emacs/org/local/ox-gfm"
-;;                       "ox-gfm\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-jump
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-jump")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-jump\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-package-recipe
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-package-recipe")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "package-recipe\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-helm-spacemacs-faq
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-helm-spacemacs-faq")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+completion/helm/local/helm-spacemacs-help"
-;;                       "helm-spacemacs-faq\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-quelpa
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-quelpa")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core/libs"
-;;                       "quelpa\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files))))
-;;           ;; TODO check user-emacs-directory
-;;           (add-after 'move-source-files 'fix-user-emacs-directory
-;;             (lambda _
-;;               (substitute* "quelpa.el"
-;;                 (("user-emacs-directory") "\"./\"")))))))))
-
-;; (define-public emacs-helm-spacemacs-help
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-helm-spacemacs-help")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+completion/helm/local/helm-spacemacs-help"
-;;                       "helm-spacemacs-help\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-ivy-spacemacs-help
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-ivy-spacemacs-help")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+completion/ivy/local/ivy-spacemacs-help"
-;;                       "ivy-spacemacs-help\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-funcs
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-funcs")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-funcs\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files))))
-;;           ;; TODO check user-emacs-directory
-;;           (add-after 'move-source-files 'fix-user-emacs-directory
-;;             (lambda _
-;;               (substitute* "core-funcs.el"
-;;                 (("user-emacs-directory") "\"./\"")))))))))
-
-;; (define-public emacs-tmux
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-tmux")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+tools/tmux/local/tmux"
-;;                       "tmux\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-progress-bar
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-progress-bar")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-progress-bar\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-micro-state
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-micro-state")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-micro-state\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-toggle
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-toggle")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-toggle\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-emacs-backports
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-emacs-backports")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-emacs-backports\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-spacemacs-purpose-popwin
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-spacemacs-purpose-popwin")
-;;     (propagated-inputs
-;;      (list emacs-window-purpose))
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
-;;                       "spacemacs-purpose-popwin\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-spacemacs-whitespace-cleanup
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-spacemacs-whitespace-cleanup")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
-;;                       "spacemacs-whitespace-cleanup\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-help-fns-plus
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-help-fns-plus")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-defaults/local/help-fns+"
-;;                       "help-fns+\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-helm-games
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-helm-games")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+fun/games/local/helm-games"
-;;                       "helm-games\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-hybrid-mode
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-hybrid-mode")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
-;;                       "hybrid-mode\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files))
-;;               (substitute* "hybrid-mode.el"
-;;                 ((";;; Code:")
-;;                  ;; The following doesn't work. The macro must be autoloaded
-;;                  ;; ";;; Code:\n(require 'core-funcs)"
-;;                  (string-append
-;;                   ";;; Code:\n\n"
-;;                   ";;;###autoload\n"
-;;                   "(defmacro spacemacs|dotspacemacs-backward-compatibility (variable default)
-;;   \"Return `if' sexp for backward compatibility with old dotspacemacs
-;;   values.\"
-;;   `(if (boundp ',variable) ,variable ',default))"))))))))
-;;     (propagated-inputs
-;;      (list
-;;       ;; emacs-core-funcs ;; Doesn't work - see above
-;;       emacs-evil))))
-
-;; (define-public emacs-vim-colors
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-vim-colors")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
-;;                       "vim-colors\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-space-doc
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-space-doc")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-org/local/space-doc"
-;;                       "space-doc\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-rst-sphinx
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-rst-sphinx")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+tools/sphinx/local/rst-sphinx"
-;;                       "rst-sphinx\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-vim-powerline
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-vim-powerline")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
-;;                       "vim-powerline-theme\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list
-;;       emacs-vim-colors))))
-
-;; (define-public emacs-evil-unimpaired
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-evil-unimpaired")
-;;     (propagated-inputs
-;;      (list
-;;       emacs-dash
-;;       emacs-f))
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
-;;                       "evil-unimpaired\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-pylookup
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-pylookup")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:include
-;;       #~(cons*
-;;          "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
-;;          "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"
-;;          %default-include)
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           (add-after 'unpack 'specify-python-location
-;;             (lambda* (#:key inputs #:allow-other-keys)
-;;               (let ((python3 (search-input-file inputs "/bin/python3")))
-;;                 (substitute* '("layers/+lang/python/local/pylookup/pylookup.py")
-;;                   (("/usr/bin/env python3?") python3)))))
-;;           (replace 'expand-load-path
-;;             (lambda args
-;;               (with-directory-excursion
-;;                   "layers/+lang/python/local/pylookup"
-;;                 (apply (assoc-ref %standard-phases 'expand-load-path) args))))
-;;           (replace 'make-autoloads
-;;             (lambda args
-;;               (with-directory-excursion
-;;                   "layers/+lang/python/local/pylookup"
-;;                 (apply (assoc-ref %standard-phases 'make-autoloads) args))))
-;;           (replace 'install
-;;             (lambda args
-;;               (with-directory-excursion
-;;                   "layers/+lang/python/local/pylookup"
-;;                 (apply (assoc-ref %standard-phases 'install) args))))
-;;           (replace 'build
-;;             (lambda args
-;;               (with-directory-excursion
-;;                   "layers/+lang/python/local/pylookup"
-;;                 (apply (assoc-ref %standard-phases 'build) args)))))))
-;;     ;; (propagated-inputs
-;;     ;;  (list
-;;     ;;   emacs-browse-url ;; missing
-;;     ;;   emacs-simple     ;; missing
-;;     ;;   ))
-;;     (native-inputs
-;;      (list
-;;       python-wrapper
-;;       ))))
-
-;; (define-public emacs-evil-evilified-state
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-evil-evilified-state")
-;;     (propagated-inputs
-;;      (list
-;;       emacs-evil
-;;       emacs-bind-map))
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
-;;                       "evil-evilified-state\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-spacemacs-xclipboard
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-spacemacs-xclipboard")
-;;     (arguments
-;;      (list
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+tools/xclipboard/local/spacemacs-xclipboard"
-;;                       "spacemacs-xclipboard\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-theme-changer
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-theme-changer")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+tools/geolocation/extensions/theme-changer"
-;;                       "theme-changer\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-holy-mode
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-holy-mode")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
-;;                       "holy-mode\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-jr-mode
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-jr-mode")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+lang/jr/local/jr-mode"
-;;                       "jr-mode\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-rst-directives
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-rst-directives")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "layers/+lang/restructuredtext/local/rst-directives"
-;;                       "rst-directives\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))))
-
-;; (define-public emacs-core-spacemacs
-;;   (package
-;;     (inherit emacs-spacemacs-base)
-;;     (name "emacs-core-spacemacs")
-;;     (arguments
-;;      (list
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           ;; Move the source files to the top level, which is included in
-;;           ;; the EMACSLOADPATH.
-;;           (add-after 'unpack 'move-source-files
-;;             (lambda _
-;;               (let ((el-files
-;;                      (find-files
-;;                       "core"
-;;                       "core-spacemacs\\.el$")
-;;                      ))
-;;                 (for-each (lambda (f) (rename-file f (basename f)))
-;;                           el-files)))))))
-;;     (propagated-inputs
-;;      (list
-;;       emacs-core-versions
-;;       emacs-core-versions
-;;       emacs-core-load-paths
-;;       emacs-core-emacs-backports
-;;       emacs-core-env
-;;       emacs-page-break-lines
-;;       emacs-core-hooks
-;;       emacs-core-debug
-;;       emacs-core-command-line
-;;       emacs-core-configuration-layer
-;;       emacs-core-dotspacemacs
-;;       emacs-core-custom-settings
-;;       emacs-core-release-management
-;;       emacs-core-jump
-;;       emacs-core-display-init
-;;       emacs-core-themes-support
-;;       emacs-core-fonts-support
-;;       emacs-core-spacemacs-buffer
-;;       emacs-core-keybindings
-;;       emacs-core-toggle
-;;       emacs-core-early-funcs
-;;       emacs-core-cycle
-;;       emacs-core-funcs
-;;       emacs-core-micro-state
-;;       emacs-core-transient-state
-;;       emacs-core-use-package-ext
-;;       emacs-core-spacebind
-;;       emacs-core-compilation
-;;       emacs-core-dumper
-;;       ))))
-
+(define-public emacs-spacemacs
+  (let ((commit "a75bc4f8ad4ab050cb00bc723aad9b41d912f9a0")
+        (revision "0"))
+    (package
+      (name "emacs-spacemacs")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/spacemacs.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0iv1i877kfw9igc36jdki2cgk1hym6ih3s15f6c85zqmnsfrb1pl"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:include
+        #~(cons*
+           "^layers/\\+lang/python/local/pylookup/pylookup\\.py$"
+           "^layers/\\+lang/c-c\\+\\+/global_conf\\.py$"
+           "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
+
+           "^core/aprilfool/zemacs\\.el$"
+           "^core/core-command-line\\.el$"
+           "^core/core-compilation\\.el$"
+           "^core/core-configuration-layer\\.el$"
+           "^core/core-custom-settings\\.el$"
+           "^core/core-customization\\.el$"
+           "^core/core-cycle\\.el$"
+           "^core/core-debug\\.el$"
+           "^core/core-display-init\\.el$"
+           "^core/core-documentation\\.el$"
+           "^core/core-dotspacemacs\\.el$"
+           "^core/core-dumper\\.el$"
+           "^core/core-early-funcs\\.el$"
+           "^core/core-emacs-backports\\.el$"
+           "^core/core-env\\.el$"
+           "^core/core-fonts-support\\.el$"
+           "^core/core-funcs\\.el$"
+           "^core/core-hooks\\.el$"
+           "^core/core-jump\\.el$"
+           "^core/core-keybindings\\.el$"
+           "^core/core-load-paths\\.el$"
+           "^core/core-micro-state\\.el$"
+           "^core/core-progress-bar\\.el$"
+           "^core/core-release-management\\.el$"
+           "^core/core-spacebind\\.el$"
+           "^core/core-spacemacs-buffer\\.el$"
+           "^core/core-spacemacs\\.el$"
+           "^core/core-themes-support\\.el$"
+           "^core/core-toggle\\.el$"
+           "^core/core-transient-state\\.el$"
+           "^core/core-use-package-ext\\.el$"
+           "^core/core-versions\\.el$"
+           "^core/libs/forks/load-env-vars\\.el$"
+           "^core/libs/forks/spacemacs-ht\\.el$"
+           "^core/libs/ido-vertical-mode\\.el$"
+           "^core/libs/mocker\\.el$"
+           "^core/libs/package-build-badges\\.el$"
+           "^core/libs/package-build\\.el$"
+           "^core/libs/package-recipe-mode\\.el$"
+           "^core/libs/package-recipe\\.el$"
+           "^core/libs/quelpa\\.el$"
+           "^core/libs/spacemacs-theme/spacemacs-common\\.el$"
+           "^core/libs/spacemacs-theme/spacemacs-theme\\.el$"
+           "^layers/+chat/erc/local/erc-tex/erc-tex\\.el$"
+           "^layers/+chat/erc/local/erc-yank/erc-yank\\.el$"
+           "^layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help\\.el$"
+           "^layers/+completion/helm/local/helm-spacemacs-help/helm-spacemacs-faq\\.el$"
+           "^layers/+completion/helm/local/helm-spacemacs-help/helm-spacemacs-help\\.el$"
+           "^layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help\\.el$"
+           "^layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state\\.el$"
+           "^layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode\\.el$"
+           "^layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode\\.el$"
+           "^layers/+fun/games/local/helm-games/helm-games\\.el$"
+           "^layers/+lang/jr/local/jr-mode/jr-mode\\.el$"
+           "^layers/+lang/restructuredtext/local/rst-directives/rst-directives\\.el$"
+           "^layers/+lang/restructuredtext/local/rst-lists/rst-lists\\.el$"
+           "^layers/+misc/ietf/local/irfc/irfc\\.el$"
+           "^layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup\\.el$"
+           "^layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired\\.el$"
+           "^layers/+spacemacs/spacemacs-modeline/local/vim-powerline/vim-colors\\.el$"
+           "^layers/+spacemacs/spacemacs-modeline/local/vim-powerline/vim-powerline-theme\\.el$"
+           "^layers/+spacemacs/spacemacs-org/local/space-doc/space-doc\\.el$"
+           "^layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin\\.el$"
+           "^layers/+tools/sphinx/local/rst-sphinx/rst-sphinx\\.el$"
+           "^layers/+tools/tmux/local/tmux/tmux\\.el$"
+           "^layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard\\.el$"
+           %default-include)
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'patch-file
+              (lambda* (#:key inputs #:allow-other-keys)
+                (let ((python (search-input-file inputs "bin/python")))
+                  (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
+                    (("/usr/bin/env python") python))
+                  (substitute* "layers/+lang/c-c++/global_conf.py"
+                    (("/usr/bin/env python") python)))))
+
+            (add-after 'unpack 'add-emacs-load-path
+             ;; add-before 'compile 'add-emacs-load-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                (map
+                   (lambda (file)
+                     (let* ((base (basename file))
+                            (dir (dirname file)))
+                       (with-directory-excursion
+                           dir (bst:write-pkg-file
+                                ;; remove the ".el" extension
+                                (substring base 0 (- (string-length base) 3))))))
+                   (list
+                    "core/aprilfool/zemacs.el"
+                    "core/libs/forks/load-env-vars.el"
+                    "layers/+chat/erc/local/erc-tex/erc-tex.el"
+                    "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
+                    "layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help.el"
+                    "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state.el"
+                    "layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode.el"
+                    "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode.el"
+                    "layers/+fun/games/local/helm-games/helm-games.el"
+                    "layers/+lang/jr/local/jr-mode/jr-mode.el"
+                    "layers/+lang/restructuredtext/local/rst-directives/rst-directives.el"
+                    "layers/+lang/restructuredtext/local/rst-lists/rst-lists.el"
+                    "layers/+misc/ietf/local/irfc/irfc.el"
+                    "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup.el"
+                    "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired.el"
+                    "layers/+spacemacs/spacemacs-org/local/space-doc/space-doc.el"
+                    "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin.el"
+                    "layers/+tools/sphinx/local/rst-sphinx/rst-sphinx.el"
+                    "layers/+tools/tmux/local/tmux/tmux.el"
+                    "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
+                    ))
+                  (let* ((root    (getcwd))
+                       ;; list every directory you need on the load-path:
+                       (paths   (list
+                                 "core"
+                                 "core/aprilfool"
+                                 "core/libs"
+                                 "core/libs/forks"
+                                 "core/libs/spacemacs-theme"
+                                 "layers/+chat/erc/local/erc-tex"
+                                 "layers/+chat/erc/local/erc-yank"
+                                 "layers/+completion/compleseus/local/compleseus-spacemacs-help"
+                                 "layers/+completion/helm/local/helm-spacemacs-help"
+                                 "layers/+completion/ivy/local/ivy-spacemacs-help"
+                                 "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
+                                 "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
+                                 "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
+                                 "layers/+fun/games/local/helm-games"
+                                 "layers/+lang/jr/local/jr-mode"
+                                 "layers/+lang/restructuredtext/local/rst-directives"
+                                 "layers/+lang/restructuredtext/local/rst-lists"
+                                 "layers/+misc/ietf/local/irfc"
+                                 "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
+                                 "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+                                 "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
+                                 "layers/+spacemacs/spacemacs-org/local/space-doc"
+                                 "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                                 "layers/+tools/sphinx/local/rst-sphinx"
+                                 "layers/+tools/tmux/local/tmux"
+                                 "layers/+tools/xclipboard/local/spacemacs-xclipboard"
+                                 ))
+                       (full    (map (lambda (d) (string-append root "/" d)) paths))
+                       (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":")))
+                    (setenv "EMACSLOADPATH" env-val))))
+
+            (add-after 'expand-load-path 'post-expand-load-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                ;; (bst:show-user-emacs-directory)
+                ;; TODO expand-load-path adds ':' at the end of EMACSLOADPATH
+                (substitute* "core/core-load-paths.el"          (("user-emacs-directory") "\".\""))
+                (substitute* "core/core-configuration-layer.el" (("user-emacs-directory") "\".\""))
+                (substitute* "core/libs/quelpa.el"              (("user-emacs-directory") "\".\""))
+                (substitute* "core/core-funcs.el"               (("user-emacs-directory") "\".\""))
+                (format #t "post: ### EMACSLOADPATH ~a\n" (getenv "EMACSLOADPATH"))))
+            )))
+      (propagated-inputs
+       (append
+        (spguimacs-packages)
+        (list python-wrapper))
+       )
+      (home-page "http://spacemacs.org/")
+      (synopsis
+       "Community-driven Emacs distribution - The best editor is neither Emacs
+ nor Vim, it's Emacs *and* Vim!")
+      (description
+       "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
+ and polished set-up, focused on ergonomics, mnemonics and consistency.")
+      (license license:gpl3+))))
