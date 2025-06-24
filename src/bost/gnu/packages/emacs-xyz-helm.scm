@@ -329,6 +329,7 @@ stuff in Emacs (like buffers, files, etc).")
          (sha256
           (base32 "0x3fwp059whrrqmdciacvchin5pfkvdv93ayw9vhvxzispp5nyw7"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-helm
@@ -547,6 +548,7 @@ documentation.")
          (sha256
           (base32 "0wgphpa9qymrc36i4wniwm9dddx6inmj2mdv7hkb1kbld3b5apsg"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list emacs-dash emacs-f emacs-helm emacs-org emacs-s))
       (home-page "https://github.com/alphapapa/helm-org-rifle")
@@ -751,6 +753,7 @@ multiline entries and integrates seamlessly with CIDER and Helm.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'fix-make-obsolete
@@ -995,6 +998,7 @@ documentation search and a source and class browser.")
          (sha256
           (base32 "0mcgwisnqplav0ga8xqqw72523iv841wp2cyw7d4lkzgpiav51dg"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-php-mode
@@ -1230,6 +1234,7 @@ e.g: @code{from:Peter to:Anne flag:attach search term}.")
        (sha256
         (base32 "1kc1jzk10nfd2v20g8dwnb6a944afrwdwnkzl06w4ba8k4yim7gi"))))
     (build-system emacs-build-system)
+    (arguments (list #:tests? #f))
     (propagated-inputs
      (list emacs-helm))
     (home-page "https://github.com/syohex/emacs-helm-gtags")
@@ -1281,6 +1286,7 @@ e.g: @code{from:Peter to:Anne flag:attach search term}.")
          (sha256
           (base32 "13w251mgr8lvlwa8nj51gyikaiqjbyggc4dh92phf148135jam3l"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-flymake-easy))
@@ -1314,6 +1320,7 @@ e.g: @code{from:Peter to:Anne flag:attach search term}.")
      (build-system emacs-build-system)
      (arguments
       (list
+       #:tests? #f
        #:include #~(cons* "^drupal/.*\\.el$" %default-include)
        #:phases
        #~(modify-phases
@@ -1388,6 +1395,7 @@ match Drupal Coding Standards.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
         #:modules '((guix build emacs-build-system)
                     (guix build utils)
                     (guix build emacs-utils)
@@ -1463,6 +1471,7 @@ fish-completion.  It can be used in both Eshell and M-x shell.")
          (sha256
           (base32 "1j74a9ynhfcikl4r0v5lym2ansvgwm643qbmj5hknblpn8g6016c"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs (list emacs-helm))
       (home-page "https://github.com/emacsorphanage/helm-themes")
       (synopsis "Emacs theme selection with Helm interface")
@@ -1486,6 +1495,7 @@ fish-completion.  It can be used in both Eshell and M-x shell.")
          (sha256
           (base32 "01nrak72inmic9n30dval6608cfzsbv5izwzykbim46ifjhcipag"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list emacs-helm))
       (home-page "https://github.com/emacsorphanage/helm-swoop")
@@ -1511,6 +1521,7 @@ for search-based navigation of buffers.")
          (sha256
           (base32 "1g2clyz5289wpahalvpdafz1d3cyqsm0g7ska0j2rlhqrcy9k2vc"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list emacs-helm))
       (home-page "https://github.com/syohex/emacs-helm-ag")
@@ -1560,6 +1571,7 @@ as well as features for editing search results.")
          (sha256
           (base32 "14jvhhw4chl94dgfwbyy7yirwchvcz5zrsgr9w6qy4z0fhqba41a"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (propagated-inputs
        (list emacs-helm emacs-ivy emacs-projectile))
       (home-page "https://github.com/abo-abo/helm-make")

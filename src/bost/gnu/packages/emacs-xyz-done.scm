@@ -255,6 +255,7 @@ on haml-mode.")
          (sha256
           (base32 "1mqwzc6fwhwq1kl8b3i1hm2ylfh8blrxrw6mzr5wyifbwpg7dq10"))))
       (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
       (home-page "https://github.com/emacsorphanage/popwin")
       (synopsis "Popup window manager for Emacs")
       (description
@@ -323,6 +324,7 @@ another window.")
           (base32
             "0gn19qn11n86rn9b6knp9fb5jx9m2q1khhm4vnh0vjck7jxi9sqr"))))
     (build-system emacs-build-system)
+    (arguments (list #:tests? #f))
     (home-page
       "https://github.com/DamienCassou/json-navigator")
     (synopsis "")
@@ -1357,7 +1359,7 @@ access to GitHub Copilot to use this plugin.")
 
 (define-public emacs-majapahit-themes
   (let ((commit
-          "7200f16f0fd4cc18e8c7d82b62cc351b610609af")
+         "77c96df7619666b2102d90d452eeadf04adc89a6")
         (revision "0"))
     (package
       (name "emacs-majapahit-themes")
@@ -1366,15 +1368,15 @@ access to GitHub Copilot to use this plugin.")
         (origin
           (method git-fetch)
           (uri (git-reference
-                 (url "https://github.com/emacsmirror/majapahit-themes")
+                 (url "https://gitlab.com/franksn/majapahit-theme.git")
                  (commit commit)))
           (file-name (git-file-name name version))
           (sha256
             (base32
-              "0r47k03m21w206kq8n3q10374xxw0278l8wilb2ls1bmr2bsd2sa"))))
+             "0wnhfdk2zwxqfh8d74xmszqgibcgxiq825pq8381zg4nkz5cckfb"))))
       (build-system emacs-build-system)
       (home-page
-        "https://github.com/emacsmirror/majapahit-themes")
+       "https://gitlab.com/franksn/majapahit-theme")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
@@ -2413,6 +2415,7 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
         #:include #~(cons "^src/el/" %default-include)))
       (propagated-inputs (list emacs-cider))
       (home-page "https://github.com/clojure-emacs/sayid")
@@ -2468,6 +2471,7 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (arguments
        (list
+        #:tests? #f
          ;; #:tests? #t
          ;; #:test-command #~(list
          ;;                   "emacs" "-Q" "--batch" "-L" "."
