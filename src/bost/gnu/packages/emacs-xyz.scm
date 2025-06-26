@@ -133,7 +133,9 @@
    emacs-frame-fns
    emacs-gandalf-theme
    emacs-geben
+   emacs-gh
    emacs-gh-md
+   emacs-gist
    emacs-gitignore-templates
    emacs-gotham-theme
    emacs-grandshell-theme
@@ -211,6 +213,7 @@
    emacs-live-py-mode
    emacs-livid-mode
    emacs-load-env-vars
+   emacs-logito
    emacs-lsp-docker
    emacs-lsp-haskell
    emacs-lsp-java
@@ -239,6 +242,7 @@
    emacs-magit-todos
    emacs-majapahit-themes
    emacs-markdown-toc
+   emacs-marshal
    emacs-material-theme
    emacs-maven-test-mode
    emacs-minimal-theme

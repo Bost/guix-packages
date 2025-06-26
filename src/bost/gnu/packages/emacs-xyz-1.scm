@@ -4590,3 +4590,145 @@ project's virtual environment.  It supports various virtual environment tools
 such as poetry, pipenv, conda, and direnv, ensuring seamless integration with
 Emacs packages like flycheck and lsp-mode.")
       (license license:gpl3+))))
+
+(define-public emacs-logito
+  (let ((commit
+         "d5934ce10ba3a70d3fcfb94d742ce3b9136ce124")
+        (revision "0"))
+    (package
+      (name "emacs-logito")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sigma/logito.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0bnkc6smvaq37q08q1wbrxw9mlcfbrax304fxw4fx7pc1587av0d"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
+      (home-page "https://github.com/sigma/logito")
+      (synopsis "Logging library for Emacs")
+      (description "This module provides logging facility for Emacs.")
+      (license license:gpl2+))))
+
+(define-public emacs-marshal
+  (let ((commit
+         "bc00044d9073482f589aad959e34d563598f682a")
+        (revision "0"))
+    (package
+      (name "emacs-marshal")
+      (version (git-version "0.9.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sigma/marshal.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0v5ncg88bghn4rpqw6fnvxpd0276mwn2bh6fpch7s1ibpaj2bsp0"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
+      (propagated-inputs (list emacs-ht))
+      (home-page "https://github.com/sigma/marshal.el")
+      (synopsis "Eieio extension for automatic (un)marshalling")
+      (description
+       "Inspired by Go tagged structs.  alist, plist and json drivers are provided, but
+implementing others just requires to inherit from `marshal-driver'.  Sometimes
+the types are not enough (for example with lists, whose elements are not
+explicitly typed.  In those cases, a small extension on top of types can be
+used.")
+      (license license:gpl2+))))
+
+(define-public emacs-gh
+  (let ((commit
+         "b5a8d8209340d49ad82dab22d23dae0434499fdf")
+        (revision "0"))
+    (package
+      (name "emacs-gh")
+      (version (git-version "1.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sigma/gh.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1vab2qdjyv4c3hfp09vbkqanfwj8ip7zi64gqbg93kf1aig1qgl9"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "gh-api")
+                (bst:write-pkg-file "gh-auth")
+                (bst:write-pkg-file "gh-cache")
+                (bst:write-pkg-file "gh-comments")
+                (bst:write-pkg-file "gh-common")
+                (bst:write-pkg-file "gh-gist")
+                (bst:write-pkg-file "gh-issue-comments")
+                (bst:write-pkg-file "gh-issues")
+                (bst:write-pkg-file "gh-oauth")
+                (bst:write-pkg-file "gh-orgs")
+                (bst:write-pkg-file "gh-pkg")
+                (bst:write-pkg-file "gh-profile")
+                (bst:write-pkg-file "gh-pull-comments")
+                (bst:write-pkg-file "gh-pulls")
+                (bst:write-pkg-file "gh-repos")
+                (bst:write-pkg-file "gh-search")
+                (bst:write-pkg-file "gh-url")
+                (bst:write-pkg-file "gh-users")
+                )))))
+      (propagated-inputs
+       (list
+        emacs-marshal
+        emacs-pcache
+        emacs-logito
+        ))
+      (home-page "https://github.com/sigma/gh.el")
+      (synopsis "Emacs client for GitHub API")
+      (description
+       "Emacs interface to the GitHub API, enabling users to create issues, list
+repositories, manage pull requests, and more, directly from Emacs.  It
+supports authentication with GitHub credentials and integration with other
+Emacs tools, facilitating seamless GitHub workflows within the editor.")
+      (license license:gpl2+))))
+
+(define-public emacs-gist
+  (let ((commit
+         "314fe6ab80fae35b95f0734eceb82f72813b6f41")
+        (revision "0"))
+    (package
+      (name "emacs-gist")
+      (version (git-version "1.4.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/defunkt/gist.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0vbyzww9qmsvdpdc6d6wq6drlq1r9y92807fjhs0frgzmq6dg0rh"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-gh))
+      (home-page "https://github.com/defunkt/gist.el")
+      (synopsis "Emacs integration for gist.github.com")
+      (description
+       "An Emacs interface for managing gists (http://gist.github.com).")
+      (license license:gpl2+))))
