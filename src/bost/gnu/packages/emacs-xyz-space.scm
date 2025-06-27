@@ -237,7 +237,9 @@
          ;; "f0af2d1f0fe9738a512c6bd45149a1155e9fac18" ;; original
          ;; "0ca64e59aa7dd7f29c9e4d67803ed9c71d80ce5d" ;; (bound-and-true-p byte-compile-current-file)
          ;; "70b8bc5d327ea01400d101ed7f1f7095d1efbf94" ;; always dotted->proper
-         "dec85fa851c5be34fd3791a2f82fca6e5cbbc9cd" ;; No explicit descriptions for keybindings. Revert d48e2ce76
+         ;; "dec85fa851c5be34fd3791a2f82fca6e5cbbc9cd" ;; No explicit descriptions for keybindings. Revert d48e2ce76
+         ;; "4527feb03cc089bd7ea1734a5eeed7b5ae59f22d" ;; (setq guix-installed-emacs-package-lst nil)
+         "649723d9d52d67061425f4ef97ce02109969f62e" ;; (setq guix-system-packages-lst nil); no spacemacs-rolling-release
          )
         (revision "0"))
     (package
@@ -255,7 +257,9 @@
            ;; "022k2glax7d4pqszyfjbb3lgibqrbxfhqwcf1k22akymxgbkvqkd" ;; original
            ;; "19i1gilfglxpp45qxzijycfav758msi59l2jb54n17jn9k6lx8i7" ;; (bound-and-true-p byte-compile-current-file)
            ;; "19ajwb6bwlgivw9g4sy783l0mf2sm8g3pnbv2pk4a5p1bq6a8pkf" ;; always dotted->proper
-           "04ydavrjq89mdr1486gsblmyjws67d8jvzybqfka1fv26ig73gl1" ;; No explicit descriptions for keybindings. Revert d48e2ce76
+           ;; "04ydavrjq89mdr1486gsblmyjws67d8jvzybqfka1fv26ig73gl1" ;; No explicit descriptions for keybindings. Revert d48e2ce76
+           ;; "17a7i7hfzkx09n5swy3fnv6q8p58z40bdc62nbw9rp1mkx0sim2k" ;; (setq guix-installed-emacs-package-lst nil)
+           "0pxf7330ip8i1jnsbxrlppqyqybk3rv14nk265mkg306j7l7vn77" ;; (setq guix-system-packages-lst nil); no spacemacs-rolling-release
            ))))
       (build-system emacs-build-system)
       (arguments
@@ -1615,11 +1619,10 @@
             (add-after 'expand-load-path 'post-expand-load-path
               (lambda* (#:key inputs #:allow-other-keys)
                 ;; TODO expand-load-path adds ':' at the end of EMACSLOADPATH
-                (substitute* "core/core-guix.el"
-                  (("\\(guix-get-installed-emacs-packages\\)")
-                   (format #f "'~s"
-                           (quote #$(spguimacs-packages-with-output-path)))))
-
+                ;; (substitute* "core/core-guix.el"
+                ;;   (("\\(guix-get-installed-emacs-packages\\)")
+                ;;    (format #f "'~s"
+                ;;            (quote #$(spguimacs-packages-with-output-path)))))
                 (map (lambda (file)
                        (substitute* file (("user-emacs-directory") "\".\"")))
                      (list
