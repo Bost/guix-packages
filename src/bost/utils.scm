@@ -20,8 +20,6 @@
   #:use-module (ice-9 string-fun)
   ;; first take remove delete-duplicates append-map etc.
   #:use-module (srfi srfi-1)
-  ;; return, bind
-  #:use-module (guix monads)
   ;; for the exec-with-error-to-string
   #:use-module (rnrs io ports)
 
@@ -33,9 +31,6 @@
   ;; for inferior-package-in-guix-channel : end
 
   #:export (
-            compose-commands-guix-shell
-            compose-commands-guix-shell-dry-run
-            compose-shell-commands
             compute-cmd
             contains--gx-dry-run?
             dbg-exec
@@ -901,10 +896,6 @@ Example:
           (error-command-failed m)
           mv))))
 
-(define-monad compose-shell-commands
-  (bind pipe-bind)
-  (return pipe-return))
-
 (define-inlinable (guix-shell-return lst-params)
   (list
    ;; Return code signaling that some hypothetical previous command terminated
@@ -963,14 +954,6 @@ Example:
             (begin
               (error-command-failed m)
               mv)))))
-
-(define-monad compose-commands-guix-shell-dry-run
-  (bind guix-shell-dry-run-bind)
-  (return guix-shell-return))
-
-(define-monad compose-commands-guix-shell
-  (bind guix-shell-bind)
-  (return guix-shell-return))
 
 (define-public (mdelete-file prms)
   (let [(file (car prms))]
