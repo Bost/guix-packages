@@ -1028,15 +1028,29 @@ Requires:
       (format #t "writing ~a\n" file-size))))
 |#
 
-(define-public (package-output-path package)
-  "(package-output-path (@(gnu packages emacs) emacs))
-=> \"/gnu/store/09a50cl6ndln4nmp56nsdvn61jgz2m07-emacs-29.1\""
-  ((comp
-    ;; (partial format #f "~a/bin/emacs")
-    (@(guix derivations) derivation->output-path)
-    (partial (@(guix packages) package-derivation)
-             ((@(guix store) open-connection))))
-   package))
+(define-public (package-output-paths one-or-many-packages)
+  "(package-output-paths (@(gnu packages emacs) emacs))
+=> (\"/gnu/store/09a50cl6ndln4nmp56nsdvn61jgz2m07-emacs-29.1\")"
+  (let [(connection ((@(guix store) open-connection)))]
+    (map (comp
+          ;; (partial format #f "~a/bin/emacs")
+          (@(guix derivations) derivation->output-path)
+          (partial (@(guix packages) package-derivation)
+                   connection))
+         (if (list? one-or-many-packages)
+             one-or-many-packages
+             (list one-or-many-packages)))))
+
+(define-public (interleave . lists)
+  "Take elements alternately from each list, stopping at the shortest."
+  (apply append
+         (apply map list lists)))
+
+(define-public (combine . lists)
+  (let ((len (length (car lists))))
+    (unless (every (λ (l) (= (length l) len)) lists)
+      (error "combine: lists must all be the same length" lists))
+    (apply map list lists)))
 
 (define-public (keyword->string keyword)
   "
