@@ -377,11 +377,13 @@
    (all-packages-from-guix-channel)))
 (testsymb 'spguimacs-packages)
 
-(define-public (spguimacs-packages-with-output-path)
-    (define f (format #f "~a [spguimacs-packages-with-output-path]" m))
+(define-public (sorted-spguimacs-packages)
+  (define f (format #f "~a [sorted-spguimacs-packages]" m))
   ((comp
-    ;; TODO separate package+output to packate and output
-    (partial map (juxt package-name package-output-path))
+    ;; (lambda (lst) (format #t "~a 4. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+    (lambda (lst) (sort-list lst (comp (partial apply string<=?)
+                                       (partial map package-name)
+                                       list)))
     ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     (partial append bst-packages)
     ;; (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
@@ -391,6 +393,14 @@
     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     )
    (all-packages-from-guix-channel)))
+(testsymb 'sorted-spguimacs-packages)
+
+(define-public (spguimacs-packages-with-output-path)
+  (define f (format #f "~a [spguimacs-packages-with-output-path]" m))
+  (let* [(packages (sorted-spguimacs-packages))]
+    (combine
+     (map package-name packages)
+     (package-output-paths packages))))
 (testsymb 'spguimacs-packages-with-output-path)
 
 (module-evaluated)
