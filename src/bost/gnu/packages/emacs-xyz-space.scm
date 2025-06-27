@@ -1623,13 +1623,21 @@
                 ;;   (("\\(guix-get-installed-emacs-packages\\)")
                 ;;    (format #f "'~s"
                 ;;            (quote #$(spguimacs-packages-with-output-path)))))
-                (map (lambda (file)
-                       (substitute* file (("user-emacs-directory") "\".\"")))
-                     (list
-                      "core/core-load-paths.el"
-                      "core/core-configuration-layer.el"
-                      "core/libs/quelpa.el"
-                      "core/core-funcs.el")))))))
+                (let* ((sexp (list
+                              "(or (and (getenv \"XDG_CONFIG_HOME\")"
+                              "       (expand-file-name \"emacs/\" (getenv \"XDG_CONFIG_HOME\")))"
+                              "    (expand-file-name \".emacs.d/\" (getenv \"HOME\")))"
+                              ""))
+                       (subs-concat (string-join (cons "concat" sexp) "\n"))
+                       (subs (string-join (cons "" sexp) "\n")))
+                  (map (lambda (file)
+                         (substitute* file (("user-emacs-directory") subs)))
+                       (list "core/core-configuration-layer.el"
+                             "core/libs/quelpa.el"
+                             "core/core-funcs.el"))
+                  (map (lambda (file)
+                         (substitute* file (("concat user-emacs-directory") subs-concat)))
+                       (list "core/core-load-paths.el"))))))))
       (propagated-inputs
        (append
         (spguimacs-packages)
