@@ -41,11 +41,6 @@
 
 (define bst-packages
   (list
-   bst:emacs-gist
-   bst:emacs-logito
-   bst:emacs-marshal
-   bst:emacs-gh
-
    bst:emacs-ac-php
    bst:emacs-ace-jump-helm-line
    bst:emacs-ample-zen-theme
@@ -128,7 +123,9 @@
    bst:emacs-frame-fns
    bst:emacs-gandalf-theme
    bst:emacs-geben
+   bst:emacs-gh
    bst:emacs-gh-md
+   bst:emacs-gist
    bst:emacs-gitignore-templates
    bst:emacs-gotham-theme
    bst:emacs-grandshell-theme
@@ -192,6 +189,7 @@
    bst:emacs-light-soap-theme
    bst:emacs-live-py-mode
    bst:emacs-livid-mode
+   bst:emacs-logito
    bst:emacs-lsp-docker
    bst:emacs-lsp-haskell
    bst:emacs-lsp-java
@@ -217,6 +215,7 @@
    bst:emacs-magit-tbdiff
    bst:emacs-majapahit-themes
    bst:emacs-markdown-toc
+   bst:emacs-marshal
    bst:emacs-material-theme
    bst:emacs-maven-test-mode
    bst:emacs-minimal-theme
