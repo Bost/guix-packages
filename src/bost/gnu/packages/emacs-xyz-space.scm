@@ -239,7 +239,9 @@
          ;; "70b8bc5d327ea01400d101ed7f1f7095d1efbf94" ;; always dotted->proper
          ;; "dec85fa851c5be34fd3791a2f82fca6e5cbbc9cd" ;; No explicit descriptions for keybindings. Revert d48e2ce76
          ;; "4527feb03cc089bd7ea1734a5eeed7b5ae59f22d" ;; (setq guix-installed-emacs-package-lst nil)
-         "649723d9d52d67061425f4ef97ce02109969f62e" ;; (setq guix-system-packages-lst nil); no spacemacs-rolling-release
+         ;; "649723d9d52d67061425f4ef97ce02109969f62e" ;; (setq guix-system-packages-lst nil); no spacemacs-rolling-release
+         ;; "4b0595d488ea20e194cd5eebd2b9849def113dbf" ;; Use defvar instead of defconst
+         "4220b8461deac5f5c30795c36af0dfde1be0c028" ;; Debugging
          )
         (revision "0"))
     (package
@@ -259,7 +261,9 @@
            ;; "19ajwb6bwlgivw9g4sy783l0mf2sm8g3pnbv2pk4a5p1bq6a8pkf" ;; always dotted->proper
            ;; "04ydavrjq89mdr1486gsblmyjws67d8jvzybqfka1fv26ig73gl1" ;; No explicit descriptions for keybindings. Revert d48e2ce76
            ;; "17a7i7hfzkx09n5swy3fnv6q8p58z40bdc62nbw9rp1mkx0sim2k" ;; (setq guix-installed-emacs-package-lst nil)
-           "0pxf7330ip8i1jnsbxrlppqyqybk3rv14nk265mkg306j7l7vn77" ;; (setq guix-system-packages-lst nil); no spacemacs-rolling-release
+           ;; "0pxf7330ip8i1jnsbxrlppqyqybk3rv14nk265mkg306j7l7vn77" ;; (setq guix-system-packages-lst nil); no spacemacs-rolling-release
+           ;; "0c01b20wzhva848bwa2f1nfziw9ip810zwksvmfnrjr6kfxs8c82" ;; Use defvar instead of defconst
+           "1kp5i8bk3fy1x91aqm0fimw1in56zk19ijr90hlhwizyrdw2i2pl" ;; Debugging
            ))))
       (build-system emacs-build-system)
       (arguments
@@ -1615,29 +1619,7 @@
                                  "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
                        (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
                        (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":")))
-                  (setenv "EMACSLOADPATH" env-val))))
-            (add-after 'expand-load-path 'post-expand-load-path
-              (lambda* (#:key inputs #:allow-other-keys)
-                ;; TODO expand-load-path adds ':' at the end of EMACSLOADPATH
-                ;; (substitute* "core/core-guix.el"
-                ;;   (("\\(guix-get-installed-emacs-packages\\)")
-                ;;    (format #f "'~s"
-                ;;            (quote #$(spguimacs-packages-with-output-path)))))
-                (let* ((sexp (list
-                              "(or (and (getenv \"XDG_CONFIG_HOME\")"
-                              "       (expand-file-name \"emacs/\" (getenv \"XDG_CONFIG_HOME\")))"
-                              "    (expand-file-name \".emacs.d/\" (getenv \"HOME\")))"
-                              ""))
-                       (subs-concat (string-join (cons "concat" sexp) "\n"))
-                       (subs (string-join (cons "" sexp) "\n")))
-                  (map (lambda (file)
-                         (substitute* file (("user-emacs-directory") subs)))
-                       (list "core/core-configuration-layer.el"
-                             "core/libs/quelpa.el"
-                             "core/core-funcs.el"))
-                  (map (lambda (file)
-                         (substitute* file (("concat user-emacs-directory") subs-concat)))
-                       (list "core/core-load-paths.el"))))))))
+                  (setenv "EMACSLOADPATH" env-val)))))))
       (propagated-inputs
        (append
         (spguimacs-packages)

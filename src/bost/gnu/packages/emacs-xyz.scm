@@ -38,8 +38,40 @@
    emacs-company-shell
    emacs-company-statistics
    emacs-company-web
+   emacs-compleseus-spacemacs-help
    emacs-copilot
    emacs-copy-sexp
+   emacs-core-command-line
+   emacs-core-compilation
+   emacs-core-configuration-layer
+   emacs-core-custom-settings
+   emacs-core-customization
+   emacs-core-cycle
+   emacs-core-debug
+   emacs-core-display-init
+   emacs-core-documentation
+   emacs-core-dotspacemacs
+   emacs-core-dumper
+   emacs-core-early-funcs
+   emacs-core-emacs-backports
+   emacs-core-env
+   emacs-core-fonts-support
+   emacs-core-funcs
+   emacs-core-hooks
+   emacs-core-jump
+   emacs-core-keybindings
+   emacs-core-load-paths
+   emacs-core-micro-state
+   emacs-core-progress-bar
+   emacs-core-release-management
+   emacs-core-spacebind
+   emacs-core-spacemacs
+   emacs-core-spacemacs-buffer
+   emacs-core-themes-support
+   emacs-core-toggle
+   emacs-core-transient-state
+   emacs-core-use-package-ext
+   emacs-core-versions
    emacs-cython-mode
    emacs-dakrone-theme
    emacs-dall-e
@@ -60,18 +92,23 @@
    emacs-emacsql-sqlite3
    emacs-emr
    emacs-erc-image
+   emacs-erc-sasl
    emacs-erc-social-graph
+   emacs-erc-tex
    emacs-erc-tweet
    emacs-erc-view-log
+   emacs-erc-yank
    emacs-erc-yt
    emacs-espresso-theme
    emacs-eval-sexp-fu
    emacs-evil-collection
    emacs-evil-easymotion
+   emacs-evil-evilified-state
    emacs-evil-iedit-state
    emacs-evil-lisp-state
    emacs-evil-textobj-line
    emacs-evil-tutor
+   emacs-evil-unimpaired
    emacs-evil-vimish-fold
    emacs-evil-visual-mark-mode
    emacs-eziam-themes
@@ -120,6 +157,7 @@
    emacs-helm-descbinds
    emacs-helm-dictionary
    emacs-helm-fish-completion
+   emacs-helm-games
    emacs-helm-git-grep
    emacs-helm-ls-git
    emacs-helm-lsp
@@ -133,16 +171,22 @@
    emacs-helm-pydoc
    emacs-helm-slime
    emacs-helm-sly
+   emacs-helm-spacemacs-faq
+   emacs-helm-spacemacs-help
    emacs-helm-swoop
    emacs-helm-system-packages
    emacs-helm-themes
    emacs-helm-xref
+   emacs-help-fns-plus
    emacs-hemisu-theme
    emacs-heroku-theme
    emacs-hide-comnt
    emacs-highlight-parentheses
    emacs-hlint-refactor
+   emacs-holy-mode
    emacs-hungry-delete
+   emacs-hybrid-mode
+   emacs-ido-vertical-mode
    emacs-impatient-mode
    emacs-importmagic
    emacs-indent-guide
@@ -150,9 +194,12 @@
    emacs-inkpot-theme
    emacs-insert-shebang
    emacs-ir-black-theme
+   emacs-irfc
+   emacs-ivy-spacemacs-help
    emacs-jazz-theme
    emacs-jbeans-theme
    emacs-journalctl-mode
+   emacs-jr-mode
    emacs-js-doc
    emacs-js2-refactor
    emacs-json-navigator
@@ -165,6 +212,7 @@
    emacs-light-soap-theme
    emacs-live-py-mode
    emacs-livid-mode
+   emacs-load-env-vars
    emacs-logito
    emacs-lsp-docker
    emacs-lsp-haskell
@@ -198,6 +246,7 @@
    emacs-material-theme
    emacs-maven-test-mode
    emacs-minimal-theme
+   emacs-mocker
    emacs-moe-theme
    emacs-molokai-theme
    emacs-monochrome-theme
@@ -208,6 +257,7 @@
    emacs-nerd-icons
    emacs-nix-mode
    emacs-noctilux-theme
+   emacs-nyan-mode
    emacs-ob-elixir
    emacs-obsidian-theme
    emacs-occidental-theme
@@ -224,6 +274,12 @@
    emacs-orgit-forge
    emacs-origami
    emacs-overseer
+   emacs-ox-gfm
+   emacs-package-build
+   emacs-package-build-badges
+   emacs-package-recipe
+   emacs-package-recipe-mode
+   emacs-page-break-lines
    emacs-pcache
    emacs-pcsv
    emacs-pdf-tools
@@ -247,10 +303,15 @@
    emacs-professional-theme
    emacs-purple-haze-theme
    emacs-pyenv-mode
+   emacs-pylookup
    emacs-pytest
+   emacs-quelpa
    emacs-repo
    emacs-reveal-in-folder
    emacs-reverse-theme
+   emacs-rst-directives
+   emacs-rst-lists
+   emacs-rst-sphinx
    emacs-sass-mode
    emacs-sayid
    emacs-scss-mode
@@ -262,6 +323,13 @@
    emacs-soft-charcoal-theme
    emacs-soft-morning-theme
    emacs-soft-stone-theme
+   emacs-space-doc
+   emacs-spacemacs-common
+   emacs-spacemacs-ht
+   emacs-spacemacs-purpose-popwin
+   emacs-spacemacs-theme
+   emacs-spacemacs-whitespace-cleanup
+   emacs-spacemacs-xclipboard
    emacs-sqlite3
    emacs-string-edit-at-point
    emacs-subatomic-theme
@@ -277,6 +345,8 @@
    emacs-taxy-magit-section
    emacs-tblui
    emacs-term-cursor
+   emacs-theme-changer
+   emacs-tmux
    emacs-toxi-theme
    emacs-treemacs
    emacs-treemacs-evil
@@ -298,6 +368,8 @@
    emacs-uuidgen
    emacs-vdiff-magit
    emacs-vi-tilde-fringe
+   emacs-vim-colors
+   emacs-vim-powerline
    emacs-vimish-fold
    emacs-vline
    emacs-web-completion-data
@@ -308,6 +380,7 @@
    emacs-writeroom-mode
    emacs-xhair
    emacs-yapfify
+   emacs-zemacs
    emacs-zen-and-art-theme
    emacs-zonokai-emacs
    emacs-zoom-frm
