@@ -9,11 +9,6 @@
 ;; doesn't work
 (define-public (needed-packages)
   (list
-   "emacs-gist"
-   "emacs-logito"
-   "emacs-marshal"
-   "emacs-gh"
-
    "emacs-ac-ispell"
    "emacs-ac-php"
    "emacs-ac-php-core"
