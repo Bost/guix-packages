@@ -91,7 +91,6 @@
    "emacs-compat"
    "emacs-composer"
    "emacs-copy-sexp"
-   "emacs-core-load-paths"
    "emacs-crux"
    "emacs-css-mode"
    "emacs-csv-mode"
