@@ -299,6 +299,7 @@
    emacs-planet-theme
    emacs-poetry
    emacs-popwin
+   emacs-powerline
    emacs-prettier-js
    emacs-professional-theme
    emacs-purple-haze-theme
