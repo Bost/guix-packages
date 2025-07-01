@@ -137,6 +137,7 @@
    emacs-gh-md
    emacs-gist
    emacs-gitignore-templates
+   emacs-google-translate
    emacs-gotham-theme
    emacs-grandshell-theme
    emacs-groovy-imports
