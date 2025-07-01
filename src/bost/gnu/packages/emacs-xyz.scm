@@ -325,6 +325,8 @@
    emacs-soft-morning-theme
    emacs-soft-stone-theme
    emacs-space-doc
+   emacs-spaceline
+   emacs-spaceline-all-the-icons
    emacs-spacemacs-common
    emacs-spacemacs-ht
    emacs-spacemacs-purpose-popwin
