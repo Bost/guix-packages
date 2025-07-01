@@ -131,7 +131,6 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
-
   #:use-module (bost guix build emacs-utils)
   )
 
@@ -901,6 +900,10 @@ documentation search and a source and class browser.")
     (build-system emacs-build-system)
     (arguments
      (list
+      ;; Leads to
+      ;;     native-compiler-error-empty-byte (".../ac-php-comm-tags-data.el" ...)
+      ;; guix build -c 24 --with-input=emacs-minimal=emacs -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-ac-php)'
+      #:exclude #~(cons* "ac-php-comm-tags-data.el" %default-exclude)
       #:modules '((guix build emacs-build-system)
                   (guix build utils)
                   (guix build emacs-utils)

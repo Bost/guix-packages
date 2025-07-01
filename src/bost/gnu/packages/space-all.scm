@@ -86,7 +86,9 @@
    bst:emacs-dired-quick-sort
    bst:emacs-django-theme
    bst:emacs-drupal-mode
+   bst:emacs-dumb-jump
    bst:emacs-elisp-def
+   bst:emacs-elisp-refs
    bst:emacs-emacsql-sqlite3
    bst:emacs-emr
    bst:emacs-erc-image
@@ -99,6 +101,8 @@
    bst:emacs-evil-easymotion
    bst:emacs-evil-iedit-state
    bst:emacs-evil-lisp-state
+   bst:emacs-evil-matchit
+   bst:emacs-evil-nerd-commenter
    bst:emacs-evil-textobj-line
    bst:emacs-evil-tutor
    bst:emacs-evil-vimish-fold
@@ -182,6 +186,7 @@
    bst:emacs-js-doc
    bst:emacs-js2-refactor
    bst:emacs-json-navigator
+   bst:emacs-json-reformat
    bst:emacs-jump-last
    bst:emacs-kaocha-runner
    bst:emacs-kaolin-themes
@@ -191,6 +196,7 @@
    bst:emacs-live-py-mode
    bst:emacs-livid-mode
    bst:emacs-logito
+   bst:emacs-loop
    bst:emacs-lsp-docker
    bst:emacs-lsp-haskell
    bst:emacs-lsp-java
@@ -224,6 +230,7 @@
    bst:emacs-molokai-theme
    bst:emacs-monochrome-theme
    bst:emacs-multi-line
+   bst:emacs-multi-vterm
    bst:emacs-mustang-theme
    bst:emacs-mvn
    bst:emacs-naquadah-theme
@@ -239,6 +246,7 @@
    bst:emacs-open-junk-file
    bst:emacs-openai
    bst:emacs-org-category-capture
+   bst:emacs-org-cliplink
    bst:emacs-org-project-capture
    bst:emacs-org-projectile
    bst:emacs-organic-green-theme
@@ -246,6 +254,7 @@
    bst:emacs-orgit-forge
    bst:emacs-origami
    bst:emacs-overseer
+   bst:emacs-paradox
    bst:emacs-pcache
    bst:emacs-pcsv
    bst:emacs-pdf-tools
@@ -290,6 +299,7 @@
    bst:emacs-subatomic-theme
    bst:emacs-subatomic256-theme
    bst:emacs-sublime-themes
+   bst:emacs-suggest
    bst:emacs-sunny-day-theme
    bst:emacs-system-packages
    bst:emacs-systemd
@@ -300,6 +310,8 @@
    bst:emacs-taxy-magit-section
    bst:emacs-tblui
    bst:emacs-term-cursor
+   bst:emacs-terminal-here
+   bst:emacs-tldr
    bst:emacs-toxi-theme
    bst:emacs-treemacs
    bst:emacs-treemacs-evil
@@ -314,6 +326,10 @@
    bst:emacs-twilight-theme
    bst:emacs-ujelly-theme
    bst:emacs-underwater-theme
+   bst:emacs-undo-fu
+   bst:emacs-undo-fu-session
+   bst:emacs-undo-tree
+   bst:emacs-unfill
    bst:emacs-unicode-fonts
    bst:emacs-use-package
    bst:emacs-use-package-chords
@@ -322,16 +338,29 @@
    bst:emacs-vi-tilde-fringe
    bst:emacs-vimish-fold
    bst:emacs-vline
+   bst:emacs-volatile-highlights
+   bst:emacs-vterm
+   bst:emacs-vundo
+   bst:emacs-web-beautify
    bst:emacs-web-completion-data
+   bst:emacs-web-mode
    bst:emacs-wfnames
+   bst:emacs-wgrep
+   bst:emacs-which-key
    bst:emacs-white-sand-theme
    bst:emacs-winum
    bst:emacs-with-editor
    bst:emacs-writeroom-mode
+   bst:emacs-ws-butler
    bst:emacs-xhair
+   bst:emacs-xterm-color
+   bst:emacs-yaml-mode
+   bst:emacs-yasnippet-snippets
    bst:emacs-zen-and-art-theme
+   bst:emacs-zenburn-theme
    bst:emacs-zonokai-emacs
    bst:emacs-zoom-frm
+   bst:emacs-zop-to-char
    ))
 (testsymb 'bst-packages)
 
