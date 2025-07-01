@@ -88,7 +88,10 @@
    emacs-dired-quick-sort
    emacs-django-theme
    emacs-drupal-mode
+   emacs-dumb-jump
+   emacs-el-mock
    emacs-elisp-def
+   emacs-elisp-refs
    emacs-emacsql-sqlite3
    emacs-emr
    emacs-erc-image
@@ -106,6 +109,8 @@
    emacs-evil-evilified-state
    emacs-evil-iedit-state
    emacs-evil-lisp-state
+   emacs-evil-matchit
+   emacs-evil-nerd-commenter
    emacs-evil-textobj-line
    emacs-evil-tutor
    emacs-evil-unimpaired
@@ -204,6 +209,7 @@
    emacs-js-doc
    emacs-js2-refactor
    emacs-json-navigator
+   emacs-json-reformat
    emacs-jump-last
    emacs-kaocha-runner
    emacs-kaolin-themes
@@ -215,6 +221,7 @@
    emacs-livid-mode
    emacs-load-env-vars
    emacs-logito
+   emacs-loop
    emacs-lsp-docker
    emacs-lsp-haskell
    emacs-lsp-java
@@ -252,6 +259,7 @@
    emacs-molokai-theme
    emacs-monochrome-theme
    emacs-multi-line
+   emacs-multi-vterm
    emacs-mustang-theme
    emacs-mvn
    emacs-naquadah-theme
@@ -268,6 +276,7 @@
    emacs-open-junk-file
    emacs-openai
    emacs-org-category-capture
+   emacs-org-cliplink
    emacs-org-project-capture
    emacs-org-projectile
    emacs-organic-green-theme
@@ -281,6 +290,7 @@
    emacs-package-recipe
    emacs-package-recipe-mode
    emacs-page-break-lines
+   emacs-paradox
    emacs-pcache
    emacs-pcsv
    emacs-pdf-tools
@@ -339,6 +349,7 @@
    emacs-subatomic-theme
    emacs-subatomic256-theme
    emacs-sublime-themes
+   emacs-suggest
    emacs-sunny-day-theme
    emacs-system-packages
    emacs-systemd
@@ -349,7 +360,9 @@
    emacs-taxy-magit-section
    emacs-tblui
    emacs-term-cursor
+   emacs-terminal-here
    emacs-theme-changer
+   emacs-tldr
    emacs-tmux
    emacs-toxi-theme
    emacs-treemacs
@@ -366,6 +379,10 @@
    emacs-ucs-utils
    emacs-ujelly-theme
    emacs-underwater-theme
+   emacs-undo-fu
+   emacs-undo-fu-session
+   emacs-undo-tree
+   emacs-unfill
    emacs-unicode-fonts
    emacs-use-package
    emacs-use-package-chords
@@ -376,16 +393,29 @@
    emacs-vim-powerline
    emacs-vimish-fold
    emacs-vline
+   emacs-volatile-highlights
+   emacs-vterm
+   emacs-vundo
+   emacs-web-beautify
    emacs-web-completion-data
+   emacs-web-mode
    emacs-wfnames
+   emacs-wgrep
+   emacs-which-key
    emacs-white-sand-theme
    emacs-winum
    emacs-with-editor
    emacs-writeroom-mode
+   emacs-ws-butler
    emacs-xhair
+   emacs-xterm-color
+   emacs-yaml-mode
    emacs-yapfify
+   emacs-yasnippet-snippets
    emacs-zemacs
    emacs-zen-and-art-theme
+   emacs-zenburn-theme
    emacs-zonokai-emacs
    emacs-zoom-frm
+   emacs-zop-to-char
    ))

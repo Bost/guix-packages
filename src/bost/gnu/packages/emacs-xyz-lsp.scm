@@ -132,7 +132,6 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
-
   #:use-module (bost guix build emacs-utils)
   )
 
@@ -234,7 +233,7 @@
       (native-inputs
        (list
         emacs-deferred
-        emacs-el-mock
+        (@(bost gnu packages emacs-xyz-magit) emacs-el-mock)
         emacs-ert-runner))
       (home-page "https://emacs-lsp.github.io/lsp-mode/")
       (synopsis "Emacs client and library for the Language Server Protocol")
