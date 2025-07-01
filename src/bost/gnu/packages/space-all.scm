@@ -263,6 +263,7 @@
    bst:emacs-planet-theme
    bst:emacs-poetry
    bst:emacs-popwin
+   bst:emacs-powerline
    bst:emacs-prettier-js
    bst:emacs-professional-theme
    bst:emacs-purple-haze-theme
