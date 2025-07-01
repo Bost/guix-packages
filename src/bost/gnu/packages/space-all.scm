@@ -282,6 +282,8 @@
    bst:emacs-soft-charcoal-theme
    bst:emacs-soft-morning-theme
    bst:emacs-soft-stone-theme
+   bst:emacs-spaceline
+   bst:emacs-spaceline-all-the-icons
    bst:emacs-sqlite3
    bst:emacs-string-edit-at-point
    bst:emacs-subatomic-theme

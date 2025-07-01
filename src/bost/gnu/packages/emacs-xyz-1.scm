@@ -4841,3 +4841,62 @@ Emacs tools, facilitating seamless GitHub workflows within the editor.")
 a better-looking, more functional Emacs mode-line.  A collection of predefined
 themes comes with the package.")
       (license license:gpl3+))))
+
+(define-public emacs-spaceline
+  (package
+    (name "emacs-spaceline")
+    (version "2.0.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/TheBB/spaceline")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1q8r95zfrh0vxna5ml2pq9b9f66clfqcl4d2qy2aizkvzyxg6skl"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-dash emacs-powerline emacs-s))
+    (home-page "https://github.com/TheBB/spaceline")
+    (synopsis "Powerline theme from Spacemacs")
+    (description "Spaceline provides Spacemacs' mode-line theme.
+This package provides features for three kinds of users.
+
+@itemize
+@item You just want to use the Spacemacs mode-line theme and forget about it.
+@item You want to use something similar to the Spacemacs mode-line theme, but
+with a handful of easy tweaks.
+@item You want an easy-to-use library for building your own mode-line from
+scratch, and you think the Spacemacs theme looks good.
+@end itemize")
+    (license license:gpl3+)))
+
+(define-public emacs-spaceline-all-the-icons
+  (package
+    (name "emacs-spaceline-all-the-icons")
+    (version "1.4.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/domtronn/spaceline-all-the-icons.el")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "186v71d8n1iy73drayyf57pyzlz973q74mazkyvb8w3fj8bb3llm"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list emacs-all-the-icons
+           emacs-memoize
+           emacs-spaceline))
+    (home-page "https://github.com/domtronn/spaceline-all-the-icons.el")
+    (synopsis
+     "Theme for @code{emacs-spaceline} using @code{emacs-all-the-icons}")
+    (description
+     "This package is a theme for @code{emacs-spaceline} that recreates most
+of the segments available in that package using icons from
+@code{emacs-all-the-icons}.  Icon fonts allow for more tailored and detailed
+information in the mode line.")
+    (license license:expat)))
