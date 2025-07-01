@@ -127,6 +127,7 @@
    bst:emacs-gh-md
    bst:emacs-gist
    bst:emacs-gitignore-templates
+   bst:emacs-google-translate
    bst:emacs-gotham-theme
    bst:emacs-grandshell-theme
    bst:emacs-groovy-imports
