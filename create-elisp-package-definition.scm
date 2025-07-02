@@ -53,7 +53,10 @@ See also
 ;;   file-is-directory? (? file-exists?)
 
 (define (make-pkg pkg)
-  ;; (format #t "pkg : ~a\n" pkg)
+  (format #t "pkg : ~a\n" pkg)
+  ;; (format #t "url : ~a\n" (plist-get pkg 'repo-url))
+  (format #t "url : ~a\n" (cadr pkg))
+  (format #t "version : ~a\n" (caddr pkg))
   ;; (let* [
   ;;        (emacs-pkg-name (plist-get pkg    'emacs-pkg-name))
   ;;        (local-repo (plist-get pkg        'local-repo))
@@ -71,20 +74,30 @@ See also
   ;;   (format #t "propagated-inputs : ~a\n" propagated-inputs)
   ;;   (format #t "file : ~a\n" file))
 
-  (let* [(url (plist-get pkg 'repo-url))
+  (let* [(url
+          (cadr pkg)
+          ;; (plist-get pkg 'repo-url)
+          )
          (dst-dir (git-clone-to-tmp url))]
     ;; (format #t "[make-pkg] dst-dir ~a\n" dst-dir)
     ;; (format #t "[make-pkg] (basename dst-dir) ~a\n" (basename dst-dir))
     (when dst-dir
       (let* [
              ;; (emacs-pkg-name (str (car pkg) "-theme"))
-             (emacs-pkg-name (plist-get pkg 'emacs-pkg-name))
+             (emacs-pkg-name (car pkg))
+             ;; (emacs-pkg-name (plist-get pkg 'emacs-pkg-name))
              ]
-        ;; (format #t "emacs-pkg-name ~a\n" emacs-pkg-name)
+        (format #t "emacs-pkg-name : ~a\n" emacs-pkg-name)
         (let* [
                (verbose               #f)
-               (version               (plist-get pkg 'version))
-               (propagated-inputs     (plist-get pkg 'propagated-inputs))
+               (version
+                ;; (plist-get pkg 'version)
+                (caddr pkg)
+                )
+               (propagated-inputs
+                (cadddr pkg)
+                ;; (plist-get pkg 'propagated-inputs)
+                )
                (emacs-pkg-name-symbol (string->symbol emacs-pkg-name))
                (commit                (latest-commit-hash dst-dir #:verbose verbose))
 
