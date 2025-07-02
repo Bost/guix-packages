@@ -15,6 +15,7 @@
    emacs-apropospriate-theme
    emacs-auto-dictionary
    emacs-auto-highlight-symbol
+   emacs-avy-jump-helm-line
    emacs-avy-menu
    emacs-badwolf-theme
    emacs-birds-of-paradise-plus-theme

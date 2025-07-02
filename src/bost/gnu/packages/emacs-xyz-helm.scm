@@ -1607,3 +1607,28 @@ target will call @code{compile} on it.")
       (description "This Emacs library provides Helm interface for
 Yasnippet.")
       (license license:gpl2+))))
+
+(define-public emacs-avy-jump-helm-line
+  (let ((commit "93a8c0039743a6fcf1f6a4eabe9736ed658b8da1")
+        (revision "0"))
+    (package
+      (name "emacs-avy-jump-helm-line")
+      (version (git-version "0.4.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sunlin7/avy-jump-helm-line.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256 (base32 "1d4dfjaxdp49xa50fhq4nm3q7iwpz9xsvp5qnqvicdk8dysdkr2p"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-helm emacs-avy))
+      (home-page "https://github.com/sunlin7/avy-jump-helm-line")
+      (synopsis "Helm interface for avy line-jumping in Emacs")
+      (description
+       "Interface combining Helm with avy for jumping to lines in Emacs.  It displays
+line candidates in a Helm buffer and allows efficient navigation by selecting
+a target line with avy-style key prompts.  The integration enhances movement
+speed and accuracy within large buffers.")
+      (license license:gpl3+))))

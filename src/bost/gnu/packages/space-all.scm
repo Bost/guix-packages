@@ -46,6 +46,7 @@
    bst:emacs-ample-zen-theme
    bst:emacs-anti-zenburn-theme
    bst:emacs-apropospriate-theme
+   bst:emacs-avy-jump-helm-line
    bst:emacs-badwolf-theme
    bst:emacs-birds-of-paradise-plus-theme
    bst:emacs-bubbleberry-theme
