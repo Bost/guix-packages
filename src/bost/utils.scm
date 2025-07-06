@@ -1219,4 +1219,14 @@ that many from the end."
     ;;   ))
     ))
 
+(define-public (directory-exists? path)
+  "Check if path exists and is a directory"
+  (and (file-exists? path)
+       (eq? (stat:type (stat path)) 'directory)))
+
+(define-public (symbolic-link? path)
+  "Check if path is a symbolic link"
+  (and (file-exists? path)
+       (eq? (stat:type (lstat path)) 'symlink)))
+
 (module-evaluated)
