@@ -1,27 +1,25 @@
+;;; This module is required by some of the scm-bin CLI utilities. The output of
+;;; the `format' will also appear in the console such a utility is executed.
+
+;; TODO Consider creating a package installable by `guix install bost-utils`
+;; See: jaro the resource opener - an alternative to xdg-open
+;; https://github.com/isamert/jaro/blob/master/jaro
+;; See `guile-build-system'
 (define-module (bost utils)
   #:use-module (guix build utils)
-  #:use-module (ice-9 match) ;; match
-  ;; open-input-pipe
-  #:use-module (ice-9 popen)
-;;; (ice-9 readline) requires `guix install guile-readline'.
-  ;; #:use-module (ice-9 readline)
-  #:use-module (ice-9 rdelim) ;; read-line
-  ;; string-match
-  #:use-module (ice-9 regex)
-  ;; delete-duplicates
-  #:use-module (srfi srfi-1)
-  ;; #:use-module (guix build utils) ;; invoke - not needed
+  #:use-module (ice-9 match)         ; match
+  #:use-module (ice-9 popen)         ; open-input-pipe
   #:use-module (ice-9 pretty-print)
+  #:use-module (ice-9 rdelim)        ; read-line
+  #:use-module (ice-9 regex)         ; string-match
+  #:use-module (ice-9 string-fun)    ; string-replace-substring
+  #:use-module (rnrs io ports)       ; exec-with-error-to-string
+  #:use-module (srfi srfi-1)         ; list-processing procedures
+  #| #:use-module (guix build utils) ; invoke - not needed |#
+  #| #:use-module (ice-9 readline)   ; it requires `guix install guile-readline' |#
 
   ;; WTF? following line leads to 'no code for module (guix read-print)'
   ;; #:use-module (guix read-print)
-
-  ;; string-replace-substring
-  #:use-module (ice-9 string-fun)
-  ;; first take remove delete-duplicates append-map etc.
-  #:use-module (srfi srfi-1)
-  ;; for the exec-with-error-to-string
-  #:use-module (rnrs io ports)
 
   ;; for inferior-package-in-guix-channel : beg
   ;; #:use-module (guix channels)  ;; WTF? not found by `guix home ...`
@@ -200,8 +198,6 @@ Works also for functions returning and accepting multiple values."
 
 ;;; testsymb doesn't work in the let-syntax
 ;; (let [(ff 42)] (testsymb 'ff))
-
-(define-public (last lst) (car (reverse lst)))
 
 (define-public (pretty-print->string sexp)
   (let [(port (open-output-string))]
@@ -1180,9 +1176,10 @@ that many from the end."
 ;; (string-ops "Hello")  ; => (5 "HELLO" "hello")
 
 
-(define (build pkg-or-pkgs)
-  "Usage
-(build <package-name>)"
+(define (build package-or-packages)
+  "Usage:
+(build <package-name>)
+(build (list <package-name1> ... <package-nameN>) "
   (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (map (compose
@@ -1198,8 +1195,8 @@ that many from the end."
           ;;   (format #t "(package? p) p: ~a\n" (package? p))
           ;;   p)
           )
-         (if (list? pkg-or-pkgs) pkg-or-pkgs
-             (list pkg-or-pkgs)))
+         (if (list? package-or-packages) package-or-packages
+             (list package-or-packages)))
 
     ;; ((compose
     ;;   (lambda (p) (format #t "3 p: ~a\n" p) p)
@@ -1215,8 +1212,8 @@ that many from the end."
     ;;     p)
     ;;   )
     ;;  (specification->package
-    ;;   (format #f "(@ (bost packages emacs-xyz) ~a)" (symbol->string pkg-or-pkgs))
-    ;;   ))
+    ;;   (format #f "(@ (bost packages emacs-xyz) ~a)"
+    ;;           (symbol->string package-or-packages))))
     ))
 
 (define-public (directory-exists? path)
