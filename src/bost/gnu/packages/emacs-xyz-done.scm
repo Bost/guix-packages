@@ -482,7 +482,7 @@ color for syntax, and easily allows multiple variants.")
       (license license:gpl3+))))
 
 (define-public emacs-farmhouse-light-mod-theme
-  (let ((commit "1008a772e65735852b7fd77ecba16897b32c268b")
+  (let ((commit "8bd216bd12655828a07917a498052f5959515efd")
         (revision "0"))
     (package
       (name "emacs-farmhouse-light-mod-theme")
@@ -496,8 +496,28 @@ color for syntax, and easily allows multiple variants.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1p3ygg1c2qd2051hfxmvyl29xp7z4qi3skj2dsksgsp3gfi8qg88"))))
+           "133wa7lxvb2bk7ba5yvdnfz4hf7l1zpdmakidg1b3ca9rcprivvq"))))
       (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "farmhouse-light-mod-a-theme"
+                      "farmhouse-light-mod-b-theme"
+                      "farmhouse-light-mod-c-theme")))))))
       (home-page "https://github.com/Bost/farmhouse-light-mod-theme")
       (synopsis "Modded farmhouse-light theme for Emacs")
       (description "Modded farmhouse-light theme for Emacs.")
