@@ -41,7 +41,11 @@ second hyphen.  This corresponds to 'name-version' as used in ELPA packages."
             strip-store-file-name)
    store-dir))
 
-(define (write-pkg-file name)
+(define* (write-pkg-file name #:optional pkg-name)
+
+  (define file-name-pkg (if pkg-name
+                            pkg-name
+                            (string-append name "-pkg.el")))
 
   (define summary-regexp
     "^;;; [^ ]*\\.el ---[ \t]*\\(.*?\\)[ \t]*\\(-\\*-.*-\\*-[ \t]*\\)?$")
@@ -104,18 +108,18 @@ is wrapped around any parts requiring it."
       (defun generate-package-description-file (name)
         (package-generate-description-file
          (build-package-desc-from-library name)
-         (concat name "-pkg.el")))
+         ,file-name-pkg))
 
       (condition-case
        err
        (let ((name (file-name-base (buffer-file-name))))
          (generate-package-description-file name)
-         (message (concat name "-pkg.el file generated.")))
+         (message "%s generated." ,file-name-pkg))
        (error
-        (message "There are some errors during generation of %s-pkg.el file:" ,name)
+        (message "There are some errors during generation of %s :" ,file-name-pkg)
         (message "%s" (error-message-string err))))))
 
-  (unless (file-exists? (string-append name "-pkg.el"))
+  (unless (file-exists? file-name-pkg)
     (emacs-batch-edit-file (string-append name ".el")
       %write-pkg-file-form))
   )
