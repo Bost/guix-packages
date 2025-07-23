@@ -100,6 +100,7 @@
    bst:emacs-erc-yt
    bst:emacs-espresso-theme
    bst:emacs-evil-easymotion
+   bst:emacs-evil-evilified-state
    bst:emacs-evil-iedit-state
    bst:emacs-evil-lisp-state
    bst:emacs-evil-matchit
