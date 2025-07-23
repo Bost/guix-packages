@@ -2949,11 +2949,6 @@ without leaving the Emacs environment.")
  development experience for Cython code.")
       (license license:asl2.0))))
 
-(define-public emacs-eval-sexp-fu
-  (package
-    (inherit emacs-eval-sexp-fu-el)
-    (name "emacs-eval-sexp-fu")))
-
 ;; bat -r 105754:105775 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-pyenv-mode
   (let ((commit "ba1a8c7bd7d03c006f8411c856990c083c814c9c")

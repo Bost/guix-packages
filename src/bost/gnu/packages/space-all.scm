@@ -99,7 +99,6 @@
    bst:emacs-erc-view-log
    bst:emacs-erc-yt
    bst:emacs-espresso-theme
-   bst:emacs-eval-sexp-fu
    bst:emacs-evil-easymotion
    bst:emacs-evil-iedit-state
    bst:emacs-evil-lisp-state

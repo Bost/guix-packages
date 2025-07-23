@@ -2585,7 +2585,7 @@ official @command{sqlite3} executable to access SQL database.")
       (propagated-inputs
        (list
         emacs-smartparens
-        emacs-eval-sexp-fu-el))
+        emacs-eval-sexp-fu))
       (home-page "https://github.com/Bost/copy-sexp")
       (synopsis "")
       (description "")

@@ -106,7 +106,6 @@
    emacs-erc-yank
    emacs-erc-yt
    emacs-espresso-theme
-   emacs-eval-sexp-fu
    emacs-evil-collection
    emacs-evil-easymotion
    emacs-evil-evilified-state
