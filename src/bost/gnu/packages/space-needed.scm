@@ -95,6 +95,7 @@
    "emacs-css-mode"
    "emacs-csv-mode"
    "emacs-ctable"
+   "emacs-cursory"
    "emacs-cyberpunk-theme"
    "emacs-cython-mode"
    "emacs-dakrone-theme"
