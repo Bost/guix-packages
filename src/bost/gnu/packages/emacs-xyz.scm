@@ -209,7 +209,6 @@
    emacs-journalctl-mode
    emacs-jr-mode
    emacs-js-doc
-   emacs-js2-refactor
    emacs-json-navigator
    emacs-json-reformat
    emacs-jump-last

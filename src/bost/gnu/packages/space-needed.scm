@@ -324,7 +324,6 @@
    "emacs-js-doc"
    "emacs-js2-mode"
    "emacs-js2-refactor"
-   "emacs-js2-refactor-el"
    "emacs-json-mode"
    "emacs-json-navigator"
    "emacs-json-reformat"

@@ -186,7 +186,6 @@
    bst:emacs-jbeans-theme
    bst:emacs-journalctl-mode
    bst:emacs-js-doc
-   bst:emacs-js2-refactor
    bst:emacs-json-navigator
    bst:emacs-json-reformat
    bst:emacs-jump-last

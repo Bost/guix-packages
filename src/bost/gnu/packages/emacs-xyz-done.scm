@@ -452,11 +452,6 @@ color for syntax, and easily allows multiple variants.")
     (inherit emacs-writeroom)
     (name "emacs-writeroom-mode")))
 
-(define-public emacs-js2-refactor
-  (package
-    (inherit emacs-js2-refactor-el)
-    (name "emacs-js2-refactor")))
-
 (define-public emacs-farmhouse-themes
   (let ((commit
          "30c763d01611dad88f1a1ff88451431e2629016d")
