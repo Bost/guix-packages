@@ -72,6 +72,7 @@
    bst:emacs-copilot
    bst:emacs-copy-sexp
    bst:emacs-cython-mode
+   bst:emacs-cursory
    bst:emacs-dakrone-theme
    bst:emacs-dall-e
    bst:emacs-dap-chrome
