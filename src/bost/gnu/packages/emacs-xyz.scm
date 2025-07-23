@@ -1,5 +1,6 @@
 (define-module (bost gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-1)
+  #:use-module (bost gnu packages emacs-xyz-2)
   #:use-module (bost gnu packages emacs-xyz-helm)
   #:use-module (bost gnu packages emacs-xyz-magit)
   #:use-module (bost gnu packages emacs-xyz-done)
@@ -73,6 +74,7 @@
    emacs-core-transient-state
    emacs-core-use-package-ext
    emacs-core-versions
+   emacs-cursory
    emacs-cython-mode
    emacs-dakrone-theme
    emacs-dall-e
