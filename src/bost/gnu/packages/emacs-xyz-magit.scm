@@ -1616,48 +1616,23 @@ never confused by comments or @code{foo-bar} matching @code{foo}.")
     (license license:gpl3+)))
 
 (define-public emacs-paradox
-  (let ((commit "96401577ed02f433debe7604e49afd478e9eda61")) ;version bump
+  (let ((commit "dec73d4ba3512e0f85983a4b992080b225d199ee")
+        (revision "0"))
     (package
       (name "emacs-paradox")
-      (version "2.5.5")
+      (version (git-version "2.5.5" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/Malabarba/paradox")
+               (url "https://github.com/Malabarba/paradox.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0v9hmvq6bcr2hwlb09ldsd6pjl19ri5n2hl2bs3x52fqjj6fdzzn"))))
+           "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
       (build-system emacs-build-system)
-      (propagated-inputs
-       (list emacs-hydra emacs-let-alist emacs-seq emacs-spinner))
-      (native-inputs (list emacs-ert-runner emacs-undercover))
-      (home-page "https://github.com/Malabarba/paradox")
-      (synopsis "Paradox is an extension to Emacs packages menu")
-      (description
-       "Paradox is a project for modernizing Emacs' Package menu.  It provides
-improved appearance, mode-line information, GitHub integration,
-customizability and asynchronous upgrading.")
-      (license license:gpl2+))))
-
-(define-public emacs-paradox
-  (let ((commit "96401577ed02f433debe7604e49afd478e9eda61")) ;version bump
-    (package
-      (name "emacs-paradox")
-      (version "2.5.5")
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Malabarba/paradox")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0v9hmvq6bcr2hwlb09ldsd6pjl19ri5n2hl2bs3x52fqjj6fdzzn"))))
-      (build-system emacs-build-system)
+      ;; (arguments (list #:tests? #f))
       (propagated-inputs
        (list emacs-hydra emacs-let-alist emacs-seq emacs-spinner))
       (native-inputs (list emacs-ert-runner emacs-undercover))
