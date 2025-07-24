@@ -176,6 +176,7 @@
    bst:emacs-highlight-parentheses
    bst:emacs-hlint-refactor
    bst:emacs-hungry-delete
+   bst:emacs-hybrid-mode
    bst:emacs-impatient-mode
    bst:emacs-importmagic
    bst:emacs-indent-guide
