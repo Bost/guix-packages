@@ -136,6 +136,7 @@
    bst:emacs-gitignore-templates
    bst:emacs-google-translate
    bst:emacs-gotham-theme
+   bst:emacs-gptel
    bst:emacs-grandshell-theme
    bst:emacs-groovy-imports
    bst:emacs-groovy-mode
@@ -198,6 +199,7 @@
    bst:emacs-light-soap-theme
    bst:emacs-live-py-mode
    bst:emacs-livid-mode
+   bst:emacs-llm
    bst:emacs-logito
    bst:emacs-loop
    bst:emacs-lsp-docker

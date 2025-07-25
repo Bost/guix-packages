@@ -10199,3 +10199,117 @@ enhancing grammar/spelling or wording and more through the Emacs interface.
 Ellama natively supports streaming output, making it effortless to use with
 your preferred text editor.")
       (license license:gpl3+))))
+
+(define-public emacs-gptel
+  (let ((commit "73ee1f0f61187b7dd2640bd8192955e43922bf4f")
+        (revision "0"))
+    (package
+      (name "emacs-gptel")
+      (version (git-version "0.9.8.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/karthink/gptel.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0dn1qm18l4w4hrh8vdgpmxiyddym5mi08x9459lakyv7a6nimbv3"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'use-appropriate-curl
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "gptel.el"
+                  ("gptel-use-curl" (search-input-file inputs "/bin/curl")))))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "gptel")
+                )))))
+      (inputs (list curl))
+      (propagated-inputs (list emacs-compat emacs-transient))
+      (home-page "https://github.com/karthink/gptel")
+      (synopsis "GPTel is a simple ChatGPT client for Emacs")
+      (description
+       "GPTel is a simple ChatGPT asynchronous client for Emacs with no external
+dependencies.  It can interact with ChatGPT from any Emacs buffer with ChatGPT
+responses encoded in Markdown or Org markup.  It supports conversations, not
+just one-off queries and multiple independent sessions.  It requires an OpenAI
+API key.")
+      (license license:gpl3+))))
+
+(define-public emacs-llm
+  (let ((commit "6d6c88c20a2b485ade7bac53bdfb44ed8f91c279")
+        (revision "0"))
+    (package
+      (name "emacs-llm")
+      (version (git-version "0.27.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/ahyatt/llm.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0nxff3k43ccq7m75dd5d0lq47qi2wlbqpdvjkdnq1671xggaay1v"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        ;; there are no tests
+        #:tests? #f
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "llm")
+                (bst:write-pkg-file "llm-azure")
+                (bst:write-pkg-file "llm-claude")
+                (bst:write-pkg-file "llm-deepseek")
+                (bst:write-pkg-file "llm-fake")
+                (bst:write-pkg-file "llm-gemini")
+                (bst:write-pkg-file "llm-github")
+                (bst:write-pkg-file "llm-gpt4all")
+                ;; (bst:write-pkg-file "llm-integration-test")
+                (bst:write-pkg-file "llm-llamacpp")
+                (bst:write-pkg-file "llm-models")
+                (bst:write-pkg-file "llm-ollama")
+                (bst:write-pkg-file "llm-openai")
+                ;; (bst:write-pkg-file "llm-prompt-test")
+                (bst:write-pkg-file "llm-prompt")
+                ;; (bst:write-pkg-file "llm-provider-utils-test")
+                (bst:write-pkg-file "llm-provider-utils")
+                (bst:write-pkg-file "llm-request-plz")
+                ;; (bst:write-pkg-file "llm-test")
+                ;; (bst:write-pkg-file "llm-tester")
+                (bst:write-pkg-file "llm-vertex")
+                )))))
+      (propagated-inputs (list emacs-plz emacs-plz-event-source
+                               emacs-plz-media-type))
+      (home-page "https://github.com/ahyatt/llm")
+      (synopsis "Emacs library abstracting Large Language Model capabilities")
+      (description
+       "This package provides interfaces to abstract various @acronym{LLM, large
+language model}s out in the world.  To respect user freedom, it will warn you
+before interacting with non-free LLMs.")
+      (license license:gpl3+))))

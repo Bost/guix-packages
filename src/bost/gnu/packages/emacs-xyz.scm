@@ -143,6 +143,7 @@
    emacs-gitignore-templates
    emacs-google-translate
    emacs-gotham-theme
+   emacs-gptel
    emacs-grandshell-theme
    emacs-groovy-imports
    emacs-groovy-mode
@@ -217,6 +218,7 @@
    emacs-light-soap-theme
    emacs-live-py-mode
    emacs-livid-mode
+   emacs-llm
    emacs-load-env-vars
    emacs-logito
    emacs-loop

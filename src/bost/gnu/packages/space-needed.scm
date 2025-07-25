@@ -247,6 +247,7 @@
    "emacs-google-translate"
    "emacs-gotham-theme"
    "emacs-goto-chg"
+   "emacs-gptel"
    "emacs-grandshell-theme"
    "emacs-graphviz-dot-mode"
    "emacs-groovy-imports"
