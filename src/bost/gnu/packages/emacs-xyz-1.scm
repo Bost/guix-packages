@@ -1437,3 +1437,4 @@ between Emacs and PHP.")
       (description "Wrapper around pcache.el, providing \"soft\" fetch and
  store routines which never throw an error, but instead return nil on failure.")
       (license license:gpl3+))))
+

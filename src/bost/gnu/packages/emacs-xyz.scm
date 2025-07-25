@@ -1,11 +1,6 @@
 (define-module (bost gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-1)
   #:use-module (bost gnu packages emacs-xyz-2)
-  #:use-module (bost gnu packages emacs-xyz-helm)
-  #:use-module (bost gnu packages emacs-xyz-magit)
-  #:use-module (bost gnu packages emacs-xyz-done)
-  #:use-module (bost gnu packages emacs-xyz-lsp)
-  #:use-module (bost gnu packages emacs-xyz-lsp-magit)
   #:re-export
   (
    ;; emacs-concurrent
@@ -261,7 +256,6 @@
    emacs-molokai-theme
    emacs-monochrome-theme
    emacs-multi-line
-   emacs-multi-vterm
    emacs-mustang-theme
    emacs-mvn
    emacs-naquadah-theme
@@ -363,7 +357,6 @@
    emacs-term-cursor
    emacs-terminal-here
    emacs-theme-changer
-   emacs-tldr
    emacs-tmux
    emacs-toxi-theme
    emacs-treemacs
@@ -380,8 +373,6 @@
    emacs-ucs-utils
    emacs-ujelly-theme
    emacs-underwater-theme
-   emacs-undo-fu
-   emacs-undo-fu-session
    emacs-undo-tree
    emacs-unfill
    emacs-unicode-fonts
@@ -397,17 +388,12 @@
    emacs-volatile-highlights
    emacs-vterm
    emacs-vundo
-   emacs-web-beautify
    emacs-web-completion-data
-   emacs-web-mode
    emacs-wfnames
-   emacs-wgrep
-   emacs-which-key
    emacs-white-sand-theme
    emacs-winum
    emacs-with-editor
    emacs-writeroom-mode
-   emacs-ws-butler
    emacs-xhair
    emacs-xterm-color
    emacs-yaml-mode
@@ -418,5 +404,4 @@
    emacs-zenburn-theme
    emacs-zonokai-emacs
    emacs-zoom-frm
-   emacs-zop-to-char
    ))

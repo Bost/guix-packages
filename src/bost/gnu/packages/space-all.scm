@@ -232,7 +232,6 @@
    bst:emacs-molokai-theme
    bst:emacs-monochrome-theme
    bst:emacs-multi-line
-   bst:emacs-multi-vterm
    bst:emacs-mustang-theme
    bst:emacs-mvn
    bst:emacs-naquadah-theme
@@ -312,7 +311,6 @@
    bst:emacs-tblui
    bst:emacs-term-cursor
    bst:emacs-terminal-here
-   bst:emacs-tldr
    bst:emacs-toxi-theme
    bst:emacs-treemacs
    bst:emacs-treemacs-evil
@@ -327,8 +325,6 @@
    bst:emacs-twilight-theme
    bst:emacs-ujelly-theme
    bst:emacs-underwater-theme
-   bst:emacs-undo-fu
-   bst:emacs-undo-fu-session
    bst:emacs-undo-tree
    bst:emacs-unfill
    bst:emacs-unicode-fonts
@@ -342,17 +338,12 @@
    bst:emacs-volatile-highlights
    bst:emacs-vterm
    bst:emacs-vundo
-   bst:emacs-web-beautify
    bst:emacs-web-completion-data
-   bst:emacs-web-mode
    bst:emacs-wfnames
-   bst:emacs-wgrep
-   bst:emacs-which-key
    bst:emacs-white-sand-theme
    bst:emacs-winum
    bst:emacs-with-editor
    bst:emacs-writeroom-mode
-   bst:emacs-ws-butler
    bst:emacs-xhair
    bst:emacs-xterm-color
    bst:emacs-yaml-mode
@@ -361,7 +352,6 @@
    bst:emacs-zenburn-theme
    bst:emacs-zonokai-emacs
    bst:emacs-zoom-frm
-   bst:emacs-zop-to-char
    ))
 (testsymb 'bst-packages)
 
