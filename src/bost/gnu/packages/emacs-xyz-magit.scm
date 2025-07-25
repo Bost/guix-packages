@@ -2,9 +2,7 @@
   ;; #:use-module (bost guix build emacs-utils)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz-lsp)
-
   #:use-module (gnu packages emacs-xyz)
-
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -1625,7 +1623,7 @@ never confused by comments or @code{foo-bar} matching @code{foo}.")
            "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
       (build-system emacs-build-system)
       ;; (arguments (list #:tests? #f))
-      (propagated-inputs (list emacs-hydra emacs-let-alist emacs-seq emacs-spinner))
+      (propagated-inputs (list emacs-hydra emacs-let-alist emacs-spinner))
       (native-inputs (list emacs-ert-runner emacs-undercover))
       (home-page "https://github.com/Malabarba/paradox")
       (synopsis "Paradox is an extension to Emacs packages menu")

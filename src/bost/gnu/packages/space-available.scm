@@ -1592,7 +1592,6 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
    "emacs-selectrum"
    "emacs-semantic-refactor"
    "emacs-semi-epg"
-   "emacs-seq"
    "emacs-seriestracker"
    "emacs-sesman"
    "emacs-seti-theme"

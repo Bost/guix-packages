@@ -1,8 +1,6 @@
 (define-module (bost gnu packages emacs-xyz-1)
   #:use-module (bost gnu packages emacs-xyz-done)
-
   #:use-module (gnu packages emacs-xyz)
-
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -4657,7 +4655,7 @@ install, update, and remove packages without leaving the editor.")
           (base32 "08mxq4kffa9fip2klpb5bkj45k85m0vv6wldclkhsz3hm316dcc6"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
-      (propagated-inputs (list emacs-f emacs-map emacs-seq))
+      (propagated-inputs (list emacs-f emacs-map))
       (home-page "https://github.com/wyuenho/emacs-pet/")
       (synopsis "Automatically configure Python tooling paths in Emacs")
       (description

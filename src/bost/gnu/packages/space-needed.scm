@@ -494,7 +494,6 @@
    "emacs-scala-mode"
    "emacs-scribble-mode"
    "emacs-scss-mode"
-   "emacs-seq"
    "emacs-sesman"
    "emacs-seti-theme"
    "emacs-shell-maker"
