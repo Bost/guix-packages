@@ -423,7 +423,6 @@
    "emacs-orgit"
    "emacs-orgit-forge"
    "emacs-origami"
-   "emacs-origami-el" ;; this one is probably not needed
    "emacs-overseer"
    "emacs-package-lint"
    "emacs-packed"

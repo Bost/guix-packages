@@ -5,6 +5,7 @@
   #:use-module (bost gnu packages emacs-xyz-magit)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz-lsp)
+  #:use-module (bost gnu packages emacs-xyz-lsp-magit)
   #:re-export
   (
    ;; emacs-concurrent
@@ -283,7 +284,6 @@
    emacs-organic-green-theme
    emacs-orgit
    emacs-orgit-forge
-   emacs-origami
    emacs-overseer
    emacs-ox-gfm
    emacs-package-build

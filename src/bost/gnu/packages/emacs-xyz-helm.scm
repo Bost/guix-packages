@@ -1,4 +1,5 @@
 (define-module (bost gnu packages emacs-xyz-helm)
+  #:use-module (bost gnu packages emacs-xyz-lsp)
   #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages emacs-build)
   #:use-module ((guix licenses) #:prefix license:)
@@ -332,7 +333,7 @@ stuff in Emacs (like buffers, files, etc).")
       (propagated-inputs
        (list
         emacs-helm
-        (@(bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
+        emacs-lsp-mode
         emacs-dash
         ))
       (home-page "https://github.com/emacs-lsp/helm-lsp")
@@ -921,19 +922,19 @@ documentation search and a source and class browser.")
               )))))
     (inputs
      (list
-      (@(gnu packages emacs-xyz) emacs-auto-complete)
-      (@(gnu packages emacs-xyz) emacs-company)
-      (@(gnu packages emacs-build) emacs-dash)
-      (@(gnu packages emacs-build) emacs-f)
-      (@(gnu packages emacs-xyz) emacs-helm)
-      (@(gnu packages emacs-xyz) emacs-php-mode)
-      (@(gnu packages emacs-xyz) emacs-popup)
-      (@(gnu packages emacs-build) emacs-s)
-      (@(gnu packages emacs-xyz) emacs-xcscope)
+      emacs-auto-complete
+      emacs-company
+      emacs-dash
+      emacs-f
+      emacs-helm
+      emacs-php-mode
+      emacs-popup
+      emacs-s
+      emacs-xcscope
       ))
     (native-inputs
      (list
-      (@(gnu packages emacs-build) emacs-ert-runner)
+      emacs-ert-runner
       ))
     (home-page "https://github.com/xcwen/ac-php")
     (synopsis "Emacs Auto Complete & Company mode for PHP")
@@ -1342,11 +1343,12 @@ e.g: @code{from:Peter to:Anne flag:attach search term}.")
      (propagated-inputs
       (list
        emacs-flymake-phpcs
-       (@(gnu packages code) global) ;; provides gtags
        emacs-helm-gtags
        emacs-ggtags
        emacs-flycheck
-       emacs-php-mode))
+       emacs-php-mode
+       global ;; provides gtags
+       ))
      (home-page "https://github.com/arnested/drupal-mode")
      (synopsis "Advanced minor mode for Drupal development")
      (description

@@ -81,6 +81,7 @@
   #:use-module (gnu packages acl)
   #:use-module (gnu packages mail)
   #:use-module (gnu packages messaging)
+  #:use-module (gnu packages node)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages pdf)
@@ -635,7 +636,7 @@ company-mode.")
                 (emacs-substitute-variables "copilot.el"
                   ("copilot-node-executable"
                    (search-input-file inputs "/bin/node"))))))))
-      (inputs (list (@(gnu packages node) node-lts)))
+      (inputs (list node-lts))
       (propagated-inputs
        (list
         ;; emacs-copilot-balancer

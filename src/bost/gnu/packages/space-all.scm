@@ -254,7 +254,6 @@
    bst:emacs-organic-green-theme
    bst:emacs-orgit
    bst:emacs-orgit-forge
-   bst:emacs-origami
    bst:emacs-overseer
    bst:emacs-paradox
    bst:emacs-pcache

@@ -1,6 +1,7 @@
 (define-module (bost gnu packages emacs-xyz-magit)
   ;; #:use-module (bost guix build emacs-utils)
   #:use-module (bost gnu packages emacs-xyz-done)
+  #:use-module (bost gnu packages emacs-xyz-lsp-magit)
   #:use-module (bost gnu packages emacs-xyz-lsp)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
@@ -135,89 +136,6 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
   )
-
-(define-public emacs-el-mock
-  (let ((commit "6cfbc9de8f1927295dca6864907fe4156bd71910")
-        (revision "1"))
-    (package
-      (name "emacs-el-mock")
-      (version (git-version "1.25.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/rejeep/el-mock.el")
-                (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "09c3a1771v6kliwj0bn953pxxyjlk6q9kp31cxcr0nraik7d0mhk"))))
-      (build-system emacs-build-system)
-      (arguments (list #:tests? #f))
-      (native-inputs (list emacs-ert-runner
-                           emacs-ert-expectations
-                           emacs-undercover))
-      (home-page "https://github.com/rejeep/el-mock.el")
-      (synopsis "Tiny mock and stub framework in Emacs Lisp")
-      (description
-       "Emacs Lisp Mock is a library for mocking and stubbing using readable
-syntax.  Most commonly Emacs Lisp Mock is used in conjunction with Emacs Lisp
-Expectations, but it can be used in other contexts.")
-      (license license:gpl3+))))
-
-(define-public emacs-google-translate
-  (package
-    (name "emacs-google-translate")
-    (version "0.12.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/atykhonov/google-translate/")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0rwpij2bm8d4jq2w5snkp88mfryplw8166dsrjm407n2p6xr48zx"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'unpack 'patch-bump-version
-            (lambda* (#:key inputs #:allow-other-keys)
-              ;; Needed for `guix build --with-input=emacs-minimal=emacs emacs-google-translate`
-              (substitute* ".bump-version.el"
-                (("^") ";; -*- no-byte-compile: t -*-\n"))))
-          (add-before 'check 'disable-failing-tests
-            (lambda _
-              (let-syntax
-                  ((disable-tests
-                    (syntax-rules ()
-                      ((_ file ())
-                       (syntax-error "test names list must not be empty"))
-                      ((_ file (test-name ...))
-                       (substitute* file
-                         (((string-append "^\\(ert-deftest " test-name ".*") all)
-                          (string-append all "(skip-unless nil)\n")) ...)))))
-                ;; These tests fail due to a missing requirement:
-                ;;   (void-function facemenu-set-face)
-                (disable-tests
-                 "test/google-translate-core-ui-test.el"
-                 ("test-google-translate--suggestion"
-                  "test-google-translate--text-phonetic/show-phonetic"
-                  "test-google-translate--translation-phonetic/show-phonetic"
-                  "test-google-translate--translated-text"))))))))
-    (native-inputs
-     (list
-      emacs-el-mock
-      emacs-ert-runner
-      ))
-    (home-page "https://github.com/atykhonov/google-translate")
-    (synopsis "Emacs interface to Google Translate")
-    (description
-     "This package provides an Emacs interface to the Google Translate
-on-line service.")
-    (license license:gpl3+)))
 
 (define-public emacs-with-editor
   (let ((commit "ca902ae02972bdd6919a902be2593d8cb6bd991b")
@@ -678,37 +596,6 @@ as the current patch using @code{a}, and it can be discarded using @code{k}.  Ot
 support for Git-SVN.")
       (license license:gpl3+))))
 
-(define-public emacs-lean4-mode
-  (let ((commit "76895d8939111654a472cfc617cfd43fbf5f1eb6")
-        (revision "0"))
-    (package
-      (name "emacs-lean4-mode")
-      (version (git-version "1.1.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/leanprover-community/lean4-mode.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1i4l614n0hs02y0a4xfnzc4xkilkp6bzx28pys4jkp96vp2ivf0c"))))
-      (build-system emacs-build-system)
-      (arguments (list #:tests? #f))
-      ;; TODO: Just emacs-magit-section instead of emacs-magit would be enough.
-      (propagated-inputs
-       (list
-        emacs-compat
-        (@ (bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
-        emacs-dash
-        emacs-magit
-        ))
-      (synopsis "Lean 4 major mode for Emacs")
-      (description "This package provides a major mode for the Lean theorem
-prover, version 4.")
-      (home-page "https://lean-lang.org/")
-      (license license:asl2.0))))
-
 (define-public emacs-evil-collection
   (let ((commit "fca81ddb2ca1ac3838aa7e8969b2313712807a45")
         (revision "0"))
@@ -830,38 +717,6 @@ Nix expressions.  It supports syntax highlighting, indenting and refilling of
 comments.")
       (license license:lgpl2.1+))))
 
-(define-public emacs-repo
-  (let ((commit "1572f3ee82eaadc06e741f03e1889281308c79fa")
-        (revision "0"))
-    (package
-      (name "emacs-repo")
-      (version (git-version "0.3.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/canatella/repo-el.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0y8j3hf5r69fxj2vsbaxwr9qdchddn53w25xzmxv1kfh6hbagzv3"))))
-      (build-system emacs-build-system)
-      (native-inputs
-       (list
-        emacs-el-mock
-        emacs-ert-runner))
-      (arguments (list #:tests? #f))
-      (propagated-inputs
-       (list
-        emacs-f
-        emacs-magit))
-      (home-page "https://github.com/canatella/repo-el")
-      (synopsis "Emacs interface for the Google Repo tool")
-      (description "This package provides integration of the Google Repo tool
-with emacs.  It displays the output of the @code{repo status} command in a
-buffer and launches Magit from the status buffer for the project at point.")
-      (license license:gpl3+))))
-
 (define-public emacs-orgit
   (let ((commit "efd98e5caaac1d08677dae95be40fab65dcda2c8")
         (revision "0"))
@@ -951,217 +806,6 @@ Later you can insert it into an Org buffer using the command
 based on diff output.")
       (license license:gpl3+))))
 
-(define-public emacs-treemacs
-  (let ((commit "820b09db106a48db76d95e3a266d1e67ae1b6bdb")
-        (revision "0"))
-    (package
-      (name "emacs-treemacs")
-      (version (git-version "3.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/Alexander-Miller/treemacs.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1gmp3dvji3ank0qh0fhygla2iy9pc2pg07d342wzs1mysgcdj2l8"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:test-command #~(list "make" "-C" "../.." "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'fix-makefile
-              (lambda _
-                (substitute* "Makefile"
-                  (("@\\$\\(CASK\\) exec ") "")
-                  ;; Guix does not need to prepare dependencies before testing.
-                  (("test: prepare") "test:"))))
-            (add-after 'fix-makefile 'chdir-elisp
-              ;; Elisp directory is not in root of the source.
-              (lambda _
-                (chdir "src/elisp")))
-            (add-before 'install 'patch-paths
-              (lambda* (#:key inputs #:allow-other-keys)
-                (make-file-writable "treemacs-core-utils.el")
-                (emacs-substitute-variables "treemacs-core-utils.el"
-                  ("treemacs-dir" (string-append #$output "/")))
-                (make-file-writable "treemacs-icons.el")
-                (substitute* "treemacs-icons.el"
-                  (("icons/default")
-                   (string-append (elpa-directory #$output) "/icons/default")))
-                (make-file-writable "treemacs-customization.el")
-                (emacs-substitute-variables "treemacs-customization.el"
-                  ("treemacs-python-executable"
-                   (search-input-file inputs "/bin/python3")))
-                (make-file-writable "treemacs-async.el")
-                (substitute* "treemacs-async.el"
-                  (("src/scripts")
-                   (string-append (elpa-directory #$output) "/scripts")))))
-            (add-after 'install 'install-data
-              (lambda _
-                (with-directory-excursion "../.." ;treemacs root
-                  (copy-recursively
-                   "icons/default"
-                   (string-append (elpa-directory #$output) "/icons/default"))
-                  (copy-recursively
-                   "src/scripts"
-                   (string-append (elpa-directory #$output) "/scripts"))
-                  ;; (copy-recursively
-                  ;;  "src/extra"
-                  ;;  (string-append (elpa-directory #$output) "/extra"))
-                  )))
-            ;; (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-            ;;   (lambda* (#:key outputs #:allow-other-keys)
-            ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
-            ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-            ;;     (bst:write-pkg-file "treemacs-treelib")
-            ;;     (with-directory-excursion "../extra"
-            ;;       (bst:write-pkg-file "treemacs-all-the-icons")
-            ;;       (bst:write-pkg-file "treemacs-evil")
-            ;;       (bst:write-pkg-file "treemacs-icons-dired")
-            ;;       (bst:write-pkg-file "treemacs-magit")
-            ;;       (bst:write-pkg-file "treemacs-mu4e")
-            ;;       (bst:write-pkg-file "treemacs-persp")
-            ;;       (bst:write-pkg-file "treemacs-perspective")
-            ;;       (bst:write-pkg-file "treemacs-projectile")
-            ;;       (bst:write-pkg-file "treemacs-tab-bar")
-            ;;       )))
-            )))
-      (native-inputs
-       (list
-        emacs-buttercup
-        emacs-el-mock
-        ))
-      (inputs (list python))
-      (propagated-inputs
-       (list
-        ;; emacs-projectile    ; for src/extra
-        ;; emacs-perspective   ; for src/extra
-        ;; emacs-persp-mode    ; for src/extra
-        ;; mu                  ; for src/extra ; emacs-lisp package providing mu4e
-        ;; emacs-magit         ; for src/extra
-        ;; emacs-evil          ; for src/extra
-        ;; emacs-all-the-icons ; for src/extra
-        emacs-ace-window
-        emacs-cfrs
-        emacs-dash
-        emacs-f
-        emacs-ht
-        emacs-hydra
-        emacs-pfuture
-        emacs-s))
-      (home-page "https://github.com/Alexander-Miller/treemacs")
-      (synopsis "Emacs tree style file explorer")
-      (description
-       "Treemacs is a file and project explorer similar to NeoTree or Vim's
-NerdTree, but largely inspired by the Project Explorer in Eclipse.  It shows
-the file system outlines of your projects in a simple tree layout allowing
-quick navigation and exploration, while also possessing basic file management
-utilities.")
-      (license license:gpl3+))))
-
-(define-public emacs-treemacs-extra
-  (package
-    (inherit emacs-treemacs)
-    (name "emacs-treemacs-extra")
-    (arguments
-     (substitute-keyword-arguments
-         (package-arguments emacs-treemacs)
-       ((#:phases phases)
-        #~(modify-phases #$phases
-            (add-after 'chdir-elisp 'copy-extra
-              (lambda _
-                (copy-recursively "../extra" ".")))
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                ;; (format #t "(getcwd) : ~a\n" (getcwd))
-                ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                (bst:write-pkg-file "treemacs-all-the-icons")
-                (bst:write-pkg-file "treemacs-evil")
-                (bst:write-pkg-file "treemacs-icons-dired")
-                (bst:write-pkg-file "treemacs-magit")
-                (bst:write-pkg-file "treemacs-mu4e")
-                (bst:write-pkg-file "treemacs-persp")
-                (bst:write-pkg-file "treemacs-perspective")
-                (bst:write-pkg-file "treemacs-projectile")
-                (bst:write-pkg-file "treemacs-tab-bar")))
-            ))))
-    (propagated-inputs
-     (modify-inputs (package-propagated-inputs emacs-treemacs)
-       (append
-        emacs-all-the-icons
-        emacs-evil
-        emacs-magit
-        emacs-projectile
-        emacs-persp-mode
-        emacs-perspective
-        mu           ; emacs-lisp package which provides mu4e
-        )))))
-
-(define-public emacs-treemacs-evil
-  (package
-    (inherit emacs-treemacs-extra)
-    (name "emacs-treemacs-evil")))
-
-(define-public emacs-treemacs-icons-dired
-  (package
-    (inherit emacs-treemacs-extra)
-    (name "emacs-treemacs-icons-dired")))
-
-(define-public emacs-treemacs-magit
-  (package
-    (inherit emacs-treemacs-extra)
-    (name "emacs-treemacs-magit")))
-
-(define-public emacs-treemacs-persp
-  (package
-    (inherit emacs-treemacs-extra)
-    (name "emacs-treemacs-persp")))
-
-(define-public emacs-treemacs-projectile
-  (package
-    (inherit emacs-treemacs-extra)
-    (name "emacs-treemacs-projectile")))
-
-(define-public emacs-lsp-volar
-  (package
-    (name "emacs-lsp-volar")
-    (version "0.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jadestrong/lsp-volar")
-             (commit
-              "6f0c2bc3be5fc4d8d8aa1cf5ee3546fcf6ef36be")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0bvma47dhnsipf3rdxlb5m040a40dxpkpbh7jcbr21r4g6z3xmlr"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@ (bost gnu packages emacs-xyz-lsp) emacs-lsp-mode)
-      ))
-    (home-page
-     "https://github.com/jadestrong/lsp-volar")
-    (synopsis "Language support for Vue3")
-    (description "Language support for Vue3
-This package has been merged into lsp-mode, so you can use lsp-mode
-directly. There will only be some experimental updates here. Once stable, they
-will be submitted to lsp-mode.")
-    (license license:gpl3+)))
-
 (define-public emacs-which-key
   (package
     (name "emacs-which-key")
@@ -1230,43 +874,6 @@ allows easily move between them.")
     (synopsis "Format HTML, CSS and JavaScript, JSON")
     (description "This package provides an Emacs functions to format HTML,
 CSS, JavaScript, JSON.")
-    (license license:gpl3+)))
-
-(define-public emacs-dumb-jump
-  (package
-    (name "emacs-dumb-jump")
-    (version "0.5.4")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jacktasia/dumb-jump")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "18d2ll5wlll6pm909hiw8w9ijdbrjvy86q6ljzx8yyrjphgn0y1y"))))
-    (build-system emacs-build-system)
-    (arguments
-     `(#:tests? #f                      ; FIXME: Tests freeze when run.
-       #:phases
-       (modify-phases %standard-phases
-         (add-after 'unpack 'set-shell
-           (lambda _
-             ;; Setting the SHELL environment variable is required for the
-             ;; tests to find sh.
-             (setenv "SHELL" (which "sh")))))))
-    (native-inputs
-     (list emacs-el-mock emacs-ert-runner emacs-noflet emacs-undercover))
-    (propagated-inputs
-     (list emacs-f emacs-popup))
-    (home-page "https://github.com/jacktasia/dumb-jump")
-    (synopsis "Jump to definition for multiple languages without configuration")
-    (description "Dumb Jump is an Emacs \"jump to definition\" package with
-support for multiple programming languages that favors \"just working\" over
-speed or accuracy.  This means minimal --- and ideally zero --- configuration
-with absolutely no stored indexes (tags) or persistent background processes.
-Dumb Jump performs best with The Silver Searcher @command{ag} or ripgrep
-@command{rg} installed.")
     (license license:gpl3+)))
 
 (define-public emacs-wgrep
@@ -1729,52 +1336,6 @@ In contrast with other whitespace cleanup solutions, only modified lines are
 trimmed.")
       (license license:gpl3+))))
 
-(define-public emacs-org-cliplink
-  (let ((commit "13e0940b65d22bec34e2de4bc8cba1412a7abfbc")
-        (revision "0"))
-    (package
-      (name "emacs-org-cliplink")
-      (version (git-version "0.2" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri
-          (git-reference
-           (url "https://github.com/rexim/org-cliplink")
-           (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1avyiw8vlv4n1r7zqvc6wjlsz7jl2pqaprzpm782gzp0c999pssl"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'patch-curl-executable
-              (lambda* (#:key inputs #:allow-other-keys)
-                (substitute* "org-cliplink-transport.el"
-                  (("\\(executable-find \"curl\"\\)")
-                   (let ((curl (search-input-file inputs "/bin/curl")))
-                     (string-append "\"" curl "\""))))))
-            (add-before 'check 'fix-failing-test
-              ;; XXX: Fix randomly (!) failing test, which doesn't account for
-              ;; the fact that (random) may return a negative number.
-              (lambda _
-                (substitute* "test/org-cliplink-transport-test.el"
-                  (("curl-rexim.me-\\[a-z0-9\\]\\+")
-                   "curl-rexim.me--?[a-z0-9]+")))))))
-      (native-inputs
-       (list emacs-el-mock emacs-ert-runner emacs-undercover))
-      (inputs
-       (list curl))
-      (home-page "https://github.com/rexim/org-cliplink/")
-      (synopsis "Insert Org mode links from the clipboard")
-      (description
-       "Org Cliplink provides a simple command that takes a URL from the
-clipboard and inserts an Org mode link with a title of a page found by the URL
-into the current buffer.")
-      (license license:expat))))
-
 (define-public emacs-yasnippet-snippets
   (package
     (name "emacs-yasnippet-snippets")
@@ -1970,29 +1531,6 @@ should pop up.")
 serialization format.  As YAML and Python share the fact that indentation
 determines structure, this mode provides indentation and indentation command
 behavior very similar to that of Python mode.")
-    (license license:gpl3+)))
-
-(define-public emacs-terminal-here
-  (package
-    (name "emacs-terminal-here")
-    (version "2.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/davidshepherd7/terminal-here")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1iv1c2mbvhn00ha46c6f98j9syc71xhjpk8m5wa5p32sk4wcc9f4"))))
-    (build-system emacs-build-system)
-    (native-inputs (list emacs-el-mock emacs-ert-runner emacs-validate))
-    (home-page "https://github.com/davidshepherd7/terminal-here")
-    (synopsis "Open external terminals from Emacs")
-    (description
-     "This package provides commands to open external terminal emulators from
-Emacs, whose initial working directories are determined in relation to the
-current buffer.")
     (license license:gpl3+)))
 
 (define-public emacs-evil-matchit
