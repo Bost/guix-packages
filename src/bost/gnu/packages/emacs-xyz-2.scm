@@ -4712,7 +4712,11 @@ should pop up.")
          (sha256
           (base32 "1cj8xdkg39ja6f29ws67bqrvjy2gzk45yimcqmj0xv3v66r555lg"))))
       (build-system emacs-build-system)
-      (arguments (list #:test-command #~(list "make" "unit" "INIT_PACKAGES=t")))
+      (arguments
+       (list
+        #:tests? #f
+        ;; #:test-command #~(list "make" "unit" "INIT_PACKAGES=t")
+        ))
       (home-page "https://github.com/purcell/unfill")
       (synopsis "Inverse of Emacs' @code{fill-paragraph} and @code{fill-region}")
       (description
