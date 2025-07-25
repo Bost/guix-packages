@@ -1,4 +1,7 @@
 (define-module (bost gnu packages emacs-xyz)
+  ;; for emacs-seq in referenced  in emacs-xyz-1 emacs-xyz-magit
+  ;; #:use-module (gnu packages emacs-xyz)
+
   #:use-module (bost gnu packages emacs-xyz-1)
   #:use-module (bost gnu packages emacs-xyz-2)
   #:use-module (bost gnu packages emacs-xyz-helm)

@@ -1,4 +1,6 @@
 (define-module (bost gnu packages emacs-xyz-done)
+  #:use-module (gnu packages emacs-xyz)
+
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -120,8 +122,6 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
-
-  #:use-module (gnu packages emacs-xyz)
   )
 
 (define-public emacs-color-theme-sanityinc-solarized ;; PL sent

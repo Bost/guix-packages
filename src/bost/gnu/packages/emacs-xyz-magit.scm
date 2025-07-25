@@ -1,8 +1,10 @@
 (define-module (bost gnu packages emacs-xyz-magit)
+  ;; #:use-module (bost guix build emacs-utils)
   #:use-module (bost gnu packages emacs-xyz-done)
   #:use-module (bost gnu packages emacs-xyz-lsp)
-  #:use-module (gnu packages emacs-build)
+
   #:use-module (gnu packages emacs-xyz)
+
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -34,6 +36,7 @@
   #:use-module (gnu packages djvu)
   #:use-module (gnu packages ebook)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-build)
   #:use-module (gnu packages enchant)
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages freedesktop)
@@ -133,8 +136,6 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
-
-  #:use-module (bost guix build emacs-utils)
   )
 
 (define-public emacs-el-mock
