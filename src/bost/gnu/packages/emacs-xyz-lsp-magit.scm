@@ -353,113 +353,84 @@ on-line service.")
     (license license:gpl3+)))
 
 (define-public emacs-lsp-mode
-  (let ((commit
-         "a478e03cd1a5dc84ad496234fd57241ff9dca57a"
-         ;; "c77ba141063916ae5f36f84cb23230e1783b4f09"
-         )
-        (revision "0"))
-    (package
-      (name "emacs-lsp-mode")
-      (version (git-version "9.0.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacs-lsp/lsp-mode.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "1p4979qbmllmmszmnyml0msxkza4pm14rdacmqczbfs3cs9n6bd3"
-           ;; "0fkgd6bmdri6aa0f2qlxsp8imdn7zf2c30ymq9iqdcnly82ggd8k"
-           ))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:emacs emacs                     ;need libxml support
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
-        #:test-command #~(list "ert-runner" "-L" "." "-L" "clients"
-                               "-t" "!no-win" "-t" "!org")
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'move-clients-libraries
-              ;; Move all clients libraries at top-level, as is done, e.g., in
-              ;; MELPA.
-              (lambda _
-                (for-each (lambda (f)
-                            (install-file f "."))
-                          (find-files "clients/" "\\.el$"))))
-            (add-before 'check 'skip-failing-tests
-              (lambda _
-                (substitute* "test/lsp-common-test.el"
-                  (("\\(require 'elenv" all)
-                   (string-append all " nil t"))
-                  (("\\(ert-deftest lsp--path-to-uri-1 .*" all)
-                   (string-append all "(skip-unless (featurep 'elenv))"))
-                  (("\\(ert-deftest lsp-byte-compilation-test .*" all)
-                   (string-append all "(skip-unless nil)"))
-                  (("\\(ert-deftest lsp--build-.*-response-test-[34] .*" all)
-                   (string-append all "(skip-unless nil)")))
-                (substitute* "test/lsp-mode-test.el"
-                  (("\\(ert-deftest lsp--merge-results .*" all)
-                   (string-append all "(skip-unless nil)")))
-                (substitute* "test/lsp-integration-test.el"
-                  (("\\(ert-deftest lsp-.*-hover-request(-tick)? .*" all)
-                   (string-append all "(skip-unless nil)"))
-                  (("\\(ert-deftest lsp-test-current-buffer-mode .*" all)
-                   (string-append all "(skip-unless nil)")))
-                (delete-file "test/lsp-clangd-test.el")))
-            (add-before 'check 'set-home
-              (lambda _ (setenv "HOME" (getenv "TMPDIR"))))
-            (add-after 'unpack 'enable-plists
-              (lambda _
-                (substitute* "lsp-protocol.el"
-                  ;; This is faster, and it's officially recommended,
-                  ;; and it's required by emacs-lsp-booster.
-                  ;; See also:
-                  ;; <https://emacs-lsp.github.io/lsp-mode/page/performance/>.
-                  (("\\(getenv \"LSP_USE_PLISTS\"\\)") "t"))))
-            (add-before 'move-clients-libraries 'fix-patch-el-files
-              ;; /bin/ksh is only used on macOS, which we don't support, so we
-              ;; don't want to add it as input.
-              (lambda _
-                (substitute* '("clients/lsp-csharp.el" "clients/lsp-fsharp.el")
-                  (("/bin/ksh") "ksh"))))
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                ;; (format #t "(getcwd) : ~a\n" (getcwd))
-                ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                (bst:write-pkg-file "lsp-mode")
-                ))
-            )))
-      (propagated-inputs
-       (list
-        emacs-dash
-        emacs-f
-        emacs-ht
-        emacs-hydra
-        emacs-markdown-mode
-        emacs-spinner))
-      (native-inputs
-       (list
-        emacs-deferred
-        emacs-el-mock
-        emacs-ert-runner))
-      (home-page "https://emacs-lsp.github.io/lsp-mode/")
-      (synopsis "Emacs client and library for the Language Server Protocol")
-      (description
-       "LSP mode is a client and library implementation for the Language
-Server Protocol.  This mode creates an IDE-like experience by providing
-optional integration with other popular Emacs packages like Company, Flycheck,
-and Projectile.")
-      (license license:gpl3+))))
+  (package
+    (inherit (@(gnu packages emacs-xyz) emacs-lsp-mode))
+    (name "emacs-lsp-mode")
+    ;; TODO how to inherit from arguments
+    (arguments
+     (list
+      #:emacs emacs                   ;need libxml support
+      #:test-command #~(list "ert-runner"
+                             "-L" "."
+                             "-L" "clients"
+                             "-t" "!no-win"
+                             "-t" "!org")
+      #:modules '((guix build emacs-build-system)
+                  (guix build utils)
+                  (guix build emacs-utils)
+                  ((bost guix build emacs-utils) #:prefix bst:))
+      #:imported-modules `(,@%default-gnu-imported-modules
+                           (guix build emacs-build-system)
+                           (guix build emacs-utils)
+                           (bost guix build emacs-utils))
+      #:phases
+      #~(modify-phases %standard-phases
+          ;; Move libraries to the top-level.
+          (add-after 'unpack 'move-libraries
+            (lambda _
+              ;; REVIEW; Improve style, pair-for-each ?
+              (for-each (lambda (d)
+                          (for-each (lambda (f)
+                                      (rename-file f (basename f)))
+                                    (find-files d "\\.el$")))
+                        (list "use-package/" "clients/"))))
+          (add-before 'check 'skip-failing-tests
+            (lambda _
+              (substitute* "test/lsp-mock-server-test.el"
+                (("\\(ert-deftest lsp-mock-server-reports.*" all)
+                 (string-append all "(skip-unless nil)"))
+                (("\\(ert-deftest lsp-mock-server-updates-.*" all)
+                 (string-append all "(skip-unless nil)")))
+              (substitute* "test/lsp-common-test.el"
+                (("\\(require 'elenv" all)
+                 (string-append all " nil t"))
+                (("\\(ert-deftest lsp--path-to-uri-1 .*" all)
+                 (string-append all "(skip-unless (featurep 'elenv))"))
+                (("\\(ert-deftest lsp-byte-compilation-test .*" all)
+                 (string-append all "(skip-unless nil)"))
+                (("\\(ert-deftest lsp--build-.*-response-test-[34] .*" all)
+                 (string-append all "(skip-unless nil)")))
+              (substitute* "test/lsp-mode-test.el"
+                (("\\(ert-deftest lsp--merge-results .*" all)
+                 (string-append all "(skip-unless nil)")))
+              (substitute* "test/lsp-integration-test.el"
+                (("\\(ert-deftest lsp-.*-hover-request(-tick)? .*" all)
+                 (string-append all "(skip-unless nil)"))
+                (("\\(ert-deftest lsp-test-current-buffer-mode .*" all)
+                 (string-append all "(skip-unless nil)")))
+              (delete-file "test/lsp-clangd-test.el")))
+          (add-before 'check 'set-home
+            (lambda _ (setenv "HOME" (getenv "TMPDIR"))))
+          (add-after 'unpack 'enable-plists
+            (lambda _
+              (substitute* "lsp-protocol.el"
+                ;; This is faster, and it's officially recommended,
+                ;; and it's required by emacs-lsp-booster.
+                ;; See also:
+                ;; <https://emacs-lsp.github.io/lsp-mode/page/performance/>.
+                (("\\(getenv \"LSP_USE_PLISTS\"\\)") "t"))))
+          (add-before 'move-libraries 'fix-patch-el-files
+            ;; /bin/ksh is only used on macOS, which we don't support, so we
+            ;; don't want to add it as input.
+            (lambda _
+              (substitute* '("clients/lsp-csharp.el"
+                             "clients/lsp-fsharp.el")
+                (("/bin/ksh") "ksh"))))
+          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+            (lambda* (#:key outputs #:allow-other-keys)
+              ;; (format #t "(getcwd) : ~a\n" (getcwd))
+              ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
+              (bst:write-pkg-file "lsp-mode"))))))))
 
 (define-public emacs-lsp-volar
   (package
