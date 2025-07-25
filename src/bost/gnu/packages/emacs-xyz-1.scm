@@ -4672,12 +4672,11 @@ Emacs packages like flycheck and lsp-mode.")
       (license license:gpl3+))))
 
 (define-public emacs-logito
-  (let ((commit
-         "d5934ce10ba3a70d3fcfb94d742ce3b9136ce124")
+  (let ((commit "d5934ce10ba3a70d3fcfb94d742ce3b9136ce124")
         (revision "0"))
     (package
       (name "emacs-logito")
-      (version (git-version "0.1" revision commit))
+      (version (git-version "0.2.0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -4690,8 +4689,8 @@ Emacs packages like flycheck and lsp-mode.")
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
       (home-page "https://github.com/sigma/logito")
-      (synopsis "Logging library for Emacs")
-      (description "This module provides logging facility for Emacs.")
+      (synopsis "Tiny logging framework for Emacs")
+      (description "Tiny logging framework for Emacs.")
       (license license:gpl2+))))
 
 (define-public emacs-marshal
