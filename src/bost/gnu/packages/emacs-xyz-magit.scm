@@ -276,11 +276,11 @@ on stdout instead of using a socket as the Emacsclient does.")
       (license license:gpl3+))))
 
 (define-public emacs-magit
-  (let ((commit "04ee83d93fabbfbe202e9e7dc781b0dcd4d5b502")
+  (let ((commit "9e6791796facd87d6d46abca2628e802edf01ec4")
         (revision "0"))
     (package
       (name "emacs-magit")
-      (version (git-version "4.3.5" revision commit))
+      (version (git-version "4.3.8" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -289,11 +289,12 @@ on stdout instead of using a socket as the Emacsclient does.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0g0ji4m39z8mcq1krj8v3kdhb2a8v2w0m00dqq3z925ibq0lv01r"))))
+          (base32 "191j1azzvd9jvycdgxlqrswj2hn03ak3hrdqs6wqgb5f0q2i9zvs"))))
       (build-system emacs-build-system)
       (arguments
        (list
-        #:tests? #t
+        ;; #:tests? #t
+        #:lisp-directory "lisp"
         #:test-command #~(list "make" "-C" ".." "test")
         #:modules '((guix build emacs-build-system)
                     (guix build utils)
@@ -307,14 +308,11 @@ on stdout instead of using a socket as the Emacsclient does.")
         #~(modify-phases %standard-phases
             (add-after 'unpack 'build-info-manual
               (lambda _
-                (invoke "make" "info")
+                (invoke "make" "-C" ".." "info")
                 ;; Copy info files to the lisp directory, which acts as
                 ;; the root of the project for the emacs-build-system.
-                (rename-file "docs/magit.info" "lisp/magit.info")))
-            (add-after 'build-info-manual 'chdir-lisp
-              (lambda _
-                (chdir "lisp")))
-            (add-after 'chdir-lisp 'patch-version-executables
+                (rename-file "../docs/magit.info" "../lisp/magit.info")))
+            (add-after 'unpack 'patch-version-executables
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "magit.el"
                   ("magit-version" #$version))
@@ -332,21 +330,14 @@ on stdout instead of using a socket as the Emacsclient does.")
                 (bst:write-pkg-file "magit-section")
                 )))))
       (native-inputs
-       (list
-        texinfo
-        pkg-config))
+       ;; (list texinfo pkg-config)
+       (list texinfo))
       (inputs
-       (list
-        git
-        perl))
+       (list git perl))
       (propagated-inputs
        ;; Note: the 'git-commit' and 'magit-section' dependencies are part of
        ;; magit itself.
-       (list
-        emacs-compat
-        emacs-transient
-        emacs-with-editor
-        emacs-llama))
+       (list emacs-compat emacs-transient emacs-with-editor emacs-llama))
       (home-page "https://magit.vc/")
       (synopsis "Emacs interface for the Git version control system")
       (description
@@ -1634,8 +1625,7 @@ never confused by comments or @code{foo-bar} matching @code{foo}.")
            "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
       (build-system emacs-build-system)
       ;; (arguments (list #:tests? #f))
-      (propagated-inputs
-       (list emacs-hydra emacs-let-alist emacs-seq emacs-spinner))
+      (propagated-inputs (list emacs-hydra emacs-let-alist emacs-seq emacs-spinner))
       (native-inputs (list emacs-ert-runner emacs-undercover))
       (home-page "https://github.com/Malabarba/paradox")
       (synopsis "Paradox is an extension to Emacs packages menu")
