@@ -88,6 +88,7 @@
    emacs-django-theme
    emacs-drupal-mode
    emacs-dumb-jump
+   emacs-ellama
    emacs-el-mock
    emacs-elisp-def
    emacs-elisp-refs

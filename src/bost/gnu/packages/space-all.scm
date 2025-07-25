@@ -89,6 +89,7 @@
    bst:emacs-django-theme
    bst:emacs-drupal-mode
    bst:emacs-dumb-jump
+   bst:emacs-ellama
    bst:emacs-elisp-def
    bst:emacs-elisp-refs
    bst:emacs-emacsql-sqlite3

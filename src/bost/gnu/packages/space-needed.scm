@@ -133,7 +133,6 @@
    "emacs-elisp-slime-nav"
    "emacs-elixir-mode"
    "emacs-ellama"
-   "emacs-ellama"
    "emacs-elm-mode"
    "emacs-emacsql"
    "emacs-emmet-mode"
