@@ -4639,11 +4639,11 @@ install, update, and remove packages without leaving the editor.")
       (license license:gpl3+))))
 
 (define-public emacs-pet
-  (let ((commit "e5c963b38d9eedf4b01bf4843c8c9261514c58bb")
+  (let ((commit "0b2baf67579f6db874c6d89c5ac848e68f9334c1")
         (revision "0"))
     (package
       (name "emacs-pet")
-      (version (git-version "3.1.0" revision commit))
+      (version (git-version "3.4.1" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -4652,7 +4652,7 @@ install, update, and remove packages without leaving the editor.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "185qbqfnkvidqsqg1lw4gb2qbw9qlnqwiql5wbgwing4k3ahcddx"))))
+          (base32 "08mxq4kffa9fip2klpb5bkj45k85m0vv6wldclkhsz3hm316dcc6"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
       (propagated-inputs
