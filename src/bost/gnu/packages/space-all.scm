@@ -371,10 +371,6 @@
    ;; emacs-magit-svn
    bst:emacs-meyvn
    bst:emacs-magit-popup
-   bst:emacs-fzf
-   bst:emacs-ezf
-   bst:emacs-pacfiles-mode
-   bst:emacs-palimpsest
    bst:emacs-minions
    bst:emacs-speed-type
    bst:emacs-graphql

@@ -8,11 +8,6 @@
    emacs-magit-svn
    emacs-meyvn
    emacs-magit-popup
-   emacs-affe
-   emacs-fzf
-   emacs-ezf
-   emacs-pacfiles-mode
-   emacs-palimpsest
    emacs-minions
    emacs-speed-type
    emacs-graphql
