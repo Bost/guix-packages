@@ -455,6 +455,8 @@
    "emacs-planet"
    "emacs-planet-theme"
    "emacs-plz"
+   "emacs-plz-event-source"
+   "emacs-plz-media-type"
    "emacs-poetry"
    "emacs-pollen-mode"
    "emacs-popup"

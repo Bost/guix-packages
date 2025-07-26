@@ -306,6 +306,9 @@
    emacs-pip-requirements
    emacs-pipenv
    emacs-planet-theme
+   emacs-plz
+   emacs-plz-event-source
+   emacs-plz-media-type
    emacs-poetry
    emacs-popwin
    emacs-powerline

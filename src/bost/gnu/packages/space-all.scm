@@ -274,6 +274,9 @@
    bst:emacs-pip-requirements
    bst:emacs-pipenv
    bst:emacs-planet-theme
+   bst:emacs-plz
+   bst:emacs-plz-event-source
+   bst:emacs-plz-media-type
    bst:emacs-poetry
    bst:emacs-popwin
    bst:emacs-powerline

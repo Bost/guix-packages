@@ -10366,3 +10366,135 @@ command, infix arguments and suffix commands.  We could call this abstraction
 a \"transient command\", but because it always involves at least two
 commands (a prefix and a suffix) we prefer to call it just a \"transient\".")
       (license license:gpl3+))))
+
+(define-public emacs-plz
+  (let ((commit "e2d07838e3b64ee5ebe59d4c3c9011adefb7b58e")
+        (revision "0"))
+    (package
+      (name "emacs-plz")
+      (version (git-version "0.9.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/alphapapa/plz.el.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "120q1443spcj153lns8ydwnpyrq6i5slpmsnm992anaxlf7drsdd"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f                       ;require internet access
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'substitute-curl-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "plz.el"
+                  ("plz-curl-program" (search-input-file inputs "/bin/curl")))))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "plz")
+                )))))
+      (inputs (list curl))
+      (home-page "https://github.com/alphapapa/plz.el")
+      (synopsis "HTTP library for Emacs")
+      (description
+       "This package provides HTTP library for Emacs.  It uses Curl as a backend,
+which avoids some of the issues with using Emacs’s built-in Url library.")
+      (license license:gpl3+))))
+
+(define-public emacs-plz-media-type
+  (let ((commit "b1127982d53affff082447030cda6e8ead3899cb")
+        (revision "0"))
+      (package
+        (name "emacs-plz-media-type")
+        (version (git-version "0.2.4" revision commit))
+        (source
+         (origin
+           (method git-fetch)
+           (uri (git-reference
+                  (url "https://github.com/r0man/plz-media-type.git")
+                  (commit commit)))
+           (file-name (git-file-name name version))
+           (sha256
+            (base32 "0k1c2z0minbaxdgfjxng8spivnnq8kqw6za4p46r7xlzx7m365qj"))))
+        (build-system emacs-build-system)
+        (arguments
+         (list
+          #:tests? #f
+          #:modules '((guix build emacs-build-system)
+                      (guix build utils)
+                      (guix build emacs-utils)
+                      ((bost guix build emacs-utils) #:prefix bst:))
+          #:imported-modules `(,@%default-gnu-imported-modules
+                               (guix build emacs-build-system)
+                               (guix build emacs-utils)
+                               (bost guix build emacs-utils))
+          #:phases
+          #~(modify-phases %standard-phases
+              (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+                (lambda* (#:key outputs #:allow-other-keys)
+                  (bst:write-pkg-file "plz-media-type")
+                  )))))
+        (propagated-inputs (list emacs-plz))
+        (home-page "https://github.com/r0man/plz-media-type")
+        (synopsis "HTTP media type extension for plz.el")
+        (description
+         "The @code{plz-media-type} library enhances MIME type handling for HTTP
+requests within Emacs.  It leverages the Plz HTTP library for networking calls
+and introduces a mechanism to process responses based on the content type
+header.  This library defines various classes and methods for parsing and
+processing standard MIME types, including JSON, XML, HTML, and binary data, in
+a streaming and non-streaming way.")
+        (license license:gpl3+))))
+
+(define-public emacs-plz-event-source
+  (let ((commit "de89214ce14e2b82cbfdc30e1adcf3e77b1f250a")
+        (revision "0"))
+    (package
+      (name "emacs-plz-event-source")
+      (version (git-version "0.1.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/r0man/plz-event-source.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1fh3pvksbyv16ml617wgwga2wjymvx0l6xyf7f4fyhffg5wkzbdl"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "plz-event-source")
+                )))))
+      (propagated-inputs (list emacs-plz-media-type))
+      (home-page "https://github.com/r0man/plz-event-source")
+      (synopsis "Server Sent Events extension for Plz")
+      (description
+       "The @code{plz-event-source} library provides a @code{plz-media-type},
+a parser, and an event source implementation for the @acronym{SSE, Server Sent
+Event} protocol.")
+      (license license:gpl3+))))
