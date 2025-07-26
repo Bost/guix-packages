@@ -237,6 +237,7 @@
    bst:emacs-moe-theme
    bst:emacs-molokai-theme
    bst:emacs-monochrome-theme
+   bst:emacs-mu4e-alert
    bst:emacs-multi-line
    bst:emacs-mustang-theme
    bst:emacs-mvn

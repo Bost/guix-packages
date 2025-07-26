@@ -10623,3 +10623,29 @@ functions.
 and doesn't require memorisation of commands.
 @end itemize\n")
     (license license:gpl3+)))
+
+(define-public emacs-mu4e-alert
+  (let ((commit "d36eb0c1842dea51ee0465bb3751948c8886617c")
+        (revision "1"))
+    (package
+      (name "emacs-mu4e-alert")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/xzz53/mu4e-alert")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "039kfpwgw0vi6fv2p4ixdh9qx9hdsahl48yl1niq00zmsp7rgg07"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f))    ;no tests
+      (propagated-inputs
+       (list emacs-alert emacs-ht emacs-s mu))
+      (home-page "https://github.com/xzz53/mu4e-alert")
+      (synopsis "Desktop notifications and mode line display for mu4e")
+      (description
+       "This package provides desktop notifications for mu4e.
+Additionally it can display the number of unread emails in the mode line.")
+      (license license:gpl3+))))

@@ -520,6 +520,7 @@
    emacs-moe-theme
    emacs-molokai-theme
    emacs-monochrome-theme
+   emacs-mu4e-alert
    emacs-multi-line
    emacs-mustang-theme
    emacs-mvn
