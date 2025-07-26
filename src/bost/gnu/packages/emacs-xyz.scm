@@ -1,8 +1,287 @@
 (define-module (bost gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-1)
   #:use-module (bost gnu packages emacs-xyz-2)
+  #:use-module (bost gnu packages emacs-xyz-dash-s)
   #:re-export
   (
+;;;;;;;;;;;;;;; beg: dash-s
+   emacs-magit-svn
+   emacs-meyvn
+   emacs-magit-popup
+   emacs-affe
+   emacs-fzf
+   emacs-ezf
+   emacs-pacfiles-mode
+   emacs-palimpsest
+   emacs-minions
+   emacs-speed-type
+   emacs-graphql
+   emacs-graphql-mode
+   emacs-ghq
+   emacs-typit
+   emacs-shroud
+   emacs-unpackaged
+   emacs-haskell-mode
+   emacs-lean4-mode
+   emacs-dante
+   emacs-flycheck
+   emacs-fb2-reader
+   emacs-alarm-clock
+   emacs-relative-buffers
+   emacs-alchemist
+   emacs-auto-sudoedit
+   emacs-bluetooth
+   emacs-ag
+   emacs-xenops
+   emacs-autothemer
+   emacs-campus
+   emacs-chronometrist
+   emacs-citeproc
+   emacs-direnv
+   emacs-noman
+   emacs-tablist
+   emacs-djvu
+   emacs-djvu3
+   emacs-pabbrev
+   emacs-pdf-tools
+   emacs-saveplace-pdf-view
+   emacs-org-pdftools
+   emacs-sage-shell-mode
+   emacs-sakura-theme
+   emacs-pdfgrep
+   emacs-bui
+   emacs-guix
+   emacs-minitest
+   emacs-es-mode
+   emacs-litable
+   emacs-calc-currency
+   emacs-standard-dirs
+   emacs-org-now
+   emacs-orgmdb
+   emacs-flycheck-rust
+   emacs-elastic-modes
+   emacs-docker-compose-mode
+   emacs-ob-ipython
+   emacs-ob-async
+   emacs-company-box
+   emacs-math-preview
+   emacs-company-coq
+   emacs-multifiles
+   emacs-company-lsp
+   emacs-tagedit
+   emacs-anki-editor
+   emacs-org-sidebar
+   emacs-org-trello
+   emacs-company-flow
+   emacs-solarized-theme
+   emacs-consult-notes
+   emacs-smartparens
+   emacs-eyebrowse
+   emacs-pretty-hydra
+   emacs-major-mode-hydra
+   emacs-clojure-mode
+   emacs-sphinx-doc
+   emacs-julia-snail
+   emacs-tide
+   emacs-projectile
+   emacs-skeletor
+   emacs-elfeed
+   emacs-elfeed-goodies
+   emacs-elfeed-org
+   emacs-elfeed-protocol
+   emacs-elfeed-score
+   emacs-elfeed-tube
+   emacs-el-x
+   emacs-epithet
+   emacs-eterm-256color
+   emacs-elpy
+   emacs-gitlab-snip-helm
+   emacs-wgrep
+   ;; emacs-helm
+   ;; emacs-helm-org
+   ;; emacs-helm-swoop
+   ;; emacs-helm-ag
+   ;; emacs-helm-projectile
+   emacs-hexrgb
+   emacs-taskrunner
+   emacs-tp
+   emacs-ivy-taskrunner
+   emacs-helm-taskrunner
+   ;; emacs-helm-make
+   emacs-islisp-mode
+   emacs-cider
+   emacs-cider-eval-sexp-fu
+   emacs-sly
+   emacs-sly-quicklisp
+   emacs-sly-asdf
+   emacs-sly-named-readtables
+   emacs-sly-macrostep
+   emacs-sly-stepper
+   emacs-sly-package-inferred
+   emacs-lua-mode
+   emacs-ebuild-mode
+   emacs-ebuku
+   emacs-evil
+   ;; emacs-evil-collection
+   emacs-evil-goggles
+   emacs-goggles
+   emacs-goto-chg
+   emacs-evil-owl
+   emacs-evil-paredit
+   emacs-evil-args
+   emacs-evil-escape
+   emacs-evil-exchange
+   emacs-evil-replace-with-register
+   emacs-evil-indent-plus
+   emacs-evil-text-object-python
+   emacs-evil-lion
+   emacs-evil-expat
+   ;; emacs-evil-nerd-commenter
+   emacs-evil-visual-replace
+   emacs-evil-visualstar
+   emacs-monky
+   emacs-monroe
+   emacs-rail
+   emacs-orgalist
+   emacs-writegood-mode
+   emacs-writefreely
+   emacs-neotree
+   emacs-org
+   emacs-org-contrib
+   emacs-org-count-words
+   emacs-org-texlive-collection
+   emacs-org-contacts
+   emacs-org-vcard
+   emacs-org-pretty-table
+   emacs-ob-sclang
+   emacs-org-edna
+   emacs-toodoo
+   ;; emacs-flx
+   emacs-afternoon-theme
+   emacs-cyberpunk-theme
+   emacs-dart-mode
+   emacs-ht
+   emacs-denote-explore
+   ;; emacs-helm-org-rifle
+   emacs-boon
+   emacs-pippel
+   emacs-mini-echo
+   emacs-mustache
+   emacs-org2web
+   ;; emacs-json-reformat
+   emacs-jsonnet-mode
+   emacs-dired-hacks
+   emacs-lcr
+   emacs-attrap
+   emacs-browse-at-remote
+   emacs-ansible
+   emacs-groovy-modes
+   emacs-terraform-mode
+   emacs-frog-jump-buffer
+   emacs-pass
+   emacs-passage
+   emacs-psc-ide
+   emacs-epkg
+   emacs-frecency
+   emacs-org-recent-headings
+   emacs-org-recur
+   emacs-org-super-agenda
+   emacs-org-make-toc
+   emacs-ts
+   emacs-org-ql
+   emacs-helm-org-ql
+   emacs-org-auto-expand
+   emacs-biblio
+   emacs-helm-bibtex
+   emacs-md4rd
+   emacs-org-mind-map
+   ;; emacs-elisp-refs
+   emacs-esup
+   emacs-company-lua
+   emacs-elm-mode
+   emacs-hy-mode
+   emacs-web-beautify
+   emacs-helm-shell-history
+   emacs-discover-my-major
+   emacs-org-ref
+   ;; emacs-helpful
+   ;; emacs-suggest
+   emacs-academic-phrases
+   emacs-grep-context
+   emacs-parinfer-mode
+   emacs-noflet
+   ;; emacs-dumb-jump
+   emacs-helm-flycheck
+   emacs-sxiv
+   emacs-github-review
+   emacs-deadgrep
+   emacs-pandoc-mode
+   emacs-ccls
+   emacs-racer
+   emacs-rustic
+   emacs-helm-org-contacts
+   emacs-dired-rsync
+   ;; emacs-magit-todos
+   emacs-ytdl
+   emacs-org-web-tools
+   emacs-all-the-icons
+   ;; emacs-spaceline
+   emacs-frame-purpose
+   emacs-kodi-remote
+   ;; emacs-repo
+   ;; emacs-orgit
+   emacs-docker
+   ;; emacs-lsp-mode
+   ;; emacs-treemacs
+   ;; emacs-lsp-java
+   ;; emacs-lsp-ui
+   emacs-lsp-ivy
+   ;; emacs-helm-lsp
+   emacs-elmacro
+   emacs-flycheck-haskell
+   emacs-js2-refactor
+   emacs-jsdoc
+   emacs-tco
+   emacs-equake
+   emacs-prodigy
+   emacs-prodigy-el
+   emacs-origami
+   emacs-ivy-clipmenu
+   emacs-org-drill-table
+   emacs-dash-docs
+   emacs-helm-dash
+   emacs-counsel-dash
+   emacs-calibredb
+   emacs-eval-in-repl
+   emacs-ox-pandoc
+   emacs-refactor
+   emacs-org-jira
+   emacs-ssh-agency
+   emacs-eshell-git-prompt
+   emacs-frames-only-mode
+   emacs-shrink-path
+   emacs-eshell-toggle
+   emacs-rime
+   emacs-ivy-omni-org
+   emacs-esh-help
+   emacs-metal-mercury-mode
+   emacs-org-roam
+   emacs-org-node
+   emacs-org-node-3
+   emacs-plantuml-mode
+   emacs-csound-mode
+   emacs-html-to-hiccup
+   emacs-spaceleader
+   emacs-seriestracker
+   emacs-ein
+   emacs-global-tags
+   emacs-pyimport
+   emacs-consult-lsp
+   emacs-org-wild-notifier
+
+;;;;;;;;;;;;;;; end: dash-s
+
+
    ;; emacs-concurrent
    emacs-ac-php
    emacs-ac-php-core

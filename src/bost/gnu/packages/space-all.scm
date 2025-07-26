@@ -40,7 +40,7 @@
    ))
 (testsymb 'orphan-packages)
 
-(define bst-packages
+(define orig-bst-packages
   (list
    bst:emacs-ac-php
    bst:emacs-ace-jump-helm-line
@@ -364,7 +364,288 @@
    bst:emacs-zonokai-emacs
    bst:emacs-zoom-frm
    ))
-(testsymb 'bst-packages)
+(testsymb 'orig-bst-packages)
+
+(define dash-s-packages
+  (list
+   ;; emacs-magit-svn
+   bst:emacs-meyvn
+   bst:emacs-magit-popup
+   bst:emacs-fzf
+   bst:emacs-ezf
+   bst:emacs-pacfiles-mode
+   bst:emacs-palimpsest
+   bst:emacs-minions
+   bst:emacs-speed-type
+   bst:emacs-graphql
+   bst:emacs-graphql-mode
+   bst:emacs-ghq
+   bst:emacs-typit
+   bst:emacs-shroud
+   bst:emacs-unpackaged
+   bst:emacs-haskell-mode
+   ;; bst:emacs-lean4-mode
+   bst:emacs-dante
+   bst:emacs-flycheck
+   bst:emacs-fb2-reader
+   bst:emacs-alarm-clock
+   bst:emacs-relative-buffers
+   bst:emacs-alchemist
+   bst:emacs-auto-sudoedit
+   bst:emacs-bluetooth
+   bst:emacs-ag
+   bst:emacs-xenops
+   bst:emacs-autothemer
+   bst:emacs-campus
+   bst:emacs-chronometrist
+   bst:emacs-citeproc
+   bst:emacs-direnv
+   bst:emacs-noman
+   bst:emacs-tablist
+   bst:emacs-djvu
+   bst:emacs-djvu3
+   bst:emacs-pabbrev
+   ;; bst:emacs-pdf-tools
+   bst:emacs-saveplace-pdf-view
+   bst:emacs-org-pdftools
+   bst:emacs-sage-shell-mode
+   bst:emacs-sakura-theme
+   bst:emacs-pdfgrep
+   bst:emacs-bui
+   bst:emacs-guix
+   bst:emacs-minitest
+   bst:emacs-es-mode
+   bst:emacs-litable
+   bst:emacs-calc-currency
+   bst:emacs-standard-dirs
+   bst:emacs-org-now
+   bst:emacs-orgmdb
+   bst:emacs-flycheck-rust
+   bst:emacs-elastic-modes
+   bst:emacs-docker-compose-mode
+   bst:emacs-ob-ipython
+   bst:emacs-ob-async
+   bst:emacs-company-box
+   bst:emacs-math-preview
+   bst:emacs-company-coq
+   bst:emacs-multifiles
+   bst:emacs-company-lsp
+   bst:emacs-tagedit
+   bst:emacs-anki-editor
+   bst:emacs-org-sidebar
+   bst:emacs-org-trello
+   bst:emacs-company-flow
+   bst:emacs-solarized-theme
+   bst:emacs-consult-notes
+   bst:emacs-smartparens
+   bst:emacs-eyebrowse
+   bst:emacs-pretty-hydra
+   bst:emacs-major-mode-hydra
+   bst:emacs-clojure-mode
+   bst:emacs-sphinx-doc
+   bst:emacs-julia-snail
+   bst:emacs-tide
+   bst:emacs-projectile
+   bst:emacs-skeletor
+   bst:emacs-elfeed
+   bst:emacs-elfeed-goodies
+   bst:emacs-elfeed-org
+   bst:emacs-elfeed-protocol
+   bst:emacs-elfeed-score
+   bst:emacs-elfeed-tube
+   bst:emacs-el-x
+   bst:emacs-epithet
+   bst:emacs-eterm-256color
+   bst:emacs-elpy
+   bst:emacs-gitlab-snip-helm
+   bst:emacs-wgrep
+   ;; bst:emacs-helm
+   ;; bst:emacs-helm-org
+   ;; bst:emacs-helm-swoop
+   ;; bst:emacs-helm-ag
+   ;; bst:emacs-helm-projectile
+   bst:emacs-hexrgb
+   bst:emacs-taskrunner
+   bst:emacs-tp
+   bst:emacs-ivy-taskrunner
+   bst:emacs-helm-taskrunner
+   ;; bst:emacs-helm-make
+   bst:emacs-islisp-mode
+   bst:emacs-cider
+   bst:emacs-cider-eval-sexp-fu
+   bst:emacs-sly
+   bst:emacs-sly-quicklisp
+   bst:emacs-sly-asdf
+   bst:emacs-sly-named-readtables
+   bst:emacs-sly-macrostep
+   bst:emacs-sly-stepper
+   bst:emacs-sly-package-inferred
+   bst:emacs-lua-mode
+   bst:emacs-ebuild-mode
+   bst:emacs-ebuku
+   bst:emacs-evil
+   bst:emacs-evil-collection
+   bst:emacs-evil-goggles
+   bst:emacs-goggles
+   bst:emacs-goto-chg
+   bst:emacs-evil-owl
+   bst:emacs-evil-paredit
+   bst:emacs-evil-args
+   bst:emacs-evil-escape
+   bst:emacs-evil-exchange
+   bst:emacs-evil-replace-with-register
+   bst:emacs-evil-indent-plus
+   bst:emacs-evil-text-object-python
+   bst:emacs-evil-lion
+   bst:emacs-evil-expat
+   ;; bst:emacs-evil-nerd-commenter
+   bst:emacs-evil-visual-replace
+   bst:emacs-evil-visualstar
+   bst:emacs-monky
+   bst:emacs-monroe
+   bst:emacs-rail
+   bst:emacs-orgalist
+   bst:emacs-writegood-mode
+   bst:emacs-writefreely
+   bst:emacs-neotree
+   bst:emacs-org
+   bst:emacs-org-contrib
+   bst:emacs-org-count-words
+   bst:emacs-org-texlive-collection
+   bst:emacs-org-contacts
+   bst:emacs-org-vcard
+   bst:emacs-org-pretty-table
+   bst:emacs-ob-sclang
+   bst:emacs-org-edna
+   bst:emacs-toodoo
+   ;; bst:emacs-flx
+   bst:emacs-afternoon-theme
+   bst:emacs-cyberpunk-theme
+   bst:emacs-dart-mode
+   bst:emacs-ht
+   bst:emacs-denote-explore
+   ;; bst:emacs-helm-org-rifle
+   bst:emacs-boon
+   bst:emacs-pippel
+   bst:emacs-mini-echo
+   bst:emacs-mustache
+   bst:emacs-org2web
+   ;; bst:emacs-json-reformat
+   bst:emacs-jsonnet-mode
+   bst:emacs-dired-hacks
+   bst:emacs-lcr
+   bst:emacs-attrap
+   bst:emacs-browse-at-remote
+   bst:emacs-ansible
+   bst:emacs-groovy-modes
+   bst:emacs-terraform-mode
+   bst:emacs-frog-jump-buffer
+   bst:emacs-pass
+   bst:emacs-passage
+   bst:emacs-psc-ide
+   bst:emacs-epkg
+   bst:emacs-frecency
+   bst:emacs-org-recent-headings
+   bst:emacs-org-recur
+   bst:emacs-org-super-agenda
+   bst:emacs-org-make-toc
+   bst:emacs-ts
+   bst:emacs-org-ql
+   bst:emacs-helm-org-ql
+   bst:emacs-org-auto-expand
+   bst:emacs-biblio
+   bst:emacs-helm-bibtex
+   bst:emacs-md4rd
+   bst:emacs-org-mind-map
+   ;; bst:emacs-elisp-refs
+   bst:emacs-esup
+   bst:emacs-company-lua
+   bst:emacs-elm-mode
+   bst:emacs-hy-mode
+   bst:emacs-web-beautify
+   bst:emacs-helm-shell-history
+   bst:emacs-discover-my-major
+   bst:emacs-org-ref
+   ;; bst:emacs-helpful
+   ;; bst:emacs-suggest
+   bst:emacs-academic-phrases
+   bst:emacs-grep-context
+   bst:emacs-parinfer-mode
+   bst:emacs-noflet
+   ;; bst:emacs-dumb-jump
+   bst:emacs-helm-flycheck
+   bst:emacs-sxiv
+   bst:emacs-github-review
+   bst:emacs-deadgrep
+   bst:emacs-pandoc-mode
+   bst:emacs-ccls
+   bst:emacs-racer
+   bst:emacs-rustic
+   bst:emacs-helm-org-contacts
+   bst:emacs-dired-rsync
+   ;; bst:emacs-magit-todos
+   bst:emacs-ytdl
+   bst:emacs-org-web-tools
+   bst:emacs-all-the-icons
+   ;; bst:emacs-spaceline
+   bst:emacs-frame-purpose
+   bst:emacs-kodi-remote
+   ;; bst:emacs-repo
+   ;; bst:emacs-orgit
+   bst:emacs-docker
+   ;; bst:emacs-lsp-mode
+   ;; bst:emacs-treemacs
+   ;; bst:emacs-lsp-java
+   ;; bst:emacs-lsp-ui
+   bst:emacs-lsp-ivy
+   ;; bst:emacs-helm-lsp
+   bst:emacs-elmacro
+   bst:emacs-flycheck-haskell
+   bst:emacs-js2-refactor
+   bst:emacs-jsdoc
+   bst:emacs-tco
+   bst:emacs-equake
+   bst:emacs-prodigy
+   bst:emacs-prodigy-el
+   bst:emacs-origami
+   bst:emacs-ivy-clipmenu
+   bst:emacs-org-drill-table
+   bst:emacs-dash-docs
+   bst:emacs-helm-dash
+   bst:emacs-counsel-dash
+   bst:emacs-calibredb
+   bst:emacs-eval-in-repl
+   bst:emacs-ox-pandoc
+   bst:emacs-refactor
+   bst:emacs-org-jira
+   bst:emacs-ssh-agency
+   bst:emacs-eshell-git-prompt
+   bst:emacs-frames-only-mode
+   bst:emacs-shrink-path
+   bst:emacs-eshell-toggle
+   bst:emacs-rime
+   bst:emacs-ivy-omni-org
+   bst:emacs-esh-help
+   bst:emacs-metal-mercury-mode
+   bst:emacs-org-roam
+   bst:emacs-org-node
+   bst:emacs-org-node-3
+   bst:emacs-plantuml-mode
+   bst:emacs-csound-mode
+   bst:emacs-html-to-hiccup
+   bst:emacs-spaceleader
+   bst:emacs-seriestracker
+   bst:emacs-ein
+   bst:emacs-global-tags
+   bst:emacs-pyimport
+   bst:emacs-consult-lsp
+   bst:emacs-org-wild-notifier
+   ))
+(testsymb-trace 'dash-s-packages)
+
+(define bst-packages
+  (lset-union equal? orig-bst-packages dash-s-packages))
+(testsymb-trace 'bst-packages)
 
 (define (all-packages-from-guix-channel)
   (let* [(G (general-packages))
