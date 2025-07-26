@@ -7532,6 +7532,33 @@ with GUI Emacs behavior.")
 (build emacs-pythonic)
 |#
 
+(define-public emacs-ht
+  (package
+    (name "emacs-ht")
+    (version "2.3")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/Wilfred/ht.el")
+              (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0can9v336lgnq0q2ha3js0565jzp3dlwwqxhcbx5swk5kp148f07"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      ))
+    (native-inputs
+     (list emacs-ert-runner))
+    (home-page "https://github.com/Wilfred/ht.el")
+    (synopsis "Hash table library for Emacs")
+    (description
+     "This package simplifies the use of hash tables in elisp.  It also
+provides functions to convert hash tables from and to alists and plists.")
+    (license license:gpl3+)))
+
 (define-public emacs-lsp-mode
   (package
     (inherit (@(gnu packages emacs-xyz) emacs-lsp-mode))
@@ -7612,13 +7639,14 @@ with GUI Emacs behavior.")
               ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
               (bst:write-pkg-file "lsp-mode"))))))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash)
-           (@(bost gnu packages emacs-build) emacs-f)
-           emacs-ht
-           emacs-hydra
-           emacs-markdown-mode
-           emacs-spinner))
-    ))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-build) emacs-f)
+      emacs-ht
+      emacs-hydra
+      emacs-markdown-mode
+      emacs-spinner
+      ))))
 
 (define-public emacs-lsp-ui
   (let ((commit "a0dde8b52b4411cbac2eb053ef1515635ea0b7ed")

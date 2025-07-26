@@ -143,7 +143,6 @@
    emacs-afternoon-theme
    emacs-cyberpunk-theme
    emacs-dart-mode
-   emacs-ht
    emacs-denote-explore
    ;; emacs-helm-org-rifle
    emacs-boon
@@ -452,6 +451,7 @@
    emacs-highlight-parentheses
    emacs-hlint-refactor
    emacs-holy-mode
+   emacs-ht
    emacs-hungry-delete
    emacs-hybrid-mode
    emacs-ido-vertical-mode
