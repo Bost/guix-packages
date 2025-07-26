@@ -1,7 +1,6 @@
 (define-module (bost gnu packages emacs-xyz)
   #:use-module (bost gnu packages emacs-xyz-1)
   #:use-module (bost gnu packages emacs-xyz-2)
-  #:use-module (bost gnu packages emacs-xyz-dash-s)
   #:re-export
   (
 ;;;;;;;;;;;;;;; beg: dash-s
