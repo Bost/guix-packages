@@ -3300,7 +3300,7 @@ with completion frameworks such as Company and Auto Complete.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flycheck
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
         ))
       (home-page "https://github.com/alexmurray/flycheck-bashate")
       (synopsis "Flycheck checker for Bash scripts using bashate")
@@ -3331,7 +3331,7 @@ path.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flycheck
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
         ))
       (home-page "https://github.com/aaronjensen/flycheck-credo")
       (synopsis "Flycheck checker for Elixir using Credo")
@@ -3362,7 +3362,7 @@ strict mode and customize its behavior through Flycheck variables.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-flycheck
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
         ))
       (home-page "https://github.com/emacs-elsa/flycheck-elsa")
       (synopsis "Flycheck integration for Elsa, the Emacs Lisp static analyzer")
@@ -3395,7 +3395,7 @@ ensuring safe and side-effect-free checks.")
       (propagated-inputs
        (list
         emacs-pos-tip
-        emacs-flycheck
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
         ))
       (home-page "https://github.com/flycheck/flycheck-pos-tip")
       (synopsis "Display Flycheck errors using pos-tip tooltips")
@@ -7164,7 +7164,10 @@ providing support for a lot of modes.")
           (base32
            "1hz5nlrhbrlwwk8rcjvc3jhj0g9wgm6xw903ap8fxq470mj99gln"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-flycheck))
+      (propagated-inputs
+       (list
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
+        ))
       (home-page "https://github.com/candid82/flycheck-joker")
       (synopsis "")
       (description "")
@@ -7705,7 +7708,7 @@ with GUI Emacs behavior.")
         (@(bost gnu packages emacs-build) emacs-dash)
         emacs-lsp-mode
         emacs-markdown-mode
-        emacs-flycheck
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
         ))
       (home-page "https://github.com/emacs-lsp/lsp-ui")
       (synopsis "User interface extensions for @code{lsp-mode}")
@@ -9918,7 +9921,7 @@ e.g: @code{from:Peter to:Anne flag:attach search term}.")
        emacs-flymake-phpcs
        emacs-helm-gtags
        emacs-ggtags
-       emacs-flycheck
+       (@(bost gnu packages emacs-xyz-dash-s) emacs-flycheck)
        emacs-php-mode
        global ;; provides gtags
        ))

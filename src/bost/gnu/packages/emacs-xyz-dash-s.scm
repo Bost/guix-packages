@@ -6431,7 +6431,13 @@ and @code{C++} files through the @code{ccls} language server.")
       (native-inputs
        (list emacs-ert-runner emacs-undercover))
       (propagated-inputs
-       (list (@(bost gnu packages emacs-build) emacs-dash) (@(bost gnu packages emacs-build) emacs-f) emacs-pos-tip emacs-rust-mode emacs-s))
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
+        emacs-pos-tip
+        emacs-rust-mode
+        emacs-s
+        ))
       (build-system emacs-build-system)
       (home-page "https://github.com/racer-rust/emacs-racer")
       (synopsis "Racer support for Emacs")
@@ -7830,7 +7836,12 @@ prompt.")
         #:test-command #~(list "make" "test-unit")))
       (propagated-inputs
        (list (@(bost gnu packages emacs-build) emacs-dash) emacs-s))
-      (native-inputs (list emacs-flycheck emacs-magit emacs-validate))
+      (native-inputs
+       (list
+        emacs-flycheck
+        (@(bost gnu packages emacs-xyz-2) emacs-magit)
+        emacs-validate
+        ))
       (home-page "https://github.com/davidshepherd7/frames-only-mode")
       (synopsis "Use frames instead of Emacs windows")
       (description
@@ -8056,9 +8067,11 @@ mercury-mode provided by Emacs as a wrapper around prolog-mode.")
     (native-inputs
      (list emacs-ert-runner texinfo))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash)
-           emacs-emacsql
-           emacs-magit))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      emacs-emacsql
+      (@(bost gnu packages emacs-xyz-2) emacs-magit)
+      ))
     (home-page "https://github.com/org-roam/org-roam/")
     (synopsis "Non-hierarchical note-taking with Org mode")
     (description "Emacs Org Roam is a solution for taking non-hierarchical
@@ -8093,16 +8106,20 @@ personal wiki.")
                (("^cd.*\"")
                 "")))))))
     (propagated-inputs
-     (list emacs-el-job
-           emacs-llama
-           emacs-magit))
+     (list
+      emacs-el-job
+      emacs-llama
+      (@(bost gnu packages emacs-xyz-2) emacs-magit)
+      ))
     ;; tests
     (native-inputs
-     (list emacs-buttercup
-           (@(bost gnu packages emacs-build) emacs-dash)
-           util-linux
-           grep
-           sed))
+     (list
+      emacs-buttercup
+      (@(bost gnu packages emacs-build) emacs-dash)
+      util-linux
+      grep
+      sed
+      ))
     (home-page "https://github.com/meedstrom/org-node/")
     (synopsis "Non-hierarchical note-taking with Org-mode, faster than
 org-roam")
@@ -8137,7 +8154,7 @@ using org mode; faster than org-roam.")
     (propagated-inputs
      (list
       emacs-llama
-      emacs-magit
+      (@(bost gnu packages emacs-xyz-2) emacs-magit)
       emacs-org-mem
       ))
     ;; tests
