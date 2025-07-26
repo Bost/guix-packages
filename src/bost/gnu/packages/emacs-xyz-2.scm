@@ -7610,7 +7610,15 @@ with GUI Emacs behavior.")
             (lambda* (#:key outputs #:allow-other-keys)
               ;; (format #t "(getcwd) : ~a\n" (getcwd))
               ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-              (bst:write-pkg-file "lsp-mode"))))))))
+              (bst:write-pkg-file "lsp-mode"))))))
+    (propagated-inputs
+     (list (@(bost gnu packages emacs-build) emacs-dash)
+           (@(bost gnu packages emacs-build) emacs-f)
+           emacs-ht
+           emacs-hydra
+           emacs-markdown-mode
+           emacs-spinner))
+    ))
 
 (define-public emacs-lsp-ui
   (let ((commit "a0dde8b52b4411cbac2eb053ef1515635ea0b7ed")
