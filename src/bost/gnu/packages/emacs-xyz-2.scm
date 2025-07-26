@@ -8466,7 +8466,7 @@ utilities.")
         emacs-all-the-icons
         (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         emacs-magit
-        emacs-projectile
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-projectile)
         emacs-persp-mode
         emacs-perspective
         mu           ; emacs-lisp package which provides mu4e
@@ -9447,7 +9447,7 @@ comprehensive documentation lookup directly into the Emacs environment.")
                 )))))
       (propagated-inputs
        (list
-        emacs-projectile
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-projectile)
         ))
       (home-page "https://github.com/emacs-php/php-mode")
       (synopsis "Major mode for editing PHP code")
@@ -9664,7 +9664,7 @@ as well as features for editing search results.")
         (@(bost gnu packages emacs-build) emacs-dash)
         emacs-helm
         emacs-helm-org
-        emacs-projectile
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-projectile)
         emacs-s
         ))
       (home-page "https://github.com/colonelpanic8/org-project-capture")
@@ -10130,7 +10130,7 @@ as well as features for editing search results.")
           (base32 "1yhdc6h72crnlp46hbvs20c0fc9r1x7896z7rbp1z0i0hphsrs86"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-helm emacs-projectile))
+       (list emacs-helm (@(bost gnu packages emacs-xyz-dash-s) emacs-projectile)))
       (home-page "https://github.com/bbatsov/helm-projectile")
       (synopsis "Helm integration for Projectile")
       (description
@@ -10155,7 +10155,11 @@ as well as features for editing search results.")
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
       (propagated-inputs
-       (list emacs-helm emacs-ivy emacs-projectile))
+       (list
+        emacs-helm
+        emacs-ivy
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-projectile)
+        ))
       (home-page "https://github.com/abo-abo/helm-make")
       (synopsis "Select a Makefile target with helm")
       (description "@code{helm-make} or @code{helm-make-projectile} will give

@@ -186,9 +186,13 @@
            (lambda _
              (invoke "make" "info"))))))
     (native-inputs
-     (list texinfo))
+     (list
+      texinfo
+      ))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash)))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      ))
     (home-page "https://github.com/magit/magit-popup")
     (synopsis "Define prefix-infix-suffix command combos")
     (description
@@ -213,13 +217,16 @@ process, passing on the arguments as command line arguments.")
          (sha256
           (base32 "0ncilsn0ih01w6hjdn529jkapiv4nnkway07j2b5fndkrlgk2ry4"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-cider
-                               (@(bost gnu packages emacs-build) emacs-dash)
-                               emacs-geiser
-                               emacs-parseclj
-                               emacs-parseedn
-                               emacs-projectile
-                               emacs-s))
+      (propagated-inputs
+       (list
+        emacs-cider
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-geiser
+        emacs-parseclj
+        emacs-parseedn
+        emacs-projectile
+        emacs-s
+        ))
       (home-page "https://github.com/danielsz/meyvn-el")
       (synopsis "Emacs client for the Meyvn build tool")
       (description
