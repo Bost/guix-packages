@@ -183,6 +183,7 @@
    emacs-helm-themes
    emacs-helm-xref
    emacs-help-fns-plus
+   emacs-helpful
    emacs-hemisu-theme
    emacs-heroku-theme
    emacs-hide-comnt

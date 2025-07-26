@@ -10538,3 +10538,52 @@ blocks")
 @code{_SRC} block with the appropriate language annotation for code that has
 been copied from an Emacs major mode.")
       (license license:gpl2+))))
+
+(define-public emacs-helpful
+  (package
+    (name "emacs-helpful")
+    (version "0.21")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/Wilfred/helpful")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "03afgdbs5nmhw833svrqky7fmfs1zlvqzcj7j5g29sakivs60xqc"))
+       (patches (search-patches
+                 "emacs-helpful-fix-signature.patch"
+                 "emacs-helpful-fix-tests.patch"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      emacs-elisp-refs
+      (@(bost gnu packages emacs-build) emacs-f)
+      emacs-s
+      ))
+    (native-inputs
+     (list emacs-ert-runner emacs-undercover))
+    (home-page "https://github.com/Wilfred/helpful")
+    (synopsis "More contextual information in Emacs help")
+    (description "@code{helpful} is an alternative to the built-in Emacs help
+that provides much more contextual information.
+
+@itemize
+@item Show the source code for interactively defined functions (unlike the
+built-in Help).
+@item Fall back to the raw sexp if no source is available.
+@item Show where a function is being called.
+@item Docstrings will Highlight the summary (the first sentence), include
+cross-references, hide superfluous puncuation.
+@item Show you the properties that have been applied to the current
+symbol.  This provides visibility of features like edebug or byte-code
+optimisation.
+@item Provide a separate @code{helpful-command} function to view interactive
+functions.
+@item Display any keybindings that apply to interactive functions.
+@item Trace, disassemble functions from inside Helpful.  This is discoverable
+and doesn't require memorisation of commands.
+@end itemize\n")
+    (license license:gpl3+)))
