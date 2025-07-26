@@ -3963,7 +3963,7 @@ unique identifiers directly in Emacs.")
        (list
         emacs-uuidgen
         emacs-deferred
-        emacs-emojify
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-emojify)
         emacs-forge
         emacs-closql
         emacs-magit
