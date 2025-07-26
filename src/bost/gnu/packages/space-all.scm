@@ -613,7 +613,7 @@
    bst:emacs-esh-help
    bst:emacs-metal-mercury-mode
    bst:emacs-org-roam
-   bst:emacs-org-node
+   ;; bst:emacs-org-node
    bst:emacs-org-node-3
    bst:emacs-plantuml-mode
    bst:emacs-csound-mode

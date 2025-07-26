@@ -8135,16 +8135,20 @@ using org mode; faster than org-roam.")
                (("^cd.*\"")
                 "")))))))
     (propagated-inputs
-     (list emacs-llama
-           emacs-magit
-           emacs-org-mem))
+     (list
+      emacs-llama
+      emacs-magit
+      emacs-org-mem
+      ))
     ;; tests
     (native-inputs
-     (list emacs-buttercup
-           (@(bost gnu packages emacs-build) emacs-dash)
-           util-linux
-           grep
-           sed))
+     (list
+      emacs-buttercup
+      (@(bost gnu packages emacs-build) emacs-dash)
+      util-linux
+      grep
+      sed
+      ))
     (home-page "https://github.com/meedstrom/org-node/")
     (synopsis "Non-hierarchical note-taking with Org-mode, faster than
 org-roam")
