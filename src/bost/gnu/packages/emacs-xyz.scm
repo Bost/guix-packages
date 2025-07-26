@@ -89,7 +89,6 @@
    emacs-drupal-mode
    emacs-dumb-jump
    emacs-ellama
-   emacs-el-mock
    emacs-elisp-def
    emacs-elisp-refs
    emacs-emacsql-sqlite3
@@ -278,6 +277,7 @@
    emacs-org-cliplink
    emacs-org-project-capture
    emacs-org-projectile
+   emacs-org-rich-yank
    emacs-organic-green-theme
    emacs-orgit
    emacs-orgit-forge

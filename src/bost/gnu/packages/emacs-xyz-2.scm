@@ -145,7 +145,7 @@
       (propagated-inputs
         (list
          emacs-shut-up
-         emacs-dash
+         (@(bost gnu packages emacs-build) emacs-dash)
          emacs-s
          ))
       (home-page "https://github.com/colonelpanic8/multi-line")
@@ -1688,8 +1688,9 @@ as horizontal rules.")
     (name "emacs-evil-unimpaired")
     (propagated-inputs
      (list
-      emacs-dash
-      emacs-f))
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-build) emacs-f)
+      ))
     (arguments
      (list
       #:tests? #f
@@ -2182,7 +2183,7 @@ performance-oriented and tidy.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-markdown-mode
         emacs-s
         ))
@@ -2216,7 +2217,7 @@ performance-oriented and tidy.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-async
         emacs-composer
         emacs-php-runtime
@@ -2256,7 +2257,7 @@ performance-oriented and tidy.")
       (propagated-inputs
        (list
         emacs-magit-popup
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-tablist
         ))
       (home-page "https://github.com/Yuki-Inoue/tblui.el")
@@ -2465,7 +2466,7 @@ which may have security implications.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-epc
         ))
       (home-page "https://github.com/anachronic/importmagic.el")
@@ -2596,7 +2597,7 @@ environment when visiting project files.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-s
         ))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
@@ -2691,7 +2692,7 @@ invocation.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/magnars/string-edit.el")
       (synopsis "Edit string literals in a separate buffer with unescaped content")
@@ -2723,8 +2724,8 @@ embedded HTML or JavaScript templates within code.")
       (propagated-inputs
        (list
         emacs-pkg-info
-        emacs-f
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-f)
+        (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/tonini/overseer.el")
       (synopsis "Integrate ert-runner with Emacs for running ERT tests")
@@ -2757,7 +2758,7 @@ interactive commands for various test operations.")
        (list
         emacs-popup
         emacs-s
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-list-utils
         emacs-iedit
         ))
@@ -2790,7 +2791,7 @@ tidying imports.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/yhvh/erc-yt")
       (synopsis "Display inline YouTube previews in ERC buffers")
@@ -2821,9 +2822,9 @@ length.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-s
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/Wilfred/elisp-def")
       (synopsis "Enhanced Emacs Lisp symbol definition navigation")
@@ -2916,7 +2917,7 @@ buffer.  An OpenAI API key is required for usage.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-company
         ))
       (home-page "https://github.com/Alexander-Miller/company-shell")
@@ -3141,7 +3142,7 @@ inner and outer line objects, customizable via `evil-textobj-line-i-key` and
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-evil
         ))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
@@ -3174,7 +3175,7 @@ Users can customize which marks are displayed by modifying the
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-s
         ))
       (home-page "https://github.com/nlamirault/phpunit.el")
@@ -3206,7 +3207,7 @@ environment.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/Wilfred/pip-requirements.el")
       (synopsis "Major mode for editing pip requirements files in Emacs")
@@ -3411,7 +3412,7 @@ experience similar to browser-based HTML/JS/CSS editors.")
                 (bst:write-pkg-file "vimish-fold"))))))
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         ))
       (home-page "https://github.com/mrkkrp/vimish-fold")
       (synopsis "Persistent, Vim-style text folding for Emacs")
@@ -3489,7 +3490,11 @@ globally for specified major modes or configured per mode.  It requires both
           (base32 "08mxq4kffa9fip2klpb5bkj45k85m0vv6wldclkhsz3hm316dcc6"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
-      (propagated-inputs (list emacs-f emacs-map))
+      (propagated-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-f)
+        emacs-map
+        ))
       (home-page "https://github.com/wyuenho/emacs-pet/")
       (synopsis "Automatically configure Python tooling paths in Emacs")
       (description
@@ -4080,7 +4085,7 @@ as the current patch using @code{a}, and it can be discarded using @code{k}.  Ot
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-with-editor
         emacs-magit))
       (home-page "https://github.com/magit/magit-svn")
@@ -4177,8 +4182,8 @@ buffer with each of your todos.")
       (propagated-inputs
        (list
         emacs-async
-        emacs-dash
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-hl-todo
         emacs-magit
         emacs-pcre2el
@@ -4241,7 +4246,7 @@ comments.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-magit
         ))
       (home-page "https://github.com/magit/orgit")
@@ -4505,8 +4510,8 @@ display a terminal in an Emacs buffer.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      emacs-dash
-      emacs-f
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-build) emacs-f)
       emacs-list-utils
       emacs-loop
       emacs-s
@@ -4594,7 +4599,11 @@ customizability and asynchronous upgrading.")
                        (kill-sexp)
                        (basic-save-buffer))))))))
     (native-inputs
-     (list emacs-dash emacs-ert-runner emacs-shut-up))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      emacs-ert-runner
+      emacs-shut-up
+      ))
     (propagated-inputs
      (list emacs-undercover))
     (home-page "https://github.com/gongo/json-reformat")
@@ -4680,9 +4689,9 @@ executed.")
     (propagated-inputs
      (list
       emacs-loop
-      emacs-dash
+      (@(bost gnu packages emacs-build) emacs-dash)
       emacs-s
-      emacs-f
+      (@(bost gnu packages emacs-build) emacs-f)
       emacs-spinner
       emacs-shut-up
       ))
@@ -5282,7 +5291,7 @@ company-web.")
       (propagated-inputs
        (list
         emacs-company
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-web-completion-data))
       (home-page "https://github.com/osv/company-web")
       (synopsis "Emacs company backend for html, jade and slim")
@@ -5313,7 +5322,7 @@ company-mode.")
        (list
         emacs-anaconda-mode
         emacs-company
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-s))
       (home-page "https://github.com/pythonic-emacs/company-anaconda.git")
       (synopsis
@@ -5357,10 +5366,10 @@ company-mode.")
       (propagated-inputs
        (list
         ;; emacs-copilot-balancer
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-editorconfig
         emacs-s
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-jsonrpc))
       (home-page "https://github.com/copilot-emacs/copilot.el")
       (synopsis "An unofficial Copilot plugin for Emacs")
@@ -7246,7 +7255,8 @@ official @command{sqlite3} executable to access SQL database.")
       (propagated-inputs
        (list
         ;; emacs-color
-        emacs-dash))
+        (@(bost gnu packages emacs-build) emacs-dash)
+        ))
       (home-page "https://github.com/ZehCnaS34/zonokai-emacs")
       (synopsis "")
       (description "")
@@ -7402,7 +7412,10 @@ with GUI Emacs behavior.")
          (sha256
           (base32 "0lj4cp7ml7cjhkd66f6ivcl6sbfs2my8ajjlynzl3pm5qansfw5i"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-dash))
+      (propagated-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        ))
       (home-page "https://github.com/deb0ch/emacs-winum")
       (synopsis "Window number management for Emacs")
       (description
@@ -7618,7 +7631,7 @@ with GUI Emacs behavior.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-lsp-mode
         emacs-markdown-mode
         emacs-flycheck
@@ -7683,7 +7696,7 @@ and code peeking.")
       (propagated-inputs
        (list
         emacs-ht
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-lsp-mode
         ))
       (home-page "https://github.com/emacs-lsp/lsp-pyright")
@@ -7806,34 +7819,6 @@ pyrightconfig.json.")
  viewers, enhancing the LaTeX editing workflow.")
       (license license:gpl3+))))
 
-(define-public emacs-el-mock
-  (let ((commit "6cfbc9de8f1927295dca6864907fe4156bd71910")
-        (revision "1"))
-    (package
-      (name "emacs-el-mock")
-      (version (git-version "1.25.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/rejeep/el-mock.el.git")
-                (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "09c3a1771v6kliwj0bn953pxxyjlk6q9kp31cxcr0nraik7d0mhk"))))
-      (build-system emacs-build-system)
-      (arguments (list #:tests? #f))
-      (native-inputs (list emacs-ert-runner
-                           emacs-ert-expectations
-                           emacs-undercover))
-      (home-page "https://github.com/rejeep/el-mock.el")
-      (synopsis "Tiny mock and stub framework in Emacs Lisp")
-      (description
-       "Emacs Lisp Mock is a library for mocking and stubbing using readable
-syntax.  Most commonly Emacs Lisp Mock is used in conjunction with Emacs Lisp
-Expectations, but it can be used in other contexts.")
-      (license license:gpl3+))))
-
 (define-public emacs-org-cliplink
   (let ((commit "13e0940b65d22bec34e2de4bc8cba1412a7abfbc")
         (revision "0"))
@@ -7869,7 +7854,11 @@ Expectations, but it can be used in other contexts.")
                   (("curl-rexim.me-\\[a-z0-9\\]\\+")
                    "curl-rexim.me--?[a-z0-9]+")))))))
       (native-inputs
-       (list emacs-el-mock emacs-ert-runner emacs-undercover))
+       (list
+        emacs-el-mock
+        emacs-ert-runner
+        emacs-undercover
+        ))
       (inputs
        (list curl))
       (home-page "https://github.com/rexim/org-cliplink/")
@@ -7929,7 +7918,10 @@ current buffer.")
     (native-inputs
      (list emacs-el-mock emacs-ert-runner emacs-noflet emacs-undercover))
     (propagated-inputs
-     (list emacs-f emacs-popup))
+     (list
+      (@(bost gnu packages emacs-build) emacs-f)
+      emacs-popup
+      ))
     (home-page "https://github.com/jacktasia/dumb-jump")
     (synopsis "Jump to definition for multiple languages without configuration")
     (description "Dumb Jump is an Emacs \"jump to definition\" package with
@@ -7963,7 +7955,7 @@ Dumb Jump performs best with The Silver Searcher @command{ag} or ripgrep
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-magit))
       (home-page "https://github.com/canatella/repo-el")
       (synopsis "Emacs interface for the Google Repo tool")
@@ -8070,7 +8062,7 @@ will be submitted to lsp-mode.")
        (list
         emacs-helm
         emacs-lsp-mode
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/emacs-lsp/helm-lsp")
       (synopsis "Provide LSP-enhanced completion for symbols")
@@ -8351,8 +8343,8 @@ debugging workflow.")
         ;; emacs-all-the-icons ; for src/extra
         emacs-ace-window
         emacs-cfrs
-        emacs-dash
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-ht
         emacs-hydra
         emacs-pfuture
@@ -8452,8 +8444,8 @@ utilities.")
         emacs-dap-mode
         emacs-lsp-mode
         emacs-markdown-mode
-        emacs-dash
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-ht
         emacs-request
         emacs-treemacs
@@ -8485,7 +8477,7 @@ utilities.")
        (list
         emacs-compat
         emacs-lsp-mode
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-magit
         ))
       (synopsis "Lean 4 major mode for Emacs")
@@ -8536,8 +8528,8 @@ prover, version 4.")
         emacs-lsp-mode
         emacs-lsp-treemacs
         emacs-dap-mode
-        emacs-dash
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-ht
         emacs-treemacs
         ))
@@ -8571,8 +8563,8 @@ to Metals.")
        )
       (propagated-inputs
        (list
-        emacs-dash
-        emacs-f
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
         emacs-ht
         emacs-treemacs
         emacs-lsp-mode
@@ -9054,7 +9046,13 @@ documentation.")
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
       (propagated-inputs
-       (list emacs-dash emacs-f emacs-helm emacs-org emacs-s))
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        (@(bost gnu packages emacs-build) emacs-f)
+        emacs-helm
+        emacs-org
+        emacs-s
+        ))
       (home-page "https://github.com/alphapapa/helm-org-rifle")
       (synopsis "Rifle through Org files")
       (description "This package searches both headings and contents of entries
@@ -9428,8 +9426,8 @@ documentation search and a source and class browser.")
      (list
       emacs-auto-complete
       emacs-company
-      emacs-dash
-      emacs-f
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-build) emacs-f)
       emacs-helm
       emacs-php-mode
       emacs-popup
@@ -9588,7 +9586,7 @@ as well as features for editing search results.")
                 )))))
       (propagated-inputs
        (list
-        emacs-dash
+        (@(bost gnu packages emacs-build) emacs-dash)
         emacs-helm
         emacs-helm-org
         emacs-projectile
@@ -10498,3 +10496,45 @@ a streaming and non-streaming way.")
 a parser, and an event source implementation for the @acronym{SSE, Server Sent
 Event} protocol.")
       (license license:gpl3+))))
+
+(define-public emacs-org-rich-yank
+  (let ((commit "8f73e833eac9c0eb686416962d5bdd369d80c1e8")
+        (revision "0"))
+    (package
+      (name "emacs-org-rich-yank")
+      (version (git-version "0.2.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/unhammer/org-rich-yank.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "09v5z7h2db5jllh3jy3wyprq9vs2xfv89zlxr74r3lsss0x0xnb5"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "org-rich-yank")
+                )))))
+      (home-page "https://github.com/unhammer/org-rich-yank")
+      (synopsis "Surround source code pasted into Org with @code{#+BEGIN_SRC}
+blocks")
+      (description
+       "This package provides a utility function for Org buffers that makes a
+@code{_SRC} block with the appropriate language annotation for code that has
+been copied from an Emacs major mode.")
+      (license license:gpl2+))))

@@ -4,6 +4,7 @@
   #:use-module (ice-9 pretty-print)
   #:use-module (gnu packages) ; specification->package+output
   #:use-module ((bost gnu packages emacs-xyz) #:prefix bst:)
+  #:use-module ((bost gnu packages emacs-build) #:prefix bst:)
   #:use-module ((gnu packages emacs-xyz) #:prefix gnu:)
   #:use-module (bost gnu packages space-needed)
   #:use-module (bost gnu packages space-available)
@@ -84,6 +85,7 @@
    bst:emacs-darkmine-theme
    bst:emacs-darkokai-theme
    bst:emacs-darktooth-theme
+   bst:emacs-dash
    bst:emacs-define-word
    bst:emacs-dired-quick-sort
    bst:emacs-django-theme
@@ -111,6 +113,7 @@
    bst:emacs-evil-vimish-fold
    bst:emacs-evil-visual-mark-mode
    bst:emacs-eziam-themes
+   bst:emacs-f
    bst:emacs-farmhouse-light-mod-theme
    bst:emacs-farmhouse-themes
    bst:emacs-flatland-theme
@@ -253,6 +256,7 @@
    bst:emacs-org-cliplink
    bst:emacs-org-project-capture
    bst:emacs-org-projectile
+   bst:emacs-org-rich-yank
    bst:emacs-organic-green-theme
    bst:emacs-orgit
    bst:emacs-orgit-forge
