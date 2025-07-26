@@ -1725,7 +1725,13 @@ one Emacs buffer.")
                 "1hy1x2w0yp5brm7714d1hziz3rpkywb5jp3yj78ibmi9ifny9vri"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-lsp-mode emacs-company emacs-s (@(bost gnu packages emacs-build) emacs-dash)))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-xyz-2) emacs-lsp-mode)
+      emacs-company
+      emacs-s
+      (@(bost gnu packages emacs-build) emacs-dash)
+      ))
     (native-inputs
      (list emacs-buttercup))
     (arguments
@@ -6465,7 +6471,7 @@ Pandoc, the document-conversion tool.")
            "0l4bhyr9d8ljz1f0cfg1s2cjcmh6fiwbk5mdlvc7rrwz5hxc21is"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list ccls (@(bost gnu packages emacs-build) emacs-dash) emacs-lsp-mode))
+       (list ccls (@(bost gnu packages emacs-build) emacs-dash) (@(bost gnu packages emacs-xyz-2) emacs-lsp-mode)))
       (home-page "https://github.com/MaskRay/emacs-ccls")
       (synopsis "Emacs support for the @code{ccls} language server")
       (description "This package extends @code{lsp-mode} to work with @code{C}
@@ -6520,7 +6526,7 @@ docstring of the thing at point.")
      (list (@(bost gnu packages emacs-build) emacs-dash)
            (@(bost gnu packages emacs-build) emacs-f)
            emacs-flycheck
-           emacs-lsp-mode
+           (@(bost gnu packages emacs-xyz-2) emacs-lsp-mode)
            emacs-markdown-mode
            emacs-project
            emacs-rust-mode
@@ -7214,7 +7220,7 @@ instances (play/pause, volume control, media selection, etc.) remotely.")
         (base32 "0nb9ypa8hyx7i38rbywh8hn2i5f9l2l567hvdr9767fk279yr97n"))))
     (build-system emacs-build-system)
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-ivy emacs-lsp-mode))
+     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-ivy (@(bost gnu packages emacs-xyz-2) emacs-lsp-mode)))
     (home-page "https://github.com/emacs-lsp/lsp-ivy")
     (synopsis "Provide LSP-enhanced completion for symbols")
     (description
@@ -8522,7 +8528,12 @@ project.el and xref.el.")
        (sha256
         (base32 "1y0dgpgvw90phqi44dyijnnz3z0rys4bkmbnrkkx2fbd3pyvqs1i"))))
     (build-system emacs-build-system)
-    (propagated-inputs (list emacs-consult emacs-lsp-mode (@(bost gnu packages emacs-build) emacs-f)))
+    (propagated-inputs
+     (list
+      emacs-consult
+      (@@(bost gnu packages emacs-xyz-2) emacs-lsp-mode)
+      (@(bost gnu packages emacs-build) emacs-f))
+     )
     (home-page "https://github.com/gagbo/consult-lsp/")
     (synopsis "LSP mode and Consult helping each other")
     (description
