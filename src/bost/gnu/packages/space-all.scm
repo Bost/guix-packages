@@ -315,6 +315,7 @@
    bst:emacs-term-cursor
    bst:emacs-terminal-here
    bst:emacs-toxi-theme
+   bst:emacs-transient
    bst:emacs-treemacs
    bst:emacs-treemacs-evil
    bst:emacs-treemacs-extra

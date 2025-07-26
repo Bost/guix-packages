@@ -362,6 +362,7 @@
    emacs-theme-changer
    emacs-tmux
    emacs-toxi-theme
+   emacs-transient
    emacs-treemacs
    emacs-treemacs-evil
    emacs-treemacs-extra
