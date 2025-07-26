@@ -1079,7 +1079,10 @@ of bibliographic references.")
     (inputs
      (list direnv))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-with-editor))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-xyz-2) emacs-with-editor)
+      ))
     (home-page "https://github.com/wbolster/emacs-direnv")
     (synopsis "Direnv integration for Emacs")
     (description
@@ -5149,7 +5152,13 @@ and can be consulted and modified.")
          (sha256
           (base32 "12sxaig36n3qrmnyq2znar74hgbgfh3sgghki4n7aq2bzxwfbn8h"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list emacs-age (@(bost gnu packages emacs-build) emacs-f) emacs-s emacs-with-editor))
+      (propagated-inputs
+       (list
+        emacs-age
+        (@(bost gnu packages emacs-build) emacs-f)
+        emacs-s
+        (@(bost gnu packages emacs-xyz-2) emacs-with-editor)
+        ))
       (home-page "https://github.com/anticomputer/passage.el")
       (synopsis "Pass-Age Encryption support for Emacs")
       (description
@@ -8348,15 +8357,20 @@ released, and track their progress in watching a series.")
                               (rename-file f (basename f)))
                             el-files)))))))
       (native-inputs
-       (list (@(bost gnu packages emacs-build) emacs-f) emacs-mocker))
+       (list
+        (@(bost gnu packages emacs-build) emacs-f)
+        emacs-mocker
+        ))
       (propagated-inputs
-       (list emacs-anaphora
-             (@(bost gnu packages emacs-build) emacs-dash)
-             emacs-deferred
-             emacs-polymode
-             emacs-request
-             emacs-websocket
-             emacs-with-editor))
+       (list
+        emacs-anaphora
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-deferred
+        emacs-polymode
+        emacs-request
+        emacs-websocket
+        (@(bost gnu packages emacs-xyz-2) emacs-with-editor)
+        ))
       (home-page "https://github.com/millejoh/emacs-ipython-notebook")
       (synopsis "Jupyter client for all languages")
       (description
