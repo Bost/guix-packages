@@ -340,8 +340,8 @@
    bst:emacs-undo-tree
    bst:emacs-unfill
    bst:emacs-unicode-fonts
-   bst:emacs-use-package
-   bst:emacs-use-package-chords
+   ;; bst:emacs-use-package
+   ;; bst:emacs-use-package-chords
    bst:emacs-uuidgen
    bst:emacs-vdiff-magit
    bst:emacs-vi-tilde-fringe

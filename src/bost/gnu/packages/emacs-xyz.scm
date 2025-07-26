@@ -651,8 +651,8 @@
    emacs-undo-tree
    emacs-unfill
    emacs-unicode-fonts
-   emacs-use-package
-   emacs-use-package-chords
+   ;; emacs-use-package
+   ;; emacs-use-package-chords
    emacs-uuidgen
    emacs-vdiff-magit
    emacs-vi-tilde-fringe

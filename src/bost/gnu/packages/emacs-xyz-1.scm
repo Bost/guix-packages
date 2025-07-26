@@ -1354,41 +1354,6 @@ construct PHP expressions programmatically, facilitating seamless integration
 between Emacs and PHP.")
       (license license:gpl3+))))
 
-(define-public emacs-use-package-chords
-  (package
-    (inherit emacs-use-package)
-    (name "emacs-use-package-chords")))
-
-;; TODO compare emacs-use-package-chords with:
-;; bat -r 129644:129667 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
-;; (define-public emacs-use-package-chords
-;;   (package
-;;     (name "emacs-use-package-chords")
-;;     (version "20250330.1852")
-;;     (source
-;;      (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url "https://github.com/waymondo/use-package-chords.git")
-;;              (commit
-;;               "0793b50e2bf1ec8bfc532b10baeef716c5aa947a")))
-;;        (sha256
-;;         (base32
-;;          "0dkiic5yrdmjkyrahm10ggx0scp4ixqbb184i55f6fpf8yvy6nd8"))))
-;;     (build-system emacs-build-system)
-;;     (propagated-inputs
-;;      (list
-;;       emacs-bind-chord
-;;       emacs-key-chord
-;;       ))
-;;     (arguments '(#:files ("use-package-chords.el")))
-;;     (home-page
-;;      "https://github.com/jwiegley/use-package")
-;;     (synopsis "Key-chord keyword for use-package")
-;;     (description
-;;      "Documentation at https://melpa.org/#/use-package-chords")
-;;     (license #f)))
-
 ;; bat -r 128301:128325 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-ucs-utils
   (let ((commit "91b9e0207fff5883383fd39c45ad5522e9b90e65")

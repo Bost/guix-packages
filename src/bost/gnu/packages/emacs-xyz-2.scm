@@ -2042,50 +2042,85 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
  are public and have displayable characters.")
       (license license:gpl3+))))
 
-(define-public emacs-use-package
-  ;; XXX: Upstream did not tag latest release.  Using commit matching exact
-  ;; version bump.
-  (let ((commit "a6e856418d2ebd053b34e0ab2fda328abeba731c")
-        (revision "0"))
-    (package
-      (name "emacs-use-package")
-      (version (git-version "2.4.4" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/jwiegley/use-package.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0g1smk27ry391gk8bb8q3i42s0p520zwhxfnxvzv5cjj93mcpd8f"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:tests? #t
-        #:test-command #~(list "emacs" "--batch"
-                               "-l" "use-package-tests.el"
-                               "-f" "ert-run-tests-batch-and-exit")
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-before 'install 'install-manual
-              (lambda _
-                (let ((info-dir (string-append #$output "/share/info")))
-                  (install-file "use-package.info" info-dir))))
-            (add-before 'install-manual 'build-manual
-              (lambda _
-                (invoke "make" "info" "use-package.texi"))))))
-      (native-inputs (list texinfo))
-      (propagated-inputs
-       (list
-        emacs-diminish
-        ))
-      (home-page "https://github.com/jwiegley/use-package")
-      (synopsis "Declaration for simplifying your .emacs")
-      (description "The use-package macro allows you to isolate package
-configuration in your @file{.emacs} file in a way that is both
-performance-oriented and tidy.")
-      (license license:gpl2+))))
+;; (define-public emacs-use-package
+;;   ;; XXX: Upstream did not tag latest release.  Using commit matching exact
+;;   ;; version bump.
+;;   (let ((commit "a6e856418d2ebd053b34e0ab2fda328abeba731c")
+;;         (revision "0"))
+;;     (package
+;;       (name "emacs-use-package")
+;;       (version (git-version "2.4.4" revision commit))
+;;       (source
+;;        (origin
+;;          (method git-fetch)
+;;          (uri (git-reference
+;;                (url "https://github.com/jwiegley/use-package.git")
+;;                (commit commit)))
+;;          (file-name (git-file-name name version))
+;;          (sha256
+;;           (base32 "0g1smk27ry391gk8bb8q3i42s0p520zwhxfnxvzv5cjj93mcpd8f"))))
+;;       (build-system emacs-build-system)
+;;       (arguments
+;;        (list
+;;         #:tests? #t
+;;         #:test-command #~(list "emacs" "--batch"
+;;                                "-l" "use-package-tests.el"
+;;                                "-f" "ert-run-tests-batch-and-exit")
+;;         #:phases
+;;         #~(modify-phases %standard-phases
+;;             (add-before 'install 'install-manual
+;;               (lambda _
+;;                 (let ((info-dir (string-append #$output "/share/info")))
+;;                   (install-file "use-package.info" info-dir))))
+;;             (add-before 'install-manual 'build-manual
+;;               (lambda _
+;;                 (invoke "make" "info" "use-package.texi"))))))
+;;       (native-inputs (list texinfo))
+;;       (propagated-inputs
+;;        (list
+;;         emacs-diminish
+;;         ))
+;;       (home-page "https://github.com/jwiegley/use-package")
+;;       (synopsis "Declaration for simplifying your .emacs")
+;;       (description "The use-package macro allows you to isolate package
+;; configuration in your @file{.emacs} file in a way that is both
+;; performance-oriented and tidy.")
+;;       (license license:gpl2+))))
+
+;; (define-public emacs-use-package-chords
+;;   (package
+;;     (inherit emacs-use-package)
+;;     (name "emacs-use-package-chords")))
+
+;; TODO compare emacs-use-package-chords with:
+;; bat -r 129644:129667 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
+;; (define-public emacs-use-package-chords
+;;   (package
+;;     (name "emacs-use-package-chords")
+;;     (version "20250330.1852")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url "https://github.com/waymondo/use-package-chords.git")
+;;              (commit
+;;               "0793b50e2bf1ec8bfc532b10baeef716c5aa947a")))
+;;        (sha256
+;;         (base32
+;;          "0dkiic5yrdmjkyrahm10ggx0scp4ixqbb184i55f6fpf8yvy6nd8"))))
+;;     (build-system emacs-build-system)
+;;     (propagated-inputs
+;;      (list
+;;       emacs-bind-chord
+;;       emacs-key-chord
+;;       ))
+;;     (arguments '(#:files ("use-package-chords.el")))
+;;     (home-page
+;;      "https://github.com/jwiegley/use-package")
+;;     (synopsis "Key-chord keyword for use-package")
+;;     (description
+;;      "Documentation at https://melpa.org/#/use-package-chords")
+;;     (license #f)))
 
 ;; bat -r 12662:12693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-chatgpt-shell ;; PR sent

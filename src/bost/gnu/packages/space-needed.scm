@@ -582,7 +582,7 @@
    "emacs-undo-fu-session"
    "emacs-undo-tree"
    "emacs-unfill"
-   "emacs-use-package"
+   ;; "emacs-use-package"
    "emacs-uuidgen"
    "emacs-validate"
    "emacs-vdiff"

@@ -419,13 +419,16 @@ from within Emacs.")
          (sha256
           (base32 "042vcffg1scq6zq8rhv3f2hsl4ychr1gx6hlp23b8hfmz268fima"))))
       (build-system emacs-build-system)
-      (propagated-inputs (list (@(bost gnu packages emacs-build) emacs-dash)
-                               emacs-esxml
-                               emacs-org
-                               emacs-s
-                               emacs-hydra
-                               emacs-use-package
-                               emacs-ts))
+      (propagated-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-esxml
+        emacs-org
+        emacs-s
+        emacs-hydra
+        ;; emacs-use-package
+        emacs-ts
+        ))
       (home-page "https://github.com/alphapapa/unpackaged.el")
       (synopsis "Useful snippets of Emacs Lisp code")
       (description
@@ -8256,7 +8259,10 @@ sound-designing using CSound.")
           (base32 "1qi092mw2n08v6yr0j6hlpx0pnlcnhxjqbsrlw9pn4yin6zk91yp"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(bost gnu packages emacs-build) emacs-dash) emacs-s))
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-s
+        ))
       (home-page "https://github.com/plexus/html-to-hiccup")
       (synopsis "Turn HTML into Hiccup syntax")
       (description
@@ -8285,11 +8291,13 @@ web development.")
           (base32 "1prnjf7zs49z5a8qwhn8d0qnp60b3l0xhjkqg6v237acvk2axixr"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(bost gnu packages emacs-build) emacs-dash)
-             emacs-general
-             emacs-which-key
-             emacs-use-package
-             emacs-bind-map))
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-general
+        emacs-which-key
+        ;; emacs-use-package
+        emacs-bind-map
+        ))
       (home-page "https://github.com/mohkale/spaceleader")
       (synopsis "Emacs leader key implementation from Spacemacs")
       (description
