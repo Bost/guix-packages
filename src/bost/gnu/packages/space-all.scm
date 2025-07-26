@@ -599,7 +599,28 @@
    bst:emacs-helm-dash
    bst:emacs-counsel-dash
    bst:emacs-calibredb
+
    bst:emacs-eval-in-repl
+   bst:emacs-eval-in-repl-cider
+   bst:emacs-eval-in-repl-elm
+   bst:emacs-eval-in-repl-erlang
+   bst:emacs-eval-in-repl-geiser
+   bst:emacs-eval-in-repl-hy
+   bst:emacs-eval-in-repl-ielm
+   bst:emacs-eval-in-repl-iex
+   bst:emacs-eval-in-repl-javascript
+   bst:emacs-eval-in-repl-lua
+   bst:emacs-eval-in-repl-ocaml
+   bst:emacs-eval-in-repl-prolog
+   bst:emacs-eval-in-repl-python
+   bst:emacs-eval-in-repl-racket
+   bst:emacs-eval-in-repl-ruby
+   bst:emacs-eval-in-repl-scheme
+   bst:emacs-eval-in-repl-shell
+   bst:emacs-eval-in-repl-slime
+   bst:emacs-eval-in-repl-sly
+   bst:emacs-eval-in-repl-sml
+
    bst:emacs-ox-pandoc
    bst:emacs-refactor
    bst:emacs-org-jira

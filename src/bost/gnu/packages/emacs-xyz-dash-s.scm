@@ -2111,7 +2111,12 @@ hydras with one column per group of heads.")))
         (base32 "0kv7jw1cg145zcy0pffjk9n2kkcgdn46nb2ny06ynadbivk2l4ds"))))
     (build-system emacs-build-system)
     (native-inputs
-     (list emacs-buttercup (@(bost gnu packages emacs-build) emacs-dash) emacs-paredit emacs-s))
+     (list
+      emacs-buttercup
+      (@(bost gnu packages emacs-build) emacs-dash)
+      emacs-paredit
+      emacs-s
+      ))
     (arguments
      `(#:test-command '("buttercup")))
     (home-page "https://github.com/clojure-emacs/clojure-mode")
@@ -3771,7 +3776,10 @@ a popup window for previewing candidates.")
           (base32 "0b08y4spapl4g2292j3l4cr84gjlvm3rpma3gqld4yb1sxd7v78p"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-evil emacs-paredit))
+       (list
+        emacs-evil
+        emacs-paredit
+        ))
       (home-page "https://github.com/roman/evil-paredit")
       (synopsis "Evil extension to integrate nicely with Paredit")
       (description
@@ -7657,7 +7665,12 @@ through Dash docsets.")
     (arguments
      (list #:include
            #~(list "eval-in-repl\\.el" "eval-in-repl-test\\.el" "README\\.md")))
-    (propagated-inputs (list (@(bost gnu packages emacs-build) emacs-dash) emacs-paredit emacs-ace-window))
+    (propagated-inputs
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      emacs-paredit
+      emacs-ace-window
+      ))
     (home-page "https://github.com/kaz-yos/eval-in-repl")
     (synopsis "One keybinding to communicate with REPLs")
     (description
@@ -7667,6 +7680,94 @@ line or region to an appropriately configured shell.  This package provides
 just the core of @code{eval-in-repl}---for the languages themselves, see their
 respective packages.")
     (license license:expat)))
+
+(define* (make-emacs-eval-in-repl repl #:key
+                                  (eval-in-repl-package emacs-eval-in-repl)
+                                  (language (string-capitalize repl))
+                                  (inputs '()))
+  "Construct an emacs-eval-in-repl package for REPL, which interprets LANGUAGE.
+Optionally propagate INPUTS or use a different EVAL-IN-REPL-PACKAGE."
+  (package
+    (inherit eval-in-repl-package)
+    (name (string-append "emacs-eval-in-repl-" repl))
+    (arguments
+     (list #:include
+           #~(list #$(string-append "eval-in-repl-" repl "\\.el"))))
+    (propagated-inputs (cons* eval-in-repl-package
+                              (cond
+                               ((procedure? inputs) (inputs))
+                               ((promise? inputs) (force inputs))
+                               (else inputs))))
+    (description
+     (format #f (G_ "This package provides an ESS-like binding to send lines
+or regions to a REPL from ~a buffers.") language))))
+
+(define-public emacs-eval-in-repl-cider
+  (make-emacs-eval-in-repl "cider" #:language "Clojure"
+                           #:inputs (list emacs-cider)))
+
+(define-public emacs-eval-in-repl-elm
+  (make-emacs-eval-in-repl "elm" #:inputs (list emacs-elm-mode)))
+
+(define-public emacs-eval-in-repl-erlang
+  (make-emacs-eval-in-repl "erlang" #:inputs (delay (list emacs-erlang))))
+
+(define-public emacs-eval-in-repl-geiser
+  (make-emacs-eval-in-repl "geiser" #:language "Scheme"
+                           #:inputs (list emacs-geiser)))
+
+(define-public emacs-eval-in-repl-hy
+  (make-emacs-eval-in-repl "hy" #:inputs (list emacs-hy-mode)))
+
+(define-public emacs-eval-in-repl-ielm
+  (make-emacs-eval-in-repl "ielm" #:language "Emacs Lisp"))
+
+(define-public emacs-eval-in-repl-iex
+  (make-emacs-eval-in-repl
+   "iex" #:language "Elixir"
+   #:inputs (delay
+              (list emacs-elixir-mode emacs-alchemist))))
+
+(define-public emacs-eval-in-repl-javascript
+  (make-emacs-eval-in-repl "javascript"
+                           #:inputs (list emacs-js2-mode emacs-js-comint)))
+
+(define-public emacs-eval-in-repl-lua
+  (make-emacs-eval-in-repl "lua" #:inputs (list emacs-lua-mode)))
+
+(define-public emacs-eval-in-repl-ocaml
+  (make-emacs-eval-in-repl "ocaml" #:language "OCaml"
+                           #:inputs (delay (list emacs-tuareg))))
+
+(define-public emacs-eval-in-repl-prolog
+  (make-emacs-eval-in-repl "prolog"))
+
+(define-public emacs-eval-in-repl-python
+  (make-emacs-eval-in-repl "python"))
+
+(define-public emacs-eval-in-repl-racket
+  (make-emacs-eval-in-repl "racket" #:inputs (list emacs-racket-mode)))
+
+(define-public emacs-eval-in-repl-ruby
+  (make-emacs-eval-in-repl "ruby" #:inputs (list emacs-inf-ruby)))
+
+(define-public emacs-eval-in-repl-scheme
+  (make-emacs-eval-in-repl "scheme"))
+
+(define-public emacs-eval-in-repl-shell
+  (make-emacs-eval-in-repl "shell"))
+
+(define-public emacs-eval-in-repl-slime
+  (make-emacs-eval-in-repl "slime" #:language "Common Lisp"
+                           #:inputs (list emacs-slime)))
+
+(define-public emacs-eval-in-repl-sly
+  (make-emacs-eval-in-repl "sly" #:language "Common Lisp"
+                           #:inputs (list emacs-sly)))
+
+(define-public emacs-eval-in-repl-sml
+  (make-emacs-eval-in-repl "sml" #:language "Standard ML"
+                           #:inputs (list emacs-sml-mode)))
 
 (define-public emacs-ox-pandoc
   (package

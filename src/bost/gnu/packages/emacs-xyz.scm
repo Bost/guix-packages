@@ -234,7 +234,28 @@
    emacs-helm-dash
    emacs-counsel-dash
    emacs-calibredb
+
    emacs-eval-in-repl
+   emacs-eval-in-repl-cider
+   emacs-eval-in-repl-elm
+   emacs-eval-in-repl-erlang
+   emacs-eval-in-repl-geiser
+   emacs-eval-in-repl-hy
+   emacs-eval-in-repl-ielm
+   emacs-eval-in-repl-iex
+   emacs-eval-in-repl-javascript
+   emacs-eval-in-repl-lua
+   emacs-eval-in-repl-ocaml
+   emacs-eval-in-repl-prolog
+   emacs-eval-in-repl-python
+   emacs-eval-in-repl-racket
+   emacs-eval-in-repl-ruby
+   emacs-eval-in-repl-scheme
+   emacs-eval-in-repl-shell
+   emacs-eval-in-repl-slime
+   emacs-eval-in-repl-sly
+   emacs-eval-in-repl-sml
+
    emacs-ox-pandoc
    emacs-refactor
    emacs-org-jira

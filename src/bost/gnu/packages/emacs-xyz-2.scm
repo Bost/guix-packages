@@ -1595,7 +1595,8 @@ as horizontal rules.")
     (propagated-inputs
      (list
       ;; emacs-core-funcs ;; Doesn't work - see above
-      emacs-evil))))
+      (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
+      ))))
 
 (define-public emacs-vim-colors
   (package
@@ -1798,7 +1799,7 @@ and @code{erc-send-modify-hook} to download and show images.")
     (name "emacs-evil-evilified-state")
     (propagated-inputs
      (list
-      emacs-evil
+      (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
       emacs-bind-map))
     (arguments
      (list
@@ -3012,7 +3013,7 @@ pages or the '--help' output of commands.")
       (propagated-inputs
        (list
         emacs-avy
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/pythonnut/evil-easymotion")
       (synopsis "Vim-style quick navigation for evil-mode in Emacs")
@@ -3044,7 +3045,7 @@ configured with a prefix key using `evilem-default-keybindings`.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/syl20bnr/evil-tutor")
       (synopsis "Interactive Evil-mode tutorial inspired by Vimtutor")
@@ -3143,7 +3144,7 @@ functionality.")
        (list
         emacs-bind-map
         emacs-smartparens
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/syl20bnr/evil-lisp-state")
       (synopsis "Evil-mode state for structured Lisp editing with smartparens")
@@ -3173,7 +3174,7 @@ wrapping, and transposing s-expressions.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/emacsorphanage/evil-textobj-line")
       (synopsis "Evil-mode text object for entire lines")
@@ -3205,7 +3206,7 @@ inner and outer line objects, customizable via `evil-textobj-line-i-key` and
       (propagated-inputs
        (list
         (@(bost gnu packages emacs-build) emacs-dash)
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
       (synopsis "Display Evil-mode marks visually in Emacs buffers")
@@ -3522,7 +3523,7 @@ it suitable for managing folds in large projects.")
       (propagated-inputs
        (list
         emacs-vimish-fold
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/alexmurray/evil-vimish-fold")
       (synopsis "Vim-style folding for Evil-mode using vimish-fold")
@@ -3892,7 +3893,7 @@ configurations.")
        (list
         emacs-copy-sexp
         emacs-drag-stuff
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         emacs-evil-iedit-state
         emacs-jump-last
         emacs-kill-buffers
@@ -4187,7 +4188,7 @@ support for Git-SVN.")
       (propagated-inputs
        (list
         emacs-annalist
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         ))
       (home-page "https://github.com/emacs-evil/evil-collection")
       (synopsis "Collection of Evil bindings for many major and minor modes")
@@ -4437,7 +4438,7 @@ allows easily move between them.")
                                ((" deps") "")))))))
     (propagated-inputs
      (list
-      emacs-evil
+      (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
       ))
     (native-inputs (list emacs-web-mode))
     (home-page "https://github.com/redguardtoo/evil-nerd-commenter")
@@ -4875,7 +4876,7 @@ behavior very similar to that of Python mode.")
                                ((" deps") "")))))))
     (propagated-inputs
      (list
-      emacs-evil
+      (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
       ))
     (native-inputs
      (list
@@ -7422,7 +7423,7 @@ official @command{sqlite3} executable to access SQL database.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         emacs-iedit))
       (home-page "https://github.com/syl20bnr/evil-iedit-state")
       (synopsis "Slick Evil states for iedit")
@@ -8463,7 +8464,7 @@ utilities.")
      (modify-inputs (package-propagated-inputs emacs-treemacs)
        (append
         emacs-all-the-icons
-        emacs-evil
+        (@(bost gnu packages emacs-xyz-dash-s) emacs-evil)
         emacs-magit
         emacs-projectile
         emacs-persp-mode
