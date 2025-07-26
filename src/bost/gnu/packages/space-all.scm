@@ -395,16 +395,6 @@
    bst:emacs-citeproc
    bst:emacs-direnv
    bst:emacs-noman
-   bst:emacs-tablist
-   bst:emacs-djvu
-   bst:emacs-djvu3
-   bst:emacs-pabbrev
-   ;; bst:emacs-pdf-tools
-   bst:emacs-saveplace-pdf-view
-   bst:emacs-org-pdftools
-   bst:emacs-sage-shell-mode
-   bst:emacs-sakura-theme
-   bst:emacs-pdfgrep
    bst:emacs-bui
    bst:emacs-guix
    bst:emacs-minitest

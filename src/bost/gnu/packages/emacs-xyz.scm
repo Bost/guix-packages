@@ -32,16 +32,6 @@
    emacs-citeproc
    emacs-direnv
    emacs-noman
-   emacs-tablist
-   emacs-djvu
-   emacs-djvu3
-   emacs-pabbrev
-   emacs-pdf-tools
-   emacs-saveplace-pdf-view
-   emacs-org-pdftools
-   emacs-sage-shell-mode
-   emacs-sakura-theme
-   emacs-pdfgrep
    emacs-bui
    emacs-guix
    emacs-minitest
