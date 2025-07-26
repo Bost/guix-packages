@@ -300,69 +300,6 @@ code you have in Emacs.  Speed Type keeps track of your stats (WPM, CPM,
 accuracy) while you are typing.")
     (license license:gpl3+)))
 
-(define-public emacs-graphql
-  (let ((commit "b57b5ca5d2d0837e1fb4a4f30c051d5f3e643f0f")) ;version bump
-    (package
-      (name "emacs-graphql")
-      (version "0.1.2")
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://github.com/vermiculus/graphql.el")
-                      (commit commit)))
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "18k2c2b7y5qgc7qpkqjmz1nv61w470ja3vwprmy5dlkzficzqsvf"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'skip-failing-test
-              (lambda _
-                (substitute* "test/graphql-test.el"
-                  (("\\(ert-deftest correct-tag .*" all)
-                   (string-append all " (skip-unless nil)"))))))))
-      (native-inputs (list emacs-ert-runner))
-      (propagated-inputs (list emacs-ghub))
-      (home-page "https://github.com/vermiculus/graphql.el")
-      (synopsis "GraphQL utilities")
-      (description
-       "GraphQL.el provides a generally-applicable domain-specific language for
-creating and executing GraphQL queries against your favorite web services.
-GraphQL is a data query language and runtime designed and used to request and
-deliver data to mobile and web apps.")
-      (license license:gpl3+))))
-
-(define-public emacs-graphql-mode
-  ;; No tagged commit.  No "Version" keyword either.
-  (let ((commit "9bed568ec86242dbe30bdbab324aa0eb2cd9bf08")
-        (revision "1"))
-    (package
-      (name "emacs-graphql-mode")
-      (version (git-version "0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/davazp/graphql-mode")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0x9y7qq6y0zg8ncamzvk68ccmdyzh7xsj0xs0ykyl20d5wdpplj4"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/davazp/graphql-mode")
-      (synopsis "Emacs mode to edit GraphQL schema and queries")
-      (description
-       "This package implements a major mode to edit GraphQL schemas and
-query.  The basic functionality includes syntax highlight and indentation.
-Additionally, it is able to send GraphQL queries to an end-point URL.
-
-Files with the @file{.graphql} and @file{.gql} extensions are
-automatically opened with this mode.")
-      (license license:gpl3+))))
-
 (define-public emacs-ghq
   (package
     (name "emacs-ghq")

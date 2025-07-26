@@ -373,8 +373,6 @@
    bst:emacs-magit-popup
    bst:emacs-minions
    bst:emacs-speed-type
-   bst:emacs-graphql
-   bst:emacs-graphql-mode
    bst:emacs-ghq
    bst:emacs-typit
    bst:emacs-shroud

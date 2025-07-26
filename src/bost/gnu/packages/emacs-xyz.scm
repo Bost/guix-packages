@@ -10,8 +10,6 @@
    emacs-magit-popup
    emacs-minions
    emacs-speed-type
-   emacs-graphql
-   emacs-graphql-mode
    emacs-ghq
    emacs-typit
    emacs-shroud
