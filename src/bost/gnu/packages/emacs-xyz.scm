@@ -261,6 +261,10 @@
    emacs-consult-lsp
    emacs-org-wild-notifier
 
+   emacs-mustache
+   emacs-org2web
+   emacs-emojify
+
 ;;;;;;;;;;;;;;; end: dash-s
 
 

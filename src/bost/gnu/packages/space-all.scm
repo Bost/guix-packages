@@ -625,6 +625,11 @@
    bst:emacs-pyimport
    bst:emacs-consult-lsp
    bst:emacs-org-wild-notifier
+
+   bst:emacs-mustache
+   bst:emacs-org2web
+   bst:emacs-emojify
+
    ))
 (testsymb-trace 'dash-s-packages)
 

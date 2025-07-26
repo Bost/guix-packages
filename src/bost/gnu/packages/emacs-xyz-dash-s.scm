@@ -4813,72 +4813,6 @@ Pippel also uses Tabulated List mode, it provides a similar package menu like
 so you can get rid of the mode-line.")
     (license license:gpl3+)))
 
-(define-public emacs-mustache
-  (package
-    (name "emacs-mustache")
-    (version "0.23")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/Wilfred/mustache.el")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1n2ymd92qpvsby6ms0l3kjhdzzc47rri2aiscc6bs07hm4mjpr9q"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list #:test-command
-           #~(list "emacs" "-Q" "-batch" "-L" "." "-l" "mustache-tests"
-                   "-f" "ert-run-tests-batch-and-exit")))
-    (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-ht emacs-s))
-    (home-page "https://github.com/Wilfred/mustache.el")
-    (synopsis "Mustache templating library for Emacs")
-    (description "Mustache templating library for Emacs, mustache is
-a simple web template system, which is described as a logic-less system
-because it lacks any explicit control flow statements, both looping and
-conditional evaluation can be achieved using section tags processing lists
-and lambdas.")
-    (license license:gpl3+)))
-
-(define-public emacs-org2web
-  (package
-    (name "emacs-org2web")
-    (version "0.9.2")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/tumashu/org2web")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "103fzmadgd93x1y0c6xsdjx70z0jkwpvj0xnkybdancxz4ba8p9l"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-before 'build 'fix-byte-compilation
-            ;; XXX: The fix below was integrated upstream and can be removed
-            ;; in next release.
-            (lambda _
-              (substitute* "org2web-el2org.el"
-                (("(define-obsolete-function-alias .*)\\)" _ lead)
-                 (string-append lead " \"0.1\")"))))))))
-    (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash)
-           emacs-el2org
-           emacs-ht
-           emacs-mustache
-           emacs-simple-httpd))
-    (home-page "https://github.com/tumashu/org2web")
-    (synopsis "Static site generator based on Org mode")
-    (description "Org2web is a static site generator based on Org mode, which
-code derived from Kelvin H's Org page.")
-    (license license:gpl2+)))
-
 ;; (define-public emacs-json-reformat
 ;;   (package
 ;;     (name "emacs-json-reformat")
@@ -5427,9 +5361,18 @@ for defining recurring tasks and easily scheduling them.")
                 ((".* org-super-agenda-test--without-retained-sorting .*" all)
                  (string-append all "  (skip-unless nil)\n"))))))))
     (native-inputs
-     (list (@(bost gnu packages emacs-build) emacs-f) util-linux))
+     (list
+      (@(bost gnu packages emacs-build) emacs-f)
+      util-linux
+      ))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-ht emacs-org emacs-s emacs-ts))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-xyz-2) emacs-ht)
+      emacs-org
+      emacs-s
+      emacs-ts
+      ))
     (home-page "https://github.com/alphapapa/org-super-agenda")
     (synopsis "Supercharged Org agenda")
     (description "This package allows items in the Org agenda to be grouped
@@ -6133,7 +6076,11 @@ notes.")
            "0qfzsq8jh05w4zkr0cvq3i1hdn97bq344vcqjg46sib26x3wpz6r"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list (@(bost gnu packages emacs-build) emacs-dash) emacs-s emacs-ht))
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-s
+        (@(bost gnu packages emacs-xyz-2) emacs-ht)
+        ))
       (home-page "https://github.com/nashamri/academic-phrases")
       (synopsis "Bypass that mental block when writing your papers")
       (description
@@ -7720,7 +7667,10 @@ respective packages.")
     (inputs
      (list pandoc))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash) emacs-ht))
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-xyz-2) emacs-ht)
+      ))
     (home-page "https://github.com/emacsorphanage/ox-pandoc")
     (synopsis "Org exporter for Pandoc")
     (description "@code{ox-pandoc} is an exporter for converting Org-mode
@@ -8443,9 +8393,15 @@ general in Emacs.")
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))    ; XXX: 18/24 test failures
       (propagated-inputs
-       (list emacs-async emacs-ht))
-      (native-inputs (list emacs-buttercup
-                           (@(bost gnu packages emacs-build) emacs-f)))
+       (list
+        emacs-async
+        (@(bost gnu packages emacs-xyz-2) emacs-ht)
+        ))
+      (native-inputs
+       (list
+        emacs-buttercup
+        (@(bost gnu packages emacs-build) emacs-f)
+        ))
       (synopsis "Testeable Emacs Lisp API that wraps around GNU Global")
       (description "This package provides a testeable Emacs Lisp API that
 wraps GNU Global calls and integration to editor using this API with
@@ -8539,3 +8495,101 @@ by leveraging @code{emacs-consult} APIs.")
     (synopsis "Customizable Org Agenda notifications")
     (description
      "This package provides notification functions for Org Agenda.")))
+
+(define-public emacs-mustache
+  (package
+    (name "emacs-mustache")
+    (version "0.23")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/Wilfred/mustache.el")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1n2ymd92qpvsby6ms0l3kjhdzzc47rri2aiscc6bs07hm4mjpr9q"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list #:test-command
+           #~(list "emacs" "-Q" "-batch" "-L" "." "-l" "mustache-tests"
+                   "-f" "ert-run-tests-batch-and-exit")))
+    (propagated-inputs
+     (list
+      (@(bost gnu packages emacs-build) emacs-dash)
+      (@(bost gnu packages emacs-xyz-2) emacs-ht)
+      emacs-s
+      ))
+    (home-page "https://github.com/Wilfred/mustache.el")
+    (synopsis "Mustache templating library for Emacs")
+    (description "Mustache templating library for Emacs, mustache is
+a simple web template system, which is described as a logic-less system
+because it lacks any explicit control flow statements, both looping and
+conditional evaluation can be achieved using section tags processing lists
+and lambdas.")
+    (license license:gpl3+)))
+
+(define-public emacs-org2web
+  (package
+    (name "emacs-org2web")
+    (version "0.9.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/tumashu/org2web")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "103fzmadgd93x1y0c6xsdjx70z0jkwpvj0xnkybdancxz4ba8p9l"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-before 'build 'fix-byte-compilation
+            ;; XXX: The fix below was integrated upstream and can be removed
+            ;; in next release.
+            (lambda _
+              (substitute* "org2web-el2org.el"
+                (("(define-obsolete-function-alias .*)\\)" _ lead)
+                 (string-append lead " \"0.1\")"))))))))
+    (propagated-inputs
+     (list (@(bost gnu packages emacs-build) emacs-dash)
+           emacs-el2org
+           (@(bost gnu packages emacs-xyz-2) emacs-ht)
+           emacs-mustache
+           emacs-simple-httpd))
+    (home-page "https://github.com/tumashu/org2web")
+    (synopsis "Static site generator based on Org mode")
+    (description "Org2web is a static site generator based on Org mode, which
+code derived from Kelvin H's Org page.")
+    (license license:gpl2+)))
+
+(define-public emacs-emojify
+  (package
+    (name "emacs-emojify")
+    (version "1.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/iqbalansari/emacs-emojify")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1fqnj5x7ivjkm5y927dqqnm85q5hzczlb0hrfpjalrhasa6ijsrm"))))
+    (build-system emacs-build-system)
+    (arguments
+     `(#:include (cons "^data/" %default-include)))
+    (propagated-inputs
+     (list (@(bost gnu packages emacs-xyz-2) emacs-ht)))
+    (home-page "https://github.com/iqbalansari/emacs-emojify")
+    (synopsis "Display emojis in Emacs")
+    (description "This package displays emojis in Emacs similar to how Github,
+Slack, and other websites do.  It can display plain ASCII like @code{:)} as
+well as Github-style emojis like @code{:smile:}.  It provides a minor mode
+@code{emojify-mode} to enable the display of emojis in a buffer.")
+    (license license:gpl3+)))
+
