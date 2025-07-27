@@ -3719,33 +3719,51 @@ pressed simultaneously or a single key quickly pressed twice.")
       (license license:gpl3+))))
 
 (define-public emacs-ht
-  (package
-    (name "emacs-ht")
-    (version "2.3")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-              (url "https://github.com/Wilfred/ht.el")
-              (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0can9v336lgnq0q2ha3js0565jzp3dlwwqxhcbx5swk5kp148f07"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      ))
-    (native-inputs
-     (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      ))
-    (home-page "https://github.com/Wilfred/ht.el")
-    (synopsis "Hash table library for Emacs")
-    (description
-     "This package simplifies the use of hash tables in elisp.  It also
+  (let ((commit "1c49aad1c820c86f7ee35bf9fff8429502f60fef")
+        (revision "0"))
+    (package
+      (name "emacs-ht")
+      (version (git-version "2.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/Wilfred/ht.el.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1vyk81xav1ghdb39fqi99yf6yvzsh6p007v7yhzk1bbqqffkvqdj"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "ht")
+                )))))
+      (propagated-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        ))
+      (native-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        ))
+      (home-page "https://github.com/Wilfred/ht.el")
+      (synopsis "Hash table library for Emacs")
+      (description
+       "This package simplifies the use of hash tables in elisp.  It also
 provides functions to convert hash tables from and to alists and plists.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 ;; bat -r 12662:12693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-chatgpt
@@ -11471,8 +11489,13 @@ match Drupal Coding Standards.")
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "flyspell-correct")
                 (bst:write-pkg-file "flyspell-correct-avy-menu")
-                (bst:write-pkg-file "flyspell-correct-helm"))))))
+                (bst:write-pkg-file "flyspell-correct-helm")
+                (bst:write-pkg-file "flyspell-correct-ido")
+                (bst:write-pkg-file "flyspell-correct-ivy")
+                (bst:write-pkg-file "flyspell-correct-popup")
+                (bst:write-pkg-file "test-flyspell-correct"))))))
       (propagated-inputs
        (list
         emacs-avy-menu
