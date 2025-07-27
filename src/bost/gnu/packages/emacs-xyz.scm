@@ -21938,3 +21938,95 @@ handful of functions that are not resource-specific.")
 structure of all your Org files – headings, links and so on..")
       (home-page "https://github.com/meedstrom/org-node/")
       (license license:gpl3+))))
+
+(define-public emacs-tablist
+  (let ((commit "fcd37147121fabdf003a70279cf86fbe08cfac6f")
+        (revision "0"))
+    (package
+      (name "emacs-tablist")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/emacsorphanage/tablist.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1n1isr98xsc66n8ax0lcld2p80rr3b9s0pnh0jllhvmbkkb88xzi"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f ; no test suite
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "tablist"
+                      "tablist-filter"
+                      )))))))
+      (home-page "https://github.com/politza/tablist")
+      (synopsis "Extension for @code{tabulated-list-mode}")
+      (description "Tablist is the Emacs package that provides several
+additional features to @code{tabulated-list-mode}: it adds marks,
+filters, new key bindings and faces.  It can be enabled by
+@code{tablist-mode} or @code{tablist-minor-mode} commands.")
+      (license license:gpl3+))))
+
+(define-public emacs-js2-mode
+  (let ((commit "e0c302872de4d26a9c1614fac8d6b94112b96307")
+        (revision "0"))
+    (package
+      (name "emacs-js2-mode")
+      (version (git-version "20231224" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/mooz/js2-mode.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1midf8yib70k6kh50a2r7g9xri2jvvglz4rchjw89wl2zqyl1p91"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "make" "test")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "js2-imenu-extras"
+                      "js2-mode"
+                      "js2-old-indent"
+                      )))))))
+      (home-page "https://github.com/mooz/js2-mode/")
+      (synopsis "Improved JavaScript editing mode for Emacs")
+      (description
+       "Js2 mode provides a JavaScript major mode for Emacs that is more
+advanced than the built-in javascript-mode.  Features include accurate syntax
+highlighting using a recursive-descent parser, on-the-fly reporting of syntax
+errors and strict-mode warnings, smart line-wrapping within comments and
+strings, and code folding.")
+      (license license:gpl3+))))

@@ -363,6 +363,7 @@
    bst:emacs-jbeans-theme
    bst:emacs-journalctl-mode
    bst:emacs-js-doc
+   bst:emacs-js2-mode
    bst:emacs-js2-refactor
    bst:emacs-jsdoc
    bst:emacs-json-navigator
@@ -587,6 +588,7 @@
    bst:emacs-sxiv
    bst:emacs-system-packages
    bst:emacs-systemd
+   bst:emacs-tablist
    bst:emacs-tagedit
    bst:emacs-tango-2-theme
    bst:emacs-tango-plus-theme
