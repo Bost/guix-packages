@@ -15757,6 +15757,14 @@ manager.")
         #:tests? #f
         ;; Test are run using Eask; eask-cli isn't available in Guix
         ;; #:test-command #~(list "make" "test")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
         #:phases
         #~(modify-phases %standard-phases
             (add-before 'check 'fix-test-helpers
@@ -15768,7 +15776,30 @@ manager.")
               (lambda _
                 (with-directory-excursion "doc/build/texinfo"
                   (invoke "makeinfo" "--no-split"
-                          "-o" "evil.info" "evil.texi")))))))
+                          "-o" "evil.info" "evil.texi"))))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "evil")
+                (bst:write-pkg-file "evil-command-window")
+                (bst:write-pkg-file "evil-commands")
+                (bst:write-pkg-file "evil-common")
+                (bst:write-pkg-file "evil-core")
+                (bst:write-pkg-file "evil-development")
+                (bst:write-pkg-file "evil-digraphs")
+                (bst:write-pkg-file "evil-ex")
+                (bst:write-pkg-file "evil-integration")
+                (bst:write-pkg-file "evil-jumps")
+                (bst:write-pkg-file "evil-keybindings")
+                (bst:write-pkg-file "evil-macros")
+                (bst:write-pkg-file "evil-maps")
+                (bst:write-pkg-file "evil-repeat")
+                (bst:write-pkg-file "evil-search")
+                (bst:write-pkg-file "evil-states")
+                (bst:write-pkg-file "evil-test-helpers")
+                (bst:write-pkg-file "evil-tests")
+                (bst:write-pkg-file "evil-types")
+                (bst:write-pkg-file "evil-vars")
+                )))))
       (build-system emacs-build-system)
       (native-inputs
        (list
