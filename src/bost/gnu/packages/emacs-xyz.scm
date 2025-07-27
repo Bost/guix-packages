@@ -15694,7 +15694,7 @@ manager.")
 (define-public emacs-evil
   ;; Commit message claims this is 1.15.0, but there's no tag for it, so we
   ;; use full git-version instead
-  (let ((commit "008a6cdb12f15e748979a7d1c2f26c34c84dedbf")
+  (let ((commit "682e87fce99f39ea3155f11f87ee56b6e4593304")
         (revision "0"))
     (package
       (name "emacs-evil")
@@ -15703,28 +15703,34 @@ manager.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-evil/evil")
+               (url "https://github.com/emacs-evil/evil.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1hxhw1rsm0wbrhz85gfabncanijpxd47g5yrdnl3bbm499z1gsvg"))))
+           "17djjfpxnl7a3wmyh0c708w07y05b4d87ii17rnkk9p4w4zimvay"))))
       (arguments
-       `(#:test-command (list "make" "test")
-         #:phases
-         (modify-phases %standard-phases
-           (add-before 'check 'fix-test-helpers
-             (lambda _
-               (substitute* "evil-test-helpers.el"
-                 (("\\(undo-tree-mode 1\\)") ""))
-               #t))
-           (add-before 'install 'make-info
-             (lambda _
-               (with-directory-excursion "doc/build/texinfo"
-                   (invoke "makeinfo" "--no-split"
-                           "-o" "evil.info" "evil.texi")))))))
+       (list
+        #:tests? #f
+        ;; Test are run using Eask; eask-cli isn't available in Guix
+        ;; #:test-command #~(list "make" "test")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'check 'fix-test-helpers
+              (lambda _
+                (substitute* "evil-test-helpers.el"
+                  (("\\(undo-tree-mode 1\\)") ""))
+                #t))
+            (add-before 'install 'make-info
+              (lambda _
+                (with-directory-excursion "doc/build/texinfo"
+                  (invoke "makeinfo" "--no-split"
+                          "-o" "evil.info" "evil.texi")))))))
       (build-system emacs-build-system)
-      (native-inputs (list texinfo))
+      (native-inputs
+       (list
+        texinfo
+        ))
       (home-page "https://github.com/emacs-evil/evil")
       (synopsis "Extensible Vi layer for Emacs")
       (description
