@@ -19627,6 +19627,53 @@ through Dash docsets.")
 @end enumerate")
     (license license:gpl3)))
 
+(define-public emacs-js2-mode
+  (let ((commit "e0c302872de4d26a9c1614fac8d6b94112b96307")
+        (revision "0"))
+    (package
+      (name "emacs-js2-mode")
+      (version (git-version "20231224" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/mooz/js2-mode.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1midf8yib70k6kh50a2r7g9xri2jvvglz4rchjw89wl2zqyl1p91"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "make" "test")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "js2-imenu-extras"
+                      "js2-mode"
+                      "js2-old-indent"
+                      )))))))
+      (home-page "https://github.com/mooz/js2-mode/")
+      (synopsis "Improved JavaScript editing mode for Emacs")
+      (description
+       "Js2 mode provides a JavaScript major mode for Emacs that is more
+advanced than the built-in javascript-mode.  Features include accurate syntax
+highlighting using a recursive-descent parser, on-the-fly reporting of syntax
+errors and strict-mode warnings, smart line-wrapping within comments and
+strings, and code folding.")
+      (license license:gpl3+))))
+
 (define-public emacs-eval-in-repl
   (package
     (name "emacs-eval-in-repl")
@@ -19707,6 +19754,7 @@ or regions to a REPL from ~a buffers.") language))))
    #:inputs (delay
               (list emacs-elixir-mode emacs-alchemist))))
 
+;;; emacs-js2-mode must be defined ahead of emacs-eval-in-repl-javascript
 (define-public emacs-eval-in-repl-javascript
   (make-emacs-eval-in-repl "javascript"
                            #:inputs (list emacs-js2-mode emacs-js-comint)))
@@ -21982,53 +22030,6 @@ structure of all your Org files – headings, links and so on..")
 additional features to @code{tabulated-list-mode}: it adds marks,
 filters, new key bindings and faces.  It can be enabled by
 @code{tablist-mode} or @code{tablist-minor-mode} commands.")
-      (license license:gpl3+))))
-
-(define-public emacs-js2-mode
-  (let ((commit "e0c302872de4d26a9c1614fac8d6b94112b96307")
-        (revision "0"))
-    (package
-      (name "emacs-js2-mode")
-      (version (git-version "20231224" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/mooz/js2-mode.git")
-                (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1midf8yib70k6kh50a2r7g9xri2jvvglz4rchjw89wl2zqyl1p91"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:test-command #~(list "make" "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                (map bst:write-pkg-file
-                     (list
-                      "js2-imenu-extras"
-                      "js2-mode"
-                      "js2-old-indent"
-                      )))))))
-      (home-page "https://github.com/mooz/js2-mode/")
-      (synopsis "Improved JavaScript editing mode for Emacs")
-      (description
-       "Js2 mode provides a JavaScript major mode for Emacs that is more
-advanced than the built-in javascript-mode.  Features include accurate syntax
-highlighting using a recursive-descent parser, on-the-fly reporting of syntax
-errors and strict-mode warnings, smart line-wrapping within comments and
-strings, and code folding.")
       (license license:gpl3+))))
 
 (define-public emacs-skewer-mode
