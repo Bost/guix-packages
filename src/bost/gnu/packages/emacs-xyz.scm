@@ -22309,3 +22309,27 @@ one you want.  This is an O(N) operation, where the N is the amount of links.
 This package turns this into an O(1) operation.  It does so by assigning a
 letter to each link using avy.")
       (license license:gpl3+))))
+
+(define-public emacs-frog-menu
+  (package
+    (name "emacs-frog-menu")
+    (version "0.2.11")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "https://elpa.gnu.org/packages/"
+                           "frog-menu-" version ".el"))
+       (sha256
+        (base32 "06iw11z61fd0g4w3562k3smcmzaq3nivvvc6gzm8y8k5pcrqzdff"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      emacs-avy
+      emacs-posframe
+      ))
+    (home-page "https://github.com/clemera/frog-menu")
+    (synopsis "Quickly pick items from ad hoc menus")
+    (description
+     "This package provides a popup offering a preview of a list of candidates
+on which user-defined dispatch actions can act.")
+    (license license:gpl3+)))
