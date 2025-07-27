@@ -42,6 +42,7 @@
 
 (define bst-packages
   (list
+   bst:emacs-ac-ispell
    bst:emacs-ac-php
    bst:emacs-academic-phrases
    bst:emacs-ace-jump-helm-line
@@ -59,6 +60,7 @@
    bst:emacs-apropospriate-theme
    bst:emacs-attrap
    bst:emacs-attrap
+   bst:emacs-auto-complete
    bst:emacs-auto-sudoedit
    bst:emacs-auto-yasnippet
    bst:emacs-autothemer
