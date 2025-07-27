@@ -5373,49 +5373,54 @@ configurations.")
       (license license:gpl3+))))
 
 (define-public emacs-forge
-  (package
-    (name "emacs-forge")
-    (version "0.5.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/magit/forge")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "02ks8zc3nqqqqfq2picf0pxsw7wygb5hv9abnva1cv44x091w6zw"))))
-    (build-system emacs-build-system)
-    (arguments
-     `(#:tests? #f                     ;no tests
-       #:phases
-       (modify-phases %standard-phases
-         (add-after 'unpack 'build-info-manual
-           (lambda _
-             (invoke "make" "info")
-             ;; Move the info file to lisp so that it gets installed by the
-             ;; emacs-build-system.
-             (rename-file "docs/forge.info" "lisp/forge.info")))
-         (add-after 'build-info-manual 'chdir-lisp
-           (lambda _
-             (chdir "lisp"))))))
-    (native-inputs (list texinfo))
-    (propagated-inputs
-     (list
-      emacs-closql
-      emacs-emacsql
-      emacs-ghub
-      emacs-llama
-      emacs-let-alist
-      emacs-magit
-      emacs-markdown-mode
-      emacs-yaml
-      ))
-    (home-page "https://github.com/magit/forge/")
-    (synopsis "Access Git forges from Magit")
-    (description "Work with Git forges, such as Github and Gitlab, from the
+  (let ((commit "ca6c2ae18cbe2c9795832ee9a73fab8b245831d3")
+        (revision "0"))
+    (package
+      (name "emacs-forge")
+      (version (git-version "0.5.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/magit/forge.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "11mpb6g4ga4dvkj574s6y8ligj33fjmhgg6hg6jbbgqrykzqcdkp"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:tests? #f                     ;no tests
+         #:phases
+         (modify-phases %standard-phases
+           (add-after 'unpack 'build-info-manual
+             (lambda _
+               (invoke "make" "info")
+               ;; Move the info file to lisp so that it gets installed by the
+               ;; emacs-build-system.
+               (rename-file "docs/forge.info" "lisp/forge.info")))
+           (add-after 'build-info-manual 'chdir-lisp
+             (lambda _
+               (chdir "lisp"))))))
+      (native-inputs
+       (list
+        texinfo
+        ))
+      (propagated-inputs
+       (list
+        emacs-closql
+        emacs-emacsql
+        emacs-ghub
+        emacs-llama
+        emacs-let-alist
+        emacs-magit
+        emacs-markdown-mode
+        emacs-yaml
+        ))
+      (home-page "https://github.com/magit/forge/")
+      (synopsis "Access Git forges from Magit")
+      (description "Work with Git forges, such as Github and Gitlab, from the
 comfort of Magit and the rest of Emacs.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-uuidgen
   (let ((commit "cebbe09d27c63abe61fe8c2e2248587d90265b59")
