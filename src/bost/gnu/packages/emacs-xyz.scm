@@ -10036,7 +10036,7 @@ debugging workflow.")
       ))))
 
 (define-public emacs-treemacs
-  (let ((commit "820b09db106a48db76d95e3a266d1e67ae1b6bdb")
+  (let ((commit "acd69f4d19b3aa7de2168e47661148d221853b81")
         (revision "0"))
     (package
       (name "emacs-treemacs")
@@ -10049,7 +10049,7 @@ debugging workflow.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1gmp3dvji3ank0qh0fhygla2iy9pc2pg07d342wzs1mysgcdj2l8"))))
+          (base32 "1d3i2whm4y43jy3pavvbn7saxsxlih449d2k3sbrnzpzr0yx0r2s"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -10104,22 +10104,61 @@ debugging workflow.")
                   ;;  "src/extra"
                   ;;  (string-append (elpa-directory #$output) "/extra"))
                   )))
-            ;; (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-            ;;   (lambda* (#:key outputs #:allow-other-keys)
-            ;;     ;; (format #t "(getcwd) : ~a\n" (getcwd))
-            ;;     ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-            ;;     (bst:write-pkg-file "treemacs-treelib")
-            ;;     (with-directory-excursion "../extra"
-            ;;       (bst:write-pkg-file "treemacs-all-the-icons")
-            ;;       (bst:write-pkg-file "treemacs-evil")
-            ;;       (bst:write-pkg-file "treemacs-icons-dired")
-            ;;       (bst:write-pkg-file "treemacs-magit")
-            ;;       (bst:write-pkg-file "treemacs-mu4e")
-            ;;       (bst:write-pkg-file "treemacs-persp")
-            ;;       (bst:write-pkg-file "treemacs-perspective")
-            ;;       (bst:write-pkg-file "treemacs-projectile")
-            ;;       (bst:write-pkg-file "treemacs-tab-bar")
-            ;;       )))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                ;; (format #t "(getcwd) : ~a\n" (getcwd))
+                ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
+                (map bst:write-pkg-file
+                     (list
+                      "treemacs"
+                      "treemacs-annotations"
+                      "treemacs-async"
+                      "treemacs-bookmarks"
+                      "treemacs-compatibility"
+                      "treemacs-core-utils"
+                      "treemacs-customization"
+                      "treemacs-dom"
+                      "treemacs-extensions"
+                      "treemacs-faces"
+                      "treemacs-file-management"
+                      "treemacs-filewatch-mode"
+                      "treemacs-follow-mode"
+                      "treemacs-fringe-indicator"
+                      "treemacs-git-commit-diff-mode"
+                      "treemacs-header-line"
+                      "treemacs-hydras"
+                      "treemacs-icons"
+                      "treemacs-interface"
+                      "treemacs-logging"
+                      "treemacs-macros"
+                      "treemacs-mode"
+                      "treemacs-mouse-interface"
+                      "treemacs-peek-mode"
+                      "treemacs-persistence"
+                      "treemacs-project-follow-mode"
+                      "treemacs-rendering"
+                      "treemacs-scope"
+                      "treemacs-tag-follow-mode"
+                      "treemacs-tags"
+                      "treemacs-themes"
+                      "treemacs-treelib"
+                      "treemacs-visuals"
+                      "treemacs-workspaces"
+                      ))
+                (with-directory-excursion "../extra"
+                  (map bst:write-pkg-file
+                       (list
+                        "treemacs-all-the-icons"
+                        "treemacs-evil"
+                        "treemacs-icons-dired"
+                        "treemacs-magit"
+                        "treemacs-mu4e"
+                        "treemacs-persp"
+                        "treemacs-perspective"
+                        "treemacs-projectile"
+                        "treemacs-tab-bar"
+                        ))
+                  )))
             )))
       (native-inputs
        (list
