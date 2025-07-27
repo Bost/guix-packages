@@ -63,6 +63,7 @@
    bst:emacs-avy-jump-helm-line
    bst:emacs-badwolf-theme
    bst:emacs-biblio
+   bst:emacs-bind-chord
    bst:emacs-birds-of-paradise-plus-theme
    bst:emacs-bluetooth
    bst:emacs-boon
@@ -355,6 +356,7 @@
    bst:emacs-kaocha-runner
    bst:emacs-kaolin-themes
    bst:emacs-kbd-mode
+   bst:emacs-key-chord
    bst:emacs-kill-buffers
    bst:emacs-kodi-remote
    bst:emacs-lcr
@@ -603,6 +605,7 @@
    bst:emacs-unicode-fonts
    bst:emacs-unpackaged
    bst:emacs-use-package
+   bst:emacs-use-package-chords
    bst:emacs-uuidgen
    bst:emacs-vdiff-magit
    bst:emacs-vi-tilde-fringe

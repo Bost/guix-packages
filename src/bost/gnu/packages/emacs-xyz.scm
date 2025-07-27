@@ -3419,10 +3419,56 @@ configuration in your @file{.emacs} file in a way that is both
 performance-oriented and tidy.")
       (license license:gpl2+))))
 
-;; (define-public emacs-use-package-chords
-;;   (package
-;;     (inherit emacs-use-package)
-;;     (name "emacs-use-package-chords")))
+;; (bst:write-pkg-file "bind-chord") doesn't help
+(define-public emacs-bind-chord
+  (package
+    (inherit emacs-use-package)
+    (name "emacs-bind-chord")))
+
+(define-public emacs-key-chord
+  (package
+    (name "emacs-key-chord")
+    (version "0.8.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/emacsorphanage/key-chord")
+              (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1lr5vgkcn13vq0lhyxl4lvwqnmvyf3kk5fs705qrv56l2hl4k2rm"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:tests? #f
+      #:modules '((guix build emacs-build-system)
+                  (guix build utils)
+                  (guix build emacs-utils)
+                  ((bost guix build emacs-utils) #:prefix bst:))
+      #:imported-modules `(,@%default-gnu-imported-modules
+                           (guix build emacs-build-system)
+                           (guix build emacs-utils)
+                           (bost guix build emacs-utils))
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+            (lambda* (#:key outputs #:allow-other-keys)
+              (bst:write-pkg-file "key-chord")
+              )))))
+    (home-page "https://www.emacswiki.org/emacs/key-chord.el")
+    (synopsis "Map pairs of simultaneously pressed keys to Emacs commands")
+    (description "@code{emacs-key-chord} provides @code{key-chord-mode}, a
+mode for binding key chords to commands.  A key chord is defined as two keys
+pressed simultaneously or a single key quickly pressed twice.")
+    (license license:gpl2+)))
+
+;; (bst:write-pkg-file "use-package-chords") doesn't help
+(define-public emacs-use-package-chords
+  (package
+    (inherit emacs-use-package)
+    (name "emacs-use-package-chords")))
 
 ;; TODO compare emacs-use-package-chords with:
 ;; bat -r 129644:129667 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
