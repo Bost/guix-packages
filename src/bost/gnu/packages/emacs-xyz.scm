@@ -15799,28 +15799,46 @@ Currently the commands undo, yank, kill and delete are supported.")
     (license license:gpl3+)))
 
 (define-public emacs-goto-chg
-  (package
-    (name "emacs-goto-chg")
-    (version "1.7.5")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacs-evil/goto-chg")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "0rgdzhan4n5bd78wvivacqkp0g7jvnwzgh0571p2m4yra09a36mv"))))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/emacs-evil/goto-chg")
-    (synopsis "Go to the last change in the Emacs buffer")
-    (description
-     "This package provides @code{M-x goto-last-change} command that goes to
+  (let ((commit "72f556524b88e9d30dc7fc5b0dc32078c166fda7")
+        (revision "0"))
+    (package
+      (name "emacs-goto-chg")
+      (version (git-version "1.7.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-evil/goto-chg.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0dv92vhski35g7wdnr4nvjm51bsa7pn8xbq9svp30y28mq8v9gni"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "goto-chg")
+                )))))
+      (home-page "https://github.com/emacs-evil/goto-chg")
+      (synopsis "Go to the last change in the Emacs buffer")
+      (description
+       "This package provides @code{M-x goto-last-change} command that goes to
 the point of the most recent edit in the current Emacs buffer.  When repeated,
 go to the second most recent edit, etc.  Negative argument, @kbd{C-u -}, is
 used for reverse direction.")
-    (license license:gpl2+)))
+      (license license:gpl2+))))
 
 (define-public emacs-evil-owl
   (let ((commit "24c5f43df375194386344e69bc720ea3986c9510")
