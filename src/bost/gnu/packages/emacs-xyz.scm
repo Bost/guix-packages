@@ -21023,3 +21023,43 @@ code identifier uniquely based on its name.")
       (description "YASnippet is a template system for Emacs.  It allows you to
 type an abbreviation and automatically expand it into function templates.")
       (license license:gpl3+))))
+
+(define-public emacs-haskell-snippets
+  ;; The commit below is 7 commits ahead of release, and includes a build fix.
+  ;; And also a fix in one snippet.
+  (let ((commit "1c29c4a68ce89848b8d371c6510d1de3b586c8b3"))
+    (package
+      (name "emacs-haskell-snippets")
+      (version (git-version "0.1.0" "1" commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri
+          (git-reference
+           (url "https://github.com/haskell/haskell-snippets")
+           (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1lwnggarmavyf164cfzbzzkq9ffahhd3bz7gw644czs49sndcawf"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'install 'install-snippets
+              (lambda* (#:key outputs #:allow-other-keys)
+                (let ((snippets
+                       (string-append
+                        (elpa-directory (assoc-ref outputs "out"))
+                        "/snippets/haskell-mode")))
+                  (mkdir-p snippets)
+                  (copy-recursively "snippets/haskell-mode" snippets)))))))
+      (propagated-inputs
+       (list
+        emacs-yasnippet
+        ))
+      (home-page "https://github.com/haskell/haskell-snippets")
+      (synopsis "Official collection of YASnippet Haskell snippets for Emacs")
+      (description "Haskell-Snippets is a collection of YASnippet Haskell
+snippets for Emacs.")
+      (license license:expat))))
