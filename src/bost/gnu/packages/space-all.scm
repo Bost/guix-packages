@@ -466,6 +466,7 @@
    bst:emacs-org-edna
    bst:emacs-org-jira
    bst:emacs-org-make-toc
+   bst:emacs-org-mem
    bst:emacs-org-mind-map
    bst:emacs-org-node-3
    bst:emacs-org-now
