@@ -12180,8 +12180,6 @@ and doesn't require memorisation of commands.
 Additionally it can display the number of unread emails in the mode line.")
       (license license:gpl3+))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (define-public emacs-magit-popup
   (package
     (name "emacs-magit-popup")
@@ -12219,6 +12217,51 @@ setting options and then invoking an Emacs command which does something with
 these arguments.  The prototypical use is for the command to call an external
 process, passing on the arguments as command line arguments.")
     (license license:gpl3+)))
+
+(define-public emacs-popup
+  (let ((commit "24dd22186403a6566c26ce4996cdb1eedb1cc5cd")
+        (revision "0"))
+    (package
+      (name "emacs-popup")
+      (version (git-version "0.5.9" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/auto-complete/popup-el.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1a4drkmkimk4kc6dqpl5h9p3r44ngz1xg7q87vqvn4gdbmhk984p"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "ert-runner" "tests")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "popup")
+                )))))
+      (native-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        ))
+      (home-page "https://github.com/auto-complete/popup-el")
+      (synopsis "Visual Popup User Interface for Emacs")
+      (description
+       "Popup.el is a visual popup user interface library for Emacs.
+This provides a basic API and common UI widgets such as popup tooltips
+and popup menus.")
+      (license license:gpl3+))))
 
 (define-public emacs-meyvn
   (let ((commit "8d00ada6daa5617fa60f76e0be2cf2f5d1babcf9")) ;version bump
