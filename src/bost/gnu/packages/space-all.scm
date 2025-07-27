@@ -278,6 +278,7 @@
    bst:emacs-gh-md
    bst:emacs-ghq
    bst:emacs-gist
+   bst:emacs-git-messenger
    bst:emacs-github-review
    bst:emacs-gitignore-templates
    bst:emacs-gitlab-snip-helm

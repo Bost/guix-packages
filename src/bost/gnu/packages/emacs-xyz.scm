@@ -21520,3 +21520,34 @@ extensibility.")
       (description
        "AC Ispell is an Ispell and Aspell completion source for Auto Complete.")
       (license license:gpl3+))))
+
+(define-public emacs-git-messenger
+  (let ((commit "eade986ef529aa2dac6944ad61b18de55cee0b76")
+        (revision "0"))
+    (package
+      (name "emacs-git-messenger")
+      (version (git-version "0.18" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/syohex/emacs-git-messenger.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ffy3im4rj9z85mx8ik6r55srhpj4ldgphgzdgf1vj9i3r2d5pcp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-popup
+        ))
+      (arguments
+       `(#:test-command '("emacs" "--batch" "-l" "test/test.el"
+                          "-f" "ert-run-tests-batch-and-exit")))
+      (home-page "https://github.com/syohex/emacs-git-messenger")
+      (synopsis "Popup commit message at current line")
+      (description "@code{emacs-git-messenger} provides
+@code{git-messenger:popup-message}, a function that when called, will popup
+the last git commit message for the current line.  This uses git-blame
+internally.")
+      (license license:gpl3+))))
