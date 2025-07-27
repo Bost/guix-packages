@@ -22030,3 +22030,35 @@ highlighting using a recursive-descent parser, on-the-fly reporting of syntax
 errors and strict-mode warnings, smart line-wrapping within comments and
 strings, and code folding.")
       (license license:gpl3+))))
+
+(define-public emacs-skewer-mode
+  (let ((commit "e5bed351939c92a1f788f78398583c2f83f1bb3c")
+        (revision "0"))
+    (package
+      (name "emacs-skewer-mode")
+      (version (git-version "1.8.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/skeeto/skewer-mode.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "07fv33arh77kdfglg6yv28gvryh0z7ddxylhdyr5plvvglpbwi88"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-simple-httpd
+        emacs-js2-mode
+        ))
+      (arguments '(#:tests? #f            ; no tests
+                   #:include '("\\.el$" "\\.js$" "\\.html$")))
+      (home-page "https://github.com/skeeto/skewer-mode")
+      (synopsis "Live web development in Emacs")
+      (description
+       "Skewer-mode provides live interaction with JavaScript, CSS, and HTML in
+a web browser.  Expressions are sent on-the-fly from an editing buffer to be
+evaluated in the browser, just like Emacs does with an inferior Lisp process
+in Lisp modes.")
+      (license license:unlicense))))
