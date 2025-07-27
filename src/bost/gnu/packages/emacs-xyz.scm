@@ -14710,45 +14710,59 @@ provides the following features:
     (license license:gpl3+)))
 
 (define-public emacs-projectile
-  (package
-    (name "emacs-projectile")
-    (version "2.9.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/bbatsov/projectile")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "15wc2ivmac0kgbdgsaaxngmcffgd3227zsb4n7inhn14cqwr6qxd"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:test-command #~(list "buttercup" "-L" ".")
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-before 'check 'fix-failing-test
-            (lambda _
-              (substitute* "test/projectile-test.el"
-                (("user-emacs-directory") "\".\"")))))))
-    (native-inputs
-     (list emacs-buttercup))
-    (propagated-inputs
-     (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      emacs-pkg-info
-      ))
-    (home-page "https://github.com/bbatsov/projectile")
-    (synopsis "Manage and navigate projects in Emacs easily")
-    (description
-     "This library provides easy project management and navigation.  The
+  (let ((commit "9325c45e0fd96d5421e75ad901a91ee5353e10ad")
+        (revision "0"))
+    (package
+      (name "emacs-projectile")
+      (version (git-version "2.9.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/bbatsov/projectile.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "10gd53hmv9svysvzp4652w6si7a631pbqvh3616wb72ig5bi65n8"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "buttercup" "-L" ".")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'check 'fix-failing-test
+              (lambda _
+                (substitute* "test/projectile-test.el"
+                  (("user-emacs-directory") "\".\""))))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "projectile")
+                )))))
+      (native-inputs
+       (list emacs-buttercup))
+      (propagated-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-dash)
+        emacs-pkg-info
+        ))
+      (home-page "https://github.com/bbatsov/projectile")
+      (synopsis "Manage and navigate projects in Emacs easily")
+      (description
+       "This library provides easy project management and navigation.  The
 concept of a project is pretty basic: just a folder containing special file.
 Currently Git, Mercurial and Bazaar repositories are considered projects by
 default.  If you want to mark a folder manually as a project just create an
 empty @file{.projectile} file in it.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-skeletor
   (let ((commit "47c5b761aee8452716c97a69949ac2f675affe13")
