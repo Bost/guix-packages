@@ -22361,3 +22361,41 @@ letter to each link using avy.")
      "This package provides a popup offering a preview of a list of candidates
 on which user-defined dispatch actions can act.")
     (license license:gpl3+)))
+
+(define-public emacs-pfuture
+  (let ((commit "19b53aebbc0f2da31de6326c495038901bffb73c")
+        (revision "0"))
+    (package
+      (name "emacs-pfuture")
+      (version (git-version "1.10.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/Alexander-Miller/pfuture.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gzfi86mgwd0vi8905g9vkkmcyv63f77v7l0yzfhm8k4naf7cipx"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "pfuture")
+                )))))
+      (home-page "https://github.com/Alexander-Miller/pfuture")
+      (synopsis "Simple wrapper around asynchronous processes for Emacs")
+      (description "This package provides a simple wrapper around asynchronous
+processes for Emacs.")
+      (license license:gpl3+))))

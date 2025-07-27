@@ -514,6 +514,7 @@
    bst:emacs-pdf-tools
    bst:emacs-pdf-view-restore
    bst:emacs-pet
+   bst:emacs-pfuture
    bst:emacs-phoenix-dark-mono-theme
    bst:emacs-phoenix-dark-pink-theme
    bst:emacs-php-auto-yasnippets
