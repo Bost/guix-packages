@@ -48,6 +48,7 @@
    bst:emacs-ace-jump-helm-line
    bst:emacs-afternoon-theme
    bst:emacs-ag
+   bst:emacs-aio
    bst:emacs-alarm-clock
    bst:emacs-alchemist
    bst:emacs-all-the-icons
