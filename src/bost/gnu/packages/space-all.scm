@@ -504,6 +504,7 @@
    bst:emacs-plz-event-source
    bst:emacs-plz-media-type
    bst:emacs-poetry
+   bst:emacs-popup
    bst:emacs-popwin
    bst:emacs-powerline
    bst:emacs-prettier-js
