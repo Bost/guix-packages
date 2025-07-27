@@ -3391,19 +3391,21 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; The commented packages out are part of the Emacs
-                ;; (bst:write-pkg-file "use-package-bind-key")
-                ;; (bst:write-pkg-file "use-package-core")
-                ;; (bst:write-pkg-file "use-package-delight")
-                ;; (bst:write-pkg-file "use-package-diminish")
-                ;; (bst:write-pkg-file "use-package-ensure-system-package")
-                ;; (bst:write-pkg-file "use-package-ensure")
-                ;; (bst:write-pkg-file "use-package-jump")
-                ;; (bst:write-pkg-file "use-package-lint")
-                ;; (bst:write-pkg-file "use-package")
-                (bst:write-pkg-file "bind-chord")
-                (bst:write-pkg-file "bind-key")
-                (bst:write-pkg-file "use-package-chords")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      ;; "use-package-bind-key"
+                      ;; "use-package-core"
+                      ;; "use-package-delight"
+                      ;; "use-package-diminish"
+                      ;; "use-package-ensure-system-package"
+                      ;; "use-package-ensure"
+                      ;; "use-package-jump"
+                      ;; "use-package-lint"
+                      ;; "use-package"
+                      "bind-chord"
+                      "bind-key"
+                      "use-package-chords"
+                      )))))))
       (native-inputs
        (list
         texinfo
@@ -5092,25 +5094,27 @@ used.")
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "gh-api")
-                (bst:write-pkg-file "gh-auth")
-                (bst:write-pkg-file "gh-cache")
-                (bst:write-pkg-file "gh-comments")
-                (bst:write-pkg-file "gh-common")
-                (bst:write-pkg-file "gh-gist")
-                (bst:write-pkg-file "gh-issue-comments")
-                (bst:write-pkg-file "gh-issues")
-                (bst:write-pkg-file "gh-oauth")
-                (bst:write-pkg-file "gh-orgs")
-                (bst:write-pkg-file "gh-pkg")
-                (bst:write-pkg-file "gh-profile")
-                (bst:write-pkg-file "gh-pull-comments")
-                (bst:write-pkg-file "gh-pulls")
-                (bst:write-pkg-file "gh-repos")
-                (bst:write-pkg-file "gh-search")
-                (bst:write-pkg-file "gh-url")
-                (bst:write-pkg-file "gh-users")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "gh-api"
+                      "gh-auth"
+                      "gh-cache"
+                      "gh-comments"
+                      "gh-common"
+                      "gh-gist"
+                      "gh-issue-comments"
+                      "gh-issues"
+                      "gh-oauth"
+                      "gh-orgs"
+                      "gh-pkg"
+                      "gh-profile"
+                      "gh-pull-comments"
+                      "gh-pulls"
+                      "gh-repos"
+                      "gh-search"
+                      "gh-url"
+                      "gh-users"
+                      )))))))
       (propagated-inputs
        (list
         emacs-marshal
@@ -5257,11 +5261,13 @@ on stdout instead of using a socket as the Emacsclient does.")
                    (search-input-file inputs "/bin/perl")))))
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "git-commit")
                 ;; `guix build ... emacs-magit-section` doesn't automatically
                 ;; create the magit-section-pkg.el
-                (bst:write-pkg-file "magit-section")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "git-commit"
+                      "magit-section"
+                      )))))))
       (native-inputs
        ;; (list texinfo pkg-config)
        (list texinfo))
@@ -6790,7 +6796,8 @@ color for syntax, and easily allows multiple variants.")
                      (list
                       "farmhouse-light-mod-a-theme"
                       "farmhouse-light-mod-b-theme"
-                      "farmhouse-light-mod-c-theme")))))))
+                      "farmhouse-light-mod-c-theme"
+                      )))))))
       (home-page "https://github.com/Bost/farmhouse-light-mod-theme")
       (synopsis "Modded farmhouse-light theme for Emacs")
       (description "Modded farmhouse-light theme for Emacs.")
@@ -10212,16 +10219,18 @@ utilities.")
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; (format #t "(getcwd) : ~a\n" (getcwd))
                 ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                (bst:write-pkg-file "treemacs-all-the-icons")
-                (bst:write-pkg-file "treemacs-evil")
-                (bst:write-pkg-file "treemacs-icons-dired")
-                (bst:write-pkg-file "treemacs-magit")
-                (bst:write-pkg-file "treemacs-mu4e")
-                (bst:write-pkg-file "treemacs-persp")
-                (bst:write-pkg-file "treemacs-perspective")
-                (bst:write-pkg-file "treemacs-projectile")
-                (bst:write-pkg-file "treemacs-tab-bar")))
-            ))))
+                (map bst:write-pkg-file
+                     (list
+                      "treemacs-all-the-icons"
+                      "treemacs-evil"
+                      "treemacs-icons-dired"
+                      "treemacs-magit"
+                      "treemacs-mu4e"
+                      "treemacs-persp"
+                      "treemacs-perspective"
+                      "treemacs-projectile"
+                      "treemacs-tab-bar"
+                      ))))))))
     (propagated-inputs
      (modify-inputs (package-propagated-inputs emacs-treemacs)
        (append
@@ -10356,9 +10365,11 @@ prover, version 4.")
               (lambda* (#:key outputs #:allow-other-keys)
                 ;; (format #t "(getcwd) : ~a\n" (getcwd))
                 ;; /tmp/guix-build-emacs-treemacs-3.2-0.820b09d.drv-0/source/src/elisp
-                (bst:write-pkg-file "lsp-metals-protocol")
-                (bst:write-pkg-file "lsp-metals-treeview")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "lsp-metals-protocol"
+                      "lsp-metals-treeview"
+                      )))))))
       (propagated-inputs
        (list
         emacs-scala-mode
@@ -10575,11 +10586,13 @@ Information will be saved relative to the pdf being viewed so ensure
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "helm-core")
-                (bst:write-pkg-file "helm-easymenu")
-                (bst:write-pkg-file "helm-files")
-                (bst:write-pkg-file "helm-net")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "helm-core"
+                      "helm-easymenu"
+                      "helm-files"
+                      "helm-net"
+                      )))))))
       (propagated-inputs
        (list
         emacs-async
@@ -11135,9 +11148,11 @@ comprehensive documentation lookup directly into the Emacs environment.")
                 (chdir "lisp")))
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "php-mode")
-                (bst:write-pkg-file "company-php")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "company-php"
+                      "php-mode"
+                      )))))))
       (propagated-inputs
        (list
         emacs-projectile
@@ -11187,9 +11202,11 @@ documentation search and a source and class browser.")
       #~(modify-phases %standard-phases
           (add-after 'ensure-package-description 'add-needed-pkg-descriptions
             (lambda* (#:key outputs #:allow-other-keys)
-              (bst:write-pkg-file "ac-php-core")
-              (bst:write-pkg-file "company-php")
-              )))))
+              (map bst:write-pkg-file
+                   (list
+                    "ac-php-core"
+                    "company-php"
+                    )))))))
     (inputs
      (list
       emacs-auto-complete
@@ -11344,14 +11361,14 @@ as well as features for editing search results.")
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "org-projectile")
-                (bst:write-pkg-file "org-category-capture")
-
-                ;; needed by emacs-org-projectile
-                (bst:write-pkg-file "org-project-capture")
-
-                (bst:write-pkg-file "org-project-capture-backend")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "org-projectile"
+                      "org-category-capture"
+                      ;; needed by emacs-org-projectile
+                      "org-project-capture"
+                      "org-project-capture-backend"
+                      )))))))
       (propagated-inputs
        (list
         (@(bost gnu packages emacs-build) emacs-dash)
@@ -11683,13 +11700,16 @@ match Drupal Coding Standards.")
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "flyspell-correct")
-                (bst:write-pkg-file "flyspell-correct-avy-menu")
-                (bst:write-pkg-file "flyspell-correct-helm")
-                (bst:write-pkg-file "flyspell-correct-ido")
-                (bst:write-pkg-file "flyspell-correct-ivy")
-                (bst:write-pkg-file "flyspell-correct-popup")
-                (bst:write-pkg-file "test-flyspell-correct"))))))
+                (map bst:write-pkg-file
+                     (list
+                      "flyspell-correct"
+                      "flyspell-correct-avy-menu"
+                      "flyspell-correct-helm"
+                      "flyspell-correct-ido"
+                      "flyspell-correct-ivy"
+                      "flyspell-correct-popup"
+                      "test-flyspell-correct"
+                      )))))))
       (propagated-inputs
        (list
         emacs-avy-menu
@@ -11955,13 +11975,15 @@ speed and accuracy within large buffers.")
                    (string-append all "(skip-unless nil)\n")))))
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "ellama")
-                (bst:write-pkg-file "ellama-blueprint")
-                (bst:write-pkg-file "ellama-community-prompts")
-                (bst:write-pkg-file "ellama-context")
-                (bst:write-pkg-file "ellama-manual")
-                (bst:write-pkg-file "ellama-transient")
-                )))
+                (map bst:write-pkg-file
+                     (list
+                      "ellama"
+                      "ellama-blueprint"
+                      "ellama-community-prompts"
+                      "ellama-context"
+                      "ellama-manual"
+                      "ellama-transient"
+                      )))))
         #:test-command #~(list "emacs" "-Q" "--batch"
                                "-l" "ellama.el"
                                "-l" "tests/test-ellama.el"
@@ -12060,28 +12082,30 @@ API key.")
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "llm")
-                (bst:write-pkg-file "llm-azure")
-                (bst:write-pkg-file "llm-claude")
-                (bst:write-pkg-file "llm-deepseek")
-                (bst:write-pkg-file "llm-fake")
-                (bst:write-pkg-file "llm-gemini")
-                (bst:write-pkg-file "llm-github")
-                (bst:write-pkg-file "llm-gpt4all")
-                ;; (bst:write-pkg-file "llm-integration-test")
-                (bst:write-pkg-file "llm-llamacpp")
-                (bst:write-pkg-file "llm-models")
-                (bst:write-pkg-file "llm-ollama")
-                (bst:write-pkg-file "llm-openai")
-                ;; (bst:write-pkg-file "llm-prompt-test")
-                (bst:write-pkg-file "llm-prompt")
-                ;; (bst:write-pkg-file "llm-provider-utils-test")
-                (bst:write-pkg-file "llm-provider-utils")
-                (bst:write-pkg-file "llm-request-plz")
-                ;; (bst:write-pkg-file "llm-test")
-                ;; (bst:write-pkg-file "llm-tester")
-                (bst:write-pkg-file "llm-vertex")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "llm"
+                      "llm-azure"
+                      "llm-claude"
+                      "llm-deepseek"
+                      "llm-fake"
+                      "llm-gemini"
+                      "llm-github"
+                      "llm-gpt4all"
+                      ;; "llm-integration-test"
+                      "llm-llamacpp"
+                      "llm-models"
+                      "llm-ollama"
+                      "llm-openai"
+                      ;; "llm-prompt-test"
+                      "llm-prompt"
+                      ;; "llm-provider-utils-test"
+                      "llm-provider-utils"
+                      "llm-request-plz"
+                      ;; "llm-test"
+                      ;; "llm-tester"
+                      "llm-vertex"
+                      )))))))
       (propagated-inputs (list emacs-plz emacs-plz-event-source
                                emacs-plz-media-type))
       (home-page "https://github.com/ahyatt/llm")
@@ -16010,27 +16034,29 @@ manager.")
                           "-o" "evil.info" "evil.texi"))))
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "evil")
-                (bst:write-pkg-file "evil-command-window")
-                (bst:write-pkg-file "evil-commands")
-                (bst:write-pkg-file "evil-common")
-                (bst:write-pkg-file "evil-core")
-                (bst:write-pkg-file "evil-development")
-                (bst:write-pkg-file "evil-digraphs")
-                (bst:write-pkg-file "evil-ex")
-                (bst:write-pkg-file "evil-integration")
-                (bst:write-pkg-file "evil-jumps")
-                (bst:write-pkg-file "evil-keybindings")
-                (bst:write-pkg-file "evil-macros")
-                (bst:write-pkg-file "evil-maps")
-                (bst:write-pkg-file "evil-repeat")
-                (bst:write-pkg-file "evil-search")
-                (bst:write-pkg-file "evil-states")
-                (bst:write-pkg-file "evil-test-helpers")
-                (bst:write-pkg-file "evil-tests")
-                (bst:write-pkg-file "evil-types")
-                (bst:write-pkg-file "evil-vars")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "evil"
+                      "evil-command-window"
+                      "evil-commands"
+                      "evil-common"
+                      "evil-core"
+                      "evil-development"
+                      "evil-digraphs"
+                      "evil-ex"
+                      "evil-integration"
+                      "evil-jumps"
+                      "evil-keybindings"
+                      "evil-macros"
+                      "evil-maps"
+                      "evil-repeat"
+                      "evil-search"
+                      "evil-states"
+                      "evil-test-helpers"
+                      "evil-tests"
+                      "evil-types"
+                      "evil-vars"
+                      )))))))
       (build-system emacs-build-system)
       (native-inputs
        (list
@@ -21325,9 +21351,11 @@ code identifier uniquely based on its name.")
                 (setenv "HOME" (getcwd))))
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
               (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "yasnippet")
-                (bst:write-pkg-file "yasnippet-debug")
-                )))))
+                (map bst:write-pkg-file
+                     (list
+                      "yasnippet"
+                      "yasnippet-debug"
+                      )))))))
       (home-page "https://github.com/joaotavora/yasnippet")
       (synopsis "Yet another snippet extension for Emacs")
       (description "YASnippet is a template system for Emacs.  It allows you to
