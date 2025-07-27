@@ -21808,3 +21808,52 @@ internally.")
        "This package implements the macro @code{##}, which provides compact
 syntax for short lambda.")
       (license license:gpl3+))))
+
+(define-public emacs-ghub
+  (let ((commit "a3a5dd315a8dad1b1cccfc1ac8502907f17fb9b5")
+        (revision "0"))
+    (package
+      (name "emacs-ghub")
+      (version (git-version "4.3.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/magit/ghub.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1jrcws1g88dfsjciw06ghk5l6w508p2dpqf7r3wswv4z3zjskffi"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f ; there are no tests
+        #:lisp-directory "lisp"
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'build-info-manual
+              (lambda _
+                (invoke "make" "--directory=.." "info")))
+            (add-after 'install 'install-info
+              (lambda _
+                (let ((info (string-append #$output "/share/info")))
+                  (install-file "../docs/ghub.info" info)))))))
+      (native-inputs
+       (list
+        texinfo
+        ))
+      (propagated-inputs
+       (list
+        emacs-compat
+        emacs-llama
+        emacs-let-alist
+        emacs-treepy
+        ))
+      (home-page "https://github.com/magit/ghub")
+      (synopsis "Emacs client libraries for the APIs of various Git forges")
+      (description
+       "Ghub provides basic support for using the APIs of various Git forges from
+Emacs packages.  It supports the REST APIs of Github, Github GraphQL, Gitlab,
+Gitea, Gogs and Bitbucket.  It abstracts access to API resources using only a
+handful of functions that are not resource-specific.")
+      (license license:gpl3+))))

@@ -277,6 +277,7 @@
    bst:emacs-gh
    bst:emacs-gh-md
    bst:emacs-ghq
+   bst:emacs-ghub
    bst:emacs-gist
    bst:emacs-git-messenger
    bst:emacs-github-review
