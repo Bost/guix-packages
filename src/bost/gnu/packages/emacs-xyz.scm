@@ -21755,3 +21755,51 @@ extensibility.")
 the last git commit message for the current line.  This uses git-blame
 internally.")
       (license license:gpl3+))))
+
+(define-public emacs-llama
+  (let ((commit "0cc2daffded18eea7f00a318cfa3e216977ffe50")
+        (revision "0"))
+    (package
+      (name "emacs-llama")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/tarsius/llama.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0yp1k70pgi45k8gb7xn229g1dzmwnijabvzxgrwacp02n7v1piyh"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        ;; #:tests? #t
+        #:test-command #~(list "emacs" "-Q" "--batch"
+                               "-l" "llama.el"
+                               "-f" "ert-run-tests-batch-and-exit")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "llama")
+                )))))
+      (propagated-inputs
+       (list
+        emacs-compat
+        ))
+      (home-page "https://github.com/tarsius/llama")
+      (synopsis "Compact syntax for short lambda")
+      (description
+       "This package implements the macro @code{##}, which provides compact
+syntax for short lambda.")
+      (license license:gpl3+))))
