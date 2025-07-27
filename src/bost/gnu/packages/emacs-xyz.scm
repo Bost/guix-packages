@@ -21857,3 +21857,31 @@ Emacs packages.  It supports the REST APIs of Github, Github GraphQL, Gitlab,
 Gitea, Gogs and Bitbucket.  It abstracts access to API resources using only a
 handful of functions that are not resource-specific.")
       (license license:gpl3+))))
+
+(define-public emacs-org-mem
+  (let ((commit "a99cd068737caf5d9d6c1ea7444f8a6b3c2e57a7")
+        (revision "0"))
+    (package
+      (name "emacs-org-mem")
+      (version (git-version "0.18.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/meedstrom/org-mem.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1nm1avc0hbvhr43vkfw3jssiqyckd7ba6jw0qhvgcvk49df393wf"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-el-job
+        emacs-llama
+        ))
+      (synopsis "Org structure cache")
+      (description "This package provides a cache of metadata about the
+structure of all your Org files – headings, links and so on..")
+      (home-page "https://github.com/meedstrom/org-node/")
+      (license license:gpl3+))))
