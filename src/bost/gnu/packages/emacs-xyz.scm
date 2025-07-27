@@ -21458,3 +21458,65 @@ tied to evil states.  It is essentially a generalization of the idea
 of a leader key as used in Vim or the @code{emacs-evil-leader} package,
 and allows for an arbitrary number of leader keys.")
       (license license:gpl3+))))
+
+(define-public emacs-auto-complete
+  (let ((commit "e6d39862b2da9986c0af70651388159983a61c6f")
+        (revision "0"))
+    (package
+      (name "emacs-auto-complete")
+      (version (git-version "1.5.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/auto-complete/auto-complete.git")
+                (commit commit)))
+         (sha256
+          (base32
+           "0affskjcxnrsiknsq3hgxj90w06s8ngshdid5j5ajwzs7gd2cx7j"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (arguments (list #:test-command #~(list "ert-runner" "tests")))
+      (propagated-inputs
+       (list
+        emacs-popup
+        ))
+      (native-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        ))
+      (home-page "https://github.com/auto-complete/auto-complete")
+      (synopsis "Intelligent auto-completion extension for Emacs")
+      (description
+       "Auto-Complete is an intelligent auto-completion extension for Emacs.
+It extends the standard Emacs completion interface and provides an environment
+that allows users to concentrate more on their own work.  Its features are:
+a visual interface, reduce overhead of completion by using statistic method,
+extensibility.")
+      (license license:gpl3+))))
+
+(define-public emacs-ac-ispell
+  (let ((commit "22bace7387e9012002a6a444922f75f9913077b0")
+        (revision "1"))
+    (package
+      (name "emacs-ac-ispell")
+      (version (git-version "0.07" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/emacsorphanage/ac-ispell")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1cq73bdv3lkn8v3nx6aznygqaac9s5i7pvirl8wz9ib31hsgwpbk"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-auto-complete
+        ))
+      (home-page "https://github.com/emacsorphanage/ac-ispell")
+      (synopsis "Ispell and Aspell completion source for Auto Complete")
+      (description
+       "AC Ispell is an Ispell and Aspell completion source for Auto Complete.")
+      (license license:gpl3+))))
