@@ -375,6 +375,7 @@
    bst:emacs-key-chord
    bst:emacs-kill-buffers
    bst:emacs-kodi-remote
+   bst:emacs-llama
    bst:emacs-lcr
    bst:emacs-light-soap-theme
    bst:emacs-litable
