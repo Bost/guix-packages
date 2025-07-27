@@ -556,6 +556,7 @@
    bst:emacs-shrink-path
    bst:emacs-shroud
    bst:emacs-skeletor
+   bst:emacs-skewer-mode
    bst:emacs-slim-mode
    bst:emacs-sly
    bst:emacs-sly-asdf
