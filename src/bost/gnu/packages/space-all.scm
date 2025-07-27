@@ -285,6 +285,7 @@
    bst:emacs-guix
    bst:emacs-haml-mode
    bst:emacs-haskell-mode
+   bst:emacs-haskell-snippets
    bst:emacs-hc-zenburn-theme
    bst:emacs-helm
    bst:emacs-helm-ag
