@@ -21063,3 +21063,99 @@ type an abbreviation and automatically expand it into function templates.")
       (description "Haskell-Snippets is a collection of YASnippet Haskell
 snippets for Emacs.")
       (license license:expat))))
+
+(define-public emacs-company-auctex
+  (let ((commit "48c42c58ce2f0e693301b0cb2d085055410c1b25")
+        (revision "1"))
+    (package
+      (name "emacs-company-auctex")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alexeyr/company-auctex")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "10qn7frn5wcmrlci3v6iliqzj7r9dls87h9zp3xkgrgn4bqprfp8"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:phases
+         (modify-phases %standard-phases
+           (add-before 'build 'set-home
+             (lambda _ (setenv "HOME" "/tmp"))))))
+      (propagated-inputs
+       (list
+        emacs-auctex
+        emacs-company
+        emacs-yasnippet
+        ))
+      (home-page "https://github.com/alexeyr/company-auctex/")
+      (synopsis "Completion for @code{AUCTeX}")
+      (description
+       "This package provides a group of backends permitting auto-completion
+for @code{AUCTeX}.")
+      (license license:gpl3+))))
+
+(define-public emacs-clojure-snippets
+  ;; Use latest commit (2018) since latest tagged release is too old and is
+  ;; missing important changes.
+  (let ((version "1.0.1")
+        (revision "0")
+        (commit "6068dca90467a0f4ebc2cd39338a173d6f5ddc04"))
+    (package
+      (name "emacs-clojure-snippets")
+      (version (git-version version revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/mpenet/clojure-snippets")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0vvadcydpsz4b17dlm1jd4fbddzfqibh3mlzv3k4gvp67vv10cqy"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:include (cons* "^.*\\/" %default-include)))
+      (propagated-inputs
+       (list
+        emacs-yasnippet
+        ))
+      (home-page "https://github.com/mpenet/clojure-snippets")
+      (synopsis "Yasnippets for Clojure")
+      (description
+       "This package provides Yasnippets snippets for Clojure.")
+      (license license:gpl3+))))
+
+(define-public emacs-auto-yasnippet
+  (let ((commit "6a9e406d0d7f9dfd6dff7647f358cb05a0b1637e")
+        (revision "3"))
+    (package
+      (name "emacs-auto-yasnippet")
+      (version (git-version "0.3.0" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/abo-abo/auto-yasnippet")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "0ifzbwnm2axb8kmfp3jvg05wq02j121iwp2m64pi70c7mza0i886"))))
+      (build-system emacs-build-system)
+      (arguments
+       '(#:test-command '("make" "test")))
+      (propagated-inputs
+       (list
+        emacs-yasnippet
+        ))
+      (home-page "https://github.com/abo-abo/auto-yasnippet/")
+      (synopsis "Quickly create disposable yasnippets")
+      (description "This package provides a hybrid of keyboard macros and
+yasnippet.  You create the snippet on the go, usually to be used just in the
+one place.  It's fast, because you're not leaving the current buffer, and all
+you do is enter the code you'd enter anyway, just placing ~ where you'd like
+yasnippet fields and mirrors to be.")
+      (license license:gpl3+))))

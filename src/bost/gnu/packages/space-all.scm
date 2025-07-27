@@ -59,6 +59,7 @@
    bst:emacs-attrap
    bst:emacs-attrap
    bst:emacs-auto-sudoedit
+   bst:emacs-auto-yasnippet
    bst:emacs-autothemer
    bst:emacs-avy-jump-helm-line
    bst:emacs-badwolf-theme
@@ -91,6 +92,7 @@
    bst:emacs-clean-aindent-mode
    bst:emacs-clj-refactor
    bst:emacs-clojure-mode
+   bst:emacs-clojure-snippets
    bst:emacs-clues-theme
    bst:emacs-code-review
    bst:emacs-codegpt
@@ -98,6 +100,7 @@
    bst:emacs-color-theme
    bst:emacs-color-theme-sanityinc-solarized
    bst:emacs-company-anaconda
+   bst:emacs-company-auctex
    bst:emacs-company-box
    bst:emacs-company-coq
    bst:emacs-company-flow
