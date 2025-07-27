@@ -276,6 +276,7 @@
    bst:emacs-frames-only-mode
    bst:emacs-frecency
    bst:emacs-frog-jump-buffer
+   bst:emacs-frog-menu
    bst:emacs-gandalf-theme
    bst:emacs-geben
    bst:emacs-gh
