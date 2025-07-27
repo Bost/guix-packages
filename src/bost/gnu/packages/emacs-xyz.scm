@@ -22248,3 +22248,31 @@ method works only for things that you can see on your screen, all at once,
 such as the positions of characters, words, line beginnings, links, or
 windows.")
       (license license:gpl3+))))
+
+(define-public emacs-link-hint
+  ;; Last release was in 2015.
+  (let ((commit "826993a0ab736ab09f53a0623fb44edf2182b07c")
+        (revision "4"))
+    (package
+      (name "emacs-link-hint")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/noctuid/link-hint.el.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "00grv36l98fzz0iabc2li19k9wf9k9dmsg0lq5p7qnjfizshyzrp"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-avy
+        ))
+      (home-page "https://github.com/noctuid/link-hint.el")
+      (synopsis "Vimperator-style link-hinting in Emacs")
+      (description "This package provides commands for visiting and acting on
+links.")
+      (license license:gpl3+))))
