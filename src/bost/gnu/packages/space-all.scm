@@ -383,6 +383,7 @@
    bst:emacs-llama
    bst:emacs-lcr
    bst:emacs-light-soap-theme
+   bst:emacs-link-hint
    bst:emacs-litable
    bst:emacs-live-py-mode
    bst:emacs-livid-mode
