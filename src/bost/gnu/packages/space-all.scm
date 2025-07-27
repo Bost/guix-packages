@@ -46,6 +46,7 @@
    bst:emacs-ac-php
    bst:emacs-academic-phrases
    bst:emacs-ace-jump-helm-line
+   bst:emacs-ace-link
    bst:emacs-ace-window
    bst:emacs-afternoon-theme
    bst:emacs-ag

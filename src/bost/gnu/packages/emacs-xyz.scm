@@ -22276,3 +22276,36 @@ windows.")
       (description "This package provides commands for visiting and acting on
 links.")
       (license license:gpl3+))))
+
+(define-public emacs-ace-link
+  (let ((commit "d9bd4a25a02bdfde4ea56247daf3a9ff15632ea4")
+        (revision "0"))
+    (package
+      (name "emacs-ace-link")
+      (version (git-version "0.5.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/abo-abo/ace-link.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0zdrxnd35dl9bdy2mb03zflb4mr8yw5s3qnpph2hvhlapkf19vwv"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f))      ; no tests
+      (propagated-inputs
+       (list
+        emacs-avy
+        ))
+      (home-page "https://github.com/abo-abo/ace-link")
+      (synopsis "Quickly follow links in Emacs")
+      (description
+       "Currently, to jump to a link in a @code{Info-mode}, @code{help-mode},
+@code{woman-mode}, @code{org-mode}, @code{eww-mode}, @code{compilation-mode},
+@code{goto-address-mode} buffer, you can tab through the links to select the
+one you want.  This is an O(N) operation, where the N is the amount of links.
+This package turns this into an O(1) operation.  It does so by assigning a
+letter to each link using avy.")
+      (license license:gpl3+))))
