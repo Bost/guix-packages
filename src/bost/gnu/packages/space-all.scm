@@ -53,6 +53,7 @@
    bst:emacs-ample-zen-theme
    bst:emacs-anaconda-mode
    bst:emacs-anki-editor
+   bst:emacs-annalist
    bst:emacs-ansible
    bst:emacs-anti-zenburn-theme
    bst:emacs-apropospriate-theme
@@ -65,6 +66,7 @@
    bst:emacs-badwolf-theme
    bst:emacs-biblio
    bst:emacs-bind-chord
+   bst:emacs-bind-map
    bst:emacs-birds-of-paradise-plus-theme
    bst:emacs-bluetooth
    bst:emacs-boon
@@ -146,6 +148,7 @@
    bst:emacs-django-theme
    bst:emacs-docker
    bst:emacs-docker-compose-mode
+   bst:emacs-drag-stuff
    bst:emacs-drupal-mode
    bst:emacs-dumb-jump
    bst:emacs-ebuild-mode
@@ -206,6 +209,7 @@
    bst:emacs-eval-in-repl-sly
    bst:emacs-eval-in-repl-sml
    bst:emacs-evil
+   bst:emacs-evil-anzu
    bst:emacs-evil-args
    bst:emacs-evil-cleverparens
    bst:emacs-evil-collection
@@ -220,10 +224,15 @@
    bst:emacs-evil-lion
    bst:emacs-evil-lisp-state
    bst:emacs-evil-matchit
+   bst:emacs-evil-mc
    bst:emacs-evil-nerd-commenter
+   bst:emacs-evil-numbers
+   bst:emacs-evil-org
    bst:emacs-evil-owl
    bst:emacs-evil-paredit
    bst:emacs-evil-replace-with-register
+   bst:emacs-evil-surround
+   bst:emacs-evil-tex
    bst:emacs-evil-text-object-python
    bst:emacs-evil-textobj-line
    bst:emacs-evil-tutor

@@ -21159,3 +21159,302 @@ one place.  It's fast, because you're not leaving the current buffer, and all
 you do is enter the code you'd enter anyway, just placing ~ where you'd like
 yasnippet fields and mirrors to be.")
       (license license:gpl3+))))
+
+(define-public emacs-evil-tex
+  (package
+    (name "emacs-evil-tex")
+    (version "1.0.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/iyefrat/evil-tex")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1wrx8ihimn1sx3vzzfppcwv0yfh3x95jrkxqvzj0ykckipm3zk0b"))))
+    (build-system emacs-build-system)
+    (arguments
+     `(#:phases
+       (modify-phases %standard-phases
+         (add-before 'build 'set-home
+           (lambda _ (setenv "HOME" "/tmp"))))))
+    (propagated-inputs
+     (list
+      emacs-auctex
+      emacs-evil
+      ))
+    (home-page "https://github.com/iyefrat/evil-tex")
+    (synopsis "Evil oriented additions for editing LaTeX")
+    (description "This package is a toolbox for LaTeX editing with Evil.  It
+provides many text objects fully utilizing @code{evil-surround}, some useful
+movements, and keymaps for quickly entering environments or
+@code{cdlatex}-like accents.")
+    (license license:gpl3+)))
+
+(define-public emacs-drag-stuff
+  (package
+    (name "emacs-drag-stuff")
+    (version "0.3.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/rejeep/drag-stuff")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1jrr59iazih3imkl9ja1lbni9v3xv6b8gmqs015g2mxhlql35jka"))))
+    (build-system emacs-build-system)
+    (arguments (list #:test-command
+                     #~(list "emacs" "-l" "ecukes"
+                             "--batch" "--eval"
+                             (string-append
+                              "(let ((ecukes-exclude-tags"
+                              "'(\"only-in-emacs-23\" \"not-in-emacs-24.5\")))"
+                              "(ecukes))"))))
+    (native-inputs
+     (list
+      emacs-ecukes
+      emacs-evil
+      ))
+    (home-page "https://github.com/rejeep/drag-stuff")
+    (synopsis "Drag stuff around in Emacs")
+    (description
+"Drag Stuff is a minor mode for Emacs that makes it possible to drag
+stuff (words, region, lines) around in Emacs.")
+    (license license:gpl3+)))
+
+(define-public emacs-evil-surround
+  (let ((commit "da05c60b0621cf33161bb4335153f75ff5c29d91")
+        (revision "0"))
+    (package
+      (name "emacs-evil-surround")
+      (version (git-version "1.1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/emacs-evil/evil-surround.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0wgxwvndhfaf0ha4pm392vj6yqyv2431hmvyivp1q16crd5g6bq5"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-evil
+        ))
+      (arguments
+       `(#:test-command '("make" "test")))
+      (home-page "https://github.com/emacs-evil/evil-surround")
+      (synopsis "Easily modify surrounding parentheses and quotes")
+      (description "@code{emacs-evil-surround} allows easy deletion, change and
+addition of surrounding pairs, such as parentheses and quotes, in evil mode.")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-anzu
+  ;; No release since January 2015
+  (let ((commit "7309650425797420944075c9c1556c7c1ff960b3")
+        (revision "0"))
+    (package
+      (name "emacs-evil-anzu")
+      (version (git-version "0.03" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/emacsorphanage/evil-anzu.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1hxxy34ax95xi88gqaj04k2hjph30x0c9dkk2gaw3708zidxykmc"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-evil
+        emacs-anzu
+        ))
+      (home-page "https://github.com/emacsorphanage/evil-anzu")
+      (synopsis "Anzu for evil-mode")
+      (description
+       "@code{anzu} provides a minor mode that displays the current
+match and total match information in the mode-line in various search modes.")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-mc
+  (let ((commit "7e363dd6b0a39751e13eb76f2e9b7b13c7054a43")
+        (revision "0"))
+    (package
+      (name "emacs-evil-mc")
+      (version (git-version "0.0.4" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/gabesoft/evil-mc.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0gzy2mqcdxhkg0hmxqzbjy5ihfal1s21wxd04mrikqri54sck4z5"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list #:test-command
+             #~(list "emacs" "--no-init-file" "--batch"
+                     "--eval=(require 'ecukes)" "--eval=(ecukes)")))
+      (propagated-inputs
+       (list
+        emacs-evil
+        ))
+      (native-inputs
+       (list
+        emacs-ecukes
+        emacs-espuds
+        emacs-evil-numbers
+        emacs-evil-surround
+        ))
+      (home-page "https://github.com/gabesoft/evil-mc")
+      (synopsis "Interactive search compatible with @code{multiple-cursors}")
+      (description "This package can be used with @code{multiple-cursors} to
+provide an incremental search that moves all fake cursors in sync.")
+      (license license:expat))))
+
+(define-public emacs-evil-org
+  (let ((commit "b1f309726b1326e1a103742524ec331789f2bf94")
+        (revision "0"))
+    (package
+      (name "emacs-evil-org")
+      (version (git-version "1.0.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Somelauw/evil-org-mode.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1xjmar7zny1g62881ym2dpp3f0cmwh8y8d14phja8y4w6nhiz3s4"))))
+      (build-system emacs-build-system)
+      (propagated-inputs (list emacs-evil))
+      (home-page
+       "https://github.com/Somelauw/evil-org-mode")
+      (synopsis "Evil keybindings for Org mode")
+      (description
+       "This package adds supplemental Evil mode key-bindings to Emacs
+Org-mode.  It features:
+@itemize
+@item normal, visual and insert mode bindings;
+@item key bindings organised in key themes;
+@item operators like > and < to work on headings;
+@item text objects;
+@item table support;
+@item calendar (date selection) support;
+@item agenda support.
+@end itemize\n")
+      (license license:gpl3+))))
+
+(define-public emacs-annalist
+  (let ((commit "e1ef5dad75fa502d761f70d9ddf1aeb1c423f41d")
+        (revision "0"))
+    (package
+      (name "emacs-annalist")
+      (version (git-version "1.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/noctuid/annalist.el.git")
+                (commit commit)))
+         (sha256
+          (base32
+           "1di8wknirx3ql9bqp940yy5p07n2x82wgqyvfmdxblagh7pcp8a8"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (native-inputs
+       (list emacs-buttercup emacs-lispy emacs-evil))
+      (arguments
+       `(#:phases
+         (modify-phases %standard-phases
+           (add-before 'check 'fix-makefile
+             (lambda _
+               (substitute* "Makefile"
+                 (("cask exec ") ""))
+               #t)))
+         #:test-command '("make" "test")))
+      (home-page "https://github.com/noctuid/annalist.el")
+      (synopsis "Record and display information with Org headings and tables")
+      (description "This package allows for keybindings, settings, hooks, and
+advice to be recorded and displayed.")
+      (license license:gpl3+))))
+
+(define-public emacs-evil-numbers
+  ;; XXX: Upstream did not tag latest release.  Use commit matching exact
+  ;; version bump.
+  (let ((commit "f4bbb729eebeef26966fae17bd414a7b49f82275")
+        (revision "0"))
+    (package
+      (name "emacs-evil-numbers")
+      (version (git-version "0.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/juliapath/evil-numbers.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0gqx0cvpi9cjr9f811ry6294bck919zblq6vib8722b2pfj8mani"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "emacs" "--batch"
+                               "-l" "evil-numbers.el"
+                               "-l" "tests/evil-numbers-tests.el"
+                               "-f" "ert-run-tests-batch-and-exit")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'skip-failing-tests
+              (lambda _
+                (substitute* "tests/evil-numbers-tests.el"
+                  (("\\(ert-deftest simple-negative .*" all)
+                   (string-append all " (skip-unless nil)"))))))))
+      (native-inputs (list emacs-ert-runner))
+      (propagated-inputs (list emacs-evil))
+      (home-page "https://github.com/juliapath/evil-numbers")
+      (synopsis "Increment and decrement numeric literals")
+      (description
+       "This package provides functionality to search for a number up to the
+end of a line and increment or decrement it.")
+      (license license:gpl3+))))
+
+(define-public emacs-bind-map
+  (let ((commit "f23cfc13222a39e686d28a83ff83e9901d8908b2")
+        (revision "0"))
+    (package
+      (name "emacs-bind-map")
+      (version (git-version "1.1.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/justbur/emacs-bind-map.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1a05nxm0iadvqy3wlz58f7c4g0lvip3n8dwkn1fr14dyl1vssgar"))))
+      (build-system emacs-build-system)
+      (arguments (list #:test-command
+                       #~(list "emacs" "--batch" "-l" "bind-map-tests.el"
+                               "-f" "ert-run-tests-batch-and-exit")))
+      (native-inputs (list emacs-evil))
+      (home-page "https://github.com/justbur/emacs-bind-map")
+      (synopsis "Bind personal keymaps in multiple locations")
+      (description
+       "@code{emacs-bind-map} provides a macro bind-map which can be used to
+make a keymap available across different leader keys including ones
+tied to evil states.  It is essentially a generalization of the idea
+of a leader key as used in Vim or the @code{emacs-evil-leader} package,
+and allows for an arbitrary number of leader keys.")
+      (license license:gpl3+))))
