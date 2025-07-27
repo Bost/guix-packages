@@ -66,6 +66,7 @@
    bst:emacs-auto-sudoedit
    bst:emacs-auto-yasnippet
    bst:emacs-autothemer
+   bst:emacs-avy
    bst:emacs-avy-jump-helm-line
    bst:emacs-badwolf-theme
    bst:emacs-biblio

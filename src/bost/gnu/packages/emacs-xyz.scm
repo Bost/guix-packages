@@ -22197,3 +22197,54 @@ highlighted.  Pressing that character will switch to that window.")
        "Markdown-mode is a major mode for editing Markdown-formatted text files
 in Emacs.")
       (license license:gpl3+))))
+
+(define-public emacs-avy
+  (let ((commit "933d1f36cca0f71e4acb5fac707e9ae26c536264")
+        (revision "0"))
+    (package
+      (name "emacs-avy")
+      (version (git-version "0.5.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/abo-abo/avy.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1x3fbz7b3wq15rl05n3k17mfjij8133nkvvhlac2x21c17b1i0m7"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "make" "test")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "avy"
+                      "avy-test"
+                      )))))))
+      (home-page "https://github.com/abo-abo/avy")
+      (synopsis "Tree-based completion for Emacs")
+      (description
+       "This package provides a generic completion method based on building a
+balanced decision tree with each candidate being a leaf.  To traverse the tree
+from the root to a desired leaf, typically a sequence of @code{read-key} can
+be used.
+
+In order for @code{read-key} to make sense, the tree needs to be visualized
+appropriately, with a character at each branch node.  So this completion
+method works only for things that you can see on your screen, all at once,
+such as the positions of characters, words, line beginnings, links, or
+windows.")
+      (license license:gpl3+))))
