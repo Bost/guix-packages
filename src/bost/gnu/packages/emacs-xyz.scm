@@ -17375,7 +17375,7 @@ functionality is inherited from @code{hcl-mode}.")
     (license license:gpl3+)))
 
 (define-public emacs-frog-jump-buffer
-  (let ((commit "2d7b342785ae27d45f5d252272df6eb773c78e20")
+  (let ((commit "ab830cb7a5af9429866ba88fb37589a0366d8bf2")
         (revision "1"))
     (package
       (name "emacs-frog-jump-buffer")
@@ -17384,12 +17384,12 @@ functionality is inherited from @code{hcl-mode}.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/waymondo/frog-jump-buffer")
-               (commit commit)))
+                (url "https://github.com/waymondo/frog-jump-buffer.git")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1z00by8hiss1r2lwmzrl8pnz6jykia2849dqqm4l3z5rf6lwvc0f"))))
+           "0996896n7135xzxxhh50phhb1y06rcycj2gxx7p26p7aa72ambc3"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
