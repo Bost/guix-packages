@@ -628,6 +628,7 @@
    bst:emacs-xhair
    bst:emacs-xterm-color
    bst:emacs-yaml-mode
+   bst:emacs-yasnippet
    bst:emacs-yasnippet-snippets
    bst:emacs-ytdl
    bst:emacs-zen-and-art-theme

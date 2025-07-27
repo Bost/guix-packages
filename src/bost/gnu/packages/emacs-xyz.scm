@@ -20928,3 +20928,55 @@ input via a small child-frame spawned at the position of the cursor.")
        "This package provides an Emacs minor mode to highlight each source
 code identifier uniquely based on its name.")
       (license license:gpl3+))))
+
+(define-public emacs-yasnippet
+  (let ((commit "c1e6ff23e9af16b856c88dfaab9d3ad7b746ad37")
+        (revision "0"))
+    (package
+      (name "emacs-yasnippet")
+      ;; Missing Git tags, version bumped in package file.
+      (version (git-version "0.14.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/joaotavora/yasnippet.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "08kmhncvgprha73654p969rr72rhp0d1bn4jj56vpmg6hnw1jy0r"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command
+        #~(list
+           "emacs" "--batch"
+           "-l" "yasnippet-tests.el"
+           ;; XXX: one test is broken…
+           "--eval"
+           "(ert-run-tests-batch-and-exit
+             '(not yas-org-native-tab-in-source-block-emacs-lisp))")
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            ;; Set HOME, otherwise test-rebindings fails.
+            (add-before 'check 'set-home
+              (lambda _
+                (setenv "HOME" (getcwd))))
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (bst:write-pkg-file "yasnippet")
+                (bst:write-pkg-file "yasnippet-debug")
+                )))))
+      (home-page "https://github.com/joaotavora/yasnippet")
+      (synopsis "Yet another snippet extension for Emacs")
+      (description "YASnippet is a template system for Emacs.  It allows you to
+type an abbreviation and automatically expand it into function templates.")
+      (license license:gpl3+))))
