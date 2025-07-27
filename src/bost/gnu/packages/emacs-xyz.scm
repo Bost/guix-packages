@@ -22062,3 +22062,41 @@ a web browser.  Expressions are sent on-the-fly from an editing buffer to be
 evaluated in the browser, just like Emacs does with an inferior Lisp process
 in Lisp modes.")
       (license license:unlicense))))
+
+(define-public emacs-aio
+  (let ((commit "289c1e9530b59b4e2fd88f87f303547b23f2a3e3")
+        (revision "0"))
+    (package
+      (name "emacs-aio")
+      (version (git-version "1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                ;; Switched from <https://github.com/skeeto/emacs-aio>
+                ;; since <https://github.com/skeeto/emacs-aio/issues/31>
+                ;; is open since Jan 1 2025 with no merge.
+                (url "https://github.com/kiennq/emacs-aio.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1jaq3xbk69ki10bfdphl4ac2hsnvr56bg4fcr0si8q31zgar7xzj"))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:test-command '("emacs" "--batch"
+                          "-l" "aio-test.el"
+                          "-f" "ert-run-tests-batch-and-exit")))
+      (propagated-inputs
+       (list
+        emacs-elfeed
+        emacs-skewer-mode
+        ))
+      (home-page "https://github.com/skeeto/emacs-aio")
+      (synopsis "Async/Await for Emacs Lisp")
+      (description "@code{aio} is to Emacs Lisp as @code{asyncio} is to Python.
+This package builds upon Emacs generators to provide functions that pause
+while they wait on asynchronous events.  They do not block any thread while
+paused.")
+      (license license:unlicense))))
+
