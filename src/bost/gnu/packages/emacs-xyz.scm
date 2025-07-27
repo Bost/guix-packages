@@ -22101,3 +22101,99 @@ while they wait on asynchronous events.  They do not block any thread while
 paused.")
       (license license:unlicense))))
 
+(define-public emacs-ace-window
+  (let ((commit "77115afc1b0b9f633084cf7479c767988106c196")
+        (revision "0"))
+    (package
+      (name "emacs-ace-window")
+      (version (git-version "0.10.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/abo-abo/ace-window.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1l6rp92q4crahx9nq7s6zxqyw7ccrhkl95v70vxra7zndqpqwsbq"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "ace-window"
+                      "ace-window-posframe"
+                      )))))))
+      (propagated-inputs
+       (list
+        emacs-avy
+        ))
+      (native-inputs
+       (list
+        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        ))
+      (home-page "https://github.com/abo-abo/ace-window")
+      (synopsis "Quickly switch windows in Emacs")
+      (description
+       "@code{ace-window} is meant to replace @code{other-window}.
+In fact, when there are only two windows present, @code{other-window} is
+called.  If there are more, each window will have its first character
+highlighted.  Pressing that character will switch to that window.")
+      (license license:gpl3+))))
+
+(define-public emacs-markdown-mode
+  (let ((commit "fc4fff89bae976ff4a594a538e6ef11820440c1f")
+        (revision "0"))
+    (package
+      (name "emacs-markdown-mode")
+      (version (git-version "2.7" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/jrblevin/markdown-mode.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1zazi8r3a00abl17myriy5mi03zb3fbv6bzyvdg4vwnv5y622dby"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command #~(list "make" "test")
+        #:tests? #f ;; XXX: 5 unexpected results
+        #:modules '((guix build emacs-build-system)
+                    (guix build utils)
+                    (guix build emacs-utils)
+                    ((bost guix build emacs-utils) #:prefix bst:))
+        #:imported-modules `(,@%default-gnu-imported-modules
+                             (guix build emacs-build-system)
+                             (guix build emacs-utils)
+                             (bost guix build emacs-utils))
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+              (lambda* (#:key outputs #:allow-other-keys)
+                (map bst:write-pkg-file
+                     (list
+                      "markdown-mode"
+                      "markdown-test"
+                      )))))))
+      (home-page "https://jblevins.org/projects/markdown-mode/")
+      (synopsis "Emacs Major mode for Markdown files")
+      (description
+       "Markdown-mode is a major mode for editing Markdown-formatted text files
+in Emacs.")
+      (license license:gpl3+))))
