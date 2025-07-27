@@ -46,6 +46,7 @@
    bst:emacs-ac-php
    bst:emacs-academic-phrases
    bst:emacs-ace-jump-helm-line
+   bst:emacs-ace-window
    bst:emacs-afternoon-theme
    bst:emacs-ag
    bst:emacs-aio
@@ -415,6 +416,7 @@
    bst:emacs-magit-tbdiff
    bst:emacs-majapahit-themes
    bst:emacs-major-mode-hydra
+   bst:emacs-markdown-mode
    bst:emacs-markdown-toc
    bst:emacs-marshal
    bst:emacs-material-theme
