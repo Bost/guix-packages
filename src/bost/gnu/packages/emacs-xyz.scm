@@ -8877,8 +8877,7 @@ official @command{sqlite3} executable to access SQL database.")
       (license license:gpl3+))))
 
 (define-public emacs-kill-buffers
-  (let ((commit
-         "eb2a195f4c98e62c8c541ea27a4f0398e8187b99")
+  (let ((commit "86c6ec1fedd2a33ed3bb4cbf17791a77b3efc4e7")
         (revision "0"))
     (package
       (name "emacs-kill-buffers")
@@ -8892,12 +8891,13 @@ official @command{sqlite3} executable to access SQL database.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0ssnyvy80h1pc1khimcazxf0mqkzz0xmzjg2if7xc6js235rcksf"))))
+           "0mvc7qclva2f2y7489f7f7j0j2b6s0g9rxbcvnzp89yyr4q73w02"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-cider))
       (home-page "https://github.com/Bost/kill-buffers")
-      (synopsis "Kill various unwanted buffers")
-      (description "Kill various unwanted buffers.")
+      (synopsis "Kill various unwanted Emacs buffers")
+      (description "Kill various unwanted buffers in Emacs with specialized functions for
+different buffer types.")
       (license license:gpl3+))))
 
 (define-public emacs-copy-sexp
