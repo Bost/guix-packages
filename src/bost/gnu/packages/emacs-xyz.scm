@@ -8849,8 +8849,7 @@ official @command{sqlite3} executable to access SQL database.")
       (license license:gpl3+))))
 
 (define-public emacs-zonokai-emacs
-  (let ((commit
-         "38ee819b711e848437ba6d563594129a0ecac598")
+  (let ((commit "38ee819b711e848437ba6d563594129a0ecac598")
         (revision "0"))
     (package
       (name "emacs-zonokai-emacs")
@@ -8859,7 +8858,7 @@ official @command{sqlite3} executable to access SQL database.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/ZehCnaS34/zonokai-emacs")
+               (url "https://github.com/ZehCnaS34/zonokai-emacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -8872,8 +8871,12 @@ official @command{sqlite3} executable to access SQL database.")
         (@(bost gnu packages emacs-build) emacs-dash)
         ))
       (home-page "https://github.com/ZehCnaS34/zonokai-emacs")
-      (synopsis "")
-      (description "")
+      (synopsis "Zonokai vibrant color theme for Emacs")
+      (description
+       "Zonokai Emacs color theme, a vivid and highly readable theme with strong
+contrasts and bold hues.  Inspired by the Zonokai palette, it delivers an
+energetic visual experience for code editing.  Ideal for users who prefer a
+striking dark theme with clear syntax visibility.")
       (license license:gpl3+))))
 
 (define-public emacs-kill-buffers
