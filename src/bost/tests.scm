@@ -1,4 +1,5 @@
 (define-module (bost tests)
+  ;;true? and false? tests must be fully qualified - see `test-type' definition
   #:use-module (bost utils)
   ;; #:use-module (ice-9 rdelim)
   ;; #:use-module (ice-9 popen)
@@ -60,8 +61,8 @@ Type Testing Predicates.
    (list
     'unspecified?
     'boolean?
-    '(@(utils) true?)
-    '(@(utils) false?)
+    '(@(utils) true?)   ; must be fully qualified
+    '(@(utils) false?)  ; must be fully qualified
     'port?
     'string?
     'symbol?
