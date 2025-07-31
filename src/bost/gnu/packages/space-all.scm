@@ -699,8 +699,8 @@
 (define E (excluded-packages))
 (load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
 |#
-(define-public (spguimacs-packages)
-  (define f (format #f "~a [spguimacs-packages]" m))
+(define-public (spacemacs-packages)
+  (define f (format #f "~a [spacemacs-packages]" m))
   ((comp
     ;; TODO separate package+output to packate and output
     ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
@@ -712,10 +712,10 @@
     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     )
    (all-packages-from-guix-channel)))
-(testsymb 'spguimacs-packages)
+(testsymb 'spacemacs-packages)
 
-(define-public (sorted-spguimacs-packages)
-  (define f (format #f "~a [sorted-spguimacs-packages]" m))
+(define-public (spacemacs-packages-sorted)
+  (define f (format #f "~a [spacemacs-packages-sorted]" m))
   ((comp
     ;; (lambda (lst) (format #t "~a 4. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     (lambda (lst) (sort-list lst (comp (partial apply string<=?)
@@ -730,16 +730,16 @@
     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     )
    (all-packages-from-guix-channel)))
-(testsymb 'sorted-spguimacs-packages)
+(testsymb 'spacemacs-packages-sorted)
 
-(define-public (spguimacs-packages-with-output-path)
-  (define f (format #f "~a [spguimacs-packages-with-output-path]" m))
-  (let* [(packages (sorted-spguimacs-packages))]
+(define-public (spacemacs-packages-with-output-path)
+  (define f (format #f "~a [spacemacs-packages-with-output-path]" m))
+  (let* [(packages (spacemacs-packages-sorted))]
     (combine
      (map package-name packages)
      (package-output-paths packages))))
-(testsymb 'spguimacs-packages-with-output-path)
+(testsymb 'spacemacs-packages-with-output-path)
 
 (module-evaluated)
 
-#;(specifications->manifest (spguimacs-packages))
+#;(specifications->manifest (spacemacs-packages))
