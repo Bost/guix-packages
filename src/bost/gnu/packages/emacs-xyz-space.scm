@@ -236,7 +236,7 @@
 
 (define-public emacs-spacemacs
   (let ((commit
-         "dcf3ebb0dd2dae6afa90aa50ac55df60529266c9" ;; Fix: Apply spacemacs-rolling-release-add-data-dir.patch
+         "e72b919b62008dd443c06e69303bd6533a0e5cba"
          )
         (revision "0"))
     (package
@@ -251,7 +251,7 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "00wwzc7g3pxryy2lxjydhlnzmq4xsdxqjll4vai7m1sk6pi8xcqx" ;; Fix: Apply spacemacs-rolling-release-add-data-dir.patch
+           "1x558pj8c19ggdrcsb80nx6kr8v345iy9n19hyxsf6nflxd26v7w"
            ))))
       (build-system emacs-build-system)
       (arguments
