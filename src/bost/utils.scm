@@ -1021,7 +1021,9 @@ Requires:
              (list one-or-many-packages)))))
 
 (define-public (interleave . lists)
-  "Take elements alternately from each list, stopping at the shortest."
+  "Take elements alternately from each list, stopping at the shortest.
+(interleave (list 1 2) (list 'a 'b))   ;=> (1 a 2 b)
+(interleave (list 1 2 3) (list 'a 'b)) ;=> (1 a 2 b)"
   (apply append
          (apply map list lists)))
 
