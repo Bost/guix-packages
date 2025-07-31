@@ -1026,9 +1026,11 @@ Requires:
          (apply map list lists)))
 
 (define-public (combine . lists)
+  "(combine (list 1 2) (list 'a 'b)) ;=> ((1 a) (2 b))
+(combine (list 1) (list 'a 'b)) ;=> combine: lists must have the same length ((1) (a b))"
   (let ((len (length (car lists))))
-    (unless (every (λ (l) (= (length l) len)) lists)
-      (error "combine: lists must all be the same length" lists))
+    (unless (every (lambda (l) (= (length l) len)) lists)
+      (error "combine: lists must have the same length" lists))
     (apply map list lists)))
 
 (define-public (keyword->string keyword)
