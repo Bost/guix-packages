@@ -1027,6 +1027,35 @@ Requires:
   (apply append
          (apply map list lists)))
 
+#|
+(define-public (interpose separator lst)
+  "Insert separator between each element of lst"
+  (cond
+   ((null? lst) '())
+   ((null? (cdr lst)) lst)
+   (else
+    (cons (car lst)
+          (cons separator
+                (interpose separator (cdr lst)))))))
+|#
+;; Alternative implementation using fold-right for better performance
+(define-public (interpose separator lst)
+  "Insert separator between each element of lst using fold
+(interpose '+ (list 1 2 3)) ;=> (1 + 2 + 3)"
+  (if (null? lst)
+      '()
+      (fold-right (lambda (x acc)
+                    (if (null? acc)
+                        (list x)
+                        (cons x (cons separator acc))))
+                  '()
+                  lst)))
+
+;; Usage examples:
+;; (interpose '| '(a b c d))     => (a | b | c | d)
+;; (interpose 0 '(1 2 3))        => (1 0 2 0 3)
+;; (interpose "," '("hello" "world")) => ("hello" "," "world")
+
 (define-public (combine . lists)
   "(combine (list 1 2) (list 'a 'b)) ;=> ((1 a) (2 b))
 (combine (list 1) (list 'a 'b)) ;=> combine: lists must have the same length ((1) (a b))"
