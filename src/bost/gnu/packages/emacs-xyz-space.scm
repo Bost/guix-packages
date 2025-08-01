@@ -6,8 +6,7 @@
   #:use-module (bost gnu packages space-all)
   #:use-module (ice-9 match)
   #:use-module (ice-9 pretty-print)
-  #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-1) ;; sets, delete-duplicates
+  #:use-module (srfi srfi-1) ;; list library with sets
   #:use-module (srfi srfi-26)
   #:use-module (gnu packages)
   #:use-module (gnu packages acl)
@@ -236,9 +235,12 @@
 
 (define-public emacs-spacemacs
   (let ((commit
-         "e72b919b62008dd443c06e69303bd6533a0e5cba"
+         "b8bc4e6ff61eef9e0b6f0d4b67468036d2ca33e4"
          )
-        (revision "0"))
+        (revision "0")
+        (combined-propagated-inputs
+         (append (package-propagated-inputs emacs)
+                 (spacemacs-packages))))
     (package
       (name "emacs-spacemacs")
       (version (git-version "1.0" revision commit))
@@ -251,7 +253,7 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1x558pj8c19ggdrcsb80nx6kr8v345iy9n19hyxsf6nflxd26v7w"
+           "0di5pw100mk4gnkn2d0jzwddn2b7fdyx228q5w4qhrn8jmyvh6yw"
            ))))
       (build-system emacs-build-system)
       (arguments
@@ -380,13 +382,23 @@
                        (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
                        (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":")))
                   (setenv "EMACSLOADPATH" env-val))))
+            (add-after 'unpack 'fix--guix-get-installed-emacs-packages
+              (lambda* (#:key inputs #:allow-other-keys)
+                (substitute* "core/core-guix.el"
+                  (("\\(guix-get-installed-emacs-packages\\)")
+                   #$((comp
+                       (partial format #f "(quote\n~a)")
+                       (partial interpose "\n")
+                       (partial map (partial format #f "~s")))
+                      (map (lambda (p)
+                             (if (package? p)
+                                 (package-name p)
+                                 (package-name (car p))))
+                           combined-propagated-inputs))))))
             (replace 'build (lambda* args #t)))))
-      (inputs            (package-inputs            emacs))
-      (native-inputs     (package-native-inputs     emacs))
-      (propagated-inputs
-       (append
-        (spguimacs-packages)
-        (package-propagated-inputs emacs)))
+      (inputs            (package-inputs emacs) )
+      (native-inputs     (package-native-inputs emacs))
+      (propagated-inputs combined-propagated-inputs)
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
