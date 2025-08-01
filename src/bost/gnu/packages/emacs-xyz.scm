@@ -1,6 +1,6 @@
 (define-module (bost gnu packages emacs-xyz)
+  ;; #:use-module (ice-9 pretty-print)
   #:use-module (bost utils)
-  #:use-module (bost tests)
   #:use-module (bost gnu packages space-available)
   #:use-module (bost gnu packages space-needed)
   #:use-module (gnu packages emacs-xyz)
@@ -147,8 +147,6 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
   )
-
-(define m (module-name-for-logging))
 
 (define-public emacs-cursory
   (let ((commit "892c3b81037ece0e1753ab058e3cfda93f985693")
@@ -1187,33 +1185,6 @@ particularly useful for batch renaming files across various directories
 without leaving the Emacs environment.")
       (license license:gpl3+))))
 
-;; bat -r 63823:63843 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
-(define-public emacs-indent-guide
-  (let ((commit "d388c3387781a370ca13233ff445d03f3c5cf12f")
-        (revision "0"))
-    (package
-      (name "emacs-indent-guide")
-      (version (git-version "2.3.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/zk-phi/indent-guide.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/zk-phi/indent-guide")
-      (synopsis "Show vertical lines to guide indentation in Emacs")
-      (description
-       "This package provides a minor mode for Emacs that displays vertical
- lines to visually guide indentation levels.  It enhances code readability by
- indicating indentation depth, making it easier to understand code structure.
-  The mode is customizable, allowing users to adjust the appearance of the
- guide lines to fit their preferences.")
-      (license license:gpl3+))))
-
 ;; bat -r 64818:64838 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-insert-shebang
   (let ((commit "cc8cea997a8523bce9f303de993af3a73eb0d2e2")
@@ -1551,8 +1522,6 @@ between Emacs and PHP.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-
-(define all-info-include (quote (list "^.*\\.info$")))
 
 (define-public emacs-rst-lists
   (package
@@ -6416,7 +6385,6 @@ evil mode using @kbd{%}.  It is a port of @code{matchit} for Vim.")
 text-property translator.")
     (license license:bsd-2)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; beg: done
 (define-public emacs-color-theme-sanityinc-solarized ;; PL sent
   (let ((commit "9c62a49fe0a5ff456bcf3984ba825e75861534b9")
         (revision "0"))
@@ -12568,7 +12536,10 @@ and popup menus.")
      (list #:test-command
            #~(list "make" "check-declare")))
     (propagated-inputs
-     (list emacs-compat bst:emacs-dash))
+     (list
+      emacs-compat
+      bst:emacs-dash
+      ))
     (home-page "https://github.com/tarsius/minions")
     (synopsis "Minor-mode menu for the mode line")
     (description
@@ -12613,8 +12584,14 @@ Alternatively the menu can be bound globally, for example:
               (substitute* "test-speed-type.el"
                 (("\\(ert-deftest speed-type--retrieve-test .*" all)
                  (string-append all " (skip-unless nil)"))))))))
-    (native-inputs (list bst:emacs-dash))
-    (propagated-inputs (list emacs-compat))
+    (native-inputs
+     (list
+      bst:emacs-dash
+      ))
+    (propagated-inputs
+     (list
+      emacs-compat
+      ))
     (home-page "https://github.com/dakra/speed-type")
     (synopsis "Practice touch/speed typing in GNU Emacs")
     (description
@@ -12785,9 +12762,16 @@ replacement.")
        (sha256
         (base32 "1mkp9b31ai1z6sccx8cff40viryamw7dm85acig3q82dwlbmxx98"))))
     (propagated-inputs
-     (list bst:emacs-dash))
+     (list
+      bst:emacs-dash
+      ))
     (native-inputs
-     (list emacs-minimal emacs-el-search emacs-stream texinfo))
+     (list
+      emacs-minimal
+      emacs-el-search
+      emacs-stream
+      texinfo
+      ))
     (build-system gnu-build-system)
     (arguments
      (list
@@ -13512,90 +13496,6 @@ environment set through Direnv.")
 @code{--help}, and presents it in an easy-to-navigate Emacs buffer.")
     (home-page "https://github.com/andykuszyk/noman.el")
     (license license:gpl3+)))
-
-(define-public emacs-bui
-  (package
-    (name "emacs-bui")
-    (version "1.2.1")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://notabug.org/alezost/emacs-bui.git")
-                    (commit (string-append "v" version))))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "0sszdl4kvqbihdh8d7mybpp0d8yw2p3gyiipjcxz9xhvvmw3ww4x"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      ))
-    (home-page "https://notabug.org/alezost/emacs-bui")
-    (synopsis "Buffer interface library for Emacs")
-    (description
-     "BUI (Buffer User Interface) is a library for making @code{list} and
-@code{info} interfaces to display an arbitrary data of the same
-type, for example: packages, buffers, files, etc.")
-    (license license:gpl3+)))
-
-(define-public emacs-guix
-  (let ((commit "66b935020d93cdbbff0b0ed3b1d2195724a46821")
-        (revision "8"))
-    (package
-      (name "emacs-guix")
-      (version (git-version "0.5.2" revision commit))
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://codeberg.org/guix/emacs-guix/")
-                      (commit commit)))
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "1pm1nyy1r704wjg4hfdrrxlf1mn327wk0vkghwy8wsp4f84j5j7d"))))
-      (build-system gnu-build-system)
-      (arguments
-       (list
-        #:modules '((guix build gnu-build-system)
-                    ((guix build emacs-build-system) #:prefix emacs:)
-                    (guix build utils))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils))
-        #:tests? #f    ; no tests
-        #:configure-flags
-        #~(list (string-append "--with-lispdir="
-                               (emacs:elpa-directory #$output)))
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'expand-load-path
-              (lambda _
-                ((assoc-ref emacs:%standard-phases 'expand-load-path)
-                 #:prepend-source? #f))))))
-      (native-inputs
-       (list autoconf automake emacs-minimal pkg-config texinfo))
-      (inputs
-       (list (lookup-package-input guix "guile")
-             guix))
-      (propagated-inputs
-       (list
-        emacs-bui
-        bst:emacs-dash
-        emacs-edit-indirect
-        emacs-geiser
-        emacs-geiser-guile
-        emacs-magit-popup
-        guile-gcrypt
-        ))
-      (home-page "https://guix.gnu.org")
-      (synopsis "Emacs interface for GNU Guix")
-      (description
-       "Emacs-Guix provides a visual interface, tools and features for the GNU
-Guix package manager.  Particularly, it allows you to do various package
-management tasks from Emacs.  To begin with, run @code{M-x guix-about} or
-@code{M-x guix-help} command.")
-      (license license:gpl3+))))
 
 (define-public emacs-minitest
   (package
@@ -17298,33 +17198,6 @@ equivalent continuation-passing code, as well as miscellaneous utility
 functions written in continuation-passing style.")
     (license license:gpl3+)))
 
-(define-public emacs-attrap
-  (package
-    (name "emacs-attrap")
-    (version "1.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jyp/attrap")
-             (commit version)))
-       (sha256
-        (base32 "0wqc7bqx9rvk8r7fd3x84h8p01v97s6w2jf29nnjb59xakwp22i7"))
-       (file-name (git-file-name name version))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      bst:emacs-f
-      emacs-flycheck
-      emacs-s
-      ))
-    (home-page "https://github.com/jyp/attrap")
-    (synopsis "Fix coding error at point")
-    (description "This package provides a command to fix the Flycheck error
-at point.")
-    (license license:gpl3+)))
-
 (define-public emacs-browse-at-remote
   (package
     (name "emacs-browse-at-remote")
@@ -17683,8 +17556,9 @@ as well as functions for navigating between these headings.")
       #:test-command #~(list "emacs" "--batch" "-l" "org-recur-test.el"
                              "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
-     (list bst:emacs-dash
-           ))
+     (list
+      bst:emacs-dash
+      ))
     (home-page "https://github.com/m-cat/org-recur")
     (synopsis "Simple recurring Org mode tasks")
     (description "This package extends Org mode and Org Agenda with support
@@ -22415,7 +22289,7 @@ on which user-defined dispatch actions can act.")
 processes for Emacs.")
       (license license:gpl3+))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; spacemacs beg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (general-packages)
   (list
@@ -23098,42 +22972,36 @@ processes for Emacs.")
 (load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
 |#
 (define-public (spacemacs-packages)
-  (define f (format #f "~a [spacemacs-packages]" m))
   ((comp
-    ;; TODO separate package+output to packate and output
-    ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+    ;; (lambda (lst) (format #t "3. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
     (partial append bst-packages)
-    ;; (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial map (comp list specification->package+output))
-    ;; (lambda (lst) (format #t "~a 1. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+
+    ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+    (partial map specification->package)
+
+    ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
     (lambda (lst) (s- lst (map package-name bst-packages)))
-    ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+    ;; (lambda (lst) (format #t "a 0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
     )
    (all-packages-from-guix-channel)))
 
 ;; (define-public (spacemacs-packages-sorted)
-;;   (define f (format #f "~a [spacemacs-packages-sorted]" m))
 ;;   ((comp
-;;     ;; (lambda (lst) (format #t "~a 4. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
 ;;     (lambda (lst) (sort-list lst (comp (partial apply string<=?)
 ;;                                        (partial map package-name)
 ;;                                        list)))
-;;     ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-;;     (partial append bst-packages)
-;;     (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-;;     (partial map specification->package)
-;;     ;; (lambda (lst) (format #t "~a 1. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-;;     (lambda (lst) (s- lst (map package-name bst-packages)))
-;;     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     ;; (lambda (lst) (format #t "0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
 ;;     )
-;;    (all-packages-from-guix-channel)))
+;;    (spacemacs-packages)))
 
-;; (define-public (spacemacs-packages-with-output-path)
-;;   (define f (format #f "~a [spacemacs-packages-with-output-path]" m))
-;;   (let* [(packages (spacemacs-packages-sorted))]
-;;     (combine
-;;      (map package-name packages)
-;;      (package-output-paths packages))))
+(define (spacemacs-packages-for-inputs)
+  ((comp
+    ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+    (partial map (lambda (p) (list (package-name p) p)))
+    ;; (lambda (lst) (format #t "0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+    )
+   (spacemacs-packages)))
 
 ;; rg --no-context-separator -A2 -N find-files emacs-xyz-space.scm --replace 'list'
 ;; (define paths-to-el-files
@@ -23236,13 +23104,14 @@ processes for Emacs.")
 ;;      )))
 
 (define-public emacs-spacemacs
-  (let ((commit
+  (let (
+        (commit
          "8020a5ff48810e67cf772335b1da78231746461d"
          )
         (revision "0")
         (combined-propagated-inputs
          (append (package-propagated-inputs emacs)
-                 (spacemacs-packages))))
+                 (spacemacs-packages-for-inputs))))
     (package
       (name "emacs-spacemacs")
       (version (git-version "1.0" revision commit))
@@ -23281,27 +23150,27 @@ processes for Emacs.")
                   (("^") ";; -*- no-byte-compile: t -*-\n"))))
             (add-after 'unpack 'patch-file
               (lambda* (#:key inputs outputs #:allow-other-keys)
-;;                 (let [(fun
-;;                        "
-;; (defun print-vars (f)
-;;   (message \"[%s] user-emacs-directory                     : %s\" f (or (and (boundp 'user-emacs-directory) user-emacs-directory) 'undefined))
-;;   (message \"[%s] emacs-startup-hook                       : %s\" f (or (and (boundp 'emacs-startup-hook) emacs-startup-hook) 'undefined))
-;;   (message \"[%s] noninteractive                           : %s\" f (or (and (boundp 'noninteractive) noninteractive) 'undefined))
-;;   (message \"[%s] spacemacs-start-directory                : %s\" f (or (and (boundp 'spacemacs-start-directory) spacemacs-start-directory) 'undefined))
-;;   (message \"[%s] spacemacs-data-directory                 : %s\" f (or (and (boundp 'spacemacs-data-directory) spacemacs-data-directory) 'undefined))
-;;   (message \"[%s] spacemacs-cache-directory                : %s\" f (or (and (boundp 'spacemacs-cache-directory) spacemacs-cache-directory) 'undefined))
-;;   (message \"[%s] spacemacs-private-directory              : %s\" f (or (and (boundp 'spacemacs-private-directory) spacemacs-private-directory) 'undefined))
-;;   (message \"[%s] quelpa-dir                               : %s\" f (or (and (boundp 'quelpa-dir) quelpa-dir) 'undefined))
-;;   (message \"[%s] configuration-layer--elpa-root-directory : %s\" f (or (and (boundp 'configuration-layer--elpa-root-directory) configuration-layer--elpa-root-directory) 'undefined))
-;;   (message \"[%s] spacemacs--last-emacs-version-file       : %s\" f (or (and (boundp 'spacemacs--last-emacs-version-file) spacemacs--last-emacs-version-file) 'undefined))
-;;   )
-;; ")]
-;;                   (map (lambda* (file)
-;;                          (substitute* file
-;;                            ((";; (\\(print-vars \".*\"\\))" all sexp)
-;;                             (format #f "\n~a\n~a" fun sexp))))
-;;                        (list
-;;                         "core/core-configuration-layer.el")))
+;;;                 (let [(fun
+;;;                        "
+;;; (defun print-vars (f)
+;;;   (message \"[%s] user-emacs-directory                     : %s\" f (or (and (boundp 'user-emacs-directory) user-emacs-directory) 'undefined))
+;;;   (message \"[%s] emacs-startup-hook                       : %s\" f (or (and (boundp 'emacs-startup-hook) emacs-startup-hook) 'undefined))
+;;;   (message \"[%s] noninteractive                           : %s\" f (or (and (boundp 'noninteractive) noninteractive) 'undefined))
+;;;   (message \"[%s] spacemacs-start-directory                : %s\" f (or (and (boundp 'spacemacs-start-directory) spacemacs-start-directory) 'undefined))
+;;;   (message \"[%s] spacemacs-data-directory                 : %s\" f (or (and (boundp 'spacemacs-data-directory) spacemacs-data-directory) 'undefined))
+;;;   (message \"[%s] spacemacs-cache-directory                : %s\" f (or (and (boundp 'spacemacs-cache-directory) spacemacs-cache-directory) 'undefined))
+;;;   (message \"[%s] spacemacs-private-directory              : %s\" f (or (and (boundp 'spacemacs-private-directory) spacemacs-private-directory) 'undefined))
+;;;   (message \"[%s] quelpa-dir                               : %s\" f (or (and (boundp 'quelpa-dir) quelpa-dir) 'undefined))
+;;;   (message \"[%s] configuration-layer--elpa-root-directory : %s\" f (or (and (boundp 'configuration-layer--elpa-root-directory) configuration-layer--elpa-root-directory) 'undefined))
+;;;   (message \"[%s] spacemacs--last-emacs-version-file       : %s\" f (or (and (boundp 'spacemacs--last-emacs-version-file) spacemacs--last-emacs-version-file) 'undefined))
+;;;   )
+;;; ")]
+;;;                   (map (lambda* (file)
+;;;                          (substitute* file
+;;;                            ((";; (\\(print-vars \".*\"\\))" all sexp)
+;;;                             (format #f "\n~a\n~a" fun sexp))))
+;;;                        (list
+;;;                         "core/core-configuration-layer.el")))
                 (substitute* "core/core-load-paths.el"
                   (("(\\s+)user-emacs-directory" all indent)
                    (string-append
@@ -23390,12 +23259,8 @@ processes for Emacs.")
                        (partial format #f "(quote\n~a)")
                        (partial interpose "\n")
                        (partial map (partial format #f "~s")))
-                      (map (lambda (p)
-                             (if (package? p)
-                                 (package-name p)
-                                 (package-name (car p))))
-                           combined-propagated-inputs))))))
-            (replace 'build (lambda* args #t))
+                      (map (comp package-name cadr) combined-propagated-inputs))))))
+            ;; (replace 'build (lambda* args #t))
             )))
       (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
@@ -23413,8 +23278,6 @@ processes for Emacs.")
 ;;                         #:optional (name "emacs-spacemacs-wrapped"))
 ;;   "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
 ;; the use of Spacemacs without conflicting with the base Emacs."
-;;   ;; (define f (format #f "~a [make-packages]" m))
-;;   ;; (format #t "#### ~a starting...\n" f)
 ;;   (package
 ;;     (name name)
 ;;     (version (string-append (package-version emacs-package) "-"
@@ -23452,6 +23315,4 @@ processes for Emacs.")
 ;;      (license (package-license spacemacs-package))))
 
 ;; (define-public emacs-spacemacs-wrapped
-;;   ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
-;;   ;; (format #t "#### ~a starting...\n" f)
 ;;   (make-packages emacs emacs-spacemacs))
