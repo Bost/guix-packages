@@ -1,11 +1,15 @@
 ;;; This module is required by some of the scm-bin CLI utilities. The output of
 ;;; the `format' will also appear in the console such a utility is executed.
 
-;; TODO Consider creating a package installable by `guix install bost-utils`
 ;; See: jaro the resource opener - an alternative to xdg-open
 ;; https://github.com/isamert/jaro/blob/master/jaro
 ;; See `guile-build-system'
 (define-module (bost utils)
+;;; All used modules must be present in the module (srvc scheme-files) under:
+;;;   1. service-file -> with-imported-modules
+;;;   2. common-modules
+  #:use-module (bost srfi-1-smart)
+  #:use-module (srfi srfi-1)         ; list-processing procedures
   #:use-module (guix build utils)
   #:use-module (ice-9 match)         ; match
   #:use-module (ice-9 popen)         ; open-input-pipe
@@ -14,7 +18,7 @@
   #:use-module (ice-9 regex)         ; string-match
   #:use-module (ice-9 string-fun)    ; string-replace-substring
   #:use-module (rnrs io ports)       ; exec-with-error-to-string
-  #:use-module (srfi srfi-1)         ; list-processing procedures
+  ;; #:use-module (guix monads)         ; return, bind
   #| #:use-module (guix build utils) ; invoke - not needed |#
   #| #:use-module (ice-9 readline)   ; it requires `guix install guile-readline' |#
 
@@ -42,16 +46,25 @@
             exec-system*
             exec-system*-new
             exec-with-error-to-string
-            exec-with-error-to-string
             if-let
             if-not
             module-evaluated
             testsymb
             testsymb-trace
-            ))
+            )
+  #:re-export (
+               smart-first
+               smart-last
+               smart-second
+               smart-third
+               smart-fourth
+               smart-fifth
+               smart-take
+               smart-drop
+               ))
 
 (define m "[bost utils]")
-;; (format #t "~a evaluating module ...\n" m)
+;; (format #t "~a evaluating module…\n" m)
 
 ;; https://github.com/daviwil/dotfiles/tree/master/.config/guix
 ;; Also (examples)
@@ -94,10 +107,35 @@ Works also for functions returning and accepting multiple values."
 (define-public (s- . rest) (apply (partial lset-difference eq-op?) rest))
 (define-public (sx . rest) (apply (partial lset-intersection eq-op?) rest))
 
+(define-public empty? null?) ;; no runtime cost. null? is a primitive procedure
+
+(define-public (boolean x) (not (not x)))
+
+(define-public (str . args)
+  "Convert all arguments to strings and concatenate them, like Clojure's `str`."
+  (string-concatenate
+   (map (lambda (x)
+          (cond
+           ((string? x) x)
+           ((symbol? x) (symbol->string x))
+           ((number? x) (number->string x))
+           ((char? x) (string x))
+           ((boolean? x) (if x "#t" "#f"))
+           ((empty? x) "()")
+           ;; (use-modules (ice-9 format))  ; For `format` with ~A specifier
+           ((pair? x) (format #f "~A" x))   ; Handle lists and pairs
+           (else (format #f "~A" x))))      ; Fallback for other types
+        args)))
+
 ;; (warn ...) doesn't print anything
-(define (my=warn s)
+(define-public (my=warn . args)
   ;; (error s)
-  (format #t "W ~a\n" s))
+  (let* [(orig-fmt (car args))
+         (fmt (if (string= "\n" (smart-last orig-fmt))
+                  orig-fmt
+                  (str orig-fmt "\n")))]
+    (apply (partial format #t (str "W " fmt))
+           (cdr args))))
 
 (define-public (module-name-for-logging)
   ((comp
@@ -108,8 +146,8 @@ Works also for functions returning and accepting multiple values."
    (current-module)))
 
 (unless (equal? (module-name-for-logging) m)
-  (format #t "W ~a (equal? (module-name-for-logging) m): ~a\n"
-          m (equal? (module-name-for-logging) m)))
+  (my=warn "(module-name-for-logging) ~a and m ~a differ"
+           (module-name-for-logging) m))
 
 (define-syntax if-let
   (syntax-rules ()
@@ -133,7 +171,7 @@ Works also for functions returning and accepting multiple values."
         (format #t "Truthy Test Passed: ~a\n" (number->string result))
         (format #t "Truthy Test Failed: Should not reach here\n"))
 
-(if-let (result (and #f (some-computation)))
+(if-let (result (and #f (+ 2 2)))
         (format #t "Falsey Test Failed: Should not reach here\n")
         (format #t "Falsey Test Passed: Correctly reached else clause\n"))
 |#
@@ -147,12 +185,12 @@ Works also for functions returning and accepting multiple values."
      (begin
        (let [(m (module-name-for-logging))]
          (when show
-           (format #t "~a Evaluating module ...\n" m))))]
+           (format #t "~a Evaluating module…\n" m))))]
     [(_)
      (begin
        (let [(m (module-name-for-logging))]
          (when show-evaluating-module
-           (format #t "~a Evaluating module ...\n" m))))]))
+           (format #t "~a Evaluating module…\n" m))))]))
 
 (define-syntax module-evaluated
   (syntax-rules ()
@@ -160,12 +198,12 @@ Works also for functions returning and accepting multiple values."
      (begin
        (let [(m (module-name-for-logging))]
          (when show
-           (format #t "~a Evaluating module ... done.\n" m))))]
+           (format #t "~a Evaluating module… done.\n" m))))]
     [(_)
      (begin
        (let [(m (module-name-for-logging))]
          (when show-module-evaluated
-           (format #t "~a Evaluating module ... done.\n" m))))]))
+           (format #t "~a Evaluating module… done.\n" m))))]))
 
 (define-syntax testsymb
   (syntax-rules ()
@@ -222,26 +260,6 @@ Works also for functions returning and accepting multiple values."
 ;; return the resulting list with tail appended
 (define-public path
   (delete-duplicates (parse-path (getenv "PATH"))))
-
-(define-public empty? null?) ;; no runtime cost. null? is a primitive procedure
-
-(define-public (boolean x) (not (not x)))
-
-(define-public (str . args)
-  "Convert all arguments to strings and concatenate them, like Clojure's `str`."
-  (string-concatenate
-   (map (lambda (x)
-          (cond
-           ((string? x) x)
-           ((symbol? x) (symbol->string x))
-           ((number? x) (number->string x))
-           ((char? x) (string x))
-           ((boolean? x) (if x "#t" "#f"))
-           ((empty? x) "()")
-           ;; (use-modules (ice-9 format))  ; For `format` with ~A specifier
-           ((pair? x) (format #f "~A" x))   ; Handle lists and pairs
-           (else (format #f "~A" x))))      ; Fallback for other types
-        args)))
 
 (define-public (has-suffix? string suffix)
   "Does STRING end with the SUFFIX? As `string-suffix?' but the parameters are
@@ -671,16 +689,16 @@ or the CLIENT-CMD if some process ID was found."
     (syntax-case x ()
       ((_ (id . args) b0)
        #'(begin
-           ;; (format #t "(def* (~a ...) ...) ... " `id)
+           ;; (format #t "(def* (~a…)…)… " `id)
            (define id
              (cond
               [#t                    ;; fa
                (lambda* args
-                 (format #t "[~a] Starting ...\n" `id)
+                 (format #t "[~a] Starting…\n" `id)
                  (let [(result b0)]
                    (format #t "[~a] done.\n" `id)
                    result))]))
-           ;; (format #t "(def* ~a ...) ... done" `id)
+           ;; (format #t "(def* ~a…)… done" `id)
            id))
 
       ((_ (id . args) b0 b1)
@@ -690,19 +708,19 @@ or the CLIENT-CMD if some process ID was found."
               [(string? `b0)         ;; fb
                (lambda* args
                  b0
-                 (format #t "[~a] Starting ...\n" `id)
+                 (format #t "[~a] Starting…\n" `id)
                  (let [(result b1)]
                    (format #t "[~a] done.\n" `id)
                    result))]
 
               [#t                    ;; fc
                (lambda* args
-                 (format #t "[~a] Starting ...\n" `id)
+                 (format #t "[~a] Starting…\n" `id)
                  b0
                  (let [(result b1)]
                    (format #t "[~a] done.\n" `id)
                    result))]))
-           ;; (format #t "(def* ~a ...) ... done" `id)
+           ;; (format #t "(def* ~a…)… done" `id)
            id))
 
       ((_ (id . args) b0 b1 ... bN)
@@ -712,7 +730,7 @@ or the CLIENT-CMD if some process ID was found."
               [(string? `b0)         ;; fd
                (lambda* args
                  b0
-                 (format #t "[~a] Starting ...\n" `id)
+                 (format #t "[~a] Starting…\n" `id)
                  b1 ...
                  (let [(result bN)]
                    (format #t "[~a] done.\n" `id)
@@ -720,20 +738,20 @@ or the CLIENT-CMD if some process ID was found."
 
               [#t                    ;; fe
                (lambda* args
-                 (format #t "[~a] Starting ...\n" `id)
+                 (format #t "[~a] Starting…\n" `id)
                  b0
                  b1 ...
                  (let [(result bN)]
                    (format #t "[~a] done.\n" `id)
                    result))]))
-           ;; (format #t "(def* ~a ...) ... done" `id)
+           ;; (format #t "(def* ~a…)… done" `id)
            id))
 
       ((_ id val) (identifier? #'id) ;; ff
        #'(begin
-           ;; (format #t "(def* ~a ...) ... " `id)
+           ;; (format #t "(def* ~a…)… " `id)
            (define id val)
-           ;; (format #t "(def* ~a ...) ... done" `id)
+           ;; (format #t "(def* ~a…)… done" `id)
            id)))))
 
 ;; Test cases:
@@ -766,7 +784,7 @@ or the CLIENT-CMD if some process ID was found."
   (syntax-rules ()
     ((_ (name . args) . body)
      (begin
-       (format #t "(def-public (~a ...) ...) ... " `name)
+       (format #t "(def-public (~a…)…)… " `name)
        (define (name . args) . body)
        (format #t "done\n")
        (export name)))
@@ -914,10 +932,10 @@ Example:
              (lst-params (cadr mv))]
         (if (equal? lst-output-of-previous-cmd lst-params)
             (begin
-              (format #t "~s ... " `(,mf ,lst-params))
-              ;; (format #t "~s ...\n" `(,mf ,lst-params))
+              (format #t "~s… " `(,mf ,lst-params))
+              ;; (format #t "~s…\n" `(,mf ,lst-params))
               (mf lst-params)
-              ;; (format #t "~s ... done\n" `(,mf ,lst-params))
+              ;; (format #t "~s… done\n" `(,mf ,lst-params))
               (format #t "done\n")
               ;; enforce manual command params specification by returning an
               ;; empty list
@@ -939,10 +957,10 @@ Example:
              (lst-params (cadr mv))]
         (if (equal? lst-output-of-previous-cmd lst-params)
             (begin
-              (format #t "~s ... " `(,mf ,lst-params))
-              ;; (format #t "~s ...\n" `(,mf ,lst-params))
+              (format #t "~s… " `(,mf ,lst-params))
+              ;; (format #t "~s…\n" `(,mf ,lst-params))
               ;; (mf lst-params)
-              ;; (format #t "~s ... done\n" `(,mf ,lst-params))
+              ;; (format #t "~s… done\n" `(,mf ,lst-params))
               (format #t "done\n")
               ;; enforce manual command params specification by returning an
               ;; empty list
