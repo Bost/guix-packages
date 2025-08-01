@@ -1,4 +1,5 @@
 (define-module (bost gnu packages emacs-xyz)
+  #:use-module (bost gnu packages emacs-xyz-space)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -140,6 +141,8 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
+
+  #:re-export (emacs-spacemacs)
   )
 
 (define-public emacs-cursory
