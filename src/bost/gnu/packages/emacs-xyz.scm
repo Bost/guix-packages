@@ -4,6 +4,7 @@
   #:use-module (bost gnu packages space-available)
   #:use-module (bost gnu packages space-needed)
   #:use-module (gnu packages emacs-xyz)
+  #:use-module ((bost gnu packages emacs-build) #:prefix bst:)
 
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
@@ -297,7 +298,7 @@ themes comes with the package.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-powerline
       emacs-s
       ))
@@ -1455,7 +1456,7 @@ between Emacs and PHP.")
       (propagated-inputs
         (list
          emacs-shut-up
-         (@(bost gnu packages emacs-build) emacs-dash)
+         bst:emacs-dash
          emacs-s
          ))
       (home-page "https://github.com/colonelpanic8/multi-line")
@@ -2999,8 +3000,8 @@ as horizontal rules.")
     (name "emacs-evil-unimpaired")
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       ))
     (arguments
      (list
@@ -3606,7 +3607,7 @@ pressed simultaneously or a single key quickly pressed twice.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-markdown-mode
         emacs-s
         ))
@@ -3640,7 +3641,7 @@ pressed simultaneously or a single key quickly pressed twice.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-async
         emacs-composer
         emacs-php-runtime
@@ -3680,7 +3681,7 @@ pressed simultaneously or a single key quickly pressed twice.")
       (propagated-inputs
        (list
         emacs-magit-popup
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-tablist
         ))
       (home-page "https://github.com/Yuki-Inoue/tblui.el")
@@ -3762,11 +3763,11 @@ pressed simultaneously or a single key quickly pressed twice.")
                 )))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (home-page "https://github.com/Wilfred/ht.el")
       (synopsis "Hash table library for Emacs")
@@ -3830,7 +3831,7 @@ provides functions to convert hash tables from and to alists and plists.")
       (arguments (list #:tests? #f))    ; missing tests
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-s
         emacs-tramp
         ))
@@ -3895,14 +3896,14 @@ to install Docker Tramp Emacs package.")
     (build-system emacs-build-system)
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       emacs-shut-up
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes")
@@ -4002,7 +4003,7 @@ which may have security implications.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-epc
         ))
       (home-page "https://github.com/anachronic/importmagic.el")
@@ -4133,7 +4134,7 @@ environment when visiting project files.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-s
         ))
       (home-page "https://github.com/jcs-elpa/reveal-in-folder")
@@ -4228,7 +4229,7 @@ invocation.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/magnars/string-edit.el")
       (synopsis "Edit string literals in a separate buffer with unescaped content")
@@ -4260,8 +4261,8 @@ embedded HTML or JavaScript templates within code.")
       (propagated-inputs
        (list
         emacs-pkg-info
-        (@(bost gnu packages emacs-build) emacs-f)
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-f
+        bst:emacs-dash
         ))
       (home-page "https://github.com/tonini/overseer.el")
       (synopsis "Integrate ert-runner with Emacs for running ERT tests")
@@ -4294,7 +4295,7 @@ interactive commands for various test operations.")
        (list
         emacs-popup
         emacs-s
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-list-utils
         emacs-iedit
         ))
@@ -4327,7 +4328,7 @@ tidying imports.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/yhvh/erc-yt")
       (synopsis "Display inline YouTube previews in ERC buffers")
@@ -4358,9 +4359,9 @@ length.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-s
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/Wilfred/elisp-def")
       (synopsis "Enhanced Emacs Lisp symbol definition navigation")
@@ -4453,7 +4454,7 @@ buffer.  An OpenAI API key is required for usage.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-company
         ))
       (home-page "https://github.com/Alexander-Miller/company-shell")
@@ -4678,7 +4679,7 @@ inner and outer line objects, customizable via `evil-textobj-line-i-key` and
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-evil
         ))
       (home-page "https://github.com/roman/evil-visual-mark-mode")
@@ -4711,7 +4712,7 @@ Users can customize which marks are displayed by modifying the
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-s
         ))
       (home-page "https://github.com/nlamirault/phpunit.el")
@@ -4743,7 +4744,7 @@ environment.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/Wilfred/pip-requirements.el")
       (synopsis "Major mode for editing pip requirements files in Emacs")
@@ -4948,7 +4949,7 @@ experience similar to browser-based HTML/JS/CSS editors.")
                 (bst:write-pkg-file "vimish-fold"))))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         ))
       (home-page "https://github.com/mrkkrp/vimish-fold")
       (synopsis "Persistent, Vim-style text folding for Emacs")
@@ -5028,7 +5029,7 @@ globally for specified major modes or configured per mode.  It requires both
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-map
         ))
       (home-page "https://github.com/wyuenho/emacs-pet/")
@@ -5633,7 +5634,7 @@ as the current patch using @code{a}, and it can be discarded using @code{k}.  Ot
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-with-editor
         emacs-magit))
       (home-page "https://github.com/magit/magit-svn")
@@ -5730,8 +5731,8 @@ buffer with each of your todos.")
       (propagated-inputs
        (list
         emacs-async
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-hl-todo
         emacs-magit
         emacs-pcre2el
@@ -5794,7 +5795,7 @@ comments.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-magit
         ))
       (home-page "https://github.com/magit/orgit")
@@ -5970,8 +5971,8 @@ It is built on top of the custom theme support in Emacs 24 or later.")
     (build-system emacs-build-system)
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (home-page "https://github.com/Wilfred/loop.el")
     (synopsis "Imperative loop structures for Emacs")
@@ -6061,8 +6062,8 @@ display a terminal in an Emacs buffer.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-list-utils
       emacs-loop
       emacs-s
@@ -6070,8 +6071,8 @@ display a terminal in an Emacs buffer.")
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (home-page "https://github.com/Wilfred/elisp-refs")
     (synopsis "Find callers of elisp functions or macros")
@@ -6106,8 +6107,8 @@ never confused by comments or @code{foo-bar} matching @code{foo}.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
-        (@(bost gnu packages emacs-build) emacs-undercover)
+        bst:emacs-ert-runner
+        bst:emacs-undercover
         ))
       (home-page "https://github.com/Malabarba/paradox")
       (synopsis "Paradox is an extension to Emacs packages menu")
@@ -6158,13 +6159,13 @@ customizability and asynchronous upgrading.")
                        (basic-save-buffer))))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-dash
+      bst:emacs-ert-runner
       emacs-shut-up
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-undercover
       ))
     (home-page "https://github.com/gongo/json-reformat")
     (synopsis "Reformatting tool for JSON")
@@ -6249,16 +6250,16 @@ executed.")
     (propagated-inputs
      (list
       emacs-loop
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-spinner
       emacs-shut-up
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (synopsis "Suggest Elisp functions that give the output requested")
     (description "Suggest.el will find functions that give the output
@@ -6858,7 +6859,7 @@ company-web.")
       (propagated-inputs
        (list
         emacs-company
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-web-completion-data))
       (home-page "https://github.com/osv/company-web")
       (synopsis "Emacs company backend for html, jade and slim")
@@ -6889,8 +6890,8 @@ company-mode.")
              #:tests? #f))              ; no tests
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-pythonic
         emacs-s
         emacs-tramp
@@ -6927,7 +6928,7 @@ documentation, enhancing the Python development experience within Emacs.")
        (list
         emacs-anaconda-mode
         emacs-company
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/pythonic-emacs/company-anaconda.git")
@@ -6972,10 +6973,10 @@ documentation, enhancing the Python development experience within Emacs.")
       (propagated-inputs
        (list
         ;; emacs-copilot-balancer
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-editorconfig
         emacs-s
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-jsonrpc))
       (home-page "https://github.com/copilot-emacs/copilot.el")
       (synopsis "An unofficial Copilot plugin for Emacs")
@@ -8840,7 +8841,7 @@ providing support for a lot of modes.")
                     (string-append "\"" (which "sqlite3") "\""))))))))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (inputs
        (list
@@ -8876,7 +8877,7 @@ official @command{sqlite3} executable to access SQL database.")
       (propagated-inputs
        (list
         ;; emacs-color
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/ZehCnaS34/zonokai-emacs")
       (synopsis "Zonokai vibrant color theme for Emacs")
@@ -9040,7 +9041,7 @@ with GUI Emacs behavior.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/deb0ch/emacs-winum")
       (synopsis "Window number management for Emacs")
@@ -9395,8 +9396,8 @@ with GUI Emacs behavior.")
                     )))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-ht
       emacs-hydra
       emacs-markdown-mode
@@ -9422,7 +9423,7 @@ with GUI Emacs behavior.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-lsp-mode
         emacs-markdown-mode
         emacs-flycheck
@@ -9487,7 +9488,7 @@ and code peeking.")
       (propagated-inputs
        (list
         emacs-ht
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-lsp-mode
         ))
       (home-page "https://github.com/emacs-lsp/lsp-pyright")
@@ -9646,9 +9647,9 @@ pyrightconfig.json.")
                    "curl-rexim.me--?[a-z0-9]+")))))))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-el-mock)
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
-        (@(bost gnu packages emacs-build) emacs-undercover)
+        bst:emacs-el-mock
+        bst:emacs-ert-runner
+        bst:emacs-undercover
         ))
       (inputs
        (list curl))
@@ -9676,8 +9677,8 @@ into the current buffer.")
     (build-system emacs-build-system)
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-el-mock)
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-el-mock
+      bst:emacs-ert-runner
       emacs-validate
       ))
     (home-page "https://github.com/davidshepherd7/terminal-here")
@@ -9713,14 +9714,14 @@ current buffer.")
              (setenv "SHELL" (which "sh")))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-el-mock)
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-el-mock
+      bst:emacs-ert-runner
       emacs-noflet
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-undercover
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-popup
       ))
     (home-page "https://github.com/jacktasia/dumb-jump")
@@ -9751,13 +9752,13 @@ Dumb Jump performs best with The Silver Searcher @command{ag} or ripgrep
       (build-system emacs-build-system)
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-el-mock)
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-el-mock
+        bst:emacs-ert-runner
         ))
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-magit))
       (home-page "https://github.com/canatella/repo-el")
       (synopsis "Emacs interface for the Google Repo tool")
@@ -9811,8 +9812,8 @@ buffer and launches Magit from the status buffer for the project at point.")
                   "test-google-translate--translated-text"))))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-el-mock)
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-el-mock
+      bst:emacs-ert-runner
       ))
     (home-page "https://github.com/atykhonov/google-translate")
     (synopsis "Emacs interface to Google Translate")
@@ -9868,7 +9869,7 @@ will be submitted to lsp-mode.")
        (list
         emacs-helm
         emacs-lsp-mode
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/emacs-lsp/helm-lsp")
       (synopsis "Provide LSP-enhanced completion for symbols")
@@ -10181,7 +10182,7 @@ debugging workflow.")
       (native-inputs
        (list
         emacs-buttercup
-        (@(bost gnu packages emacs-build) emacs-el-mock)
+        bst:emacs-el-mock
         ))
       (inputs
        (list
@@ -10198,8 +10199,8 @@ debugging workflow.")
         ;; emacs-all-the-icons ; for src/extra
         emacs-ace-window
         emacs-cfrs
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-ht
         emacs-hydra
         emacs-pfuture
@@ -10301,8 +10302,8 @@ utilities.")
         emacs-dap-mode
         emacs-lsp-mode
         emacs-markdown-mode
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-ht
         emacs-request
         emacs-treemacs
@@ -10334,7 +10335,7 @@ utilities.")
        (list
         emacs-compat
         emacs-lsp-mode
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-magit
         ))
       (synopsis "Lean 4 major mode for Emacs")
@@ -10387,8 +10388,8 @@ prover, version 4.")
         emacs-lsp-mode
         emacs-lsp-treemacs
         emacs-dap-mode
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-ht
         emacs-treemacs
         ))
@@ -10422,8 +10423,8 @@ to Metals.")
        )
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-ht
         emacs-treemacs
         emacs-lsp-mode
@@ -10748,7 +10749,7 @@ projects unrelated to current-buffer.
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (arguments
        (list #:tests? #t
@@ -10839,8 +10840,8 @@ documentation.")
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-helm
         emacs-org
         emacs-s
@@ -11222,8 +11223,8 @@ documentation search and a source and class browser.")
      (list
       emacs-auto-complete
       emacs-company
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-helm
       emacs-php-mode
       emacs-popup
@@ -11232,7 +11233,7 @@ documentation search and a source and class browser.")
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (home-page "https://github.com/xcwen/ac-php")
     (synopsis "Emacs Auto Complete & Company mode for PHP")
@@ -11382,7 +11383,7 @@ as well as features for editing search results.")
                       )))))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-helm
         emacs-helm-org
         emacs-projectile
@@ -12373,15 +12374,15 @@ been copied from an Emacs major mode.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-elisp-refs
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-s
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (home-page "https://github.com/Wilfred/helpful")
     (synopsis "More contextual information in Emacs help")
@@ -12459,7 +12460,7 @@ Additionally it can display the number of unread emails in the mode line.")
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/magit/magit-popup")
     (synopsis "Define prefix-infix-suffix command combos")
@@ -12505,7 +12506,7 @@ process, passing on the arguments as command line arguments.")
                 )))))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (home-page "https://github.com/auto-complete/popup-el")
       (synopsis "Visual Popup User Interface for Emacs")
@@ -12533,7 +12534,7 @@ and popup menus.")
       (propagated-inputs
        (list
         emacs-cider
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-geiser
         emacs-parseclj
         emacs-parseedn
@@ -12564,7 +12565,7 @@ and popup menus.")
      (list #:test-command
            #~(list "make" "check-declare")))
     (propagated-inputs
-     (list emacs-compat (@(bost gnu packages emacs-build) emacs-dash)))
+     (list emacs-compat bst:emacs-dash))
     (home-page "https://github.com/tarsius/minions")
     (synopsis "Minor-mode menu for the mode line")
     (description
@@ -12609,7 +12610,7 @@ Alternatively the menu can be bound globally, for example:
               (substitute* "test-speed-type.el"
                 (("\\(ert-deftest speed-type--retrieve-test .*" all)
                  (string-append all " (skip-unless nil)"))))))))
-    (native-inputs (list (@(bost gnu packages emacs-build) emacs-dash)))
+    (native-inputs (list bst:emacs-dash))
     (propagated-inputs (list emacs-compat))
     (home-page "https://github.com/dakra/speed-type")
     (synopsis "Practice touch/speed typing in GNU Emacs")
@@ -12649,7 +12650,7 @@ accuracy) while you are typing.")
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://github.com/rcoedo/emacs-ghq")
@@ -12677,7 +12678,7 @@ organizing remote Go repository clones.")
      '(#:include (cons "^dict/" %default-include)))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-mmt
       ))
     (home-page "https://github.com/mrkkrp/typit")
@@ -12718,8 +12719,8 @@ until time is up.")
      (list autoconf automake texinfo perl emacs-minimal))
     (propagated-inputs
      (list emacs-bui
-           (@(bost gnu packages emacs-build) emacs-dash)
-           (@(bost gnu packages emacs-build) emacs-f)
+           bst:emacs-dash
+           bst:emacs-f
            emacs-s
            gnupg
            shroud))
@@ -12749,7 +12750,7 @@ from within Emacs.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-esxml
         emacs-org
         emacs-s
@@ -12781,7 +12782,7 @@ replacement.")
        (sha256
         (base32 "1mkp9b31ai1z6sccx8cff40viryamw7dm85acig3q82dwlbmxx98"))))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash)))
+     (list bst:emacs-dash))
     (native-inputs
      (list emacs-minimal emacs-el-search emacs-stream texinfo))
     (build-system gnu-build-system)
@@ -12876,8 +12877,8 @@ programs.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list emacs-company
-           (@(bost gnu packages emacs-build) emacs-dash)
-           (@(bost gnu packages emacs-build) emacs-f)
+           bst:emacs-dash
+           bst:emacs-f
            emacs-flycheck
            emacs-haskell-mode
            emacs-lcr
@@ -12907,7 +12908,7 @@ supports type hints, definition-jumping, completion, and more.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (native-inputs
        (list
@@ -12988,12 +12989,12 @@ provides an optional IDE-like error list.")
        (list
         emacs-async
         emacs-buttercup
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-visual-fill-column
         ))
       (home-page "https://github.com/jumper047/fb2-reader")
@@ -13035,7 +13036,7 @@ FictionBook2 (@file{.fb2} and @file{.fb2.zip} files) ebooks.")
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       ))
     (home-page "https://github.com/wlemuel/alarm-clock")
     (synopsis "Alarm clock for Emacs")
@@ -13065,12 +13066,12 @@ FictionBook2 (@file{.fb2} and @file{.fb2.zip} files) ebooks.")
       (build-system emacs-build-system)
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-s
         ))
       (home-page "https://github.com/emacsattic/relative-buffers")
@@ -13097,7 +13098,7 @@ project root.")
     (propagated-inputs
      (list
       emacs-elixir-mode
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-company
       emacs-pkg-info
       ))
@@ -13166,7 +13167,7 @@ code completion and project management support.")
     (propagated-inputs
      (list
       emacs-compat
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-transient
       ))
     (home-page "https://gitlab.com/rstocker/emacs-bluetooth")
@@ -13212,14 +13213,14 @@ also includes a pairing agent.")
     (inputs (list the-silver-searcher))     ; 'ag' executable
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       python-sphinx
       texinfo
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://github.com/Wilfred/ag.el")
@@ -13247,8 +13248,8 @@ rather than the contents of files.")
       emacs-aio
       emacs-auctex
       emacs-avy
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-s
       ))
     (build-system emacs-build-system)
@@ -13291,7 +13292,7 @@ It uses @command{dvisvgm}, @command{xclip}, @command{pngpaste} and
                                "-f" "ert-run-tests-batch-and-exit")))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/sebastiansturm/autothemer")
       (synopsis "Conveniently create Emacs themes")
@@ -13320,7 +13321,7 @@ a set of simplified face specifications and a user-supplied color palette.")
       (arguments (list #:tests? #f)) ; There are no tests.
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (build-system emacs-build-system)
@@ -13364,7 +13365,7 @@ inferior-process repl development experience in Emacs.")
     (propagated-inputs
      (list
       emacs-alert
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       emacs-spark
       emacs-ts
@@ -13406,8 +13407,8 @@ Its features are:
     (propagated-inputs
      (list
       emacs-compat
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-parsebib
       emacs-queue
       emacs-s
@@ -13451,7 +13452,7 @@ of bibliographic references.")
      (list direnv))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-with-editor
       ))
     (home-page "https://github.com/wbolster/emacs-direnv")
@@ -13498,8 +13499,8 @@ environment set through Direnv.")
     (native-inputs
      (list
       bash
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-ert-runner
+      bst:emacs-f
       makem-minimal
       ))
     (synopsis "Emacs package for browsing CLI command docs without man pages")
@@ -13525,7 +13526,7 @@ environment set through Direnv.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://notabug.org/alezost/emacs-bui")
     (synopsis "Buffer interface library for Emacs")
@@ -13577,7 +13578,7 @@ type, for example: packages, buffers, files, etc.")
       (propagated-inputs
        (list
         emacs-bui
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-edit-indirect
         emacs-geiser
         emacs-geiser-guile
@@ -13612,8 +13613,8 @@ management tasks from Emacs.  To begin with, run @code{M-x guix-about} or
        #:exclude (delete "^[^/]*tests?\\.el$" %default-exclude)))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       ))
     (home-page "https://github.com/arthurnn/minitest-emacs")
     (synopsis "Emacs minitest mode")
@@ -13643,7 +13644,7 @@ This package also includes relevant snippets for yasnippet.")
      ;; The version of org in Emacs 24.5 is not sufficient, and causes tables
      ;; to be rendered incorrectly
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-org
       emacs-spark
       ))
@@ -13674,7 +13675,7 @@ mode, which displays information about Elasticsearch clusters.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/Fuco1/litable/")
       (synopsis "Dynamic evaluation replacement with Emacs")
@@ -13708,7 +13709,7 @@ mode, which displays information about Elasticsearch clusters.")
                                "-f" "ert-run-tests-batch-and-exit")))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         ))
       (home-page "https://github.com/jws85/calc-currency")
       (synopsis "Add currency units to Emacs Calc")
@@ -13733,7 +13734,7 @@ Calc by fetching exchange rates backends.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-s
       ))
     (synopsis "Platform-specific paths for config, cache, and other data")
@@ -13758,7 +13759,7 @@ configuration, cache, and other data.")
           (base32 "117zzkryznznk6h4i1jqzdn888nl019xrgxm2gza0lndx8dxsg2c"))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (build-system emacs-build-system)
       (home-page "https://github.com/alphapapa/org-now")
@@ -13799,7 +13800,7 @@ their original location with another.")
      (list fd))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-org
       emacs-s
       ))
@@ -13824,7 +13825,7 @@ Org mode and some functions for interacting with the OMDb API.")
         (base32 "1fh6j5w2387nh2fwwjphkhq17cgj5m2q5k0fhidvgc2w65lzbr1r"))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-flycheck
       emacs-let-alist
       ))
@@ -13861,7 +13862,7 @@ the current Cargo project.")
       (arguments (list #:tests? #false)) ;no tests
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/jyp/elastic-modes")
       (synopsis "Text and code alignment for variable-width fonts")
@@ -13887,8 +13888,8 @@ variable-width (i.e., proportional, or variable pitch) fonts.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-yaml-mode
       ))
     (home-page "https://github.com/meqif/docker-compose-mode/")
@@ -13942,12 +13943,12 @@ source code using IPython.")
            #~(list "ert-runner" "--verbose" "--debug" "-l" "ob-async.el")))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (propagated-inputs
      (list
       emacs-async
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/astahlman/ob-async")
     (synopsis "Asynchronous src_block execution for org-babel")
@@ -14038,7 +14039,7 @@ src blocks.")
       (propagated-inputs
        (list
         emacs-company
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-frame-local
         ))
       (home-page "https://github.com/sebastiencs/company-box")
@@ -14070,7 +14071,7 @@ This package is not compatible with a TTY.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://gitlab.com/matsievskiysv/math-preview")
@@ -14098,7 +14099,7 @@ This package is not compatible with a TTY.")
      (list
       emacs-company
       emacs-company-math
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-yasnippet
       ))
     (build-system emacs-build-system)
@@ -14141,7 +14142,7 @@ features:
       (arguments (list #:tests? #f))      ; no tests
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/magnars/multifiles.el")
       (synopsis "Edit multiple files in a single Emacs buffer")
@@ -14166,11 +14167,11 @@ one Emacs buffer.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-lsp-mode
       emacs-company
       emacs-s
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (native-inputs
      (list emacs-buttercup))
@@ -14207,7 +14208,7 @@ characters and asynchronous fetching of completion candidates.")
                      (("\\(require 'assoc\\)") "")))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://github.com/magnars/tagedit")
@@ -14237,7 +14238,7 @@ in HTML mode.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-request
         ))
       (home-page "https://github.com/louietan/anki-editor")
@@ -14268,7 +14269,7 @@ in HTML mode.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-org
       emacs-org-ql
       emacs-org-super-agenda
@@ -14304,14 +14305,14 @@ overview of tasks in a subtree.")
            #:test-command #~(list "ert-runner")))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-deferred
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-helm
       emacs-request
       emacs-s
@@ -14342,7 +14343,7 @@ organizer.")
       (propagated-inputs
        (list
         emacs-company
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/aaronjensen/company-flow/")
       (synopsis "Flow backend for @code{company-mode}")
@@ -14369,7 +14370,7 @@ organizer.")
            #:test-command #~(list "make" "run" "CASK=")))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/bbatsov/solarized-emacs")
     (synopsis "Port of the Solarized theme for Emacs")
@@ -14398,7 +14399,7 @@ package provides a light and a dark variant.")
       (propagated-inputs
        (list
         emacs-consult
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/mclear-tools/consult-notes/")
@@ -14465,12 +14466,12 @@ may also search org headings in a set of specified files.")
       (build-system emacs-build-system)
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         emacs-yasnippet
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-markdown-mode
         ))
       (home-page "https://github.com/Fuco1/smartparens")
@@ -14507,7 +14508,7 @@ well as completely new features.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://depp.brause.cc/eyebrowse/")
     (synopsis "Simple-minded way to manage window configs in Emacs")
@@ -14540,13 +14541,13 @@ in the modeline by default.")
      (list #:exclude #~(cons "^major-mode-hydra\\.el" %default-exclude)))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-hydra
       emacs-s
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (home-page "https://github.com/jerrypnz/major-mode-hydra.el")
     (synopsis "Major mode keybindings managed by Hydra")
@@ -14562,7 +14563,7 @@ package @code{emacs-major-mode-hydra} for a user-friendly interface.")
     (name "emacs-major-mode-hydra")
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-pretty-hydra
       ))
     (arguments
@@ -14589,7 +14590,7 @@ hydras with one column per group of heads.")))
     (native-inputs
      (list
       emacs-buttercup
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-paredit
       emacs-s
       ))
@@ -14626,7 +14627,7 @@ It is recommended to use @code{clojure-mode} with Paredit or Smartparens.")
                                "-f" "ert-run-tests-batch-and-exit")))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/naiquevin/sphinx-doc.el")
@@ -14658,7 +14659,7 @@ the equirement of the Sphinx documentation generator.")
       #~(cons* "^JuliaSnail\\.jl" "extensions" %default-include)))
     (inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       emacs-spinner
       emacs-xref
@@ -14716,7 +14717,7 @@ Clojure’s CIDER.  It enables convenient and dynamic REPL-driven development.")
                                 (string-append all " (skip-unless nil)"))))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-flycheck
       emacs-s
       emacs-typescript-mode
@@ -14786,7 +14787,7 @@ provides the following features:
        (list emacs-buttercup))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-pkg-info
         ))
       (home-page "https://github.com/bbatsov/projectile")
@@ -14832,12 +14833,12 @@ empty @file{.projectile} file in it.")
                     (basic-save-buffer))))))))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-let-alist
         emacs-s
         ))
@@ -14945,7 +14946,7 @@ A function to toggle the @code{*elfeed-log*} buffer in a popup window.
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         emacs-xtest
         ))
       (home-page "https://github.com/remyhonig/elfeed-org")
@@ -14978,7 +14979,7 @@ much easier.")
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (home-page "https://github.com/fasheng/elfeed-protocol")
     (synopsis "Fever/NewsBlur/ownCloud/tt-RSS protocols for Elfeed")
@@ -15125,7 +15126,7 @@ first non-nil suggestion is taken.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-xterm-color
       ))
     (home-page "https://github.com/dieggsy/eterm-256color")
@@ -15249,8 +15250,8 @@ customizable 256 color support to @code{term} and @code{ansi-term}.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-ert-runner
+        bst:emacs-f
         python-wrapper
         ;; For documentation.
         python-sphinx
@@ -15280,7 +15281,7 @@ completion, interactive development and more.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-helm
       ))
     (home-page "https://gitlab.com/sasanidas/gitlab-snip-helm/")
@@ -15310,7 +15311,7 @@ Emacs.")
                              "-f" "ert-run-tests-batch-and-exit")))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://github.com/mhayashi1120/Emacs-wgrep")
@@ -15515,7 +15516,7 @@ Makefile targets.")
                       ,(search-input-directory inputs "share/eisl/library")))))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (inputs
      (list
@@ -16113,7 +16114,7 @@ extensions.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (home-page "https://github.com/edkolev/evil-goggles")
       (synopsis "Displays visual hints when editing with evil")
@@ -16138,7 +16139,7 @@ being deleted, changed, yanked, or pasted when using evil commands")
     (arguments (list #:test-command #~(list "ert-runner" ".")))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (home-page "https://github.com/minad/goggles")
     (synopsis "Pulse modified region")
@@ -16326,7 +16327,7 @@ state and everything else in Emacs.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (arguments
        `(#:phases
@@ -17068,7 +17069,7 @@ known loosely as deftheme.  Many mode-specific customizations are included.")
                              "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-flycheck
       emacs-s
       ))
@@ -17096,7 +17097,7 @@ basic syntax highlighting and indentation.")
     (propagated-inputs
      (list
       emacs-denote
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (arguments
      (list
@@ -17162,7 +17163,7 @@ graph.  (Optional dependencies GraphViz, D3js, to be acquired separately!)
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/arifer612/pippel")
@@ -17189,7 +17190,7 @@ Pippel also uses Tabulated List mode, it provides a similar package menu like
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-hide-mode-line
       ))
     (home-page "https://github.com/liuyinz/mini-echo.el")
@@ -17215,7 +17216,7 @@ so you can get rid of the mode-line.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/tminor/jsonnet-mode")
     (synopsis "Major mode for editing jsonnet files")
@@ -17241,9 +17242,9 @@ formatting, and utility methods for jsonnet files.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-eimp
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-s
         ))
       (home-page "https://github.com/Fuco1/dired-hacks")
@@ -17285,7 +17286,7 @@ additions:
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/jyp/lcr")
     (synopsis "Lightweight coroutines in Emacs Lisp")
@@ -17310,8 +17311,8 @@ functions written in continuation-passing style.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-flycheck
       emacs-s
       ))
@@ -17337,11 +17338,11 @@ at point.")
     (build-system emacs-build-system)
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-s
       ))
     (home-page "https://github.com/rmuslimov/browse-at-remote")
@@ -17368,7 +17369,7 @@ It supports dired buffers and opens them in tree mode at destination.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-s
       ))
     (home-page "https://gitlab.com/emacs-ansible/emacs-ansible")
@@ -17400,7 +17401,7 @@ It supports dired buffers and opens them in tree mode at destination.")
                                   "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-hcl-mode
       ))
     (home-page "https://github.com/syohex/emacs-terraform-mode")
@@ -17430,7 +17431,7 @@ functionality is inherited from @code{hcl-mode}.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-frog-menu
         emacs-avy
         ))
@@ -17467,7 +17468,7 @@ to with quicklink-style selections.")
     (propagated-inputs
      (list
       emacs-password-store
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       ))
     (home-page "https://github.com/NicolasPetton/pass")
     (synopsis "Major mode for @file{password-store.el}")
@@ -17495,7 +17496,7 @@ and can be consulted and modified.")
       (propagated-inputs
        (list
         emacs-age
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-s
         emacs-with-editor
         ))
@@ -17528,7 +17529,7 @@ in Emacs for Pass-Age, a port of Pass, the standard Unix password manager.")
       (propagated-inputs
        (list
         emacs-company
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-flycheck
         emacs-let-alist
         emacs-s
@@ -17582,7 +17583,7 @@ protocol for PureScript programming language.  It features:
     (propagated-inputs
      (list
       emacs-closql
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-llama
       ))
     (home-page "https://emacsmirror.net")
@@ -17610,7 +17611,7 @@ Epkg itself is not a package manager.")
     (propagated-inputs
      (list
       emacs-a
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/alphapapa/frecency.el")
     (synopsis "Sort items by frequency and recency of access")
@@ -17647,7 +17648,7 @@ a heuristic based on frequency and recency.")
        (list makem-minimal))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-frecency
         emacs-helm
         emacs-org
@@ -17679,7 +17680,7 @@ as well as functions for navigating between these headings.")
       #:test-command #~(list "emacs" "--batch" "-l" "org-recur-test.el"
                              "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
-     (list (@(bost gnu packages emacs-build) emacs-dash)
+     (list bst:emacs-dash
            ))
     (home-page "https://github.com/m-cat/org-recur")
     (synopsis "Simple recurring Org mode tasks")
@@ -17732,12 +17733,12 @@ for defining recurring tasks and easily scheduling them.")
                  (string-append all "  (skip-unless nil)\n"))))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       util-linux
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-ht
       emacs-org
       emacs-s
@@ -17775,7 +17776,7 @@ into sections while preserving the structure imposed by any timestamps.")
     (propagated-inputs
      (list
       emacs-compat
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-org
       emacs-s
       ))
@@ -17847,7 +17848,7 @@ tables of contents.")
                     (basic-save-buffer))))))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/alphapapa/ts.el")
@@ -17884,8 +17885,8 @@ timestamps by providing a @code{ts} struct.")
     (propagated-inputs
      (list
       emacs-compat
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-org
       emacs-org-super-agenda
       emacs-ov
@@ -17918,7 +17919,7 @@ files, allowing for actions to be performed based on search criteria.")
                   (install-file "helm-org-ql.el" cwd))))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-helm
       emacs-helm-org
       emacs-org-ql
@@ -17952,7 +17953,7 @@ be performed based on search criteria.")))
       (propagated-inputs
        (list
         emacs-org
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/alphapapa/org-auto-expand")
       (synopsis "Automatically expand certain Org headings")
@@ -17977,7 +17978,7 @@ files to be expanded upon opening them.")
     (arguments (list #:tests? #f))      ; XXX: too many broken tests
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-let-alist
       ))
     (home-page "https://github.com/cpitclaudel/biblio.el")
@@ -18009,8 +18010,8 @@ automatically fetched from well-curated sources, and formatted as BibTeX.")
       (propagated-inputs
        (list
         emacs-biblio
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-helm
         emacs-ivy
         emacs-parsebib
@@ -18054,7 +18055,7 @@ arXiv, Google Scholar, Library of Congress, etc.
                 "1n6g6k4adzkkn1g7z4j27s35xy12c1fg2r08gv345ddr3wplq4ri"))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-request
       emacs-s
       emacs-tree-mode
@@ -18084,7 +18085,7 @@ arXiv, Google Scholar, Library of Congress, etc.
           (base32 "08sj43py6aid4vpqgsm0v5n94mcmcil0047qjk033492glz6q55c"))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (build-system emacs-build-system)
       (home-page "https://github.com/theodorewiles/org-mind-map")
@@ -18113,12 +18114,12 @@ arXiv, Google Scholar, Library of Congress, etc.
       (native-inputs
        (list
         emacs-noflet
-        (@(bost gnu packages emacs-build) emacs-undercover)
+        bst:emacs-undercover
         emacs-buttercup
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (arguments
      `(#:test-command '("buttercup" "-L" ".")))
@@ -18149,7 +18150,7 @@ your Emacs.")
        (list
         emacs-company
         emacs-s
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-lua-mode
         ))
       (arguments
@@ -18177,8 +18178,8 @@ your Emacs.")
     (arguments (list #:tests? #f))      ; no tests
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-reformatter
       emacs-s
       ))
@@ -18218,7 +18219,7 @@ working with common core and third-party Elm tools.  Its features are:
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       ))
     (home-page "https://github.com/hylang/hy-mode")
@@ -18244,7 +18245,7 @@ working with common core and third-party Elm tools.  Its features are:
      (list #:test-command #~(list "ert-runner")))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       ))
     (home-page "https://github.com/yasuyk/web-beautify")
     (synopsis "Format HTML, CSS and JavaScript, JSON")
@@ -18348,8 +18349,8 @@ their meaning for the current Emacs major-mode.")
        (list
         emacs-avy
         emacs-citeproc
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-helm-bibtex
         emacs-htmlize
         emacs-hydra
@@ -18360,7 +18361,7 @@ their meaning for the current Emacs major-mode.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (home-page "https://github.com/jkitchin/org-ref")
       (synopsis "Citations, cross-references and bibliographies in Org mode")
@@ -18403,7 +18404,7 @@ notes.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         emacs-ht
         ))
@@ -18440,7 +18441,7 @@ browse the phrases by the paper section and fill-in the blanks if required.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/mkcms/grep-context")
       (synopsis "Increase context in compilation and grep buffers")
@@ -18465,7 +18466,7 @@ compilation/grep buffers.  Works with @code{wgrep}, @code{ack}, @code{ag},
         (base32 "0v97ncb0w1slb0x8861l3yr1kqz6fgw1fwl1z9lz6hh8p2ih34sk"))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-rainbow-delimiters
       emacs-company
       ))
@@ -18507,7 +18508,7 @@ keep Parens and Indentation inline with one another.")
                #t)))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/nicferrier/emacs-noflet")
       (synopsis "Locally override functions")
@@ -18535,7 +18536,7 @@ through the symbol: @command{this-fn}.")
       (arguments (list #:tests? #f))    ; no tests
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-flycheck
         emacs-helm
         ))
@@ -18570,7 +18571,7 @@ through the symbol: @command{this-fn}.")
     (inputs (list sxiv))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (build-system emacs-build-system)
     (home-page "https://tildegit.org/contrapunctus/sxiv")
@@ -18599,14 +18600,14 @@ in said buffer using sxiv.")
       (build-system emacs-build-system)
       (inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         emacs-ghub
         ))
       (native-inputs
        (list
         emacs-buttercup
-        (@(bost gnu packages emacs-build) emacs-undercover)
+        bst:emacs-undercover
         ))
       (arguments
        (list
@@ -18653,8 +18654,8 @@ accept and reject GitHub pull requests.")
                   ("deadgrep-executable" ripgrep))))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (inputs
      (list
@@ -18662,7 +18663,7 @@ accept and reject GitHub pull requests.")
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       emacs-spinner
       ))
@@ -18689,7 +18690,7 @@ searches with @code{ripgrep}.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-hydra
       ))
     (home-page "https://github.com/joostkremers/pandoc-mode")
@@ -18718,7 +18719,7 @@ Pandoc, the document-conversion tool.")
       (propagated-inputs
        (list
         ccls
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-lsp-mode
         ))
       (home-page "https://github.com/MaskRay/emacs-ccls")
@@ -18745,13 +18746,13 @@ and @code{C++} files through the @code{ccls} language server.")
           (base32 "12a429lajk09qp1jxgig54p8z6wndfgr4jwdmgkc9s2df9sw02d3"))))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
-        (@(bost gnu packages emacs-build) emacs-undercover)
+        bst:emacs-ert-runner
+        bst:emacs-undercover
         ))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-pos-tip
         emacs-rust-mode
         emacs-s
@@ -18782,8 +18783,8 @@ docstring of the thing at point.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-flycheck
       emacs-lsp-mode
       emacs-markdown-mode
@@ -18840,7 +18841,7 @@ In addition to its predecessor, it offers the following features:
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-helm
         emacs-s
         ))
@@ -18869,7 +18870,7 @@ was called.")
     (propagated-inputs
      (list
       emacs-s
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/stsquad/dired-rsync/")
     (synopsis "Support for rsync from Emacs dired buffers")
@@ -18913,7 +18914,7 @@ Tramp's own encoding methods for moving data between systems.")
       (propagated-inputs
        (list
         emacs-async
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://gitlab.com/tuedachu/ytdl")
       (synopsis "Emacs interface for youtube-dl")
@@ -18943,7 +18944,7 @@ depending on the downloaded URL.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list emacs-compat
-           (@(bost gnu packages emacs-build) emacs-dash)
+           bst:emacs-dash
            emacs-esxml
            emacs-plz
            emacs-request
@@ -19015,12 +19016,12 @@ inserts it as an Org entry instead of displaying it in a new buffer.")
                   (format #t "test suite not run~%")))))))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-f
+      bst:emacs-ert-runner
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-f
       emacs-memoize
       font-awesome
       font-google-material-design-icons
@@ -19056,7 +19057,7 @@ scaling of and anti aliasing of the icons.")
     (build-system emacs-build-system)
     (inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (synopsis "Purpose-specific frames for Emacs")
     (description "@code{frame-purpose} makes it easy to open purpose-specific
@@ -19085,7 +19086,7 @@ other frame parameters.")
       (arguments (list #:tests? #f))    ; tests require networking
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-json-mode
         emacs-let-alist
         emacs-request
@@ -19112,12 +19113,12 @@ instances (play/pause, volume control, media selection, etc.) remotely.")
         (base32 "13927ns3393q40gxrfzyqh6ajxzfjg14d0srfxi6ild3pmaz0460"))))
     (inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-undercover
       ))
     (propagated-inputs
      (list
       emacs-aio
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-json-mode
       emacs-s
       emacs-tablist
@@ -19145,7 +19146,7 @@ instances (play/pause, volume control, media selection, etc.) remotely.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-ivy
       emacs-lsp-mode
       ))
@@ -19174,7 +19175,7 @@ workspaces with a LSP-compliant server running.")
     (propagated-inputs
      (list
       emacs-s
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (synopsis "Convert keyboard macros to Emacs Lisp")
     (description
@@ -19205,7 +19206,7 @@ as Emacs Lisp.")
              #:tests? #f))  ; Several tests are failing on the haskell side.
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-flycheck
         emacs-haskell-mode
         emacs-let-alist
@@ -19250,7 +19251,7 @@ buffers.")
                     (basic-save-buffer))))))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         emacs-js2-mode
         emacs-yasnippet
@@ -19286,7 +19287,7 @@ JavaScript.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       tree-sitter-javascript
       ))
@@ -19315,12 +19316,12 @@ comments and typedefs using Emacs' builtin tree-sitter.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
-        (@(bost gnu packages emacs-build) emacs-undercover)
+        bst:emacs-ert-runner
+        bst:emacs-undercover
         ))
       (home-page "https://github.com/Wilfred/tco.el")
       (synopsis "Tail-call optimization for Emacs Lisp")
@@ -19350,7 +19351,7 @@ Lisp functions that call themselves in tail position.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://gitlab.com/emacsomancer/equake/")
       (synopsis "Drop-down console for @code{Eshell} and terminal emulators")
@@ -19384,14 +19385,14 @@ compatible with Emacs' shell modes.")
                             "makel.mk"))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       emacs-s
       ))
     (native-inputs
      (list
       emacs-ecukes
-      (@(bost gnu packages emacs-build) emacs-el-mock)
+      bst:emacs-el-mock
       emacs-ert-async
       emacs-shut-up makel
       ))
@@ -19431,7 +19432,7 @@ compatible with Emacs' shell modes.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/gregsexton/origami.el")
@@ -19460,7 +19461,7 @@ expanding regions of text without modifying the actual contents.")
                   "0npd8glzk5z4n7y9mzbsbzi0cf3by19fqcki052jr3dga363lds7"))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-ivy
         ))
       (build-system emacs-build-system)
@@ -19502,7 +19503,7 @@ expanding regions of text without modifying the actual contents.")
                    (string-append all " (skip-unless nil)"))))))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-org
         emacs-s
         ))
@@ -19535,8 +19536,8 @@ current tree.")
        (list emacs-async))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-undercover)
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-undercover
+        bst:emacs-ert-runner
         ))
       (arguments
        `(#:phases
@@ -19647,7 +19648,7 @@ through Dash docsets.")
      (list calibre))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-esxml
       emacs-s
       ))
@@ -19730,7 +19731,7 @@ strings, and code folding.")
            #~(list "eval-in-repl\\.el" "eval-in-repl-test\\.el" "README\\.md")))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-paredit
       emacs-ace-window
       ))
@@ -19851,7 +19852,7 @@ or regions to a REPL from ~a buffers.") language))))
      (list pandoc))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-ht
       ))
     (home-page "https://github.com/emacsorphanage/ox-pandoc")
@@ -19882,7 +19883,7 @@ files to numerous other formats via Pandoc.")
                    (delete-file "test/emr-elisp-test.el"))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-s
       emacs-popup
       emacs-list-utils
@@ -19890,8 +19891,8 @@ files to numerous other formats via Pandoc.")
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
-      (@(bost gnu packages emacs-build) emacs-undercover)
+      bst:emacs-ert-runner
+      bst:emacs-undercover
       ))
     (home-page "https://github.com/Wilfred/emacs-refactor/")
     (synopsis "Language-specific refactoring in Emacs")
@@ -19926,7 +19927,7 @@ a variety of languages, including elisp itself.")
                              "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-org
       emacs-request
       ))
@@ -19953,7 +19954,7 @@ JIRA issue servers.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/magit/ssh-agency")
     (synopsis "Manage @code{ssh-agent} from Emacs")
@@ -19983,7 +19984,7 @@ passphrase until the first time you push to a remote.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/xuchunyang/eshell-git-prompt")
     (synopsis "Themes for Emacs Shell (Eshell) prompt")
@@ -20020,7 +20021,7 @@ prompt.")
         #:test-command #~(list "make" "test-unit")))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (native-inputs
@@ -20055,8 +20056,8 @@ managers such as XMonad.")
     (propagated-inputs
      (list
       emacs-s
-      (@(bost gnu packages emacs-build) emacs-dash)
-      (@(bost gnu packages emacs-build) emacs-f)
+      bst:emacs-dash
+      bst:emacs-f
       ))
     (native-inputs
      (list
@@ -20087,7 +20088,7 @@ Fish-style truncated directories in eshell and various modelines.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/4DA/eshell-toggle")
       (synopsis "Show and hide an @code{eshell} instance")
@@ -20133,7 +20134,7 @@ current buffer.")
      (list librime rime-data))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-popup
       emacs-posframe
       ))
@@ -20164,7 +20165,7 @@ current buffer.")
       (propagated-inputs
        (list
         emacs-ivy
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (synopsis "Browse anything in Org mode")
       (description "This package allows Org items to be accessed via the Ivy
@@ -20191,7 +20192,7 @@ interface.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (synopsis "Help functions for Eshell")
       (description "This package provides a @code{run-help} function inspired
@@ -20219,7 +20220,7 @@ by @code{zsh} as well as @code{eldoc} support.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (synopsis "Major mode for editing Mercury files")
       (description
@@ -20275,12 +20276,12 @@ mercury-mode provided by Emacs as a wrapper around prolog-mode.")
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       texinfo
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-emacsql
       emacs-magit
       ))
@@ -20327,7 +20328,7 @@ personal wiki.")
     (native-inputs
      (list
       emacs-buttercup
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       util-linux
       grep
       sed
@@ -20373,7 +20374,7 @@ using org mode; faster than org-roam.")
     (native-inputs
      (list
       emacs-buttercup
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       util-linux
       grep
       sed
@@ -20432,12 +20433,12 @@ it up again.")
       ))
     (native-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-ert-runner)
+      bst:emacs-ert-runner
       icedtea
       ))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (build-system emacs-build-system)
     (home-page "https://github.com/skuro/plantuml-mode")
@@ -20476,7 +20477,7 @@ or region and use of locally installed binaries.")
                   (emacs-batch-disable-compilation file)))))))
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-highlight
         emacs-multi
         emacs-shut-up
@@ -20508,7 +20509,7 @@ sound-designing using CSound.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-s
         ))
       (home-page "https://github.com/plexus/html-to-hiccup")
@@ -20540,7 +20541,7 @@ web development.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-general
         emacs-which-key
         ;; emacs-use-package
@@ -20570,7 +20571,7 @@ provides an easy way to bind keys under a configurable prefix key.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://github.com/MaximeWack/seriesTracker")
     (synopsis "Keep track of the TV shows you watch from Emacs")
@@ -20617,13 +20618,13 @@ released, and track their progress in watching a series.")
                             el-files)))))))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         emacs-mocker
         ))
       (propagated-inputs
        (list
         emacs-anaphora
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-deferred
         emacs-polymode
         emacs-request
@@ -20673,7 +20674,7 @@ general in Emacs.")
       (native-inputs
        (list
         emacs-buttercup
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-f
         ))
       (synopsis "Testeable Emacs Lisp API that wraps around GNU Global")
       (description "This package provides a testeable Emacs Lisp API that
@@ -20704,7 +20705,7 @@ project.el and xref.el.")
          ))
       (propagated-inputs
         (list
-         (@(bost gnu packages emacs-build) emacs-dash)
+         bst:emacs-dash
          emacs-s
          emacs-shut-up
          ))
@@ -20742,8 +20743,8 @@ project.el and xref.el.")
      (list
       emacs-consult
       emacs-lsp-mode
-      (@(bost gnu packages emacs-build) emacs-f))
-     )
+      bst:emacs-f
+      ))
     (home-page "https://github.com/gagbo/consult-lsp/")
     (synopsis "LSP mode and Consult helping each other")
     (description
@@ -20769,7 +20770,7 @@ by leveraging @code{emacs-consult} APIs.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-alert
       emacs-async
       ))
@@ -20799,7 +20800,7 @@ by leveraging @code{emacs-consult} APIs.")
                    "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-ht
       emacs-s
       ))
@@ -20839,7 +20840,7 @@ and lambdas.")
                  (string-append lead " \"0.1\")"))))))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-el2org
       emacs-ht
       emacs-mustache
@@ -20972,8 +20973,8 @@ files which are intended to be packages.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
-        (@(bost gnu packages emacs-build) emacs-f)
+        bst:emacs-dash
+        bst:emacs-f
         emacs-flycheck
         emacs-s
         ))
@@ -21088,7 +21089,7 @@ Emacs.")
       (arguments (list #:tests? #f))      ; tests require networking
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-expand-region
         emacs-multiple-cursors
         emacs-powerline
@@ -21119,7 +21120,7 @@ reached with the right hand.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       ))
     (home-page "https://notabug.org/alezost/emacs-bui")
     (synopsis "Buffer interface library for Emacs")
@@ -21171,7 +21172,7 @@ type, for example: packages, buffers, files, etc.")
       (propagated-inputs
        (list
         emacs-bui
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         emacs-edit-indirect
         emacs-geiser
         emacs-geiser-guile
@@ -21232,7 +21233,7 @@ corresponding Evil keys.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-dash)
+      bst:emacs-dash
       emacs-posframe
       emacs-s
       ))
@@ -21310,7 +21311,7 @@ input via a small child-frame spawned at the position of the cursor.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-dash)
+        bst:emacs-dash
         ))
       (home-page "https://github.com/ankurdave/color-identifiers-mode")
       (synopsis "Minor mode for coloring identifiers based on their names")
@@ -21832,7 +21833,7 @@ and allows for an arbitrary number of leader keys.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (home-page "https://github.com/auto-complete/auto-complete")
       (synopsis "Intelligent auto-completion extension for Emacs")
@@ -22182,7 +22183,7 @@ paused.")
         ))
       (native-inputs
        (list
-        (@(bost gnu packages emacs-build) emacs-ert-runner)
+        bst:emacs-ert-runner
         ))
       (home-page "https://github.com/abo-abo/ace-window")
       (synopsis "Quickly switch windows in Emacs")
@@ -22441,6 +22442,12 @@ processes for Emacs.")
 
 (define bst-packages
   (list
+   bst:emacs-dash
+   bst:emacs-el-mock
+   bst:emacs-ert-runner
+   bst:emacs-f
+   bst:emacs-undercover
+
    emacs-ac-ispell
    emacs-ac-php
    emacs-academic-phrases
@@ -22540,7 +22547,6 @@ processes for Emacs.")
    emacs-darkokai-theme
    emacs-darktooth-theme
    emacs-dart-mode
-   emacs-dash
    emacs-dash-docs
    emacs-deadgrep
    emacs-define-word
@@ -22559,7 +22565,6 @@ processes for Emacs.")
    emacs-ebuild-mode
    emacs-ebuku
    emacs-ein
-   emacs-el-mock
    emacs-el-x
    emacs-elastic-modes
    emacs-elfeed
@@ -22585,7 +22590,6 @@ processes for Emacs.")
    emacs-erc-tweet
    emacs-erc-view-log
    emacs-erc-yt
-   emacs-ert-runner
    emacs-es-mode
    emacs-esh-help
    emacs-eshell-git-prompt
@@ -22647,7 +22651,6 @@ processes for Emacs.")
    emacs-evil-visualstar
    emacs-eyebrowse
    emacs-eziam-themes
-   emacs-f
    emacs-farmhouse-light-mod-theme
    emacs-farmhouse-themes
    emacs-fb2-reader
@@ -23028,7 +23031,6 @@ processes for Emacs.")
    emacs-twilight-theme
    emacs-typit
    emacs-ujelly-theme
-   emacs-undercover
    emacs-underwater-theme
    emacs-undo-tree
    emacs-unfill
