@@ -149,7 +149,7 @@
   )
 
 (define m (module-name-for-logging))
-(evaluating-module)
+;; (evaluating-module)
 
 (define-public emacs-cursory
   (let ((commit "892c3b81037ece0e1753ab058e3cfda93f985693")
@@ -22419,12 +22419,12 @@ processes for Emacs.")
    ;; "emacs-spacemacs"
    ;; "spacemacs-rolling-release"
    ))
-(testsymb 'general-packages)
+;; (testsymb 'general-packages)
 
 (define (excluded-packages)
   (list
    ))
-(testsymb 'excluded-packages)
+;; (testsymb 'excluded-packages)
 
 ;; Orphan packages according to spguimacs
 (define (orphan-packages)
@@ -22438,7 +22438,7 @@ processes for Emacs.")
    ;; "emacs-ivy"
    ;; "emacs-a"
    ))
-(testsymb 'orphan-packages)
+;; (testsymb 'orphan-packages)
 
 (define bst-packages
   (list
@@ -23068,7 +23068,7 @@ processes for Emacs.")
    emacs-zonokai-emacs
    emacs-zoom-frm
    ))
-(testsymb 'bst-packages)
+;; (testsymb 'bst-packages)
 
 (define (all-packages-from-guix-channel)
   (let* [(G (general-packages))
@@ -23090,7 +23090,7 @@ processes for Emacs.")
         (s- ((@(bost utils) sx) (s+ N O)
                 A)
             E))))
-(testsymb 'all-packages-from-guix-channel)
+;; (testsymb 'all-packages-from-guix-channel)
 
 #|
 (define G (general-packages))
@@ -23113,137 +23113,137 @@ processes for Emacs.")
     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     )
    (all-packages-from-guix-channel)))
-(testsymb 'spacemacs-packages)
+;; (testsymb 'spacemacs-packages)
 
-(define-public (spacemacs-packages-sorted)
-  (define f (format #f "~a [spacemacs-packages-sorted]" m))
-  ((comp
-    ;; (lambda (lst) (format #t "~a 4. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (lambda (lst) (sort-list lst (comp (partial apply string<=?)
-                                       (partial map package-name)
-                                       list)))
-    ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial append bst-packages)
-    (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial map specification->package)
-    ;; (lambda (lst) (format #t "~a 1. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (lambda (lst) (s- lst (map package-name bst-packages)))
-    ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    )
-   (all-packages-from-guix-channel)))
-(testsymb 'spacemacs-packages-sorted)
+;; (define-public (spacemacs-packages-sorted)
+;;   (define f (format #f "~a [spacemacs-packages-sorted]" m))
+;;   ((comp
+;;     ;; (lambda (lst) (format #t "~a 4. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     (lambda (lst) (sort-list lst (comp (partial apply string<=?)
+;;                                        (partial map package-name)
+;;                                        list)))
+;;     ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     (partial append bst-packages)
+;;     (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     (partial map specification->package)
+;;     ;; (lambda (lst) (format #t "~a 1. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     (lambda (lst) (s- lst (map package-name bst-packages)))
+;;     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
+;;     )
+;;    (all-packages-from-guix-channel)))
+;; (testsymb 'spacemacs-packages-sorted)
 
-(define-public (spacemacs-packages-with-output-path)
-  (define f (format #f "~a [spacemacs-packages-with-output-path]" m))
-  (let* [(packages (spacemacs-packages-sorted))]
-    (combine
-     (map package-name packages)
-     (package-output-paths packages))))
-(testsymb 'spacemacs-packages-with-output-path)
+;; (define-public (spacemacs-packages-with-output-path)
+;;   (define f (format #f "~a [spacemacs-packages-with-output-path]" m))
+;;   (let* [(packages (spacemacs-packages-sorted))]
+;;     (combine
+;;      (map package-name packages)
+;;      (package-output-paths packages))))
+;; (testsymb 'spacemacs-packages-with-output-path)
 
 ;; rg --no-context-separator -A2 -N find-files emacs-xyz-space.scm --replace 'list'
-(define paths-to-el-files
-  (list
-   (list "layers/+lang/restructuredtext/local/rst-lists" "rst-lists\\.el$")
-   (list "core" "core-versions\\.el$")
-   (list "core" "core-load-paths\\.el$")
-   (list "core/libs/forks" "spacemacs-ht\\.el$")
-   (list "core" "core-dotspacemacs\\.el$")
-   (list "core" "core-spacemacs-buffer\\.el$")
-   (list "core" "core-use-package-ext\\.el$")
-   (list "core" "core-fonts-support\\.el$")
-   (list "core" "core-command-line\\.el$")
-   (list "core" "core-transient-state\\.el$")
-   (list "core" "core-early-funcs\\.el$")
-   (list "core" "core-documentation\\.el$")
-   (list "core" "core-compilation\\.el$")
-   (list "core" "core-env\\.el$")
-   (list "core" "core-hooks\\.el$")
-   (list "core" "core-display-init\\.el$")
-   (list "core/aprilfool" "zemacs\\.el$")
-   (list "layers/+misc/ietf/local/irfc" "irfc\\.el$")
-   (list "core/libs" "package-build\\.el$")
-   (list "core" "core-spacebind\\.el$")
-   (list "core/libs" "package-build-badges\\.el$")
-   (list "core" "core-custom-settings\\.el$")
-   (list "core/libs" "ido-vertical-mode\\.el$")
-   (list "core" "core-configuration-layer\\.el$")
-   (list "core" "core-customization\\.el$")
-   (list "core/libs/spacemacs-theme" "spacemacs-common\\.el$")
-   (list "core/libs/spacemacs-theme" "spacemacs-theme\\.el$")
-   (list "core/libs" "package-recipe-mode\\.el$")
-   (list "layers/+chat/erc/local/erc-yank" "erc-yank\\.el$")
-   (list "core" "core-debug\\.el$")
-   (list "core/libs/forks" "load-env-vars\\.el$")
-   (list "core" "core-themes-support\\.el$")
-   (list "core/libs" "mocker\\.el$")
-   (list "core" "core-release-management\\.el$")
-   (list "layers/+completion/compleseus/local/compleseus-spacemacs-help" "compleseus-spacemacs-help\\.el$")
-   (list "layers/+chat/erc/local/erc-tex" "erc-tex\\.el$")
-   (list "core" "core-keybindings\\.el$")
-   (list "core" "core-dumper\\.el$")
-   (list "core" "core-cycle\\.el$")
-   (list "core" "core-jump\\.el$")
-   (list "core/libs" "package-recipe\\.el$")
-   (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-faq\\.el$")
-   (list "core/libs" "quelpa\\.el$")
-   (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-help\\.el$")
-   (list "layers/+completion/ivy/local/ivy-spacemacs-help" "ivy-spacemacs-help\\.el$")
-   (list "core" "core-funcs\\.el$")
-   (list "layers/+tools/tmux/local/tmux" "tmux\\.el$")
-   (list "core" "core-progress-bar\\.el$")
-   (list "core" "core-micro-state\\.el$")
-   (list "core" "core-toggle\\.el$")
-   (list "core" "core-emacs-backports\\.el$")
-   (list "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin" "spacemacs-purpose-popwin\\.el$")
-   (list "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup" "spacemacs-whitespace-cleanup\\.el$")
-   (list "layers/+fun/games/local/helm-games" "helm-games\\.el$")
-   (list "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode" "hybrid-mode\\.el$")
-   (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-colors\\.el$")
-   (list "layers/+spacemacs/spacemacs-org/local/space-doc" "space-doc\\.el$")
-   (list "layers/+tools/sphinx/local/rst-sphinx" "rst-sphinx\\.el$")
-   (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-powerline-theme\\.el$")
-   (list "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired" "evil-unimpaired\\.el$")
-   (list "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state" "evil-evilified-state\\.el$")
-   (list "layers/+tools/xclipboard/local/spacemacs-xclipboard" "spacemacs-xclipboard\\.el$")
-   (list "layers/+distributions/spacemacs-bootstrap/local/holy-mode" "holy-mode\\.el$")
-   (list "layers/+lang/jr/local/jr-mode" "jr-mode\\.el$")
-   (list "layers/+lang/restructuredtext/local/rst-directives" "rst-directives\\.el$")
-   (list "core" "core-spacemacs\\.el$")
-   ))
+;; (define paths-to-el-files
+;;   (list
+;;    (list "layers/+lang/restructuredtext/local/rst-lists" "rst-lists\\.el$")
+;;    (list "core" "core-versions\\.el$")
+;;    (list "core" "core-load-paths\\.el$")
+;;    (list "core/libs/forks" "spacemacs-ht\\.el$")
+;;    (list "core" "core-dotspacemacs\\.el$")
+;;    (list "core" "core-spacemacs-buffer\\.el$")
+;;    (list "core" "core-use-package-ext\\.el$")
+;;    (list "core" "core-fonts-support\\.el$")
+;;    (list "core" "core-command-line\\.el$")
+;;    (list "core" "core-transient-state\\.el$")
+;;    (list "core" "core-early-funcs\\.el$")
+;;    (list "core" "core-documentation\\.el$")
+;;    (list "core" "core-compilation\\.el$")
+;;    (list "core" "core-env\\.el$")
+;;    (list "core" "core-hooks\\.el$")
+;;    (list "core" "core-display-init\\.el$")
+;;    (list "core/aprilfool" "zemacs\\.el$")
+;;    (list "layers/+misc/ietf/local/irfc" "irfc\\.el$")
+;;    (list "core/libs" "package-build\\.el$")
+;;    (list "core" "core-spacebind\\.el$")
+;;    (list "core/libs" "package-build-badges\\.el$")
+;;    (list "core" "core-custom-settings\\.el$")
+;;    (list "core/libs" "ido-vertical-mode\\.el$")
+;;    (list "core" "core-configuration-layer\\.el$")
+;;    (list "core" "core-customization\\.el$")
+;;    (list "core/libs/spacemacs-theme" "spacemacs-common\\.el$")
+;;    (list "core/libs/spacemacs-theme" "spacemacs-theme\\.el$")
+;;    (list "core/libs" "package-recipe-mode\\.el$")
+;;    (list "layers/+chat/erc/local/erc-yank" "erc-yank\\.el$")
+;;    (list "core" "core-debug\\.el$")
+;;    (list "core/libs/forks" "load-env-vars\\.el$")
+;;    (list "core" "core-themes-support\\.el$")
+;;    (list "core/libs" "mocker\\.el$")
+;;    (list "core" "core-release-management\\.el$")
+;;    (list "layers/+completion/compleseus/local/compleseus-spacemacs-help" "compleseus-spacemacs-help\\.el$")
+;;    (list "layers/+chat/erc/local/erc-tex" "erc-tex\\.el$")
+;;    (list "core" "core-keybindings\\.el$")
+;;    (list "core" "core-dumper\\.el$")
+;;    (list "core" "core-cycle\\.el$")
+;;    (list "core" "core-jump\\.el$")
+;;    (list "core/libs" "package-recipe\\.el$")
+;;    (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-faq\\.el$")
+;;    (list "core/libs" "quelpa\\.el$")
+;;    (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-help\\.el$")
+;;    (list "layers/+completion/ivy/local/ivy-spacemacs-help" "ivy-spacemacs-help\\.el$")
+;;    (list "core" "core-funcs\\.el$")
+;;    (list "layers/+tools/tmux/local/tmux" "tmux\\.el$")
+;;    (list "core" "core-progress-bar\\.el$")
+;;    (list "core" "core-micro-state\\.el$")
+;;    (list "core" "core-toggle\\.el$")
+;;    (list "core" "core-emacs-backports\\.el$")
+;;    (list "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin" "spacemacs-purpose-popwin\\.el$")
+;;    (list "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup" "spacemacs-whitespace-cleanup\\.el$")
+;;    (list "layers/+fun/games/local/helm-games" "helm-games\\.el$")
+;;    (list "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode" "hybrid-mode\\.el$")
+;;    (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-colors\\.el$")
+;;    (list "layers/+spacemacs/spacemacs-org/local/space-doc" "space-doc\\.el$")
+;;    (list "layers/+tools/sphinx/local/rst-sphinx" "rst-sphinx\\.el$")
+;;    (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-powerline-theme\\.el$")
+;;    (list "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired" "evil-unimpaired\\.el$")
+;;    (list "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state" "evil-evilified-state\\.el$")
+;;    (list "layers/+tools/xclipboard/local/spacemacs-xclipboard" "spacemacs-xclipboard\\.el$")
+;;    (list "layers/+distributions/spacemacs-bootstrap/local/holy-mode" "holy-mode\\.el$")
+;;    (list "layers/+lang/jr/local/jr-mode" "jr-mode\\.el$")
+;;    (list "layers/+lang/restructuredtext/local/rst-directives" "rst-directives\\.el$")
+;;    (list "core" "core-spacemacs\\.el$")
+;;    ))
 
-(define (listing-el-files)
-  (begin
-    (use-modules (utils))
-    ((comp
-      pretty-print
-      ;; (partial map (cut string-replace-substring <> "+" "\\+"))
-      (cut sort <> string<?)
-      (partial map (comp
-                    (partial str "^")
-                    (cut string-join <> "/"))))
-     paths-to-el-files
-     #;(take-smart 2 paths-to-el-files)))
-  )
+;; (define (listing-el-files)
+;;   (begin
+;;     (use-modules (utils))
+;;     ((comp
+;;       pretty-print
+;;       ;; (partial map (cut string-replace-substring <> "+" "\\+"))
+;;       (cut sort <> string<?)
+;;       (partial map (comp
+;;                     (partial str "^")
+;;                     (cut string-join <> "/"))))
+;;      paths-to-el-files
+;;      #;(take-smart 2 paths-to-el-files)))
+;;   )
 
-(define (listing-el-paths)
-  (begin
-    (use-modules (utils))
-    ((comp
-      ;; (partial map (partial format #t "~s\n"))
-      ;; (partial map (cut string-replace-substring <> "+" "\\+"))
-      pretty-print
-      (cut sort <> string<?)
-      (partial map str)
-      delete-duplicates
-      (partial map car))
-     paths-to-el-files
-     ;; (take-smart 2 paths-to-el-files)
-     )))
+;; (define (listing-el-paths)
+;;   (begin
+;;     (use-modules (utils))
+;;     ((comp
+;;       ;; (partial map (partial format #t "~s\n"))
+;;       ;; (partial map (cut string-replace-substring <> "+" "\\+"))
+;;       pretty-print
+;;       (cut sort <> string<?)
+;;       (partial map str)
+;;       delete-duplicates
+;;       (partial map car))
+;;      paths-to-el-files
+;;      ;; (take-smart 2 paths-to-el-files)
+;;      )))
 
 (define-public emacs-spacemacs
   (let ((commit
-         "b8bc4e6ff61eef9e0b6f0d4b67468036d2ca33e4"
+         "8020a5ff48810e67cf772335b1da78231746461d"
          )
         (revision "0")
         (combined-propagated-inputs
@@ -23261,7 +23261,7 @@ processes for Emacs.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0di5pw100mk4gnkn2d0jzwddn2b7fdyx228q5w4qhrn8jmyvh6yw"
+           "1vyv214rai2zbk8k561dnd0wq66rw0inrr3s5vrjr29icwnjcp36"
            ))))
       (build-system emacs-build-system)
       (arguments
@@ -23287,30 +23287,29 @@ processes for Emacs.")
                   (("^") ";; -*- no-byte-compile: t -*-\n"))))
             (add-after 'unpack 'patch-file
               (lambda* (#:key inputs outputs #:allow-other-keys)
-                (let [(fun
-                       "
-(defun print-vars (f)
-  (message \"[%s] user-emacs-directory : %s\" f (or (and (boundp 'user-emacs-directory) user-emacs-directory) 'undefined))
-  (message \"[%s] emacs-startup-hook : %s\" f (or (and (boundp 'emacs-startup-hook) emacs-startup-hook) 'undefined))
-  (message \"[%s] noninteractive : %s\" f (or (and (boundp 'noninteractive) noninteractive) 'undefined))
-  (message \"[%s] spacemacs-start-directory : %s\" f (or (and (boundp 'spacemacs-start-directory) spacemacs-start-directory) 'undefined))
-  (message \"[%s] spacemacs-data-directory : %s\" f (or (and (boundp 'spacemacs-data-directory) spacemacs-data-directory) 'undefined))
-  (message \"[%s] spacemacs-cache-directory : %s\" f (or (and (boundp 'spacemacs-cache-directory) spacemacs-cache-directory) 'undefined))
-  (message \"[%s] spacemacs-private-directory : %s\" f (or (and (boundp 'spacemacs-private-directory) spacemacs-private-directory) 'undefined))
-  (message \"[%s] quelpa-dir : %s\" f (or (and (boundp 'quelpa-dir) quelpa-dir) 'undefined))
-  (message \"[%s] configuration-layer--elpa-root-directory : %s\" f (or (and (boundp 'configuration-layer--elpa-root-directory) configuration-layer--elpa-root-directory) 'undefined))
-  (message \"[%s] spacemacs--last-emacs-version-file : %s\" f (or (and (boundp 'spacemacs--last-emacs-version-file) spacemacs--last-emacs-version-file) 'undefined))
-  )
-")]
-                  (map (lambda* (file)
-                         (substitute* file
-                           ((";; (\\(print-vars \".*\"\\))" all sexp)
-                            (format #f "\n~a\n~a" fun sexp))))
-                       (list
-                        "core/core-configuration-layer.el")))
-
+;;                 (let [(fun
+;;                        "
+;; (defun print-vars (f)
+;;   (message \"[%s] user-emacs-directory                     : %s\" f (or (and (boundp 'user-emacs-directory) user-emacs-directory) 'undefined))
+;;   (message \"[%s] emacs-startup-hook                       : %s\" f (or (and (boundp 'emacs-startup-hook) emacs-startup-hook) 'undefined))
+;;   (message \"[%s] noninteractive                           : %s\" f (or (and (boundp 'noninteractive) noninteractive) 'undefined))
+;;   (message \"[%s] spacemacs-start-directory                : %s\" f (or (and (boundp 'spacemacs-start-directory) spacemacs-start-directory) 'undefined))
+;;   (message \"[%s] spacemacs-data-directory                 : %s\" f (or (and (boundp 'spacemacs-data-directory) spacemacs-data-directory) 'undefined))
+;;   (message \"[%s] spacemacs-cache-directory                : %s\" f (or (and (boundp 'spacemacs-cache-directory) spacemacs-cache-directory) 'undefined))
+;;   (message \"[%s] spacemacs-private-directory              : %s\" f (or (and (boundp 'spacemacs-private-directory) spacemacs-private-directory) 'undefined))
+;;   (message \"[%s] quelpa-dir                               : %s\" f (or (and (boundp 'quelpa-dir) quelpa-dir) 'undefined))
+;;   (message \"[%s] configuration-layer--elpa-root-directory : %s\" f (or (and (boundp 'configuration-layer--elpa-root-directory) configuration-layer--elpa-root-directory) 'undefined))
+;;   (message \"[%s] spacemacs--last-emacs-version-file       : %s\" f (or (and (boundp 'spacemacs--last-emacs-version-file) spacemacs--last-emacs-version-file) 'undefined))
+;;   )
+;; ")]
+;;                   (map (lambda* (file)
+;;                          (substitute* file
+;;                            ((";; (\\(print-vars \".*\"\\))" all sexp)
+;;                             (format #f "\n~a\n~a" fun sexp))))
+;;                        (list
+;;                         "core/core-configuration-layer.el")))
                 (substitute* "core/core-load-paths.el"
-                  (("(\\s+)user-emacs-directory\n" all indent)
+                  (("(\\s+)user-emacs-directory" all indent)
                    (string-append
                     indent
                     (format #f "\"~a\"\n"
@@ -23356,7 +23355,6 @@ processes for Emacs.")
                   "layers/+tools/tmux/local/tmux/tmux.el"
                   "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
                   ))
-
                 (let* ((current-dir (getcwd))
                        ;; list every directory you need on the load-path:
                        ;; TODO obtain a list of every el-file and `dirname' over it. Then delete duplicates.
@@ -23403,8 +23401,9 @@ processes for Emacs.")
                                  (package-name p)
                                  (package-name (car p))))
                            combined-propagated-inputs))))))
-            (replace 'build (lambda* args #t)))))
-      (inputs            (package-inputs emacs) )
+            (replace 'build (lambda* args #t))
+            )))
+      (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
       (propagated-inputs combined-propagated-inputs)
       (home-page "http://spacemacs.org/")
@@ -23415,57 +23414,55 @@ processes for Emacs.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-(testsymb 'emacs-spacemacs)
+;; (testsymb 'emacs-spacemacs)
 
-(define* (make-packages emacs-package spacemacs-package
-                        #:optional (name "emacs-spacemacs-wrapped"))
-  "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
-the use of Spacemacs without conflicting with the base Emacs."
-  ;; (define f (format #f "~a [make-packages]" m))
-  ;; (format #t "#### ~a starting...\n" f)
-  (package
-    (name name)
-    (version (string-append (package-version emacs-package) "-"
-                            (package-version spacemacs-package)))
-    (source #f)
-    (build-system trivial-build-system)
-    (inputs `(("sh" ,bash)
-              ("emacs" ,emacs-package)
-              ("spacemacs" ,spacemacs-package)))
-    (arguments
-     (list
-      #:modules '((guix build utils)
-                  (bost utils)
-                  (bost guix build spacemacs-utils))
-      #:builder
-      #~(begin
-          ;; Seems like `su:spacemacs-builder' must be in a different module
-          (use-modules (ice-9 pretty-print)
-                       ((bost guix build spacemacs-utils) #:prefix su:))
-          ;; (format #t "### %build-inputs:\n")
-          ;; (pretty-print %build-inputs)
-          (su:spacemacs-builder
-           #:shell (string-append
-                    (assoc-ref %build-inputs "sh")
-                    "/bin/sh")
-           #:emacs (string-append
-                    (assoc-ref %build-inputs "emacs")
-                    "/bin/emacs")
-           #:spacemacs (assoc-ref %build-inputs "spacemacs")
-           #:out (string-append
-                  (assoc-ref %outputs "out") "/bin")))))
-     (home-page (package-home-page spacemacs-package))
-     (synopsis (package-synopsis spacemacs-package))
-     (description (package-description spacemacs-package))
-     (license (package-license spacemacs-package))))
-(testsymb 'make-packages)
+;; (define* (make-packages emacs-package spacemacs-package
+;;                         #:optional (name "emacs-spacemacs-wrapped"))
+;;   "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
+;; the use of Spacemacs without conflicting with the base Emacs."
+;;   ;; (define f (format #f "~a [make-packages]" m))
+;;   ;; (format #t "#### ~a starting...\n" f)
+;;   (package
+;;     (name name)
+;;     (version (string-append (package-version emacs-package) "-"
+;;                             (package-version spacemacs-package)))
+;;     (source #f)
+;;     (build-system trivial-build-system)
+;;     (inputs `(("sh" ,bash)
+;;               ("emacs" ,emacs-package)
+;;               ("spacemacs" ,spacemacs-package)))
+;;     (arguments
+;;      (list
+;;       #:modules '((guix build utils)
+;;                   (bost utils)
+;;                   (bost guix build spacemacs-utils))
+;;       #:builder
+;;       #~(begin
+;;           ;; Seems like `su:spacemacs-builder' must be in a different module
+;;           (use-modules (ice-9 pretty-print)
+;;                        ((bost guix build spacemacs-utils) #:prefix su:))
+;;           ;; (format #t "### %build-inputs:\n")
+;;           ;; (pretty-print %build-inputs)
+;;           (su:spacemacs-builder
+;;            #:shell (string-append
+;;                     (assoc-ref %build-inputs "sh")
+;;                     "/bin/sh")
+;;            #:emacs (string-append
+;;                     (assoc-ref %build-inputs "emacs")
+;;                     "/bin/emacs")
+;;            #:spacemacs (assoc-ref %build-inputs "spacemacs")
+;;            #:out (string-append
+;;                   (assoc-ref %outputs "out") "/bin")))))
+;;      (home-page (package-home-page spacemacs-package))
+;;      (synopsis (package-synopsis spacemacs-package))
+;;      (description (package-description spacemacs-package))
+;;      (license (package-license spacemacs-package))))
+;; (testsymb 'make-packages)
 
-(define-public emacs-spacemacs-wrapped
-  ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
-  ;; (format #t "#### ~a starting...\n" f)
-  (make-packages emacs emacs-spacemacs))
-(testsymb 'emacs-spacemacs-wrapped)
+;; (define-public emacs-spacemacs-wrapped
+;;   ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
+;;   ;; (format #t "#### ~a starting...\n" f)
+;;   (make-packages emacs emacs-spacemacs))
+;; (testsymb 'emacs-spacemacs-wrapped)
 
-(module-evaluated)
-
-
+;; (module-evaluated)

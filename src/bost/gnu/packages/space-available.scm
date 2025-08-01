@@ -1664,7 +1664,6 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
    "emacs-spacemacs-purpose-popwin"
    "emacs-spacemacs-theme"
    "emacs-spacemacs-whitespace-cleanup"
-   "emacs-spacemacs-wrapped"
    "emacs-spacemacs-xclipboard"
    "emacs-spacious-padding"
    "emacs-spamfilter"
