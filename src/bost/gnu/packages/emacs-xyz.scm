@@ -23253,6 +23253,8 @@ processes for Emacs.")
         (combined-propagated-inputs
          (append (package-propagated-inputs emacs)
                  (spacemacs-packages))))
+    ((@(ice-9 pretty-print) pretty-print) combined-propagated-inputs)
+    ;; ((@(ice-9 pretty-print) pretty-print) (map (lambda (lst) (package-name (car lst))) combined-propagated-inputs))
     (package
       (name "emacs-spacemacs")
       (version (git-version "1.0" revision commit))
