@@ -13,6 +13,7 @@
   ;; #:use-module (guix gexp) ;; gexp?, and extended reader for #~ #$ #+ #$@
 
   #:use-module (guix build utils) ;; find-files
+  #:use-module (guix packages)    ;; package?
   #| #:use-module (language cps intmap) |#)
 
 (define-syntax do-test
@@ -97,6 +98,8 @@ Type Testing Predicates.
     '(@(gnu services) service?)
     '(@(gnu services) service-type?)
     '(@(gnu services) service-extension?)
+
+    '(@(gnu packages) package?)
     )))
 
 (define (test-equality a b)
@@ -117,4 +120,3 @@ Type Testing Predicates.
     'eq?
     'eqv?
     'equal?)))
-
