@@ -1,7 +1,7 @@
 (define-module (bost gnu packages emacs-xyz)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((bost gnu packages emacs-build) #:prefix bst:)
-
+  ;;
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -143,6 +143,8 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match)
   )
+
+(define m (module-name-for-logging))
 
 (define-public emacs-cursory
   (let ((commit "892c3b81037ece0e1753ab058e3cfda93f985693")
@@ -5676,11 +5678,11 @@ Emacs that Evil does not cover properly by default, such as @code{help-mode},
 @code{M-x calendar}, Eshell and more.")
       (license license:gpl3+))))
 
-(define-public emacs-magit-org-todos-el
+(define-public emacs-magit-org-todos
   (let ((commit "9ffa3efb098434d837cab4bacd1601fdfc6fe999")
         (revision "0"))
     (package
-      (name "emacs-magit-org-todos-el")
+      (name "emacs-magit-org-todos")
       (version (git-version "0.1.3" revision commit))
       (source
        (origin
@@ -22440,7 +22442,6 @@ processes for Emacs.")
    bst:emacs-ert-runner
    bst:emacs-f
    bst:emacs-undercover
-
    emacs-ac-ispell
    emacs-ac-php
    emacs-academic-phrases
@@ -22809,7 +22810,7 @@ processes for Emacs.")
    emacs-magit
    emacs-magit-annex
    emacs-magit-gerrit
-   emacs-magit-org-todos-el
+   emacs-magit-org-todos
    emacs-magit-popup
    emacs-magit-section
    emacs-magit-tbdiff
@@ -23108,32 +23109,6 @@ processes for Emacs.")
    (all-packages-from-guix-channel)))
 (testsymb 'spacemacs-packages)
 
-(define-public (spacemacs-packages-sorted)
-  (define f (format #f "~a [spacemacs-packages-sorted]" m))
-  ((comp
-    ;; (lambda (lst) (format #t "~a 4. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (lambda (lst) (sort-list lst (comp (partial apply string<=?)
-                                       (partial map package-name)
-                                       list)))
-    ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial append bst-packages)
-    (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial map specification->package)
-    ;; (lambda (lst) (format #t "~a 1. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (lambda (lst) (s- lst (map package-name bst-packages)))
-    ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    )
-   (all-packages-from-guix-channel)))
-(testsymb 'spacemacs-packages-sorted)
-
-(define-public (spacemacs-packages-with-output-path)
-  (define f (format #f "~a [spacemacs-packages-with-output-path]" m))
-  (let* [(packages (spacemacs-packages-sorted))]
-    (combine
-     (map package-name packages)
-     (package-output-paths packages))))
-(testsymb 'spacemacs-packages-with-output-path)
-
 ;; rg --no-context-separator -A2 -N find-files emacs-xyz-space.scm --replace 'list'
 (define paths-to-el-files
   (list
@@ -23408,57 +23383,50 @@ processes for Emacs.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-(testsymb 'emacs-spacemacs)
 
-(define* (make-packages emacs-package spacemacs-package
-                        #:optional (name "emacs-spacemacs-wrapped"))
-  "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
-the use of Spacemacs without conflicting with the base Emacs."
-  ;; (define f (format #f "~a [make-packages]" m))
-  ;; (format #t "#### ~a starting...\n" f)
-  (package
-    (name name)
-    (version (string-append (package-version emacs-package) "-"
-                            (package-version spacemacs-package)))
-    (source #f)
-    (build-system trivial-build-system)
-    (inputs `(("sh" ,bash)
-              ("emacs" ,emacs-package)
-              ("spacemacs" ,spacemacs-package)))
-    (arguments
-     (list
-      #:modules '((guix build utils)
-                  (bost utils)
-                  (bost guix build spacemacs-utils))
-      #:builder
-      #~(begin
-          ;; Seems like `su:spacemacs-builder' must be in a different module
-          (use-modules (ice-9 pretty-print)
-                       ((bost guix build spacemacs-utils) #:prefix su:))
-          ;; (format #t "### %build-inputs:\n")
-          ;; (pretty-print %build-inputs)
-          (su:spacemacs-builder
-           #:shell (string-append
-                    (assoc-ref %build-inputs "sh")
-                    "/bin/sh")
-           #:emacs (string-append
-                    (assoc-ref %build-inputs "emacs")
-                    "/bin/emacs")
-           #:spacemacs (assoc-ref %build-inputs "spacemacs")
-           #:out (string-append
-                  (assoc-ref %outputs "out") "/bin")))))
-     (home-page (package-home-page spacemacs-package))
-     (synopsis (package-synopsis spacemacs-package))
-     (description (package-description spacemacs-package))
-     (license (package-license spacemacs-package))))
-(testsymb 'make-packages)
+;; (define* (make-packages emacs-package spacemacs-package
+;;                         #:optional (name "emacs-spacemacs-wrapped"))
+;;   "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
+;; the use of Spacemacs without conflicting with the base Emacs."
+;;   ;; (define f (format #f "~a [make-packages]" m))
+;;   ;; (format #t "#### ~a starting...\n" f)
+;;   (package
+;;     (name name)
+;;     (version (string-append (package-version emacs-package) "-"
+;;                             (package-version spacemacs-package)))
+;;     (source #f)
+;;     (build-system trivial-build-system)
+;;     (inputs `(("sh" ,bash)
+;;               ("emacs" ,emacs-package)
+;;               ("spacemacs" ,spacemacs-package)))
+;;     (arguments
+;;      (list
+;;       #:modules '((guix build utils)
+;;                   (bost utils)
+;;                   (bost guix build spacemacs-utils))
+;;       #:builder
+;;       #~(begin
+;;           ;; Seems like `su:spacemacs-builder' must be in a different module
+;;           (use-modules (ice-9 pretty-print)
+;;                        ((bost guix build spacemacs-utils) #:prefix su:))
+;;           ;; (format #t "### %build-inputs:\n")
+;;           ;; (pretty-print %build-inputs)
+;;           (su:spacemacs-builder
+;;            #:shell (string-append
+;;                     (assoc-ref %build-inputs "sh")
+;;                     "/bin/sh")
+;;            #:emacs (string-append
+;;                     (assoc-ref %build-inputs "emacs")
+;;                     "/bin/emacs")
+;;            #:spacemacs (assoc-ref %build-inputs "spacemacs")
+;;            #:out (string-append
+;;                   (assoc-ref %outputs "out") "/bin")))))
+;;      (home-page (package-home-page spacemacs-package))
+;;      (synopsis (package-synopsis spacemacs-package))
+;;      (description (package-description spacemacs-package))
+;;      (license (package-license spacemacs-package))))
 
-(define-public emacs-spacemacs-wrapped
-  ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
-  ;; (format #t "#### ~a starting...\n" f)
-  (make-packages emacs emacs-spacemacs))
-(testsymb 'emacs-spacemacs-wrapped)
-
-(module-evaluated)
-
-
+;; (define-public emacs-spacemacs-wrapped
+;;   ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
+;;   ;; (format #t "#### ~a starting...\n" f)
+;;   (make-packages emacs emacs-spacemacs))
