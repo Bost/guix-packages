@@ -1095,7 +1095,7 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
    "emacs-magit-annex"
    "emacs-magit-gerrit"
    "emacs-magit-org-todos"
-   "emacs-magit-org-todos-el"
+   "emacs-magit-org-todos"
    "emacs-magit-popup"
    "emacs-magit-section"
    "emacs-magit-stgit"

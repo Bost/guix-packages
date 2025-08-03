@@ -366,7 +366,7 @@
    "emacs-magit"
    "emacs-magit-annex"
    "emacs-magit-gerrit"
-   "emacs-magit-org-todos-el"
+   "emacs-magit-org-todos"
    "emacs-magit-popup"
    "emacs-magit-popupmagit-svn"
    "emacs-magit-todos"

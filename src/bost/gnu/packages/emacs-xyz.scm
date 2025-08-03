@@ -5,7 +5,7 @@
   #:use-module (bost gnu packages space-needed)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((bost gnu packages emacs-build) #:prefix bst:)
-
+  ;;
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix cvs-download)
@@ -149,7 +149,6 @@
   )
 
 (define m (module-name-for-logging))
-;; (evaluating-module)
 
 (define-public emacs-cursory
   (let ((commit "892c3b81037ece0e1753ab058e3cfda93f985693")
@@ -5687,11 +5686,11 @@ Emacs that Evil does not cover properly by default, such as @code{help-mode},
 @code{M-x calendar}, Eshell and more.")
       (license license:gpl3+))))
 
-(define-public emacs-magit-org-todos-el
+(define-public emacs-magit-org-todos
   (let ((commit "9ffa3efb098434d837cab4bacd1601fdfc6fe999")
         (revision "0"))
     (package
-      (name "emacs-magit-org-todos-el")
+      (name "emacs-magit-org-todos")
       (version (git-version "0.1.3" revision commit))
       (source
        (origin
@@ -22423,12 +22422,10 @@ processes for Emacs.")
    ;; "emacs-spacemacs"
    ;; "spacemacs-rolling-release"
    ))
-;; (testsymb 'general-packages)
 
 (define (excluded-packages)
   (list
    ))
-;; (testsymb 'excluded-packages)
 
 ;; Orphan packages according to spguimacs
 (define (orphan-packages)
@@ -22442,7 +22439,6 @@ processes for Emacs.")
    ;; "emacs-ivy"
    ;; "emacs-a"
    ))
-;; (testsymb 'orphan-packages)
 
 (define bst-packages
   (list
@@ -22451,7 +22447,6 @@ processes for Emacs.")
    bst:emacs-ert-runner
    bst:emacs-f
    bst:emacs-undercover
-
    emacs-ac-ispell
    emacs-ac-php
    emacs-academic-phrases
@@ -22820,7 +22815,7 @@ processes for Emacs.")
    emacs-magit
    emacs-magit-annex
    emacs-magit-gerrit
-   emacs-magit-org-todos-el
+   emacs-magit-org-todos
    emacs-magit-popup
    emacs-magit-section
    emacs-magit-tbdiff
@@ -23072,7 +23067,6 @@ processes for Emacs.")
    emacs-zonokai-emacs
    emacs-zoom-frm
    ))
-;; (testsymb 'bst-packages)
 
 (define (all-packages-from-guix-channel)
   (let* [(G (general-packages))
@@ -23094,7 +23088,6 @@ processes for Emacs.")
         (s- ((@(bost utils) sx) (s+ N O)
                 A)
             E))))
-;; (testsymb 'all-packages-from-guix-channel)
 
 #|
 (define G (general-packages))
@@ -23117,7 +23110,6 @@ processes for Emacs.")
     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
     )
    (all-packages-from-guix-channel)))
-;; (testsymb 'spacemacs-packages)
 
 ;; (define-public (spacemacs-packages-sorted)
 ;;   (define f (format #f "~a [spacemacs-packages-sorted]" m))
@@ -23135,7 +23127,6 @@ processes for Emacs.")
 ;;     ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
 ;;     )
 ;;    (all-packages-from-guix-channel)))
-;; (testsymb 'spacemacs-packages-sorted)
 
 ;; (define-public (spacemacs-packages-with-output-path)
 ;;   (define f (format #f "~a [spacemacs-packages-with-output-path]" m))
@@ -23143,7 +23134,6 @@ processes for Emacs.")
 ;;     (combine
 ;;      (map package-name packages)
 ;;      (package-output-paths packages))))
-;; (testsymb 'spacemacs-packages-with-output-path)
 
 ;; rg --no-context-separator -A2 -N find-files emacs-xyz-space.scm --replace 'list'
 ;; (define paths-to-el-files
@@ -23418,7 +23408,6 @@ processes for Emacs.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-;; (testsymb 'emacs-spacemacs)
 
 ;; (define* (make-packages emacs-package spacemacs-package
 ;;                         #:optional (name "emacs-spacemacs-wrapped"))
@@ -23461,12 +23450,8 @@ processes for Emacs.")
 ;;      (synopsis (package-synopsis spacemacs-package))
 ;;      (description (package-description spacemacs-package))
 ;;      (license (package-license spacemacs-package))))
-;; (testsymb 'make-packages)
 
 ;; (define-public emacs-spacemacs-wrapped
 ;;   ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
 ;;   ;; (format #t "#### ~a starting...\n" f)
 ;;   (make-packages emacs emacs-spacemacs))
-;; (testsymb 'emacs-spacemacs-wrapped)
-
-;; (module-evaluated)
