@@ -9,7 +9,10 @@
 ;; doesn't work
 (define-public (needed-packages)
   (list
-   "emacs-copy-as-format" ;; needed for build
+;;; needed for build ;beg;
+   "emacs-erc-terminal-notifier"
+   "emacs-copy-as-format"
+;;; needed for build ;end;
    "emacs-ac-ispell"
    "emacs-ac-php"
    "emacs-ac-php-core"
