@@ -148,6 +148,34 @@
   #:use-module (ice-9 match)
   )
 
+(define-public emacs-erc-terminal-notifier
+  (let ((commit "a3dacb935845e4a20031212bbd82b2170f68d2a8")
+        (revision "0"))
+    (package
+      (name "emacs-erc-terminal-notifier")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/julienXX/erc-terminal-notifier.el.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0cfqbqskh260zfq1lx1s8jz2351w2ij9m73rqim16fy7zr0s0670"))))
+      (build-system emacs-build-system)
+      (home-page "http://github.com/julienXX/")
+      (synopsis "OSX notifications via the terminal-notifier gem for Emacs ERC")
+      (description
+       "OSX notifications via the terminal-notifier gem for Emacs ERC. ; Install Install
+terminal notifier: $ sudo gem install terminal-notifier or download a binary
+from here https://github.com/alloy/terminal-notifier/downloads or $ brew install
+terminal-notifier Install the package: $ cd ~/.emacs.d/vendor $ git clone
+git://github.com/@code{julienXX/erc-terminal-notifier.el.git} In your emacs
+config: (add-to-list load-path \"~/.emacs.d/vendor/erc-terminal-notifier.el\")
+(require erc-terminal-notifier).")
+      (license license:gpl3+))))
+
 (define-public emacs-copy-as-format
   (let ((commit "b9f6f725ca9701c5a02bfb479573fdfcce2e1e30")
         (revision "0"))
@@ -22349,6 +22377,7 @@ processes for Emacs.")
    bst:emacs-ert-runner
    bst:emacs-f
    bst:emacs-undercover
+   emacs-erc-terminal-notifier
    emacs-copy-as-format
    emacs-ac-ispell
    emacs-ac-php
