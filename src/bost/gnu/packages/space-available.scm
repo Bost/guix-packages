@@ -18,6 +18,7 @@ guix package --list-available='^emacs-' | awk '{print "   \""$1"\""}' | uniq
 guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | uniq
 "
   (list
+   "emacs-copy-as-format"
    "emacs-0x0"
    "emacs-2048-game"
    "emacs-4clojure"
