@@ -10,6 +10,7 @@
 (define-public (needed-packages)
   (list
 ;;; needed for build ;beg;
+   "emacs-jabber"
    "emacs-erc-terminal-notifier"
    "emacs-copy-as-format"
 ;;; needed for build ;end;
