@@ -146,6 +146,53 @@
 
 (define m (module-name-for-logging))
 
+(define-public emacs-jabber
+  (let ((commit "30c023b6b54601594d347956cc2918e7841e5ed4")
+        (revision "0"))
+    (package
+      (name "emacs-jabber")
+      (version (git-version "0.9.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://codeberg.org/emacs-jabber/emacs-jabber.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0ain52p79sxll0bnsb4llfp1h4pqcqx3l6im4ibia06lg2aiqhpv"
+           ))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:lisp-directory "lisp"
+        #:emacs emacs                   ;requires gnutls
+        #:test-command #~(list "ert-runner" "../tests")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'make-info
+              (lambda _
+                (invoke "makeinfo" "../jabber.texi"))))))
+      (native-inputs
+       (list
+        bst:emacs-ert-runner
+        texinfo
+        ))
+      (propagated-inputs
+       (list
+        emacs-fsm
+        emacs-srv
+        gnutls
+        ))
+      (home-page "https://codeberg.org/emacs-jabber/emacs-jabber")
+      (synopsis "XMPP (Jabber) client for Emacs")
+      (description
+       "@code{jabber.el} is an XMPP client for Emacs.  XMPP (also known as
+\"Jabber\") is an instant messaging system; see @url{https://xmpp.org} for
+more information.")
+      (license license:gpl2+))))
+
 (define-public emacs-erc-terminal-notifier
   (let ((commit "a3dacb935845e4a20031212bbd82b2170f68d2a8")
         (revision "0"))
@@ -22504,6 +22551,7 @@ processes for Emacs.")
    bst:emacs-ert-runner
    bst:emacs-f
    bst:emacs-undercover
+   emacs-jabber
    emacs-erc-terminal-notifier
    emacs-copy-as-format
    emacs-ac-ispell
