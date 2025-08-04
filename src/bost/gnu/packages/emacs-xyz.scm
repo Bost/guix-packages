@@ -21703,8 +21703,14 @@ advice to be recorded and displayed.")
                 (substitute* "tests/evil-numbers-tests.el"
                   (("\\(ert-deftest simple-negative .*" all)
                    (string-append all " (skip-unless nil)"))))))))
-      (native-inputs (list emacs-ert-runner))
-      (propagated-inputs (list emacs-evil))
+      (native-inputs
+       (list
+        bst:emacs-ert-runner
+        ))
+      (propagated-inputs
+       (list
+        emacs-evil
+        ))
       (home-page "https://github.com/juliapath/evil-numbers")
       (synopsis "Increment and decrement numeric literals")
       (description
