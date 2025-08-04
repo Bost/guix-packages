@@ -146,6 +146,34 @@
 
 (define m (module-name-for-logging))
 
+(define-public emacs-copy-as-format
+  (let ((commit "b9f6f725ca9701c5a02bfb479573fdfcce2e1e30")
+        (revision "0"))
+    (package
+      (name "emacs-copy-as-format")
+      (version (git-version "0.0.9" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/sshaw/copy-as-format.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "120b465p79bss4njqm320yfg4fydhpsx7rlczvgnn1vrxw78kisz"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/sshaw/copy-as-format")
+      (synopsis
+       "Copy buffer locations as GitHub/Slack/JIRA etc... formatted code")
+      (description
+       "Copy buffer locations as @code{GitHub/Slack/JIRA/HipChat}/...  formatted code
+and add them to the kill ring.  The buffer will not be modified.  With a prefix
+argument prompt for the format.  Defaults to `copy-as-format-default'.  To add
+formats see `copy-as-format-format-alist'.  For @code{AsciiDoc} customization
+see `copy-as-format-asciidoc-include-file-name and
+`copy-as-format-asciidoc-language-alist'.")
+      (license license:gpl3+))))
+
 (define-public emacs-cursory
   (let ((commit "892c3b81037ece0e1753ab058e3cfda93f985693")
         (revision "0"))
@@ -22442,6 +22470,7 @@ processes for Emacs.")
    bst:emacs-ert-runner
    bst:emacs-f
    bst:emacs-undercover
+   emacs-copy-as-format
    emacs-ac-ispell
    emacs-ac-php
    emacs-academic-phrases

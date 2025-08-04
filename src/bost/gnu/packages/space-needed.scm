@@ -9,6 +9,7 @@
 ;; doesn't work
 (define-public (needed-packages)
   (list
+   "emacs-copy-as-format" ;; needed for build
    "emacs-ac-ispell"
    "emacs-ac-php"
    "emacs-ac-php-core"
