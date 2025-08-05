@@ -10,6 +10,10 @@
 (define-public (needed-packages)
   (list
 ;;; needed for build ;beg;
+   "emacs-chronometrist"
+   "emacs-flyspell-popup"
+   "emacs-ts"
+   "emacs-slack"
    "emacs-rcirc-styles"
    "emacs-rcirc-notify"
    "emacs-jabber"
