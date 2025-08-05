@@ -10,6 +10,8 @@
 (define-public (needed-packages)
   (list
 ;;; needed for build ;beg;
+   "emacs-rcirc-styles"
+   "emacs-rcirc-notify"
    "emacs-jabber"
    "emacs-erc-terminal-notifier"
    "emacs-copy-as-format"
