@@ -18,6 +18,8 @@ guix package --list-available='^emacs-' | awk '{print "   \""$1"\""}' | uniq
 guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | uniq
 "
   (list
+   "emacs-rcirc-styles"
+   "emacs-rcirc-notify"
    "emacs-jabber"
    "emacs-erc-terminal-notifier"
    "emacs-copy-as-format"

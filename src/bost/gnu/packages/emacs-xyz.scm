@@ -148,6 +148,64 @@
   #:use-module (ice-9 match)
   )
 
+(define-public emacs-rcirc-styles
+  (let ((commit "dd06ec5fa455131788bbc885fcfaaec16b08f13b")
+        (revision "0"))
+    (package
+      (name "emacs-rcirc-styles")
+      (version (git-version "1.3.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/aaron-em/rcirc-styles.el.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "116qvavvw72vkahknb7g7w7knaximw3m1pq6hic7h13xj8xqxz2w"
+           ))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f))
+      (home-page "https://github.com/aaron-em/rcirc-styles.el")
+      (synopsis "Apply mIRC styles and formatting to rcirc IRC buffers in Emacs")
+      (description
+       "A collection of style and formatting customizations for rcirc, the
+Emacs IRC client.  It includes faces and face mappings to visually distinguish
+elements like nicks, timestamps, and messages.  The package enhances the
+default appearance of rcirc channels by making chat buffers more readable and
+personalized.")
+      (license license:gpl2+))))
+
+(define-public emacs-rcirc-notify
+  (let ((commit "841a7b5a6cdb0c11a812df924d2c6a7d364fd455")
+        (revision "0"))
+    (package
+      (name "emacs-rcirc-notify")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/nicferrier/rcirc-notify.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1k4knsrca626pikgaalqbqwy7im4wz1vrmzzhdrdb4lhdz6sq3q3"
+           ))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/nicferrier/rcirc-notify")
+      (synopsis "Desktop notifications for rcirc IRC client in Emacs")
+      (description
+       "Desktop notifications for rcirc in Emacs, alerting you on channel
+ pings, private messages, or keywords.  It automatically integrates with rcirc
+via `rcirc-notify-add-hooks` and works in graphical Emacs sessions.
+Notifications are throttled per nick and customisable through variables like
+`rcirc-notify-timeout`.  A terminal workaround via advice is suggested for
+non-GUI use.")
+      (license license:gpl3+))))
+
 (define-public emacs-jabber
   (let ((commit "30c023b6b54601594d347956cc2918e7841e5ed4")
         (revision "0"))
@@ -22429,6 +22487,8 @@ processes for Emacs.")
    bst:emacs-ert-runner
    bst:emacs-f
    bst:emacs-undercover
+   emacs-rcirc-styles
+   emacs-rcirc-notify
    emacs-jabber
    emacs-erc-terminal-notifier
    emacs-copy-as-format
