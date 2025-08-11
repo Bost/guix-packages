@@ -234,6 +234,7 @@
    "emacs-flycheck-haskell"
    "emacs-flycheck-package"
    "emacs-flycheck-pos-tip"
+   "emacs-flymake-clippy"
    "emacs-flyspell"
    "emacs-flyspell-correct"
    "emacs-font-lock+"
