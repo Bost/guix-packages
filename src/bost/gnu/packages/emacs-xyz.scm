@@ -18924,44 +18924,48 @@ docstring of the thing at point.")
       (license license:expat))))
 
 (define-public emacs-rustic
-  (package
-    (name "emacs-rustic")
-    (version "3.5")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/emacs-rustic/rustic")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1kbhad1lc7jy7frp3lk14ch8g53zh28rwy8v7nb8fixlxbla0jml"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      bst:emacs-f
-      emacs-flycheck
-      emacs-lsp-mode
-      emacs-markdown-mode
-      emacs-project
-      emacs-rust-mode
-      emacs-s
-      emacs-spinner
-      emacs-xterm-color
-      ))
-    (arguments
-     ;; Tests require rust, cargo, rustfmt, and various crates to be
-     ;; vendored.
-     `(#:tests? #f
-       #:phases
-       (modify-phases %standard-phases
-         (add-before 'check 'set-without-cask
-           (lambda _
-             (setenv "WITHOUT_CASK" "1"))))))
-    (home-page "https://github.com/emacs-rustic/rustic")
-    (synopsis "Rust development environment for Emacs")
-    (description "Rustic is a fork of Rust mode.
+  (let ((commit "bfff139f260c386f60d581edef6df1a0d109a131")
+        (revision "0"))
+    (package
+      (name "emacs-rustic")
+      (version (git-version "3.5" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacs-rustic/rustic.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0z59fw0rvb6sk62sd393kgk0j65xlkn4xrxs6nhd06vdzx6kjrgv"
+           ))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        bst:emacs-f
+        emacs-flycheck
+        emacs-lsp-mode
+        emacs-markdown-mode
+        emacs-project
+        emacs-rust-mode
+        emacs-s
+        emacs-spinner
+        emacs-xterm-color
+        ))
+      (arguments
+       ;; Tests require rust, cargo, rustfmt, and various crates to be
+       ;; vendored.
+       `(#:tests? #f
+         #:phases
+         (modify-phases %standard-phases
+           (add-before 'check 'set-without-cask
+             (lambda _
+               (setenv "WITHOUT_CASK" "1"))))))
+      (home-page "https://github.com/emacs-rustic/rustic")
+      (synopsis "Rust development environment for Emacs")
+      (description "Rustic is a fork of Rust mode.
 In addition to its predecessor, it offers the following features:
 @itemize
 @item Flycheck integration,
@@ -18975,8 +18979,8 @@ In addition to its predecessor, it offers the following features:
 @item optional Rust inline documentation,
 @item etc.
 @end itemize")
-    (license (list license:expat
-                   license:asl2.0))))
+      (license (list license:expat
+                     license:asl2.0)))))
 
 (define-public emacs-helm-org-contacts
   (let ((commit "741eca6239684950219c9a12802386a132491b8c")
