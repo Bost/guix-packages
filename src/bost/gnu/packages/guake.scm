@@ -1,4 +1,5 @@
 (define-module (bost gnu packages guake)
+  #:use-module (ice-9 pretty-print)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages admin)
   #:use-module (gnu packages certs)
@@ -13,23 +14,26 @@
   #:use-module (gnu packages wm)
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system python)
+  #:use-module (guix build-system pyproject)
   #:use-module (guix download)
   #:use-module (guix gexp)
   #:use-module (guix packages)
-  #:use-module (guix utils))
+  #:use-module (guix utils)
+  )
 
 (define-public libutempter
   (package
     (name "libutempter")
     (version "1.2.3-alt1")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append
-                    "https://github.com/altlinux/libutempter/archive/refs/tags/"
-                    version ".tar.gz"))
-              (sha256
-               (base32
-                "04b72ipf0vzr3d8ybknbi1w4azvqhppps5r1jlj163lvmxsrr02j"))))
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://github.com/altlinux/libutempter/archive/refs/tags/"
+             version ".tar.gz"))
+       (sha256
+        (base32
+         "04b72ipf0vzr3d8ybknbi1w4azvqhppps5r1jlj163lvmxsrr02j"))))
     (build-system gnu-build-system)
     ;; Authentication-related tools such as passwd, su, and login
     (inputs `(("shadow" ,shadow)))
@@ -67,7 +71,6 @@
     ;; see libutempter/COPYING
     (license license:lgpl2.1+)))
 
-;; guix shell vte python-pygobject -- python3 -c "import gi; gi.require_version('Vte', '3.91'); from gi.repository import Vte; print(\"Vte: {0}.{1}\".format(Vte.MAJOR_VERSION, Vte.MINOR_VERSION))"
 (define-public guake
   (package
     (name "guake")
@@ -79,144 +82,191 @@
                     version ".tar.gz"))
               (sha256
                (base32
-                "11vgg5f170gqp2nskgcdh8v53ryd40502zy2330nb07m86604vws"))))
-    (build-system python-build-system)
-    (propagated-inputs
+                "11vgg5f170gqp2nskgcdh8v53ryd40502zy2330nb07m86604vws"
+                ))))
+    (build-system pyproject-build-system)
+
+    ;; C/GI libs at runtime (mirror your launch script)
+    (inputs
      (list
-      gettext-minimal
       glib
-      gtk+     ;; inherits from gtk+-2
+      gtk+
+      gdk-pixbuf
+      harfbuzz
+      at-spi2-core
       keybinder
       libnotify
       libutempter
       libwnck
-      nss-certs
+      vte/gtk+-3
+      (@(bost gnu packages gtk) pango-old)
+      ))
+
+    ;; Python deps at runtime
+    (propagated-inputs
+     (list
       python-dbus
       python-pycairo
       python-pygobject
       python-pyinotify
       python-pyyaml
-      python-wrapper
-      vte      ;; this should be vte/gtk+-2; has gtk+-2 in propagated inputs
-      (list glib "bin")
-      python-setuptools-scm
-      ;; dconf ; Low-level GNOME configuration system
       ))
+
+    ;; Build tools
+    (native-inputs
+     (list
+      (list glib "bin")             ; glib-compile-schemas
+      python-setuptools
+      python-wheel
+      python-installer
+      python-pypa-build
+      python-setuptools-scm
+      ))
+
     (arguments
      (list
       #:tests? #f
-      #:modules '((guix build python-build-system)
-                  (guix build utils)
-                  (srfi srfi-26))
+      #:imported-modules
+      `((guix build glib-or-gtk-build-system)
+        ,@%pyproject-build-system-modules)
+      #:modules
+      '((guix build pyproject-build-system)
+        ((guix build glib-or-gtk-build-system) #:prefix glib:)
+        (guix build utils)
+        (srfi srfi-26))
       #:phases
       #~(modify-phases %standard-phases
-          (delete 'sanity-check)
-          (add-after 'unpack 'fix-source-code
+          ;; Avoid setuptools-scm querying VCS/network.
+          (add-before 'build 'freeze-version
+            (lambda _
+              (setenv "SETUPTOOLS_SCM_PRETEND_VERSION" #$version)
+              (setenv "SETUPTOOLS_SCM_NO_LOCAL" "1")))
+
+          ;; Write absolute paths into guake/paths.py.
+          (add-after 'unpack 'prepare-paths
             (lambda* (#:key outputs #:allow-other-keys)
-              (let* ((out (assoc-ref outputs "out"))
-                     (LOCALE (string-append out "/share"))
-                     (GLADE (string-append out "/share/guake"))
-                     (IMAGE (string-append out "/share/guake/pixmaps"))
-                     (SCHEMA (string-append out "/share/glib/schemas"))
-                     (GUAKE_THEME (string-append out "/share/guake/guake"))
-                     (AUTOSTART (string-append out "/share/guake/autostart"))
-                     (LOGIN_DESTOP (string-append out "/share/guake")))
-
-                (define (quotes s) (format #f "\"~a\"" s ))
-
+              (define (as-str s) (format #f "\"~a\"" s))
+              (let* ((out       (assoc-ref outputs "out"))
+                     (share     (string-append out "/share"))
+                     (guake-dir (string-append share "/guake"))
+                     (pixmaps   (string-append guake-dir "/pixmaps"))
+                     (schemas   (string-append share "/glib-2.0/schemas"))
+                     (theme     (string-append guake-dir "/guake"))
+                     (autostart (string-append guake-dir "/autostart")))
                 (substitute* "guake/paths.py.in"
-                  (("\\{\\{ LOCALE_DIR \\}\\}")        (quotes LOCALE))
-                  (("\\{\\{ IMAGE_DIR \\}\\}")         (quotes IMAGE))
-                  (("\\{\\{ GLADE_DIR \\}\\}")         (quotes GLADE))
-                  (("\\{\\{ SCHEMA_DIR \\}\\}")        (quotes SCHEMA))
-                  (("\\{\\{ GUAKE_THEME_DIR \\}\\}")   (quotes GUAKE_THEME))
-                  (("\\{\\{ AUTOSTART_FOLDER \\}\\}")  (quotes AUTOSTART))
-                  (("\\{\\{ LOGIN_DESTOP_PATH \\}\\}") (quotes LOGIN_DESTOP)))
+                  (("\\{\\{ LOCALE_DIR \\}\\}")        (as-str share))
+                  (("\\{\\{ IMAGE_DIR \\}\\}")         (as-str pixmaps))
+                  (("\\{\\{ GLADE_DIR \\}\\}")         (as-str guake-dir))
+                  (("\\{\\{ SCHEMA_DIR \\}\\}")        (as-str schemas))
+                  (("\\{\\{ GUAKE_THEME_DIR \\}\\}")   (as-str theme))
+                  (("\\{\\{ AUTOSTART_FOLDER \\}\\}")  (as-str autostart))
+                  (("\\{\\{ LOGIN_DESTOP_PATH \\}\\}") (as-str guake-dir)))
+                (for-each mkdir-p (list guake-dir pixmaps schemas theme autostart)))))
 
-                (mkdir-p LOCALE)
-                (mkdir-p IMAGE)
-                (mkdir-p GLADE)
-                (mkdir-p SCHEMA)
-                (mkdir-p GUAKE_THEME)
-                (mkdir-p AUTOSTART)
-                (mkdir-p LOGIN_DESTOP)
+          ;; (Optional) Make libutempter lookup robust: use find_library first.
+          (add-after 'prepare-paths 'patch-utempter-dlopen
+            (lambda _
+              (when (file-exists? "guake/utempter.py")
+                (substitute* "guake/utempter.py"
+                  (("^import ctypes\\b") "import ctypes, ctypes.util")
+                  (("ctypes\\.CDLL\\(['\"]libutempter\\.so\\.0['\"]\\)")
+                   "ctypes.CDLL(ctypes.util.find_library('utempter') or 'libutempter.so.1')")))
+              #t))
 
-                ;; Disable version lookup from git
-                (setenv "SETUPTOOLS_SCM_PRETEND_VERSION" #$version))
+          ;; Install UI files & schema (wheel sometimes misses these paths).
+          (add-after 'install 'install-data-and-schemas
+            (lambda* (#:key outputs #:allow-other-keys)
+              (let* ((out     (assoc-ref outputs "out"))
+                     (share   (string-append out "/share"))
+                     (guake   (string-append share "/guake"))
+                     (pixmaps (string-append guake "/pixmaps"))
+                     (schemas (string-append share "/glib-2.0/schemas")))
+                (mkdir-p guake)
+                (mkdir-p pixmaps)
+                (mkdir-p schemas)
+                (for-each (lambda (f) (install-file f guake))
+                          '("guake/data/guake.glade"
+                            "guake/data/about.glade"
+                            "guake/data/prefs.glade"
+                            "guake/data/search.glade"))
+                (for-each (lambda (f) (install-file f pixmaps))
+                          (find-files "guake/data/pixmaps" "\\.png$"))
+                (install-file "guake/data/org.guake.gschema.xml" schemas))))
 
-              ;; Dependency check is misleading. Comment it out.
-              ;; (invoke "sed" "--in-place" "397,437s/^/#/" "guake/main.py")
+          ;; Compile schemas & do the standard GTK wrap.
+          (add-after 'install-data-and-schemas 'glib-or-gtk-compile-schemas
+            (assoc-ref glib:%standard-phases 'glib-or-gtk-compile-schemas))
+          (add-after 'glib-or-gtk-compile-schemas 'glib-or-gtk-wrap
+            (assoc-ref glib:%standard-phases 'glib-or-gtk-wrap))
 
-              ;; Update all Vte version requirements to match installed version
-              ;; (substitute* (find-files "guake" "\\.py$")
-              ;;   (("gi\\.require_version\\(\"Vte\", \"2\\.91\"\\)") "gi.require_version(\"Vte\", \"3.91\")")
-              ;;   (("gi\\.require_version\\(\"Gdk\", \"3\\.0\"\\)") "gi.require_version(\"Gdk\", \"4.0\")")
-              ;;   (("gi\\.require_version\\(\"Gtk\", \"3\\.0\"\\)") "gi.require_version(\"Gtk\", \"4.0\")")
-              ;;   )
-              ))
+          ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
+          (add-after 'glib-or-gtk-wrap 'install-dbus-service
+            (lambda* (#:key outputs #:allow-other-keys)
+              (let* ((out     (assoc-ref outputs "out"))
+                     (svc-dir (string-append out "/share/dbus-1/services")))
+                (mkdir-p svc-dir)
+                (call-with-output-file
+                    (string-append svc-dir
+                                   "/org.guake3.RemoteControl.service")
+                  (lambda (port)
+                    (format port "[D-BUS Service]~%")
+                    (format port "Name=org.guake3.RemoteControl~%")
+                    (format port "Exec=~a/bin/guake~%" out))))
+              #t))
 
-          (add-before 'build 'set-env-vars
-            (lambda* (#:key inputs #:allow-other-keys)
-              ;; Prevent pip from trying to create cache directory
-              (setenv "PIP_CACHE_DIR" "/tmp/pip-cache")
-              ;; Set SSL certificate path for pip
-              (setenv "SSL_CERT_FILE"
-                      (string-append (assoc-ref inputs "nss-certs")
-                                     "/etc/ssl/certs/ca-certificates.crt"))))
-
-          (add-after 'install 'install-schemas
+          ;; Prepend all GI dirs and libs.
+          (add-after 'install-dbus-service 'wrap-gi
             (lambda* (#:key inputs outputs #:allow-other-keys)
-              (let* ((out (assoc-ref outputs "out"))
-                     (schemas (string-append out "/share/glib/schemas")))
+              (define (dir key suf)
+                (and (assoc-ref inputs key)
+                     (string-append (assoc-ref inputs key) suf)))
+              (let* ((out     (assoc-ref outputs "out"))
+                     (bindir  (string-append out "/bin"))
+                     (bins    (if (file-exists? bindir)
+                                  (find-files bindir ".*" #:directories? #f)
+                                  '()))
+                     (gi-dirs
+                      (filter
+                       file-exists?
+                       (list
+                        (dir "at-spi2-core"    "/lib/girepository-1.0")
+                        (dir "gdk-pixbuf"      "/lib/girepository-1.0")
+                        (dir "glib"            "/lib/girepository-1.0")
+                        (dir "gtk+"            "/lib/girepository-1.0")
+                        (dir "harfbuzz"        "/lib/girepository-1.0")
+                        (dir "keybinder"       "/lib/girepository-1.0")
+                        (dir "libnotify"       "/lib/girepository-1.0")
+                        (dir "libwnck"         "/lib/girepository-1.0")
+                        (dir "pango-old"       "/lib/girepository-1.0")
+                        (dir "vte-with-gtk+3" "/lib/girepository-1.0")
+                        )))
+                     (lib-dirs
+                      (filter
+                       file-exists?
+                       (list
+                        (dir "at-spi2-core"    "/lib")
+                        (dir "gdk-pixbuf"      "/lib")
+                        (dir "glib"            "/lib")
+                        (dir "gtk+"            "/lib")
+                        (dir "harfbuzz"        "/lib")
+                        (dir "keybinder"       "/lib")
+                        (dir "libnotify"       "/lib")
+                        (dir "libutempter"     "/lib")
+                        (dir "libwnck"         "/lib")
+                        (dir "pango-old"       "/lib")
+                        (dir "vte-with-gtk+3" "/lib")
+                        ))))
+                (for-each
+                 (lambda (p)
+                   (wrap-program p
+                     `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
+                     `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
+                     ;; ensure D-Bus sees $out/share/dbus-1/services
+                     `("XDG_DATA_DIRS" ":" prefix (,(string-append out "/share")))))
+                 bins)
+                #t))))))
 
-                (install-file "guake/data/org.guake.gschema.xml" schemas)
-                (with-directory-excursion schemas
-                  (invoke "glib-compile-schemas" "."))
-
-                (map (cut install-file <>
-                          (string-append out "/share/guake"))
-                     (list
-                      "guake/data/guake.glade"
-                      "guake/data/about.glade"
-                      "guake/data/guake.glade"
-                      "guake/data/prefs.glade"
-                      "guake/data/search.glade"))
-
-                (map (cut install-file <>
-                          (string-append out "/share/guake/pixmaps"))
-                     (list
-                      "guake/data/pixmaps/add_tab.png"
-                      "guake/data/pixmaps/guake-128.png"
-                      "guake/data/pixmaps/guake-48.png"
-                      "guake/data/pixmaps/guake-64.png"
-                      "guake/data/pixmaps/guake-notification.png"
-                      "guake/data/pixmaps/guake-tray.png"
-                      "guake/data/pixmaps/guake.png"
-                      "guake/data/pixmaps/quick-open-python-exception.png"
-                      "guake/data/pixmaps/quick-open-selection.png"
-                      "guake/data/pixmaps/quick-open.png"))
-
-                (copy-file "guake/paths.py.in"
-                           (string-append
-                            out "/lib/" #$(package-name python)
-                            #$(version-major+minor (package-version python))
-                            "/site-packages/guake/paths.py"))
-
-                ;; Make libutempter.so.0 discoverable
-                (wrap-program (string-append out "/bin/guake")
-                  `("LD_LIBRARY_PATH" ":" prefix
-                    (,(string-append (assoc-ref inputs "libutempter")
-                                     "/lib")))))))
-
-          ;; (add-after 'install-schemas 'stop
-          ;;   (lambda* (#:key inputs outputs #:allow-other-keys)
-          ;;     (/ 1 0)))
-          )))
-    (synopsis "Drop-down terminal for GNOME")
-    (description
-     "Guake provides quick access to a terminal with a simple keystroke,
-inspired by the Quake console interface.")
     (home-page "https://github.com/Guake/guake")
+    (synopsis "Drop-down terminal for GNOME")
+    (description "Guake is a Quake-style drop-down terminal for GNOME.")
     (license license:gpl2+)))
-
-guake
