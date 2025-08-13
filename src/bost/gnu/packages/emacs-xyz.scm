@@ -19023,9 +19023,11 @@ Tramp's own encoding methods for moving data between systems.")
                ;; that everything works out-of-the-box.
                (emacs-substitute-variables "ytdl.el"
                  ("ytdl-command"
-                  (search-input-file inputs "/bin/youtube-dl"))))))))
+                  (search-input-file inputs "/bin/yt-dlp"))))))))
       (inputs
-       (list youtube-dl))
+       (list
+        yt-dlp ; youtube-dl is deprecated
+        ))
       (propagated-inputs
        (list
         emacs-async
