@@ -271,20 +271,22 @@
                      (lib-dirs (filter-dirs (append
                                              lst-gi-dirs
                                              '(("libutempter" "/lib"))))))
-
-                (map
-                 ;; augment the existing wrapper (which is a shell script)
-                 ;; by prepending a Guile stub that exports our vars
-                 (cut wrap-script <>
-                      #:guile guile-bin
-                      `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
-                      `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
-                      ;; ensure D-Bus sees $out/share/dbus-1/services
-                      `("XDG_DATA_DIRS"   ":" prefix (,(string-append out "/share"))))
-                 ;; only wrap actual entry points, not dotfiles or *-real
-                 (filter file-exists?
-                         (list (string-append bindir "/guake")
-                               (string-append bindir "/guake-toggle"))))
+                ((compose
+                  (cut map
+                       ;; augment the existing wrapper (which is a shell script)
+                       ;; by prepending a Guile stub that exports our vars
+                       (cut wrap-script <>
+                            #:guile guile-bin
+                            `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
+                            `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
+                            ;; ensure D-Bus sees $out/share/dbus-1/services
+                            `("XDG_DATA_DIRS"   ":"
+                              prefix (,(string-append out "/share"))))
+                       <>)
+                  ;; only wrap actual entry points, not dotfiles or *-real
+                  (cut filter file-exists? <>))
+                 (list (string-append bindir "/guake")
+                       (string-append bindir "/guake-toggle")))
                 #t))))))
 
     (home-page "https://github.com/Guake/guake")
