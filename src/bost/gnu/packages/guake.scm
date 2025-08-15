@@ -284,9 +284,9 @@
                               prefix (,(string-append out "/share"))))
                        <>)
                   ;; only wrap actual entry points, not dotfiles or *-real
-                  (cut filter file-exists? <>))
-                 (list (string-append bindir "/guake")
-                       (string-append bindir "/guake-toggle")))
+                  (cut filter file-exists? <>)
+                  (cut map (cut string-append bindir <>) <>))
+                 (list "/guake" "/guake-toggle"))
                 #t))))))
 
     (home-page "https://github.com/Guake/guake")
