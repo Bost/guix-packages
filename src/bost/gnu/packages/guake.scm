@@ -87,7 +87,7 @@
                 ))))
     (build-system pyproject-build-system)
 
-    ;; C/GI libs at runtime (mirror your launch script)
+    ;; C/GI libs at runtime
     (inputs
      (list
       guile-3.0
@@ -117,8 +117,8 @@
     ;; Build tools
     (native-inputs
      (list
-      ;; The order of glib and (list glib "bin") matters in the list of native-inputs.
-      ;; When reversed the "...-glib-bin" instead of "...-glib" gets picked.
+      ;; The order of glib and (list glib "bin") matters. When reversed the
+      ;; "...-glib-bin" instead of "...-glib" gets picked.
       glib
       (list glib "bin")             ; glib-compile-schemas
       python-setuptools
@@ -167,7 +167,8 @@
                   (("\\{\\{ AUTOSTART_FOLDER \\}\\}")  (as-str autostart))
                   (("\\{\\{ LOGIN_DESTOP_PATH \\}\\}") (as-str guake-dir)))
                 (copy-file "guake/paths.py.in" "guake/paths.py")
-                (for-each mkdir-p (list guake-dir pixmaps schemas theme autostart)))))
+                (map mkdir-p
+                     (list guake-dir pixmaps schemas theme autostart)))))
 
           ;; (Optional) Make libutempter lookup robust: use find_library first.
           (add-after 'prepare-paths 'patch-utempter-dlopen
@@ -176,8 +177,9 @@
                 (substitute* "guake/utempter.py"
                   (("^import ctypes\\b") "import ctypes, ctypes.util")
                   (("ctypes\\.CDLL\\(['\"]libutempter\\.so\\.0['\"]\\)")
-                   "ctypes.CDLL(ctypes.util.find_library('utempter') or 'libutempter.so.1')")))
-              #t))
+                   (format #f "~a or ~a"
+                           "ctypes.CDLL(ctypes.util.find_library('utempter')"
+                           "'libutempter.so.1')"))))))
 
           ;; Install UI files & schema (wheel sometimes misses these paths).
           (add-after 'install 'install-data-and-schemas
@@ -207,18 +209,17 @@
           (add-after 'wrap 'glib-or-gtk-wrap
             (assoc-ref glib:%standard-phases 'glib-or-gtk-wrap))
 
-          ;; safety net
+          ;; Safety net
           (add-after 'wrap 'ensure-paths-module
             (lambda* (#:key outputs #:allow-other-keys)
               (let* ((out (assoc-ref outputs "out"))
-                     ;; find the sole “site-packages” dir under $out/lib
+                     ;; find the sole "site-packages" dir under $out/lib
                      (sp  (car (find-files (string-append out "/lib")
                                            "^site-packages$" #:directories? #t))))
                 (when sp
                   (let ((dst (string-append sp "/guake/paths.py")))
                     (unless (file-exists? dst)
-                      (install-file "guake/paths.py" (dirname dst)))))
-                #t)))
+                      (install-file "guake/paths.py" (dirname dst))))))))
 
           ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
           (add-after 'glib-or-gtk-wrap 'install-dbus-service
@@ -232,8 +233,7 @@
                   (lambda (port)
                     (format port "[D-BUS Service]~%")
                     (format port "Name=org.guake3.RemoteControl~%")
-                    (format port "Exec=~a/bin/guake~%" out))))
-              #t))
+                    (format port "Exec=~a/bin/guake~%" out))))))
 
           ;; Prepend all GI dirs and libs.
           (add-after 'glib-or-gtk-wrap 'wrap-gi
@@ -272,9 +272,9 @@
                                              lst-gi-dirs
                                              '(("libutempter" "/lib"))))))
                 ((compose
+                  ;; Augment the existing wrapper (which is a shell script)
+                  ;; by prepending a Guile stub that exports our vars
                   (cut map
-                       ;; augment the existing wrapper (which is a shell script)
-                       ;; by prepending a Guile stub that exports our vars
                        (cut wrap-script <>
                             #:guile guile-bin
                             `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
@@ -283,11 +283,10 @@
                             `("XDG_DATA_DIRS"   ":"
                               prefix (,(string-append out "/share"))))
                        <>)
-                  ;; only wrap actual entry points, not dotfiles or *-real
+                  ;; Only wrap actual entry points, not dotfiles or *-real
                   (cut filter file-exists? <>)
                   (cut map (cut string-append bindir <>) <>))
-                 (list "/guake" "/guake-toggle"))
-                #t))))))
+                 (list "/guake" "/guake-toggle"))))))))
 
     (home-page "https://github.com/Guake/guake")
     (synopsis "Drop-down terminal for GNOME")
