@@ -133,7 +133,6 @@
       #:tests? #f
       #:imported-modules
       `((guix build glib-or-gtk-build-system)
-        (guix build utils)
         ,@%pyproject-build-system-modules)
       #:modules
       '((guix build pyproject-build-system)
@@ -191,13 +190,14 @@
                 (mkdir-p guake)
                 (mkdir-p pixmaps)
                 (mkdir-p schemas)
-                (for-each (lambda (f) (install-file f guake))
-                          '("guake/data/guake.glade"
-                            "guake/data/about.glade"
-                            "guake/data/prefs.glade"
-                            "guake/data/search.glade"))
-                (for-each (lambda (f) (install-file f pixmaps))
-                          (find-files "guake/data/pixmaps" "\\.png$"))
+                (map (cut install-file <> guake)
+                     (list
+                      "guake/data/guake.glade"
+                      "guake/data/about.glade"
+                      "guake/data/prefs.glade"
+                      "guake/data/search.glade"))
+                (map (cut install-file <> pixmaps)
+                     (find-files "guake/data/pixmaps" "\\.png$"))
                 (install-file "guake/data/org.guake.gschema.xml" schemas))))
 
           ;; Compile schemas & do the standard GTK wrap.
@@ -252,30 +252,25 @@
                   ("vte-with-gtk+3"  "/lib/girepository-1.0")
                   ))
 
-              (define lst-lib-dirs
-                (append lst-gi-dirs '(("libutempter" "/lib"))))
-
               (define filter-dirs
                 (compose
                  (cut filter file-exists? <>)
-                 (cut
-                  map
-                  (cut apply
-                       (lambda (key suf)
-                         (and (assoc-ref inputs key)
-                              (string-append (assoc-ref inputs key) suf)))
-                       <>)
-                  <>)))
+                 (cut map (cut apply
+                               (lambda (key suffix)
+                                 (let ((val (assoc-ref inputs key)))
+                                   (and val (string-append val suffix))))
+                               <>)
+                      <>)))
 
-              (let* ((out      (assoc-ref outputs "out"))
-                     (bindir   (string-append out "/bin"))
+              (let* ((out (assoc-ref outputs "out"))
+                     (bindir (string-append out "/bin"))
                      ;; only wrap actual entry points, not dotfiles or *-real
                      (targets   (filter file-exists?
                                         (list (string-append bindir "/guake")
                                               (string-append bindir "/guake-toggle"))))
                      ;; absolute path to Guile for the shebang
                      (guile-bin (or (search-input-file inputs "bin/guile")
-                                    (error "wrap-gi: missing 'guile' in inputs")))
+                                    (error "Missing 'guile' in inputs")))
                      (gi-dirs  (filter-dirs lst-gi-dirs))
                      (lib-dirs (filter-dirs (append
                                              lst-gi-dirs
