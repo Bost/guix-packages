@@ -264,10 +264,6 @@
 
               (let* ((out (assoc-ref outputs "out"))
                      (bindir (string-append out "/bin"))
-                     ;; only wrap actual entry points, not dotfiles or *-real
-                     (targets   (filter file-exists?
-                                        (list (string-append bindir "/guake")
-                                              (string-append bindir "/guake-toggle"))))
                      ;; absolute path to Guile for the shebang
                      (guile-bin (or (search-input-file inputs "bin/guile")
                                     (error "Missing 'guile' in inputs")))
@@ -276,17 +272,19 @@
                                              lst-gi-dirs
                                              '(("libutempter" "/lib"))))))
 
-                (for-each
-                 (lambda (p)
-                   ;; augment the existing wrapper (which is a shell script)
-                   ;; by prepending a Guile stub that exports our vars
-                   (wrap-script p
-                     #:guile guile-bin
-                     `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
-                     `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
-                     ;; ensure D-Bus sees $out/share/dbus-1/services
-                     `("XDG_DATA_DIRS"   ":" prefix (,(string-append out "/share")))))
-                 targets)
+                (map
+                 ;; augment the existing wrapper (which is a shell script)
+                 ;; by prepending a Guile stub that exports our vars
+                 (cut wrap-script <>
+                      #:guile guile-bin
+                      `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
+                      `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
+                      ;; ensure D-Bus sees $out/share/dbus-1/services
+                      `("XDG_DATA_DIRS"   ":" prefix (,(string-append out "/share"))))
+                 ;; only wrap actual entry points, not dotfiles or *-real
+                 (filter file-exists?
+                         (list (string-append bindir "/guake")
+                               (string-append bindir "/guake-toggle"))))
                 #t))))))
 
     (home-page "https://github.com/Guake/guake")
