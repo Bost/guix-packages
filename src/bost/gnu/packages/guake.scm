@@ -6,6 +6,7 @@
   #:use-module (gnu packages gettext)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gnome)
+  #:use-module (gnu packages guile)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages python)
@@ -89,6 +90,7 @@
     ;; C/GI libs at runtime (mirror your launch script)
     (inputs
      (list
+      guile-3.0
       glib
       gtk+
       gdk-pixbuf
@@ -115,6 +117,9 @@
     ;; Build tools
     (native-inputs
      (list
+      ;; The order of glib and (list glib "bin") matters in the list of native-inputs.
+      ;; When reversed the "...-glib-bin" instead of "...-glib" gets picked.
+      glib
       (list glib "bin")             ; glib-compile-schemas
       python-setuptools
       python-wheel
@@ -128,6 +133,7 @@
       #:tests? #f
       #:imported-modules
       `((guix build glib-or-gtk-build-system)
+        (guix build utils)
         ,@%pyproject-build-system-modules)
       #:modules
       '((guix build pyproject-build-system)
@@ -161,6 +167,7 @@
                   (("\\{\\{ GUAKE_THEME_DIR \\}\\}")   (as-str theme))
                   (("\\{\\{ AUTOSTART_FOLDER \\}\\}")  (as-str autostart))
                   (("\\{\\{ LOGIN_DESTOP_PATH \\}\\}") (as-str guake-dir)))
+                (copy-file "guake/paths.py.in" "guake/paths.py")
                 (for-each mkdir-p (list guake-dir pixmaps schemas theme autostart)))))
 
           ;; (Optional) Make libutempter lookup robust: use find_library first.
@@ -196,8 +203,22 @@
           ;; Compile schemas & do the standard GTK wrap.
           (add-after 'install-data-and-schemas 'glib-or-gtk-compile-schemas
             (assoc-ref glib:%standard-phases 'glib-or-gtk-compile-schemas))
-          (add-after 'glib-or-gtk-compile-schemas 'glib-or-gtk-wrap
+
+          (add-after 'wrap 'glib-or-gtk-wrap
             (assoc-ref glib:%standard-phases 'glib-or-gtk-wrap))
+
+          ;; safety net
+          (add-after 'wrap 'ensure-paths-module
+            (lambda* (#:key outputs #:allow-other-keys)
+              (let* ((out (assoc-ref outputs "out"))
+                     ;; find the sole “site-packages” dir under $out/lib
+                     (sp  (car (find-files (string-append out "/lib")
+                                           "^site-packages$" #:directories? #t))))
+                (when sp
+                  (let ((dst (string-append sp "/guake/paths.py")))
+                    (unless (file-exists? dst)
+                      (install-file "guake/paths.py" (dirname dst)))))
+                #t)))
 
           ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
           (add-after 'glib-or-gtk-wrap 'install-dbus-service
@@ -215,55 +236,62 @@
               #t))
 
           ;; Prepend all GI dirs and libs.
-          (add-after 'install-dbus-service 'wrap-gi
+          (add-after 'glib-or-gtk-wrap 'wrap-gi
             (lambda* (#:key inputs outputs #:allow-other-keys)
-              (define (dir key suf)
-                (and (assoc-ref inputs key)
-                     (string-append (assoc-ref inputs key) suf)))
-              (let* ((out     (assoc-ref outputs "out"))
-                     (bindir  (string-append out "/bin"))
-                     (bins    (if (file-exists? bindir)
-                                  (find-files bindir ".*" #:directories? #f)
-                                  '()))
-                     (gi-dirs
-                      (filter
-                       file-exists?
-                       (list
-                        (dir "at-spi2-core"    "/lib/girepository-1.0")
-                        (dir "gdk-pixbuf"      "/lib/girepository-1.0")
-                        (dir "glib"            "/lib/girepository-1.0")
-                        (dir "gtk+"            "/lib/girepository-1.0")
-                        (dir "harfbuzz"        "/lib/girepository-1.0")
-                        (dir "keybinder"       "/lib/girepository-1.0")
-                        (dir "libnotify"       "/lib/girepository-1.0")
-                        (dir "libwnck"         "/lib/girepository-1.0")
-                        (dir "pango-old"       "/lib/girepository-1.0")
-                        (dir "vte-with-gtk+3" "/lib/girepository-1.0")
-                        )))
-                     (lib-dirs
-                      (filter
-                       file-exists?
-                       (list
-                        (dir "at-spi2-core"    "/lib")
-                        (dir "gdk-pixbuf"      "/lib")
-                        (dir "glib"            "/lib")
-                        (dir "gtk+"            "/lib")
-                        (dir "harfbuzz"        "/lib")
-                        (dir "keybinder"       "/lib")
-                        (dir "libnotify"       "/lib")
-                        (dir "libutempter"     "/lib")
-                        (dir "libwnck"         "/lib")
-                        (dir "pango-old"       "/lib")
-                        (dir "vte-with-gtk+3" "/lib")
-                        ))))
+              (define lst-gi-dirs
+                '(
+                  ("at-spi2-core"    "/lib/girepository-1.0")
+                  ("gdk-pixbuf"      "/lib/girepository-1.0")
+                  ("glib"            "/lib/girepository-1.0")
+                  ("gtk+"            "/lib/girepository-1.0")
+                  ("harfbuzz"        "/lib/girepository-1.0")
+                  ("keybinder"       "/lib/girepository-1.0")
+                  ("libnotify"       "/lib/girepository-1.0")
+                  ("libwnck"         "/lib/girepository-1.0")
+                  ("pango-old"       "/lib/girepository-1.0")
+                  ("vte-with-gtk+3"  "/lib/girepository-1.0")
+                  ))
+
+              (define lst-lib-dirs
+                (append lst-gi-dirs '(("libutempter" "/lib"))))
+
+              (define filter-dirs
+                (compose
+                 (cut filter file-exists? <>)
+                 (cut
+                  map
+                  (cut apply
+                       (lambda (key suf)
+                         (and (assoc-ref inputs key)
+                              (string-append (assoc-ref inputs key) suf)))
+                       <>)
+                  <>)))
+
+              (let* ((out      (assoc-ref outputs "out"))
+                     (bindir   (string-append out "/bin"))
+                     ;; only wrap actual entry points, not dotfiles or *-real
+                     (targets   (filter file-exists?
+                                        (list (string-append bindir "/guake")
+                                              (string-append bindir "/guake-toggle"))))
+                     ;; absolute path to Guile for the shebang
+                     (guile-bin (or (search-input-file inputs "bin/guile")
+                                    (error "wrap-gi: missing 'guile' in inputs")))
+                     (gi-dirs  (filter-dirs lst-gi-dirs))
+                     (lib-dirs (filter-dirs (append
+                                             lst-gi-dirs
+                                             '(("libutempter" "/lib"))))))
+
                 (for-each
                  (lambda (p)
-                   (wrap-program p
+                   ;; augment the existing wrapper (which is a shell script)
+                   ;; by prepending a Guile stub that exports our vars
+                   (wrap-script p
+                     #:guile guile-bin
                      `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
                      `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
                      ;; ensure D-Bus sees $out/share/dbus-1/services
-                     `("XDG_DATA_DIRS" ":" prefix (,(string-append out "/share")))))
-                 bins)
+                     `("XDG_DATA_DIRS"   ":" prefix (,(string-append out "/share")))))
+                 targets)
                 #t))))))
 
     (home-page "https://github.com/Guake/guake")
