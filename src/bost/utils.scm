@@ -1226,11 +1226,10 @@ that many from the end."
 ;; (define string-ops (juxt string-length string-upcase string-downcase))
 ;; (string-ops "Hello")  ; => (5 "HELLO" "hello")
 
-
-(define (build package-or-packages)
+(define-public (build-in-repl package-or-packages)
   "Usage:
-(build <package-name>)
-(build (list <package-name1> ... <package-nameN>) "
+(build-in-repl <package-name>)
+(build-in-repl (list <package-name1> ... <package-nameN>) "
   (let [(daemon ((@ (guix store) open-connection)))]
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (map (compose
