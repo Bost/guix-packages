@@ -1,5 +1,4 @@
 (define-module (bost gnu packages guake)
-  #:use-module (ice-9 pretty-print)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages admin)
   #:use-module (gnu packages certs)
@@ -197,18 +196,6 @@
 
           (add-after 'wrap 'glib-or-gtk-wrap
             (assoc-ref glib:%standard-phases 'glib-or-gtk-wrap))
-
-          ;; Safety net
-          (add-after 'wrap 'ensure-paths-module
-            (lambda* (#:key outputs #:allow-other-keys)
-              (let* ((out (assoc-ref outputs "out"))
-                     ;; find the sole "site-packages" dir under $out/lib
-                     (sp  (car (find-files (string-append out "/lib")
-                                           "^site-packages$" #:directories? #t))))
-                (when sp
-                  (let ((dst (string-append sp "/guake/paths.py")))
-                    (unless (file-exists? dst)
-                      (install-file "guake/paths.py" (dirname dst))))))))
 
           ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
           (add-after 'glib-or-gtk-wrap 'install-dbus-service
