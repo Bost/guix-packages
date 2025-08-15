@@ -170,17 +170,6 @@
                 (map mkdir-p
                      (list guake-dir pixmaps schemas theme autostart)))))
 
-          ;; (Optional) Make libutempter lookup robust: use find_library first.
-          (add-after 'prepare-paths 'patch-utempter-dlopen
-            (lambda _
-              (when (file-exists? "guake/utempter.py")
-                (substitute* "guake/utempter.py"
-                  (("^import ctypes\\b") "import ctypes, ctypes.util")
-                  (("ctypes\\.CDLL\\(['\"]libutempter\\.so\\.0['\"]\\)")
-                   (format #f "~a or ~a"
-                           "ctypes.CDLL(ctypes.util.find_library('utempter')"
-                           "'libutempter.so.1')"))))))
-
           ;; Install UI files & schema (wheel sometimes misses these paths).
           (add-after 'install 'install-data-and-schemas
             (lambda* (#:key outputs #:allow-other-keys)
