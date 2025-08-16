@@ -23361,7 +23361,7 @@ processes for Emacs.")
 (define-public emacs-spacemacs
   (let (
         (commit
-         "8020a5ff48810e67cf772335b1da78231746461d"
+         "8a19733ef1d7e27309cbe62d4f6c73940b43e48b"
          )
         (revision "0")
         ;; Causes (bost gnu packages emacs-xyz) to be undefined
@@ -23381,7 +23381,7 @@ processes for Emacs.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1vyv214rai2zbk8k561dnd0wq66rw0inrr3s5vrjr29icwnjcp36"
+           "139fm59ya15dqlzgnmrv6i099vawwvgb17km2pp8ihsps7rdwqf0"
            ))))
       (build-system emacs-build-system)
       (arguments
