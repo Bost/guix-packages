@@ -23364,9 +23364,11 @@ processes for Emacs.")
          "8020a5ff48810e67cf772335b1da78231746461d"
          )
         (revision "0")
-        (combined-propagated-inputs
-         (append (package-propagated-inputs emacs)
-                 (spacemacs-packages-for-inputs))))
+        ;; Causes (bost gnu packages emacs-xyz) to be undefined
+        ;; (combined-propagated-inputs
+        ;;  (append (package-propagated-inputs emacs)
+        ;;          (spacemacs-packages-for-inputs)))
+        )
     (package
       (name "emacs-spacemacs")
       (version (git-version "1.0" revision commit))
@@ -23514,12 +23516,20 @@ processes for Emacs.")
                        (partial format #f "(quote\n~a)")
                        (partial interpose "\n")
                        (partial map (partial format #f "~s")))
-                      (map (comp package-name cadr) combined-propagated-inputs))))))
+                      (map (comp package-name cadr)
+                           ;; combined-propagated-inputs
+                           (append (package-propagated-inputs emacs)
+                                   (spacemacs-packages-for-inputs))
+                           ))))))
             ;; (replace 'build (lambda* args #t))
             )))
       (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
-      (propagated-inputs combined-propagated-inputs)
+      (propagated-inputs
+       ;; combined-propagated-inputs
+       (append (package-propagated-inputs emacs)
+               (spacemacs-packages-for-inputs))
+       )
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
