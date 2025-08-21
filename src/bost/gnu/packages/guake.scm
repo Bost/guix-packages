@@ -197,19 +197,21 @@
           (add-after 'wrap 'glib-or-gtk-wrap
             (assoc-ref glib:%standard-phases 'glib-or-gtk-wrap))
 
-          ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
-          (add-after 'glib-or-gtk-wrap 'install-dbus-service
-            (lambda* (#:key outputs #:allow-other-keys)
-              (let* ((out     (assoc-ref outputs "out"))
-                     (svc-dir (string-append out "/share/dbus-1/services")))
-                (mkdir-p svc-dir)
-                (call-with-output-file
-                    (string-append svc-dir
-                                   "/org.guake3.RemoteControl.service")
-                  (lambda (port)
-                    (format port "[D-BUS Service]~%")
-                    (format port "Name=org.guake3.RemoteControl~%")
-                    (format port "Exec=~a/bin/guake~%" out))))))
+          ;; The install-dbus-service phase leads to ~25 seconds delay, which
+          ;; seems like 'D-Bus auto-activation timeout'
+          ;; ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
+          ;; (add-after 'glib-or-gtk-wrap 'install-dbus-service
+          ;;   (lambda* (#:key outputs #:allow-other-keys)
+          ;;     (let* ((out     (assoc-ref outputs "out"))
+          ;;            (svc-dir (string-append out "/share/dbus-1/services")))
+          ;;       (mkdir-p svc-dir)
+          ;;       (call-with-output-file
+          ;;           (string-append svc-dir
+          ;;                          "/org.guake3.RemoteControl.service")
+          ;;         (lambda (port)
+          ;;           (format port "[D-BUS Service]~%")
+          ;;           (format port "Name=org.guake3.RemoteControl~%")
+          ;;           (format port "Exec=~a/bin/guake~%" out))))))
 
           ;; Prepend all GI dirs and libs.
           (add-after 'glib-or-gtk-wrap 'wrap-gi
