@@ -49,4 +49,21 @@
    ;;    "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5")
    ;;   ))
    )
+
+;; Keep Rust library packages (for Rust 1.82) from Guix before the new packaging model migration.
+;; These packages are saved in the (past-crates packages crates-io) module.
+;;
+;; Authenticate commits:
+;;   guix git authenticate \
+;;        1db24ca92c28255b28076792b93d533eabb3dc6a \
+;;        F4C2D1DF3FDEEA63D1D30776ACC66D09CA528292
+  (channel
+    (name guix-rust-past-crates) ; channel name can't be quoted
+    (url "https://codeberg.org/guix/guix-rust-past-crates.git")
+    (branch "trunk")
+    (introduction
+     (channel-introduction
+      (version 0)
+      (commit "1db24ca92c28255b28076792b93d533eabb3dc6a")
+      (signer "F4C2 D1DF 3FDE EA63 D1D3 0776 ACC6 6D09 CA52 8292"))))
   ))
