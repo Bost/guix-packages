@@ -12,8 +12,8 @@
    (name guix) ; channel name can't be quoted
    (url
     ;; ,(format #f "file://~a/dev/guix" home)
-    ;; "https://codeberg.org/guix/guix-mirror.git"
-    "https://git.savannah.gnu.org/git/guix.git"
+    ;; "https://git.savannah.gnu.org/git/guix.git"
+    "https://codeberg.org/guix/guix.git"
     )
    ;; (introduction
    ;;  ;; (make-channel-introduction
