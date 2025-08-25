@@ -11978,7 +11978,7 @@ for search-based navigation of buffers.")
 
 (define-public emacs-helm-ag
   (let ((commit "a7b43d9622ea5dcff3e3e0bb0b7dcc342b272171")
-       (revision "0"))
+        (revision "0"))
     (package
       (name "emacs-helm-ag")
       (version (git-version "0.64" revision commit))
@@ -11986,8 +11986,8 @@ for search-based navigation of buffers.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/syohex/emacs-helm-ag.git")
-               (commit commit)))
+                (url "https://github.com/syohex/emacs-helm-ag.git")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32 "1g2clyz5289wpahalvpdafz1d3cyqsm0g7ska0j2rlhqrcy9k2vc"))))
@@ -13965,6 +13965,7 @@ their original location with another.")
     (description "This package adds tools for managing your watchlist in Emacs'
 Org mode and some functions for interacting with the OMDb API.")
     (license license:gpl3+)))
+
 (define-public emacs-flycheck-rust
   (package
     (name "emacs-flycheck-rust")
@@ -14403,6 +14404,7 @@ in HTML mode.")
        "This package is for people who use Anki as a spaced repetition system
 (SRS) but would like to make cards in Org mode.")
       (license license:gpl3+))))
+
 (define-public emacs-org-sidebar
   (package
     (name "emacs-org-sidebar")
@@ -15550,7 +15552,6 @@ multiple project types.")
 to create transient menus that send complex POST, PUT, or PATCH requests to
 JSON APIs.")
     (license license:gpl3+)))
-
 
 (define-public emacs-ivy-taskrunner
   (let ((commit "75d8d67cfe3c29663fe0f5508a887adf40ed5162")
