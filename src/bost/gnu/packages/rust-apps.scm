@@ -121,61 +121,61 @@
 ;; search tools like The Silver Searcher, @command{ack} and @command{grep}.")
 ;;     (license (list license:unlicense license:expat))))
 
-(define-public ripgrep
-  (package
-    (name "ripgrep")
-    (version "13.0.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (crate-uri "ripgrep" version))
-       (file-name
-        (string-append name "-" version ".tar.gz"))
-       (sha256
-        (base32
-         "1gv4imhjgxmyxaa996yshcjlakmrjw9pf4rycp90pq675cn9sz7k"))))
-    (build-system cargo-build-system)
-    (arguments
-     `(#:cargo-inputs
-       (("rust-bstr" ,rust-bstr-0.2)
-        ("rust-clap" ,rust-clap-2)
-        ("rust-grep" ,rust-grep-0.2)
-        ("rust-ignore" ,rust-ignore-0.4)
-        ("rust-jemallocator" ,rust-jemallocator-0.3)
-        ("rust-lazy-static" ,rust-lazy-static-1)
-        ("rust-log" ,rust-log-0.4)
-        ("rust-num-cpus" ,rust-num-cpus-1)
-        ("rust-regex" ,rust-regex-1)
-        ("rust-serde-json" ,rust-serde-json-1)
-        ("rust-termcolor" ,rust-termcolor-1))
-       #:cargo-development-inputs
-       (("rust-serde" ,rust-serde-1)
-        ("rust-serde-derive" ,rust-serde-derive-1)
-        ("rust-walkdir" ,rust-walkdir-2))
-       #:modules ((ice-9 match)
-                  (guix build cargo-build-system)
-                  (guix build utils))
-       #:phases
-       (modify-phases %standard-phases
-         (add-after 'build 'install-manpage
-           ;; NOTE: This is done before 'check so that there's only one output
-           ;; directory with the man page.
-           (lambda* (#:key outputs #:allow-other-keys)
-             (match (find-files "target" "^rg\\.1$")
-               ((manpage)
-                (install-file manpage (string-append
-                                       (assoc-ref outputs "out")
-                                       "/share/man/man1"))))
-             #t)))
-       #:features '("pcre2")))
-    (inputs
-     (list pcre2))
-    (native-inputs
-     (list asciidoc pkg-config))
-    (home-page "https://github.com/BurntSushi/ripgrep")
-    (synopsis "Line-oriented search tool")
-    (description
-     "ripgrep is a line-oriented search tool that recursively searches
-your current directory for a regex pattern while respecting your
-gitignore rules.")
-    (license (list license:unlicense license:expat))))
+;; (define-public ripgrep
+;;   (package
+;;     (name "ripgrep")
+;;     (version "13.0.0")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri (crate-uri "ripgrep" version))
+;;        (file-name
+;;         (string-append name "-" version ".tar.gz"))
+;;        (sha256
+;;         (base32
+;;          "1gv4imhjgxmyxaa996yshcjlakmrjw9pf4rycp90pq675cn9sz7k"))))
+;;     (build-system cargo-build-system)
+;;     (arguments
+;;      `(#:cargo-inputs
+;;        (("rust-bstr" ,rust-bstr-1)
+;;         ("rust-clap" ,rust-clap-2)
+;;         ("rust-grep" ,rust-grep-0.2)
+;;         ("rust-ignore" ,rust-ignore-0.4)
+;;         ("rust-jemallocator" ,rust-jemallocator-0.3)
+;;         ("rust-lazy-static" ,rust-lazy-static-1)
+;;         ("rust-log" ,rust-log-0.4)
+;;         ("rust-num-cpus" ,rust-num-cpus-1)
+;;         ("rust-regex" ,rust-regex-1)
+;;         ("rust-serde-json" ,rust-serde-json-1)
+;;         ("rust-termcolor" ,rust-termcolor-1))
+;;        #:cargo-development-inputs
+;;        (("rust-serde" ,rust-serde-1)
+;;         ("rust-serde-derive" ,rust-serde-derive-1)
+;;         ("rust-walkdir" ,rust-walkdir-2))
+;;        #:modules ((ice-9 match)
+;;                   (guix build cargo-build-system)
+;;                   (guix build utils))
+;;        #:phases
+;;        (modify-phases %standard-phases
+;;          (add-after 'build 'install-manpage
+;;            ;; NOTE: This is done before 'check so that there's only one output
+;;            ;; directory with the man page.
+;;            (lambda* (#:key outputs #:allow-other-keys)
+;;              (match (find-files "target" "^rg\\.1$")
+;;                ((manpage)
+;;                 (install-file manpage (string-append
+;;                                        (assoc-ref outputs "out")
+;;                                        "/share/man/man1"))))
+;;              #t)))
+;;        #:features '("pcre2")))
+;;     (inputs
+;;      (list pcre2))
+;;     (native-inputs
+;;      (list asciidoc pkg-config))
+;;     (home-page "https://github.com/BurntSushi/ripgrep")
+;;     (synopsis "Line-oriented search tool")
+;;     (description
+;;      "ripgrep is a line-oriented search tool that recursively searches
+;; your current directory for a regex pattern while respecting your
+;; gitignore rules.")
+;;     (license (list license:unlicense license:expat))))
