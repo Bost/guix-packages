@@ -14017,38 +14017,42 @@ Org mode and some functions for interacting with the OMDb API.")
     (license license:gpl3+)))
 
 (define-public emacs-flycheck-rust
-  (package
-    (name "emacs-flycheck-rust")
-    (version "1.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri
-        (git-reference
-         (url "https://github.com/flycheck/flycheck-rust")
-         (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "1fh6j5w2387nh2fwwjphkhq17cgj5m2q5k0fhidvgc2w65lzbr1r"))))
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      emacs-flycheck
-      emacs-let-alist
-      ))
-    (native-inputs
-     (list
-      emacs-buttercup
-      rust-bootstrap
-      `(,rust-bootstrap "cargo")
-      ))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/flycheck/flycheck-rust")
-    (synopsis "Rust/Cargo support for Flycheck")
-    (description
-     "This Flycheck extension configures Flycheck automatically for
+  (let ((commit "fc6304f09647eadfc717ca0e236886f70c582e1d")
+        (revision "0"))
+    (package
+      (name "emacs-flycheck-rust")
+      (version (git-version "1.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri
+          (git-reference
+            (url "https://github.com/flycheck/flycheck-rust.git")
+            (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1pxlsr49qjm4b51p2m4lml84v9a8f0mfjyn3xc941kd51jcnxv80"
+           ))))
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        emacs-flycheck
+        emacs-let-alist
+        ))
+      (native-inputs
+       (list
+        emacs-buttercup
+        rust-bootstrap-1.54
+        `(,rust-bootstrap-1.54 "cargo")
+        ))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/flycheck/flycheck-rust")
+      (synopsis "Rust/Cargo support for Flycheck")
+      (description
+       "This Flycheck extension configures Flycheck automatically for
 the current Cargo project.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-elastic-modes
   (let ((commit "c577e8921a4d9bd77742729707152bc557fae3e2")
