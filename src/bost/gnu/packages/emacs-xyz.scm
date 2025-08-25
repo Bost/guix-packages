@@ -14001,20 +14001,22 @@ the current Cargo project.")
     (license license:gpl3+)))
 
 (define-public emacs-elastic-modes
-  (let ((commit "ea49bb03b78cb9fd17655990223e3095f137a3ce")
-        (revision "1"))
+  (let ((commit "c577e8921a4d9bd77742729707152bc557fae3e2")
+        (revision "0"))
     (package
       (name "emacs-elastic-modes")
-      (version "1.0.0")
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://github.com/jyp/elastic-modes")
-                      (commit commit)))
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "1dkigkjw4i9nz5rl0dnic16ljdnp5cyz2xic3hc2myqnjlqnc6z6"))))
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/jyp/elastic-modes.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0r40g7zgz9072x74qbnv8lmql0gajsz2p8b8jckmgyniakmln69v"
+           ))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #false)) ;no tests
       (propagated-inputs
