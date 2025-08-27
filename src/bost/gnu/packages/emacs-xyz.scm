@@ -12156,7 +12156,9 @@ for search-based navigation of buffers.")
        (origin
          (method git-fetch)
          (uri (git-reference
-                (url "https://github.com/syohex/emacs-helm-ag.git")
+                (url
+                 ;; https://github.com/syohex/emacs-helm-ag.git redirects to:
+                 "https://github.com/emacsattic/helm-ag.git")
                 (commit commit)))
          (file-name (git-file-name name version))
          (sha256
