@@ -1,5 +1,16 @@
 ;; -*- mode: scheme; -*-
 
+;;; Channel pinning - assuming / expecting:
+
+;;; 1. If no commit is pinned, then the channel specification is done via
+;;;    `guix pull'.
+;;;
+;;; 2. Channel-pinning makes sense only if the particular pin-commit specified
+;;;    here is older that the latest commit, implicitly or explicitly
+;;;    specified by `guix pull'
+;;;
+;;; TODO test what happens if the pin-commit specified hier comes after the commit specified by `guix pull'.
+
 (channel
  (version 0)
  ;; (news-file "etc/news.scm")
