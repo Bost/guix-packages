@@ -45,11 +45,17 @@
 ;;        F4C2D1DF3FDEEA63D1D30776ACC66D09CA528292
   (channel
     (name guix-rust-past-crates) ; channel name can't be quoted
-    (url "https://codeberg.org/guix/guix-rust-past-crates.git")
+    (url
+     ;; "https://codeberg.org/guix/guix-rust-past-crates.git"
+     ;; ,(format #f "file://~a/dev/guix-rust-past-crates" home) ; doesn't work
+     ;; (format #f "file://~a/dev/guix-rust-past-crates" home)  ; doesn't work
+     "file:///home/bost/dev/guix-rust-past-crates"
+     )
     (branch "trunk")
     (introduction
      (channel-introduction
       (version 0)
       (commit "1db24ca92c28255b28076792b93d533eabb3dc6a")
-      (signer "F4C2 D1DF 3FDE EA63 D1D3 0776 ACC6 6D09 CA52 8292"))))
+      (signer "F4C2 D1DF 3FDE EA63 D1D3 0776 ACC6 6D09 CA52 8292")
+      )))
   ))
