@@ -248,6 +248,7 @@
    "emacs-geiser-guile"
    "emacs-gh-md"
    "emacs-ghub"
+   "emacs-gist"
    "emacs-git-link"
    "emacs-git-messenger"
    "emacs-git-modes"
