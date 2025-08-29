@@ -22570,7 +22570,8 @@ processes for Emacs.")
    ;; "emacs-a"
    ))
 
-(define bst-packages
+(define (bst-packages)
+  "List of all packages defined in this module"
   (list
    bst:emacs-dash
    bst:emacs-el-mock
@@ -23207,7 +23208,7 @@ processes for Emacs.")
    emacs-zoom-frm
    ))
 
-(define (all-packages-from-guix-channel)
+(define (all-package-names-from-guix-channel)
   (let* [(G (general-packages))
          (N (needed-packages))
          (O (orphan-packages))
@@ -23237,18 +23238,19 @@ processes for Emacs.")
 (load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
 |#
 (define-public (spacemacs-packages)
-  ((comp
-    ;; (lambda (lst) (format #t "3. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    (partial append bst-packages)
 
-    ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    (partial map specification->package)
+  (define (needed? package-names package)
+    (member? (package-name package) package-names))
 
-    ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    (lambda (lst) (s- lst (map package-name bst-packages)))
-    ;; (lambda (lst) (format #t "a 0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    )
-   (all-packages-from-guix-channel)))
+  (let [(package-names (all-package-names-from-guix-channel))]
+    ((comp
+      ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+      (partial append (map specification->package package-names))
+      ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+      (partial filter (partial needed? package-names))
+      ;; (lambda (lst) (format #t "a 0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+      )
+     (bst-packages))))
 
 ;; (define-public (spacemacs-packages-sorted)
 ;;   ((comp
