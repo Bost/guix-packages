@@ -23212,16 +23212,16 @@ processes for Emacs.")
   (let* [(G (general-package-names))
          (N (needed-package-names))
          (O (orphan-package-names))
-         (A (available-packages))
+         (A (available-package-names))
          (E (excluded-package-names))
 
 ;;; The 'specification->package+output' can be reliably called only over
-;;; available-packages since e.g. needed-package-names may contain a non-existing
+;;; available-package-names since e.g. needed-package-names may contain a non-existing
 ;;; package, i.e. a package which hasn't been ported to Guix yet.
          ;; (G (map (comp list specification->package+output) (general-package-names)))
          ;; (N (map (comp list specification->package+output) (needed-package-names)))
          ;; (O (map (comp list specification->package+output) (orphan-package-names)))
-         ;; (A (map (comp list specification->package+output) (available-packages)))
+         ;; (A (map (comp list specification->package+output) (available-package-names)))
          ;; (E (map (comp list specification->package+output) (excluded-package-names)))
          ]
     (s+ G
@@ -23233,7 +23233,7 @@ processes for Emacs.")
 (define G (general-package-names))
 (define N (needed-package-names))
 (define O (orphan-package-names))
-(define A (available-packages))
+(define A (available-package-names))
 (define E (excluded-package-names))
 (load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
 |#
