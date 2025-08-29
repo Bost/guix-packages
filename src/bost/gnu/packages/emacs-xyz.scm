@@ -22547,18 +22547,18 @@ processes for Emacs.")
 
 ;;; spacemacs beg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (general-packages)
+(define (general-package-names)
   (list
    ;; "emacs-spacemacs"
    ;; "spacemacs-rolling-release"
    ))
 
-(define (excluded-packages)
+(define (excluded-package-names)
   (list
    ))
 
 ;; Orphan packages according to spguimacs
-(define (orphan-packages)
+(define (orphan-package-names)
   (list
    ;; "emacs-faceup"
    ;; "emacs-deferred"
@@ -23209,20 +23209,20 @@ processes for Emacs.")
    ))
 
 (define (all-package-names-from-guix-channel)
-  (let* [(G (general-packages))
-         (N (needed-packages))
-         (O (orphan-packages))
+  (let* [(G (general-package-names))
+         (N (needed-package-names))
+         (O (orphan-package-names))
          (A (available-packages))
-         (E (excluded-packages))
+         (E (excluded-package-names))
 
 ;;; The 'specification->package+output' can be reliably called only over
-;;; available-packages since e.g. needed-packages may contain a non-existing
+;;; available-packages since e.g. needed-package-names may contain a non-existing
 ;;; package, i.e. a package which hasn't been ported to Guix yet.
-         ;; (G (map (comp list specification->package+output) (general-packages)))
-         ;; (N (map (comp list specification->package+output) (needed-packages)))
-         ;; (O (map (comp list specification->package+output) (orphan-packages)))
+         ;; (G (map (comp list specification->package+output) (general-package-names)))
+         ;; (N (map (comp list specification->package+output) (needed-package-names)))
+         ;; (O (map (comp list specification->package+output) (orphan-package-names)))
          ;; (A (map (comp list specification->package+output) (available-packages)))
-         ;; (E (map (comp list specification->package+output) (excluded-packages)))
+         ;; (E (map (comp list specification->package+output) (excluded-package-names)))
          ]
     (s+ G
         (s- ((@(bost utils) sx) (s+ N O)
@@ -23230,11 +23230,11 @@ processes for Emacs.")
             E))))
 
 #|
-(define G (general-packages))
-(define N (needed-packages))
-(define O (orphan-packages))
+(define G (general-package-names))
+(define N (needed-package-names))
+(define O (orphan-package-names))
 (define A (available-packages))
-(define E (excluded-packages))
+(define E (excluded-package-names))
 (load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
 |#
 (define-public (spacemacs-packages)

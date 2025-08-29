@@ -7,7 +7,7 @@
 
 ;; Specifying package using @, ie. "(@ (gnu packages emacs-xyz) emacs-guix)"
 ;; doesn't work
-(define-public (needed-packages)
+(define-public (needed-package-names)
   (list
 ;;; needed for build ;beg;
    "emacs-chronometrist"
@@ -637,6 +637,6 @@
    "emacs-zoom-frm"
    "emacs-zop-to-char"
    ))
-(testsymb 'needed-packages)
+(testsymb 'needed-package-names)
 
 (module-evaluated)
