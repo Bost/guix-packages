@@ -1175,7 +1175,10 @@ that many from the end."
                 (map (lambda (y) (list x y)) ys))
               xs)))
 
-(define-public (member? x lst) (boolean (member x lst)))
+(define-public (member? x lst)
+  "(member? 1 (list 1 2)) => #t
+(member? (list 1 2) 1) => #t"
+  (boolean (if (pair? lst) (member x lst) (member lst x))))
 
 ;; Both implementations of `if-not` are equivalent. The one done with
 ;; `define-syntax` is here for future extensibility
