@@ -1968,7 +1968,7 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
    (all-available-emacs-package-names)))
 (testsymb 'default-channels-available-emacs-packages)
 
-(define (default-channels-available-emacs-package-names)
+(define-public (default-channels-available-emacs-package-names)
   (map package-name (default-channels-available-emacs-packages)))
 
 (define-public (available-package-names)

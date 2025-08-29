@@ -23208,46 +23208,62 @@ processes for Emacs.")
    emacs-zoom-frm
    ))
 
-(define (all-package-names-from-guix-channel)
-  (let* [(G (general-package-names))
-         (N (needed-package-names))
-         (O (orphan-package-names))
-         (A (available-package-names))
-         (E (excluded-package-names))
+(define (all-package-names)
+  ;; intersection
+  ((@(bost utils) sx) (needed-package-names) (available-package-names))
 
-;;; The 'specification->package+output' can be reliably called only over
-;;; available-package-names since e.g. needed-package-names may contain a non-existing
-;;; package, i.e. a package which hasn't been ported to Guix yet.
-         ;; (G (map (comp list specification->package+output) (general-package-names)))
-         ;; (N (map (comp list specification->package+output) (needed-package-names)))
-         ;; (O (map (comp list specification->package+output) (orphan-package-names)))
-         ;; (A (map (comp list specification->package+output) (available-package-names)))
-         ;; (E (map (comp list specification->package+output) (excluded-package-names)))
-         ]
-    (s+ G
-        (s- ((@(bost utils) sx) (s+ N O)
-                A)
-            E))))
+;;   (let* [(G (general-package-names))  ;; empty
+;;          (N (needed-package-names))
+;;          (O (orphan-package-names))   ;; empty
+;;          (A (available-package-names))
+;;          (E (excluded-package-names)) ;; empty
 
-#|
-(define G (general-package-names))
-(define N (needed-package-names))
-(define O (orphan-package-names))
-(define A (available-package-names))
-(define E (excluded-package-names))
-(load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
-|#
+;; ;;; The 'specification->package+output' can be reliably called only over
+;; ;;; available-package-names since e.g. needed-package-names may contain a non-existing
+;; ;;; package, i.e. a package which hasn't been ported to Guix yet.
+;;          ;; (G (map (comp list specification->package+output) (general-package-names)))
+;;          ;; (N (map (comp list specification->package+output) (needed-package-names)))
+;;          ;; (O (map (comp list specification->package+output) (orphan-package-names)))
+;;          ;; (A (map (comp list specification->package+output) (available-package-names)))
+;;          ;; (E (map (comp list specification->package+output) (excluded-package-names)))
+;;          ]
+;;     (s+ G
+;;         (s- ((@(bost utils) sx) (s+ N O)
+;;              A)
+;;             E)))
+  )
+
 (define-public (spacemacs-packages)
 
   (define (needed? package-names package)
     (member? (package-name package) package-names))
 
-  (let [(package-names (all-package-names-from-guix-channel))]
+  (let [(package-names (all-package-names))]
     ((comp
       ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
       (partial append (map specification->package package-names))
       ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
       (partial filter (partial needed? package-names))
+      ;; (lambda (lst) (format #t "a 0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+      )
+     (bst-packages))))
+
+;; TODO Emacs packages can be pull-in also from some third-party channels, not
+;; just this channel and the %default-channels
+(define-public (spacemacs-packages-new)
+
+  (define (needed? package-names package)
+    (member? (package-name package) package-names))
+
+  (let [(package-names (default-channels-available-emacs-package-names))]
+    ((comp
+      ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+      (partial append (map specification->package package-names))
+      ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+
+      (partial (@(bost utils) sx) (needed-package-names) )
+
+      (partial map package-name)
       ;; (lambda (lst) (format #t "a 0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
       )
      (bst-packages))))
