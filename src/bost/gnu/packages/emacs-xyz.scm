@@ -22627,7 +22627,7 @@ processes for Emacs.")
    emacs-bui
    emacs-busybee-theme
    emacs-calc-currency
-   emacs-calibredb
+   ;; emacs-calibredb ; probably not needed
    emacs-campus
    emacs-ccls
    emacs-centered-cursor-mode
