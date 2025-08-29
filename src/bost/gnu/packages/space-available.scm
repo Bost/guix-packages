@@ -1957,7 +1957,7 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
    ))
 (testsymb 'all-available-emacs-package-names)
 
-(define (guix-channel-available-emacs-packages)
+(define-public (default-channels-available-emacs-packages)
   ((comp
     ;; length
     flatten
@@ -1966,21 +1966,34 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
     (partial map find-packages-by-name)
     )
    (all-available-emacs-package-names)))
-(testsymb 'guix-channel-available-emacs-packages)
+(testsymb 'default-channels-available-emacs-packages)
 
-(define (guix-channel-available-emacs-package-names)
-  (map package-name (guix-channel-available-emacs-packages)))
+(define (default-channels-available-emacs-package-names)
+  (map package-name (default-channels-available-emacs-packages)))
 
 (define-public (available-packages)
-  (if-let [(not-found (s- (all-available-emacs-package-names)
-                          (guix-channel-available-emacs-package-names)))]
-          (my=warn "~a packages from other than 'guix' channel:\n~a\n\n"
-                   (length not-found)
-                   not-found))
+  (let [(in-additional-channels
+         (s- (all-available-emacs-package-names)
+             (default-channels-available-emacs-package-names)))]
+    (unless (empty? in-additional-channels)
+      (my=warn "~a Emacs packages in additional channels:\n~a\n"
+               (length in-additional-channels)
+               in-additional-channels)))
+
+  ;; Test if the default channel contains more emacs-packages than listed in the
+  ;; (all-available-emacs-package-names)
+  (let [(in-default-channels
+         (s- (default-channels-available-emacs-package-names)
+             (all-available-emacs-package-names)
+             ))]
+    (unless (empty? in-default-channels)
+     (my=warn "~a Emacs packages in default channels but not listed in (all-available-emacs-package-names):\n~a\n"
+              (length in-default-channels)
+              in-default-channels)))
 
   ;; intersection
   (sx (all-available-emacs-package-names)
-      (guix-channel-available-emacs-package-names)
+      (default-channels-available-emacs-package-names)
       ))
 (testsymb 'available-packages)
 
