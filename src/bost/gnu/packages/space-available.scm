@@ -13,7 +13,7 @@
 #|
 guix package --list-available='^emacs-' | awk '{print "   \""$1"\""}' | uniq
 |#
-(define (guix-package---list-available)
+(define (all-available-emacs-package-names)
   "
 guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | uniq
 "
@@ -1955,22 +1955,33 @@ guix package --list-available='^emacs-' | awk '{print \"   \\\"\"$1\"\\\"\"}' | 
    "emacs-zoxide"
    "emacs-ztree"
    ))
-(testsymb 'guix-package---list-available)
+(testsymb 'all-available-emacs-package-names)
 
-;;; found fresh local cache at /home/bost/.cache/guile/ccache/3.0-LE-8-4.6/home/bost/dev/guix/gnu/packages.scm.go
-(define (found-packages)
+(define (guix-channel-available-emacs-packages)
   ((comp
     ;; length
-    (partial map package-name)
     flatten
     (partial remove null?)
+    ;; I guess find-packages-by-name searched only in the guix channel
     (partial map find-packages-by-name)
     )
-   (guix-package---list-available)))
-(testsymb 'found-packages)
+   (all-available-emacs-package-names)))
+(testsymb 'guix-channel-available-emacs-packages)
+
+(define (guix-channel-available-emacs-package-names)
+  (map package-name (guix-channel-available-emacs-packages)))
 
 (define-public (available-packages)
-  (sx (guix-package---list-available) (found-packages)))
+  (if-let [(not-found (s- (all-available-emacs-package-names)
+                          (guix-channel-available-emacs-package-names)))]
+          (my=warn "~a packages from other than 'guix' channel:\n~a\n\n"
+                   (length not-found)
+                   not-found))
+
+  ;; intersection
+  (sx (all-available-emacs-package-names)
+      (guix-channel-available-emacs-package-names)
+      ))
 (testsymb 'available-packages)
 
 (module-evaluated)
