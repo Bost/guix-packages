@@ -110,17 +110,20 @@ is wrapped around any parts requiring it."
          (build-package-desc-from-library name)
          ,file-name-pkg))
 
-      (condition-case
-       err
-       (let ((name (file-name-base (buffer-file-name))))
-         (generate-package-description-file name)
-         (message "%s generated." ,file-name-pkg))
-       (error
-        (message "There are some errors during generation of %s :" ,file-name-pkg)
-        (message "%s" (error-message-string err))))))
+      (let ((f "[%write-pkg-file-form]"))
+        (condition-case
+         err
+         (progn
+          ;; (message "%s Generating %s…" f ,file-name-pkg)
+          (let ((name (file-name-base (buffer-file-name))))
+            (generate-package-description-file name)
+            (message "%s Generating %s… done" f ,file-name-pkg)))
+         (error
+          (message "%s Errors during generation of %s :" f ,file-name-pkg)
+          (message "%s %s" f (error-message-string err)))))))
 
-  (unless (file-exists? file-name-pkg)
-    (emacs-batch-edit-file (string-append name ".el")
-      %write-pkg-file-form))
-  )
+  (if (file-exists? file-name-pkg)
+      (my=warn "[write-pkg-file] file-exists ~a\n" file-name-pkg)
+      (emacs-batch-edit-file (string-append name ".el")
+        %write-pkg-file-form)))
 
