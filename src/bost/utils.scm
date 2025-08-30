@@ -80,9 +80,35 @@
 (define-public cnt length+)
 
 (define-public (partial fun . args)
-  "Alternative implementation:
-(use-modules (srfi srfi-26))
-(map (cut * 2 <>) '(1 2 3 4)) ;; => (2 4 6 8)"
+  "`partial': Always pre-fills arguments from the left, remaining function
+           expects the rest.
+`cute':    Explicitly specify with <> where the remaining arguments will go.
+`cut':     Like `cute' but with lazy evaluation.
+
+In short `cute' gives control over argument positioning via placeholders,
+while `partial' always fills from left to right.
+
+  (use-modules (srfi srfi-26))
+  (define add4 (lambda (a b c d) (+ a b c d)))
+
+1. `partial' simply pre-fills arguments from the left
+  (define add4-partial (partial add4 10 20))
+  (add4-partial 30 40)  ; => 100
+Equivalent to: (add4 10 20 30 40)
+
+2. `cut' allows placeholders (<>) and evaluates arguments lazily
+  (define x 10)
+  (define add4-cut (cut add4 x 20 <> <>))
+  (set! x 99)  ; changing x affects the cut
+  (add4-cut 30 40)  ; => 189 (uses x=99)
+The variable x is looked up each time add4-cut is called
+
+3. `cute' evaluates non-placeholder arguments immediately
+  (define x 10)
+  (define add4-cute (cute add4 x 20 <> <>))
+  (set! x 99)  ; changing x doesn't affect cute
+  (add4-cute 30 40)  ; => 100 (uses x=10, captured at definition time)
+The value of x was captured when add4-cute was defined."
   (lambda x (apply fun (append args x))))
 
 (define-public (comp . fns)
