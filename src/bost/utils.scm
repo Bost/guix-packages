@@ -18,6 +18,7 @@
   #:use-module (ice-9 regex)         ; string-match
   #:use-module (ice-9 string-fun)    ; string-replace-substring
   #:use-module (rnrs io ports)       ; exec-with-error-to-string
+  #:use-module (srfi srfi-69)        ; hash-table-size
   ;; #:use-module (guix monads)         ; return, bind
   #| #:use-module (guix build utils) ; invoke - not needed |#
   #| #:use-module (ice-9 readline)   ; it requires `guix install guile-readline' |#
@@ -107,7 +108,46 @@ Works also for functions returning and accepting multiple values."
 (define-public (s- . rest) (apply (partial lset-difference eq-op?) rest))
 (define-public (sx . rest) (apply (partial lset-intersection eq-op?) rest))
 
-(define-public empty? null?) ;; no runtime cost. null? is a primitive procedure
+(define-public (empty? x)
+  "(empty? \"\")                             ; => #t empty string
+(empty? '())                            ; => #t empty list
+(empty? #())                            ; => #t empty vector
+(empty? (make-hash-table))              ; => #t empty hash table
+
+(empty? '(1 2 3))                       ; => #f non-empty list
+(empty? \"hello\")                        ; => #f non-empty string
+(empty? #(1 2 3))                       ; => #f non-empty vector
+(empty? (alist->hash-table '((a . 1)))) ; => #f non-empty hash table
+
+However:
+(empty? (if #f #t))                     ; => #f *unspecified* is not empty
+(empty? *unspecified*)                  ; => #f *unspecified* is not empty
+
+See also @code{empty-or-unspecified?}"
+  (cond
+   [(string? x) (string-null? x)]
+   [(list? x) (null? x)] ; no runtime cost. null? is a primitive procedure
+   [(vector? x) (zero? (vector-length x))]
+   [(hash-table? x) (zero? (hash-table-size x))]
+   [else #f]))
+
+(define-public (empty-or-unspecified? x)
+  "(empty-or-unspecified? \"\")                             ; => #t empty string
+(empty-or-unspecified? '())                            ; => #t empty list
+(empty-or-unspecified? #())                            ; => #t empty vector
+(empty-or-unspecified? (make-hash-table))              ; => #t empty hash table
+(empty-or-unspecified? (if #f #t))                     ; => #t *unspecified*
+(empty-or-unspecified? *unspecified*)                  ; => #t *unspecified*
+
+(empty-or-unspecified? \"hello\")                        ; => #f non-empty string
+(empty-or-unspecified? '(1 2 3))                       ; => #f non-empty list
+(empty-or-unspecified? #(1 2 3))                       ; => #f non-empty vector
+(empty-or-unspecified? (alist->hash-table '((a . 1)))) ; => #f non-empty hash table
+
+See also @code{empty?}"
+  (if (unspecified? x)
+      #t
+      (empty? x)))
 
 (define-public (boolean x) (not (not x)))
 
