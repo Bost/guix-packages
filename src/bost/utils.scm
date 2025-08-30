@@ -1345,4 +1345,24 @@ that many from the end."
   (and (file-exists? path)
        (eq? (stat:type (lstat path)) 'symlink)))
 
+(define-public (find-duplicates lst eq-proc)
+  "(find-duplicates (list 1 2 2 3) =)            ; => (2)
+(find-duplicates (list 1 2 1 2 3) =)          ; => (1 2)
+(find-duplicates (list 1 1 1 2) =)            ; => (1)
+(find-duplicates (list \"1\" \"2\" \"1\") string=?) ; => (\"1\")"
+
+  (define f (format #f "~a [find-duplicates]" m))
+
+  ((comp
+    ;; (lambda (p) (format #t "~a 2. (length p): ~a\n" f (length p)) p)
+    (lambda (deduped-lst)
+      (filter (lambda (x)
+                (> (count (partial eq-proc x) lst) 1))
+              deduped-lst))
+    ;; (lambda (p) (format #t "~a 1. (length p): ~a\n" f (length p)) p)
+    (lambda (lst) (delete-duplicates lst eq-proc))
+    ;; (lambda (p) (format #t "~a 0. (length p): ~a\n" f (length p)) p)
+    )
+   lst))
+
 (module-evaluated)
