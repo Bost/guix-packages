@@ -1295,6 +1295,20 @@ that many from the end."
 ;; (define string-ops (juxt string-length string-upcase string-downcase))
 ;; (string-ops "Hello")  ; => (5 "HELLO" "hello")
 
+(define-public (find-files-directories directory extension)
+  "Recursively find directories of all files with EXTENSION under DIRECTORY,
+remove duplicates and return the list.
+
+Depends on Guix implementation of `find-files' from (guix build utils).
+
+Usage:
+  (find-files-directories \"\\\\.scm$\" \"/tmp\")"
+  ((comp
+    (lambda (s) (sort s string<?)) ; sort alphabetically
+    (lambda (lst) (delete-duplicates lst string=?))
+    (partial map dirname))
+   (find-files directory extension)))
+
 (define-public (build-in-repl package-or-packages)
   "Usage:
 (build-in-repl <package-name>)
