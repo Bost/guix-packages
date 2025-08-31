@@ -22778,6 +22778,14 @@ Returns a list of unique relative directory paths containing .el files."
       (cut find-files <> "\\.el$" #:directories? #f #:fail-on-error? #f))
      absolute-path)))
 
+(let* [(current-dir (getcwd))
+       (pkg-files (find-files current-dir "\\-pkg.el$"))]
+  (map (lambda (file)
+         (format #t "### ~a\n" (string-replace-substring file ".el" ".___"))
+         (rename file
+                 (string-replace-substring file ".el" ".___")
+                 )) pkg-files))
+
                 (map
                  (lambda (file)
                    (let* ((base (basename file))
@@ -22788,8 +22796,8 @@ Returns a list of unique relative directory paths containing .el files."
                               (substring base 0 (- (string-length base) 3))))))
                  ;; TODO for every el-file analyze every (require ...)
                  (list
-                  "core/aprilfool/zemacs.el"
-                  "core/libs/forks/load-env-vars.el"
+                  ;; "core/aprilfool/zemacs.el"
+                  ;; "core/libs/forks/load-env-vars.el"
                   "core/libs/spacemacs-theme/spacemacs-theme.el"
                   ;; "layers/+chat/erc/local/erc-tex/erc-tex.el"
                   ;; "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
@@ -22871,7 +22879,7 @@ Returns a list of unique relative directory paths containing .el files."
                        (partial map (partial format #f "~s")))
                       (map (comp package-name cadr)
                            (append (package-propagated-inputs emacs)
-                                   (spacemacs-packages-for-inputs))
+                                   #;(spacemacs-packages-for-inputs))
                            ))))))
             ;; (replace 'build (lambda* args #t))
             )))

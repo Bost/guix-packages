@@ -1,4 +1,11 @@
 (define-module (bost guix build emacs-utils)
+  ;; #:use-module (ice-9 pretty-print)
+
+  ;; #:use-module (bost utils) ; my=warn however when used, it errors out with
+  ;; 'no code for module (bost utils)' even if this module is under among
+  ;; #:modules and #:imported-modules of emacs-spacemacs package arguments
+  ;; It must be used via ((@(bost utils) my=warn) "The warning message" ...)
+
   #:use-module (guix build emacs-utils)
   #:export (
             write-pkg-file
@@ -123,7 +130,6 @@ is wrapped around any parts requiring it."
           (message "%s %s" f (error-message-string err)))))))
 
   (if (file-exists? file-name-pkg)
-      (my=warn "[write-pkg-file] file-exists ~a\n" file-name-pkg)
+      ((@(bost utils) my=warn) "[write-pkg-file] file-exists ~a\n" file-name-pkg)
       (emacs-batch-edit-file (string-append name ".el")
         %write-pkg-file-form)))
-
