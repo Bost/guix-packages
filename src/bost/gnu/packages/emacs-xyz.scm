@@ -1,5 +1,9 @@
 (define-module (bost gnu packages emacs-xyz)
   ;; #:use-module (ice-9 pretty-print)
+  #:use-module (srfi srfi-26) ; Conveniently specialize selected parameters
+  #:use-module (ice-9 ftw)    ; File tree walker
+  #:use-module (guix build utils) ; find-files
+  ;; #:use-module (ice-9 match)
   #:use-module (bost utils)
   #:use-module (bost gnu packages space-needed)
   #:use-module (gnu packages emacs-xyz)
@@ -22661,11 +22665,22 @@ processes for Emacs.")
         #:modules '((guix build emacs-build-system)
                     (guix build utils)
                     (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
+                    ((bost guix build emacs-utils) #:prefix bst:)
+
+                    (srfi srfi-1)  ; the 'any' test
+                    (srfi srfi-26) ; Conveniently specialize selected parameters
+                    (bost utils)
+                    )
         #:imported-modules `(,@%default-gnu-imported-modules
                              (guix build emacs-build-system)
                              (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+                             (bost guix build emacs-utils)
+
+                             (srfi srfi-1)  ; any
+                             (srfi srfi-26) ; Conveniently specialize selected parameters
+                             (bost srfi-1-smart)
+                             (bost utils)
+                             )
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'patch-bump-version
@@ -22712,6 +22727,57 @@ processes for Emacs.")
             (add-after 'unpack 'add-emacs-load-path
               ;; add-before 'compile 'add-emacs-load-path
               (lambda* (#:key inputs #:allow-other-keys)
+
+                (map (lambda (s)
+                       (any (cut string-contains s <>)
+                            (list "a" "b")))
+                     (list "xs" "as" "bs" "cs"))
+
+                (map (lambda (s)
+                       (any (cut string-contains s <>)
+                            (list "a" "b")))
+                     (list "xs" "as" "bs" "cs"))
+
+(define (find-el-file-directories-gitignore path)
+  "Find directories containing .el files, explicitly respecting common .gitignore
+patterns.
+
+Usage:
+  (find-el-file-directories-gitignore \"/path/to/emacs/packages\")
+
+Returns a list of unique relative directory paths containing .el files."
+  (let* [(absolute-path (if (absolute-file-name? path)
+                            path
+                            (canonicalize-path path)))
+         (path-length (string-length absolute-path))]
+    ((comp
+      (cut sort <> string<?)
+      (cut delete-duplicates <> string=?)
+      (cut map (cut string-drop <> 1) <>)
+      (cut remove string-null? <>)
+      ;; Convert to relative paths
+      (cut map (lambda (dir)
+                 (if (string-prefix? absolute-path dir)
+                     (string-drop dir path-length)
+                     dir)) <>)
+      (cut map dirname <>)
+      ;; Filter out .git directories and other common ignore patterns
+      (cut filter (lambda (file)
+                    (not
+                     (or
+                      ;; (any pred lst1 lst2 ...)
+                      ;; Test whether any set of elements from LST1 LST2 ... satisfies PRED.
+                      ;; If so, the return value is the return value from the successful
+                      ;; PRED call, or if not, the return value is ‘#f’.
+                      (any (cut string-contains file <>)
+                           (list "/.git/" "/.svn/" "/.#" "/.github/"
+                                 ;; "/." ; ignores everything
+                                 "/node_modules/"))
+                      (string-suffix? "~" file))))
+           <>)
+      (cut find-files <> "\\.el$" #:directories? #f #:fail-on-error? #f))
+     absolute-path)))
+
                 (map
                  (lambda (file)
                    (let* ((base (basename file))
@@ -22724,57 +22790,76 @@ processes for Emacs.")
                  (list
                   "core/aprilfool/zemacs.el"
                   "core/libs/forks/load-env-vars.el"
-                  "layers/+chat/erc/local/erc-tex/erc-tex.el"
-                  "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
-                  "layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help.el"
-                  "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state.el"
-                  "layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode.el"
-                  "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode.el"
-                  "layers/+fun/games/local/helm-games/helm-games.el"
-                  "layers/+lang/jr/local/jr-mode/jr-mode.el"
-                  "layers/+lang/restructuredtext/local/rst-directives/rst-directives.el"
-                  "layers/+lang/restructuredtext/local/rst-lists/rst-lists.el"
-                  "layers/+misc/ietf/local/irfc/irfc.el"
-                  "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup.el"
-                  "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired.el"
-                  "layers/+spacemacs/spacemacs-org/local/space-doc/space-doc.el"
-                  "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin.el"
-                  "layers/+tools/sphinx/local/rst-sphinx/rst-sphinx.el"
-                  "layers/+tools/tmux/local/tmux/tmux.el"
-                  "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
+                  "core/libs/spacemacs-theme/spacemacs-theme.el"
+                  ;; "layers/+chat/erc/local/erc-tex/erc-tex.el"
+                  ;; "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
+                  ;; "layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help.el"
+                  ;; "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state.el"
+                  ;; "layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode.el"
+                  ;; "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode.el"
+                  ;; "layers/+fun/games/local/helm-games/helm-games.el"
+                  ;; "layers/+lang/jr/local/jr-mode/jr-mode.el"
+                  ;; "layers/+lang/restructuredtext/local/rst-directives/rst-directives.el"
+                  ;; "layers/+lang/restructuredtext/local/rst-lists/rst-lists.el"
+                  ;; "layers/+misc/ietf/local/irfc/irfc.el"
+                  ;; "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup.el"
+                  ;; "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired.el"
+                  ;; "layers/+spacemacs/spacemacs-org/local/space-doc/space-doc.el"
+                  ;; "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin.el"
+                  ;; "layers/+tools/sphinx/local/rst-sphinx/rst-sphinx.el"
+                  ;; "layers/+tools/tmux/local/tmux/tmux.el"
+                  ;; "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
                   ))
-                (let* ((current-dir (getcwd))
-                       ;; list every directory you need on the load-path:
+                (/ 1 0)
+
+                ;; Compiling ‘core/libs/spacemacs-theme/spacemacs-dark-theme.el’
+
+                ;; Error: file-missing ("Cannot open load file" "No such file or directory" "spacemacs-theme")
+                ;; require(spacemacs-theme)
+                ;; apply(require spacemacs-theme)
+                ;; byte-compile-file-form-require((require 'spacemacs-theme))
+                ;; byte-compile-file-form((require 'spacemacs-theme))
+                ;; #f(compiled-function (form) #<bytecode -0x1ba965706395cc33>)((require 'spacemacs-theme))
+                ;; byte-compile-recurse-toplevel((require 'spacemacs-theme) #f(compiled-function (form) #<bytecode -0x1ba965706395cc33>))
+                ;; byte-compile-toplevel-file-form((require 'spacemacs-theme))
+                ;; #f(compiled-function () #<bytecode 0xaa214b02952273>)()
+                ;; #f(compiled-function (body-fn) #<bytecode -0x12f00a7cc7411bef>)(#f(compiled-function () #<bytecode 0xaa214b02952273>))
+                ;; bytecomp--displaying-warnings(#f(compiled-function () #<bytecode 0xaa214b02952273>))
+                ;; byte-compile-from-buffer(#<buffer  *Compiler Input*>)
+
+                (let* [(current-dir (getcwd))
                        ;; TODO obtain a list of every el-file and `dirname' over it. Then delete duplicates.
-                       (paths   (list
-                                 "core"
-                                 "core/aprilfool"
-                                 "core/libs"
-                                 "core/libs/forks"
-                                 "core/libs/spacemacs-theme"
-                                 "layers/+chat/erc/local/erc-tex"
-                                 "layers/+chat/erc/local/erc-yank"
-                                 "layers/+completion/compleseus/local/compleseus-spacemacs-help"
-                                 "layers/+completion/helm/local/helm-spacemacs-help"
-                                 "layers/+completion/ivy/local/ivy-spacemacs-help"
-                                 "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
-                                 "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
-                                 "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
-                                 "layers/+fun/games/local/helm-games"
-                                 "layers/+lang/jr/local/jr-mode"
-                                 "layers/+lang/restructuredtext/local/rst-directives"
-                                 "layers/+lang/restructuredtext/local/rst-lists"
-                                 "layers/+misc/ietf/local/irfc"
-                                 "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
-                                 "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
-                                 "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
-                                 "layers/+spacemacs/spacemacs-org/local/space-doc"
-                                 "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
-                                 "layers/+tools/sphinx/local/rst-sphinx"
-                                 "layers/+tools/tmux/local/tmux"
-                                 "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
-                       (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
-                       (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":")))
+                       ;; (paths   (list
+                       ;;           "core"
+                       ;;           "core/aprilfool"
+                       ;;           "core/libs"
+                       ;;           "core/libs/forks"
+                       ;;           "core/libs/spacemacs-theme"
+                       ;;           "layers/+chat/erc/local/erc-tex"
+                       ;;           "layers/+chat/erc/local/erc-yank"
+                       ;;           "layers/+completion/compleseus/local/compleseus-spacemacs-help"
+                       ;;           "layers/+completion/helm/local/helm-spacemacs-help"
+                       ;;           "layers/+completion/ivy/local/ivy-spacemacs-help"
+                       ;;           "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
+                       ;;           "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
+                       ;;           "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
+                       ;;           "layers/+fun/games/local/helm-games"
+                       ;;           "layers/+lang/jr/local/jr-mode"
+                       ;;           "layers/+lang/restructuredtext/local/rst-directives"
+                       ;;           "layers/+lang/restructuredtext/local/rst-lists"
+                       ;;           "layers/+misc/ietf/local/irfc"
+                       ;;           "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
+                       ;;           "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+                       ;;           "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
+                       ;;           "layers/+spacemacs/spacemacs-org/local/space-doc"
+                       ;;           "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                       ;;           "layers/+tools/sphinx/local/rst-sphinx"
+                       ;;           "layers/+tools/tmux/local/tmux"
+                       ;;           "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
+                       ;; (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
+                       (full (find-el-file-directories-gitignore current-dir))
+
+                       (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":"))]
                   (setenv "EMACSLOADPATH" env-val))))
             (add-after 'unpack 'fix--guix-get-installed-emacs-packages
               (lambda* (#:key inputs #:allow-other-keys)
