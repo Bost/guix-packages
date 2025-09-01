@@ -714,16 +714,4 @@ Returns the first package found, or #f if not found in any module."
     )
    (needed-package-names)))
 
-(define-public (spacemacs-packages-for-inputs)
-  ((comp
-    ;; (lambda (lst) (format #t "3. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    (partial map (lambda (p) (list (package-name p) p)))
-    ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    (partial remove unspecified-or-empty-or-false?)
-    ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    (partial map find-package)
-    ;; (lambda (lst) (format #t "0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
-    )
-   (needed-package-names)))
-
 (module-evaluated)

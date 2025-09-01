@@ -22721,9 +22721,9 @@ processes for Emacs.")
       (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
       (propagated-inputs
-       (append (package-propagated-inputs emacs)
-               #;(spacemacs-packages-for-inputs))
-       )
+       (modify-inputs (package-propagated-inputs emacs)
+                      ;; (spacemacs-packages)
+                      ))
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
