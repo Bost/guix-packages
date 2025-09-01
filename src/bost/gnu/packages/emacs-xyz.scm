@@ -12021,7 +12021,10 @@ as well as features for editing search results.")
           (base32 "1yhdc6h72crnlp46hbvs20c0fc9r1x7896z7rbp1z0i0hphsrs86"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-helm emacs-projectile))
+       (list
+        emacs-helm
+        emacs-projectile
+        ))
       (home-page "https://github.com/bbatsov/helm-projectile")
       (synopsis "Helm integration for Projectile")
       (description
@@ -14950,7 +14953,9 @@ provides the following features:
                 (bst:write-pkg-file "projectile")
                 )))))
       (native-inputs
-       (list emacs-buttercup))
+       (list
+        emacs-buttercup
+        ))
       (propagated-inputs
        (list
         bst:emacs-dash
@@ -15532,7 +15537,10 @@ color-name strings (such as \"blue\") and hex RGB color strings (such as
            "1lkdvmjn3alhqxq2i64sdr977sbw3g0b2670d9bwyzi67qh0jxrv"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-async emacs-projectile))
+       (list
+        emacs-async
+        emacs-projectile
+        ))
       (home-page "https://github.com/emacs-taskrunner/emacs-taskrunner")
       (synopsis "Retrieve tasks from various build systems and task-runners")
       (description "This package parses Makefiles and build-system files for
@@ -15579,7 +15587,11 @@ JSON APIs.")
            "1wf4s4k0ap21f7g5w6128an8nsvbja7f5n889vcml5b6gjz058db"))))
       (build-system emacs-build-system)
       (propagated-inputs
-       (list emacs-ivy emacs-taskrunner emacs-projectile))
+       (list
+        emacs-ivy
+        emacs-taskrunner
+        emacs-projectile
+        ))
       (home-page "https://github.com/emacs-taskrunner/ivy-taskrunner")
       (synopsis "Retrieve build-system tasks using Ivy")
       (description "This package provides an Ivy interface for selecting
@@ -15614,33 +15626,6 @@ Makefile targets.")
       (description "This package provides a Helm interface for selecting
 Makefile targets.")
       (license license:gpl3+))))
-
-;; (define-public emacs-helm-make
-;;   (let ((commit "ebd71e85046d59b37f6a96535e01993b6962c559")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-helm-make")
-;;       (version (git-version "0.2.0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/abo-abo/helm-make")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32
-;;            "14jvhhw4chl94dgfwbyy7yirwchvcz5zrsgr9w6qy4z0fhqba41a"))))
-;;       (build-system emacs-build-system)
-;;       (arguments (list #:tests? #f))    ; no tests
-;;       (propagated-inputs
-;;        (list emacs-helm emacs-ivy emacs-projectile))
-;;       (home-page "https://github.com/abo-abo/helm-make")
-;;       (synopsis "Select a Makefile target with helm")
-;;       (description "@code{helm-make} or @code{helm-make-projectile} will give
-;; you a @code{helm} selection of directory Makefile's targets.  Selecting a
-;; target will call @code{compile} on it.")
-;;       (license license:gpl3+))))
 
 (define-public emacs-islisp-mode
   (package
