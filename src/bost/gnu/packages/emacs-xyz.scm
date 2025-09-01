@@ -146,6 +146,245 @@
   )
 
 (define m (module-name-for-logging))
+;; (evaluating-module)
+
+;; $ guix package --cores=24 --install emacs-lispyville
+;; The following package will be installed:
+;; emacs-lispyville 0.1-3.89316f0
+;;
+;; guix package: error: profile contains conflicting entries for emacs-evil
+;; guix package: error:   first entry: emacs-evil@1.15.0-0.008a6cd /gnu/store/z9zbl3wm84d4g5k0iim530aqiqn6zrla-emacs-evil-1.15.0-0.008a6cd
+;; guix package: error:    ... propagated from emacs-lispyville@0.1-3.89316f0
+;; guix package: error:   second entry: emacs-evil@1.15.0-0.682e87f /gnu/store/crwy48ysiihs1j2ggm9xh2fw2q5mnjdk-emacs-evil-1.15.0-0.682e87f
+;; hint: Try upgrading both `emacs-lispyville' and `emacs-evil', or remove one of them from the profile.
+(define-public emacs-lispyville
+  (let ((commit "14ee8711d58b649aeac03581d22b10ab077f06bd")
+        (revision "3"))
+    (package
+      (name "emacs-lispyville")
+      (version (git-version "0.1" revision commit))
+      (home-page "https://github.com/noctuid/lispyville.git")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference (url home-page) (commit commit)))
+         (sha256
+          (base32
+           "1jlxcr9vikczhryw3xslfy6hzs2ikcf9khbwaw53ymwdxrmphcci"))
+         (file-name (git-file-name name version))))
+      (propagated-inputs
+       (list
+         emacs-evil
+         emacs-lispy
+         ))
+      (native-inputs
+        (list
+          emacs-ert-runner
+          ))
+      (build-system emacs-build-system)
+      (arguments (list #:test-command #~(list "ert-runner" "tests")))
+      (synopsis "Minor mode for integrating Evil with lispy")
+      (description
+       "LispyVille's main purpose is to provide a Lisp editing environment
+suited towards Evil users.  It can serve as a minimal layer on top of lispy
+for better integration with Evil, but it does not require the use of lispy’s
+keybinding style.  The provided commands allow for editing Lisp in normal
+state and will work even without lispy being enabled.")
+      (license license:gpl3+))))
+
+(define-public emacs-ts
+  ;; XXX: Upstream did not tag last release.  Use commit matching version
+  ;; bump.
+  (let ((commit "552936017cfdec89f7fc20c254ae6b37c3f22c5b"))
+    (package
+      (name "emacs-ts")
+      (version "0.3")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/alphapapa/ts.el")
+               (commit commit)))
+         (sha256
+          (base32 "18lif159zndl19ddz9rfq12l90770858yasfns21ryl1yrq3aifr"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (arguments
+       ;; XXX: Three tests are failing because of a timezone-related issue
+       ;; with how they're written.  On my machine, all the failing test
+       ;; results are 18000 seconds (5 hours) off.
+
+       ;; The ts-parse-org function accepts a string without any timezone
+       ;; info, not assumed to be in Unix time, and converts it to a so-called
+       ;; ts struct.  The ts-unix function (accessor) accepts a ts struct,
+       ;; then seems to assume the struct's corresponding time is in terms of
+       ;; the user's current time zone, before returning a Unix time in
+       ;; seconds.
+
+       ;; The failing tests all have similar problems, but nothing else about
+       ;; the library seems particularly off.
+       (list
+        #:test-command #~(list "emacs" "--batch"
+                               "-l" "test/test.el"
+                               "-f" "ert-run-tests-batch-and-exit")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'check 'make-tests-writable
+              (lambda _
+                (make-file-writable "test/test.el")))
+            (add-before 'check 'delete-failing-tests
+              (lambda _
+                (emacs-batch-edit-file "test/test.el"
+                  `(progn
+                    (goto-char (point-min))
+                    (dolist (test-regexp
+                             '("ert-deftest ts-fill"
+                               "ert-deftest ts-format"
+                               "ert-deftest ts-parse-org\\_>"
+                               "ert-deftest ts-parse-org-element"))
+                            (re-search-forward test-regexp)
+                            (beginning-of-line)
+                            (kill-sexp)
+                            (goto-char (point-min)))
+                    (basic-save-buffer))))))))
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        emacs-s
+        ))
+      (home-page "https://github.com/alphapapa/ts.el")
+      (synopsis "Timestamp and date/time library")
+      (description "This package facilitates manipulating dates, times, and
+timestamps by providing a @code{ts} struct.")
+      (license license:gpl3+))))
+
+(define-public emacs-slack
+  (let ((commit "b104bb2f9212e157da01f9161e466b5ed0b151fc")
+        (revision "11"))
+    (package
+      (name "emacs-slack")
+      (version (git-version "0.0.2" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/yuya373/emacs-slack.git")
+                (commit commit)))
+         (file-name (git-file-name name commit))
+         (sha256
+          (base32
+           "06m8vb9685aqxpq5nfn8l4h3893pl6aj60syfdy3f1gk815zgn45"
+           ))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:phases
+         (modify-phases %standard-phases
+           ;; HOME needs to exist for source compilation.
+           (add-before 'build 'set-HOME
+             (lambda _ (setenv "HOME" "/tmp") #t)))))
+      (propagated-inputs
+       (list
+        emacs-alert
+        emacs-emojify
+        emacs-helm
+        emacs-request
+        emacs-s
+        emacs-ts
+        emacs-websocket
+        emacs-oauth2
+        emacs-circe
+        ))
+      (home-page "https://github.com/yuya373/emacs-slack")
+      (synopsis "Slack client for Emacs")
+      (description "This package provides an Emacs client for the Slack
+messaging service.")
+      (license license:gpl3+))))
+
+(define-public emacs-chronometrist
+  (package
+    (name "emacs-chronometrist")
+    (version "0.10.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://tildegit.org/contrapunctus/chronometrist")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0qpkpkipmac24m3ng4ahsml3vi15qcvmid3g02pbpgbpc113zfpl"))))
+    (build-system emacs-build-system)
+    (arguments
+     (list
+      #:lisp-directory "elisp"
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'install 'install-doc
+            ;; Documentation consists of several Markdown files.
+            (lambda _
+              (let ((doc (string-append #$output
+                                        "/share/doc/emacs-chronometrist-"
+                                        #$version)))
+                (with-directory-excursion "../doc"
+                  (for-each (lambda (f) (install-file f doc))
+                            (cons* "../UNLICENSE"
+                                   "../WTFPL"
+                                   (find-files "." "\\.md$"))))))))))
+    (propagated-inputs
+     (list
+      emacs-alert
+      bst:emacs-dash
+      emacs-s
+      emacs-spark
+      emacs-ts
+      ))
+    (home-page "https://github.com/contrapunctus-1/chronometrist")
+    (synopsis "Time tracker for Emacs")
+    (description "Chronometrist is a time tracker in Emacs, largely modelled
+after the Android application, @emph{A Time Tracker}.
+
+Its features are:
+@itemize
+@item Simple and efficient to use,
+@item Displays useful information about your time usage,
+@item Support for both mouse and keyboard,
+@item Human errors in tracking are easily fixed by editing a plain text file,
+@item Hooks to let you perform arbitrary actions when starting/stopping tasks.
+@end itemize")
+    ;; Software is dual-licensed.
+    (license (list license:unlicense license:wtfpl2))))
+
+(define-public emacs-flyspell-popup
+  (let ((commit "29311849bfd253b9b689bf331860b4c4d3bd4dde")
+        (revision "0"))
+    (package
+      (name "emacs-flyspell-popup")
+      (version (git-version "0.3" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/xuchunyang/flyspell-popup.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "0x7jilwb0fgzsr7ma59sgd0d4122cl0hwzr28vi3z5s8wdab7nc4"
+           ))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        emacs-popup
+        ))
+      (home-page "https://github.com/xuchunyang/flyspell-popup")
+      (synopsis "Popup-based interface for correcting misspelled words in Emacs flyspell")
+      (description
+       "Popup‑menu interface for correcting misspelled words detected by Flyspell in
+Emacs.  It offers the command `flyspell-popup-correct` (typically bound to
+`C-;`) and an auto‑correct mode that triggers a popup after a configurable
+delay.  It enhances the correction workflow for Flyspell by presenting
+suggestions in a lightweight, distraction‑free popup menu.")
+      (license license:gpl3+))))
 
 (define-public emacs-rcirc-styles
   (let ((commit "dd06ec5fa455131788bbc885fcfaaec16b08f13b")
@@ -3271,7 +3510,8 @@ and @code{erc-send-modify-hook} to download and show images.")
     (propagated-inputs
      (list
       emacs-evil
-      emacs-bind-map))
+      emacs-bind-map
+      ))
     (arguments
      (list
       #:tests? #f
