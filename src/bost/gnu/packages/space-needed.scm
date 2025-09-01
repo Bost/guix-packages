@@ -1,4 +1,5 @@
 (define-module (bost gnu packages space-needed)
+  #:use-module (ice-9 pretty-print)
   #:use-module (guix packages)
   #:use-module (srfi srfi-1) ; list-processing procedures
   #:use-module (bost utils)  ; partial, m
@@ -373,6 +374,7 @@
    "emacs-ligature"
    "emacs-light-soap-theme"
    "emacs-link-hint"
+   ;; "emacs-lispyville"
    "emacs-list-utils"
    "emacs-live-py-mode"
    "emacs-livid-mode"

@@ -151,6 +151,50 @@
   #:use-module (ice-9 match)
   )
 
+;; $ guix package --cores=24 --install emacs-lispyville
+;; The following package will be installed:
+;; emacs-lispyville 0.1-3.89316f0
+;;
+;; guix package: error: profile contains conflicting entries for emacs-evil
+;; guix package: error:   first entry: emacs-evil@1.15.0-0.008a6cd /gnu/store/z9zbl3wm84d4g5k0iim530aqiqn6zrla-emacs-evil-1.15.0-0.008a6cd
+;; guix package: error:    ... propagated from emacs-lispyville@0.1-3.89316f0
+;; guix package: error:   second entry: emacs-evil@1.15.0-0.682e87f /gnu/store/crwy48ysiihs1j2ggm9xh2fw2q5mnjdk-emacs-evil-1.15.0-0.682e87f
+;; hint: Try upgrading both `emacs-lispyville' and `emacs-evil', or remove one of them from the profile.
+(define-public emacs-lispyville
+  (let ((commit "14ee8711d58b649aeac03581d22b10ab077f06bd")
+        (revision "3"))
+    (package
+      (name "emacs-lispyville")
+      (version (git-version "0.1" revision commit))
+      (home-page "https://github.com/noctuid/lispyville.git")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference (url home-page) (commit commit)))
+         (sha256
+          (base32
+           "1jlxcr9vikczhryw3xslfy6hzs2ikcf9khbwaw53ymwdxrmphcci"))
+         (file-name (git-file-name name version))))
+      (propagated-inputs
+       (list
+         emacs-evil
+         emacs-lispy
+         ))
+      (native-inputs
+        (list
+          emacs-ert-runner
+          ))
+      (build-system emacs-build-system)
+      (arguments (list #:test-command #~(list "ert-runner" "tests")))
+      (synopsis "Minor mode for integrating Evil with lispy")
+      (description
+       "LispyVille's main purpose is to provide a Lisp editing environment
+suited towards Evil users.  It can serve as a minimal layer on top of lispy
+for better integration with Evil, but it does not require the use of lispy’s
+keybinding style.  The provided commands allow for editing Lisp in normal
+state and will work even without lispy being enabled.")
+      (license license:gpl3+))))
+
 (define-public emacs-ts
   ;; XXX: Upstream did not tag last release.  Use commit matching version
   ;; bump.
@@ -3441,7 +3485,8 @@ and @code{erc-send-modify-hook} to download and show images.")
     (propagated-inputs
      (list
       emacs-evil
-      emacs-bind-map))
+      emacs-bind-map
+      ))
     (arguments
      (list
       #:tests? #f
