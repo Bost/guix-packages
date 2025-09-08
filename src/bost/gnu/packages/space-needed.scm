@@ -319,7 +319,6 @@
    "emacs-helm-sly"
    "emacs-helm-swoop"
    "emacs-helm-system-packages"
-   "emacs-helm-themes"
    "emacs-helm-xref"
    "emacs-help-fns+" ;; "emacs-help-fns-plus" exists
    "emacs-hemisu-theme"
