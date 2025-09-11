@@ -18,6 +18,25 @@
   #:use-module (gnu packages texinfo)
   #:use-module (gnu packages version-control))
 
+(define-public modules-without-emacs-build-system
+  '((guix build utils)
+    (guix build emacs-utils)
+    ((bost guix build emacs-utils) #:prefix bst:)))
+
+(define-public modules
+  (append
+   modules-without-emacs-build-system
+   '((guix build emacs-build-system))))
+
+(define-public imported-modules
+  `(,@%default-gnu-imported-modules
+    (guix build emacs-build-system)
+    (guix build emacs-utils)
+    (bost guix build emacs-utils)
+    (bost utils)
+    (bost srfi-1-smart)
+    ))
+
 (define-public emacs-dash
   (let ((commit "fcb5d831fc08a43f984242c7509870f30983c27c")
         (revision "0"))
@@ -36,14 +55,8 @@
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules modules
+        #:imported-modules imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'disable-byte-compile-error-on-warn
@@ -112,14 +125,8 @@ Expectations, but it can be used in other contexts.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules modules
+        #:imported-modules imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
