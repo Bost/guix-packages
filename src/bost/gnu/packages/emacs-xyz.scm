@@ -3536,14 +3536,8 @@ has no user-level interface, it is only useful for programming in Emacs Lisp.")
         #:test-command #~(list "emacs" "--batch"
                                "-l" "use-package-tests.el"
                                "-f" "ert-run-tests-batch-and-exit")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-before 'install 'install-manual
@@ -3610,14 +3604,8 @@ performance-oriented and tidy.")
     (arguments
      (list
       #:tests? #f
-      #:modules '((guix build emacs-build-system)
-                  (guix build utils)
-                  (guix build emacs-utils)
-                  ((bost guix build emacs-utils) #:prefix bst:))
-      #:imported-modules `(,@%default-gnu-imported-modules
-                           (guix build emacs-build-system)
-                           (guix build emacs-utils)
-                           (bost guix build emacs-utils))
+      #:modules bst:modules
+      #:imported-modules bst:imported-modules
       #:phases
       #~(modify-phases %standard-phases
           (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -3903,14 +3891,8 @@ pressed simultaneously or a single key quickly pressed twice.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -5090,14 +5072,8 @@ experience similar to browser-based HTML/JS/CSS editors.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -5137,14 +5113,8 @@ it suitable for managing folds in large projects.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -5247,14 +5217,8 @@ used.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -5339,14 +5303,8 @@ Emacs tools, facilitating seamless GitHub workflows within the editor.")
        (list
         #:tests? #f                       ; no test suite
         #:lisp-directory "lisp"
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-before 'install 'make-info
@@ -5398,14 +5356,8 @@ on stdout instead of using a socket as the Emacsclient does.")
         ;; #:tests? #t
         #:lisp-directory "lisp"
         #:test-command #~(list "make" "-C" ".." "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'build-info-manual
@@ -6945,14 +6897,8 @@ color for syntax, and easily allows multiple variants.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -9334,14 +9280,8 @@ with GUI Emacs behavior.")
                              "-L" "clients"
                              "-t" "!no-win"
                              "-t" "!org")
-      #:modules '((guix build emacs-build-system)
-                  (guix build utils)
-                  (guix build emacs-utils)
-                  ((bost guix build emacs-utils) #:prefix bst:))
-      #:imported-modules `(,@%default-gnu-imported-modules
-                           (guix build emacs-build-system)
-                           (guix build emacs-utils)
-                           (bost guix build emacs-utils))
+      #:modules bst:modules
+      #:imported-modules bst:imported-modules
       #:phases
       #~(modify-phases %standard-phases
           ;; Move libraries to the top-level.
@@ -10229,14 +10169,8 @@ debugging workflow.")
       (arguments
        (list
         #:test-command #~(list "make" "-C" "../.." "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'fix-makefile
@@ -10519,14 +10453,8 @@ prover, version 4.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -10619,15 +10547,11 @@ implementation of treeview controls using treemacs as a tree renderer.")
     (build-system gnu-build-system)
     (arguments
      `(#:tests? #f                      ; there are no tests
-       #:modules ((guix build gnu-build-system)
-                  ((guix build emacs-build-system) #:prefix emacs:)
-                  (guix build utils)
-                  (guix build emacs-utils)
-                  ((bost guix build emacs-utils) #:prefix bst:))
-       #:imported-modules (,@%default-gnu-imported-modules
-                           (guix build emacs-build-system)
-                           (guix build emacs-utils)
-                           (bost guix build emacs-utils))
+       #:modules ,(append
+                   bst:modules-without-emacs-build-system
+                   '((guix build gnu-build-system)
+                     ((guix build emacs-build-system) #:prefix emacs:)))
+       #:imported-modules ,bst:imported-modules
        #:phases
        (modify-phases %standard-phases
          ;; Build server side using 'gnu-build-system'.
@@ -10742,14 +10666,8 @@ Information will be saved relative to the pdf being viewed so ensure
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -11293,14 +11211,8 @@ comprehensive documentation lookup directly into the Emacs environment.")
       (arguments
        (list
         #:tests? #true
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:test-command #~(list "emacs" "-Q" "--batch"
                                "-l" "../tests/php-mode-test.el"
                                "-f" "ert-run-tests-batch-and-exit")
@@ -11358,14 +11270,8 @@ documentation search and a source and class browser.")
       ;;     native-compiler-error-empty-byte (".../ac-php-comm-tags-data.el" ...)
       ;; guix build -c 24 --with-input=emacs-minimal=emacs -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-ac-php)'
       #:exclude #~(cons* "ac-php-comm-tags-data.el" %default-exclude)
-      #:modules '((guix build emacs-build-system)
-                  (guix build utils)
-                  (guix build emacs-utils)
-                  ((bost guix build emacs-utils) #:prefix bst:))
-      #:imported-modules `(,@%default-gnu-imported-modules
-                           (guix build emacs-build-system)
-                           (guix build emacs-utils)
-                           (bost guix build emacs-utils))
+      #:modules bst:modules
+      #:imported-modules bst:imported-modules
       #:phases
       #~(modify-phases %standard-phases
           (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -11517,14 +11423,8 @@ as well as features for editing search results.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -11856,14 +11756,8 @@ match Drupal Coding Standards.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -12129,14 +12023,8 @@ speed and accuracy within large buffers.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'disable-failing-tests
@@ -12192,14 +12080,8 @@ your preferred text editor.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'use-appropriate-curl
@@ -12243,14 +12125,8 @@ API key.")
        (list
         ;; there are no tests
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -12310,14 +12186,8 @@ before interacting with non-free LLMs.")
        (list
         #:tests? #f ;no test suite
         #:lisp-directory "lisp"
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'build-info-manual
@@ -12361,14 +12231,8 @@ commands (a prefix and a suffix) we prefer to call it just a \"transient\".")
       (arguments
        (list
         #:tests? #f                       ;require internet access
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'substitute-curl-path
@@ -12406,14 +12270,8 @@ which avoids some of the issues with using Emacs’s built-in Url library.")
         (arguments
          (list
           #:tests? #f
-          #:modules '((guix build emacs-build-system)
-                      (guix build utils)
-                      (guix build emacs-utils)
-                      ((bost guix build emacs-utils) #:prefix bst:))
-          #:imported-modules `(,@%default-gnu-imported-modules
-                               (guix build emacs-build-system)
-                               (guix build emacs-utils)
-                               (bost guix build emacs-utils))
+          #:modules bst:modules
+          #:imported-modules bst:imported-modules
           #:phases
           #~(modify-phases %standard-phases
               (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -12451,14 +12309,8 @@ a streaming and non-streaming way.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -12493,14 +12345,8 @@ Event} protocol.")
       (arguments
        (list
         #:tests? #f
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -12651,14 +12497,8 @@ process, passing on the arguments as command line arguments.")
       (arguments
        (list
         #:test-command #~(list "ert-runner" "tests")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -12877,14 +12717,22 @@ until time is up.")
          (add-after 'unpack 'expand-load-path
            (assoc-ref emacs:%standard-phases 'expand-load-path)))))
     (native-inputs
-     (list autoconf automake texinfo perl emacs-minimal))
+     (list
+      autoconf
+      automake
+      texinfo
+      perl
+      emacs-minimal
+      ))
     (propagated-inputs
-     (list emacs-bui
-           bst:emacs-dash
-           bst:emacs-f
-           emacs-s
-           gnupg
-           shroud))
+     (list
+      emacs-bui
+      bst:emacs-dash
+      bst:emacs-f
+      emacs-s
+      gnupg
+      shroud
+      ))
     (home-page "https://www.nongnu.org/emacs-shroud")
     (synopsis "Emacs interface to the Shroud password manager")
     (description
@@ -14934,14 +14782,8 @@ provides the following features:
       (arguments
        (list
         #:test-command #~(list "buttercup" "-L" ".")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-before 'check 'fix-failing-test
@@ -16169,19 +16011,14 @@ manager.")
          (sha256
           (base32
            "17djjfpxnl7a3wmyh0c708w07y05b4d87ii17rnkk9p4w4zimvay"))))
+      (build-system emacs-build-system)
       (arguments
        (list
         #:tests? #f
         ;; Test are run using Eask; eask-cli isn't available in Guix
         ;; #:test-command #~(list "make" "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-before 'check 'fix-test-helpers
@@ -16219,7 +16056,6 @@ manager.")
                       "evil-types"
                       "evil-vars"
                       )))))))
-      (build-system emacs-build-system)
       (native-inputs
        (list
         texinfo
@@ -16316,14 +16152,8 @@ Currently the commands undo, yank, kill and delete are supported.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -19840,14 +19670,8 @@ through Dash docsets.")
       (arguments
        (list
         #:test-command #~(list "make" "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -21321,10 +21145,18 @@ type, for example: packages, buffers, files, etc.")
                 ((assoc-ref emacs:%standard-phases 'expand-load-path)
                  #:prepend-source? #f))))))
       (native-inputs
-       (list autoconf automake emacs-minimal pkg-config texinfo))
+       (list
+        autoconf
+        automake
+        emacs-minimal
+        pkg-config
+        texinfo
+        ))
       (inputs
-       (list (lookup-package-input guix "guile")
-             guix))
+       (list
+        (lookup-package-input guix "guile")
+        guix
+        ))
       (propagated-inputs
        (list
         emacs-bui
@@ -21503,14 +21335,8 @@ code identifier uniquely based on its name.")
            "--eval"
            "(ert-run-tests-batch-and-exit
              '(not yas-org-native-tab-in-source-block-emacs-lisp))")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             ;; Set HOME, otherwise test-rebindings fails.
@@ -22087,14 +21913,8 @@ internally.")
         #:test-command #~(list "emacs" "-Q" "--batch"
                                "-l" "llama.el"
                                "-f" "ert-run-tests-batch-and-exit")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -22209,14 +22029,8 @@ structure of all your Org files – headings, links and so on..")
       (arguments
        (list
         #:tests? #f ; no test suite
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -22322,14 +22136,8 @@ paused.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -22376,14 +22184,8 @@ highlighted.  Pressing that character will switch to that window.")
        (list
         #:test-command #~(list "make" "test")
         #:tests? #f ;; XXX: 5 unexpected results
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -22419,14 +22221,8 @@ in Emacs.")
       (arguments
        (list
         #:test-command #~(list "make" "test")
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -22554,14 +22350,8 @@ on which user-defined dispatch actions can act.")
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules bst:modules
+        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'ensure-package-description 'add-needed-pkg-descriptions
@@ -23410,14 +23200,18 @@ processes for Emacs.")
         #:include
         ;; TODO cons with a regexp matching every file
         #~(cons* ".*" %default-include)
-        #:modules '((guix build emacs-build-system)
-                    (guix build utils)
-                    (guix build emacs-utils)
-                    ((bost guix build emacs-utils) #:prefix bst:))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils)
-                             (bost guix build emacs-utils))
+        #:modules (append bst:modules
+                          '(
+                            (srfi srfi-1)  ; the 'any' test
+                            (srfi srfi-26) ; Conveniently specialize selected parameters
+                            (bost utils)
+                            ))
+        #:imported-modules (append
+                            bst:imported-modules
+                            `(
+                              (srfi srfi-1)  ; any
+                              (srfi srfi-26) ; Conveniently specialize selected parameters
+                              ))
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'patch-bump-version
