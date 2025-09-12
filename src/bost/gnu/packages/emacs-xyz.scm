@@ -6460,48 +6460,50 @@ behavior very similar to that of Python mode.")
     (license license:gpl3+)))
 
 (define-public emacs-evil-matchit
-  (package
-    (name "emacs-evil-matchit")
-    (version "4.0.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/redguardtoo/evil-matchit")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "06ayyw8nim5fi819hr30x54wx2ba6aqvlh7r0vld06xc0zsjdhm3"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:tests? #f
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'unpack 'patch-Makefile
-            (lambda _
-              (substitute* "Makefile"
-                (("-Q") "")
-                (("-L [^.]*") "")
-                (("deps/") "")
-                ((" deps") "")))))))
-    (propagated-inputs
-     (list
-      emacs-evil
-      ))
-    (native-inputs
-     (list
-      emacs-lua-mode
-      emacs-markdown-mode
-      emacs-tuareg
-      emacs-yaml-mode
-      ))
-    (home-page "https://github.com/redguardtoo/evil-matchit")
-    (synopsis "Vim matchit ported into Emacs")
-    (description
-     "@code{evil-matchit} is a minor mode for jumping between matching tags in
+  (let ((commit "8a94e56bd2987c6d0c1a85fbf189f9a86e623cde")
+        (revision "0"))
+    (package
+      (name "emacs-evil-matchit")
+      (version (git-version "4.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/redguardtoo/evil-matchit.git")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0y642x1w559pf6y4bnpmrflm53kh8b181ymdxg6p21j3aqzjd4mn"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:tests? #f
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'patch-Makefile
+              (lambda _
+                (substitute* "Makefile"
+                  (("-Q") "")
+                  (("-L [^.]*") "")
+                  (("deps/") "")
+                  ((" deps") "")))))))
+      (propagated-inputs
+       (list
+        emacs-evil
+        ))
+      (native-inputs
+       (list
+        emacs-lua-mode
+        emacs-markdown-mode
+        emacs-tuareg
+        emacs-yaml-mode
+        ))
+      (home-page "https://github.com/redguardtoo/evil-matchit")
+      (synopsis "Vim matchit ported into Emacs")
+      (description
+       "@code{evil-matchit} is a minor mode for jumping between matching tags in
 evil mode using @kbd{%}.  It is a port of @code{matchit} for Vim.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-xterm-color
   (package
