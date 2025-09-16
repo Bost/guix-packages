@@ -16000,7 +16000,9 @@ manager.")
 (define-public emacs-evil
   ;; Commit message claims this is 1.15.0, but there's no tag for it, so we
   ;; use full git-version instead
-  (let ((commit "682e87fce99f39ea3155f11f87ee56b6e4593304")
+  (let ((commit
+         "334a636621577e77f834bca0c6ecdcec67c6ff1e"
+         )
         (revision "0"))
     (package
       (name "emacs-evil")
@@ -16014,7 +16016,8 @@ manager.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "17djjfpxnl7a3wmyh0c708w07y05b4d87ii17rnkk9p4w4zimvay"))))
+           "1a10912xzq6wixyf9n0fh05ngavd9cg6m1rb3n2b1ivlnpzv21pv"
+           ))))
       (build-system emacs-build-system)
       (arguments
        (list
