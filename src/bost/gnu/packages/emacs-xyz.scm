@@ -9159,9 +9159,12 @@ with GUI Emacs behavior.")
       (license license:gpl3+))))
 
 (define-public emacs-frame-fns
+  ;; Last-Updated: Fri Aug 15 12:03:30 2025 (-0700)
+  ;;           By: dradams
+  ;;     Update #: 238
   (package
     (name "emacs-frame-fns")
-    (version "0")
+    (version "0.238")
     (source
      (origin
        (method url-fetch)
@@ -9176,9 +9179,12 @@ with GUI Emacs behavior.")
     (license license:gpl3+)))
 
 (define-public emacs-frame-cmds
+  ;; Last-Updated: Mon Dec 26 08:33:38 2022 (-0800)
+  ;;           By: dradams
+  ;;     Update #: 3189
   (package
     (name "emacs-frame-cmds")
-    (version "0")
+    (version "0.3189")
     (source
      (origin
        (method url-fetch)
@@ -9197,9 +9203,12 @@ with GUI Emacs behavior.")
     (license license:gpl3+)))
 
 (define-public emacs-zoom-frm
+  ;; Last-Updated: Mon Feb 21 10:35:29 2022 (-0800)
+  ;;           By: dradams
+  ;;     Update #: 374
   (package
     (name "emacs-zoom-frm")
-    (version "0")
+    (version "0.374")
     (source
      (origin
        (method url-fetch)
