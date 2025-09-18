@@ -9166,6 +9166,12 @@ with GUI Emacs behavior.")
   ;; Last-Updated: Fri Aug 15 12:03:30 2025 (-0700)
   ;;           By: dradams
   ;;     Update #: 238
+  ;;   $ wget https://www.emacswiki.org/emacs/download/frame-fns.el
+  ;;   $ guix hash frame-fns.el
+  ;; See also:
+  ;;   $ gxb -S -L $dgxp -e '(@(bost gnu packages emacs-xyz) emacs-frame-fns)'
+  ;; and:
+  ;;   $ gxb -S -L $dgxp -e '(@(bost gnu packages emacs-xyz) emacs-frame-fns)' --check --no-grafts
   (package
     (name "emacs-frame-fns")
     (version "0.238")
@@ -9175,7 +9181,7 @@ with GUI Emacs behavior.")
        (uri "https://www.emacswiki.org/emacs/download/frame-fns.el")
        (sha256
         (base32
-         "00lpahlvm9z2sl7bcff0jd6f62zf2jg9mliwimwnpjz1dkmy5sj7"))))
+         "1nnh2zlcc563aqlfcpjcj0v8fpjim1wj1j98lyibm2v90g04s4kq"))))
     (build-system emacs-build-system)
     (home-page "https://www.emacswiki.org/emacs/frame-fns.el")
     (synopsis "Non-interactive frame and window functions")
