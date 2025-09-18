@@ -7867,27 +7867,27 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 (define-public emacs-minimal-theme
-  (let ((commit
-          "221b43aad320d226863892dfe4d85465e8eb81ce")
+  (let ((commit "221b43aad320d226863892dfe4d85465e8eb81ce")
         (revision "0"))
     (package
       (name "emacs-minimal-theme")
-      (version (git-version "0" revision commit))
+      (version (git-version "20190113.2132" revision commit))
       (source
-        (origin
-          (method git-fetch)
-          (uri (git-reference
-                 (url "https://github.com/anler/minimal-theme")
-                 (commit commit)))
-          (file-name (git-file-name name version))
-          (sha256
-            (base32
-              "1zsabgn5mi63ry8jg1li866jcix9mf588ypdfajk8747a6127qd0"))))
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Bost/minimal-theme.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1zsabgn5mi63ry8jg1li866jcix9mf588ypdfajk8747a6127qd0"))))
       (build-system emacs-build-system)
-      (home-page
-        "https://github.com/anler/minimal-theme")
-      (synopsis "")
-      (description "")
+      (home-page "https://github.com/Bost/minimal-theme")
+      (synopsis "A minimalistic color theme to avoid distraction with colors")
+      (description
+       "A minimalistic color theme to avoid distraction with colors.  Based on
+monochrome theme.")
       (license license:gpl3+))))
 
 ;; obsolete - replaced by emacs-color-theme-modern
