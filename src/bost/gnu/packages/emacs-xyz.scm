@@ -611,9 +611,12 @@ such as Dired, Eshell, and modelines.")
       (license license:gpl3+))))
 
 (define-public emacs-hide-comnt
+  ;; Last-Updated: Thu Nov 21 08:18:51 2019 (-0800)
+  ;;           By: dradams
+  ;;     Update #: 232
   (package
     (name "emacs-hide-comnt")
-    (version "0")
+    (version "0.232")
     (source
      (origin
        (method url-fetch)
