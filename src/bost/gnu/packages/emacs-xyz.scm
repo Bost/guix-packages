@@ -22142,7 +22142,7 @@ internally.")
       (license license:gpl3+))))
 
 (define-public emacs-llama
-  (let ((commit "0cc2daffded18eea7f00a318cfa3e216977ffe50")
+  (let ((commit "ec1d4ef02f5572fc5aff3f62d3e7ef791f444456")
         (revision "0"))
     (package
       (name "emacs-llama")
@@ -22156,7 +22156,7 @@ internally.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0yp1k70pgi45k8gb7xn229g1dzmwnijabvzxgrwacp02n7v1piyh"))))
+           "13f5crs3sc0k5v64mhbg1415q9hm92f43ba53avacxjjzk7gzad4"))))
       (build-system emacs-build-system)
       (arguments
        (list
