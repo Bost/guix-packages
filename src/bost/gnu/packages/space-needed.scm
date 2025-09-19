@@ -42,6 +42,10 @@
    "emacs-ucs-utils"
    "emacs-unicode-fonts"
    "emacs-omtose-phellack-themes"
+   "emacs-treemacs-evil"
+   "emacs-treemacs-icons-dired"
+   "emacs-treemacs-magit"
+   "emacs-treemacs-persp"
 
 ;;; needed for build ;beg;
    "emacs-chronometrist"
