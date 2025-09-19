@@ -6793,24 +6793,26 @@ evil mode using @kbd{%}.  It is a port of @code{matchit} for Vim.")
       (license license:gpl3+))))
 
 (define-public emacs-xterm-color
-  (package
-    (name "emacs-xterm-color")
-    (version "2.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/atomontage/xterm-color")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "127lq50q62x06kd1xrf8lyc4rkqbfhfy86gsx1x4x169am2xk397"))))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/atomontage/xterm-color")
-    (synopsis "ANSI & xterm-256 color text property translator for Emacs")
-    (description "@code{xterm-color.el} is an ANSI control sequence to
+  (let ((commit "2ad407c651e90fff2ea85d17bf074cee2c022912")
+        (revision "0"))
+    (package
+      (name "emacs-xterm-color")
+      (version (git-version "2.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/atomontage/xterm-color.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1zy6sap394f4gb0q41mdipd7gii9qyy2840pgkf4mfpsxim3agls"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/atomontage/xterm-color")
+      (synopsis "ANSI & xterm-256 color text property translator for Emacs")
+      (description "@code{xterm-color.el} is an ANSI control sequence to
 text-property translator.")
-    (license license:bsd-2)))
+      (license license:bsd-2))))
 
 (define-public emacs-color-theme-sanityinc-solarized ;; PL sent
   (let ((commit "9c62a49fe0a5ff456bcf3984ba825e75861534b9")
