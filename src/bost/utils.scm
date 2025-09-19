@@ -1175,6 +1175,16 @@ Requires:
     (and s
          (eq? 'directory (stat:type s)))))
 
+;; (define-public (directory-exists? path)
+;;   "Check if path exists and is a directory"
+;;   (and (file-exists? path)
+;;        (eq? (stat:type (stat path)) 'directory)))
+
+(define-public (symbolic-link? path)
+  "Check if path is a symbolic link"
+  (and (file-exists? path)
+       (eq? (stat:type (lstat path)) 'symlink)))
+
 ;;; take and drop are in (use-modules (srfi srfi-1))
 (define-public (take-smart a b)
   "Accepts either (number list) or (list number)"
@@ -1268,10 +1278,6 @@ that many from the end."
       ((x . r) (cons (syntax x) (f (syntax r))))
       (_ (error 'syntax->list "invalid argument ~s" orig-ls)))))
 
-(define-public (juxt . fns)
-  (lambda args
-    (map (lambda (f) (apply f args)) fns)))
-
 ;; ;; Example usage:
 ;; (define add1 (lambda (x) (+ x 1)))
 ;; (define square (lambda (x) (* x x)))
@@ -1348,16 +1354,6 @@ Usage:
     ;;   (format #f "(@ (bost packages emacs-xyz) ~a)"
     ;;           (symbol->string package-or-packages))))
     ))
-
-(define-public (directory-exists? path)
-  "Check if path exists and is a directory"
-  (and (file-exists? path)
-       (eq? (stat:type (stat path)) 'directory)))
-
-(define-public (symbolic-link? path)
-  "Check if path is a symbolic link"
-  (and (file-exists? path)
-       (eq? (stat:type (lstat path)) 'symlink)))
 
 (define-public (find-duplicates lst eq-proc)
   "(find-duplicates (list 1 2 2 3) =)            ; => (2)
