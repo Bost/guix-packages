@@ -1276,35 +1276,6 @@ command-line options.")
  by visually indicating the scope of nested expressions.")
       (license license:gpl3+))))
 
-;; bat -r 89142:89163 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
-(define-public emacs-omtose-phellack-themes
-  (let ((commit "b96905deb9b2bef097e0c573100874812c1e9aa8")
-        (revision "0"))
-    (package
-      (name "emacs-omtose-phellack-themes")
-      (version (git-version "20240928.1241" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/emacsorphanage/omtose-phellack-themes.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1kyg55njj19licj4wkp5ahabnbmpjfksv89l75axcib6hj3rgk5k"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/emacsorphanage/omtose-phellack-themes")
-      (synopsis "Dark, soothing themes for Emacs with a cold bluish touch")
-      (description
-       "This package provides two dark themes for Emacs, 'omtose-darker' and
- 'omtose-softer', both featuring a cold bluish aesthetic. Inspired by the
- 'Omtose Phellack' realm from the Malazan Book of the Fallen series by Steven
- Erikson, these themes aim to offer a visually soothing coding environment.
- They require Emacs version 24.0 or higher and can be installed via MELPA.
- Users can switch between the darker and softer variants to suit their
- preferences.")
-      (license license:gpl3+))))
-
 ;; bat -r 89347:89368 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-open-junk-file
   (let ((commit "558bec7372b0fed4c4cb6074ab906535fae615bd")
@@ -8995,8 +8966,7 @@ providing support for a lot of modes.")
 
 ;; Defines emacs-omtose-darker-theme emacs-omtose-softer-theme
 (define-public emacs-omtose-phellack-theme
-  (let ((commit
-         "66f99633e199e65bd28641626435e8e59246529a")
+  (let ((commit "66f99633e199e65bd28641626435e8e59246529a")
         (revision "0"))
     (package
       (name "emacs-omtose-phellack-theme")
@@ -9023,6 +8993,35 @@ providing support for a lot of modes.")
        "https://github.com/emacsmirror/omtose-phellack-theme")
       (synopsis "Dark theme with cold bluish touch")
       (description "A dark, soothing theme for Emacs with a cold bluish touch.")
+      (license license:gpl3+))))
+
+;; bat -r 89142:89163 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
+(define-public emacs-omtose-phellack-themes
+  (let ((commit "b96905deb9b2bef097e0c573100874812c1e9aa8")
+        (revision "0"))
+    (package
+      (name "emacs-omtose-phellack-themes")
+      (version (git-version "20240928.1241" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/emacsorphanage/omtose-phellack-themes.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1kyg55njj19licj4wkp5ahabnbmpjfksv89l75axcib6hj3rgk5k"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/emacsorphanage/omtose-phellack-themes")
+      (synopsis "Dark, soothing themes for Emacs with a cold bluish touch")
+      (description
+       "This package provides two dark themes for Emacs, 'omtose-darker' and
+ 'omtose-softer', both featuring a cold bluish aesthetic. Inspired by the
+ 'Omtose Phellack' realm from the Malazan Book of the Fallen series by Steven
+ Erikson, these themes aim to offer a visually soothing coding environment.
+ They require Emacs version 24.0 or higher and can be installed via MELPA.
+ Users can switch between the darker and softer variants to suit their
+ preferences.")
       (license license:gpl3+))))
 
 (define-public emacs-sublime-themes
