@@ -12471,11 +12471,11 @@ before interacting with non-free LLMs.")
       (license license:gpl3+))))
 
 (define-public emacs-transient
-  (let ((commit "e9a636d3c7cbb9ac43ea4a08a1c252a02c7c3460")
+  (let ((commit "f3b2176a7f8eda3deea5cf618fc2e1c83ffb1c25")
         (revision "0"))
     (package
       (name "emacs-transient")
-      (version (git-version "0.9.3" revision commit))
+      (version (git-version "0.10.0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -12485,7 +12485,7 @@ before interacting with non-free LLMs.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1jadjjia70v9fk0wplhqmlfaqgfk6rm6ilxg7aq1xs3382yy5bv8"))))
+           "1423g88m9cqkqg2ip2wamh3zbbhvwk6vpnn7m5y1zchpb246kga6"))))
       (build-system emacs-build-system)
       (arguments
        (list
