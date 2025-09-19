@@ -5715,7 +5715,7 @@ configurations.")
     (license license:gpl3+)))
 
 (define-public emacs-tweaks
-  (let ((commit "a24a1b96e7f81f786bdb96905fdc1d549c54f522")
+  (let ((commit "9009b965b18b848431e0b308cdc3e4a69bfee546")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -5729,7 +5729,7 @@ configurations.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "06k3j1y95vsg2kcy68z54f8np4i1nxf0vg2if3qcfl2nz24smra8"))))
+           "0ak17r9bgiffv6d0n4dk8kxnx3yg139qv6zxnks500l343sd83l8"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
@@ -5744,8 +5744,11 @@ configurations.")
         emacs-zoom-frm
         ))
       (home-page "https://github.com/Bost/tweaks")
-      (synopsis "Various tweaks")
-      (description "Various tweaks")
+      (synopsis
+       "Emacs tweaks for Evil/Spacemacs, Clojure/CIDER, and Scheme development")
+      (description
+       "Emacs utilities for Evil/Spacemacs, Clojure/CIDER, and Scheme
+development.")
       (license license:gpl3+))))
 
 (define-public emacs-forge
