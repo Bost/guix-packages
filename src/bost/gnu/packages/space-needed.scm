@@ -41,6 +41,7 @@
    "emacs-rustic"
    "emacs-ucs-utils"
    "emacs-unicode-fonts"
+   "emacs-omtose-phellack-themes"
 
 ;;; needed for build ;beg;
    "emacs-chronometrist"
@@ -450,7 +451,6 @@
    "emacs-occidental"
    "emacs-occidental-theme"
    "emacs-oldlace-theme"
-   "emacs-omtose-phellack-theme"
    "emacs-open-junk-file"
    "emacs-openai"
    "emacs-org"
