@@ -1,4 +1,6 @@
 (define-module (bost gnu packages emacs-build)
+  #:use-module (ice-9 pretty-print)
+  #:use-module (bost utils)
   #:use-module (gnu packages emacs-build)
   #:use-module (guix build-system gnu)
   #:use-module ((guix licenses) #:prefix license:)

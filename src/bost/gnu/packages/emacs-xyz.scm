@@ -1,4 +1,11 @@
 (define-module (bost gnu packages emacs-xyz)
+  ;; #:use-module (ice-9 pretty-print)
+  #:use-module (srfi srfi-26) ; Conveniently specialize selected parameters
+  #:use-module (ice-9 ftw)    ; File tree walker
+  #:use-module (guix build utils) ; find-files
+  ;; #:use-module (ice-9 match)
+  #:use-module (bost utils)
+  #:use-module (bost gnu packages space-needed)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((bost gnu packages emacs-build) #:prefix bst:)
   ;;
@@ -1902,20 +1909,24 @@ between Emacs and PHP.")
       (license license:gpl3+))))
 
 (define-public emacs-spacemacs-base
-  (let ((commit "6751dae7ab8785f90edea585160926bad5e3e2ff")
+  (let ((commit
+         "8020a5ff48810e67cf772335b1da78231746461d"
+         )
         (revision "0"))
     (package
       (name "emacs-spacemacs-base")
-      (version (git-version "0.7" revision commit))
+      (version (git-version "1.0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/syl20bnr/spacemacs")
+               (url "https://github.com/syl20bnr/spacemacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "054zsdfyfqg00wh0k5hj2cxnq9njjghsy8ji4fl5j3qwwv6y0cba"))))
+          (base32
+           "1vyv214rai2zbk8k561dnd0wq66rw0inrr3s5vrjr29icwnjcp36"
+           ))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -1947,8 +1958,6 @@ between Emacs and PHP.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-
-(define all-info-include (quote (list "^.*\\.info$")))
 
 (define-public emacs-rst-lists
   (package
@@ -6769,7 +6778,6 @@ evil mode using @kbd{%}.  It is a port of @code{matchit} for Vim.")
 text-property translator.")
     (license license:bsd-2)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; beg: done
 (define-public emacs-color-theme-sanityinc-solarized ;; PL sent
   (let ((commit "9c62a49fe0a5ff456bcf3984ba825e75861534b9")
         (revision "0"))
@@ -12829,7 +12837,10 @@ and popup menus.")
      (list #:test-command
            #~(list "make" "check-declare")))
     (propagated-inputs
-     (list emacs-compat bst:emacs-dash))
+     (list
+      emacs-compat
+      bst:emacs-dash
+      ))
     (home-page "https://github.com/tarsius/minions")
     (synopsis "Minor-mode menu for the mode line")
     (description
@@ -12874,8 +12885,14 @@ Alternatively the menu can be bound globally, for example:
               (substitute* "test-speed-type.el"
                 (("\\(ert-deftest speed-type--retrieve-test .*" all)
                  (string-append all " (skip-unless nil)"))))))))
-    (native-inputs (list bst:emacs-dash))
-    (propagated-inputs (list emacs-compat))
+    (native-inputs
+     (list
+      bst:emacs-dash
+      ))
+    (propagated-inputs
+     (list
+      emacs-compat
+      ))
     (home-page "https://github.com/dakra/speed-type")
     (synopsis "Practice touch/speed typing in GNU Emacs")
     (description
@@ -13054,9 +13071,16 @@ replacement.")
        (sha256
         (base32 "1mkp9b31ai1z6sccx8cff40viryamw7dm85acig3q82dwlbmxx98"))))
     (propagated-inputs
-     (list bst:emacs-dash))
+     (list
+      bst:emacs-dash
+      ))
     (native-inputs
-     (list emacs-minimal emacs-el-search emacs-stream texinfo))
+     (list
+      emacs-minimal
+      emacs-el-search
+      emacs-stream
+      texinfo
+      ))
     (build-system gnu-build-system)
     (arguments
      (list
@@ -17926,8 +17950,9 @@ as well as functions for navigating between these headings.")
       #:test-command #~(list "emacs" "--batch" "-l" "org-recur-test.el"
                              "-f" "ert-run-tests-batch-and-exit")))
     (propagated-inputs
-     (list bst:emacs-dash
-           ))
+     (list
+      bst:emacs-dash
+      ))
     (home-page "https://github.com/m-cat/org-recur")
     (synopsis "Simple recurring Org mode tasks")
     (description "This package extends Org mode and Org Agenda with support
@@ -22630,821 +22655,14 @@ on which user-defined dispatch actions can act.")
 processes for Emacs.")
       (license license:gpl3+))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define (general-packages)
-  (list
-   ;; "emacs-spacemacs"
-   ;; "spacemacs-rolling-release"
-   ))
-(testsymb 'general-packages)
-
-(define (excluded-packages)
-  (list
-   ))
-(testsymb 'excluded-packages)
-
-;; Orphan packages according to spguimacs
-(define (orphan-packages)
-  (list
-   ;; "emacs-faceup"
-   ;; "emacs-deferred"
-   ;; "emacs-undercover"
-   ;; "emacs-treeview" ;; installed by emacs-inspector
-   ;; "emacs-pg"
-   ;; "emacs-finalize"
-   ;; "emacs-ivy"
-   ;; "emacs-a"
-   ))
-(testsymb 'orphan-packages)
-
-(define bst-packages
-  (list
-   bst:emacs-dash
-   bst:emacs-el-mock
-   bst:emacs-ert-runner
-   bst:emacs-f
-   bst:emacs-undercover
-   emacs-rcirc-styles
-   emacs-rcirc-notify
-   emacs-jabber
-   emacs-erc-terminal-notifier
-   emacs-copy-as-format
-   emacs-ac-ispell
-   emacs-ac-php
-   emacs-academic-phrases
-   emacs-ace-jump-helm-line
-   emacs-ace-link
-   emacs-ace-window
-   emacs-afternoon-theme
-   emacs-ag
-   emacs-aio
-   emacs-alarm-clock
-   emacs-alchemist
-   emacs-all-the-icons
-   emacs-ample-zen-theme
-   emacs-anaconda-mode
-   emacs-anki-editor
-   emacs-annalist
-   emacs-ansible
-   emacs-anti-zenburn-theme
-   emacs-apropospriate-theme
-   emacs-attrap
-   emacs-attrap
-   emacs-auto-complete
-   emacs-auto-sudoedit
-   emacs-auto-yasnippet
-   emacs-autothemer
-   emacs-avy
-   emacs-avy-jump-helm-line
-   emacs-badwolf-theme
-   emacs-biblio
-   emacs-bind-chord
-   emacs-bind-map
-   emacs-birds-of-paradise-plus-theme
-   emacs-bluetooth
-   emacs-boon
-   emacs-browse-at-remote
-   emacs-bubbleberry-theme
-   emacs-bui
-   emacs-bui
-   emacs-busybee-theme
-   emacs-calc-currency
-   emacs-calibredb
-   emacs-campus
-   emacs-ccls
-   emacs-centered-cursor-mode
-   emacs-cfrs
-   emacs-chatgpt
-   emacs-chatgpt-shell
-   emacs-cherry-blossom-theme
-   emacs-chocolate
-   emacs-chocolate-theme
-   emacs-chronometrist
-   emacs-cider
-   emacs-cider-eval-sexp-fu
-   emacs-cider-hydra
-   emacs-citeproc
-   emacs-clean-aindent-mode
-   emacs-clj-refactor
-   emacs-clojure-mode
-   emacs-clojure-snippets
-   emacs-clues-theme
-   emacs-code-review
-   emacs-codegpt
-   emacs-color-identifiers-mode
-   emacs-color-theme
-   emacs-color-theme-sanityinc-solarized
-   emacs-company-anaconda
-   emacs-company-auctex
-   emacs-company-box
-   emacs-company-coq
-   emacs-company-flow
-   emacs-company-lsp
-   emacs-company-lua
-   emacs-company-php
-   emacs-company-phpactor
-   emacs-company-shell
-   emacs-company-statistics
-   emacs-company-web
-   emacs-consult-lsp
-   emacs-consult-notes
-   emacs-copilot
-   emacs-copy-sexp
-   emacs-counsel-dash
-   emacs-csound-mode
-   emacs-cursory
-   emacs-cyberpunk-theme
-   emacs-cython-mode
-   emacs-dakrone-theme
-   emacs-dall-e
-   emacs-dante
-   emacs-dap-chrome
-   emacs-dap-launch
-   emacs-dap-mode
-   emacs-dap-overlays
-   emacs-dap-tasks
-   emacs-dap-utils
-   emacs-darkmine-theme
-   emacs-darkokai-theme
-   emacs-darktooth-theme
-   emacs-dart-mode
-   emacs-dash-docs
-   emacs-deadgrep
-   emacs-define-word
-   emacs-denote-explore
-   emacs-dired-hacks
-   emacs-dired-quick-sort
-   emacs-dired-rsync
-   emacs-direnv
-   emacs-discover-my-major
-   emacs-django-theme
-   emacs-docker
-   emacs-docker-compose-mode
-   emacs-drag-stuff
-   emacs-drupal-mode
-   emacs-dumb-jump
-   emacs-ebuild-mode
-   emacs-ebuku
-   emacs-ein
-   emacs-el-x
-   emacs-elastic-modes
-   emacs-elfeed
-   emacs-elfeed-goodies
-   emacs-elfeed-org
-   emacs-elfeed-protocol
-   emacs-elfeed-score
-   emacs-elfeed-tube
-   emacs-elisp-def
-   emacs-elisp-refs
-   emacs-ellama
-   emacs-elm-mode
-   emacs-elmacro
-   emacs-elpy
-   emacs-emacsql-sqlite3
-   emacs-emojify
-   emacs-emr
-   emacs-epithet
-   emacs-epkg
-   emacs-equake
-   emacs-erc-image
-   emacs-erc-social-graph
-   emacs-erc-tweet
-   emacs-erc-view-log
-   emacs-erc-yt
-   emacs-es-mode
-   emacs-esh-help
-   emacs-eshell-git-prompt
-   emacs-eshell-toggle
-   emacs-espresso-theme
-   emacs-esup
-   emacs-eterm-256color
-   emacs-eval-in-repl
-   emacs-eval-in-repl-cider
-   emacs-eval-in-repl-elm
-   emacs-eval-in-repl-erlang
-   emacs-eval-in-repl-geiser
-   emacs-eval-in-repl-hy
-   emacs-eval-in-repl-ielm
-   emacs-eval-in-repl-iex
-   emacs-eval-in-repl-javascript
-   emacs-eval-in-repl-lua
-   emacs-eval-in-repl-ocaml
-   emacs-eval-in-repl-prolog
-   emacs-eval-in-repl-python
-   emacs-eval-in-repl-racket
-   emacs-eval-in-repl-ruby
-   emacs-eval-in-repl-scheme
-   emacs-eval-in-repl-shell
-   emacs-eval-in-repl-slime
-   emacs-eval-in-repl-sly
-   emacs-eval-in-repl-sml
-   emacs-evil
-   emacs-evil-anzu
-   emacs-evil-args
-   emacs-evil-cleverparens
-   emacs-evil-collection
-   emacs-evil-easymotion
-   emacs-evil-escape
-   emacs-evil-evilified-state
-   emacs-evil-exchange
-   emacs-evil-expat
-   emacs-evil-goggles
-   emacs-evil-iedit-state
-   emacs-evil-indent-plus
-   emacs-evil-lion
-   emacs-evil-lisp-state
-   emacs-evil-matchit
-   emacs-evil-mc
-   emacs-evil-nerd-commenter
-   emacs-evil-numbers
-   emacs-evil-org
-   emacs-evil-owl
-   emacs-evil-paredit
-   emacs-evil-replace-with-register
-   emacs-evil-surround
-   emacs-evil-tex
-   emacs-evil-text-object-python
-   emacs-evil-textobj-line
-   emacs-evil-tutor
-   emacs-evil-vimish-fold
-   emacs-evil-visual-mark-mode
-   emacs-evil-visual-replace
-   emacs-evil-visualstar
-   emacs-eyebrowse
-   emacs-eziam-themes
-   emacs-farmhouse-light-mod-theme
-   emacs-farmhouse-themes
-   emacs-fb2-reader
-   emacs-flatland-theme
-   emacs-flatui-theme
-   emacs-flx
-   emacs-flx-ido
-   emacs-flycheck
-   emacs-flycheck-bashate
-   emacs-flycheck-clj-kondo
-   emacs-flycheck-credo
-   emacs-flycheck-elsa
-   emacs-flycheck-haskell
-   emacs-flycheck-joker
-   emacs-flycheck-package
-   emacs-flycheck-pos-tip
-   emacs-flycheck-rust
-   emacs-flyspell-correct
-   emacs-flyspell-correct-helm
-   emacs-font-utils
-   emacs-forge
-   emacs-frame-cmds
-   emacs-frame-fns
-   emacs-frame-purpose
-   emacs-frames-only-mode
-   emacs-frecency
-   emacs-frog-jump-buffer
-   emacs-frog-menu
-   emacs-gandalf-theme
-   emacs-geben
-   emacs-gh
-   emacs-gh-md
-   emacs-ghq
-   emacs-ghub
-   emacs-gist
-   emacs-git-messenger
-   emacs-github-review
-   emacs-gitignore-templates
-   emacs-gitlab-snip-helm
-   emacs-global-tags
-   emacs-goggles
-   emacs-google-translate
-   emacs-gotham-theme
-   emacs-goto-chg
-   emacs-gptel
-   emacs-grandshell-theme
-   emacs-grep-context
-   emacs-groovy-imports
-   emacs-groovy-mode
-   emacs-groovy-modes
-   emacs-gruber-darker
-   emacs-gruber-darker-theme
-   emacs-gruvbox-theme
-   emacs-guix
-   emacs-guix
-   emacs-haml-mode
-   emacs-haskell-mode
-   emacs-haskell-snippets
-   emacs-hc-zenburn-theme
-   emacs-helm
-   emacs-helm-ag
-   emacs-helm-bibtex
-   emacs-helm-c-yasnippet
-   emacs-helm-cider
-   emacs-helm-cider-history
-   emacs-helm-comint
-   emacs-helm-company
-   emacs-helm-core
-   emacs-helm-css-scss
-   emacs-helm-dash
-   emacs-helm-descbinds
-   emacs-helm-dictionary
-   emacs-helm-flycheck
-   emacs-helm-git-grep
-   emacs-helm-ls-git
-   emacs-helm-lsp
-   emacs-helm-make
-   emacs-helm-mode-manager
-   emacs-helm-mu
-   emacs-helm-org
-   emacs-helm-org-contacts
-   emacs-helm-org-ql
-   emacs-helm-org-rifle
-   emacs-helm-projectile
-   emacs-helm-purpose
-   emacs-helm-pydoc
-   emacs-helm-shell-history
-   emacs-helm-slime
-   emacs-helm-sly
-   emacs-helm-swoop
-   emacs-helm-system-packages
-   emacs-helm-taskrunner
-   emacs-helm-themes
-   emacs-helm-xref
-   emacs-hemisu-theme
-   emacs-heroku-theme
-   emacs-hexrgb
-   emacs-hide-comnt
-   emacs-highlight-parentheses
-   emacs-hlint-refactor
-   emacs-ht
-   emacs-html-to-hiccup
-   emacs-hungry-delete
-   emacs-hy-mode
-   emacs-hybrid-mode
-   emacs-impatient-mode
-   emacs-importmagic
-   emacs-indent-guide
-   emacs-inkpot-theme
-   emacs-insert-shebang
-   emacs-ir-black-theme
-   emacs-islisp-mode
-   emacs-ivy-clipmenu
-   emacs-ivy-omni-org
-   emacs-ivy-taskrunner
-   emacs-jazz-theme
-   emacs-jbeans-theme
-   emacs-journalctl-mode
-   emacs-js-doc
-   emacs-js2-mode
-   emacs-js2-refactor
-   emacs-jsdoc
-   emacs-json-navigator
-   emacs-json-reformat
-   emacs-jsonnet-mode
-   emacs-julia-snail
-   emacs-jump-last
-   emacs-kaocha-runner
-   emacs-kaolin-themes
-   emacs-kbd-mode
-   emacs-key-chord
-   emacs-kill-buffers
-   emacs-kodi-remote
-   emacs-llama
-   emacs-lcr
-   emacs-light-soap-theme
-   emacs-link-hint
-   emacs-litable
-   emacs-live-py-mode
-   emacs-livid-mode
-   emacs-llm
-   emacs-logito
-   emacs-loop
-   emacs-lsp-docker
-   emacs-lsp-haskell
-   emacs-lsp-ivy
-   emacs-lsp-java
-   emacs-lsp-latex
-   emacs-lsp-lens
-   emacs-lsp-metals
-   emacs-lsp-mode
-   emacs-lsp-origami
-   emacs-lsp-protocol
-   emacs-lsp-pyright
-   emacs-lsp-python-ms
-   emacs-lsp-treemacs
-   emacs-lsp-ui
-   emacs-lsp-volar
-   emacs-lua-mode
-   emacs-lush-theme
-   emacs-lv
-   emacs-madhat2r-theme
-   emacs-magit
-   emacs-magit-annex
-   emacs-magit-gerrit
-   emacs-magit-org-todos
-   emacs-magit-popup
-   emacs-magit-section
-   emacs-magit-tbdiff
-   emacs-majapahit-themes
-   emacs-major-mode-hydra
-   emacs-markdown-mode
-   emacs-markdown-toc
-   emacs-marshal
-   emacs-material-theme
-   emacs-math-preview
-   emacs-maven-test-mode
-   emacs-md4rd
-   emacs-metal-mercury-mode
-   emacs-meyvn
-   emacs-mini-echo
-   emacs-minimal-theme
-   emacs-minions
-   emacs-minitest
-   emacs-moe-theme
-   emacs-molokai-theme
-   emacs-monky
-   emacs-monochrome-theme
-   emacs-monroe
-   emacs-mu4e-alert
-   emacs-multi-line
-   emacs-multifiles
-   emacs-mustache
-   emacs-mustache
-   emacs-mustang-theme
-   emacs-mvn
-   emacs-naquadah-theme
-   emacs-neotree
-   emacs-nerd-icons
-   emacs-nix-mode
-   emacs-noctilux-theme
-   emacs-noflet
-   emacs-noman
-   emacs-ob-async
-   emacs-ob-elixir
-   emacs-ob-ipython
-   emacs-ob-sclang
-   emacs-obsidian-theme
-   emacs-occidental-theme
-   emacs-oldlace-theme
-   emacs-omtose-phellack-theme
-   emacs-omtose-phellack-themes
-   emacs-open-junk-file
-   emacs-openai
-   emacs-org
-   emacs-org-auto-expand
-   emacs-org-category-capture
-   emacs-org-cliplink
-   emacs-org-contacts
-   emacs-org-contrib
-   emacs-org-count-words
-   emacs-org-drill-table
-   emacs-org-edna
-   emacs-org-jira
-   emacs-org-make-toc
-   emacs-org-mem
-   emacs-org-mind-map
-   emacs-org-node-3
-   emacs-org-now
-   emacs-org-pretty-table
-   emacs-org-project-capture
-   emacs-org-projectile
-   emacs-org-ql
-   emacs-org-recent-headings
-   emacs-org-recur
-   emacs-org-ref
-   emacs-org-rich-yank
-   emacs-org-roam
-   emacs-org-sidebar
-   emacs-org-super-agenda
-   emacs-org-texlive-collection
-   emacs-org-trello
-   emacs-org-vcard
-   emacs-org-web-tools
-   emacs-org-wild-notifier
-   emacs-org2web
-   emacs-org2web
-   emacs-orgalist
-   emacs-organic-green-theme
-   emacs-orgit
-   emacs-orgit-forge
-   emacs-orgmdb
-   emacs-origami
-   emacs-overseer
-   emacs-ox-pandoc
-   emacs-pandoc-mode
-   emacs-paradox
-   emacs-parinfer-mode
-   emacs-pass
-   emacs-passage
-   emacs-pcache
-   emacs-pcsv
-   emacs-pdf-tools
-   emacs-pdf-view-restore
-   emacs-pet
-   emacs-pfuture
-   emacs-phoenix-dark-mono-theme
-   emacs-phoenix-dark-pink-theme
-   emacs-php-auto-yasnippets
-   emacs-php-extras
-   emacs-php-mode
-   emacs-php-runtime
-   emacs-phpactor
-   emacs-phpunit
-   emacs-pip-requirements
-   emacs-pipenv
-   emacs-pippel
-   emacs-planet-theme
-   emacs-plantuml-mode
-   emacs-plz
-   emacs-plz-event-source
-   emacs-plz-media-type
-   emacs-poetry
-   emacs-popup
-   emacs-popwin
-   emacs-powerline
-   emacs-prettier-js
-   emacs-pretty-hydra
-   emacs-prodigy
-   emacs-prodigy-el
-   emacs-professional-theme
-   emacs-projectile
-   emacs-psc-ide
-   emacs-purple-haze-theme
-   emacs-pyenv-mode
-   emacs-pyimport
-   emacs-pytest
-   emacs-pythonic
-   emacs-racer
-   emacs-rail
-   emacs-refactor
-   emacs-relative-buffers
-   emacs-reveal-in-folder
-   emacs-reverse-theme
-   emacs-rime
-   emacs-rustic
-   emacs-sass-mode
-   emacs-sayid
-   emacs-scss-mode
-   emacs-seriestracker
-   emacs-seti-theme
-   emacs-shfmt
-   emacs-shrink-path
-   emacs-shroud
-   emacs-skeletor
-   emacs-skewer-mode
-   emacs-slim-mode
-   emacs-sly
-   emacs-sly-asdf
-   emacs-sly-macrostep
-   emacs-sly-named-readtables
-   emacs-sly-package-inferred
-   emacs-sly-quicklisp
-   emacs-sly-stepper
-   emacs-smartparens
-   emacs-smeargle
-   emacs-smyx-theme
-   emacs-soft-charcoal-theme
-   emacs-soft-morning-theme
-   emacs-soft-stone-theme
-   emacs-solarized-theme
-   emacs-spaceleader
-   emacs-spaceline
-   emacs-spaceline-all-the-icons
-   emacs-speed-type
-   emacs-sphinx-doc
-   emacs-sqlite3
-   emacs-ssh-agency
-   emacs-standard-dirs
-   emacs-string-edit-at-point
-   emacs-subatomic-theme
-   emacs-subatomic256-theme
-   emacs-sublime-themes
-   emacs-suggest
-   emacs-sunny-day-theme
-   emacs-sxiv
-   emacs-system-packages
-   emacs-systemd
-   emacs-tablist
-   emacs-tagedit
-   emacs-tango-2-theme
-   emacs-tango-plus-theme
-   emacs-tangotango-theme
-   emacs-taskrunner
-   emacs-taxy
-   emacs-taxy-magit-section
-   emacs-tblui
-   emacs-tco
-   emacs-term-cursor
-   emacs-terminal-here
-   emacs-terraform-mode
-   emacs-tide
-   emacs-toodoo
-   emacs-toxi-theme
-   emacs-tp
-   emacs-transient
-   emacs-treemacs
-   emacs-treemacs-evil
-   emacs-treemacs-extra
-   emacs-treemacs-icons-dired
-   emacs-treemacs-magit
-   emacs-treemacs-persp
-   emacs-treemacs-projectile
-   emacs-ts
-   emacs-tweaks
-   emacs-twilight-anti-bright-theme
-   emacs-twilight-bright-theme
-   emacs-twilight-theme
-   emacs-typit
-   emacs-ujelly-theme
-   emacs-underwater-theme
-   emacs-undo-tree
-   emacs-unfill
-   emacs-unicode-fonts
-   emacs-unpackaged
-   emacs-use-package
-   emacs-use-package-chords
-   emacs-uuidgen
-   emacs-vdiff-magit
-   emacs-vi-tilde-fringe
-   emacs-vimish-fold
-   emacs-vline
-   emacs-volatile-highlights
-   emacs-vterm
-   emacs-vundo
-   emacs-web-beautify
-   emacs-web-completion-data
-   emacs-wfnames
-   emacs-wgrep
-   emacs-white-sand-theme
-   emacs-winum
-   emacs-with-editor
-   emacs-writefreely
-   emacs-writegood-mode
-   emacs-writeroom-mode
-   emacs-xenops
-   emacs-xhair
-   emacs-xterm-color
-   emacs-yaml-mode
-   emacs-yasnippet
-   emacs-yasnippet-snippets
-   emacs-ytdl
-   emacs-zen-and-art-theme
-   emacs-zenburn-theme
-   emacs-zonokai-emacs
-   emacs-zoom-frm
-   ))
-(testsymb 'bst-packages)
-
-(define (all-packages-from-guix-channel)
-  (let* [(G (general-packages))
-         (N (needed-packages))
-         (O (orphan-packages))
-         (A (available-packages))
-         (E (excluded-packages))
-
-;;; The 'specification->package+output' can be reliably called only over
-;;; available-packages since e.g. needed-packages may contain a non-existing
-;;; package, i.e. a package which hasn't been ported to Guix yet.
-         ;; (G (map (comp list specification->package+output) (general-packages)))
-         ;; (N (map (comp list specification->package+output) (needed-packages)))
-         ;; (O (map (comp list specification->package+output) (orphan-packages)))
-         ;; (A (map (comp list specification->package+output) (available-packages)))
-         ;; (E (map (comp list specification->package+output) (excluded-packages)))
-         ]
-    (s+ G
-        (s- ((@(bost utils) sx) (s+ N O)
-                A)
-            E))))
-(testsymb 'all-packages-from-guix-channel)
-
-#|
-(define G (general-packages))
-(define N (needed-packages))
-(define O (orphan-packages))
-(define A (available-packages))
-(define E (excluded-packages))
-(load "/home/bost/dev/dotfiles/guix/home/cfg/packages/spguimacs/all.scm")
-|#
-(define-public (spacemacs-packages)
-  (define f (format #f "~a [spacemacs-packages]" m))
-  ((comp
-    ;; TODO separate package+output to packate and output
-    ;; (lambda (lst) (format #t "~a 3. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial append bst-packages)
-    ;; (lambda (lst) (format #t "~a 2. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (partial map (comp list specification->package+output))
-    ;; (lambda (lst) (format #t "~a 1. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    (lambda (lst) (s- lst (map package-name bst-packages)))
-    ;; (lambda (lst) (format #t "~a 0. length: ~a\n" f (length lst)) #;(pretty-print lst) lst)
-    )
-   (all-packages-from-guix-channel)))
-(testsymb 'spacemacs-packages)
-
-;; rg --no-context-separator -A2 -N find-files emacs-xyz-space.scm --replace 'list'
-(define paths-to-el-files
-  (list
-   (list "layers/+lang/restructuredtext/local/rst-lists" "rst-lists\\.el$")
-   (list "core" "core-versions\\.el$")
-   (list "core" "core-load-paths\\.el$")
-   (list "core/libs/forks" "spacemacs-ht\\.el$")
-   (list "core" "core-dotspacemacs\\.el$")
-   (list "core" "core-spacemacs-buffer\\.el$")
-   (list "core" "core-use-package-ext\\.el$")
-   (list "core" "core-fonts-support\\.el$")
-   (list "core" "core-command-line\\.el$")
-   (list "core" "core-transient-state\\.el$")
-   (list "core" "core-early-funcs\\.el$")
-   (list "core" "core-documentation\\.el$")
-   (list "core" "core-compilation\\.el$")
-   (list "core" "core-env\\.el$")
-   (list "core" "core-hooks\\.el$")
-   (list "core" "core-display-init\\.el$")
-   (list "core/aprilfool" "zemacs\\.el$")
-   (list "layers/+misc/ietf/local/irfc" "irfc\\.el$")
-   (list "core/libs" "package-build\\.el$")
-   (list "core" "core-spacebind\\.el$")
-   (list "core/libs" "package-build-badges\\.el$")
-   (list "core" "core-custom-settings\\.el$")
-   (list "core/libs" "ido-vertical-mode\\.el$")
-   (list "core" "core-configuration-layer\\.el$")
-   (list "core" "core-customization\\.el$")
-   (list "core/libs/spacemacs-theme" "spacemacs-common\\.el$")
-   (list "core/libs/spacemacs-theme" "spacemacs-theme\\.el$")
-   (list "core/libs" "package-recipe-mode\\.el$")
-   (list "layers/+chat/erc/local/erc-yank" "erc-yank\\.el$")
-   (list "core" "core-debug\\.el$")
-   (list "core/libs/forks" "load-env-vars\\.el$")
-   (list "core" "core-themes-support\\.el$")
-   (list "core/libs" "mocker\\.el$")
-   (list "core" "core-release-management\\.el$")
-   (list "layers/+completion/compleseus/local/compleseus-spacemacs-help" "compleseus-spacemacs-help\\.el$")
-   (list "layers/+chat/erc/local/erc-tex" "erc-tex\\.el$")
-   (list "core" "core-keybindings\\.el$")
-   (list "core" "core-dumper\\.el$")
-   (list "core" "core-cycle\\.el$")
-   (list "core" "core-jump\\.el$")
-   (list "core/libs" "package-recipe\\.el$")
-   (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-faq\\.el$")
-   (list "core/libs" "quelpa\\.el$")
-   (list "layers/+completion/helm/local/helm-spacemacs-help" "helm-spacemacs-help\\.el$")
-   (list "layers/+completion/ivy/local/ivy-spacemacs-help" "ivy-spacemacs-help\\.el$")
-   (list "core" "core-funcs\\.el$")
-   (list "layers/+tools/tmux/local/tmux" "tmux\\.el$")
-   (list "core" "core-progress-bar\\.el$")
-   (list "core" "core-micro-state\\.el$")
-   (list "core" "core-toggle\\.el$")
-   (list "core" "core-emacs-backports\\.el$")
-   (list "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin" "spacemacs-purpose-popwin\\.el$")
-   (list "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup" "spacemacs-whitespace-cleanup\\.el$")
-   (list "layers/+fun/games/local/helm-games" "helm-games\\.el$")
-   (list "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode" "hybrid-mode\\.el$")
-   (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-colors\\.el$")
-   (list "layers/+spacemacs/spacemacs-org/local/space-doc" "space-doc\\.el$")
-   (list "layers/+tools/sphinx/local/rst-sphinx" "rst-sphinx\\.el$")
-   (list "layers/+spacemacs/spacemacs-modeline/local/vim-powerline" "vim-powerline-theme\\.el$")
-   (list "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired" "evil-unimpaired\\.el$")
-   (list "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state" "evil-evilified-state\\.el$")
-   (list "layers/+tools/xclipboard/local/spacemacs-xclipboard" "spacemacs-xclipboard\\.el$")
-   (list "layers/+distributions/spacemacs-bootstrap/local/holy-mode" "holy-mode\\.el$")
-   (list "layers/+lang/jr/local/jr-mode" "jr-mode\\.el$")
-   (list "layers/+lang/restructuredtext/local/rst-directives" "rst-directives\\.el$")
-   (list "core" "core-spacemacs\\.el$")
-   ))
-
-(define (listing-el-files)
-  (begin
-    (use-modules (utils))
-    ((comp
-      pretty-print
-      ;; (partial map (cut string-replace-substring <> "+" "\\+"))
-      (cut sort <> string<?)
-      (partial map (comp
-                    (partial str "^")
-                    (cut string-join <> "/"))))
-     paths-to-el-files
-     #;(take-smart 2 paths-to-el-files)))
-  )
-
-(define (listing-el-paths)
-  (begin
-    (use-modules (utils))
-    ((comp
-      ;; (partial map (partial format #t "~s\n"))
-      ;; (partial map (cut string-replace-substring <> "+" "\\+"))
-      pretty-print
-      (cut sort <> string<?)
-      (partial map str)
-      delete-duplicates
-      (partial map car))
-     paths-to-el-files
-     ;; (take-smart 2 paths-to-el-files)
-     )))
+;;; spacemacs beg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-public emacs-spacemacs
-  (let ((commit
-         "b8bc4e6ff61eef9e0b6f0d4b67468036d2ca33e4"
+  (let (
+        (commit
+         "8a19733ef1d7e27309cbe62d4f6c73940b43e48b"
          )
-        (revision "0")
-        (combined-propagated-inputs
-         (append (package-propagated-inputs emacs)
-                 (spacemacs-packages))))
+        (revision "0"))
     (package
       (name "emacs-spacemacs")
       (version (git-version "1.0" revision commit))
@@ -23457,7 +22675,7 @@ processes for Emacs.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0di5pw100mk4gnkn2d0jzwddn2b7fdyx228q5w4qhrn8jmyvh6yw"
+           "139fm59ya15dqlzgnmrv6i099vawwvgb17km2pp8ihsps7rdwqf0"
            ))))
       (build-system emacs-build-system)
       (arguments
@@ -23487,36 +22705,12 @@ processes for Emacs.")
                   (("^") ";; -*- no-byte-compile: t -*-\n"))))
             (add-after 'unpack 'patch-file
               (lambda* (#:key inputs outputs #:allow-other-keys)
-                (let [(fun
-                       "
-(defun print-vars (f)
-  (message \"[%s] user-emacs-directory : %s\" f (or (and (boundp 'user-emacs-directory) user-emacs-directory) 'undefined))
-  (message \"[%s] emacs-startup-hook : %s\" f (or (and (boundp 'emacs-startup-hook) emacs-startup-hook) 'undefined))
-  (message \"[%s] noninteractive : %s\" f (or (and (boundp 'noninteractive) noninteractive) 'undefined))
-  (message \"[%s] spacemacs-start-directory : %s\" f (or (and (boundp 'spacemacs-start-directory) spacemacs-start-directory) 'undefined))
-  (message \"[%s] spacemacs-data-directory : %s\" f (or (and (boundp 'spacemacs-data-directory) spacemacs-data-directory) 'undefined))
-  (message \"[%s] spacemacs-cache-directory : %s\" f (or (and (boundp 'spacemacs-cache-directory) spacemacs-cache-directory) 'undefined))
-  (message \"[%s] spacemacs-private-directory : %s\" f (or (and (boundp 'spacemacs-private-directory) spacemacs-private-directory) 'undefined))
-  (message \"[%s] quelpa-dir : %s\" f (or (and (boundp 'quelpa-dir) quelpa-dir) 'undefined))
-  (message \"[%s] configuration-layer--elpa-root-directory : %s\" f (or (and (boundp 'configuration-layer--elpa-root-directory) configuration-layer--elpa-root-directory) 'undefined))
-  (message \"[%s] spacemacs--last-emacs-version-file : %s\" f (or (and (boundp 'spacemacs--last-emacs-version-file) spacemacs--last-emacs-version-file) 'undefined))
-  )
-")]
-                  (map (lambda* (file)
-                         (substitute* file
-                           ((";; (\\(print-vars \".*\"\\))" all sexp)
-                            (format #f "\n~a\n~a" fun sexp))))
-                       (list
-                        "core/core-configuration-layer.el")))
-
                 (substitute* "core/core-load-paths.el"
-                  (("(\\s+)user-emacs-directory\n" all indent)
+                  (("(\\s+)user-emacs-directory" all indent)
                    (string-append
                     indent
-                    (format #f "\"~a\"\n"
-                            ;; (assoc-ref outputs "out")
-                            "./"
-                            ))))
+                    ;; (format #f "\"~a\"\n" (assoc-ref outputs "out"))
+                    (format #f "\"~a\"\n" "./"))))
                 (let ((python (search-input-file inputs "bin/python")))
                   (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
                     (("/usr/bin/env python") python))
@@ -23525,6 +22719,26 @@ processes for Emacs.")
             (add-after 'unpack 'add-emacs-load-path
               ;; add-before 'compile 'add-emacs-load-path
               (lambda* (#:key inputs #:allow-other-keys)
+
+
+;;; Instead of searching for (provide ...) I could use some tools from (bost
+;;; guix build emacs-utils) to programmatically edit files using Emacs e.g. to
+;;; replace entire s-expressions in elisp files.
+                (let* [(current-dir (getcwd))
+                       (pkg-el-files (find-files current-dir "\\-pkg.el$"))]
+                  ;; At first get rid of the -pgk.el files
+                  (map (lambda (file)
+                         (format #t "### ~a\n" (string-replace-substring file ".el" ".___"))
+                         (rename file (string-replace-substring file ".el" ".___")))
+                       pkg-el-files)
+                  (let [(el-files (find-files current-dir "\\.el$"))]
+                    (map (lambda (file)
+                           ;; TODO recursive looping
+                           (when ;; contains (provide '...)
+                               (cons files-with-proviled file)))
+                         el-files)
+                    ))
+
                 (map
                  (lambda (file)
                    (let* ((base (basename file))
@@ -23535,60 +22749,77 @@ processes for Emacs.")
                               (substring base 0 (- (string-length base) 3))))))
                  ;; TODO for every el-file analyze every (require ...)
                  (list
-                  "core/aprilfool/zemacs.el"
-                  "core/libs/forks/load-env-vars.el"
-                  "layers/+chat/erc/local/erc-tex/erc-tex.el"
-                  "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
-                  "layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help.el"
-                  "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state.el"
-                  "layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode.el"
-                  "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode.el"
-                  "layers/+fun/games/local/helm-games/helm-games.el"
-                  "layers/+lang/jr/local/jr-mode/jr-mode.el"
-                  "layers/+lang/restructuredtext/local/rst-directives/rst-directives.el"
-                  "layers/+lang/restructuredtext/local/rst-lists/rst-lists.el"
-                  "layers/+misc/ietf/local/irfc/irfc.el"
-                  "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup.el"
-                  "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired.el"
-                  "layers/+spacemacs/spacemacs-org/local/space-doc/space-doc.el"
-                  "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin.el"
-                  "layers/+tools/sphinx/local/rst-sphinx/rst-sphinx.el"
-                  "layers/+tools/tmux/local/tmux/tmux.el"
-                  "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
+                  ;; "core/aprilfool/zemacs.el"
+                  ;; "core/libs/forks/load-env-vars.el"
+                  "core/libs/spacemacs-theme/spacemacs-theme.el"
+                  ;; "layers/+chat/erc/local/erc-tex/erc-tex.el"
+                  ;; "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
+                  ;; "layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help.el"
+                  ;; "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state.el"
+                  ;; "layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode.el"
+                  ;; "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode.el"
+                  ;; "layers/+fun/games/local/helm-games/helm-games.el"
+                  ;; "layers/+lang/jr/local/jr-mode/jr-mode.el"
+                  ;; "layers/+lang/restructuredtext/local/rst-directives/rst-directives.el"
+                  ;; "layers/+lang/restructuredtext/local/rst-lists/rst-lists.el"
+                  ;; "layers/+misc/ietf/local/irfc/irfc.el"
+                  ;; "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup.el"
+                  ;; "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired.el"
+                  ;; "layers/+spacemacs/spacemacs-org/local/space-doc/space-doc.el"
+                  ;; "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin.el"
+                  ;; "layers/+tools/sphinx/local/rst-sphinx/rst-sphinx.el"
+                  ;; "layers/+tools/tmux/local/tmux/tmux.el"
+                  ;; "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
                   ))
+                (/ 1 0)
 
-                (let* ((current-dir (getcwd))
-                       ;; list every directory you need on the load-path:
+                ;; Compiling ‘core/libs/spacemacs-theme/spacemacs-dark-theme.el’
+
+                ;; Error: file-missing ("Cannot open load file" "No such file or directory" "spacemacs-theme")
+                ;; require(spacemacs-theme)
+                ;; apply(require spacemacs-theme)
+                ;; byte-compile-file-form-require((require 'spacemacs-theme))
+                ;; byte-compile-file-form((require 'spacemacs-theme))
+                ;; #f(compiled-function (form) #<bytecode -0x1ba965706395cc33>)((require 'spacemacs-theme))
+                ;; byte-compile-recurse-toplevel((require 'spacemacs-theme) #f(compiled-function (form) #<bytecode -0x1ba965706395cc33>))
+                ;; byte-compile-toplevel-file-form((require 'spacemacs-theme))
+                ;; #f(compiled-function () #<bytecode 0xaa214b02952273>)()
+                ;; #f(compiled-function (body-fn) #<bytecode -0x12f00a7cc7411bef>)(#f(compiled-function () #<bytecode 0xaa214b02952273>))
+                ;; bytecomp--displaying-warnings(#f(compiled-function () #<bytecode 0xaa214b02952273>))
+                ;; byte-compile-from-buffer(#<buffer  *Compiler Input*>)
+
+                (let* [(current-dir (getcwd))
                        ;; TODO obtain a list of every el-file and `dirname' over it. Then delete duplicates.
-                       (paths   (list
-                                 "core"
-                                 "core/aprilfool"
-                                 "core/libs"
-                                 "core/libs/forks"
-                                 "core/libs/spacemacs-theme"
-                                 "layers/+chat/erc/local/erc-tex"
-                                 "layers/+chat/erc/local/erc-yank"
-                                 "layers/+completion/compleseus/local/compleseus-spacemacs-help"
-                                 "layers/+completion/helm/local/helm-spacemacs-help"
-                                 "layers/+completion/ivy/local/ivy-spacemacs-help"
-                                 "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
-                                 "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
-                                 "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
-                                 "layers/+fun/games/local/helm-games"
-                                 "layers/+lang/jr/local/jr-mode"
-                                 "layers/+lang/restructuredtext/local/rst-directives"
-                                 "layers/+lang/restructuredtext/local/rst-lists"
-                                 "layers/+misc/ietf/local/irfc"
-                                 "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
-                                 "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
-                                 "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
-                                 "layers/+spacemacs/spacemacs-org/local/space-doc"
-                                 "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
-                                 "layers/+tools/sphinx/local/rst-sphinx"
-                                 "layers/+tools/tmux/local/tmux"
-                                 "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
-                       (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
-                       (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":")))
+                       ;; (paths   (list
+                       ;;           "core"
+                       ;;           "core/aprilfool"
+                       ;;           "core/libs"
+                       ;;           "core/libs/forks"
+                       ;;           "core/libs/spacemacs-theme"
+                       ;;           "layers/+chat/erc/local/erc-tex"
+                       ;;           "layers/+chat/erc/local/erc-yank"
+                       ;;           "layers/+completion/compleseus/local/compleseus-spacemacs-help"
+                       ;;           "layers/+completion/helm/local/helm-spacemacs-help"
+                       ;;           "layers/+completion/ivy/local/ivy-spacemacs-help"
+                       ;;           "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
+                       ;;           "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
+                       ;;           "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
+                       ;;           "layers/+fun/games/local/helm-games"
+                       ;;           "layers/+lang/jr/local/jr-mode"
+                       ;;           "layers/+lang/restructuredtext/local/rst-directives"
+                       ;;           "layers/+lang/restructuredtext/local/rst-lists"
+                       ;;           "layers/+misc/ietf/local/irfc"
+                       ;;           "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
+                       ;;           "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
+                       ;;           "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
+                       ;;           "layers/+spacemacs/spacemacs-org/local/space-doc"
+                       ;;           "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
+                       ;;           "layers/+tools/sphinx/local/rst-sphinx"
+                       ;;           "layers/+tools/tmux/local/tmux"
+                       ;;           "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
+                       ;; (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
+                       (full (find-el-file-directories-gitignore current-dir))
+                       (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":"))]
                   (setenv "EMACSLOADPATH" env-val))))
             (add-after 'unpack 'fix--guix-get-installed-emacs-packages
               (lambda* (#:key inputs #:allow-other-keys)
@@ -23598,15 +22829,18 @@ processes for Emacs.")
                        (partial format #f "(quote\n~a)")
                        (partial interpose "\n")
                        (partial map (partial format #f "~s")))
-                      (map (lambda (p)
-                             (if (package? p)
-                                 (package-name p)
-                                 (package-name (car p))))
-                           combined-propagated-inputs))))))
-            (replace 'build (lambda* args #t)))))
-      (inputs            (package-inputs emacs) )
+                      (map (comp package-name cadr)
+                           (append (package-propagated-inputs emacs)
+                                   #;(spacemacs-packages-for-inputs))
+                           ))))))
+            ;; (replace 'build (lambda* args #t))
+            )))
+      (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
-      (propagated-inputs combined-propagated-inputs)
+      (propagated-inputs
+       (modify-inputs (package-propagated-inputs emacs)
+                      ;; (spacemacs-packages)
+                      ))
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
@@ -23615,13 +22849,12 @@ processes for Emacs.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
+;; (testsymb 'emacs-spacemacs)
 
 ;; (define* (make-packages emacs-package spacemacs-package
 ;;                         #:optional (name "emacs-spacemacs-wrapped"))
 ;;   "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
 ;; the use of Spacemacs without conflicting with the base Emacs."
-;;   ;; (define f (format #f "~a [make-packages]" m))
-;;   ;; (format #t "#### ~a starting...\n" f)
 ;;   (package
 ;;     (name name)
 ;;     (version (string-append (package-version emacs-package) "-"
@@ -23657,8 +22890,10 @@ processes for Emacs.")
 ;;      (synopsis (package-synopsis spacemacs-package))
 ;;      (description (package-description spacemacs-package))
 ;;      (license (package-license spacemacs-package))))
+;; (testsymb 'make-packages)
 
 ;; (define-public emacs-spacemacs-wrapped
-;;   ;; (define f (format #f "~a [emacs-spacemacs-wrapped]" m))
-;;   ;; (format #t "#### ~a starting...\n" f)
 ;;   (make-packages emacs emacs-spacemacs))
+;; (testsymb 'emacs-spacemacs-wrapped)
+
+;; (module-evaluated)

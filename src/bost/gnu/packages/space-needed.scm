@@ -9,9 +9,33 @@
 
 ;; Specifying package using @, ie. "(@ (gnu packages emacs-xyz) emacs-guix)"
 ;; doesn't work
-(define-public (needed-packages)
+(define-public (needed-package-names)
   (list
+   ;; not found
+   ;; "emacs-cmm-mode"
+   ;; "emacs-css-mode"
+   ;; "emacs-desktop"
+   ;; "emacs-diff-mode"
+   ;; "emacs-evil-nerd-icons"
+   ;; "emacs-flyspell"
+   ;; "emacs-fuzzy"
+   ;; "emacs-helm-hoogle"
+   ;; "emacs-help-fns+"
+   ;; "emacs-hindent"
+   ;; "emacs-hippie-exp"
+   ;; "emacs-less-css-mode"
+   ;; "emacs-magit-popupmagit-svn"
+   ;; "emacs-occidental"
+   ;; "emacs-phpcbf"
+   ;; "emacs-planet"
+   ;; "emacs-pollen-mode"
+   ;; "emacs-sql"
+
 ;;; needed for build ;beg;
+   "emacs-chronometrist"
+   "emacs-flyspell-popup"
+   "emacs-ts"
+   "emacs-slack"
    "emacs-rcirc-styles"
    "emacs-rcirc-notify"
    "emacs-jabber"
@@ -246,6 +270,7 @@
    "emacs-geiser-guile"
    "emacs-gh-md"
    "emacs-ghub"
+   "emacs-gist"
    "emacs-git-link"
    "emacs-git-messenger"
    "emacs-git-modes"
@@ -294,9 +319,8 @@
    "emacs-helm-sly"
    "emacs-helm-swoop"
    "emacs-helm-system-packages"
-   "emacs-helm-themes"
    "emacs-helm-xref"
-   "emacs-help-fns+"
+   "emacs-help-fns+" ;; "emacs-help-fns-plus" exists
    "emacs-hemisu-theme"
    "emacs-heroku-theme"
    "emacs-hide-comnt"
@@ -635,6 +659,60 @@
    "emacs-zoom-frm"
    "emacs-zop-to-char"
    ))
-(testsymb 'needed-packages)
+(testsymb 'needed-package-names)
+
+(define default-modules
+  (list
+   '(bost gnu packages emacs-xyz)
+   '(gnu packages emacs-xyz)
+   '(bost gnu packages emacs-build) ; emacs-compat
+   '(gnu packages emacs-build)      ; emacs-compat
+   '(gnu packages llvm)             ; emacs-clang-format
+   '(gnu packages erlang)           ; emacs-erlang
+   ))
+
+(define* (find-package package-name #:optional (modules default-modules))
+  "Find a package by name, searching through the specified modules in order.
+Usage:
+ ;; Default modules
+ (find-package \"emacs-ts\")
+
+ ;; Custom modules
+ (find-package \"some-package\"
+               (list '(my-custom packages)
+                     '(gnu packages emacs-xyz)))
+
+Returns the first package found, or #f if not found in any module."
+  ;; avoid calling string->symbol on every iteration
+  (let [(package-symbol (string->symbol package-name))]
+    (let loop [(remaining-modules modules)]
+      (cond
+       [(null? remaining-modules)
+        ;; (my=warn "~a not found\n" package-name)
+        ;; (format #t "gxse ~a\n" package-name)
+        ;; (format #t "~s\n" package-name)
+        #f
+        ]
+       ;; Evaluate (module-variable ...)
+       [(module-variable (resolve-interface (car remaining-modules))
+                         package-symbol)
+        ;; If the value is "truthy" the '=>' passes it as a parameter to the
+        ;; following lambda function
+        => (lambda (var)
+             (let ((dereferenced-var (variable-ref var)))
+               ;; Make sure the thing we found is a package. (It could be
+               ;; something else, e.g. a procedure)
+               (if (package? dereferenced-var) dereferenced-var #f)))]
+       [else (loop (cdr remaining-modules))]))))
+
+(define-public (spacemacs-packages)
+  ((comp
+    ;; (lambda (lst) (format #t "2. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+    (partial remove unspecified-or-empty-or-false?)
+    ;; (lambda (lst) (format #t "1. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+    (partial map find-package)
+    ;; (lambda (lst) (format #t "0. length: ~a\n" (length lst)) #;(pretty-print lst) lst)
+    )
+   (needed-package-names)))
 
 (module-evaluated)
