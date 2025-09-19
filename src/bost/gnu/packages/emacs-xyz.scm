@@ -9004,7 +9004,7 @@ providing support for a lot of modes.")
          (method git-fetch)
          (uri (git-reference
                (url
-                "https://github.com/franksn/omtose-phellack-theme"
+                "https://github.com/franksn/omtose-phellack-theme.git"
                 ;; "https://github.com/emacsmirror/omtose-phellack-theme"
                 )
                (commit commit)))
