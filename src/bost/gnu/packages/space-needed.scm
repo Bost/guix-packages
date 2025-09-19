@@ -36,6 +36,7 @@
    "emacs-font-utils"
    "emacs-magit-section"
    "emacs-ob-elixir"
+   "emacs-persistent-soft"
 
 ;;; needed for build ;beg;
    "emacs-chronometrist"
