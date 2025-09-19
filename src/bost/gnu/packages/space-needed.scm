@@ -46,6 +46,8 @@
    "emacs-treemacs-icons-dired"
    "emacs-treemacs-magit"
    "emacs-treemacs-persp"
+   "emacs-toml-mode"
+   "emacs-helm-pydoc"
 
 ;;; needed for build ;beg;
    "emacs-chronometrist"
