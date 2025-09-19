@@ -1819,7 +1819,7 @@ between Emacs and PHP.")
 
 ;; bat -r 99599:99622 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-persistent-soft
-  (let ((commit "a1e0ddf2a12a6f18cab565dee250f070384cbe02")
+  (let ((commit "24e41d1952bef5953ef0af2288de146265c7ee10")
         (revision "0"))
     (package
       (name "emacs-persistent-soft")
@@ -1832,7 +1832,7 @@ between Emacs and PHP.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "14p20br8vzxs39d4hswzrrkgwql5nnmn5j17cpbabzjvck42rixc"))))
+          (base32 "0wp4hd4j7dbiqf08yywi3s0y9rmpk2hycmlzqk0c0iq0r3kwl83d"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
       (home-page "https://github.com/rolandwalker/persistent-soft")
