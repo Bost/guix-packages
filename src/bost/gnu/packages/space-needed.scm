@@ -31,6 +31,12 @@
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
 
+   "emacs-avy-jump-helm-line"
+   "emacs-flyspell-correct-helm"
+   "emacs-font-utils"
+   "emacs-magit-section"
+   "emacs-ob-elixir"
+
 ;;; needed for build ;beg;
    "emacs-chronometrist"
    "emacs-flyspell-popup"
