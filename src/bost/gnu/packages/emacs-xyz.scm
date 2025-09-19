@@ -5494,11 +5494,11 @@ Emacs tools, facilitating seamless GitHub workflows within the editor.")
       (license license:gpl2+))))
 
 (define-public emacs-with-editor
-  (let ((commit "ca902ae02972bdd6919a902be2593d8cb6bd991b")
+  (let ((commit "87a384a0e59260cca41ca8831d98e195b1ec8ada")
         (revision "0"))
     (package
       (name "emacs-with-editor")
-      (version (git-version "3.4.3" revision commit))
+      (version (git-version "3.4.6" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -5507,7 +5507,7 @@ Emacs tools, facilitating seamless GitHub workflows within the editor.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0h21qs60qihv4p72x5wbmc0xly4g74wc25qj8m9slfbc4am9mwys"))))
+          (base32 "1d0y32y934ld60vdyx9hwbvpifmhdmm08066x0ivxqcyw0qyggxg"))))
       (build-system emacs-build-system)
       (arguments
        (list
