@@ -37,6 +37,10 @@
    "emacs-magit-section"
    "emacs-ob-elixir"
    "emacs-persistent-soft"
+   "emacs-rust-mode"
+   "emacs-rustic"
+   "emacs-ucs-utils"
+   "emacs-unicode-fonts"
 
 ;;; needed for build ;beg;
    "emacs-chronometrist"
