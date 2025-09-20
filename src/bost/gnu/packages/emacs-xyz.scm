@@ -155,6 +155,28 @@
 (define m (module-name-for-logging))
 ;; (evaluating-module)
 
+(define-public emacs-ron-mode
+  (let ((commit "c5e0454b9916d6b73adc15dab8abbb0b0a68ea22")
+        (revision "0"))
+    (package
+      (name "emacs-ron-mode")
+      (version (git-version "20200830.1554" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://codeberg.org/Hutzdog/ron-mode.git")
+               (commit commit)))
+         (sha256
+          (base32 "132r5346m3li5n7v7fyzyg8sg3679apl7q4y57n5aq395s0q9wyn"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (home-page "https://chiselapp.com/user/Hutzdog/repository/ron-mode/home")
+      (synopsis "Rusty Object Notation mode")
+      (description
+       "Syntax highlights Rusty Object Notation, see https://github.com/ron-rs/ron.")
+      (license license:bsd-2))))
+
 ;; $ guix package --cores=24 --install emacs-lispyville
 ;; The following package will be installed:
 ;; emacs-lispyville 0.1-3.89316f0
