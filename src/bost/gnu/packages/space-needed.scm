@@ -31,6 +31,7 @@
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
 
+   "emacs-ron-mode"
    "emacs-avy-jump-helm-line"
    "emacs-flyspell-correct-helm"
    "emacs-font-utils"
