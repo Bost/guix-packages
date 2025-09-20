@@ -10954,11 +10954,11 @@ Information will be saved relative to the pdf being viewed so ensure
       (license license:gpl3+))))
 
 (define-public emacs-helm
-  (let ((commit "7f6137bb8e9fc9415cd1ffc53bb119f1c4ca4cc4")
+  (let ((commit "eb706b7030958da4e1a30be17f65ec82a9987268")
         (revision "0"))
     (package
       (name "emacs-helm")
-      (version (git-version "4.0.4" revision commit))
+      (version (git-version "4.0.6" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -10967,7 +10967,7 @@ Information will be saved relative to the pdf being viewed so ensure
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "19096kj95yn8l54bmab7b15xg5l1sfbpn8s5dq2dpi40k8flfgkh"))))
+          (base32 "1i5s6gvwzawwfq4mnw4xwg0j8gc32868wm0187gxvci0s28q2iin"))))
       (build-system emacs-build-system)
       (arguments
        (list
