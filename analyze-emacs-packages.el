@@ -1,5 +1,10 @@
 #!/home/bost/.guix-profile/bin/emacs --script
 
+;; Run by:
+;;    ./analyze-emacs-packages.el && ./create-elisp-package-definition.scm
+;; See also:
+;;    guix import elpa --archive=melpa <package-name-as-on-melpa>
+
 ;; for `-compose' and `-partial'
 (require 'dash)
 (require 'f)
@@ -8,7 +13,7 @@
  pkgs
  '(
    ;; (
-   ;;  "<git-repo>"
+   ;;  "<git-repo-without-.git>"
    ;;  "<version-number>"
    ;;  "<path-to-el-file>"
    ;;  )
