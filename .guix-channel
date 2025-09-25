@@ -57,11 +57,15 @@
   (channel
     (name guix-rust-past-crates) ; channel name can't be quoted
     (url
-     ;; "https://codeberg.org/guix/guix-rust-past-crates.git"
+     "https://codeberg.org/guix/guix-rust-past-crates.git"
      ;; ,(format #f "file://~a/dev/guix-rust-past-crates" home) ; doesn't work
      ;; (format #f "file://~a/dev/guix-rust-past-crates" home)  ; doesn't work
-     "file:///home/bost/dev/guix-rust-past-crates"
+     ;; "file:///home/bost/dev/guix-rust-past-crates"
      )
+    ;; Pin channel to the commit:
+    ;; Date:   Thu Aug 28 22:29:20 2025 +0800
+    ;; past-crates: Adapt to python2-minimal removal.
+    (commit "e19b4de994768f66a0d1831a088fc1467e85315e")
     (branch "trunk")
     (introduction
      (channel-introduction
