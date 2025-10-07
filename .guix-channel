@@ -65,7 +65,12 @@
     ;; Pin channel to the commit:
     ;; Date:   Thu Aug 28 22:29:20 2025 +0800
     ;; past-crates: Adapt to python2-minimal removal.
-    (commit "e19b4de994768f66a0d1831a088fc1467e85315e")
+    ;; (commit "e19b4de994768f66a0d1831a088fc1467e85315e")
+
+    ;; Date:   Sun Sep 28 19:56:49 2025 +0200
+    ;; past-crates: Adapt rust-xkb-0.3 to libxkbcommon-1.5 removal.
+    (commit "b8b7ffbd1cec9f56f93fae4da3a74163bbc9c570")
+
     (branch "trunk")
     (introduction
      (channel-introduction
