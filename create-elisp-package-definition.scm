@@ -1,12 +1,13 @@
 #!/usr/bin/env -S guile \\
--L /home/bost/dev/dotfiles/guix/common -L /home/bost/dev/dotfiles/guix/home/common -e (create-elisp-package-definition) -s
+-L /home/bost/dev/guix-packages/src -e (create-elisp-package-definition) -s
 !#
 
+;; -L /home/bost/dev/dotfiles/guix/common -L /home/bost/dev/dotfiles/guix/home/common
 (define-module (create-elisp-package-definition)
   #:use-module (ice-9 match)
-  #:use-module (utils)
-  #:use-module (scm-bin gcl)
-  #:use-module (srfi srfi-1) ;; remove
+  #:use-module (bost utils)
+  #:use-module (bost git-clone)
+  #:use-module (srfi srfi-1)        ; list-processing procedures (remove)
   #:export (main)
   )
 
@@ -45,7 +46,7 @@ See also
     ;; (format #t "(access? dst-dir F_OK): ~a\n" (access? dst-dir F_OK)
     (if (access? dst-dir F_OK)
         dst-dir
-        (when (gcl url dst-dir #:verbose verbose)
+        (when (git-clone url dst-dir #:verbose verbose)
           dst-dir))))
 
 ;; (access? some-file F_OK) ;; check if file exists
