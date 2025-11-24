@@ -122,7 +122,7 @@ See also
                          `(home-page ,url)
                          `(synopsis "") ;; TODO synopsis
                          `(description "") ;; TODO description
-                         `(license license'gpl3+))))
+                         `(license license:gpl3+))))
                ]
 
           ;; (format #t "(equal? '(propagated-inputs (list)) propagated-inputs): ~a\n"

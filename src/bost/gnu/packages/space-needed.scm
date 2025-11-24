@@ -31,6 +31,8 @@
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
 
+   "emacs-auctex-latexmk"
+   "emacs-python-pytest"
    "emacs-ron-mode"
    "emacs-avy-jump-helm-line"
    "emacs-flyspell-correct-helm"
