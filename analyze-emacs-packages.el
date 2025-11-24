@@ -46,6 +46,7 @@
                 cl
                 cl-extra
                 cl-lib
+                comint
                 compile
                 cus-face
                 custom
