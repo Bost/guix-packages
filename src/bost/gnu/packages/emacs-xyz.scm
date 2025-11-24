@@ -22608,6 +22608,75 @@ on which user-defined dispatch actions can act.")
 processes for Emacs.")
       (license license:gpl3+))))
 
+(define-public emacs-auctex-latexmk
+  (let ((commit "b00a95e6b34c94987fda5a57c20cfe2f064b1c7a")
+        (revision "0"))
+    (package
+      (name "emacs-auctex-latexmk")
+      (version (git-version "1.0.2.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               ;; 1 commit ahead of tom-tan/auctex-latexmk:master.
+               (url "https://github.com/emacsmirror/auctex-latexmk.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0bbvb4aw9frg4fc0z9qkc5xd2s9x65k6vdscy5svsy0h17iacsbb"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'build 'set-home
+              (lambda _
+                (setenv "HOME" (getcwd)))))))
+      (propagated-inputs
+       (list
+        ;; (@(gnu packages texlive) texlive-latexmk)
+        ;; texlive    ; from (gnu packages texlive); latex is a part of Emacs
+        emacs-auctex
+        ))
+      (home-page "https://github.com/tom-tan/auctex-latexmk/")
+      (synopsis "Add LatexMk support to AUCTeX")
+      (description
+       "Integration of Latexmk with AUCTeX in Emacs.  It allows using Latexmk as the
+build engine for LaTeX documents, enabling automated compilation with
+dependency handling and continuous preview updates.  The package adds Latexmk
+as a command in AUCTeX and supports customization through Emacs variables.")
+      (license license:gpl3+))))
+
+(define-public emacs-python-pytest
+  (let ((commit "ed2ecee09d1cccb4245842860d91940cb2fda769")
+        (revision "0"))
+    (package
+      (name "emacs-python-pytest")
+      (version (git-version "3.4.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/wbolster/emacs-python-pytest.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1787bks1zi47qglib42vnlqa7m4899n5vh1ics0013ldd89jqrr1"
+           ))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        emacs-s
+        emacs-transient
+        ))
+      (home-page "https://github.com/wbolster/emacs-python-pytest")
+      (synopsis "Helpers to run pytest")
+      (description
+       "Helpers to run pytest.  See README for details.")
+      (license license:bsd-3))))
+
 ;;; spacemacs beg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-public emacs-spacemacs
