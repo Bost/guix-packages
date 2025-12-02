@@ -376,28 +376,22 @@ Corresponds to `drop' in Clojure"
   prm)
 
 (define* (error-command-failed #:rest args)
-  "Returns #t and prints \"Command failed.\" with some extra text.
-
-(error-command-failed \"[module]\" \"extra_text\")
-;; =>
-E [module] Command failed: extra_text
-
-(error-command-failed \"[module]\")
-;; =>
-E [module] Command failed.
-
-(error-command-failed)
-;; =>
-E Command failed."
+  "Returns #t and prints \"Command failed.\" with some extra text."
+  (define f "[error-command-failed]")
+  ;; (format #t "~a ~a Starting ...\n" f m)
+  (define (print-error . args)
+    ;; (error (apply (partial format #f (car args))
+    ;;               (cdr args)))
+    (apply (partial format (current-error-port))
+           (cons (str "E " (car args) "\n") (cdr args)))
+    )
   (match args
     ['()
-     (format #t
-             #;error
-             "E Command failed.\n")]
+     (print-error "Command failed.")]
     [(module)
-     (format #t "E ~a Command failed.\n" module)]
+     (print-error "~a Command failed." module)]
     [(module extra-text)
-     (format #t "E ~a Command failed: ~a\n" module extra-text)]))
+     (print-error "~a Command failed: ~a" module extra-text)]))
 
 (define (split-space-escaped input)
   "(split-space-escaped \"a b\\ c\") ;; => (\"a\" \"b c\")"
@@ -631,10 +625,13 @@ Usage:
     cmd->string)
    commad))
 
-(define* (exec command #:key (verbose #t))
+(define* (exec command #:key (verbose #t) (return-plist #f))
   "Run the shell COMMAND using '/bin/sh -c' with 'OPEN_READ' mode, ie. to read
 from the subprocess. Wait for the command to terminate and return a string
 containing its output.
+
+RETURN-PLIST - return property list which can be accessed by:
+(plist-get (exec \"echo 'foo'\" #:return-plist #t #:verbose #f) #:retcode)
 
 TODO have a look if a delimited continuation can be used to break out of `exec',
 i.e. skip the `read-all-strings' and thus make `exec-background' out of it.
@@ -658,19 +655,6 @@ Usage:
   ;; ,use (guix build utils) ;; contains `invoke'
   ;; `invoke' does `(apply system* program args)'; `system*' waits for the
   ;; program to finish, The command is executed using fork and execlp.
-
-  ;; TODO write a scheme procedure: chdir str
-  ;; Change the current working directory to str. The return value is
-  ;; unspecified.
-  (define (exec-function command)
-    ;; Can't use the `call-with-port' since the exit-val is needed.
-    (let* [(port (open-input-pipe command)) ; from (ice-9 rdelim)
-           ;; the `read-all-strings' must be called before `close-pipe'.
-           (results (read-all-strings port))]
-      (cons
-       (status:exit-val (close-pipe port))
-       results)))
-
   ((comp
     (partial exec-or-dry-run exec-function)
     (lambda (prm) (dbg-exec prm #:verbose verbose))
