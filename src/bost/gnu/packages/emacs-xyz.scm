@@ -221,72 +221,6 @@ keybinding style.  The provided commands allow for editing Lisp in normal
 state and will work even without lispy being enabled.")
       (license license:gpl3+))))
 
-(define-public emacs-ts
-  ;; XXX: Upstream did not tag last release.  Use commit matching version
-  ;; bump.
-  (let ((commit "552936017cfdec89f7fc20c254ae6b37c3f22c5b"))
-    (package
-      (name "emacs-ts")
-      (version "0.3")
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/alphapapa/ts.el")
-               (commit commit)))
-         (sha256
-          (base32 "18lif159zndl19ddz9rfq12l90770858yasfns21ryl1yrq3aifr"))
-         (file-name (git-file-name name version))))
-      (build-system emacs-build-system)
-      (arguments
-       ;; XXX: Three tests are failing because of a timezone-related issue
-       ;; with how they're written.  On my machine, all the failing test
-       ;; results are 18000 seconds (5 hours) off.
-
-       ;; The ts-parse-org function accepts a string without any timezone
-       ;; info, not assumed to be in Unix time, and converts it to a so-called
-       ;; ts struct.  The ts-unix function (accessor) accepts a ts struct,
-       ;; then seems to assume the struct's corresponding time is in terms of
-       ;; the user's current time zone, before returning a Unix time in
-       ;; seconds.
-
-       ;; The failing tests all have similar problems, but nothing else about
-       ;; the library seems particularly off.
-       (list
-        #:test-command #~(list "emacs" "--batch"
-                               "-l" "test/test.el"
-                               "-f" "ert-run-tests-batch-and-exit")
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-before 'check 'make-tests-writable
-              (lambda _
-                (make-file-writable "test/test.el")))
-            (add-before 'check 'delete-failing-tests
-              (lambda _
-                (emacs-batch-edit-file "test/test.el"
-                  `(progn
-                    (goto-char (point-min))
-                    (dolist (test-regexp
-                             '("ert-deftest ts-fill"
-                               "ert-deftest ts-format"
-                               "ert-deftest ts-parse-org\\_>"
-                               "ert-deftest ts-parse-org-element"))
-                            (re-search-forward test-regexp)
-                            (beginning-of-line)
-                            (kill-sexp)
-                            (goto-char (point-min)))
-                    (basic-save-buffer))))))))
-      (propagated-inputs
-       (list
-        bst:emacs-dash
-        emacs-s
-        ))
-      (home-page "https://github.com/alphapapa/ts.el")
-      (synopsis "Timestamp and date/time library")
-      (description "This package facilitates manipulating dates, times, and
-timestamps by providing a @code{ts} struct.")
-      (license license:gpl3+))))
-
 (define-public emacs-slack
   (let ((commit "b104bb2f9212e157da01f9161e466b5ed0b151fc")
         (revision "11"))
@@ -328,60 +262,6 @@ timestamps by providing a @code{ts} struct.")
       (description "This package provides an Emacs client for the Slack
 messaging service.")
       (license license:gpl3+))))
-
-(define-public emacs-chronometrist
-  (package
-    (name "emacs-chronometrist")
-    (version "0.10.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://tildegit.org/contrapunctus/chronometrist")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0qpkpkipmac24m3ng4ahsml3vi15qcvmid3g02pbpgbpc113zfpl"))))
-    (build-system emacs-build-system)
-    (arguments
-     (list
-      #:lisp-directory "elisp"
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'install 'install-doc
-            ;; Documentation consists of several Markdown files.
-            (lambda _
-              (let ((doc (string-append #$output
-                                        "/share/doc/emacs-chronometrist-"
-                                        #$version)))
-                (with-directory-excursion "../doc"
-                  (for-each (lambda (f) (install-file f doc))
-                            (cons* "../UNLICENSE"
-                                   "../WTFPL"
-                                   (find-files "." "\\.md$"))))))))))
-    (propagated-inputs
-     (list
-      emacs-alert
-      bst:emacs-dash
-      emacs-s
-      emacs-spark
-      emacs-ts
-      ))
-    (home-page "https://github.com/contrapunctus-1/chronometrist")
-    (synopsis "Time tracker for Emacs")
-    (description "Chronometrist is a time tracker in Emacs, largely modelled
-after the Android application, @emph{A Time Tracker}.
-
-Its features are:
-@itemize
-@item Simple and efficient to use,
-@item Displays useful information about your time usage,
-@item Support for both mouse and keyboard,
-@item Human errors in tracking are easily fixed by editing a plain text file,
-@item Hooks to let you perform arbitrary actions when starting/stopping tasks.
-@end itemize")
-    ;; Software is dual-licensed.
-    (license (list license:unlicense license:wtfpl2))))
 
 (define-public emacs-flyspell-popup
   (let ((commit "29311849bfd253b9b689bf331860b4c4d3bd4dde")
@@ -1585,33 +1465,6 @@ filenames and their directory components. Changes are highlighted, and file
 completion is provided to streamline the renaming process. This tool is
 particularly useful for batch renaming files across various directories
 without leaving the Emacs environment.")
-      (license license:gpl3+))))
-
-;; bat -r 63823:63843 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
-(define-public emacs-indent-guide
-  (let ((commit "d388c3387781a370ca13233ff445d03f3c5cf12f")
-        (revision "0"))
-    (package
-      (name "emacs-indent-guide")
-      (version (git-version "2.3.1" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/zk-phi/indent-guide.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "0r303mzxj57l8rclzsmvhnx2p3lhf2k4zvn8a6145wb10jvcwfxi"))))
-      (build-system emacs-build-system)
-      (home-page "https://github.com/zk-phi/indent-guide")
-      (synopsis "Show vertical lines to guide indentation in Emacs")
-      (description
-       "This package provides a minor mode for Emacs that displays vertical
- lines to visually guide indentation levels.  It enhances code readability by
- indicating indentation depth, making it easier to understand code structure.
-  The mode is customizable, allowing users to adjust the appearance of the
- guide lines to fit their preferences.")
       (license license:gpl3+))))
 
 ;; bat -r 64818:64838 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
@@ -4751,31 +4604,6 @@ width.  Generated images are cached locally and displayed in a dedicated
 buffer.  An OpenAI API key is required for usage.")
       (license license:gpl3+))))
 
-;; (define-public emacs-concurrent
-;;   (let ((commit "2239671d94b38d92e9b28d4e12fd79814cfb9c16")
-;;         (revision "0"))
-;;     (package
-;;       (name "emacs-concurrent")
-;;       (version (git-version "0.5.0" revision commit))
-;;       (source
-;;        (origin
-;;          (method git-fetch)
-;;          (uri (git-reference
-;;                (url "https://github.com/kiwanami/emacs-deferred")
-;;                (commit commit)))
-;;          (file-name (git-file-name name version))
-;;          (sha256
-;;           (base32 "0vz59lm7pfz0gbsgrb44y555js85wbdjn0zm6p8wfqjiqf63ds3i"))))
-;;       (build-system emacs-build-system)
-;;       (propagated-inputs
-;;        (list
-;;         emacs-deferred
-;;         ))
-;;       (home-page "https://github.com/kiwanami/emacs-deferred")
-;;       (synopsis "")
-;;       (description "")
-;;       (license license:gpl3+))))
-
 ;; bat -r 17763:17786 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-company-shell
   (let ((commit "5f959a63a6e66eb0cbdac3168cad523a62cc2ccd")
@@ -6519,6 +6347,7 @@ customizability and asynchronous upgrading.")
        (file-name (git-file-name name version))
        (sha256
         (base32 "1gaifz1brh7yh1wk1c02gddwis4ab6bggv27gy7gcd2s861f8bkx"))
+       ;; the patch file is in the guix channel
        (patches (search-patches "emacs-json-reformat-fix-tests.patch"))))
     (build-system emacs-build-system)
     (arguments
@@ -13863,90 +13692,6 @@ environment set through Direnv.")
     (home-page "https://github.com/andykuszyk/noman.el")
     (license license:gpl3+)))
 
-(define-public emacs-bui
-  (package
-    (name "emacs-bui")
-    (version "1.2.1")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://notabug.org/alezost/emacs-bui.git")
-                    (commit (string-append "v" version))))
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "0sszdl4kvqbihdh8d7mybpp0d8yw2p3gyiipjcxz9xhvvmw3ww4x"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      ))
-    (home-page "https://notabug.org/alezost/emacs-bui")
-    (synopsis "Buffer interface library for Emacs")
-    (description
-     "BUI (Buffer User Interface) is a library for making @code{list} and
-@code{info} interfaces to display an arbitrary data of the same
-type, for example: packages, buffers, files, etc.")
-    (license license:gpl3+)))
-
-(define-public emacs-guix
-  (let ((commit "66b935020d93cdbbff0b0ed3b1d2195724a46821")
-        (revision "8"))
-    (package
-      (name "emacs-guix")
-      (version (git-version "0.5.2" revision commit))
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://codeberg.org/guix/emacs-guix/")
-                      (commit commit)))
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "1pm1nyy1r704wjg4hfdrrxlf1mn327wk0vkghwy8wsp4f84j5j7d"))))
-      (build-system gnu-build-system)
-      (arguments
-       (list
-        #:modules '((guix build gnu-build-system)
-                    ((guix build emacs-build-system) #:prefix emacs:)
-                    (guix build utils))
-        #:imported-modules `(,@%default-gnu-imported-modules
-                             (guix build emacs-build-system)
-                             (guix build emacs-utils))
-        #:tests? #f    ; no tests
-        #:configure-flags
-        #~(list (string-append "--with-lispdir="
-                               (emacs:elpa-directory #$output)))
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'expand-load-path
-              (lambda _
-                ((assoc-ref emacs:%standard-phases 'expand-load-path)
-                 #:prepend-source? #f))))))
-      (native-inputs
-       (list autoconf automake emacs-minimal pkg-config texinfo))
-      (inputs
-       (list (lookup-package-input guix "guile")
-             guix))
-      (propagated-inputs
-       (list
-        emacs-bui
-        bst:emacs-dash
-        emacs-edit-indirect
-        emacs-geiser
-        emacs-geiser-guile
-        emacs-magit-popup
-        guile-gcrypt
-        ))
-      (home-page "https://guix.gnu.org")
-      (synopsis "Emacs interface for GNU Guix")
-      (description
-       "Emacs-Guix provides a visual interface, tools and features for the GNU
-Guix package manager.  Particularly, it allows you to do various package
-management tasks from Emacs.  To begin with, run @code{M-x guix-about} or
-@code{M-x guix-help} command.")
-      (license license:gpl3+))))
-
 (define-public emacs-minitest
   (package
     (name "emacs-minitest")
@@ -17516,33 +17261,6 @@ additions:
     (description "This package provides macros that can translate code into
 equivalent continuation-passing code, as well as miscellaneous utility
 functions written in continuation-passing style.")
-    (license license:gpl3+)))
-
-(define-public emacs-attrap
-  (package
-    (name "emacs-attrap")
-    (version "1.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jyp/attrap")
-             (commit version)))
-       (sha256
-        (base32 "0wqc7bqx9rvk8r7fd3x84h8p01v97s6w2jf29nnjb59xakwp22i7"))
-       (file-name (git-file-name name version))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      bst:emacs-f
-      emacs-flycheck
-      emacs-s
-      ))
-    (home-page "https://github.com/jyp/attrap")
-    (synopsis "Fix coding error at point")
-    (description "This package provides a command to fix the Flycheck error
-at point.")
     (license license:gpl3+)))
 
 (define-public emacs-browse-at-remote
@@ -21363,7 +21081,7 @@ type, for example: packages, buffers, files, etc.")
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                       (url "https://codeberg.org/guix/emacs-guix.git")
+                      (url "https://codeberg.org/guix/emacs-guix.git")
                       (commit commit)))
                 (file-name (git-file-name name version))
                 (sha256
