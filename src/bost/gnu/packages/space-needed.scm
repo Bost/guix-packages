@@ -31,6 +31,7 @@
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
 
+   "emacs-fennel-mode"
    "emacs-auctex-latexmk"
    "emacs-python-pytest"
    "emacs-ron-mode"
