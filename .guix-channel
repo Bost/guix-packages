@@ -57,10 +57,10 @@
   (channel
     (name guix-rust-past-crates) ; channel name can't be quoted
     (url
-     "https://codeberg.org/guix/guix-rust-past-crates.git"
+     ;; "https://codeberg.org/guix/guix-rust-past-crates.git"
      ;; ,(format #f "file://~a/dev/guix-rust-past-crates" home) ; doesn't work
      ;; (format #f "file://~a/dev/guix-rust-past-crates" home)  ; doesn't work
-     ;; "file:///home/bost/dev/guix-rust-past-crates"
+     "file:///home/bost/dev/guix-rust-past-crates"
      )
     ;; Pin channel to the commit:
     ;; Date:   Thu Aug 28 22:29:20 2025 +0800
@@ -77,13 +77,13 @@
       (version 0)
       ;; Original authorization.
       ;; The .guix-authorizations was added in this commit
-      (commit "1db24ca92c28255b28076792b93d533eabb3dc6a")
-      (signer "F4C2 D1DF 3FDE EA63 D1D3 0776 ACC6 6D09 CA52 8292")
+      ;; (commit "1db24ca92c28255b28076792b93d533eabb3dc6a")
+      ;; (signer "F4C2 D1DF 3FDE EA63 D1D3 0776 ACC6 6D09 CA52 8292")
 
-      ;; ;; My authorization
-      ;; ;; I added myself to the .guix-authorizations in this commit:
-      ;; (commit "9b04e1e6f87e43307d8ab7dd921088ed607b9138")
-      ;; ;; The fingerprint of my GPG key:
-      ;; (signer "A2FE D89D 9A10 000E 5BF6  3B37 612D 3636 8877 DC81")
+      ;; My authorization
+      ;; I added myself to the .guix-authorizations in this commit:
+      (commit "bed650bc453c1eae11e8efe56a00fbe408f17fe8")
+      ;; The fingerprint of my GPG key:
+      (signer "A2FE D89D 9A10 000E 5BF6  3B37 612D 3636 8877 DC81")
       )))
   ))
