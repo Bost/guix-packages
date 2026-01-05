@@ -46,44 +46,4 @@
      ;; Some commit must be specified. Omitting (commit ...) doesn't work
      (commit "897c1a470da759236cc11798f4e0a5f7d4d59fbc")
      (signer "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
-
-;; Keep Rust library packages (for Rust 1.82) from Guix before the new packaging model migration.
-;; These packages are saved in the (past-crates packages crates-io) module.
-;;
-;; Authenticate commits:
-;;   guix git authenticate \
-;;        1db24ca92c28255b28076792b93d533eabb3dc6a \
-;;        F4C2D1DF3FDEEA63D1D30776ACC66D09CA528292
-  (channel
-    (name guix-rust-past-crates) ; channel name can't be quoted
-    (url
-     ;; "https://codeberg.org/guix/guix-rust-past-crates.git"
-     ;; ,(format #f "file://~a/dev/guix-rust-past-crates" home) ; doesn't work
-     ;; (format #f "file://~a/dev/guix-rust-past-crates" home)  ; doesn't work
-     "file:///home/bost/dev/guix-rust-past-crates"
-     )
-    ;; Pin channel to the commit:
-    ;; Date:   Thu Aug 28 22:29:20 2025 +0800
-    ;; past-crates: Adapt to python2-minimal removal.
-    ;; (commit "e19b4de994768f66a0d1831a088fc1467e85315e")
-
-    ;; Date:   Sun Sep 28 19:56:49 2025 +0200
-    ;; past-crates: Adapt rust-xkb-0.3 to libxkbcommon-1.5 removal.
-    ;; (commit "b8b7ffbd1cec9f56f93fae4da3a74163bbc9c570")
-
-    (branch "trunk")
-    (introduction
-     (channel-introduction
-      (version 0)
-      ;; Original authorization.
-      ;; The .guix-authorizations was added in this commit
-      ;; (commit "1db24ca92c28255b28076792b93d533eabb3dc6a")
-      ;; (signer "F4C2 D1DF 3FDE EA63 D1D3 0776 ACC6 6D09 CA52 8292")
-
-      ;; My authorization
-      ;; I added myself to the .guix-authorizations in this commit:
-      (commit "bed650bc453c1eae11e8efe56a00fbe408f17fe8")
-      ;; The fingerprint of my GPG key:
-      (signer "A2FE D89D 9A10 000E 5BF6  3B37 612D 3636 8877 DC81")
-      )))
   ))
