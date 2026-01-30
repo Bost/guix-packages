@@ -1,5 +1,6 @@
 ;;; Copyright © 2023 aurtzy <aurtzy@gmail.com>
 ;;; Copyright © 2025 Rostislav Svoboda <Rostislav.Svoboda@gmail.com>
+;;; Copyright © 2026 Rostislav Svoboda <Rostislav.Svoboda@posteo.net>
 ;;;
 ;;; This file is NOT part of GNU Guix.
 ;;;
