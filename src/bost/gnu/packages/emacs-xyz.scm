@@ -5568,7 +5568,7 @@ configurations.")
     (license license:gpl3+)))
 
 (define-public emacs-tweaks
-  (let ((commit "39fbf02e3d7329432138cde8c7b5a4c14fa4d19d")
+  (let ((commit "0340a67de05b06ba0c7575fa324ce12b3c154560")
         (revision "0"))
     (package
       (name "emacs-tweaks")
@@ -5582,7 +5582,7 @@ configurations.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "15mrxfzycwc6amx54qkcaynif8fspqifljm6ppwf6sl4a8n2jx9d"))))
+           "0dcrv3j4fkapns1zns40bm5hwjj9nrlfwqkrajjd6gajxr232dbx"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
