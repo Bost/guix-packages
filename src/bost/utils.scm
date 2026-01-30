@@ -38,7 +38,10 @@
             contains--gx-dry-run?
             dbg-exec
             dbg-packages-to-install
+            def
+            def-public
             def*
+            def*-public
             empty?
             error-command-failed
             evaluating-module
@@ -732,117 +735,120 @@ or the CLIENT-CMD if some process ID was found."
       (str "\"" s "\"")))
    pgrep-pattern))
 
-;; Like `define*' but it prints what's being defined / evaluated
+;; Like `define', `define-public', `define*', `define*-public' but it prints
+;; what's being defined / evaluated.
 ;; See /home/bost/dev/guile/module/ice-9/psyntax.scm line 3377
-(define-syntax def*
-  (lambda (x)
-    (syntax-case x ()
-      ((_ (id . args) b0)
-       #'(begin
-           ;; (format #t "(def* (~a…)…)… " `id)
-           (define id
-             (cond
-              [#t                    ;; fa
-               (lambda* args
-                 (format #t "[~a] Starting…\n" `id)
-                 (let [(result b0)]
-                   (format #t "[~a] done.\n" `id)
-                   result))]))
-           ;; (format #t "(def* ~a…)… done" `id)
-           id))
+;; Introduces unhygienic `f'!!!
+(define-syntax make-def
+  (lambda (stx)
+    (syntax-case stx ()
+      [(_ macro-name def-form)
+       #'(define-syntax macro-name
+          (lambda (stx)
+            (syntax-case stx ()
+              ;; Escaped ellipsis (... ...) is preserved for the generated macro
+              [(_ (name . args) body0 body1 (... ...) bodyN)
+               (string? (syntax->datum #'body0))
+               ;;
+               (with-syntax [(f (datum->syntax #'name 'f))
+                             (m (datum->syntax #'name 'm))
+                             (fprefix (datum->syntax #'name
+                                                     ""
+                                                     ;; "[=> 2 w/-docstr] "
+                                                     ))]
+                 #`(begin
+                     ;; (format #t "~a #'body0 ...   : ~s\n" fprefix
+                     ;;         (syntax->datum #'body0))
+                     ;; (format #t "~a #'(body1 ...) : ~s\n" fprefix
+                     ;;         (syntax->datum #'(body1 ...)))
+                     ;; (format #t "~a #'bodyN       : ~s\n" fprefix
+                     ;;         (syntax->datum #'bodyN))
+                     (def-form (name . args)
+                       body0
+                       (let [(f (format #f "~a~a [~a]" fprefix
+                                        m `name))]
+                         ;; (format #t "~a Docstring defined : ~s\n" f body0)
+                         ;; (format #t "~a Starting…\n" f)
+                         body1 (... ...)
+                         (let [(result bodyN)]
+                           ;; (format #t "~a done. result : ~s\n" f result)
+                           result))
+                       )))]
+              [(_ (name . args) body0)
+               (with-syntax [(f (datum->syntax #'name 'f))
+                             (m (datum->syntax #'name 'm))
+                             (fprefix (datum->syntax #'name
+                                                     ""
+                                                     ;; "[1] "
+                                                     ))]
+                 #`(begin
+                     ;; (format #t "~a#'body0 : ~s\n" fprefix
+                     ;;         (syntax->datum #'body0))
+                     (def-form (name . args)
+                       (let [(f (format #f "~a~a [~a]" fprefix
+                                        m `name))]
+                         ;; (format #t "~a Docstring undefined.\n" f)
+                         ;; (format #t "~a Starting…\n" f)
+                         (let [(result body0)]
+                           ;; (format #t "~a done. result : ~s\n" f result)
+                           result)))))]
+              [(_ name val) (identifier? #'name)
+               (with-syntax [(f (datum->syntax #'name 'f))
+                             (m (datum->syntax #'name 'm))
+                             (fprefix (datum->syntax #'name
+                                                     ""
+                                                     ;; "[0] "
+                                                     ))]
+                 #`(begin
+                     ;; (format #t "~a#'val : ~s\n" fprefix
+                     ;;         (syntax->datum #'val))
+                     (def-form name
+                       (let [(f (format #f "~a~a [~a]" fprefix
+                                        m `name))]
+                         ;; (format #t "~a Docstring undefined.\n" f)
+                         ;; (format #t "~a Starting…\n" f)
+                         (let [(result val)]
+                           ;; (format #t "~a done. result : ~s\n" f result)
+                           result)))))]
+              [else (syntax-violation 'macro-name "invalid syntax" stx)])))])))
+(testsymb 'make-def)
 
-      ((_ (id . args) b0 b1)
-       #`(begin
-           (define id
-             (cond
-              [(string? `b0)         ;; fb
-               (lambda* args
-                 b0
-                 (format #t "[~a] Starting…\n" `id)
-                 (let [(result b1)]
-                   (format #t "[~a] done.\n" `id)
-                   result))]
+(make-def def define)
+(make-def def-public define-public)
 
-              [#t                    ;; fc
-               (lambda* args
-                 (format #t "[~a] Starting…\n" `id)
-                 b0
-                 (let [(result b1)]
-                   (format #t "[~a] done.\n" `id)
-                   result))]))
-           ;; (format #t "(def* ~a…)… done" `id)
-           id))
+(make-def def* define*)
+(make-def def*-public define*-public)
+(testsymb 'def*-public)
 
-      ((_ (id . args) b0 b1 ... bN)
-       #'(begin
-           (define id
-             (cond
-              [(string? `b0)         ;; fd
-               (lambda* args
-                 b0
-                 (format #t "[~a] Starting…\n" `id)
-                 b1 ...
-                 (let [(result bN)]
-                   (format #t "[~a] done.\n" `id)
-                   result))]
-
-              [#t                    ;; fe
-               (lambda* args
-                 (format #t "[~a] Starting…\n" `id)
-                 b0
-                 b1 ...
-                 (let [(result bN)]
-                   (format #t "[~a] done.\n" `id)
-                   result))]))
-           ;; (format #t "(def* ~a…)… done" `id)
-           id))
-
-      ((_ id val) (identifier? #'id) ;; ff
-       #'(begin
-           ;; (format #t "(def* ~a…)… " `id)
-           (define id val)
-           ;; (format #t "(def* ~a…)… done" `id)
-           id)))))
-
-;; Test cases:
-;; (def* (fa a b)
+;; ;;; Test cases:
+;; (def-public (fa a b)
 ;;   "fa: some output string")
 
-;; (def* (fb a b)
+;; (def-public (fb a b)
 ;;   "fb: docstring"
 ;;   42)
 
-;; (def* (fc a b)
+;; (def-public (fc a b)
 ;;   (format #t "fc: output 1\n")
 ;;   (format #t "fc: output 2\n"))
 
-;; (def* (fd a b)
+;; (def-public (fd a b)
 ;;   "fd: docstring"
 ;;   (format #t "output 1\n")
 ;;   (format #t "output 2\n"))
 
-;; (def* (fe a b)
+;; (def-public (fe a b)
 ;;   (format #t "output 1\n")
 ;;   (format #t "output 2\n")
 ;;   (format #t "output 3\n"))
 
-;; (def* ff 42)
+;; (def-public (fe a b)
+;;   "fe: docstring"
+;;   (format #t "~a a ~a\n" f a)
+;;   (format #t "~a b ~a\n" f b)
+;;   42)
 
-
-;; Like `define-public' but it prints what's being defines
-(define-syntax def-public
-  (syntax-rules ()
-    ((_ (name . args) . body)
-     (begin
-       (format #t "(def-public (~a…)…)… " `name)
-       (define (name . args) . body)
-       (format #t "done\n")
-       (export name)))
-    ((_ name val)
-     (begin
-       (define name val)
-       (format #t "done\n")
-       (export name)))))
+;; (def-public ff 42)
 
 ;; from /home/bost/dev/guile/module/ice-9/boot-9.scm
 ;; (define-syntax define-public
