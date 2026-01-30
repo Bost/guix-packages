@@ -20,7 +20,7 @@
 ;;;
 ;;; This module defines home services for non-Guix package management.
 
-(define-module (aurtzy home services package-management)
+(define-module (bost home services package-management)
   #:use-module (gnu home services)
   #:use-module (gnu services)
   #:use-module (gnu packages certs)
