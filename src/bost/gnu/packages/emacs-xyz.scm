@@ -13255,8 +13255,8 @@ code completion and project management support.")
         (base32 "1rhdvrj2rjbvl7vkb0wcp6krqxcaigl7jk9z8yvhx6s4cm2qli6q"))))
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f
-       )))
+      bst:emacs-f
+      ))
     (build-system emacs-build-system)
     (home-page "https://github.com/ncaq/auto-sudoedit")
     (synopsis "Automatically re-open read-only files with sudo")
@@ -13956,8 +13956,8 @@ completion of relevant keywords.")
     (build-system emacs-build-system)
     (propagated-inputs
      (list
-      (@(bost gnu packages emacs-build) emacs-f
-       )))
+      bst:emacs-f
+      ))
     (home-page "http://www.gregsexton.org")
     (synopsis "Org-Babel functions for IPython evaluation")
     (description "This package adds support to Org-Babel for evaluating Python
