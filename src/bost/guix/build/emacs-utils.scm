@@ -7,6 +7,11 @@
   ;; It must be used via ((@(bost utils) my=warn) "The warning message" ...)
 
   #:use-module (guix build emacs-utils)
+  #:use-module (bost utils)
+  #:use-module (srfi srfi-26)
+  #:use-module (guix build utils)
+  #:use-module (srfi srfi-1)
+
   #:export (
             write-pkg-file
             print-vars

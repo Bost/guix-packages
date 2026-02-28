@@ -22333,12 +22333,13 @@ as a command in AUCTeX and supports customization through Emacs variables.")
       (license license:bsd-3))))
 
 ;;; spacemacs beg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-modules (guix derivations) (guix store))
+;; (define daemon (open-connection "file:///var/guix/daemon-socket/socket"))
+;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
+
 
 (define-public emacs-spacemacs
-  (let (
-        (commit
-         "8a19733ef1d7e27309cbe62d4f6c73940b43e48b"
-         )
+  (let ((commit "b878dc01265c3e11e328ce300b28858c32c9ddea")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22347,13 +22348,12 @@ as a command in AUCTeX and supports customization through Emacs variables.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/Bost/spacemacs.git")
+               ;; (url "https://github.com/Bost/spacemacs.git")
+               (url "https://codeberg.org/Bost/spacemacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "139fm59ya15dqlzgnmrv6i099vawwvgb17km2pp8ihsps7rdwqf0"
-           ))))
+          (base32 "1qslw0frksz42ryw3fcl1bqy0yg5n5bwsw35nci195ij3s68gk4r"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -22361,17 +22361,28 @@ as a command in AUCTeX and supports customization through Emacs variables.")
         #:include
         ;; TODO cons with a regexp matching every file
         #~(cons* ".*" %default-include)
+        ;; needed at runtime
         #:modules (append bst:modules
                           '(
                             (srfi srfi-1)  ; the 'any' test
                             (srfi srfi-26) ; Conveniently specialize selected parameters
                             (bost utils)
+                            (guix utils)
+                            (bost guix build emacs-utils)
                             ))
+        ;; needed at compile time
         #:imported-modules (append
                             bst:imported-modules
                             `(
                               (srfi srfi-1)  ; any
                               (srfi srfi-26) ; Conveniently specialize selected parameters
+                              (guix utils)
+                              (guix config)
+                              (guix memoization)
+                              (guix profiling)
+                              (guix diagnostics)
+                              (guix colors)
+                              (guix i18n)
                               ))
         #:phases
         #~(modify-phases %standard-phases
@@ -22388,6 +22399,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                     indent
                     ;; (format #f "\"~a\"\n" (assoc-ref outputs "out"))
                     (format #f "\"~a\"\n" "./"))))
+
                 (let ((python (search-input-file inputs "bin/python")))
                   (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
                     (("/usr/bin/env python") python))
@@ -22396,108 +22408,13 @@ as a command in AUCTeX and supports customization through Emacs variables.")
             (add-after 'unpack 'add-emacs-load-path
               ;; add-before 'compile 'add-emacs-load-path
               (lambda* (#:key inputs #:allow-other-keys)
-
-
-;;; Instead of searching for (provide ...) I could use some tools from (bost
-;;; guix build emacs-utils) to programmatically edit files using Emacs e.g. to
-;;; replace entire s-expressions in elisp files.
                 (let* [(current-dir (getcwd))
-                       (pkg-el-files (find-files current-dir "\\-pkg.el$"))]
-                  ;; At first get rid of the -pgk.el files
-                  (map (lambda (file)
-                         (format #t "### ~a\n" (string-replace-substring file ".el" ".___"))
-                         (rename file (string-replace-substring file ".el" ".___")))
-                       pkg-el-files)
-                  (let [(el-files (find-files current-dir "\\.el$"))]
-                    (map (lambda (file)
-                           ;; TODO recursive looping
-                           (when ;; contains (provide '...)
-                               (cons files-with-proviled file)))
-                         el-files)
-                    ))
-
-                (map
-                 (lambda (file)
-                   (let* ((base (basename file))
-                          (dir (dirname file)))
-                     (with-directory-excursion
-                         dir (bst:write-pkg-file
-                              ;; remove the ".el" extension
-                              (substring base 0 (- (string-length base) 3))))))
-                 ;; TODO for every el-file analyze every (require ...)
-                 (list
-                  ;; "core/aprilfool/zemacs.el"
-                  ;; "core/libs/forks/load-env-vars.el"
-                  "core/libs/spacemacs-theme/spacemacs-theme.el"
-                  ;; "layers/+chat/erc/local/erc-tex/erc-tex.el"
-                  ;; "layers/+completion/compleseus/local/compleseus-spacemacs-help/compleseus-spacemacs-help.el"
-                  ;; "layers/+completion/ivy/local/ivy-spacemacs-help/ivy-spacemacs-help.el"
-                  ;; "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state/evil-evilified-state.el"
-                  ;; "layers/+distributions/spacemacs-bootstrap/local/holy-mode/holy-mode.el"
-                  ;; "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode/hybrid-mode.el"
-                  ;; "layers/+fun/games/local/helm-games/helm-games.el"
-                  ;; "layers/+lang/jr/local/jr-mode/jr-mode.el"
-                  ;; "layers/+lang/restructuredtext/local/rst-directives/rst-directives.el"
-                  ;; "layers/+lang/restructuredtext/local/rst-lists/rst-lists.el"
-                  ;; "layers/+misc/ietf/local/irfc/irfc.el"
-                  ;; "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup/spacemacs-whitespace-cleanup.el"
-                  ;; "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired/evil-unimpaired.el"
-                  ;; "layers/+spacemacs/spacemacs-org/local/space-doc/space-doc.el"
-                  ;; "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin/spacemacs-purpose-popwin.el"
-                  ;; "layers/+tools/sphinx/local/rst-sphinx/rst-sphinx.el"
-                  ;; "layers/+tools/tmux/local/tmux/tmux.el"
-                  ;; "layers/+tools/xclipboard/local/spacemacs-xclipboard/spacemacs-xclipboard.el"
-                  ))
-                (/ 1 0)
-
-                ;; Compiling ‘core/libs/spacemacs-theme/spacemacs-dark-theme.el’
-
-                ;; Error: file-missing ("Cannot open load file" "No such file or directory" "spacemacs-theme")
-                ;; require(spacemacs-theme)
-                ;; apply(require spacemacs-theme)
-                ;; byte-compile-file-form-require((require 'spacemacs-theme))
-                ;; byte-compile-file-form((require 'spacemacs-theme))
-                ;; #f(compiled-function (form) #<bytecode -0x1ba965706395cc33>)((require 'spacemacs-theme))
-                ;; byte-compile-recurse-toplevel((require 'spacemacs-theme) #f(compiled-function (form) #<bytecode -0x1ba965706395cc33>))
-                ;; byte-compile-toplevel-file-form((require 'spacemacs-theme))
-                ;; #f(compiled-function () #<bytecode 0xaa214b02952273>)()
-                ;; #f(compiled-function (body-fn) #<bytecode -0x12f00a7cc7411bef>)(#f(compiled-function () #<bytecode 0xaa214b02952273>))
-                ;; bytecomp--displaying-warnings(#f(compiled-function () #<bytecode 0xaa214b02952273>))
-                ;; byte-compile-from-buffer(#<buffer  *Compiler Input*>)
-
-                (let* [(current-dir (getcwd))
-                       ;; TODO obtain a list of every el-file and `dirname' over it. Then delete duplicates.
-                       ;; (paths   (list
-                       ;;           "core"
-                       ;;           "core/aprilfool"
-                       ;;           "core/libs"
-                       ;;           "core/libs/forks"
-                       ;;           "core/libs/spacemacs-theme"
-                       ;;           "layers/+chat/erc/local/erc-tex"
-                       ;;           "layers/+chat/erc/local/erc-yank"
-                       ;;           "layers/+completion/compleseus/local/compleseus-spacemacs-help"
-                       ;;           "layers/+completion/helm/local/helm-spacemacs-help"
-                       ;;           "layers/+completion/ivy/local/ivy-spacemacs-help"
-                       ;;           "layers/+distributions/spacemacs-bootstrap/local/evil-evilified-state"
-                       ;;           "layers/+distributions/spacemacs-bootstrap/local/holy-mode"
-                       ;;           "layers/+distributions/spacemacs-bootstrap/local/hybrid-mode"
-                       ;;           "layers/+fun/games/local/helm-games"
-                       ;;           "layers/+lang/jr/local/jr-mode"
-                       ;;           "layers/+lang/restructuredtext/local/rst-directives"
-                       ;;           "layers/+lang/restructuredtext/local/rst-lists"
-                       ;;           "layers/+misc/ietf/local/irfc"
-                       ;;           "layers/+spacemacs/spacemacs-editing/local/spacemacs-whitespace-cleanup"
-                       ;;           "layers/+spacemacs/spacemacs-evil/local/evil-unimpaired"
-                       ;;           "layers/+spacemacs/spacemacs-modeline/local/vim-powerline"
-                       ;;           "layers/+spacemacs/spacemacs-org/local/space-doc"
-                       ;;           "layers/+spacemacs/spacemacs-purpose/local/spacemacs-purpose-popwin"
-                       ;;           "layers/+tools/sphinx/local/rst-sphinx"
-                       ;;           "layers/+tools/tmux/local/tmux"
-                       ;;           "layers/+tools/xclipboard/local/spacemacs-xclipboard"))
-                       ;; (full    (map (lambda (path) (string-append current-dir "/" path)) paths))
-                       (full (find-el-file-directories-gitignore current-dir))
-                       (env-val (string-join (cons (getenv "EMACSLOADPATH") full) ":"))]
-                  (setenv "EMACSLOADPATH" env-val))))
+                       (EMACSLOADPATH (getenv "EMACSLOADPATH"))
+                       (relative-el-paths (find-el-file-directories-gitignore current-dir))
+                       (full-el-paths (map (lambda (pth) (string-append current-dir "/" pth)) relative-el-paths))
+                       (env-val (string-join (cons EMACSLOADPATH full-el-paths) ":"))]
+                  (setenv "EMACSLOADPATH" env-val))
+                ))
             (add-after 'unpack 'fix--guix-get-installed-emacs-packages
               (lambda* (#:key inputs #:allow-other-keys)
                 (substitute* "core/core-guix.el"
@@ -22508,16 +22425,30 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                        (partial map (partial format #f "~s")))
                       (map (comp package-name cadr)
                            (append (package-propagated-inputs emacs)
-                                   #;(spacemacs-packages-for-inputs))
+                                   ;; (spacemacs-packages-for-inputs)
+                                   )
                            ))))))
             ;; (replace 'build (lambda* args #t))
             )))
       (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
-      (propagated-inputs
-       (modify-inputs (package-propagated-inputs emacs)
-                      ;; (spacemacs-packages)
-                      ))
+      (propagated-inputs (modify-inputs (package-propagated-inputs emacs)
+                           (append
+                            python-wrapper
+                            emacs-toc-org
+                            emacs-gist
+                            emacs-s
+                            emacs-consult
+                            emacs-helm
+                            emacs-helm-org
+                            emacs-ivy
+                            emacs-evil
+                            emacs-bind-map
+                            emacs-window-purpose
+                            emacs-evil-evilified-state
+                            bst:emacs-dash
+                            bst:emacs-f
+                            )))
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
@@ -22528,49 +22459,50 @@ as a command in AUCTeX and supports customization through Emacs variables.")
       (license license:gpl3+))))
 ;; (testsymb 'emacs-spacemacs)
 
-;; (define* (make-packages emacs-package spacemacs-package
-;;                         #:optional (name "emacs-spacemacs-wrapped"))
-;;   "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
-;; the use of Spacemacs without conflicting with the base Emacs."
-;;   (package
-;;     (name name)
-;;     (version (string-append (package-version emacs-package) "-"
-;;                             (package-version spacemacs-package)))
-;;     (source #f)
-;;     (build-system trivial-build-system)
-;;     (inputs `(("sh" ,bash)
-;;               ("emacs" ,emacs-package)
-;;               ("spacemacs" ,spacemacs-package)))
-;;     (arguments
-;;      (list
-;;       #:modules '((guix build utils)
-;;                   (bost utils)
-;;                   (bost guix build spacemacs-utils))
-;;       #:builder
-;;       #~(begin
-;;           ;; Seems like `su:spacemacs-builder' must be in a different module
-;;           (use-modules (ice-9 pretty-print)
-;;                        ((bost guix build spacemacs-utils) #:prefix su:))
-;;           ;; (format #t "### %build-inputs:\n")
-;;           ;; (pretty-print %build-inputs)
-;;           (su:spacemacs-builder
-;;            #:shell (string-append
-;;                     (assoc-ref %build-inputs "sh")
-;;                     "/bin/sh")
-;;            #:emacs (string-append
-;;                     (assoc-ref %build-inputs "emacs")
-;;                     "/bin/emacs")
-;;            #:spacemacs (assoc-ref %build-inputs "spacemacs")
-;;            #:out (string-append
-;;                   (assoc-ref %outputs "out") "/bin")))))
-;;      (home-page (package-home-page spacemacs-package))
-;;      (synopsis (package-synopsis spacemacs-package))
-;;      (description (package-description spacemacs-package))
-;;      (license (package-license spacemacs-package))))
+(define* (make-packages emacs-package spacemacs-package
+                        #:optional (name "emacs-spacemacs-wrapped"))
+  "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
+the use of Spacemacs without conflicting with the base Emacs."
+  (package
+    (name name)
+    (version (string-append (package-version emacs-package) "-"
+                            (package-version spacemacs-package)))
+    (source #f)
+    (build-system trivial-build-system)
+    (inputs `(("sh" ,bash)
+              ("emacs" ,emacs-package)
+              ("spacemacs" ,spacemacs-package)))
+    (arguments
+     (list
+      #:modules '((guix build utils)
+                  (bost srfi-1-smart)
+                  (bost utils)
+                  (bost guix build spacemacs-utils))
+      #:builder
+      #~(begin
+          ;; Seems like `su:spacemacs-builder' must be in a different module
+          (use-modules (ice-9 pretty-print)
+                       ((bost guix build spacemacs-utils) #:prefix su:))
+          ;; (format #t "### %build-inputs:\n")
+          ;; (pretty-print %build-inputs)
+          (su:spacemacs-builder
+           #:shell (string-append
+                    (assoc-ref %build-inputs "sh")
+                    "/bin/sh")
+           #:emacs (string-append
+                    (assoc-ref %build-inputs "emacs")
+                    "/bin/emacs")
+           #:spacemacs (assoc-ref %build-inputs "spacemacs")
+           #:out (string-append
+                  (assoc-ref %outputs "out") "/bin")))))
+     (home-page (package-home-page spacemacs-package))
+     (synopsis (package-synopsis spacemacs-package))
+     (description (package-description spacemacs-package))
+     (license (package-license spacemacs-package))))
 ;; (testsymb 'make-packages)
 
-;; (define-public emacs-spacemacs-wrapped
-;;   (make-packages emacs emacs-spacemacs))
+(define-public emacs-spacemacs-wrapped
+  (make-packages emacs emacs-spacemacs))
 ;; (testsymb 'emacs-spacemacs-wrapped)
 
 ;; (module-evaluated)
