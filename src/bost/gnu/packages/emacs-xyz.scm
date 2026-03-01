@@ -1756,7 +1756,7 @@ between Emacs and PHP.")
       (license license:gpl3+))))
 
 (define-public emacs-spacemacs-base
-  (let ((commit "d70f9c6fc98b5eae6a5b23f5876542ed2fa5e2bd")
+  (let ((commit "771273532cab7736f5cd1c93755e80ddf0dfe4f7")
         (revision "0"))
     (package
       (name "emacs-spacemacs-base")
@@ -1769,7 +1769,7 @@ between Emacs and PHP.")
                 (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0f66i17pycya9d4q67bcqjgv59d17g8bczc6hf3qn92gwssjv99w"))))
+          (base32 "0y320njc07pdisvlcc5gyad2is9x3gwz0pdkgrmzzdk2xsdcrb05"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -3277,6 +3277,8 @@ as horizontal rules.")
     (arguments
      (list
       #:tests? #f
+      #:modules bst:modules
+      #:imported-modules bst:imported-modules
       #:include
       #~(cons*
          "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
@@ -3284,6 +3286,13 @@ as horizontal rules.")
          %default-include)
       #:phases
       #~(modify-phases %standard-phases
+          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+            (lambda* (#:key outputs #:allow-other-keys)
+              ;; The commented packages out are part of the Emacs
+              (map bst:write-pkg-file
+                   (list
+                    "pylookup"
+                    ))))
           (add-after 'unpack 'specify-python-location
             (lambda* (#:key inputs #:allow-other-keys)
               (let ((python3 (search-input-file inputs "/bin/python3")))
@@ -22322,7 +22331,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
 (define-public emacs-spacemacs
-  (let ((commit "d70f9c6fc98b5eae6a5b23f5876542ed2fa5e2bd")
+  (let ((commit "771273532cab7736f5cd1c93755e80ddf0dfe4f7")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22335,7 +22344,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0f66i17pycya9d4q67bcqjgv59d17g8bczc6hf3qn92gwssjv99w"))))
+          (base32 "0y320njc07pdisvlcc5gyad2is9x3gwz0pdkgrmzzdk2xsdcrb05"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -22375,12 +22384,22 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                   (("^") ";; -*- no-byte-compile: t -*-\n"))))
             (add-after 'unpack 'patch-file
               (lambda* (#:key inputs outputs #:allow-other-keys)
+                (map (lambda (file)
+                       (substitute* file
+                         (("(\\s+)user-emacs-directory" all indent)
+                          (string-append
+                           indent
+                           (format #f "~a"
+                                   '(concat (getenv "\"XDG_DATA_HOME\"") "\"/spacemacs/spguix/\""))))))
+                     (list
+                      "core/libs/quelpa.el"
+                      "core/core-funcs.el"
+                      "core/core-load-paths.el"
+                      "core/core-configuration-layer.el"))
+
                 (substitute* "core/core-load-paths.el"
-                  (("(\\s+)user-emacs-directory" all indent)
-                   (string-append
-                    indent
-                    ;; (format #f "\"~a\"\n" (assoc-ref outputs "out"))
-                    (format #f "\"~a\"\n" "./"))))
+                  (("(\\(make-directory spacemacs-cache-directory 'parents\\))" all match)
+                   (string-append ";; " match)))
 
                 (let ((python (search-input-file inputs "bin/python")))
                   (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
