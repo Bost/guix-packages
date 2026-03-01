@@ -1756,9 +1756,7 @@ between Emacs and PHP.")
       (license license:gpl3+))))
 
 (define-public emacs-spacemacs-base
-  (let ((commit
-         "8020a5ff48810e67cf772335b1da78231746461d"
-         )
+  (let ((commit "d70f9c6fc98b5eae6a5b23f5876542ed2fa5e2bd")
         (revision "0"))
     (package
       (name "emacs-spacemacs-base")
@@ -1767,13 +1765,11 @@ between Emacs and PHP.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/syl20bnr/spacemacs.git")
-               (commit commit)))
+                (url "https://codeberg.org/Bost/spacemacs.git")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "1vyv214rai2zbk8k561dnd0wq66rw0inrr3s5vrjr29icwnjcp36"
-           ))))
+          (base32 "0f66i17pycya9d4q67bcqjgv59d17g8bczc6hf3qn92gwssjv99w"))))
       (build-system emacs-build-system)
       (arguments
        (list
