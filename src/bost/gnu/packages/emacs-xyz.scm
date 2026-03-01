@@ -22325,9 +22325,8 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (define daemon (open-connection "file:///var/guix/daemon-socket/socket"))
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
-
 (define-public emacs-spacemacs
-  (let ((commit "b878dc01265c3e11e328ce300b28858c32c9ddea")
+  (let ((commit "d70f9c6fc98b5eae6a5b23f5876542ed2fa5e2bd")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22336,12 +22335,11 @@ as a command in AUCTeX and supports customization through Emacs variables.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               ;; (url "https://github.com/Bost/spacemacs.git")
                (url "https://codeberg.org/Bost/spacemacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1qslw0frksz42ryw3fcl1bqy0yg5n5bwsw35nci195ij3s68gk4r"))))
+          (base32 "0f66i17pycya9d4q67bcqjgv59d17g8bczc6hf3qn92gwssjv99w"))))
       (build-system emacs-build-system)
       (arguments
        (list
