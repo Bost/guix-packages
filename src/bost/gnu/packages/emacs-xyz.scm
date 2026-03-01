@@ -964,7 +964,7 @@ file.")
         (revision "0"))
     (package
       (name "emacs-erc-view-log")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -1185,7 +1185,7 @@ command-line options.")
         (revision "0"))
     (package
       (name "emacs-open-junk-file")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -1240,7 +1240,7 @@ command-line options.")
         (revision "0"))
     (package
       (name "emacs-cython-mode")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -4804,7 +4804,7 @@ wrapping, and transposing s-expressions.")
         (revision "0"))
     (package
       (name "emacs-evil-textobj-line")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -7573,8 +7573,7 @@ access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
 (define-public emacs-gotham-theme
-  (let ((commit
-          "4b8214df0851bb69b44c3e864568b7e0030a95d2")
+  (let ((commit "4b8214df0851bb69b44c3e864568b7e0030a95d2")
         (revision "0"))
     (package
       (name "emacs-gotham-theme")
@@ -7583,36 +7582,33 @@ access to GitHub Copilot to use this plugin.")
         (origin
           (method git-fetch)
           (uri (git-reference
+                 ;; TODO https://depp.brause.cc/gotham-theme.git doesn't exist
                  (url "https://depp.brause.cc/gotham-theme.git")
                  (commit commit)))
           (file-name (git-file-name name version))
           (sha256
-            (base32
-              "19ylb7d5jxr7mwjrmgq7acvb4a1q39909xaz3y6s3kjvsyg426pg"))))
+            (base32 "19ylb7d5jxr7mwjrmgq7acvb4a1q39909xaz3y6s3kjvsyg426pg"))))
       (build-system emacs-build-system)
-      (home-page
-        "https://depp.brause.cc/gotham-theme.git")
+      (home-page "https://depp.brause.cc/gotham-theme.git")
       (synopsis "")
       (description "")
       (license license:gpl3+))))
 
 (define-public emacs-grandshell-theme
-  (let ((commit
-          "0ed8e4273607dd4fcaa742b4097259233b09eda6")
+  (let ((commit "0ed8e4273607dd4fcaa742b4097259233b09eda6")
         (revision "0"))
     (package
       (name "emacs-grandshell-theme")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
         (origin
           (method git-fetch)
           (uri (git-reference
-                 (url "https://framagit.org/steckerhalter/grandshell-theme")
+                 (url "https://framagit.org/steckerhalter/grandshell-theme.git")
                  (commit commit)))
           (file-name (git-file-name name version))
           (sha256
-            (base32
-              "04vx5p1ffln5b9rxgfi15q735plxcjvskby3c5k4slgwf4p91bpq"))))
+            (base32 "04vx5p1ffln5b9rxgfi15q735plxcjvskby3c5k4slgwf4p91bpq"))))
       (build-system emacs-build-system)
       (home-page
         "https://framagit.org/steckerhalter/grandshell-theme")
@@ -7963,12 +7959,12 @@ monochrome theme.")
         (revision "0"))
     (package
       (name "emacs-monochrome-theme")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/fxn/monochrome-theme.el")
+               (url "https://github.com/fxn/monochrome-theme.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -8131,22 +8127,20 @@ providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-organic-green-theme
-  (let ((commit
-         "7ca93a1c42bba1bcced181bd8cc34cb57be39537")
+  (let ((commit "7ca93a1c42bba1bcced181bd8cc34cb57be39537")
         (revision "0"))
     (package
       (name "emacs-organic-green-theme")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/kostafey/organic-green-theme")
+               (url "https://github.com/kostafey/organic-green-theme.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "1fa27522nb3jqswbii9qsi1csjqw5p6a7lsrylhw2vll8w9v4mma"))))
+          (base32 "1fa27522nb3jqswbii9qsi1csjqw5p6a7lsrylhw2vll8w9v4mma"))))
       (build-system emacs-build-system)
       (home-page
        "https://github.com/kostafey/organic-green-theme")
@@ -8251,22 +8245,20 @@ providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-purple-haze-theme
-  (let ((commit
-          "3e245cbef7cd09e6b3ee124963e372a04e9a6485")
+  (let ((commit "3e245cbef7cd09e6b3ee124963e372a04e9a6485")
         (revision "0"))
     (package
       (name "emacs-purple-haze-theme")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
         (origin
           (method git-fetch)
           (uri (git-reference
-                 (url "https://github.com/jasonm23/emacs-purple-haze-theme")
+                 (url "https://github.com/jasonm23/emacs-purple-haze-theme.git")
                  (commit commit)))
           (file-name (git-file-name name version))
           (sha256
-            (base32
-              "15myw5rkbnnpgzpiipm5xl4cyzymv8hh66x9al4aalb5nf52dckc"))))
+            (base32 "15myw5rkbnnpgzpiipm5xl4cyzymv8hh66x9al4aalb5nf52dckc"))))
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jasonm23/emacs-purple-haze-theme")
@@ -8812,22 +8804,20 @@ providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-sublime-themes
-  (let ((commit
-         "60ee40af82eb55b79d5ed4026f1911326311603f")
+  (let ((commit "60ee40af82eb55b79d5ed4026f1911326311603f")
         (revision "0"))
     (package
       (name "emacs-sublime-themes")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/owainlewis/emacs-color-themes")
+               (url "https://github.com/owainlewis/emacs-color-themes.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "17fcqvavgyl9cmv1hwcid2bw513vhawlsmac1w2adiz567594i6h"))))
+          (base32 "17fcqvavgyl9cmv1hwcid2bw513vhawlsmac1w2adiz567594i6h"))))
       (build-system emacs-build-system)
       (home-page
        "https://github.com/owainlewis/emacs-color-themes")
@@ -8902,22 +8892,20 @@ providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-kaocha-runner
-  (let ((commit
-         "9ba7b47d3a3834964f7fcad389081b3b282f692c")
+  (let ((commit "98f45ee396802c2225595c9151d4a941f9dcaa9d")
         (revision "0"))
     (package
       (name "emacs-kaocha-runner")
-      (version (git-version "" revision commit))
+      (version (git-version "0" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/magnars/kaocha-runner.el")
+               (url "https://github.com/magnars/kaocha-runner.el.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "0slspzc3zppavmdnw8xpih1iiqyqbyx4mm286lz0naw7g4yrpb12"))))
+          (base32 "0slspzc3zppavmdnw8xpih1iiqyqbyx4mm286lz0naw7g4yrpb12"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
