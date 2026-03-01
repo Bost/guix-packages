@@ -44,48 +44,41 @@ $XDG_RUNTIME_DIR
   (define f (format #f "[create-initialization-code]" m))
   ;; (format #t "#### ~a starting...\n" f)
   ;; (format #t "#### ~a spacemacs : ~a" f spacemacs)
-  (let* ((v (substring spacemacs (- (string-length spacemacs) (string-length "-1.0-0.0c2e845"))))
-         (start-dir (string-append spacemacs "/share/emacs/site-lisp/spacemacs" v "/")))
+  (let* ((v (substring spacemacs (- (string-length spacemacs)
+                                    (string-length "-1.0-0.0c2e845"))))
+         (start-dir (string-append
+                     spacemacs "/share/emacs/site-lisp/spacemacs" v "/")))
     `(progn
-      (setq spacemacs-start-directory ,start-dir)
+      (setq spacemacs-start-directory
+            ,start-dir
+            )
 
       ;; For development purposes
       ;; (setq spacemacs-start-directory
       ;;       (concat "~/.emacs.d.spguimacs" "/"))
 
+      (setq spacemacs-private-directory
+            (concat
+             (let ((evar (getenv "XDG_DATA_HOME")))
+              (and evar (expand-file-name "spacemacs/private" evar)))
+             "/"))
+
       (setq spacemacs-cache-directory
             (concat (or
-                     ;; (and (getenv "XDG_CACHE_HOME")
-                     ;;      (expand-file-name "emacs" (getenv "XDG_CACHE_HOME")))
-                     (expand-file-name ".cache" (getenv "HOME")))
+                     (let ((evar (getenv "XDG_DATA_HOME"))) ;; XDG_CACHE_HOME
+                       (and evar (expand-file-name "spacemacs/.cache" evar)))
+                     ;; (expand-file-name ".cache" (getenv "HOME"))
+                     )
                     "/"))
-
-      (setq spacemacs-data-directory
-            (concat (or
-                     ;; (and (getenv "XDG_DATA_DIRS")
-                     ;;      (expand-file-name "emacs" (getenv "XDG_DATA_DIRS")))
-                     (expand-file-name ".cache" (getenv "HOME")))
-                    "/spacemacs/"))
-
-      (setq package-user-dir (concat spacemacs-data-directory "elpa/"))
 
       (mapcar (lambda (dir)
                 (unless (file-directory-p dir)
-                  (make-directory dir)))
+                  (make-directory dir t))) ;; t - make also parents
               (list
-               spacemacs-start-directory
+               spacemacs-private-directory
                spacemacs-cache-directory
-               spacemacs-data-directory
-               ;; configuration-layer-template-directory
-               ;; configuration-layer-directory
-               ;; configuration-layer-private-layer-directory
-               ;; configuration-layer-lock-file
-               ;; configuration-layer-stable-elpa-directory
-               ;; configuration-layer--stable-elpa-gpg-keyring
-               ;; configuration-layer--elpa-root-directory
-               ;; configuration-layer--rollback-root-directory
-               ;; configuration-layer-rollback-directory
-               package-user-dir))
+               (getenv "SPACEMACSDIR")
+               ))
 
       (load-file (concat spacemacs-start-directory "init.el")))))
 (testsymb 'create-initialization-code)
@@ -99,7 +92,11 @@ the command line."
   (call-with-output-file
       output (lambda (port)
                (format port "~A~%~A"
-                       (string-append "#!" shell)
+                       (string-append
+                        "#!" shell
+                        "\n\n"
+                        "SPACEMACSDIR=\"$XDG_DATA_HOME/spacemacs\"\n"
+                        )
                        (string-join (list "exec" "-a" shell
                                           executable (string-join args)
                                           "\"$@\"")))))
