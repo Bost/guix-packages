@@ -28,6 +28,8 @@
 (define m (module-name-for-logging))
 (evaluating-module)
 
+(define spguix "$XDG_DATA_HOME/spacemacs/spguix")
+
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
 spacemacs initialization file
@@ -45,7 +47,7 @@ $XDG_RUNTIME_DIR
   ;; (format #t "#### ~a starting...\n" f)
   ;; (format #t "#### ~a spacemacs : ~a" f spacemacs)
   (let* ((v (substring spacemacs (- (string-length spacemacs)
-                                    (string-length "-1.0-0.0c2e845"))))
+                                    (string-length "-1.0-0.<_sha_>"))))
          (start-dir (string-append
                      spacemacs "/share/emacs/site-lisp/spacemacs" v "/")))
     `(progn
@@ -55,21 +57,14 @@ $XDG_RUNTIME_DIR
 
       ;; For development purposes
       ;; (setq spacemacs-start-directory
-      ;;       (concat "~/.emacs.d.spguimacs" "/"))
+      ;;       (concat "~/.emacs.d.spguimacs/"))
 
       (setq spacemacs-private-directory
-            (concat
-             (let ((evar (getenv "XDG_DATA_HOME")))
-              (and evar (expand-file-name "spacemacs/private" evar)))
-             "/"))
+            (concat ,spguix "/private/"))
 
       (setq spacemacs-cache-directory
-            (concat (or
-                     (let ((evar (getenv "XDG_DATA_HOME"))) ;; XDG_CACHE_HOME
-                       (and evar (expand-file-name "spacemacs/.cache" evar)))
-                     ;; (expand-file-name ".cache" (getenv "HOME"))
-                     )
-                    "/"))
+            ;; XDG_CACHE_HOME
+            (concat ,spguix "/.cache/"))
 
       (mapcar (lambda (dir)
                 (unless (file-directory-p dir)
@@ -77,8 +72,7 @@ $XDG_RUNTIME_DIR
               (list
                spacemacs-private-directory
                spacemacs-cache-directory
-               (getenv "SPACEMACSDIR")
-               ))
+               (getenv "SPACEMACSDIR")))
 
       (load-file (concat spacemacs-start-directory "init.el")))))
 (testsymb 'create-initialization-code)
@@ -95,8 +89,7 @@ the command line."
                        (string-append
                         "#!" shell
                         "\n\n"
-                        "SPACEMACSDIR=\"$XDG_DATA_HOME/spacemacs\"\n"
-                        )
+                        (format #f "SPACEMACSDIR=\"~a\"\n" spguix))
                        (string-join (list "exec" "-a" shell
                                           executable (string-join args)
                                           "\"$@\"")))))
@@ -111,6 +104,15 @@ with Spacemacs code preloaded."
   (format #t "~a shell: ~a\n" f shell)
   (format #t "~a emacs: ~a\n" f emacs)
   (format #t "~a spacemacs: ~a\n" f spacemacs)
+  (let* [(s (substring spacemacs (string-length "/gnu/store/")))
+         (checksum (substring
+                    s 0 (- (string-length s)
+                           (string-length "-emacs-spacemacs-1.0-0.<_sha_>"))))
+         (version (substring
+                   s (+ (string-length checksum)
+                        (string-length "-emacs-spacemacs-1.0-0."))))]
+    (format #t "~a spacemacs version: ~a\n" f version)
+    (format #t "~a spacemacs checksum: ~a\n" f checksum))
   (format #t "~a out: ~a\n" f out)
 
   (mkdir-p out)
@@ -121,11 +123,12 @@ with Spacemacs code preloaded."
 ;;; \n is here just for the readability purposes when viewed by
 ;;;   cat  (readlink  (which spacemacs))   # in fish-shell
 ;;;   cat $(readlink $(which spacemacs))   # in bash
-                    (string-append "'\n"
-                                   (pretty-print->string
-                                    ;; object->string
-                                    (create-initialization-code spacemacs))
-                                   "'"))
+                    (string-append
+                     "'\n"
+                     (pretty-print->string
+                      ;; object->string
+                      (create-initialization-code spacemacs))
+                     "'"))
 
   (generate-wrapper shell
                     (string-append out "/spacemacsdaemon")
@@ -136,12 +139,7 @@ with Spacemacs code preloaded."
                     (string-append out "/spacemacsclient")
                     (string-append emacs "client")
                     "--no-wait"
-;;; Can't use
-;;;   (or (getenv "XDG_DATA_DIR")
-;;;       (string-append (getenv "HOME") "/.local/share"))
-;;; At the execution time the value of (getenv "HOME") is "/homeless-shelter"
-;;; TODO implement it in the shell-script language
-                    "--socket-name=$HOME/.local/share/spacemacs/server/server"
+                    (format #f "--socket-name=\"~a/server\"" spguix)
                     ))
 (testsymb 'spacemacs-builder)
 
