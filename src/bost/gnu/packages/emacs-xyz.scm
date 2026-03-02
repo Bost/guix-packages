@@ -3277,8 +3277,6 @@ as horizontal rules.")
     (arguments
      (list
       #:tests? #f
-      #:modules bst:modules
-      #:imported-modules bst:imported-modules
       #:include
       #~(cons*
          "^layers/\\+lang/python/local/pylookup/pylookup\\.el$"
@@ -3286,13 +3284,6 @@ as horizontal rules.")
          %default-include)
       #:phases
       #~(modify-phases %standard-phases
-          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-            (lambda* (#:key outputs #:allow-other-keys)
-              ;; The commented packages out are part of the Emacs
-              (map bst:write-pkg-file
-                   (list
-                    "pylookup"
-                    ))))
           (add-after 'unpack 'specify-python-location
             (lambda* (#:key inputs #:allow-other-keys)
               (let ((python3 (search-input-file inputs "/bin/python3")))
@@ -22331,7 +22322,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
 (define-public emacs-spacemacs
-  (let ((commit "771273532cab7736f5cd1c93755e80ddf0dfe4f7")
+  (let ((commit "bfdbbbea2dbe0e69ffd9e14b340fdac1356ce6d0")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22344,7 +22335,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0y320njc07pdisvlcc5gyad2is9x3gwz0pdkgrmzzdk2xsdcrb05"))))
+          (base32 "0s6g0pwjkqplwy9pbh6msixmq5rcgwjfb7dgs50q6rc8lwnh4s2h"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -22382,6 +22373,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                 ;; Needed for `guix build --with-input=emacs-minimal=emacs emacs-spacemacs`
                 (substitute* "layers/+spacemacs/spacemacs-org/config.el"
                   (("^") ";; -*- no-byte-compile: t -*-\n"))))
+
             (add-after 'unpack 'patch-file
               (lambda* (#:key inputs outputs #:allow-other-keys)
                 (map (lambda (file)
@@ -22406,6 +22398,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                     (("/usr/bin/env python") python))
                   (substitute* "layers/+lang/c-c++/global_conf.py"
                     (("/usr/bin/env python") python)))))
+
             (add-after 'unpack 'add-emacs-load-path
               ;; add-before 'compile 'add-emacs-load-path
               (lambda* (#:key inputs #:allow-other-keys)
@@ -22416,6 +22409,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                        (env-val (string-join (cons EMACSLOADPATH full-el-paths) ":"))]
                   (setenv "EMACSLOADPATH" env-val))
                 ))
+
             (add-after 'unpack 'fix--guix-get-installed-emacs-packages
               (lambda* (#:key inputs #:allow-other-keys)
                 (substitute* "core/core-guix.el"
@@ -22426,10 +22420,33 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                        (partial map (partial format #f "~s")))
                       (map (comp package-name cadr)
                            (append (package-propagated-inputs emacs)
-                                   ;; (spacemacs-packages-for-inputs)
+                                   (spacemacs-packages-for-inputs)
                                    )
                            ))))))
-            ;; (replace 'build (lambda* args #t))
+
+            (add-after 'unpack 'patch-macros-available-at-compile-time
+              (lambda _
+                (substitute* "layers/+distributions/spacemacs-bootstrap/packages.el"
+                  (("\\(evil-map visual")
+                   "(evil-map 'visual"))
+                (substitute* "core/core-jump.el"
+                  (("(^\\(spacemacs\\|eval-until-emacs-min-version\\b)" line)
+                   (string-join
+                    (list
+                     ";; Define spacemacs|eval-until-emacs-min-version"
+                     "(eval-when-compile (require 'core-versions))"
+                     line) "\n")))
+                (substitute* "layers/+distributions/spacemacs-bootstrap/packages.el"
+                  (("^\\(defconst spacemacs-bootstrap-packages" line)
+                   (string-join
+                    (list
+                     ";; Prevent error: (void-variable visual)"
+                     "(load (expand-file-name \"funcs.el\" (file-name-directory load-file-name)))"
+                     ""
+                     line) "\n")))
+                #t))
+
+            ;; (replace 'build (lambda* args #t)) ; stop the build
             )))
       (inputs            (package-inputs emacs))
       (native-inputs     (package-native-inputs emacs))
