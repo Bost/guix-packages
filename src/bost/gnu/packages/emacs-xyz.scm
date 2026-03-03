@@ -15534,11 +15534,17 @@ implementation.")
     (license license:gpl3+)))
 
 (define-public emacs-cider
-  (let ((commit "b5a6ffc97e3c76957721f71280ea5f49fd29d7a3")
+  (let ((commit
+         "8e3091e8c427cc18f1cc511d5d5aa15424cddb62" ; 1.20.0
+         ;; 1.21.0 Changelog:
+         ;; Move Emacs Lisp code under lisp/ folder to improve the structure of the repo.
+         ;; That's not a user-visible change, but might affect the packaging depending on how you're installing CIDER.
+         ;; "c71bc65af7709667b0cc77306f4e3d5befe86d27" ; 1.21.0
+         )
         (revision "0"))
     (package
       (name "emacs-cider")
-      (version (git-version "1.19.0" revision commit))
+      (version (git-version "1.21.0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -15547,7 +15553,10 @@ implementation.")
                 (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0limw27arkc8bn0zzj0jzhdsax78qm1lz5jfgy8zgf971llhf5qc"))))
+          (base32
+           "08hd281ybskkhir170hr3xpga1b1hwpph7rd0fk6fvm0ngdgxazs" ; 1.20
+           ;; "19wx9mc488qipm08s7hc0zrfmiylw577lmf3jpvqcjq7amx14jgc" ; 1.21
+           ))))
       (build-system emacs-build-system)
       (arguments
        (list
