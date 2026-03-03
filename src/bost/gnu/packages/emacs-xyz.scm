@@ -22331,7 +22331,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
 (define-public emacs-spacemacs
-  (let ((commit "bfdbbbea2dbe0e69ffd9e14b340fdac1356ce6d0")
+  (let ((commit "e42e6deb7711105e5a16d9e53d314fea35661522")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22344,7 +22344,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0s6g0pwjkqplwy9pbh6msixmq5rcgwjfb7dgs50q6rc8lwnh4s2h"))))
+          (base32 "0ickhby0psf6fnf5dhvly54hylladd1akybj3vjmkfy9klr5164a"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -22417,6 +22417,8 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                        (full-el-paths (map (lambda (pth) (string-append current-dir "/" pth)) relative-el-paths))
                        (env-val (string-join (cons EMACSLOADPATH full-el-paths) ":"))]
                   (setenv "EMACSLOADPATH" env-val))
+                (format #t "New EMACSLOADPATH: ~a\n" (getenv "EMACSLOADPATH"))
+                #t
                 ))
 
             (add-after 'unpack 'fix--guix-get-installed-emacs-packages
@@ -22435,23 +22437,12 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 
             (add-after 'unpack 'patch-macros-available-at-compile-time
               (lambda _
-                (substitute* "layers/+distributions/spacemacs-bootstrap/packages.el"
-                  (("\\(evil-map visual")
-                   "(evil-map 'visual"))
                 (substitute* "core/core-jump.el"
                   (("(^\\(spacemacs\\|eval-until-emacs-min-version\\b)" line)
                    (string-join
                     (list
                      ";; Define spacemacs|eval-until-emacs-min-version"
                      "(eval-when-compile (require 'core-versions))"
-                     line) "\n")))
-                (substitute* "layers/+distributions/spacemacs-bootstrap/packages.el"
-                  (("^\\(defconst spacemacs-bootstrap-packages" line)
-                   (string-join
-                    (list
-                     ";; Prevent error: (void-variable visual)"
-                     "(load (expand-file-name \"funcs.el\" (file-name-directory load-file-name)))"
-                     ""
                      line) "\n")))
                 #t))
 
@@ -22475,6 +22466,12 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                             emacs-evil-evilified-state
                             bst:emacs-dash
                             bst:emacs-f
+                            ;; Needed for the `defpowerline' macro in layers/+spacemacs/spacemacs-modeline/packages.el
+                            emacs-powerline
+                            ;; Needed for the `evilem-create' macro in layers/+spacemacs/spacemacs-editing/packages.el
+                            emacs-evil-easymotion
+                            ;; Needed for the `spaceline-define-segment' macro in layers/+spacemacs/spacemacs-modeline/packages.el
+                            emacs-spaceline
                             )))
       (home-page "http://spacemacs.org/")
       (synopsis
