@@ -22330,7 +22330,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
 (define-public emacs-spacemacs
-  (let ((commit "e42e6deb7711105e5a16d9e53d314fea35661522")
+  (let ((commit "a57fb619c9fbfb604077d6b48f3037e718f4ecb9")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22343,7 +22343,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0ickhby0psf6fnf5dhvly54hylladd1akybj3vjmkfy9klr5164a"))))
+          (base32 "0isqwwj6skvsav7ni7lsmmpq6a82j1cvnia195h9hm2bs6jd2m6b"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -22471,6 +22471,10 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                             emacs-evil-easymotion
                             ;; Needed for the `spaceline-define-segment' macro in layers/+spacemacs/spacemacs-modeline/packages.el
                             emacs-spaceline
+                            ;; Needed for the `vhl/define-extension' macro in layers/+spacemacs/spacemacs-editing-visual/packages.el
+                            emacs-volatile-highlights
+                            ;; Needed for the `evil-define-key' macro in layers/+completion/helm/packages.el
+                            emacs-evil
                             )))
       (home-page "http://spacemacs.org/")
       (synopsis
