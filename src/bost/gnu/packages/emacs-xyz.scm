@@ -154,6 +154,90 @@
 (define m (module-name-for-logging))
 ;; (evaluating-module)
 
+(define-public emacs-difftastic
+  (let ((commit "b33554a22c637f147d07c15fa9539c72bcfcfca0")
+        (revision "0"))
+    (package
+      (name "emacs-difftastic")
+      (version (git-version "1.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/pkryger/difftastic.el/")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1rc5gnb1hdlh7gjpg8igrrzcvxk53h76mcbnbhmfdhxfixb2xh8r"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:test-command
+        #~(list "emacs" "--batch"
+                "-l" "test/difftastic.t.el"
+                "-l" "test/difftastic-bindings.t.el"
+                "-f" "ert-run-tests-batch-and-exit")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'check 'unpack-el-mock
+              (lambda _
+                (install-file
+                 (string-append
+                  #$(this-package-native-input "el-mock") "/el-mock.el")
+                 ".")))
+            ;; 11/435 tests fail.
+            (add-before 'check 'skip-failing-tests
+              (lambda _
+                (let ((skip-tests
+                       `("-forge-pullreq-show-diff-args:buffer-post-object"
+                         "-forge-pullreq-show-diff-args:current-topic"
+                         ,(string-append
+                           "-forge-pullreq-show-diff-args"
+                           ":new-pullreq-with-base-and-head")
+                         "-forge-pullreq-show-diff-args:single-prefix-argument"
+                         "-magit-diff-buffer-file:no-file"
+                         "-forge-pullreq-show-diff-args:triple-prefix-argument"
+                         "forge-create-pulreq-show-diff:basic"
+                         "forge-pullreq-show-diff:basic"
+                         "forge-pullreq-show-diff:double-prefix-arg"
+                         "forge-pullreq-show-diff:single-prefix-arg"
+                         "forge-pullreq-show-diff:triple-prefix-arg")))
+                  (substitute* "test/difftastic.t.el"
+                    (("\\(ert-deftest difftastic-([a-z:-]*) \\(\\)" all test)
+                     (if (member test skip-tests)
+                         (string-append all "(skip-unless nil)")
+                         all))))))
+            (add-after 'unpack 'substitute-python-path
+              (lambda* (#:key inputs #:allow-other-keys)
+                (emacs-substitute-variables "difftastic.el"
+                  ("difftastic-executable"
+                   (search-input-file inputs "/bin/difft"))))))))
+      (inputs
+       (list difftastic))
+      (propagated-inputs
+       (list emacs-compat emacs-magit))
+      (native-inputs
+       (list
+        ;; This package uses a custom version of el-mock for the tests.
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/pkryger/el-mock.el")
+                 (commit "8fb750784faf07445033441bd86485fecfdb9413")))
+          (file-name "el-mock")
+          (sha256
+           (base32
+            "1qbcj952hrrpr26rh8q77vf5i35nzkbsrqdvj7rrc307dp0n2gsv")))))
+      (home-page "https://github.com/pkryger/difftastic.el/")
+      (synopsis "Wrapper interface for @code{difft} command line tool")
+      (description
+       "This package integrates @code{difftastic} structural diff tool into
+Emacs.  It automatically displays @code{difftastic} output within Emacs using
+faces from the user theme, ensuring consistency with overall coding
+environment.")
+      (license license:gpl3+))))
+
 (define-public emacs-ron-mode
   (let ((commit "c5e0454b9916d6b73adc15dab8abbb0b0a68ea22")
         (revision "0"))

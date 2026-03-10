@@ -30,6 +30,7 @@
    ;; "emacs-planet"
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
+   "emacs-difftastic"
 
    "emacs-fennel-mode"
    "emacs-auctex-latexmk"
