@@ -51,13 +51,29 @@
              (error (format #f "~a retcode: ~a\n" m retcode))
              ))))
 
+(define-public (spacemacs-site-lisp-dir store-path)
+  "(spacemacs-site-lisp-dir (emacs-spacemacs-store-path))
+; =>
+\"/gnu/store/llywnklfs7253w3vjg7fgwn9x19f51ra-emacs-spacemacs-1.0-0.a57fb61/share/emacs/site-lisp/spacemacs-1.0-0.a57fb61\"
+"
+  (let* [(esss store-path)
+         (s (substring esss
+                       (string-length "/gnu/store/")))
+         (checksum (substring
+                    s 0 (- (string-length s)
+                           (string-length "-emacs-spacemacs-1.0-0.<_sha_>"))))
+         (commit (substring
+                  s (+ (string-length checksum)
+                       (string-length "-emacs-spacemacs-1.0-0."))))]
+    (str esss "/share/emacs/site-lisp/spacemacs-1.0-0." commit)))
+
 ;; See also:
 ;;   git-spacemacs
 ;;   spacemacs-dir
 ;; files:
 ;;   guix/home/common/scm-bin/spag.scm
 ;;   guix/home/common/scm-bin/restore-spacemacs.scm
-(define (emacs-profiles-config) ;; branch-kw_to_settings-map
+(define (emacs-profiles-config spacemacs-output) ;; branch-kw_to_settings-map
   (list
    ;; (const <profile-name> <profile-configuration>)
    (cons #:develop
@@ -73,14 +89,9 @@
 
    (cons #:spguix
          (list (cons #:user-emacs-directory
-                     ;; TODO this is a hack. For some reasons this can't be used:
-                     ;;   (use-modules (guix scripts package) (guix profiles))
-                     ;;   (last (car (list-installed "emacs-spacemacs$" (list %current-profile))))
-                     ;; I guess it has something to do with build vs. runtime.
-                     ;; The start and stop commands should be implemented in the emacs-spacemacs-wrapped package
-                     ;; And also there should be emacs-wrapped and crafted-emacs-wrapped, etc.
-                     ;; See also (which-emacs) in guix/home/common/emacs-common.scm
-                     (let* [(esss (emacs-spacemacs-store-path))
+                     (let* [(esss spacemacs-output
+                             ;; (emacs-spacemacs-store-path)
+                             )
                             (s (substring esss
                                           (string-length "/gnu/store/")))
                             (checksum (substring
@@ -132,8 +143,8 @@
 
 (define (get-val profile setting)
   "
-(get-val profile #:user-emacs-directory)
-(get-val profile #:env)
+(get-val spguix #:user-emacs-directory)
+(get-val spguix #:env)
 "
   ;; (format #t "profile ~a; setting ~a\n" profile setting)
   (let* [(branch-kw (cdr (assoc profile profile->branch-kw)))]

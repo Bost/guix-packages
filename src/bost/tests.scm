@@ -146,13 +146,13 @@ Type Testing Predicates.
    (list
     'unspecified?
     'boolean?
-    '(@(dotf utils) true?)
-    '(@(dotf utils) false?)
+    '(@(bost utils) true?)
+    '(@(bost utils) false?)
     'port?
     'string?
     'symbol?
     'list?
-    '(@(dotf utils) plist?)
+    '(@(bost utils) plist?)
     'pair?
 
     '(@(srfi srfi-1) proper-list?)
@@ -161,7 +161,7 @@ Type Testing Predicates.
     ;; as a dotted (improper) list — and it allows the degenerate case with zero
     ;; pairs.
     ;; '(@(srfi srfi-1) dotted-list?)
-    '(@(dotf utils) nonempty-dotted-list?)
+    '(@(bost utils) nonempty-dotted-list?)
 
     '(@(srfi srfi-1) null-list?)
     '(@(srfi srfi-1) not-pair?)
@@ -263,9 +263,9 @@ Type Testing Predicates.
     'char=?
     'char-ci=?
 
-    '(@(dotf utils) list=eq?)
-    '(@(dotf utils) list=eqv?)
-    '(@(dotf utils) list=equal?)
+    '(@(bost utils) list=eq?)
+    '(@(bost utils) list=eqv?)
+    '(@(bost utils) list=equal?)
 
     'lset=  ; from srfi-1
     'lset<= ; from srfi-1
@@ -274,10 +274,10 @@ Type Testing Predicates.
     'eqv?
     'equal?
 
-    '(@(dotf utils) some-true?)
-    '(@(dotf utils) every-true?)
-    '((@(dotf utils) partial) (@(dotf utils) not-every?) (@(dotf utils) true?))
-    '((@(dotf utils) partial) (@(dotf utils) not-any?) (@(dotf utils) true?))
+    '(@(bost utils) some-true?)
+    '(@(bost utils) every-true?)
+    '((@(bost utils) partial) (@(bost utils) not-every?) (@(bost utils) true?))
+    '((@(bost utils) partial) (@(bost utils) not-any?) (@(bost utils) true?))
 
     ;; Tree Intermediate Language
     '(@(language tree-il) tree-il=?)
