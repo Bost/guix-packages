@@ -1,11 +1,3 @@
-;;; This module is required by some of the scm-bin CLI utilities. The output of
-;;; the `format' will also appear in the console such a utility is executed.
-
-;; TODO create a package installable by `guix install my=utils`
-;; See: jaro the resource opener - an alternative to xdg-open
-;; https://github.com/isamert/jaro/blob/master/jaro
-;; See `guile-build-system'
-
 (define-module (bost utils)
 ;;; All used modules must be present in the module (services cli-utils) under:
 ;;;   1. service-file -> with-imported-modules
