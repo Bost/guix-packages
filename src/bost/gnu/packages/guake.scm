@@ -100,7 +100,7 @@
       libutempter
       libwnck
       vte/gtk+-3
-      (@(bost gnu packages gtk) pango-old)
+      pango
       ))
 
     ;; Python deps at runtime
@@ -115,17 +115,21 @@
 
     ;; Build tools
     (native-inputs
-     (list
-      ;; The order of glib and (list glib "bin") matters. When reversed the
-      ;; "...-glib-bin" instead of "...-glib" gets picked.
-      glib
-      (list glib "bin")             ; glib-compile-schemas
-      python-setuptools
-      python-wheel
-      python-installer
-      python-pypa-build
-      python-setuptools-scm
-      ))
+     (append
+      (if (target-hurd?)
+          '()
+          (list gobject-introspection)) ;g-ir-compiler, etc.
+      (list
+       ;; The order of glib and (list glib "bin") matters. When reversed the
+       ;; "...-glib-bin" instead of "...-glib" gets picked.
+       glib
+       (list glib "bin")             ; glib-compile-schemas
+       python-setuptools
+       python-wheel
+       python-installer
+       python-pypa-build
+       python-setuptools-scm
+       )))
 
     (arguments
      (list
@@ -226,7 +230,7 @@
                   ("keybinder"       "/lib/girepository-1.0")
                   ("libnotify"       "/lib/girepository-1.0")
                   ("libwnck"         "/lib/girepository-1.0")
-                  ("pango-old"       "/lib/girepository-1.0")
+                  ("pango"           "/lib/girepository-1.0")
                   ("vte-with-gtk+3"  "/lib/girepository-1.0")
                   ))
 
