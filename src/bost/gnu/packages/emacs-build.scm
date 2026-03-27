@@ -38,7 +38,7 @@
     ))
 
 (define-public emacs-dash
-  (let ((commit "fcb5d831fc08a43f984242c7509870f30983c27c")
+  (let ((commit "d3a84021dbe48dba63b52ef7665651e0cf02e915")
         (revision "0"))
     (package
       (name "emacs-dash")
@@ -51,7 +51,7 @@
                 (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "092kf61bi6dwl42yng69g3y55ni8afycqbpaqx9wzf8frx9myg6m"))))
+          (base32 "145zfh9y08k2rlnzim95lhwxx6qzihlmbrvxnhs38gkkgl0ljh2n"))))
       (build-system emacs-build-system)
       (arguments
        (list
