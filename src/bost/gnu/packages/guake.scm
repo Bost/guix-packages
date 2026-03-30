@@ -86,7 +86,7 @@
                 ))))
     (build-system pyproject-build-system)
 
-    ;; C/GI libs at runtime
+    ;; C/GI libs will be in the resulting binary file. Available also at the runtime
     (inputs
      (list
       guile-3.0
@@ -103,7 +103,7 @@
       (@(bost gnu packages gtk) pango-old)
       ))
 
-    ;; Python deps at runtime
+    ;; Python packages added to user profile. Available also at the runtime
     (propagated-inputs
      (list
       python-dbus
@@ -113,7 +113,7 @@
       python-pyyaml
       ))
 
-    ;; Build tools
+    ;; Built-time utils and tools not needed during run-time
     (native-inputs
      (list
       ;; The order of glib and (list glib "bin") matters. When reversed the
