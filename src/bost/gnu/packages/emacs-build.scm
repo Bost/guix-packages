@@ -34,6 +34,7 @@
     (guix build emacs-utils)
     (bost guix build emacs-utils)
     (bost utils)
+    (guix monads)
     (bost srfi-1-smart)
     ))
 
