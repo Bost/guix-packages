@@ -22585,10 +22585,12 @@ the use of Spacemacs without conflicting with the base Emacs."
               ("spacemacs" ,spacemacs-package)))
     (arguments
      (list
-      #:modules '((guix build utils)
-                  (bost srfi-1-smart)
-                  (bost utils)
-                  (bost guix build spacemacs-utils))
+      #:modules
+      '((guix build utils)
+        (guix monads)
+        (bost srfi-1-smart)
+        (bost utils)
+        (bost guix build spacemacs-utils))
       #:builder
       #~(begin
           ;; Seems like `su:spacemacs-builder' must be in a different module
