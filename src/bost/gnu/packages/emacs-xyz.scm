@@ -18670,7 +18670,7 @@ docstring of the thing at point.")
       (license license:expat))))
 
 (define-public emacs-rustic
-  (let ((commit "ad6f3061ff287fe6a9391a67b59c77c4622a2c1b")
+  (let ((commit "b6c7e095145bb1fd0dc9cfb90ce36884e944556d")
         (revision "0"))
     (package
       (name "emacs-rustic")
@@ -18684,7 +18684,7 @@ docstring of the thing at point.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0sxnplf98c6vgsd2nlb3z9s7ls7f0sq0kfn2s2zffpj14lgh8433"
+           "0x48sakq72grhqns378kl2d03k5hvkfxqq4nicygdbh4yxkgcr79"
            ))))
       (build-system emacs-build-system)
       (propagated-inputs
