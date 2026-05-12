@@ -5395,58 +5395,6 @@ Emacs tools, facilitating seamless GitHub workflows within the editor.")
        "An Emacs interface for managing gists (http://gist.github.com).")
       (license license:gpl2+))))
 
-(define-public emacs-with-editor
-  (let ((commit "87a384a0e59260cca41ca8831d98e195b1ec8ada")
-        (revision "0"))
-    (package
-      (name "emacs-with-editor")
-      (version (git-version "3.4.6" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/magit/with-editor.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1d0y32y934ld60vdyx9hwbvpifmhdmm08066x0ivxqcyw0qyggxg"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:tests? #f                       ; no test suite
-        #:lisp-directory "lisp"
-        #:modules bst:modules
-        #:imported-modules bst:imported-modules
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-before 'install 'make-info
-              (lambda _
-                (with-directory-excursion "../docs"
-                  (invoke "makeinfo" "--no-split"
-                          "-o" "with-editor.info" "with-editor.texi")
-                  (install-file "with-editor.info" "../lisp"))))
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "with-editor")))
-            )))
-      (native-inputs
-       (list
-        texinfo
-        ))
-      (propagated-inputs
-       (list
-        emacs-async
-        emacs-compat
-        ))
-      (home-page "https://github.com/magit/with-editor")
-      (synopsis "Emacs library for using Emacsclient as EDITOR")
-      (description
-       "This package provides an Emacs library to use the Emacsclient as
-@code{$EDITOR} of child processes, making sure they know how to call home.
-For remote processes a substitute is provided, which communicates with Emacs
-on stdout instead of using a socket as the Emacsclient does.")
-      (license license:gpl3+))))
-
 (define-public emacs-magit
   (let ((commit "9e6791796facd87d6d46abca2628e802edf01ec4")
         (revision "0"))
