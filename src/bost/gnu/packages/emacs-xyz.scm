@@ -20327,65 +20327,105 @@ different configuration options to org-node 2 so you DO have to set
 it up again.")
     (license license:gpl3+)))
 
+(define-public emacs-deflate
+  (let ((commit "d3863855d213f73dc7a1a54736d94a75f8f7e9c5")
+        (revision "0"))
+    (package
+      (name "emacs-deflate")
+      (version (git-version "0.0.5" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                       (url "https://github.com/skuro/deflate.git")
+                       (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "18mzh5ivg6zq8xa00c2xxlfr779b73jzkim75c9bsh92aidn1dhg"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list #:test-command #~(list "ert-runner" "test/")))
+      (native-inputs
+       (list
+        emacs-ert-runner
+        ))
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        ))
+      (home-page "https://github.com/skuro/deflate")
+      (synopsis "Elisp implementation of the DEFLATE algorithm")
+      (description
+       "This Emacs library implements the DEFLATE algorithm specified in RFC 1951.
+
+While the scope of this project is to write a full implementation of the
+algorithm, there is currently no interest of developing the best compression
+ratios on the planet, but rather being able to support DEFLATE (and a little
+bit of zlib) in Emacs in a portable fashion.")
+      (license license:gpl3+))))
+
 (define-public emacs-plantuml-mode
-  (package
-    (name "emacs-plantuml-mode")
-    (version "1.4.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/skuro/plantuml-mode")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0yp41d2dmf3sx7qnl5x0zdjcr9y71b2wwc9m0q31v22xqn938ipc"))))
-    (arguments
-     (list
-      #:tests? #f  ; Unclear why tests fail.
-      #:test-command #~(list "ert-runner")
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'unpack 'use-local-plantuml
-            (lambda* (#:key inputs #:allow-other-keys)
-              (symlink (search-input-file inputs "/bin/plantuml")
-                       "bin/plantuml")
-              (let ((file "plantuml-mode.el"))
-                (chmod file #o644)
-                (emacs-substitute-variables file
-                  ("plantuml-jar-path"
-                   (search-input-file inputs "/share/java/plantuml.jar"))
-                  ("plantuml-executable-path"
-                   (search-input-file inputs "/bin/plantuml"))
-                  ("plantuml-server-url" 'nil)
-                  ("plantuml-default-exec-mode" ''executable))
-                (emacs-batch-edit-file file
-                  `(progn (progn
-                           (goto-char (point-min))
-                           (re-search-forward "(defun plantuml-download-jar")
-                           (beginning-of-line)
-                           (kill-sexp))
-                          (basic-save-buffer)))))))))
-    (inputs
-     (list
-      plantuml
-      ))
-    (native-inputs
-     (list
-      bst:emacs-ert-runner
-      icedtea
-      ))
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      ))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/skuro/plantuml-mode")
-    (synopsis "Major mode for editing PlantUML sources")
-    (description "This package provides a major mode for editing PlantUML
+  (let ((commit "348e83ff193051d5ad332642100dd704f6e2a6d2")
+        (revision "0"))
+    (package
+      (name "emacs-plantuml-mode")
+      (version (git-version "1.8.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/skuro/plantuml-mode")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1wjhzv1asllcljfvw4hpapwy0p5v1z611yzkibwn27lfd1fjd04l"))))
+      (arguments
+       (list
+        #:tests? #f  ; Unclear why tests fail.
+        #:test-command #~(list "ert-runner")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'use-local-plantuml
+              (lambda* (#:key inputs #:allow-other-keys)
+                (symlink (search-input-file inputs "/bin/plantuml")
+                         "bin/plantuml")
+                (let ((file "plantuml-mode.el"))
+                  (chmod file #o644)
+                  (emacs-substitute-variables file
+                    ("plantuml-jar-path"
+                     (search-input-file inputs "/share/java/plantuml.jar"))
+                    ("plantuml-executable-path"
+                     (search-input-file inputs "/bin/plantuml"))
+                    ("plantuml-server-url" 'nil)
+                    ("plantuml-default-exec-mode" ''executable))
+                  (emacs-batch-edit-file file
+                    `(progn (progn
+                             (goto-char (point-min))
+                             (re-search-forward "(defun plantuml-download-jar")
+                             (beginning-of-line)
+                             (kill-sexp))
+                            (basic-save-buffer)))))))))
+      (inputs
+       (list
+        plantuml
+        ))
+      (native-inputs
+       (list
+        bst:emacs-ert-runner
+        icedtea
+        ))
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        emacs-deflate
+        ))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/skuro/plantuml-mode")
+      (synopsis "Major mode for editing PlantUML sources")
+      (description "This package provides a major mode for editing PlantUML
 sources.  It features syntax highlighting, autocompletion, preview of buffer
 or region and use of locally installed binaries.")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-csound-mode
   ;; XXX: Upstream did not tag last release.  Using the commit matching
