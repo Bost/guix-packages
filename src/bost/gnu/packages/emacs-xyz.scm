@@ -12523,7 +12523,7 @@ and doesn't require memorisation of commands.
     (license license:gpl3+)))
 
 (define-public emacs-mu4e-alert
-  (let ((commit "d36eb0c1842dea51ee0465bb3751948c8886617c")
+  (let ((commit "9f20f30b15a5f5cc43fe448684fe1d4b981639aa")
         (revision "1"))
     (package
       (name "emacs-mu4e-alert")
@@ -12536,11 +12536,15 @@ and doesn't require memorisation of commands.
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "039kfpwgw0vi6fv2p4ixdh9qx9hdsahl48yl1niq00zmsp7rgg07"))))
+          (base32 "0qqky31590qdkg4743hrjsh768aw08n3d2x5xpdcfmlpzpjsdgfd"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))    ;no tests
       (propagated-inputs
-       (list emacs-alert emacs-ht emacs-s mu))
+       (list
+        emacs-alert
+        emacs-ht
+        emacs-s mu
+        ))
       (home-page "https://github.com/xzz53/mu4e-alert")
       (synopsis "Desktop notifications and mode line display for mu4e")
       (description
