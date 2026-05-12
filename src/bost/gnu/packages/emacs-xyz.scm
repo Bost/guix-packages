@@ -21046,20 +21046,20 @@ type, for example: packages, buffers, files, etc.")
     (license license:gpl3+)))
 
 (define-public emacs-guix
-  (let ((commit "66b935020d93cdbbff0b0ed3b1d2195724a46821")
-        (revision "8"))
+  (let ((commit "43151aa6902c7122e919d3ed688fd484ec004feb")
+        (revision "0"))
     (package
       (name "emacs-guix")
-      (version (git-version "0.5.2" revision commit))
+      (version (git-version "0.6.1" revision commit))
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                      (url "https://codeberg.org/guix/emacs-guix.git")
-                      (commit commit)))
+                       (url "https://codeberg.org/guix/emacs-guix.git")
+                       (commit commit)))
                 (file-name (git-file-name name version))
                 (sha256
                  (base32
-                  "1pm1nyy1r704wjg4hfdrrxlf1mn327wk0vkghwy8wsp4f84j5j7d"))))
+                  "0zj4369i667z9v9lmmhc0zyfhia7xss5127p2hspi513mg415wsn"))))
       (build-system gnu-build-system)
       (arguments
        (list
