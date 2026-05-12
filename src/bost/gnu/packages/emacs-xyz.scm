@@ -12471,37 +12471,45 @@ been copied from an Emacs major mode.")
       (license license:gpl2+))))
 
 (define-public emacs-helpful
-  (package
-    (name "emacs-helpful")
-    (version "0.21")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/Wilfred/helpful")
-             (commit version)))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "03afgdbs5nmhw833svrqky7fmfs1zlvqzcj7j5g29sakivs60xqc"))
-       (patches (search-patches
-                 "emacs-helpful-fix-signature.patch"
-                 "emacs-helpful-fix-tests.patch"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      emacs-elisp-refs
-      bst:emacs-f
-      emacs-s
-      ))
-    (native-inputs
-     (list
-      bst:emacs-ert-runner
-      bst:emacs-undercover
-      ))
-    (home-page "https://github.com/Wilfred/helpful")
-    (synopsis "More contextual information in Emacs help")
-    (description "@code{helpful} is an alternative to the built-in Emacs help
+  (let ((commit
+         "ced07fe0d48ce1111d7a8376fdbfef34d927c967" ; 0.21
+         ;; "03756fa6ad4dcca5e0920622b1ee3f70abfc4e39" ; latest
+         )
+        (revision "0"))
+    (package
+      (name "emacs-helpful")
+      (version (git-version "0.21" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/Wilfred/helpful")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "03afgdbs5nmhw833svrqky7fmfs1zlvqzcj7j5g29sakivs60xqc" ; 0.21
+           ;; "1q4q0x7n1v4jzap3xzjn5ir4skkyz02iw3jvkw0jhjc0w9mm3icq" ; latest
+           ))
+         (patches (search-patches
+                   "emacs-helpful-fix-signature.patch"
+                   "emacs-helpful-fix-tests.patch"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        emacs-elisp-refs
+        bst:emacs-f
+        emacs-s
+        ))
+      (native-inputs
+       (list
+        bst:emacs-ert-runner
+        bst:emacs-undercover
+        ))
+      (home-page "https://github.com/Wilfred/helpful")
+      (synopsis "More contextual information in Emacs help")
+      (description "@code{helpful} is an alternative to the built-in Emacs help
 that provides much more contextual information.
 
 @itemize
@@ -12520,7 +12528,7 @@ functions.
 @item Trace, disassemble functions from inside Helpful.  This is discoverable
 and doesn't require memorisation of commands.
 @end itemize\n")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-mu4e-alert
   (let ((commit "9f20f30b15a5f5cc43fe448684fe1d4b981639aa")
