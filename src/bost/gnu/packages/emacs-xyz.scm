@@ -12170,38 +12170,62 @@ your preferred text editor.")
       (license license:gpl3+))))
 
 (define-public emacs-gptel
-  (let ((commit "73ee1f0f61187b7dd2640bd8192955e43922bf4f")
+  (let ((commit "df08c1a4d4c6e253870b8aa1634922b8f56224e7")
         (revision "0"))
     (package
       (name "emacs-gptel")
-      (version (git-version "0.9.8.5" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/karthink/gptel.git")
-                (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32
-           "0dn1qm18l4w4hrh8vdgpmxiyddym5mi08x9459lakyv7a6nimbv3"))))
+      (version (git-version "0.9.9.5" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                       (url "https://github.com/karthink/gptel.git")
+                       (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "013f6rlk3zx4y1gn2x1fx7162d30faiv5w62jidmdbkidiqwjx2l"))))
       (build-system emacs-build-system)
       (arguments
        (list
-        #:modules bst:modules
-        #:imported-modules bst:imported-modules
+        #:test-command #~(list "make" "-C" "test" "test")
         #:phases
         #~(modify-phases %standard-phases
+            (add-after 'unpack 'unpack-tests
+              (lambda _
+                (copy-recursively
+                 #$(this-package-native-input "emacs-gptel-test-files")
+                 "test")))
+            ;; gptel-pkg.el produces an error during the check phase.
+            (add-before 'check 'rename-pkg
+              (lambda _ (rename-file "gptel-pkg.el" "gptel-pkg.el_")))
+            (add-after 'check 'rename-pkg-back
+              (lambda _ (rename-file "gptel-pkg.el_" "gptel-pkg.el")))
             (add-after 'unpack 'use-appropriate-curl
               (lambda* (#:key inputs #:allow-other-keys)
-                (emacs-substitute-variables "gptel.el"
-                  ("gptel-use-curl" (search-input-file inputs "/bin/curl")))))
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "gptel")
-                )))))
-      (inputs (list curl))
-      (propagated-inputs (list emacs-compat emacs-transient))
+                ;; These two alternatives error on the substitution.
+                (emacs-substitute-variables "gptel-request.el"
+                  ("gptel-use-curl"
+                   (search-input-file inputs "/bin/curl"))))))))
+      (inputs
+       (list
+        curl
+        ))
+      (propagated-inputs
+       (list
+        emacs-compat
+        emacs-transient
+        ))
+      (native-inputs
+       (list
+        (origin
+          (method git-fetch)
+          (uri (git-reference
+                 (url "https://github.com/karthink/gptel-test")
+                 (commit "c62e2f78d843f3454e068eb7ec6bb8d6001b0649")))
+          (file-name "emacs-gptel-test-files")
+          (sha256
+           (base32
+            "1xixi1fa2iwixi6f0wdva2pyisxb8myljwbx2v5nxd3v0i3fbgq9")))))
       (home-page "https://github.com/karthink/gptel")
       (synopsis "GPTel is a simple ChatGPT client for Emacs")
       (description
