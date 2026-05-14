@@ -8892,8 +8892,7 @@ providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-flycheck-joker
-  (let ((commit
-         "93576295fef7a749bf779eeece5edd85e21868e2")
+  (let ((commit "93576295fef7a749bf779eeece5edd85e21868e2")
         (revision "0"))
     (package
       (name "emacs-flycheck-joker")
@@ -13060,50 +13059,50 @@ supports type hints, definition-jumping, completion, and more.")
     (license license:gpl3+)))
 
 (define-public emacs-flycheck
-  (let ((commit "a4d782e7af12e20037c0cecf0d4386cd2676c085")
-        (revision "0"))
-    (package
-      (name "emacs-flycheck")
-      (version (git-version "35.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/flycheck/flycheck.git")
-                (commit commit)))
-         (sha256
-          (base32 "0vhilah2gnmifv9hk7whcdcbcfzw0yxhfhwa8xka1fdlr0g23hws"))
-         (file-name (git-file-name name version))))
-      (build-system emacs-build-system)
-      (propagated-inputs
-       (list
-        bst:emacs-dash
-        ))
-      (native-inputs
-       (list
-        emacs-shut-up
-        ))
-      (arguments
-       (list
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'change-flycheck-version
-              (lambda _
-                (substitute* "flycheck.el"
-                  (("\\(pkg-info-version-info 'flycheck\\)")
-                   (string-append "\"" #$version "\""))))))
-        ;; TODO: many failing tests
-        #:tests? #f
-        #:test-command
-        #~(list "emacs" "-Q" "--batch"
-                "-L" "."
-                "--load" "test/flycheck-test"
-                "--load" "test/run.el"
-                "-f" "flycheck-run-tests-main")))
-      (home-page "https://www.flycheck.org")
-      (synopsis "On-the-fly syntax checking")
-      (description
-       "This package provides on-the-fly syntax checking for GNU Emacs.  It is a
+  (package
+    (name "emacs-flycheck")
+    (version "36.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/flycheck/flycheck/")
+              (commit (string-append "v" version))))
+       (sha256
+        (base32 "0gndi96ijxqj6k9qy5d4l0cwqh0ky7w1p27z90ipkn05xz4j3zp5"))
+       (file-name (git-file-name name version))))
+    (build-system emacs-build-system)
+    (native-inputs
+     (list
+      emacs-buttercup
+      emacs-shut-up
+      python-minimal-wrapper
+      ))
+    (arguments
+     (list
+      #:test-command #~(list "buttercup" "-L" "." "-L" "test/specs"
+                             "test/specs")
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'fix-version-constant
+            (lambda _
+              (substitute* "flycheck.el"
+                (("\\(defconst flycheck-version \"[^\"]*\"")
+                 (string-append
+                  "(defconst flycheck-version \""
+                  #$version "\"")))))
+          (add-after 'unpack 'remove-unsuitable-tests
+            (lambda _
+              ;; Requires network access.
+              (delete-file "test/specs/test-melpa-package.el")
+              ;; Expects an autoloads file not present in Guix.
+              (substitute* "test/specs/test-util.el"
+                (("\\(it \"returns true for autoloads with backing file\"" all)
+                 (string-append "(xit " (substring all 4)))))))))
+    (home-page "https://www.flycheck.org")
+    (synopsis "On-the-fly syntax checking")
+    (description
+     "This package provides on-the-fly syntax checking for GNU Emacs.  It is a
 replacement for the older Flymake extension which is part of GNU Emacs, with
 many improvements and additional features.
 
@@ -13111,7 +13110,7 @@ Flycheck provides fully-automatic, fail-safe, on-the-fly background syntax
 checking for over 30 programming and markup languages with more than 70
 different tools.  It highlights errors and warnings inline in the buffer, and
 provides an optional IDE-like error list.")
-      (license license:gpl3+))))                     ;+GFDLv1.3+ for the manual
+    (license license:gpl3+)))
 
 (define-public emacs-fb2-reader
   (let ((commit "9836db284749e0cef4c43c2cb5358c82ae9b8589")) ; version bump
