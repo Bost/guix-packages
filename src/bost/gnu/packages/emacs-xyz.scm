@@ -7199,6 +7199,50 @@ access to GitHub Copilot to use this plugin.")
       (description "This package allows you to chat with Github Copilot from within Emacs.")
       (license license:expat))))
 
+(define-public emacs-efrit
+  (let ((commit "0d68a75a6d2e5ca54ae9f642da7c13232f9e221f")
+        (revision "6"))
+    (package
+      (name "emacs-efrit")
+      (version (git-version "0.4.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/steveyegge/efrit")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "0xblivsjxi60rh51fs2v0k38rac7yf276pbrf1xkkxbk3dd5dxks"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:include
+        #~(cons ".*\\.el$"
+                '#$%default-include)
+        #:lisp-directory "lisp"
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'build 'set-home
+              (lambda _
+                (setenv "HOME" "/tmp")))
+            (add-after 'expand-load-path 'add-subdirs-to-load-path
+              (lambda _
+                (let ((cwd (getcwd)))
+                  (setenv "EMACSLOADPATH"
+                          (string-append (string-join (cons cwd
+                                                            (find-files cwd ""
+                                                                        #:directories?
+                                                                        #t))
+                                                      ":") ":"
+                                         (getenv "EMACSLOADPATH")))))))))
+      (home-page "https://github.com/steveyegge/efrit")
+      (synopsis "Native elisp coding agent running in Emacs")
+      (description
+       "A sophisticated AI coding agent that leverages Emacs' native
+programmability through direct Elisp evaluation.")
+      (license license:asl2.0))))
+
 (define-public emacs-ample-zen-theme
   (let ((commit
           "b277bb7abd4b6624e8d59f02474b79af50a007bd")
