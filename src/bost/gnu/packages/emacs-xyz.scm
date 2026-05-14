@@ -9050,8 +9050,7 @@ providing support for a lot of modes.")
       (license license:gpl3+))))
 
 (define-public emacs-sayid
-  (let ((commit
-         "879aff586336a0ec4d46c0ed4720fb1de22082bd")
+  (let ((commit "879aff586336a0ec4d46c0ed4720fb1de22082bd")
         (revision "0"))
     (package
       (name "emacs-sayid")
@@ -9070,11 +9069,23 @@ providing support for a lot of modes.")
       (arguments
        (list
         #:tests? #f
-        #:include #~(cons "^src/el/" %default-include)))
+        #:include #~(cons "^src/el/" %default-include)
+        ;; This may work as well:
+        ;; #:phases
+        ;; #~(modify-phases %standard-phases
+        ;;     (add-before 'install 'enter-lisp-directory
+        ;;       (lambda _
+        ;;         (chdir "src/el"))))
+        ))
       (propagated-inputs (list emacs-cider))
       (home-page "https://github.com/clojure-emacs/sayid")
-      (synopsis "")
-      (description "")
+      (synopsis "Sayid Emacs mode")
+      (description
+       "Sayid (siy EED) is an omniscient debugger and profiler for Clojure.
+It intercepts and records the inputs and outputs of user selected
+functions.  This package is the Emacs front-end to it, which allows
+the user to select functions to trace, and display the recorded inputs
+and outputs from within Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-kaolin-themes
