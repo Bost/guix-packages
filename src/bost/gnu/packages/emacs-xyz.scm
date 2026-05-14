@@ -9138,6 +9138,36 @@ and outputs from within Emacs.")
       (description "AI Pair Programming with Claude Code in Emacs")
       (license license:expat))))
 
+(define-public emacs-claude-code
+  (let ((commit "03199df8b3a1e9cd4857f0851f7a912ba524aff3")
+        (revision "4"))
+    (package
+      (name "emacs-claude-code")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/stevemolitor/claude-code.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1yd5h2zb47nc4s9fdx48nv3l346qxidc537af33hj4mqidc6n0p5"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f)) ; no tests
+      (home-page "https://github.com/stevemolitor/claude-code.el")
+      (propagated-inputs
+       (list
+        emacs-eat
+        emacs-inheritenv
+        emacs-transient
+        emacs-vterm
+        ))
+      (synopsis "Claude Code Emacs integration")
+      (description "Emacs interface for Claude Code CLI, providing integration between
+Emacs and Claude AI for coding assistance.")
+      (license license:asl2.0))))
+
 (define-public emacs-kaolin-themes
   (let ((commit
          "facb2a08d3179103d4c3a9905b37c87831fe1665")
