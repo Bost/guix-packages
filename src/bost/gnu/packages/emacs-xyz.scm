@@ -22438,7 +22438,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
 (define-public emacs-spacemacs
-  (let ((commit "a224f9cf7ad86e3a6c5105c559d0bd6d91dc7e51")
+  (let ((commit "9ff0ce2e6d5fcf76e0a1300d7e6eca963654b5f9")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22451,7 +22451,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1jb3r7iq821scl43p73cks4r3p5520jw5hjpclh13cr0s9q3pg0j"))))
+          (base32 "112a90f4jq9gps9wljh2zs948857q3js2m88rnxl49aynmdalrg3"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -22551,6 +22551,14 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                      ";; Define spacemacs|eval-until-emacs-min-version"
                      "(eval-when-compile (require 'core-versions))"
                      line) "\n")))
+                #t))
+            (add-after 'unpack 'keep-remove-byte-compiled-files
+              (lambda _
+                (substitute* "core/core-spacemacs.el"
+                  (("(\\(spacemacs//remove-byte-compiled-files-in-dir spacemacs-core-directory\\))"
+                    all match)
+                   (string-append ";; " match "\n    ")
+                   ))
                 #t))
 
             ;; (replace 'build (lambda* args #t)) ; stop the build
