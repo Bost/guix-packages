@@ -9088,6 +9088,34 @@ the user to select functions to trace, and display the recorded inputs
 and outputs from within Emacs.")
       (license license:gpl3+))))
 
+(define-public emacs-editor-code-assistant
+  (let ((commit "0e1c7b4e924d7d7d99720342e60483b6dda187a3")
+        (revision "0"))
+    (package
+      (name "emacs-editor-code-assistant")
+      (version (git-version "0.9.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/editor-code-assistant/eca-emacs")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "053qqrwlrnaa306kq8fz9s2dlaavgd71frxikkyq7ph6gnj2p6wf"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/editor-code-assistant/eca-emacs")
+      (propagated-inputs
+       (list
+        emacs-compat
+        bst:emacs-dash
+        bst:emacs-f
+        emacs-markdown-mode
+        ))
+      (synopsis "Editor Code Assistant for Emacs")
+      (description "Editor Code Assistant (ECA) integration for Emacs.")
+      (license license:asl2.0))))
+
 (define-public emacs-kaolin-themes
   (let ((commit
          "facb2a08d3179103d4c3a9905b37c87831fe1665")
