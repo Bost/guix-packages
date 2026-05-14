@@ -3977,7 +3977,7 @@ pressed simultaneously or a single key quickly pressed twice.")
       (license license:gpl3+))))
 
 (define-public emacs-openai
-  (let ((commit "91115cd20781b2db9febadadc4ae89c35a9a6df5")
+  (let ((commit "f5439fff3a32c9f76338f79e0654473ff6096a63")
         (revision "0"))
     (package
       (name "emacs-openai")
@@ -3986,28 +3986,27 @@ pressed simultaneously or a single key quickly pressed twice.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-openai/openai.git")
-               (commit commit)))
+                (url "https://github.com/emacs-openai/openai.git")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0146abvgygs787x75jlqhgp0qz77jw0mjn3n7y7zsarxrb2c5hqh"))))
+          (base32 "096ya2c9qcl0x4m1ig6jwl8xcqaq48ilafgb0z9fd90nfjpfxavq"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
       (propagated-inputs
        (list
         emacs-tblui
         emacs-request
-        emacs-let-alist
         ))
       (home-page
        "https://github.com/emacs-openai/openai")
-      (synopsis "Emacs client for OpenAI API interaction")
+      (synopsis "Elisp library for the OpenAI API")
       (description
-       "This package provides an Emacs client for interacting with the OpenAI
- API, allowing users to send requests and receive responses directly within
- the Emacs environment.  It supports a range of OpenAI services, including
- text completion, code generation, and more, enabling seamless integration of
- AI-powered tools into various Emacs workflows.")
+       "Emacs client for interacting with the OpenAI API, allowing users to
+ send requests and receive responses directly within the Emacs environment.
+It supports a range of OpenAI services, including text completion, code
+generation, and more, enabling seamless integration of AI-powered tools into
+various Emacs workflows.")
       (license license:gpl3+))))
 
 (define-public emacs-ht
