@@ -9116,6 +9116,28 @@ and outputs from within Emacs.")
       (description "Editor Code Assistant (ECA) integration for Emacs.")
       (license license:asl2.0))))
 
+(define-public emacs-claudemacs
+  (let ((commit "c3a42d7843b6644487f810878d81214a0c66a088")
+        (revision "0"))
+    (package
+      (name "emacs-claudemacs")
+      (version (git-version "0.3.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/cpoile/claudemacs")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1w1swrnk54fnsd8gf4fq1pkvcm0ksj9jqngx479icmrnmcq0d2m2"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f)) ; no tests
+      (home-page "https://github.com/cpoile/claudemacs")
+      (synopsis "AI Pair Programming with Claude Code in Emacs")
+      (description "AI Pair Programming with Claude Code in Emacs")
+      (license license:expat))))
+
 (define-public emacs-kaolin-themes
   (let ((commit
          "facb2a08d3179103d4c3a9905b37c87831fe1665")
