@@ -7164,6 +7164,41 @@ unofficial and based on binaries provided by copilot.vim. Note: You need
 access to GitHub Copilot to use this plugin.")
       (license license:gpl3+))))
 
+(define-public emacs-copilot-chat
+  (let ((commit "444c7a5114ba483c3c37fb95ea2888c5539fc9c8")
+        (revision "0"))
+    (package
+      (name "emacs-copilot-chat")
+      (version (git-version "4.0.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/chep/copilot-chat.el")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1dd2mgwk1bcz4l2mx57fhvyk2pc6b40kpd9kp042m00l4jfdwgfs"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list #:exclude #~(cons "^copilot-chat-mcp\\.el$" %default-exclude)))
+      (propagated-inputs
+       (list
+        emacs-aio
+        emacs-magit
+        emacs-markdown-mode
+        emacs-mcp
+        emacs-org
+        emacs-polymode
+        emacs-request
+        emacs-shell-maker
+        emacs-transient
+        ))
+      (home-page "https://github.com/chep/copilot-chat.el")
+      (synopsis "Chat with Github copilot in Emacs")
+      (description "This package allows you to chat with Github Copilot from within Emacs.")
+      (license license:expat))))
+
 (define-public emacs-ample-zen-theme
   (let ((commit
           "b277bb7abd4b6624e8d59f02474b79af50a007bd")
