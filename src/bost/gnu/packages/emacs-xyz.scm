@@ -10755,20 +10755,20 @@ Information will be saved relative to the pdf being viewed so ensure
       (license license:gpl3+))))
 
 (define-public emacs-helm
-  (let ((commit "eb706b7030958da4e1a30be17f65ec82a9987268")
+  (let ((commit "d178e52895c091c26221f18b9b1236f985c79226")
         (revision "0"))
     (package
       (name "emacs-helm")
-      (version (git-version "4.0.6" revision commit))
+      (version (git-version "4.0.7" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-helm/helm.git")
-               (commit commit)))
+                (url "https://github.com/emacs-helm/helm")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1i5s6gvwzawwfq4mnw4xwg0j8gc32868wm0187gxvci0s28q2iin"))))
+          (base32 "0j668jl8j2ilqsxb8iyw41z69zpp690z34nh16xmwxjm5b3imkrd"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -10792,7 +10792,8 @@ Information will be saved relative to the pdf being viewed so ensure
         emacs-popup
         ))
       (home-page "https://emacs-helm.github.io/helm/")
-      (synopsis "Incremental completion and selection narrowing framework for Emacs")
+      (synopsis
+       "Incremental completion and selection narrowing framework for Emacs")
       (description
        "Helm is an incremental completion and selection narrowing framework for
 Emacs.  It will help steer you in the right direction when you're looking for
