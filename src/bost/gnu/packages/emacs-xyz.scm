@@ -9168,6 +9168,36 @@ and outputs from within Emacs.")
 Emacs and Claude AI for coding assistance.")
       (license license:asl2.0))))
 
+(define-public emacs-claude-code-ide
+  (let ((commit "56db02ee386d009ddb8b1482310f1f9beeefb810"))
+    (package
+      (name "emacs-claude-code-ide")
+      (version "0.2.7")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/manzaltu/claude-code-ide.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "060n6alwgnxqpqcl74c1ixjm0am1pfj2kx7v3wi4bys6dsf50zd8"))))
+      (build-system emacs-build-system)
+      (arguments (list #:tests? #f)) ; no tests
+      (home-page "https://github.com/manzaltu/claude-code-ide.el")
+      (propagated-inputs
+       (list
+        emacs-transient
+        emacs-web-server
+        emacs-websocket
+        ))
+      (synopsis "Claude Code IDE integration for Emacs")
+      (description "Claude Code IDE for Emacs provides seamless integration with Claude
+Code CLI through the Model Context Protocol (MCP).  This package
+enables AI-powered code assistance directly within your Emacs
+workflow.")
+      (license license:gpl3+))))
+
 (define-public emacs-kaolin-themes
   (let ((commit
          "facb2a08d3179103d4c3a9905b37c87831fe1665")
