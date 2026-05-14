@@ -7119,11 +7119,11 @@ documentation, enhancing the Python development experience within Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-copilot
-  (let ((commit "d2126f288cebd9cd7e768c53a4cbfa6eedcb0666")
+  (let ((commit "4aabe0bfaa481d3381dc51a25fe229bf3d2c0a72")
         (revision "0"))
     (package
       (name "emacs-copilot")
-      (version (git-version "0.0.1" revision commit))
+      (version (git-version "0.5.0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -7132,8 +7132,7 @@ documentation, enhancing the Python development experience within Emacs.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "14qnhp9pzilkrkaz2w52ylanjg44idi41dg6g7lqqc4fk0ib12kj"))))
+          (base32 "0hqz18vvhw2rhd27c9avi898bfgkgh69l896hnwq31sqd7ll7p55"))))
       (build-system emacs-build-system)
       (arguments
        (list
@@ -7145,7 +7144,10 @@ documentation, enhancing the Python development experience within Emacs.")
                 (emacs-substitute-variables "copilot.el"
                   ("copilot-node-executable"
                    (search-input-file inputs "/bin/node"))))))))
-      (inputs (list node-lts))
+      (inputs
+       (list
+        node-lts
+        ))
       (propagated-inputs
        (list
         ;; emacs-copilot-balancer
