@@ -7954,8 +7954,7 @@ monochrome theme.")
 
 ;; obsolete - replaced by emacs-color-theme-modern
 (define-public emacs-color-theme
-  (let ((commit
-         "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
+  (let ((commit "3a2f6b615f5e2401e30d93a3e0adc210bbb4b7aa")
         (revision "0"))
     (package
       (name "emacs-color-theme")
@@ -7964,18 +7963,48 @@ monochrome theme.")
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacsattic/color-theme")
-               (commit commit)))
+                (url "https://github.com/emacsattic/color-theme")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32
-           "09imx996afh3j207163kg8sc92hd7wljkpban1pnn6f67bgyrvlv"))))
+          (base32 "09imx996afh3j207163kg8sc92hd7wljkpban1pnn6f67bgyrvlv"))))
       (build-system emacs-build-system)
-      (arguments (list #:tests? #f))
+      (arguments
+       '(#:include
+         '("^[^/]+.el$"
+           "^[^/]+.el.in$"
+           "^dir$"
+           "^[^/]+.info$"
+           "^[^/]+.texi$"
+           "^[^/]+.texinfo$"
+           "^doc/dir$"
+           "^doc/[^/]+.info$"
+           "^doc/[^/]+.texi$"
+           "^doc/[^/]+.texinfo$"
+           "^themes$")
+         #:exclude
+         '("^.dir-locals.el$"
+           "^test.el$"
+           "^tests.el$"
+           "^[^/]+-test.el$"
+           "^[^/]+-tests.el$")
+         #:tests? #f)) ; tests don't run
       (home-page
        "https://github.com/emacsattic/color-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "An OBSOLETE color-theme implementation")
+      (description
+       "This package is obsolete.
+
+Since version 22.1 Emacs has built-in support for themes.  That implementation
+does not derive from the implementation provided by this package.  Back when
+this was new we referred to the new implementation as @code{deftheme} themes, as
+opposed to @code{color-theme} themes.
+
+This package comes with a large collection of themes.  If you still use it
+because you want to use one of those, then you can migrate to the new theme
+implementation.  The @code{color-theme-modern} package ports all themes that are
+bundled with @code{color-theme} to the @code{deftheme} format.  It also ports a
+few third-party themes.")
       (license license:gpl3+))))
 
 (define-public emacs-monochrome-theme
