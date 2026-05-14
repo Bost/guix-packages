@@ -30,6 +30,8 @@
    ;; "emacs-planet"
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
+   "emacs-claude-code-ide"
+   "emacs-copilot"
    "emacs-difftastic"
 
    "emacs-fennel-mode"
