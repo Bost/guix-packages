@@ -4053,7 +4053,7 @@ provides functions to convert hash tables from and to alists and plists.")
 
 ;; bat -r 12662:12693 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-chatgpt
-  (let ((commit "05957238635b1b9087ca3486761f9e3f534cea37")
+  (let ((commit "49f16aad6c78fba3a4827f000710f26de5328693")
         (revision "1"))
     (package
       (name "emacs-chatgpt")
@@ -4066,7 +4066,7 @@ provides functions to convert hash tables from and to alists and plists.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "19ccm7f870dlvsbk5pg3r0sx4v2xwp7pd94n9i3cx6zwphvl7l23"))))
+          (base32 "1dmzi74df0dcn9gi44w651smarrb99zvbxfvqydy79z75avrg8ax"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
