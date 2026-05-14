@@ -9224,6 +9224,83 @@ integration between terminal-based Emacs and other applications, even when
 running over SSH or inside terminal multiplexers like tmux or GNU Screen.")
         (license license:gpl3+))))
 
+(define-public emacs-mcp
+  (let ((commit "125e0a4478ff1404880ea4e593f5e4ff0122cb83")
+        (revision "3"))
+    (package
+      (name "emacs-mcp")
+      (version (git-version "0.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/lizqwerscott/mcp.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "02rapj0vgnml518hr1vxvv7bljpa6ldcnxi676gysng2p1kn4f0q"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/lizqwerscott/mcp.el")
+      (synopsis "Emacs MCP client")
+      (description "MCP.el is an Emacs client for connecting to @acronym{MCP, Model
+Context Protocol} servers.  It supports structured communication with
+both filesystem and generic MCP servers, offers asynchronous and
+synchronous operations, and provides resource management features.
+The package includes an extensible tool and prompt system, server
+lifecycle controls, and integrates with popular Emacs packages such as
+gptel and llm.")
+      (license license:gpl3+))))
+
+(define-public emacs-mcp-server-lib
+  (package
+    (name "emacs-mcp-server-lib")
+    (version "0.2.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/laurynas-biveinis/mcp-server-lib.el")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0qn38iqf75xzz0vkgac2ngv49qv52rbbfpziczb052r5fnl0pzp0"))))
+    (build-system emacs-build-system)
+    (arguments (list #:tests? #f)) ; no tests
+    (home-page "https://github.com/laurynas-biveinis/mcp-server-lib.el")
+    (synopsis "Model Context Protocol server library for Emacs Lisp")
+    (description
+     "This library enables Emacs packages to expose their functionality to AI
+applications via the Model Context Protocol (MCP).  It provides infrastructure
+for Emacs packages to expose their functionality as tools and resources to
+Large Language Models.  Features include a simple API for registering tools
+and resources, handles MCP protocol communication and JSON-RPC messages,
+stdio transport via emacsclient wrapper script, and built-in usage metrics
+and debugging support.")
+    (license license:gpl3+)))
+
+(define-public emacs-mcp-client
+  (let ((commit "11585f6702168ea11e85880f565f5733d17852e0")
+        (revision "2"))
+    (package
+      (name "emacs-mcp-client")
+      (version (git-version "0.1.0" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/r0man/emacs-mcp")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "086gn3p2sv3xzp0pykh7h404iswps6qipd012rlvszsk55an45ak"))))
+      (build-system emacs-build-system)
+      (home-page "https://github.com/r0man/emacs-mcp")
+      (synopsis "Model Context Protocol client for Emacs")
+      (description "This package provides a Model Context Protocol (MCP) client
+implementation for Emacs, enabling integration with AI tools and
+services that support the MCP standard.")
+      (license license:gpl3+))))
+
 (define-public emacs-kaolin-themes
   (let ((commit
          "facb2a08d3179103d4c3a9905b37c87831fe1665")
