@@ -4782,8 +4782,8 @@ dedicated major mode, allowing navigation between lessons using `C-j` and
       (license license:gpl3+))))
 
 (define-public emacs-codegpt
-  (let ((commit "4c2af3fc359afb90d2da21653a52e17a128e0249")
-        (revision "0"))
+  (let ((commit "01602348999ec22ef93600e4f676b2cd63066dc9")
+        (revision "4"))
     (package
       (name "emacs-codegpt")
       (version (git-version "0.1.0" revision commit))
@@ -4791,28 +4791,25 @@ dedicated major mode, allowing navigation between lessons using `C-j` and
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/emacs-openai/codegpt.git")
+               (url "https://github.com/emacs-openai/codegpt")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "17pb2khgxl4x3cvmi6bsi345fqi4g9bwx1cfr0xivr2vgd434l8m"))))
+          (base32 "1kc7q4ipjx3h5wj0a7hpd582ivr1d013xr1q49qaz42rpvqglv38"))))
       (build-system emacs-build-system)
-      (arguments (list #:tests? #f))
+      (arguments (list #:tests? #f)) ; no tests
       (propagated-inputs
        (list
+        emacs-chatgpt
         emacs-spinner
         emacs-markdown-mode
         emacs-openai
         ))
       (home-page "https://github.com/emacs-openai/codegpt")
-      (synopsis "Emacs interface to OpenAI's GPT models for code generation and editing")
-      (description
-       "Integrates OpenAI's GPT models into Emacs, allowing users to generate,
- explain, refactor, and document code directly within the editor.  It provides
-commands such as `codegpt-explain`, `codegpt-fix`, and `codegpt-doc`, and
-supports both completion and chat-based interactions.  Users can customize the
-model, temperature, and token limits, and an OpenAI API key is required for
-usage.")
+      (synopsis "Use GPT-3 inside Emacs")
+      (description "This Emacs Code extension allows you to use the official OpenAI API to
+generate code or natural language responses from OpenAI's GPT-3 to
+your questions, right within the editor.")
       (license license:gpl3+))))
 
 ;; bat -r 25658:25678 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
