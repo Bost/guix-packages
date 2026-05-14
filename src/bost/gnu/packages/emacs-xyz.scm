@@ -9198,6 +9198,32 @@ enables AI-powered code assistance directly within your Emacs
 workflow.")
       (license license:gpl3+))))
 
+(define-public emacs-clipetty
+  (let ((commit "01b39044b9b65fa4ea7d3166f8b1ffab6f740362")
+        (revision "0"))
+      (package
+        (name "emacs-clipetty")
+        (version (git-version "0.0.2" revision commit))
+        (source
+         (origin
+           (method git-fetch)
+           (uri (git-reference
+                  (url "https://github.com/spudlyo/clipetty")
+                  (commit commit)))
+           (file-name (git-file-name name version))
+           (sha256
+            (base32 "1g1awdcqzrnw1a6gl4n87a97lniyn0ck5a51l9n6jz2m8k3idmsg"))))
+        (build-system emacs-build-system)
+        (home-page "https://github.com/spudlyo/clipetty")
+        (synopsis "Send Emacs kill-ring to system clipboard in TTY")
+        (description
+         "Clipetty enables clipboard sharing when using Emacs in a terminal (TTY)
+environment.  It sends text that you kill in Emacs to your operating system's
+clipboard using OSC 52 escape sequences.  This allows seamless clipboard
+integration between terminal-based Emacs and other applications, even when
+running over SSH or inside terminal multiplexers like tmux or GNU Screen.")
+        (license license:gpl3+))))
+
 (define-public emacs-kaolin-themes
   (let ((commit
          "facb2a08d3179103d4c3a9905b37c87831fe1665")
