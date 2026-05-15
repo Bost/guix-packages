@@ -31,7 +31,7 @@
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
    "emacs-claude-code-ide"
-   "emacs-copilot"
+   ;; "emacs-copilot" ; doesn't compile
    "emacs-difftastic"
 
    "emacs-fennel-mode"
