@@ -22803,37 +22803,6 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                               ))
         #:phases
         #~(modify-phases %standard-phases
-            (add-after 'unpack 'patch-bump-version
-              (lambda* (#:key inputs #:allow-other-keys)
-                ;; Needed for `guix build --with-input=emacs-minimal=emacs emacs-spacemacs`
-                (substitute* "layers/+spacemacs/spacemacs-org/config.el"
-                  (("^") ";; -*- no-byte-compile: t -*-\n"))))
-
-            (add-after 'unpack 'patch-file
-              (lambda* (#:key inputs outputs #:allow-other-keys)
-                (map (lambda (file)
-                       (substitute* file
-                         (("(\\s+)user-emacs-directory" all indent)
-                          (string-append
-                           indent
-                           (format #f "~a"
-                                   '(concat (getenv "\"XDG_DATA_HOME\"") "\"/spacemacs/spguix/\""))))))
-                     (list
-                      "core/libs/quelpa.el"
-                      "core/core-funcs.el"
-                      "core/core-load-paths.el"
-                      "core/core-configuration-layer.el"))
-
-                (substitute* "core/core-load-paths.el"
-                  (("(\\(make-directory spacemacs-cache-directory 'parents\\))" all match)
-                   (string-append ";; " match)))
-
-                (let ((python (search-input-file inputs "bin/python")))
-                  (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
-                    (("/usr/bin/env python") python))
-                  (substitute* "layers/+lang/c-c++/global_conf.py"
-                    (("/usr/bin/env python") python)))))
-
             (add-after 'unpack 'add-emacs-load-path
               ;; add-before 'compile 'add-emacs-load-path
               (lambda* (#:key inputs #:allow-other-keys)
@@ -22861,29 +22830,103 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                                    )
                            ))))))
 
-            (add-after 'unpack 'patch-macros-available-at-compile-time
-              (lambda _
-                (substitute* "core/core-jump.el"
-                  (("(^\\(spacemacs\\|eval-until-emacs-min-version\\b)" line)
-                   (string-join
-                    (list
-                     ";; Define spacemacs|eval-until-emacs-min-version"
-                     "(eval-when-compile (require 'core-versions))"
-                     line) "\n")))
-                #t))
-            (add-after 'unpack 'keep-remove-byte-compiled-files
-              (lambda _
-                (substitute* "core/core-spacemacs.el"
-                  (("(\\(spacemacs//remove-byte-compiled-files-in-dir spacemacs-core-directory\\))"
-                    all match)
-                   (string-append ";; " match "\n    ")
-                   ))
-                #t))
+            ;; Must be done when running 'guix build' otherwise
+            ;;    Error: permission-denied ("Creating directory" "Permission denied" "/spacemacs")
+            ;;    signal(permission-denied ("Creating directory" "Permission denied" "/spacemacs"))
+            ;;    files--ensure-directory("/spacemacs")
+            ;;    make-directory("/spacemacs/spguix/.cache/" parents)
+            (add-after 'unpack 'patch-user-emacs-directory
+              (lambda* (#:key inputs outputs #:allow-other-keys)
+                (map (lambda (file)
+                       (substitute* file
+                         (("(\\s+)user-emacs-directory" all indent)
+                          (string-append
+                           indent
+                           (format #f "~a"
+                                   '(concat (getenv "\"XDG_DATA_HOME\"")
+                                            "\"/spacemacs/spguix/\""))))))
+                     (list
+                      "core/libs/quelpa.el"
+                      "core/core-funcs.el"
+                      "core/core-load-paths.el"
+                      "core/core-configuration-layer.el"))))
 
-            ;; (replace 'build (lambda* args #t)) ; stop the build
+            (add-after 'unpack 'patch-python-env
+              (lambda* (#:key inputs outputs #:allow-other-keys)
+                (let ((python (search-input-file inputs "bin/python")))
+                  (substitute* "layers/+lang/python/local/pylookup/pylookup.py"
+                    (("/usr/bin/env python") python))
+                  (substitute* "layers/+lang/c-c++/global_conf.py"
+                    (("/usr/bin/env python") python)))))
+
+            (add-before 'build 'spacemacs-preload-macros
+              (lambda* (#:key inputs #:allow-other-keys)
+                (let* ((init-file "/tmp/spacemacs-preload.el"))
+                  (call-with-output-file init-file
+                    (lambda (port)
+                      (display
+                       "
+;; --- Preload environment for byte compilation ---
+
+;; Ensure load-path is correct
+(setq load-path (append load-path
+                        (split-string (or (getenv \"EMACSLOADPATH\") \"\") \":\" t)))
+
+;; Be permissive
+(setq load-prefer-newer t)
+
+;; Load all Spacemacs funcs.el files (macros live here)
+(dolist (dir load-path)
+  (let ((f (expand-file-name \"funcs.el\" dir)))
+    (when (file-exists-p f)
+      (ignore-errors (load f nil t)))))
+
+;; Load common macro providers explicitly
+(dolist (pkg '(cl-lib
+               use-package
+               treemacs-logging
+               dash
+               s
+               f))
+  (ignore-errors (require pkg nil t)))
+
+;; Avoid warnings becoming errors
+(setq byte-compile-warnings nil)
+
+;; ------------------------------------------------
+"
+                       port)))
+
+                  ;; Wrap Emacs so every compilation uses this preload file
+                  (setenv "EMACSLOADPATH" (getenv "EMACSLOADPATH"))
+                  (setenv "EMACS"
+                          (string-join
+                           (list
+                            "emacs --batch"
+;;                             "--eval" "(progn
+;;   (require 'treemacs-logging)
+;;   ;; (require 'cl-lib)
+;; )"
+                            "--load" init-file)
+                           " "))
+
+                  #t)))
+
+            (add-before 'build 'inspect-build-environment
+              (lambda* (#:key inputs #:allow-other-keys)
+                (format #t "### EMACS:\n~a\n\n" (getenv "EMACS"))
+                (format #t "### EMACSLOADPATH:\n~a\n\n" (getenv "EMACSLOADPATH"))
+                (format #t "### inputs:\n~a\n\n" inputs)
+                #t))
+            ;; (replace 'build (lambda* args (format #t "Build interrupted.\n") #t))
             )))
+      ;; Will be in the resulting binary file
       (inputs            (package-inputs emacs))
+
+      ;; E.g. built-time utils not needed during run-time
       (native-inputs     (package-native-inputs emacs))
+
+      ;; will be added to user profile
       (propagated-inputs (modify-inputs (package-propagated-inputs emacs)
                            (append
                             python-wrapper
@@ -22919,7 +22962,6 @@ as a command in AUCTeX and supports customization through Emacs variables.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-;; (testsymb 'emacs-spacemacs)
 
 (define* (make-packages emacs-package spacemacs-package
                         #:optional (name "emacs-spacemacs-wrapped"))
@@ -22963,10 +23005,6 @@ the use of Spacemacs without conflicting with the base Emacs."
      (synopsis (package-synopsis spacemacs-package))
      (description (package-description spacemacs-package))
      (license (package-license spacemacs-package))))
-;; (testsymb 'make-packages)
 
 (define-public emacs-spacemacs-wrapped
   (make-packages emacs emacs-spacemacs))
-;; (testsymb 'emacs-spacemacs-wrapped)
-
-;; (module-evaluated)
