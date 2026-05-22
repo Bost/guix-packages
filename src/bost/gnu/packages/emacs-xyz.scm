@@ -22927,33 +22927,38 @@ as a command in AUCTeX and supports customization through Emacs variables.")
       (native-inputs     (package-native-inputs emacs))
 
       ;; will be added to user profile
-      (propagated-inputs (modify-inputs (package-propagated-inputs emacs)
-                           (append
-                            python-wrapper
-                            emacs-toc-org
-                            emacs-gist
-                            emacs-s
-                            emacs-consult
-                            emacs-helm
-                            emacs-helm-org
-                            emacs-ivy
-                            emacs-evil
-                            emacs-bind-map
-                            emacs-window-purpose
-                            emacs-evil-evilified-state
-                            bst:emacs-dash
-                            bst:emacs-f
-                            ;; Needed for the `defpowerline' macro in layers/+spacemacs/spacemacs-modeline/packages.el
-                            emacs-powerline
-                            ;; Needed for the `evilem-create' macro in layers/+spacemacs/spacemacs-editing/packages.el
-                            emacs-evil-easymotion
-                            ;; Needed for the `spaceline-define-segment' macro in layers/+spacemacs/spacemacs-modeline/packages.el
-                            emacs-spaceline
-                            ;; Needed for the `vhl/define-extension' macro in layers/+spacemacs/spacemacs-editing-visual/packages.el
-                            emacs-volatile-highlights
-                            ;; Needed for the `evil-define-key' macro in layers/+completion/helm/packages.el
-                            emacs-evil
-                            )))
+      (propagated-inputs
+       (modify-inputs
+        (package-propagated-inputs emacs)
+        (append
+         python-wrapper
+         emacs-toc-org
+         emacs-gist
+         emacs-s
+         emacs-consult
+         emacs-helm
+         emacs-helm-org
+         emacs-ivy
+         emacs-evil
+         emacs-bind-map
+         emacs-window-purpose
+         emacs-evil-evilified-state
+         bst:emacs-dash
+         bst:emacs-f
+         ;; For ... macro in ...
+         ;; defpowerline in layers/+spacemacs/spacemacs-modeline/packages.el
+         emacs-powerline
+         ;; evilem-create in layers/+spacemacs/spacemacs-editing/packages.el
+         emacs-evil-easymotion
+         ;; spaceline-define-segment in layers/+spacemacs/spacemacs-modeline/packages.el
+         emacs-spaceline
+         ;; vhl/define-extension in layers/+spacemacs/spacemacs-editing-visual/packages.el
+         emacs-volatile-highlights
+         ;; evil-define-key in layers/+completion/helm/packages.el
+         emacs-evil
+         ;; treemacs-without-messages in layers/+filetree/treemacs/funcs.el
+         emacs-treemacs
+         )))
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
