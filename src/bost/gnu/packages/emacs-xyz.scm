@@ -22918,7 +22918,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                 (format #t "### EMACSLOADPATH:\n~a\n\n" (getenv "EMACSLOADPATH"))
                 (format #t "### inputs:\n~a\n\n" inputs)
                 #t))
-            ;; (replace 'build (lambda* args (format #t "Build interrupted.\n") #t))
+            ;; (replace 'build (lambda* _ (format #t "Build skipped.\n") #t))
             )))
       ;; Will be in the resulting binary file
       (inputs            (package-inputs emacs))
