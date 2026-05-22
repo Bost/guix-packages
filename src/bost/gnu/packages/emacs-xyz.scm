@@ -22859,58 +22859,58 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                   (substitute* "layers/+lang/c-c++/global_conf.py"
                     (("/usr/bin/env python") python)))))
 
-            (add-before 'build 'spacemacs-preload-macros
-              (lambda* (#:key inputs #:allow-other-keys)
-                (let* ((init-file "/tmp/spacemacs-preload.el"))
-                  (call-with-output-file init-file
-                    (lambda (port)
-                      (display
-                       "
-;; --- Preload environment for byte compilation ---
-
-;; Ensure load-path is correct
-(setq load-path (append load-path
-                        (split-string (or (getenv \"EMACSLOADPATH\") \"\") \":\" t)))
-
-;; Be permissive
-(setq load-prefer-newer t)
-
-;; Load all Spacemacs funcs.el files (macros live here)
-(dolist (dir load-path)
-  (let ((f (expand-file-name \"funcs.el\" dir)))
-    (when (file-exists-p f)
-      (ignore-errors (load f nil t)))))
-
-;; Load common macro providers explicitly
-(dolist (pkg '(cl-lib
-               use-package
-               treemacs-logging
-               dash
-               s
-               f))
-  (ignore-errors (require pkg nil t)))
-
-;; Avoid warnings becoming errors
-(setq byte-compile-warnings nil)
-
-;; ------------------------------------------------
-"
-                       port)))
-
-                  ;; Wrap Emacs so every compilation uses this preload file
-                  (setenv "EMACSLOADPATH" (getenv "EMACSLOADPATH"))
-                  (setenv "EMACS"
-                          (string-join
-                           (list
-                            "emacs --batch"
-;;                             "--eval" "(progn
-;;   (require 'treemacs-logging)
-;;   ;; (require 'cl-lib)
-;; )"
-                            "--load" init-file)
-                           " "))
-
-                  #t)))
+;;             (add-before 'build 'spacemacs-preload-macros
+;;               (lambda* (#:key inputs #:allow-other-keys)
+;;                 (let* ((init-file "/tmp/spacemacs-preload.el"))
+;;                   (call-with-output-file init-file
+;;                     (lambda (port)
+;;                       (display
+;;                        "
+;; ;; --- Preload environment for byte compilation ---
+;;
+;; ;; Ensure load-path is correct
+;; (setq load-path (append load-path
+;;                         (split-string (or (getenv \"EMACSLOADPATH\") \"\") \":\" t)))
+;;
+;; ;; Be permissive
+;; (setq load-prefer-newer t)
+;;
+;; ;; Load all Spacemacs funcs.el files (macros live here)
+;; (dolist (dir load-path)
+;;   (let ((f (expand-file-name \"funcs.el\" dir)))
+;;     (when (file-exists-p f)
+;;       (ignore-errors (load f nil t)))))
+;;
+;; ;; Load common macro providers explicitly
+;; (dolist (pkg '(cl-lib
+;;                use-package
+;;                treemacs-logging
+;;                dash
+;;                s
+;;                f))
+;;   (ignore-errors (require pkg nil t)))
+;;
+;; ;; Avoid warnings becoming errors
+;; (setq byte-compile-warnings nil)
+;;
+;; ;; ------------------------------------------------
+;; "
+;;                        port)))
+;;
+;;                   ;; Wrap Emacs so every compilation uses this preload file
+;;                   (setenv "EMACSLOADPATH" (getenv "EMACSLOADPATH"))
+;;                   (setenv "EMACS"
+;;                           (string-join
+;;                            (list
+;;                             "emacs --batch"
+;; ;;                             "--eval" "(progn
+;; ;;   (require 'treemacs-logging)
+;; ;;   ;; (require 'cl-lib)
+;; ;; )"
+;;                             "--load" init-file)
+;;                            " "))
+;;
+;;                   #t)))
 
             (add-before 'build 'inspect-build-environment
               (lambda* (#:key inputs #:allow-other-keys)
