@@ -4787,7 +4787,7 @@ different backends")
 (define-public koboldcpp
   (package
     (name "koboldcpp")
-    (version "1.113.2")
+    (version "1.114")
     (source
      (origin
        (method git-fetch)
@@ -4803,7 +4803,7 @@ different backends")
             (delete-file-recursively "lib")
             (for-each delete-file (find-files "." "\\.(dll|exe|bat)$"))))
        (sha256
-        (base32 "18i6lsbs0vhnphn9l7sxryd977nby6pnjg07y9rhbq1v10vpcq1m"))))
+        (base32 "0qdawsg8drvyi1whwq286zgpvxppzlyv4jh9w9vw04k4xswsc9w6"))))
     (build-system gnu-build-system)
     (arguments
      (list
