@@ -22681,7 +22681,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 ;; (build-derivations daemon (list (package-derivation daemon emacs-spacemacs)))
 
 (define-public emacs-spacemacs
-  (let ((commit "9708fdfa701e99cb4f53bf71806d683728499900")
+  (let ((commit "1670fabd574884fee0a558ce7be0c77f4895424a")
         (revision "0"))
     (package
       (name "emacs-spacemacs")
@@ -22694,7 +22694,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0chdzc7clqifcm1i2hm6vjqkvb917mjr2kn2pvw8gmhlw3mc6mw2"))))
+          (base32 "01nbgww298lw0k679mlqrgj0880w5b4xa379bs5cc7z4sbg3588l"))))
       (build-system emacs-build-system)
       (arguments
        (list
