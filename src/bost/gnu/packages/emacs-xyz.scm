@@ -155,7 +155,7 @@
 ;; (evaluating-module)
 
 (define-public emacs-difftastic
-  (let ((commit "b33554a22c637f147d07c15fa9539c72bcfcfca0")
+  (let ((commit "7db20929cac31687a529943c3d8d5b44fd8d69e2")
         (revision "0"))
     (package
       (name "emacs-difftastic")
@@ -169,7 +169,7 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1rc5gnb1hdlh7gjpg8igrrzcvxk53h76mcbnbhmfdhxfixb2xh8r"))))
+           "0x9xsc491y2z6z7pyq372y3ppawf8k7xlv62c111cyhgz24m92wd"))))
       (build-system emacs-build-system)
       (arguments
        (list
