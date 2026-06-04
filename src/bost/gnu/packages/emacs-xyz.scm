@@ -9067,7 +9067,7 @@ and outputs from within Emacs.")
         (revision "4"))
     (package
       (name "emacs-claude-code")
-      (version (git-version "0.0.1" revision commit))
+      (version (git-version "0.4.5" revision commit))
       (source
        (origin
          (method git-fetch)
