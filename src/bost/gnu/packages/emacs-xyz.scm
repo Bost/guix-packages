@@ -9092,6 +9092,41 @@ and outputs from within Emacs.")
 Emacs and Claude AI for coding assistance.")
       (license license:asl2.0))))
 
+(define-public emacs-claude-code-emacs
+  (let ((commit "4d460e2fa56e6919a9fc4f9b985592a983f9f724")
+        (revision "0"))
+    (package
+      (name "emacs-claude-code")
+      (version (git-version "0.9.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/yuya373/claude-code-emacs")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "076xb0193bjav8g03l6sjlb4pgwhnkbvri69lj3lcn8mqj2swxcz"))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:include #~(cons "^bin\\/" %default-include)
+        #:tests? #f)) ; There are no tests.
+      (propagated-inputs
+       (list emacs-inheritenv
+             emacs-markdown-mode
+             emacs-projectile
+             emacs-transient
+             emacs-vterm))
+      (home-page "https://github.com/stevemolitor/claude-code.el")
+      (synopsis "Claude Code Emacs integration")
+      (description
+       "This package provides convenient ways to interact with Claude from
+within Emacs, including sending commands, toggling the Claude window, and
+accessing slash commands.")
+      (license license:asl2.0))))
+
 (define-public emacs-claude-code-ide
   (let ((commit "56db02ee386d009ddb8b1482310f1f9beeefb810"))
     (package
