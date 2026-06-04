@@ -12775,7 +12775,7 @@ been copied from an Emacs major mode.")
 (define-public emacs-helpful
   (let ((commit
          "ced07fe0d48ce1111d7a8376fdbfef34d927c967" ; 0.21
-         ;; "03756fa6ad4dcca5e0920622b1ee3f70abfc4e39" ; latest
+         ;; "03756fa6ad4dcca5e0920622b1ee3f70abfc4e39" ; latest; doesn't build
          )
         (revision "0"))
     (package
