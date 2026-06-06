@@ -30,6 +30,9 @@
    ;; "emacs-planet"
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
+
+   "emacs-dired-preview" ; Automatically preview file at point in Dired
+
    "emacs-claude-code-ide"
    ;; "emacs-copilot" ; doesn't compile
    "emacs-difftastic"
