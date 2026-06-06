@@ -22793,7 +22793,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
             ;;    Error: permission-denied ("Creating directory" "Permission denied" "/spacemacs")
             ;;    signal(permission-denied ("Creating directory" "Permission denied" "/spacemacs"))
             ;;    files--ensure-directory("/spacemacs")
-            ;;    make-directory("/spacemacs/spguix/.cache/" parents)
+            ;;    make-directory("/spacemacs/spgx/.cache/" parents)
             (add-after 'unpack 'patch-user-emacs-directory
               (lambda* (#:key inputs outputs #:allow-other-keys)
                 (map (lambda (file)
@@ -22803,7 +22803,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                            indent
                            (format #f "~a"
                                    '(concat (getenv "\"XDG_DATA_HOME\"")
-                                            "\"/spacemacs/spguix/\""))))))
+                                            "\"/spacemacs/spgx/\""))))))
                      (list
                       "core/libs/quelpa.el"
                       "core/core-funcs.el"

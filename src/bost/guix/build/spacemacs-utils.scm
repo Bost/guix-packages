@@ -28,7 +28,7 @@
 (define m (module-name-for-logging))
 (evaluating-module)
 
-(define spguix "$XDG_DATA_HOME/spacemacs/spguix")
+(define spgx "$XDG_DATA_HOME/spacemacs/spgx")
 
 (define (create-initialization-code spacemacs)
   "Create elisp code that sets spacemacs-specific variables and then loads the
@@ -60,11 +60,11 @@ $XDG_RUNTIME_DIR
       ;;       (concat "~/.emacs.d.spguimacs/"))
 
       (setq spacemacs-private-directory
-            (concat ,spguix "/private/"))
+            (concat ,spgx "/private/"))
 
       (setq spacemacs-cache-directory
             ;; XDG_CACHE_HOME
-            (concat ,spguix "/.cache/"))
+            (concat ,spgx "/.cache/"))
 
       (mapcar (lambda (dir)
                 (unless (file-directory-p dir)
@@ -89,7 +89,7 @@ the command line."
                        (string-append
                         "#!" shell
                         "\n\n"
-                        (format #f "SPACEMACSDIR=\"~a\"\n" spguix))
+                        (format #f "SPACEMACSDIR=\"~a\"\n" spgx))
                        (string-join (list "exec" "-a" shell
                                           executable (string-join args)
                                           "\"$@\"")))))
@@ -139,7 +139,7 @@ with Spacemacs code preloaded."
                     (string-append out "/spacemacsclient")
                     (string-append emacs "client")
                     "--no-wait"
-                    (format #f "--socket-name=\"~a/server\"" spguix)
+                    (format #f "--socket-name=\"~a/server\"" spgx)
                     ))
 (testsymb 'spacemacs-builder)
 
