@@ -5551,56 +5551,6 @@ configurations.")
 development.")
       (license license:gpl3+))))
 
-(define-public emacs-forge
-  (let ((commit "ca6c2ae18cbe2c9795832ee9a73fab8b245831d3")
-        (revision "0"))
-    (package
-      (name "emacs-forge")
-      (version (git-version "0.5.3" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/magit/forge.git")
-                (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "11mpb6g4ga4dvkj574s6y8ligj33fjmhgg6hg6jbbgqrykzqcdkp"))))
-      (build-system emacs-build-system)
-      (arguments
-       `(#:tests? #f                     ;no tests
-         #:phases
-         (modify-phases %standard-phases
-           (add-after 'unpack 'build-info-manual
-             (lambda _
-               (invoke "make" "info")
-               ;; Move the info file to lisp so that it gets installed by the
-               ;; emacs-build-system.
-               (rename-file "docs/forge.info" "lisp/forge.info")))
-           (add-after 'build-info-manual 'chdir-lisp
-             (lambda _
-               (chdir "lisp"))))))
-      (native-inputs
-       (list
-        texinfo
-        ))
-      (propagated-inputs
-       (list
-        emacs-closql
-        emacs-emacsql
-        emacs-ghub
-        emacs-llama
-        emacs-let-alist
-        emacs-magit
-        emacs-markdown-mode
-        emacs-yaml
-        ))
-      (home-page "https://github.com/magit/forge/")
-      (synopsis "Access Git forges from Magit")
-      (description "Work with Git forges, such as Github and Gitlab, from the
-comfort of Magit and the rest of Emacs.")
-      (license license:gpl3+))))
-
 (define-public emacs-uuidgen
   (let ((commit "cebbe09d27c63abe61fe8c2e2248587d90265b59")
         (revision "0"))
@@ -6096,27 +6046,6 @@ allows easily move between them.")
     (description
      "This package provides text objects and operators for comments within
 @code{evil-mode}.")
-    (license license:gpl3+)))
-
-(define-public emacs-zenburn-theme
-  (package
-    (name "emacs-zenburn-theme")
-    (version "2.8.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-              (url "https://github.com/bbatsov/zenburn-emacs")
-              (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "00zyx2knfchxkml19kf4wfgigsbgzqf47mvbgrmk3nfznnnnyvmf"))))
-    (build-system emacs-build-system)
-    (home-page "https://github.com/bbatsov/zenburn-emacs")
-    (synopsis "Low contrast color theme for Emacs")
-    (description
-     "Zenburn theme is a port of the popular Vim Zenburn theme for Emacs.
-It is built on top of the custom theme support in Emacs 24 or later.")
     (license license:gpl3+)))
 
 (define-public emacs-loop
