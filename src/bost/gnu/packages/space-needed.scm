@@ -31,11 +31,12 @@
    ;; "emacs-pollen-mode"
    ;; "emacs-sql"
 
+   "emacs-efrit"         ; Native elisp coding agent running in Emacs
+   "emacs-flycheck-guile"
    "emacs-dired-preview" ; Automatically preview file at point in Dired
-
    "emacs-claude-code-ide"
    ;; "emacs-copilot" ; doesn't compile
-   "emacs-difftastic"
+   "emacs-difftastic"   ; Wrapper interface for `difft' command line tool
 
    "emacs-fennel-mode"
    "emacs-auctex-latexmk"
