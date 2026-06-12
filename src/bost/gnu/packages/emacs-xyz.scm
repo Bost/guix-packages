@@ -8872,8 +8872,8 @@ providing support for a lot of modes.")
         emacs-flycheck
         ))
       (home-page "https://github.com/candid82/flycheck-joker")
-      (synopsis "")
-      (description "")
+      (synopsis "Clojure syntax checker (via Joker) for flycheck")
+      (description "Clojure syntax checker (via Joker) for flycheck")
       (license license:gpl3+))))
 
 (define-public emacs-kaocha-runner
