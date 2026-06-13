@@ -11965,17 +11965,7 @@ which avoids some of the issues with using Emacs’s built-in Url library.")
            (sha256
             (base32 "0k1c2z0minbaxdgfjxng8spivnnq8kqw6za4p46r7xlzx7m365qj"))))
         (build-system emacs-build-system)
-        (arguments
-         (list
-          #:tests? #f
-          #:modules bst:modules
-          #:imported-modules bst:imported-modules
-          #:phases
-          #~(modify-phases %standard-phases
-              (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-                (lambda* (#:key outputs #:allow-other-keys)
-                  (bst:write-pkg-file "plz-media-type")
-                  )))))
+        (arguments (list #:tests? #f))
         (propagated-inputs (list emacs-plz))
         (home-page "https://github.com/r0man/plz-media-type")
         (synopsis "HTTP media type extension for plz.el")
@@ -11987,42 +11977,6 @@ header.  This library defines various classes and methods for parsing and
 processing standard MIME types, including JSON, XML, HTML, and binary data, in
 a streaming and non-streaming way.")
         (license license:gpl3+))))
-
-(define-public emacs-plz-event-source
-  (let ((commit "de89214ce14e2b82cbfdc30e1adcf3e77b1f250a")
-        (revision "0"))
-    (package
-      (name "emacs-plz-event-source")
-      (version (git-version "0.1.3" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-                (url "https://github.com/r0man/plz-event-source.git")
-                (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1fh3pvksbyv16ml617wgwga2wjymvx0l6xyf7f4fyhffg5wkzbdl"))))
-      (build-system emacs-build-system)
-      (arguments
-       (list
-        #:tests? #f
-        #:modules bst:modules
-        #:imported-modules bst:imported-modules
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "plz-event-source")
-                )))))
-      (propagated-inputs (list emacs-plz-media-type))
-      (home-page "https://github.com/r0man/plz-event-source")
-      (synopsis "Server Sent Events extension for Plz")
-      (description
-       "The @code{plz-event-source} library provides a @code{plz-media-type},
-a parser, and an event source implementation for the @acronym{SSE, Server Sent
-Event} protocol.")
-      (license license:gpl3+))))
 
 (define-public emacs-org-rich-yank
   (let ((commit "8f73e833eac9c0eb686416962d5bdd369d80c1e8")
