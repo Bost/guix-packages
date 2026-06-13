@@ -7,7 +7,7 @@ See `info "(guix) Invoking guix import"`
 "Add a package to the distribution with as little work as possible"
 
 ```fish
-set --local lp <checkout-dir>/src/bost/packages/patches
+set --local lp <checkout-dir>/src
 guix pull                    && guix upgrade --load-path=$lp
 # or eventually
 guix pull --allow-downgrades && guix upgrade --load-path=$lp
