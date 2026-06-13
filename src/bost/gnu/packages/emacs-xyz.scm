@@ -11598,10 +11598,66 @@ match Drupal Coding Standards.")
       (license license:gpl3))))
 
 ;; Required by <path/to/spacemacs>/layers/+checkers/spell-checking/packages.el
-(define-public emacs-flyspell-correct-helm
+(define-public emacs-flyspell-correct
   (package
-    (inherit emacs-flyspell-correct)
-    (name "emacs-flyspell-correct-helm")))
+    (name "emacs-flyspell-correct")
+    (version "1.0.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/d12frosted/flyspell-correct")
+              (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1f9q9i5k34kg13lnhl2vzc3w8gvh5mzpv557mj9sngaqvgw03nzx"))))
+    (build-system emacs-build-system)
+    ;; XXX: emacs-avy-menu is not packaged, so we ignore the file below.
+    (arguments
+     (list
+      #:modules bst:modules
+      #:imported-modules bst:imported-modules
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-before 'check 'set-home
+            (lambda _
+              (setenv "HOME" (getenv "TMPDIR"))))
+          (add-before 'check 'remove-avy-menu-dependency
+            (lambda _
+              (delete-file "flyspell-correct-avy-menu.el")))
+
+          (add-after 'ensure-package-description 'add-needed-pkg-descriptions
+            (lambda* (#:key outputs #:allow-other-keys)
+              ;; The commented packages out are part of the Emacs
+              (map bst:write-pkg-file
+                   (list
+                    "flyspell-correct-helm"
+                    "flyspell-correct-ivy"
+                    "flyspell-correct-popup"
+                    ))))
+          )
+      #:test-command
+      #~(list #$(file-append (this-package-native-input "makem")
+                             "/bin/makem.sh") "test")))
+    (native-inputs
+     (list
+      emacs-buttercup
+      ispell
+      makem-minimal
+      ))
+    (propagated-inputs
+     (list
+      emacs-helm
+      emacs-ivy
+      emacs-popup
+      ))
+    (home-page "https://github.com/d12frosted/flyspell-correct")
+    (synopsis "Correcting words with flyspell via custom interfaces")
+    (description
+     "This package provides functionality for correcting words via custom
+interfaces.  Several interfaces are supported beside the classic Ido: Popup,
+Helm and Ivy.")
+    (license license:gpl3+)))
 
 (define-public emacs-helm-fish-completion
   (let ((commit "1e7a5a56362dd875dddf848b9a9e25d1395b9d37")
