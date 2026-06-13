@@ -21819,6 +21819,36 @@ used to link to certain Magit buffers.  Use the command
 Later you can insert it into an Org buffer using the command
 @code{org-insert-link}.")
     (license license:gpl3+)))
+
+(define-public emacs-orgit-forge
+  (package
+    (name "emacs-orgit-forge")
+    (version "1.1.2")
+    (home-page "https://github.com/magit/orgit-forge")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url home-page)
+              (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0fawwd2yys89kyp1q03xng9azgmbdai067m60x0agahrpvgdrysm"))))
+    (build-system emacs-build-system)
+    (arguments (list #:tests? #f))       ; no tests
+    (propagated-inputs
+     (list
+      emacs-compat
+      emacs-forge
+      emacs-magit
+      emacs-orgit
+      ))
+    (synopsis "Org links to Forge issue buffers")
+    (description
+     "This package defines the Org link type @code{orgit-topic}, which can be
+used to link to Forge topic buffers.")
+    (license license:gpl3)))
+
 (define-public emacs-orgmdb
   (package
     (name "emacs-orgmdb")
