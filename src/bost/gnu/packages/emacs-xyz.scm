@@ -15193,7 +15193,7 @@ manager.")
   ;; Commit message claims this is 1.15.0, but there's no tag for it, so we
   ;; use full git-version instead
   (let ((commit
-         "334a636621577e77f834bca0c6ecdcec67c6ff1e"
+         "3b678a221ee99cc6a95b01d7a3129ce5efc4c3da"
          )
         (revision "0"))
     (package
@@ -15208,7 +15208,7 @@ manager.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1a10912xzq6wixyf9n0fh05ngavd9cg6m1rb3n2b1ivlnpzv21pv"
+           "18hqjh4vz2pq40bvnrmshg1w5msq1b17l20vv5j6a76a2a7iqy8x"
            ))))
       (build-system emacs-build-system)
       (arguments
