@@ -11920,7 +11920,7 @@ API key.")
        (origin
          (method git-fetch)
          (uri (git-reference
-                (url "https://github.com/alphapapa/plz.el.git")
+                (url "https://github.com/alphapapa/plz.el")
                 (commit commit)))
          (file-name (git-file-name name version))
          (sha256
@@ -11929,18 +11929,12 @@ API key.")
       (arguments
        (list
         #:tests? #f                       ;require internet access
-        #:modules bst:modules
-        #:imported-modules bst:imported-modules
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'substitute-curl-path
               (lambda* (#:key inputs #:allow-other-keys)
                 (emacs-substitute-variables "plz.el"
-                  ("plz-curl-program" (search-input-file inputs "/bin/curl")))))
-            (add-after 'ensure-package-description 'add-needed-pkg-descriptions
-              (lambda* (#:key outputs #:allow-other-keys)
-                (bst:write-pkg-file "plz")
-                )))))
+                  ("plz-curl-program" (search-input-file inputs "/bin/curl"))))))))
       (inputs (list curl))
       (home-page "https://github.com/alphapapa/plz.el")
       (synopsis "HTTP library for Emacs")
