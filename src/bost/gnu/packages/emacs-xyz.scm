@@ -21182,6 +21182,7 @@ the use of Spacemacs without conflicting with the base Emacs."
     (description
      "This is an Emacs minor mode for editing Ansible files.")
     (license license:gpl2+)))
+
 (define-public emacs-attrap
   (package
     (name "emacs-attrap")
@@ -21203,6 +21204,7 @@ the use of Spacemacs without conflicting with the base Emacs."
     (description "This package provides a command to fix the Flycheck error
 at point.")
     (license license:gpl3+)))
+
 (define-public emacs-auto-sudoedit
   (package
     (name "emacs-auto-sudoedit")
@@ -21225,6 +21227,7 @@ at point.")
      "This package automatically reopens a file or directory with
 @command{sudo} if it cannot write to it.")
     (license license:expat)))
+
 (define-public emacs-calibredb
   (package
     (name "emacs-calibredb")
@@ -21283,6 +21286,7 @@ at point.")
 @item Org-ref support.
 @end enumerate")
     (license license:gpl3)))
+
 (define-public emacs-cfrs
   (package
     (name "emacs-cfrs")
@@ -21305,6 +21309,7 @@ at point.")
      "CFRS is a simple alternative to @code{read-string} that allows reading
 input via a small child-frame spawned at the position of the cursor.")
     (license license:gpl3+)))
+
 (define-public emacs-clojure-mode
   (package
     (name "emacs-clojure-mode")
@@ -21330,6 +21335,7 @@ input via a small child-frame spawned at the position of the cursor.")
 refactoring for the @uref{http://clojure.org, Clojure programming language}.
 It is recommended to use @code{clojure-mode} with Paredit or Smartparens.")
     (license license:gpl3+)))
+
 (define-public emacs-docker
   (package
     (name "emacs-docker")
@@ -21357,6 +21363,7 @@ It is recommended to use @code{clojure-mode} with Paredit or Smartparens.")
     (synopsis "Manage docker from Emacs")
     (description "This package provides an Emacs interface for Docker.")
     (license license:gpl3+)))
+
 (define-public emacs-dumb-jump
   (package
     (name "emacs-dumb-jump")
@@ -21456,6 +21463,7 @@ with absolutely no stored indexes (tags) or persistent background processes.
 Dumb Jump performs best with The Silver Searcher @command{ag} or ripgrep
 @command{rg} installed.")
     (license license:gpl3+)))
+
 (define-public emacs-elfeed-protocol
   (package
     (name "emacs-elfeed-protocol")
@@ -21489,6 +21497,7 @@ Dumb Jump performs best with The Silver Searcher @command{ag} or ripgrep
 readers like Fever, NewsBlur, ownCloud News and Tiny TIny RSS work
 with Elfeed.")
     (license license:gpl3+)))
+
 (define-public emacs-epkg
   (package
     (name "emacs-epkg")
@@ -21527,6 +21536,7 @@ Emacsmirror package database.  It provides low-level functions for querying
 the database and a @file{package.el} user interface for browsing the database.
 Epkg itself is not a package manager.")
     (license license:gpl3+)))
+
 (define-public emacs-ht
   ;; Last release in 2021.
   (let ((commit "1c49aad1c820c86f7ee35bf9fff8429502f60fef")
@@ -21553,6 +21563,7 @@ Epkg itself is not a package manager.")
        "This package simplifies the use of hash tables in elisp.  It also
 provides functions to convert hash tables from and to alists and plists.")
       (license license:gpl3+))))
+
 (define-public emacs-js2-refactor
   (package
     (name "emacs-js2-refactor")
@@ -21592,6 +21603,7 @@ provides functions to convert hash tables from and to alists and plists.")
     (description "This package provides various refactoring functions for
 JavaScript.")
     (license license:gpl3+)))
+
 (define-public emacs-julia-snail
   (package
     (name "emacs-julia-snail")
@@ -21626,6 +21638,7 @@ JavaScript.")
 interaction package for Julia in the spirit of Common Lisp’s SLIME and
 Clojure’s CIDER.  It enables convenient and dynamic REPL-driven development.")
     (license license:gpl3)))
+
 (define-public emacs-minions
   (package
     (name "emacs-minions")
@@ -21660,6 +21673,7 @@ menu like this, enable Minions mode.
 Alternatively the menu can be bound globally, for example:
 @code{(global-set-key [S-down-mouse-3] 'minions-minor-modes-menu)}.")
     (license license:gpl3+)))
+
 (define-public emacs-org-node
   (package
     (name "emacs-org-node")
@@ -21697,6 +21711,7 @@ using org mode; faster than org-roam.  This version of org-node has
 different configuration options to org-node 2 so you DO have to set
 it up again.")
     (license license:gpl3+)))
+
 (define-public emacs-org-roam
   (package
     (name "emacs-org-roam")
@@ -21754,6 +21769,7 @@ by tags.  Notes can be found and created quickly.  Org Roam should also work
 as a plug-and-play solution for anyone already using Org mode for their
 personal wiki.")
     (license license:gpl3+)))
+
 (define-public emacs-org-wild-notifier
   (package
     (name "emacs-org-wild-notifier")
@@ -21776,6 +21792,7 @@ personal wiki.")
     (synopsis "Customizable Org Agenda notifications")
     (description
      "This package provides notification functions for Org Agenda.")))
+
 (define-public emacs-orgit
   (package
     (name "emacs-orgit")
@@ -21836,6 +21853,7 @@ Later you can insert it into an Org buffer using the command
     (description "This package adds tools for managing your watchlist in Emacs'
 Org mode and some functions for interacting with the OMDb API.")
     (license license:gpl3+)))
+
 (define-public emacs-pandoc-mode
   (package
     (name "emacs-pandoc-mode")
@@ -21858,6 +21876,7 @@ Org mode and some functions for interacting with the OMDb API.")
     (description "This package provides a Hydra menu for interacting with the
 Pandoc, the document-conversion tool.")
     (license license:bsd-3)))
+
 (define-public emacs-solarized-theme
   (package
     (name "emacs-solarized-theme")
@@ -21883,6 +21902,7 @@ Pandoc, the document-conversion tool.")
      "Solarized for Emacs is a port of the Solarized theme for Vim.  This
 package provides a light and a dark variant.")
     (license license:gpl3+)))
+
 (define-public emacs-speed-type
   (package
     (name "emacs-speed-type")
@@ -21913,6 +21933,7 @@ test yourself by typing snippets from online books or use any piece of text or
 code you have in Emacs.  Speed Type keeps track of your stats (WPM, CPM,
 accuracy) while you are typing.")
     (license license:gpl3+)))
+
 (define-public emacs-terraform-mode
   (package
     (name "emacs-terraform-mode")
