@@ -16844,6 +16844,31 @@ files, allowing for actions to be performed based on search criteria.")
 @code{emacs-org-ql}, a Lispy query language for Org files, allowing for actions to
 be performed based on search criteria.")))
 
+(define-public emacs-helm-projectile
+  (package
+    (name "emacs-helm-projectile")
+    (version "1.4.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/bbatsov/helm-projectile")
+              (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "19zafd0l2mcd53q83bd2mxinadzsp90q5znfcm9fq0m88lpcmg94"))))
+    (build-system emacs-build-system)
+    (propagated-inputs
+     (list
+      emacs-helm
+      emacs-projectile
+      ))
+    (home-page "https://github.com/bbatsov/helm-projectile")
+    (synopsis "Helm integration for Projectile")
+    (description
+     "This Emacs library provides a Helm interface for Projectile.")
+    (license license:gpl3+)))
+
 (define-public emacs-org-auto-expand
   (let ((commit "4938d5f6460e2f8f051ba9ac000b291bfa43ef62")
         (revision "1"))
