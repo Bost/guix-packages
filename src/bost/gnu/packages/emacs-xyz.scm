@@ -10479,6 +10479,78 @@ implementation of treeview controls using treemacs as a tree renderer.")
     (file-name (git-file-name "emacs-lsp-treemacs" version))
     (hash hash)))
 
+(define-public emacs-pdf-tools
+  (package
+    (name "emacs-pdf-tools")
+    (version "1.3.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/vedang/pdf-tools")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0lf6ksly7w27n00ymrgxn1xyzpx9bmld4dzn90ki07yph6js7h8x"))))
+    (build-system gnu-build-system)
+    (arguments
+     (list
+      #:tests? #f                       ;TODO: Run the tests.
+      #:modules '((guix build gnu-build-system)
+                  ((guix build emacs-build-system) #:prefix emacs:)
+                  (guix build utils)
+                  (guix build emacs-utils))
+      #:imported-modules `(,@%default-gnu-imported-modules
+                           (guix build emacs-build-system)
+                           (guix build emacs-utils))
+      #:phases
+      #~(modify-phases %standard-phases
+          ;; Build server side using 'gnu-build-system'.
+          (add-after 'unpack 'enter-server-dir
+            (lambda _ (chdir "server")))
+          (add-after 'enter-server-dir 'autogen
+            (lambda _
+              (invoke "bash" "autogen.sh")))
+          ;; Build emacs side using 'emacs-build-system'.
+          (add-after 'compress-documentation 'enter-lisp-dir
+            (lambda _ (chdir "../lisp")))
+          (add-after 'enter-lisp-dir 'emacs-patch-variables
+            (lambda _
+              (for-each make-file-writable (find-files "."))
+
+              ;; Set path to epdfinfo program.
+              (emacs-substitute-variables "pdf-info.el"
+                ("pdf-info-epdfinfo-program"
+                 (string-append #$output "/bin/epdfinfo")))
+              ;; Set 'pdf-tools-handle-upgrades' to nil to avoid "auto
+              ;; upgrading" that pdf-tools tries to perform.
+              (emacs-substitute-variables "pdf-tools.el"
+                ("pdf-tools-handle-upgrades" '()))))
+          (add-after 'enter-lisp-dir 'emacs-make-autoloads
+            (assoc-ref emacs:%standard-phases 'make-autoloads))
+          (add-after 'emacs-patch-variables 'emacs-expand-load-path
+            (assoc-ref emacs:%standard-phases 'expand-load-path))
+          (add-after 'emacs-expand-load-path 'emacs-add-install-to-native-load-path
+            (assoc-ref emacs:%standard-phases 'add-install-to-native-load-path))
+          (add-after 'emacs-add-install-to-native-load-path 'emacs-install
+            (assoc-ref emacs:%standard-phases 'install))
+          (add-after 'emacs-install 'emacs-build
+            (assoc-ref emacs:%standard-phases 'build)))))
+    (native-inputs
+     (list autoconf automake emacs-minimal pkg-config))
+    (inputs
+     (list cairo glib libpng poppler zlib))
+    (propagated-inputs
+     (list emacs-let-alist emacs-tablist))
+    (home-page "https://github.com/vedang/pdf-tools")
+    (synopsis "Emacs support library for PDF files")
+    (description
+     "PDF Tools is, among other things, a replacement of DocView for PDF
+files.  The key difference is that pages are not pre-rendered by
+e.g. ghostscript and stored in the file-system, but rather created on-demand
+and stored in memory.")
+    (license license:gpl3+)))
+
 (define-public emacs-pdf-view-restore
   (let ((commit "758131fbcba6a16388e6dd6b55eb4a9998f57123")
         (revision "0"))
@@ -10497,7 +10569,8 @@ implementation of treeview controls using treemacs as a tree renderer.")
       (build-system emacs-build-system)
       (propagated-inputs
        (list
-        emacs-pdf-tools))
+        emacs-pdf-tools
+        ))
       (home-page "https://github.com/007kevin/pdf-view-restore")
       (synopsis "Support for opening last known pdf position in pdfview mode")
       (description
