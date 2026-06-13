@@ -706,7 +706,8 @@ information in the mode line.")
       (arguments (list #:tests? #f))
       (home-page "https://github.com/sigma/logito")
       (synopsis "Tiny logging framework for Emacs")
-      (description "Tiny logging framework for Emacs.")
+      (description "Logito is a tiny logging framework for Emacs Lisp programs, with log
+levels and pluggable output sinks.")
       (license license:gpl2+))))
 
 (define-public emacs-system-packages
@@ -6159,10 +6160,10 @@ theme pair.")
             "1sqylm6ipmlh9249mmwfb16b4pv94cvzdwvi3zakdpz713phyjw5"))))
     (build-system emacs-build-system)
     (home-page "http://slim-lang.com/")
-    (synopsis "Syntax highlighting for Slim.")
+    (synopsis "Major mode for editing Slim templates")
     (description
-     "slim-mode provides Emacs support for editing Slim templates. It's based
-on haml-mode.")
+     "@code{slim-mode} provides Emacs support for editing Slim templates.
+It is based on @code{haml-mode}.")
     (license license:gpl3+)))
 
 (define-public emacs-lush-theme
@@ -6183,8 +6184,9 @@ on haml-mode.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/andre-richter/emacs-lush-theme")
-    (synopsis "A dark theme with lush colors for Emacs24")
-    (description "A dark theme with lush colors for Emacs24.")
+    (synopsis "Dark theme with lush, saturated colors")
+    (description "@code{lush-theme} is a dark color theme for Emacs with strong,
+saturated colors.")
     (license license:expat)))
 
 (define-public emacs-vi-tilde-fringe ;; PR sent
@@ -6204,9 +6206,10 @@ on haml-mode.")
           (base32 "0wdm8k49zl6i6wnh7vjkswdh5m9lix56jv37xvc90inipwgs402z"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/syl20bnr/vi-tilde-fringe")
-      (synopsis "Display tildes on empty lines in the Emacs fringe a la Vi")
+      (synopsis "Display tildes in the fringe on empty lines")
       (description
-       "Display tildes on empty lines in the Emacs fringe a la Vi.")
+       "This minor mode displays tilde characters in the left fringe of
+windows on empty lines, mimicking the look of Vi.")
       (license license:gpl3+))))
 
 (define-public emacs-popwin ;; PR sent
@@ -6252,8 +6255,9 @@ another window.")
     (build-system emacs-build-system)
     (home-page
      "https://github.com/andre-r/centered-cursor-mode.el")
-    (synopsis "")
-    (description "")
+    (synopsis "Keep the cursor vertically centered")
+    (description "This minor mode keeps the cursor vertically centered in the window
+while scrolling, so the text moves rather than the cursor.")
     (license license:gpl3+)))
 
 (define-public emacs-company-statistics
@@ -6274,8 +6278,10 @@ another window.")
     (build-system emacs-build-system)
     (propagated-inputs (list emacs-company))
     (home-page "https://github.com/company-mode/company-statistics")
-    (synopsis "")
-    (description "")
+    (synopsis "Sort Company completions by usage statistics")
+    (description "@code{company-statistics} collects statistics about completion choices
+and uses the history to sort Company completion candidates, showing
+the most frequently used candidates first.")
     (license license:gpl3+)))
 
 (define-public emacs-json-navigator
@@ -6297,8 +6303,9 @@ another window.")
     (arguments (list #:tests? #f))
     (home-page
       "https://github.com/DamienCassou/json-navigator")
-    (synopsis "")
-    (description "")
+    (synopsis "View and navigate JSON documents as a tree")
+    (description "@code{json-navigator} displays JSON documents as a navigable tree
+using the Hierarchy library.")
     (license license:gpl3+)))
 
 (define-public emacs-eziam-themes
@@ -6320,13 +6327,14 @@ another window.")
     (home-page
      "https://github.com/thblt/eziam-theme-emacs")
     (synopsis
-     "A mostly grayscale theme for Emacs, inspired by Tao and Leuven.")
+     "Mostly grayscale themes inspired by Tao and Leuven")
     (description
-     "An Emacs theme, which tries to combine the simplicity of Tao with the
-org-mode goodness of Leuven. Unlike Tao, keeps some very minimal color
-indications, while remaining mainly grayscale and trying to avoid the “angry
-fruit salad” syndrome. Unlike Leuven, it remains mostly grayscale, with no
-color for syntax, and easily allows multiple variants.")
+     "Eziam is a theme family for Emacs which tries to combine the
+simplicity of Tao with the org-mode goodness of Leuven.  Unlike Tao,
+it keeps some very minimal color indications, while remaining mainly
+grayscale and trying to avoid the “angry fruit salad” syndrome.
+Unlike Leuven, it remains mostly grayscale, with no color for syntax,
+and it easily allows multiple variants.")
     (license license:gpl3+)))
 
 (define-public emacs-erc-social-graph
@@ -6347,8 +6355,9 @@ color for syntax, and easily allows multiple variants.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/vibhavp/erc-social-graph")
-    (synopsis "")
-    (description "")
+    (synopsis "Social network graph module for ERC")
+    (description "@code{erc-social-graph} draws a social network graph of conversations
+in ERC channels, updated in real time.")
     (license license:gpl3+)))
 
 (define-public emacs-hlint-refactor
@@ -6369,8 +6378,10 @@ color for syntax, and easily allows multiple variants.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/mpickering/hlint-refactor-mode")
-    (synopsis "")
-    (description "")
+    (synopsis "Apply HLint suggestions in Haskell buffers")
+    (description "@code{hlint-refactor} provides commands to apply suggestions made by
+HLint to the current Haskell buffer, using the @code{refactor}
+executable.")
     (license license:gpl3+)))
 
 (define-public emacs-chocolate
@@ -6394,8 +6405,8 @@ color for syntax, and easily allows multiple variants.")
       emacs-autothemer
       ))
     (home-page "https://github.com/SavchenkoValeriy/emacs-chocolate-theme")
-    (synopsis "")
-    (description "")
+    (synopsis "Dark chocolate-colored theme")
+    (description "@code{chocolate-theme} is a dark, chocolate-colored theme for Emacs.")
     (license license:gpl3+)))
 
 (define-public emacs-gruber-darker
@@ -6416,8 +6427,9 @@ color for syntax, and easily allows multiple variants.")
     (build-system emacs-build-system)
     (home-page
       "https://github.com/rexim/gruber-darker-theme")
-    (synopsis "")
-    (description "")
+    (synopsis "Gruber Darker color theme")
+    (description "@code{gruber-darker-theme} is a darker variant of the Gruber Dark
+color theme for Emacs.")
     (license license:gpl3+)))
 
 (define-public emacs-writeroom-mode
@@ -6445,8 +6457,9 @@ color for syntax, and easily allows multiple variants.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/emacsorphanage/farmhouse-themes")
-      (synopsis "")
-      (description "")
+      (synopsis "Farmhouse color themes, dark and light")
+      (description "Farmhouse is a pair of color themes for Emacs, in a dark and a light
+version.")
       (license license:gpl3+))))
 
 (define-public emacs-farmhouse-light-mod-theme
@@ -6482,8 +6495,9 @@ color for syntax, and easily allows multiple variants.")
                       "farmhouse-light-mod-c-theme"
                       )))))))
       (home-page "https://github.com/Bost/farmhouse-light-mod-theme")
-      (synopsis "Modded farmhouse-light theme for Emacs")
-      (description "Modded farmhouse-light theme for Emacs.")
+      (synopsis "Modified variants of the Farmhouse Light theme")
+      (description "Farmhouse Light Mod provides three modified variants (a, b and c) of
+the Farmhouse Light color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-web-completion-data
@@ -6760,8 +6774,8 @@ programmability through direct Elisp evaluation.")
               "18z9jl5d19a132k6g1dvwqfbbdh5cx66b2qxlcjsfiqxlxglc2sa"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/mjwall/ample-zen")
-      (synopsis "")
-      (description "")
+      (synopsis "AmpleZen theme for Emacs")
+      (description "@code{ample-zen-theme} is a dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-anti-zenburn-theme
@@ -6784,8 +6798,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/m00natic/anti-zenburn-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Low-contrast Zenburn-inverted theme")
+      (description "@code{anti-zenburn-theme} is a low-contrast color theme obtained by
+inverting the Zenburn palette.")
       (license license:gpl3+))))
 
 (define-public emacs-apropospriate-theme
@@ -6808,8 +6823,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "http://github.com/waymondo/apropospriate-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Colorful, low-contrast light and dark theme set")
+      (description "@code{apropospriate-theme} is a colorful yet low-contrast theme set
+for Emacs with light and dark variants.")
       (license license:gpl3+))))
 
 (define-public emacs-badwolf-theme
@@ -6832,8 +6848,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/bkruczyk/badwolf-emacs")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of Vim's Bad Wolf color theme")
+      (description "@code{badwolf-theme} is an Emacs port of the Bad Wolf color theme for
+Vim.")
       (license license:gpl3+))))
 
 (define-public emacs-birds-of-paradise-plus-theme
@@ -6856,8 +6873,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jimeh/birds-of-paradise-plus-theme.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Brown and orange light-on-dark theme")
+      (description "@code{birds-of-paradise-plus-theme} is a brown and orange
+light-on-dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-bubbleberry-theme
@@ -6880,8 +6898,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jasonm23/emacs-bubbleberry-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Theme based on the look of LightTable")
+      (description "@code{bubbleberry-theme} is a dark theme for Emacs inspired by the
+LightTable IDE.")
       (license license:gpl3+))))
 
 (define-public emacs-busybee-theme
@@ -6904,8 +6923,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "http://github.com/mswift42/busybee-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of Vim's Mustang theme")
+      (description "@code{busybee-theme} is a port of Vim's Mustang color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-cherry-blossom-theme
@@ -6928,8 +6947,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/inlinestyle/emacs-cherry-blossom-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Soothing color theme for Emacs")
+      (description "@code{cherry-blossom-theme} is a soothing dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-clues-theme
@@ -6952,8 +6971,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/emacsfodder/emacs-clues-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark color theme with bold accents")
+      (description "@code{clues-theme} is a dark color theme for Emacs with bold blue and
+amber accents.")
       (license license:gpl3+))))
 
 (define-public emacs-dakrone-theme
@@ -6976,8 +6996,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/dakrone/dakrone-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark color theme by dakrone")
+      (description "@code{dakrone-theme} is a custom dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-darkmine-theme
@@ -7000,8 +7020,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/pierre-lecocq/darkmine-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Yet another dark color theme")
+      (description "@code{darkmine-theme} is a dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-darkokai-theme
@@ -7024,8 +7044,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "http://github.com/sjrmanning/darkokai")
-      (synopsis "")
-      (description "")
+      (synopsis "Darker variant of the Monokai theme")
+      (description "@code{darkokai-theme} is a darker take on the Monokai color theme.")
       (license license:gpl3+))))
 
 (define-public emacs-darktooth-theme
@@ -7051,8 +7071,9 @@ programmability through direct Elisp evaluation.")
         emacs-autothemer
         ))
       (home-page "http://github.com/emacsfodder/emacs-theme-darktooth")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark theme based on the Gruvbox palette")
+      (description "@code{darktooth-theme} is a dark color theme for Emacs derived from
+the Gruvbox palette.")
       (license license:gpl3+))))
 
 (define-public emacs-django-theme
@@ -7075,8 +7096,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/andrzejsliwa/django-theme.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Color theme inspired by the Django website")
+      (description "@code{django-theme} is a dark green color theme for Emacs inspired by
+the Django Project website.")
       (license license:gpl3+))))
 
 (define-public emacs-espresso-theme
@@ -7099,8 +7121,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/dgutov/espresso-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of the Espresso Tutti Colori theme")
+      (description "@code{espresso-theme} is a port of the Espresso Tutti Colori light
+color theme for Emacs.")
       (license license:expat))))
 
 (define-public emacs-flatland-theme
@@ -7123,8 +7146,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "http://github.com/gregchapple/flatland-emacs")
-      (synopsis "")
-      (description "")
+      (synopsis "Simple theme for Emacs based on the Flatland theme for Sublime Text")
+      (description "@code{flatland-theme} is a simple theme for Emacs based on the
+Flatland theme for Sublime Text.")
       (license license:gpl3+))))
 
 (define-public emacs-flatui-theme
@@ -7147,8 +7171,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/john2x/flatui-theme.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Color theme based on the FlatUI palette")
+      (description "@code{flatui-theme} is a light color theme for Emacs based on the
+FlatUI color palette.")
       (license license:gpl3+))))
 
 (define-public emacs-gandalf-theme
@@ -7171,8 +7196,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/ptrv/gandalf-theme-emacs")
-      (synopsis "")
-      (description "")
+      (synopsis "Gandalf light color theme")
+      (description "@code{gandalf-theme} is a light gray color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-gotham-theme
@@ -7193,8 +7218,9 @@ programmability through direct Elisp evaluation.")
             (base32 "19ylb7d5jxr7mwjrmgq7acvb4a1q39909xaz3y6s3kjvsyg426pg"))))
       (build-system emacs-build-system)
       (home-page "https://depp.brause.cc/gotham-theme.git")
-      (synopsis "")
-      (description "")
+      (synopsis "Very dark color theme")
+      (description "@code{gotham-theme} is a very dark Emacs color theme with bluish
+colors.")
       (license license:gpl3+))))
 
 (define-public emacs-grandshell-theme
@@ -7215,8 +7241,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://framagit.org/steckerhalter/grandshell-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark color theme with intensive colors")
+      (description "@code{grandshell-theme} is a dark color theme for Emacs with intensive
+colors.")
       (license license:gpl3+))))
 
 (define-public emacs-gruber-darker-theme
@@ -7239,8 +7266,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "http://github.com/rexim/gruber-darker-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Gruber Darker color theme")
+      (description "@code{gruber-darker-theme} is a darker variant of the Gruber Dark
+color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-hc-zenburn-theme
@@ -7263,8 +7291,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/bbatsov/zenburn-emacs")
-      (synopsis "")
-      (description "")
+      (synopsis "Higher contrast version of the Zenburn theme")
+      (description "@code{hc-zenburn-theme} is a higher-contrast version of the Zenburn
+color theme.")
       (license license:gpl3+))))
 
 (define-public emacs-hemisu-theme
@@ -7287,8 +7316,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/andrzejsliwa/hemisu-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Minimalistic theme with light and dark variants")
+      (description "@code{hemisu-theme} is a minimalistic color theme for Emacs with light
+and dark variants.")
       (license license:gpl3+))))
 
 (define-public emacs-heroku-theme
@@ -7311,8 +7341,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/jonathanchu/heroku-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Heroku color theme")
+      (description "@code{heroku-theme} is a deep purple color theme for Emacs inspired by
+Heroku.")
       (license license:gpl3+))))
 
 (define-public emacs-inkpot-theme
@@ -7335,8 +7366,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://codeberg.org/ideasman42/emacs-theme-inkpot")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of Vim's Inkpot theme")
+      (description "@code{inkpot-theme} is a port of Vim's dark Inkpot color theme for
+Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-ir-black-theme
@@ -7359,8 +7391,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jmdeldin/ir-black-theme.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of the IR Black theme")
+      (description "@code{ir-black-theme} is a port of the classic IR Black color theme
+for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-jazz-theme
@@ -7383,8 +7416,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/donderom/jazz-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Warm dark color theme")
+      (description "@code{jazz-theme} is a warm dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-jbeans-theme
@@ -7407,8 +7440,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/synic/jbeans-emacs")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark theme based on Vim's Jellybeans")
+      (description "@code{jbeans-theme} is a dark color theme for Emacs based on the
+Jellybeans theme for Vim.")
       (license license:expat))))
 
 (define-public emacs-light-soap-theme
@@ -7431,8 +7465,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/light-soap-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Light color theme")
+      (description "@code{light-soap-theme} is a color theme for Emacs with a light
+background.")
       (license license:gpl3+))))
 
 (define-public emacs-madhat2r-theme
@@ -7455,8 +7490,8 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/madhat2r/madhat2r-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark color theme that is easy on the eyes")
+      (description "@code{madhat2r-theme} is a dark color theme that is easy on the eyes.")
       (license license:gpl3+))))
 
 (define-public emacs-majapahit-themes
@@ -7479,8 +7514,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
        "https://gitlab.com/franksn/majapahit-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Color theme with light and dark variants")
+      (description "Majapahit is a color theme pair for Emacs with a light and a dark
+variant.")
       (license license:gpl3+))))
 
 (define-public emacs-material-theme
@@ -7503,8 +7539,9 @@ programmability through direct Elisp evaluation.")
       (build-system emacs-build-system)
       (home-page
         "http://github.com/cpaulik/emacs-material-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Theme based on Google Material Design colors")
+      (description "@code{material-theme} is a color theme for Emacs based on the colors
+of Google Material Design.")
       (license license:gpl3+))))
 
 (define-public emacs-minimal-theme
@@ -7632,8 +7669,8 @@ few third-party themes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/mustang-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of Vim's Mustang theme")
+      (description "@code{mustang-theme} is a port of Vim's Mustang color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-naquadah-theme
@@ -7706,8 +7743,9 @@ providing support for a lot of modes.")
            "1d36mdq8b1q1x84a2nb93bwnzlpdldiafh7q7qfjjm9dsgbij73b"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/mswift42/obsidian-theme")
-      (synopsis "Port of the Eclipse obsidian theme")
-      (description "Port of the Eclipse obsidian theme.")
+      (synopsis "Port of the Eclipse Obsidian theme")
+      (description "@code{obsidian-theme} is a port of the Eclipse Obsidian color theme
+for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-occidental-theme
@@ -7730,8 +7768,9 @@ providing support for a lot of modes.")
        (build-system emacs-build-system)
        (home-page
          "https://github.com/olcai/occidental-theme")
-       (synopsis "")
-       (description "")
+       (synopsis "Light theme based on Adwaita")
+       (description "@code{occidental-theme} is a light custom face theme for Emacs derived
+from the Adwaita theme.")
        (license license:gpl3+))))
 
 (define-public emacs-oldlace-theme
@@ -7754,8 +7793,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/mswift42/oldlace-theme.git")
-      (synopsis "")
-      (description "")
+      (synopsis "Light theme with an old lace background")
+      (description "@code{oldlace-theme} is a light color theme for Emacs with an
+@samp{oldlace} background color.")
       (license license:gpl3+))))
 
 (define-public emacs-organic-green-theme
@@ -7776,8 +7816,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/kostafey/organic-green-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Low-contrast green color theme")
+      (description "@code{organic-green-theme} is a low-contrast green color theme for
+Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-phoenix-dark-mono-theme
@@ -7800,8 +7841,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/j0ni/phoenix-dark-mono")
-      (synopsis "")
-      (description "")
+      (synopsis "Monochromatic version of the Phoenix theme")
+      (description "@code{phoenix-dark-mono-theme} is a monochromatic version of the
+Phoenix Dark Pink theme.")
       (license license:gpl3+))))
 
 (define-public emacs-phoenix-dark-pink-theme
@@ -7824,8 +7866,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/j0ni/phoenix-dark-pink")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of the Phoenix Dark Pink theme")
+      (description "@code{phoenix-dark-pink-theme} is originally a port of the Sublime
+Text 2 Phoenix Dark Pink theme.")
       (license license:gpl3+))))
 
 (define-public emacs-planet-theme
@@ -7848,8 +7891,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/cmack/emacs-planet-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark theme inspired by Gmail's Planets theme")
+      (description "@code{planet-theme} is a dark color theme for Emacs inspired by
+Gmail's old Planets theme.")
       (license license:gpl3+))))
 
 (define-public emacs-professional-theme
@@ -7872,8 +7916,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/juanjux/emacs-professional-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Port of Vim's Professional theme")
+      (description "@code{professional-theme} is an Emacs port of Vim's light Professional
+color theme.")
       (license license:gpl3+))))
 
 (define-public emacs-purple-haze-theme
@@ -7894,8 +7939,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jasonm23/emacs-purple-haze-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Overtly purple dark color theme")
+      (description "@code{purple-haze-theme} is an overtly purple dark color theme for
+Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-reverse-theme
@@ -7918,8 +7964,8 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/emacsorphanage/reverse-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Reverse-video color theme")
+      (description "@code{reverse-theme} is a reverse-video color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-seti-theme
@@ -7942,8 +7988,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/caisah/seti-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark theme inspired by Seti Atom")
+      (description "@code{seti-theme} is a dark color theme for Emacs inspired by the Seti
+Atom theme.")
       (license license:gpl3+))))
 
 (define-public emacs-smyx-theme
@@ -7965,8 +8012,8 @@ providing support for a lot of modes.")
               "1z2sdnf11wh5hz1rkrbg7fs4ha3zrbj9qnvfzq9005y89d7cs95x"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/tacit7/smyx")
-      (synopsis "")
-      (description "")
+      (synopsis "Smyx dark color theme")
+      (description "@code{smyx-theme} is a dark color theme for Emacs with muted colors.")
       (license license:gpl3+))))
 
 (define-public emacs-soft-charcoal-theme
@@ -7989,8 +8036,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/soft-charcoal-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark charcoal theme with soft colors")
+      (description "@code{soft-charcoal-theme} is a dark charcoal theme for Emacs with
+soft colors.")
       (license license:gpl3+))))
 
 (define-public emacs-soft-morning-theme
@@ -8013,8 +8061,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/soft-morning-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Light color theme")
+      (description "@code{soft-morning-theme} is a color theme for Emacs with a light
+background and soft colors.")
       (license license:gpl3+))))
 
 (define-public emacs-soft-stone-theme
@@ -8037,8 +8086,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/soft-stone-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Light color theme")
+      (description "@code{soft-stone-theme} is a color theme for Emacs with a light,
+stone-like background.")
       (license license:gpl3+))))
 
 (define-public emacs-subatomic256-theme
@@ -8061,8 +8111,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/d11wtq/subatomic256")
-      (synopsis "")
-      (description "")
+      (synopsis "Fork of subatomic-theme for terminals")
+      (description "@code{subatomic256-theme} is a fork of @code{subatomic-theme} adjusted
+for 256-color terminals.")
       (license license:gpl3+))))
 
 (define-public emacs-subatomic-theme
@@ -8084,8 +8135,8 @@ providing support for a lot of modes.")
               "0fs1y53b025fwd690dl5iipsh3nz5g0jvj8ny1az614697yx90xw"))))
       (build-system emacs-build-system)
       (home-page "https://github.com/cryon/subatomic")
-      (synopsis "")
-      (description "")
+      (synopsis "Low contrast bluish color theme")
+      (description "@code{subatomic-theme} is a low-contrast bluish color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-sunny-day-theme
@@ -8108,8 +8159,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/sunny-day-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Light color theme")
+      (description "@code{sunny-day-theme} is a color theme for Emacs with a light
+background.")
       (license license:gpl3+))))
 
 (define-public emacs-tango-2-theme
@@ -8131,8 +8183,9 @@ providing support for a lot of modes.")
               "1lqkazis9pfcfdsb2lar4l1n4pd085v60xmnlkdrdllwamqachkk"))))
       (build-system emacs-build-system)
       (home-page "https://gist.github.com/2024464.git")
-      (synopsis "")
-      (description "")
+      (synopsis "Tango 2 color theme")
+      (description "@code{tango-2-theme} is a dark color theme for Emacs based on the
+Tango palette.")
       (license license:gpl3+))))
 
 (define-public emacs-tango-plus-theme
@@ -8155,8 +8208,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/tmalsburg/tango-plus-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Color theme based on the tango palette")
+      (description "@code{tango-plus-theme} is a light color theme for Emacs based on the
+Tango palette.")
       (license license:gpl3+))))
 
 (define-public emacs-tangotango-theme
@@ -8179,8 +8233,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/juba/color-theme-tangotango")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark color theme based on the Tango palette")
+      (description "@code{tangotango-theme} is a dark color theme for Emacs based on the
+Tango palette.")
       (license license:gpl3+))))
 
 (define-public emacs-toxi-theme
@@ -8203,8 +8258,8 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/postspectacular/toxi-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark color theme by toxi")
+      (description "@code{toxi-theme} is a dark color theme for Emacs by toxi.")
       (license license:gpl3+))))
 
 (define-public emacs-twilight-anti-bright-theme
@@ -8227,8 +8282,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jimeh/twilight-anti-bright-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Soothing light-on-dark theme")
+      (description "@code{twilight-anti-bright-theme} is a soothing light-on-dark color
+theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-twilight-bright-theme
@@ -8251,8 +8307,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jimeh/twilight-bright-theme.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Light port of the TextMate Twilight theme")
+      (description "@code{twilight-bright-theme} is a light Emacs faces port of the
+TextMate Twilight theme.")
       (license license:gpl3+))))
 
 (define-public emacs-twilight-theme
@@ -8275,8 +8332,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/developernotes/twilight-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Dark theme inspired by TextMate's Twilight")
+      (description "@code{twilight-theme} is a dark color theme for Emacs inspired by
+TextMate's Twilight theme.")
       (license license:gpl3+))))
 
 (define-public emacs-ujelly-theme
@@ -8299,8 +8357,8 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/marktran/color-theme-ujelly")
-      (synopsis "")
-      (description "")
+      (synopsis "Ujelly dark color theme")
+      (description "@code{ujelly-theme} is a dark color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-underwater-theme
@@ -8323,8 +8381,8 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/jmdeldin/underwater-theme.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Gentle, deep blue color theme")
+      (description "@code{underwater-theme} is a gentle, deep blue color theme for Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-white-sand-theme
@@ -8347,8 +8405,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/mswift42/white-sand-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Light theme with a sandy background")
+      (description "@code{white-sand-theme} is a color theme for Emacs with a light, sandy
+background.")
       (license license:gpl3+))))
 
 (define-public emacs-zen-and-art-theme
@@ -8371,8 +8430,8 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
         "https://github.com/developernotes/zen-and-art-theme")
-      (synopsis "")
-      (description "")
+      (synopsis "Zen and art dark color theme")
+      (description "@code{zen-and-art-theme} is a dark color theme for Emacs.")
       (license license:gpl3+))))
 
 ;; Defines emacs-omtose-darker-theme emacs-omtose-softer-theme
@@ -8453,8 +8512,9 @@ providing support for a lot of modes.")
       (build-system emacs-build-system)
       (home-page
        "https://github.com/owainlewis/emacs-color-themes")
-      (synopsis "")
-      (description "")
+      (synopsis "Collection of themes based on Sublime Text")
+      (description "Sublime themes is a collection of color themes for Emacs inspired by
+Sublime Text and famous programmers.")
       (license license:gpl3+))))
 
 (define-public emacs-cider-hydra
@@ -8492,8 +8552,9 @@ providing support for a lot of modes.")
         ;; emacs-cider-apropos
         ))
       (home-page "https://github.com/clojure-emacs/cider-hydra")
-      (synopsis "")
-      (description "")
+      (synopsis "Hydras for CIDER")
+      (description "@code{cider-hydra} defines Hydra menus grouping related CIDER commands
+for documentation, evaluation, testing and REPL interaction.")
       (license license:gpl3+))))
 
 (define-public emacs-flycheck-joker
@@ -8518,8 +8579,10 @@ providing support for a lot of modes.")
         emacs-flycheck
         ))
       (home-page "https://github.com/candid82/flycheck-joker")
-      (synopsis "Clojure syntax checker (via Joker) for flycheck")
-      (description "Clojure syntax checker (via Joker) for flycheck")
+      (synopsis "Clojure syntax checker using Joker")
+      (description "@code{flycheck-joker} adds a Flycheck syntax checker for Clojure and
+ClojureScript code.  It uses Joker, a small interpreted dialect of
+Clojure that performs static analysis and linting.")
       (license license:gpl3+))))
 
 (define-public emacs-kaocha-runner
@@ -8544,8 +8607,9 @@ providing support for a lot of modes.")
         emacs-parseedn
         emacs-cider))
       (home-page "https://github.com/magnars/kaocha-runner.el")
-      (synopsis "")
-      (description "")
+      (synopsis "Run Kaocha tests from Emacs")
+      (description "@code{kaocha-runner} bridges CIDER and the Kaocha test runner, letting
+you run Clojure tests and see their results directly from Emacs.")
       (license license:gpl3+))))
 
 (define-public emacs-sayid
@@ -8633,8 +8697,10 @@ and outputs from within Emacs.")
       (build-system emacs-build-system)
       (arguments (list #:tests? #f)) ; no tests
       (home-page "https://github.com/cpoile/claudemacs")
-      (synopsis "AI Pair Programming with Claude Code in Emacs")
-      (description "AI Pair Programming with Claude Code in Emacs")
+      (synopsis "AI pair programming with Claude Code in Emacs")
+      (description "Claudemacs integrates Claude Code, Anthropic's command-line coding
+assistant, into Emacs.  It provides an interactive session buffer and
+commands for AI pair programming on the current project.")
       (license license:expat))))
 
 (define-public emacs-claude-code-emacs
@@ -8804,8 +8870,9 @@ services that support the MCP standard.")
         emacs-autothemer
         ))
       (home-page "https://github.com/ogdenwebb/emacs-kaolin-themes")
-      (synopsis "")
-      (description "")
+      (synopsis "Set of eye-pleasing themes")
+      (description "Kaolin is a theme family for Emacs, a set of dark and light themes
+with predominantly cold colors.")
       (license license:gpl3+))))
 
 (define-public emacs-emacsql-sqlite3
@@ -8937,8 +9004,11 @@ different buffer types.")
         emacs-eval-sexp-fu
         ))
       (home-page "https://github.com/Bost/copy-sexp")
-      (synopsis "")
-      (description "")
+      (synopsis "Briefly highlight copied s-expressions")
+      (description "@code{copy-sexp} briefly flashes the s-expression copied by the
+Smartparens commands @code{sp-copy-sexp} and
+@code{sp-backward-copy-sexp}, using @code{eval-sexp-fu}, to give
+visual feedback on what was copied.")
       (license license:gpl3+))))
 
 (define-public emacs-jump-last
@@ -8961,8 +9031,10 @@ different buffer types.")
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-goto-chg))
       (home-page "https://github.com/Bost/jump-last")
-      (synopsis "Jump to the Last Edit Location, regardless of the file")
-      (description "Jump to the Last Edit Location, regardless of the file.")
+      (synopsis "Jump to the last edit location in any file")
+      (description "@code{jump-last} provides commands to jump to the location of the most
+recent edit, switching to the file where it happened if necessary.  It
+is built on top of @code{goto-chg}.")
       (license license:gpl3+))))
 
 (define-public emacs-evil-iedit-state
@@ -9076,7 +9148,9 @@ with GUI Emacs behavior.")
     (build-system emacs-build-system)
     (home-page "https://www.emacswiki.org/emacs/frame-fns.el")
     (synopsis "Non-interactive frame and window functions")
-    (description "Non-interactive frame and window functions.")
+    (description "@code{frame-fns} provides non-interactive utility functions for
+working with Emacs frames and windows, used by libraries such as
+@code{frame-cmds}.")
     (license license:gpl3+)))
 
 (define-public emacs-frame-cmds
@@ -9099,8 +9173,10 @@ with GUI Emacs behavior.")
       emacs-frame-fns
       ))
     (home-page "https://www.emacswiki.org/emacs/frame-cmds.el")
-    (synopsis "Frame and window commands (interactive functions)")
-    (description "Frame and window commands (interactive functions).")
+    (synopsis "Interactive frame and window commands")
+    (description "@code{frame-cmds} provides interactive commands to resize, move,
+iconify and otherwise manipulate Emacs frames and windows,
+complementing the non-interactive functions of @code{frame-fns}.")
     (license license:gpl3+)))
 
 (define-public emacs-zoom-frm
@@ -9123,8 +9199,11 @@ with GUI Emacs behavior.")
       emacs-frame-cmds
       ))
     (home-page "https://www.emacswiki.org/emacs/zoom-frm.el")
-    (synopsis "Commands to zoom frame font size")
-    (description "Commands to zoom frame font size.")
+    (synopsis "Commands to zoom the frame or buffer font size")
+    (description "@code{zoom-frm} provides commands to incrementally zoom the font size
+of a frame or buffer in and out, including @code{zoom-in},
+@code{zoom-out} and @code{zoom-in/out} which combine both directions
+in a single repeatable command.")
     (license license:gpl3+)))
 
 (define-public emacs-auto-highlight-symbol
