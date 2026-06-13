@@ -15267,6 +15267,45 @@ main features of Vim, and provides facilities for writing custom
 extensions.")
       (license license:gpl3+))))
 
+(define-public emacs-evil-matchit
+  (package
+    (name "emacs-evil-matchit")
+    (version "4.1.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/redguardtoo/evil-matchit")
+             (commit version)))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "13pkx03h9qip09dfyngl7r54mjmd7lxxkqzjzggqrp7kyx7ngsrw"))))
+    (build-system emacs-build-system)
+    (arguments (list #:test-command #~(list "make" "test")
+                     #:phases
+                     #~(modify-phases %standard-phases
+                         (add-after 'unpack 'patch-Makefile
+                           (lambda _
+                             (substitute* "Makefile"
+                               (("-Q ") "")
+                               (("-L deps/.*") "")
+                               (("-l deps/.*") "")
+                               ((" compile") "")
+                               ((" deps") "")))))))
+    (propagated-inputs
+     (list emacs-evil))
+    (native-inputs (list emacs-julia-mode
+                         emacs-lua-mode
+                         emacs-markdown-mode
+                         emacs-tuareg
+                         emacs-yaml-mode))
+    (home-page "https://github.com/redguardtoo/evil-matchit")
+    (synopsis "Vim matchit ported into Emacs")
+    (description
+     "@code{evil-matchit} is a minor mode for jumping between matching tags in
+evil mode using @kbd{%}.  It is a port of @code{matchit} for Vim.")
+    (license license:gpl3+)))
+
 (define-public emacs-evil-goggles
   (let ((commit "08a22058fd6a167f9f1b684c649008caef571459")
         (version "0.0.1")
