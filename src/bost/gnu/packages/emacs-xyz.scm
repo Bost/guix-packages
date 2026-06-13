@@ -11853,8 +11853,8 @@ enable these features by calling `helm-purpose-setup` in their configuration.")
       (license license:gpl3+))))
 
 (define-public emacs-helm-mu
-  (let ((commit "d0bbc46338337d92b58708b906b40d0e12ae8006")
-        (revision "1"))
+  (let ((commit "8275efff2c5e41da1264f9b261b93afc116c32a5")
+        (revision "2"))
     (package
       (name "emacs-helm-mu")
       (version (git-version  "1.0.0" revision commit))
@@ -11866,7 +11866,7 @@ enable these features by calling `helm-purpose-setup` in their configuration.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0l7cysci0cmg0mg64gjxismkwqc3rfwl4ixjz5a0434zc1pg502j"))))
+          (base32 "0jmlnhxddb4csgmnlxgry2q6v2pdk4bzg8ihxbv1qrfdz7mbf0a8"))))
       (build-system emacs-build-system)
       (propagated-inputs
        (list
