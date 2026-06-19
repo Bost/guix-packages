@@ -8966,7 +8966,7 @@ striking dark theme with clear syntax visibility.")
       (license license:gpl3+))))
 
 (define-public emacs-kill-buffers
-  (let ((commit "86c6ec1fedd2a33ed3bb4cbf17791a77b3efc4e7")
+  (let ((commit "c3cd3c4271f8b1c08b92b1cb5b57fb55d01a983e")
         (revision "0"))
     (package
       (name "emacs-kill-buffers")
@@ -8980,7 +8980,7 @@ striking dark theme with clear syntax visibility.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0mvc7qclva2f2y7489f7f7j0j2b6s0g9rxbcvnzp89yyr4q73w02"))))
+           "0q7s9hhlz5qbkw3kp5p835lrcbzrrlq49ml678f5qp90jdjs2mcy"))))
       (build-system emacs-build-system)
       (propagated-inputs (list emacs-cider))
       (home-page "https://github.com/Bost/kill-buffers")
