@@ -6152,6 +6152,30 @@ text-property translator.")
 theme pair.")
       (license license:gpl3+))))
 
+(define-public emacs-moe-theme
+  (let ((commit "c7d711e940a6c4e7a2270830aeaf52c1ce789455")
+        (revision "0"))
+    (package
+      (name "emacs-moe-theme")
+      (version "1.1.0")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/kuanyui/moe-theme.el")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "141jzhfpcah0lw17lwgsd31jp93qr02371rjm2k92vawhx90hir6"))))
+      (build-system emacs-build-system)
+      (home-page
+       "https://github.com/kuanyui/moe-theme.el")
+      (synopsis "Anime-inspired color themes")
+      (description
+       "This package provides vibrant color schemes with light and dark
+variants.")
+      (license license:gpl3+))))
+
 (define-public emacs-slim-mode
   (package
     (name "emacs-slim-mode")
