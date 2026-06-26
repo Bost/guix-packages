@@ -22211,3 +22211,27 @@ accuracy) while you are typing.")
 @uref{https://www.terraform.io/, Terraform} configuration files.  Most of the
 functionality is inherited from @code{hcl-mode}.")
     (license license:gpl3+)))
+
+(define-public emacs-bookmark-plus
+  (package
+    (name "emacs-bookmark-plus")
+    (version "2025.08.20")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/emacsmirror/bookmark-plus")
+             (commit "892cc0a314ef353e800b6ff9da03b0bfd55e4763")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32
+         "1calszckrm03mgmvq7wmj3dw1dmjwlnn3zhp75dssqkiw5xp9xyl"))))
+    (build-system emacs-build-system)
+    (home-page "https://github.com/emacsmirror/bookmark-plus")
+    (synopsis "Extensions to the Bookmark library in Emacs")
+    (description
+     "Bookmarks are a powerful Emacs feature.  This package makes them even
+more versatile.  You can bookmark many more kinds of data.  You can add tags.
+There are many more ways to organize and display your bookmarks.  I recommend
+reading the extensive documentation about BookmarkPlus on the Emacs Wiki.")
+    (license license:gpl3+)))
