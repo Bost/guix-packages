@@ -1,7 +1,6 @@
 (define-module (bost gnu packages guake)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages admin)
-  #:use-module (gnu packages certs)
   #:use-module (gnu packages gettext)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gnome)
@@ -13,12 +12,10 @@
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages wm)
   #:use-module (guix build-system gnu)
-  #:use-module (guix build-system python)
   #:use-module (guix build-system pyproject)
   #:use-module (guix download)
   #:use-module (guix gexp)
   #:use-module (guix packages)
-  #:use-module (guix utils)
   )
 
 (define-public libutempter
@@ -36,7 +33,7 @@
          "04b72ipf0vzr3d8ybknbi1w4azvqhppps5r1jlj163lvmxsrr02j"))))
     (build-system gnu-build-system)
     ;; Authentication-related tools such as passwd, su, and login
-    (inputs `(("shadow" ,shadow)))
+    (inputs (list shadow))
     (arguments
      (list
       #:tests? #f
@@ -50,13 +47,14 @@
           (add-after 'unpack 'chdir-to-source
             (lambda _ (chdir "libutempter")))
           (add-after 'chdir-to-source 'fix-hardcoded-paths
-            (lambda* (#:key outputs #:allow-other-keys)
+            (lambda _
               (substitute* "Makefile"
                 (("/usr/lib") "$(LIBDIR)")
                 (("/usr/include") "$(PREFIX)/include")
                 (("/usr/share/man") "$(PREFIX)/share/man"))))
           (add-before 'build 'set-cc
-            (lambda _ (setenv "CC" "gcc")))
+            (lambda* (#:key inputs #:allow-other-keys)
+              (setenv "CC" (search-input-file inputs "bin/gcc"))))
           (add-before 'install 'create-directories
             (lambda* (#:key outputs #:allow-other-keys)
               (let ((out (assoc-ref outputs "out")))
@@ -167,8 +165,8 @@
                   (("\\{\\{ AUTOSTART_FOLDER \\}\\}")  (as-str autostart))
                   (("\\{\\{ LOGIN_DESTOP_PATH \\}\\}") (as-str guake-dir)))
                 (copy-file "guake/paths.py.in" "guake/paths.py")
-                (map mkdir-p
-                     (list guake-dir pixmaps schemas theme autostart)))))
+                (for-each mkdir-p
+                          (list guake-dir pixmaps schemas theme autostart)))))
 
           ;; Install UI files & schema (wheel sometimes misses these paths).
           (add-after 'install 'install-data-and-schemas
@@ -181,14 +179,14 @@
                 (mkdir-p guake)
                 (mkdir-p pixmaps)
                 (mkdir-p schemas)
-                (map (cut install-file <> guake)
-                     (list
-                      "guake/data/guake.glade"
-                      "guake/data/about.glade"
-                      "guake/data/prefs.glade"
-                      "guake/data/search.glade"))
-                (map (cut install-file <> pixmaps)
-                     (find-files "guake/data/pixmaps" "\\.png$"))
+                (for-each (cut install-file <> guake)
+                          (list
+                           "guake/data/guake.glade"
+                           "guake/data/about.glade"
+                           "guake/data/prefs.glade"
+                           "guake/data/search.glade"))
+                (for-each (cut install-file <> pixmaps)
+                          (find-files "guake/data/pixmaps" "\\.png$"))
                 (install-file "guake/data/org.guake.gschema.xml" schemas))))
 
           ;; Compile schemas & do the standard GTK wrap.
@@ -234,7 +232,7 @@
 
               (define filter-dirs
                 (compose
-                 (cut filter file-exists? <>)
+                 (cut filter (lambda (x) (and x (file-exists? x))) <>)
                  (cut map (cut apply
                                (lambda (key suffix)
                                  (let ((val (assoc-ref inputs key)))
