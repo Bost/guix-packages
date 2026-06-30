@@ -14,7 +14,7 @@
 (channel
  (version 0)
  ;; (news-file "etc/news.scm")
- ;; (keyring-reference "keyring")
+ (keyring-reference "keyring")
  (directory "src")
  (dependencies
 
