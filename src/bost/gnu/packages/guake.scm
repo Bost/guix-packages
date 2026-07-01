@@ -84,14 +84,14 @@
                 ))))
     (build-system pyproject-build-system)
 
-    ;; C/GI libs will be in the resulting binary file. Available also at the runtime
+    ;; C/GI libs will be in the resulting binary file
     (inputs
      (list
       guile-3.0
       glib
       gtk+
       gdk-pixbuf
-      gobject-introspection                      ; for cairo-1.0.typelib
+      gobject-introspection             ; for cairo-1.0.typelib
       harfbuzz
       at-spi2-core
       keybinder
@@ -102,7 +102,7 @@
       pango
       ))
 
-    ;; Python packages added to user profile. Available also at the runtime
+    ;; Python packages added to user profile
     (propagated-inputs
      (list
       python-dbus
@@ -118,7 +118,7 @@
       ;; The order of glib and (list glib "bin") matters. When reversed the
       ;; "...-glib-bin" instead of "...-glib" gets picked.
       glib
-      (list glib "bin")             ; glib-compile-schemas
+      (list glib "bin")                 ; glib-compile-schemas
       python-setuptools
       python-wheel
       python-installer
