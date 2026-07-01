@@ -268,5 +268,8 @@
 
     (home-page "https://github.com/Guake/guake")
     (synopsis "Drop-down terminal for GNOME")
-    (description "Guake is a Quake-style drop-down terminal for GNOME.")
+    (description "Guake is a drop-down terminal for the GNOME desktop environment,
+inspired by the terminals in first-person shooter games.  It slides down from
+the top of the screen on a keypress (F12 by default) and retracts when
+dismissed.")
     (license license:gpl2+)))
