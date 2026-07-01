@@ -249,22 +249,7 @@
                   (cut filter file-exists? <>)
                   (cut map (cut string-append bindir <>) <>))
                  (list "/guake" "/guake-toggle")))))
-
-          ;; Without this file the D-Bus session daemon cannot auto-activate
-          ;; org.guake3.RemoteControl, causing a ~25 s activation timeout on
-          ;; guake startup. Exec points at the already-wrapped binary.
-          (add-after 'wrap-gi 'install-dbus-service
-            (lambda* (#:key outputs #:allow-other-keys)
-              (let* ((out     (assoc-ref outputs "out"))
-                     (svc-dir (string-append out "/share/dbus-1/services")))
-                (mkdir-p svc-dir)
-                (call-with-output-file
-                    (string-append svc-dir
-                                   "/org.guake3.RemoteControl.service")
-                  (lambda (port)
-                    (format port "[D-BUS Service]~%")
-                    (format port "Name=org.guake3.RemoteControl~%")
-                    (format port "Exec=~a/bin/guake~%" out)))))))))
+          )))
 
     (home-page "https://github.com/Guake/guake")
     (synopsis "Drop-down terminal for GNOME")
