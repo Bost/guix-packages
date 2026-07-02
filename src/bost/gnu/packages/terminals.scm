@@ -153,21 +153,21 @@
     (version "1.2.3-alt1")
     (source
      (origin
-       (method url-fetch)
-       (uri (string-append
-             "https://github.com/altlinux/libutempter/archive/refs/tags/"
-             version ".tar.gz"))
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/altlinux/libutempter")
+              (commit version)))
+       (file-name (git-file-name name version))
        (sha256
         (base32
-         "04b72ipf0vzr3d8ybknbi1w4azvqhppps5r1jlj163lvmxsrr02j"))))
+         "0hidchf1s4rcw506grnqvd3b76j1nv0p9msmqznylz7k8n45j90a"))))
     (build-system gnu-build-system)
-    ;; Authentication-related tools such as passwd, su, and login.
-    (inputs (list shadow))
     (arguments
      (list
       #:tests? #f                      ;no test suite
       #:make-flags
-      #~(list (string-append "PREFIX=" #$output)
+      #~(list (string-append "CC=" #$(cc-for-target))
+              (string-append "PREFIX=" #$output)
               (string-append "LIBDIR=" #$output "/lib")
               (string-append "LIBEXECDIR=" #$output "/libexec"))
       #:phases
@@ -185,11 +185,12 @@
             (lambda* (#:key inputs #:allow-other-keys)
               (setenv "CC" (search-input-file inputs "bin/gcc"))))
           (add-before 'install 'create-directories
-            (lambda* (#:key outputs #:allow-other-keys)
-              (let ((out (assoc-ref outputs "out")))
-                (mkdir-p (string-append out "/lib"))
-                (mkdir-p (string-append out "/include"))
-                (mkdir-p (string-append out "/share/man/man3"))))))))
+            (lambda _
+              (mkdir-p (string-append #$output "/lib"))
+              (mkdir-p (string-append #$output "/include"))
+              (mkdir-p (string-append #$output "/share/man/man3")))))))
+    ;; Authentication-related tools such as passwd, su, and login.
+    (inputs (list shadow))
     (home-page "https://github.com/altlinux/libutempter")
     (synopsis "Library for utmp/wtmp session recording")
     (description
