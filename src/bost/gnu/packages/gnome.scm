@@ -41,7 +41,16 @@
                      (("gtk_update_icon_cache: true")
                       "gtk_update_icon_cache: false")
                      (("glib_compile_schemas: true")
-                      "glib_compile_schemas: false")))))))
+                      "glib_compile_schemas: false"))))
+               (add-after 'install 'wrap-simple-scan
+                 (lambda* (#:key inputs #:allow-other-keys)
+                   (let ((simple-scan (string-append #$output "/bin/simple-scan"))
+                         (sane-airscan-inputs (assoc-ref inputs "sane-airscan")))
+                     (wrap-program simple-scan
+                       `("LD_LIBRARY_PATH" =
+                         (,(string-append sane-airscan-inputs "/lib/sane")))
+                       `("SANE_CONFIG_DIR" prefix
+                         (,(string-append sane-airscan-inputs "/etc/sane.d"))))))))))
     (native-inputs
      (list gettext-minimal
            `(,gtk "bin")
@@ -59,7 +68,8 @@
            gdk-pixbuf
            gusb
            libadwaita
-           sane))
+           sane
+           sane-airscan))
     (home-page "https://gitlab.gnome.org/GNOME/simple-scan")
     (synopsis "Document and image scanner")
     (description
