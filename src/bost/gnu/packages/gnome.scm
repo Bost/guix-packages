@@ -20,7 +20,7 @@
 (define-public simple-scan
   (package
     (name "simple-scan")
-    (version "46.0")
+    (version "49.1")
     (source
      (origin
        (method url-fetch)
@@ -28,24 +28,23 @@
                            (version-major version) "/"
                            "simple-scan-" version ".tar.xz"))
        (sha256
-        (base32 "1aghnkvjdyj73kv55nd9gl5b1xjkpcxjn4j3a6z67r9g2j86avn1"))))
+        (base32 "0d733cjq0dy07fx3yxh2rzr3ij3rslvb96czxd2miyfa3qax9s4s"))))
     (build-system meson-build-system)
     (arguments
-     (list
-      #:glib-or-gtk? #t
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'install 'wrap-simple-scan
-            (lambda* (#:key inputs #:allow-other-keys)
-              (let ((simple-scan (string-append #$output "/bin/simple-scan"))
-                    (sane-airscan-inputs (assoc-ref inputs "sane-airscan")))
-                (wrap-program simple-scan
-                  `("LD_LIBRARY_PATH" =
-                    (,(string-append sane-airscan-inputs "/lib/sane")))
-                  `("SANE_CONFIG_DIR" prefix
-                    (,(string-append sane-airscan-inputs "/etc/sane.d"))))))))))
+     (list #:glib-or-gtk? #t
+           #:phases
+           #~(modify-phases %standard-phases
+               (add-after 'unpack 'skip-gtk-update-icon-cache
+                 ;; Don't create 'icon-theme.cache'.
+                 (lambda _
+                   (substitute* "meson.build"
+                     (("gtk_update_icon_cache: true")
+                      "gtk_update_icon_cache: false")
+                     (("glib_compile_schemas: true")
+                      "glib_compile_schemas: false")))))))
     (native-inputs
      (list gettext-minimal
+           `(,gtk "bin")
            itstool
            `(,glib "bin")               ; glib-compile-schemas, etc.
            pkg-config
@@ -60,8 +59,7 @@
            gdk-pixbuf
            gusb
            libadwaita
-           sane-airscan
-           sane-backends))
+           sane))
     (home-page "https://gitlab.gnome.org/GNOME/simple-scan")
     (synopsis "Document and image scanner")
     (description
