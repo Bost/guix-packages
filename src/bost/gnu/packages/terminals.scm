@@ -181,9 +181,6 @@
                 (("/usr/lib") "$(LIBDIR)")
                 (("/usr/include") "$(PREFIX)/include")
                 (("/usr/share/man") "$(PREFIX)/share/man"))))
-          (add-before 'build 'set-cc
-            (lambda* (#:key inputs #:allow-other-keys)
-              (setenv "CC" (search-input-file inputs "bin/gcc"))))
           (add-before 'install 'create-directories
             (lambda _
               (mkdir-p (string-append #$output "/lib"))
@@ -220,6 +217,8 @@ themselves.")
     (inputs
      (list guile-3.0
            glib
+           dconf                        ; GSettings dconf backend
+           gsettings-desktop-schemas    ; for org.gnome.desktop.interface
            gtk+
            gdk-pixbuf
            gobject-introspection        ; for cairo-1.0.typelib
@@ -231,19 +230,19 @@ themselves.")
            libwnck
            vte/gtk+-3
            pango))
-    ;; Python packages added to the user's profile.
+    ;; Python packages, plus glib:bin, added to the user's profile.
     (propagated-inputs
-     (list python-dbus
-           python-pycairo
-           python-pygobject
-           python-pyinotify
-           python-pyyaml))
+     (list
+      ;; guake calls glib-compile-schemas directly at runtime and crashes
+      ;; (uncaught FileNotFoundError) if it isn't on $PATH
+      (list glib "bin")                ; glib-compile-schemas
+      python-dbus
+      python-pycairo
+      python-pygobject
+      python-pyinotify
+      python-pyyaml))
     (native-inputs
      (list
-      ;; The order of glib and (list glib "bin") matters; reversed, the
-      ;; "...-glib-bin" output gets picked instead of "...-glib".
-      glib
-      (list glib "bin")                 ; glib-compile-schemas
       python-setuptools
       python-wheel
       python-installer
@@ -311,6 +310,19 @@ themselves.")
             (assoc-ref glib:%standard-phases 'glib-or-gtk-compile-schemas))
           (add-after 'wrap 'glib-or-gtk-wrap
             (assoc-ref glib:%standard-phases 'glib-or-gtk-wrap))
+          ;; The install-dbus-service phase leads to ~25 seconds delay, which
+          ;; seems like 'D-Bus auto-activation timeout'
+          ;; Install a D-Bus service so org.guake3.RemoteControl can auto-activate.
+          (add-after 'glib-or-gtk-wrap 'install-dbus-service
+            (lambda* (#:key outputs #:allow-other-keys)
+              (let ((svc-dir (string-append #$output "/share/dbus-1/services")))
+                (mkdir-p svc-dir)
+                (call-with-output-file
+                    (string-append svc-dir "/org.guake3.RemoteControl.service")
+                  (lambda (port)
+                    (format port "[D-BUS Service]~%")
+                    (format port "Name=org.guake3.RemoteControl~%")
+                    (format port "Exec=~a/bin/guake~%" #$output))))))
           ;; Prepend all GI dirs and libs.
           (add-after 'glib-or-gtk-wrap 'wrap-gi
             (lambda* (#:key inputs outputs #:allow-other-keys)
