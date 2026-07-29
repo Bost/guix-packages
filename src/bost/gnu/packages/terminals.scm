@@ -271,8 +271,7 @@ themselves.")
           (add-after 'unpack 'prepare-paths
             (lambda* (#:key outputs #:allow-other-keys)
               (define (as-str s) (format #f "\"~a\"" s))
-              (let* ((out       (assoc-ref outputs "out"))
-                     (share     (string-append out "/share"))
+              (let* ((share     (string-append #$output "/share"))
                      (guake-dir (string-append share "/guake"))
                      (pixmaps   (string-append guake-dir "/pixmaps"))
                      (schemas   (string-append share "/glib-2.0/schemas"))
@@ -292,8 +291,7 @@ themselves.")
           ;; Install UI files & schema (wheel sometimes misses these paths).
           (add-after 'install 'install-data-and-schemas
             (lambda* (#:key outputs #:allow-other-keys)
-              (let* ((out     (assoc-ref outputs "out"))
-                     (share   (string-append out "/share"))
+              (let* ((share   (string-append #$output "/share"))
                      (guake   (string-append share "/guake"))
                      (pixmaps (string-append guake "/pixmaps"))
                      (schemas (string-append share "/glib-2.0/schemas")))
@@ -337,8 +335,7 @@ themselves.")
                                    (and val (string-append val suffix))))
                                <>)
                       <>)))
-              (let* ((out (assoc-ref outputs "out"))
-                     (bindir (string-append out "/bin"))
+              (let* ((bindir (string-append #$output "/bin"))
                      ;; Absolute path to Guile for the shebang.
                      (guile-bin (or (search-input-file inputs "bin/guile")
                                     (error "Missing 'guile' in inputs")))
@@ -354,9 +351,9 @@ themselves.")
                             #:guile guile-bin
                             `("GI_TYPELIB_PATH" ":" prefix ,gi-dirs)
                             `("LD_LIBRARY_PATH" ":" prefix ,lib-dirs)
-                            ;; Ensure D-Bus sees $out/share/dbus-1/services.
+                            ;; Ensure D-Bus sees #$output/share/dbus-1/services.
                             `("XDG_DATA_DIRS"   ":"
-                              prefix (,(string-append out "/share"))))
+                              prefix (,(string-append #$output "/share"))))
                        <>)
                   ;; Only wrap actual entry points, not dotfiles or *-real.
                   (cut filter file-exists? <>)
