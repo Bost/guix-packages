@@ -2,7 +2,7 @@
   #:use-module (ice-9 pretty-print)
   #:use-module (guix packages)
   #:use-module (srfi srfi-1) ; list-processing procedures
-  #:use-module (bost utils)  ; partial, m
+  #:use-module (bost common utils)  ; partial, m
 )
 
 (evaluating-module)

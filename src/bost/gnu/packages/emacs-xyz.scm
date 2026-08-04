@@ -4,7 +4,7 @@
   #:use-module (ice-9 ftw)    ; File tree walker
   #:use-module (guix build utils) ; find-files
   ;; #:use-module (ice-9 match)
-  #:use-module (bost utils)
+  #:use-module (bost common utils)
   #:use-module (bost gnu packages space-needed)
   #:use-module (gnu packages emacs-xyz)
   #:use-module ((bost gnu packages emacs-build) #:prefix bst:)
@@ -19803,7 +19803,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                           '(
                             (srfi srfi-1)  ; the 'any' test
                             (srfi srfi-26) ; Conveniently specialize selected parameters
-                            (bost utils)
+                            (bost common utils)
                             (guix utils)
                             (bost guix build emacs-utils)
                             ))
@@ -20006,8 +20006,8 @@ the use of Spacemacs without conflicting with the base Emacs."
       #:modules
       '((guix build utils)
         (guix monads)
-        (bost srfi-1-smart)
-        (bost utils)
+        (bost common srfi-1-smart)
+        (bost common utils)
         (bost guix build spacemacs-utils))
       #:builder
       #~(begin

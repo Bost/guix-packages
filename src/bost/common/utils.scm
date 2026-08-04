@@ -6,11 +6,9 @@
 ;; https://github.com/isamert/jaro/blob/master/jaro
 ;; See `guile-build-system'
 
-(define-module (bost utils)
-;;; All used modules must be present in the module (services cli-utils) under:
-;;;   1. service-file -> with-imported-modules
-;;;   2. common-modules
-  #:use-module (bost srfi-1-smart)
+(define-module (bost common utils)
+;;; All used modules must be present in (@(services cli-utils) common-modules)
+  #:use-module (bost common srfi-1-smart)
   #:use-module (ice-9 match)  ; match
   #:use-module (ice-9 popen)  ; open-input-pipe
 ;;; (ice-9 readline) requires `guix install guile-readline'.
@@ -18,6 +16,7 @@
   #:use-module (ice-9 rdelim) ; read-line
   #:use-module (ice-9 regex)  ; regexp and string matching
   #:use-module (srfi srfi-1)  ; list-processing procedures
+  #:use-module (srfi srfi-171) ; transducers
   ;; #:use-module (guix build utils) ; invoke - not needed
   #:use-module (ice-9 pretty-print)
 
@@ -37,6 +36,10 @@
   ;; for inferior-package-in-guix-channel : end
   #:use-module (ice-9 exceptions) ; guard
   #:use-module (ice-9 optargs)    ; define*-public
+
+  #:use-module (rnrs bytevectors) ; for procedure: cnt
+  #:use-module (ice-9 hash-table) ; for procedure: cnt
+
   #:export (
             compose-commands-guix-shell
             compose-commands-guix-shell-dry-run
@@ -52,6 +55,8 @@
             testsymb
             testsymb-trace
             dbgfmt
+            and*
+            or*
             )
   #:re-export (
                smart-first
@@ -64,7 +69,7 @@
                smart-drop
                ))
 
-(define m "[bost utils]")
+(define m "[bost common utils]")
 ;; (format #t "~a evaluating module…\n" m)
 
 ;; https://github.com/daviwil/dotfiles/tree/master/.config/guix
@@ -76,13 +81,74 @@
 
 ;;;;;; beg: testsymb, testsymb-trace
 
-;; neither `=' nor `eqv?' work
-(define-public cnt length+)
+(define-public (cnt obj)
+  "Return the number of elements in OBJ, dispatching on its type.
+
+Supported types and semantics:
+  #f            → 0  (like Clojure's nil)
+  '()           → 0
+  string        → number of characters
+  vector        → number of elements
+  bytevector    → number of bytes
+  bitvector     → number of bits
+  hash table    → number of entries
+  char-set      → number of characters in the set
+  pair          → number of distinct pairs reachable via cdr;
+                  terminates on proper, improper, and circular lists
+  array         → total number of elements across all dimensions
+
+Any other type signals an error.
+
+(define circular-list (let ((x '(1 2 3))) (set-cdr! (cddr x) x) x))
+(cnt circular-list) ;=> 3
+"
+  (define (count-pairs x)
+    ;; Floyd's tortoise-and-hare: O(n) time, O(1) space.
+    ;; For a ρ-shaped structure the answer is μ + λ, i.e. the
+    ;; number of distinct pairs.
+    (define (cdr* x) (and (pair? x) (cdr x)))
+    (let race ((slow x) (fast x))
+      (let* ((f1 (cdr* fast))
+             (f2 (and f1 (cdr* f1))))
+        (if (not f2)
+            ;; Finite — plain linear walk.
+            (let walk ((y x) (n 0))
+              (if (pair? y) (walk (cdr y) (+ n 1)) n))
+            (let ((slow* (cdr slow)))
+              (if (eq? slow* f2)
+                  ;; Cycle detected; SLOW* lies on it.
+                  (let* ((mu  (let find-mu ((a x) (b slow*) (m 0))
+                                (if (eq? a b) m
+                                    (find-mu (cdr a) (cdr b) (+ m 1)))))
+                         (lam (let find-lam ((y (cdr slow*)) (l 1))
+                                (if (eq? y slow*) l
+                                    (find-lam (cdr y) (+ l 1))))))
+                    (+ mu lam))
+                  (race slow* f2)))))))
+  (cond
+   ((not obj)         0)
+   ((null? obj)       0)
+   ((string? obj)     (string-length obj))
+   ((vector? obj)     (vector-length obj))
+   ((bytevector? obj) (bytevector-length obj))
+   ((bitvector? obj)  (bitvector-length obj))
+   ((hash-table? obj) (hash-count (const #t) obj))
+   ((char-set? obj)   (char-set-size obj))
+   ((pair? obj)       (count-pairs obj))
+   ((array? obj)      (apply * (map (lambda (dim)
+                                      (- (cadr dim) (car dim) -1))
+                                    (array-shape obj))))
+   (else (error "count: unsupported type" obj))))
 
 (define-public (partial fun . args)
   "Alternative implementation:
 (use-modules (srfi srfi-26))
-(map (cut * 2 <>) '(1 2 3 4)) ;=> (2 4 6 8)"
+(map (cut * 2 <>) '(1 2 3 4)) ;=> (2 4 6 8)
+
+Works also for multiple args:
+(define (fabc a b c) (+ a b c))
+(define (fa a) (partial fabc a))
+((fa 1) 3 4) ;=> 8"
   (lambda x (apply fun (append args x))))
 
 (define-public (comp . fns)
@@ -126,6 +192,18 @@ Works also for functions returning and accepting multiple values."
 (string-ops \"Hello\")  ;=> (5 \"HELLO\" \"hello\")"
   (lambda args
     (map (lambda (fn) (apply fn args)) fns)))
+
+(define-public rflatten
+  (case-lambda ; multi-arity
+    "Reducer collecting inputs into a list, flattening each input first.
+(list-transduce (tmap (juxt 1+ 1-)) rflatten '(1 2)) ;=> (2 0 3 1)
+
+See also
+(list-transduce (compose (tmap (juxt 1+ 1-)) tflatten) rcons '(1 2))
+;=> (2 0 3 1)"
+    (() '())
+    ((acc) (reverse! acc))
+    ((acc input) (fold cons acc (flatten input)))))
 
 (define eq-op? string-ci=?)
 (define-public (s+ . rest) (apply (partial lset-union eq-op?) rest))
@@ -443,8 +521,9 @@ reversed. See also:
   (reverse (list-tail (reverse xs) n)))
 
 (define-public (drop-left xs n)
-  "(drop-left (list 1 2 3 4 5) 2) ;=> (3 4 5)"
-  (drop xs n))
+  "Corresponds to `drop' in Clojure.
+(drop-left (list 1 2 3 4 5) 2) ;=> (4 5)"
+  (reverse (list-head (reverse xs) n)))
 
 (define-public (flatten x)
   "(flatten (list (cons 1 (cons 2 3)))) ;=> (1 2 3)
@@ -459,8 +538,7 @@ reversed. See also:
       ""
       (format #f "~a" (string-join (map str rest)))))
 
-;; TODO dbgfmt should be smart to detect if the symbols `f' and/or `m' are
-;; defined and if so then use them
+;; TODO dbgfmt should detect if the f / m are defined and if so then use them
 (define-syntax dbgfmt
   ;; match specific datums `m' and `f' in an expression
   (syntax-rules (m f)
@@ -479,21 +557,22 @@ reversed. See also:
 (define-public dbg peek)
 
 (define*-public (dbg-exec prm #:key (verbose #t))
-  "`pk', i.e. `peek' can be used instead of this procedure."
+  "`pk', i.e. `peek' can be used instead of this procedure.
+See also (getenv \"STARSHIP_PROMPT_SYMBOL\")
+⋎ U+22CE Curly logical OR, licensed Guix logo
+λ U+03BB Greek small lambda
+🐟🐳🐠🎣🦑👽🛸🚀🧙🦊🐍💡🧠🤓👾🤖🦾🐌🐚
+"
   (when verbose
-    (format #t "§ ~a\n" (if (list? prm) (string-join prm) prm)))
+    (format #t "+🤓 ~a\n" (if (list? prm) (string-join prm) prm)))
   prm)
 
 (def*-public (error-command-failed #:rest args)
   "Returns #t and prints \"Command failed.\" with some extra text. Does NOT
 error-out!"
-  ;; (format #t "~a ~a Starting ...\n" f m)
   (define (error-fun . args)
-    ;; (error (apply (partial format #f (car args))
-    ;;               (cdr args)))
     (apply (partial format (current-error-port))
-           (cons (str "E " (car args) "\n") (cdr args)))
-    )
+           (cons (str "E " (car args) "\n") (cdr args))))
   (match args
     ['()
      (error-fun "Command failed.")]
@@ -795,7 +874,7 @@ Example:
               command #:key (trace #f) (verbose #f) (ignore-errors #f))
   "Execute COMMAND in background, i.e. in a detached process.
 COMMAND can be a string or a list of strings.
-§ echo bar baz & disown
++🤓 echo bar baz & disown
 bar baz
 $9 = 0 ;; <return-code>"
 
@@ -821,7 +900,7 @@ $9 = 0 ;; <return-code>"
               command #:key (trace #f) (verbose #f) (ignore-errors #f))
   "Execute COMMAND and returns its ret-code.
 (exec-foreground \"echo bar baz\") ;=>
-§ echo bar baz
++🤓 echo bar baz
 bar baz
 $9 = (0 \"bar baz\") ;; (<return-code> <return-value>)
 
@@ -853,7 +932,7 @@ $9 = (0 \"bar baz\") ;; (<return-code> <return-value>)
   "Execute COMMAND using `system' from the (guile) module and returns its
 ret-code.
 (exec-system \"echo bar baz\") ;=>
-§ echo bar baz
++🤓 echo bar baz
 bar baz
 $9 = 0 ;; <return-code>"
   (when trace
@@ -1004,6 +1083,37 @@ Or:
     cmd->string)
    command))
 
+(define*-public (exec-argv command #:key (verbose #t) (return-plist #f))
+  "Run COMMAND as an argv list without invoking a shell.
+COMMAND must be a list whose first element is the program and whose remaining
+items are argv elements. No whitespace splitting, quote interpretation, globbing,
+pipes, or variable expansion is performed."
+  (define (exec-function . argv)
+    (unless (and (not (null? argv)) (every string? argv))
+      (error "exec-argv expects a non-empty list of strings" argv))
+    (let* [(port (apply open-pipe* OPEN_READ argv))
+           (results (read-all-strings port))
+           (retcode (status:exit-val (close-pipe port)))]
+      (if return-plist
+          (list #:retcode retcode #:results results)
+          (cons retcode results))))
+  ((comp
+    (partial exec-or-dry-run exec-function)
+    (lambda (prm) (dbg-exec prm #:verbose verbose)))
+   command))
+
+(define*-public (run-command #:key args)
+  "argv -> list of stdout lines.  Runs via exec-argv (no shell), errors on a
+non-zero exit, and normalizes the result to a list of lines."
+  ((comp
+    (lambda (res) (let ((out (cdr res)))
+                    (if (string? out) (string-split out #\newline) out)))
+    (lambda (res) (if (zero? (car res))
+                      res
+                      (error "command failed with code" (car res))))
+    (lambda (argv) (exec-argv argv #:verbose #f)))
+   args))
+
 (define-public (analyze-pids-flag-variable user init-cmd client-cmd pids)
   "Breakout implementation using a flag variable"
   (let [(ret-cmd init-cmd)]
@@ -1087,25 +1197,6 @@ found or the CLIENT-CMD if some process ID was found."
     string-copy)
    "/tmp/myfile-XXXXXX"))
 (testsymb 'mktmpfile)
-
-;; TODO add install-recursively to (guix build utils) and send it to upstream
-(define*-public (install-recursively source destination
-                              #:key
-                              (log (current-output-port))
-                              (follow-symlinks? #f)
-                              (copy-file copy-file)
-                              keep-mtime? keep-permissions?)
-  "Recursive version of install-file."
-  ((@(guix build utils) mkdir-p) destination)
-  ((@(guix build utils) copy-recursively)
-   source
-   (string-append destination "/" (basename destination))
-   #:log log
-   #:follow-symlinks? follow-symlinks?
-   #:copy-file copy-file
-   #:keep-mtime? keep-mtime?
-   #:keep-permissions? keep-permissions?
-   ))
 
 (define-public (url? url)
   "Is URL a valid url?"
@@ -1687,11 +1778,27 @@ that many from the end."
       (_ (error 'syntax->list "invalid argument ~s" orig-ls)))))
 
 (define (build one-or-more-packages)
-  "(build (@(bost gnu packages emacs-xyz) emacs-tweaks))"
+  "
+(build (@(bost gnu packages emacs-xyz) emacs-tweaks)) ; doesn't build
+
+(build (@(gnu packages emacs-xyz) emacs-back-button)) ;=> (#t)
+(build \"emacs-back-button\")                           ;=> (#t)
+(build 'emacs-back-button)                            ;=> (#t)
+"
   (let [(daemon ((@ (guix store) open-connection)))]
     ;; Define `partial' locally so that this procedure is self-sustained
     (define (partial fun . args) (lambda x (apply fun (append args x))))
     (define (ensure-list args) (if (list? args) args (list args)))
+    (define packages
+      (map (lambda (p)
+             (cond
+              [((@(guix packages) package?) p) p]
+              [(symbol? p) ((@(gnu packages) specification->package)
+                            (symbol->string p))]
+              [(string? p) ((@(gnu packages) specification->package)
+                            p)]))
+           (ensure-list one-or-more-packages)))
+
     (map (compose
           ;; (lambda (p) (format #t "3 p: ~a\n" p) p)
           (partial (@ (guix derivations) build-derivations) daemon)
@@ -1700,31 +1807,11 @@ that many from the end."
           ;; (lambda (p) (format #t "1 p: ~a\n" p) p)
           (partial (@ (guix packages) package-derivation) daemon)
           ;; (lambda (p)
-          ;;   (format #t "0 p: ~a\n" p)
-          ;;   (format #t "(record? p): ~a\n" (record? p))
-          ;;   (format #t "(package? p) p: ~a\n" (package? p))
+          ;;   (format #t "0. p : ~a; record? : ~a; package? : ~a\n"
+          ;;           p (record? p) ((@(guix packages) package?) p))
           ;;   p)
           )
-         (ensure-list one-or-more-packages))
-
-    ;; ((compose
-    ;;   (lambda (p) (format #t "3 p: ~a\n" p) p)
-    ;;   (partial (@ (guix derivations) build-derivations) daemon)
-    ;;   (lambda (p) (format #t "2 p: ~a\n" p) p)
-    ;;   list
-    ;;   (lambda (p) (format #t "1 p: ~a\n" p) p)
-    ;;   (partial (@ (guix packages) package-derivation) daemon)
-    ;;   (lambda (p)
-    ;;     (format #t "0 p: ~a\n" p)
-    ;;     (format #t "(record? p: ~a\n" (record? p))
-    ;;     (format #t "(package? p) p: ~a\n" (package? p))
-    ;;     p)
-    ;;   )
-    ;;  (specification->package
-    ;;   (format #f "(@ (bost packages emacs-xyz) ~a)"
-    ;;           (symbol->string one-or-more-packages))
-    ;;   ))
-    ))
+         (ensure-list packages))))
 
 (define (symbolic-link? path)
   "Check if path is a symbolic link"
@@ -2187,19 +2274,57 @@ dotted (improper) list — and it allows the degenerate case with zero pairs.
 "
   (object->string x write))
 
-;; see https://codeberg.org/guile/guile/issues/50
-(define-public and*
+;; See https://codeberg.org/guile/guile/issues/50#issuecomment-14496786
+;; The dual-mode syntax is clever but fragile, so if the short-circuiting is not needed a plain procedure may be better:
+;; (define-syntax and*
+;;   (lambda (x)
+;;     (syntax-case x ()
+;;       [(_ rest ...)
+;;        #'(and rest ...)]
+;;       [var
+;;        (identifier? #'var)
+;;        #'(lambda args
+;;            (let loop ((args args))
+;;              (if (null? args)
+;;                  #t ; by default
+;;                  (and (car args) (loop (cdr args))))))])))
+;;
+;; (define-syntax or*
+;;   (lambda (x)
+;;     (syntax-case x ()
+;;       [(_ rest ...)
+;;        #'(or rest ...)]
+;;       [var
+;;        (identifier? #'var)
+;;        #'(lambda args
+;;            (let loop ((args args))
+;;              (if (null? args)
+;;                  #f ; by default
+;;                  (or (car args) (loop (cdr args))))))])))
+
+(define and*
   (lambda args
     (let loop ((args args))
       (if (null? args)
           #t
           (and (car args) (loop (cdr args)))))))
 
-(define-public or*
+(define or*
   (lambda args
     (let loop ((args args))
       (if (null? args)
           #f
           (or (car args) (loop (cdr args)))))))
+
+(define-public (print-lines lines)
+  "Print each of LINES followed by a newline."
+  (for-each (lambda (line) (display line) (newline)) lines))
+
+(define-public (die fmt . args)
+  "Print a message to the error port and exit with status 1.
+Unlike `error', no backtrace — for expected failures, not bugs."
+  (apply format (current-error-port) fmt args)
+  (newline (current-error-port))
+  (exit 1))
 
 (module-evaluated)
