@@ -22,7 +22,7 @@
 ;;; Home services for Flatpak, the Linux software deployment utility
 
 (define-module (bost home services flatpak)
-  #:use-module (bost utils)
+  #:use-module (bost common utils)
   #:use-module (gnu services)
   #:use-module (guix gexp)         ; program-file local-file
   #:use-module (gnu home services) ; simple-service

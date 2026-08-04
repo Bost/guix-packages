@@ -1,6 +1,6 @@
 (define-module (bost gnu packages emacs-build)
   #:use-module (ice-9 pretty-print)
-  #:use-module (bost utils)
+  #:use-module (bost common utils)
   #:use-module (gnu packages emacs-build)
   #:use-module (guix build-system gnu)
   #:use-module ((guix licenses) #:prefix license:)
@@ -33,9 +33,9 @@
     (guix build emacs-build-system)
     (guix build emacs-utils)
     (bost guix build emacs-utils)
-    (bost utils)
+    (bost common utils)
     (guix monads)
-    (bost srfi-1-smart)
+    (bost common srfi-1-smart)
     ))
 
 (define-public emacs-dash
