@@ -1,7 +1,7 @@
 (define-module (bost git-clone)
 ;;; All used modules must be present in the module (services cli-utils) under:
 ;;;   service-file -> with-imported-modules
-  #:use-module (bost utils)
+  #:use-module (bost common utils)
   #:export (main git-clone))
 
 #|

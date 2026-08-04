@@ -1,4 +1,4 @@
-(define-module (bost srfi-1-smart)
+(define-module (bost common srfi-1-smart)
   #:use-module (srfi srfi-1)
   #:export (
             smart-first

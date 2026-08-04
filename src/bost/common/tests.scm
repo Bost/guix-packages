@@ -1,5 +1,5 @@
-(define-module (bost tests)
-  #:use-module (bost utils)
+(define-module (bost common tests)
+  #:use-module (bost common utils)
   ;; #:use-module (ice-9 rdelim)
   ;; #:use-module (ice-9 popen)
   ;; #:use-module (ice-9 regex)
@@ -146,13 +146,13 @@ Type Testing Predicates.
    (list
     'unspecified?
     'boolean?
-    '(@(dotf utils) true?)
-    '(@(dotf utils) false?)
+    '(@(bost common utils) true?)
+    '(@(bost common utils) false?)
     'port?
     'string?
     'symbol?
     'list?
-    '(@(dotf utils) plist?)
+    '(@(bost common utils) plist?)
     'pair?
 
     '(@(srfi srfi-1) proper-list?)
@@ -161,7 +161,7 @@ Type Testing Predicates.
     ;; as a dotted (improper) list — and it allows the degenerate case with zero
     ;; pairs.
     ;; '(@(srfi srfi-1) dotted-list?)
-    '(@(dotf utils) nonempty-dotted-list?)
+    '(@(bost common utils) nonempty-dotted-list?)
 
     '(@(srfi srfi-1) null-list?)
     '(@(srfi srfi-1) not-pair?)
@@ -263,9 +263,9 @@ Type Testing Predicates.
     'char=?
     'char-ci=?
 
-    '(@(dotf utils) list=eq?)
-    '(@(dotf utils) list=eqv?)
-    '(@(dotf utils) list=equal?)
+    '(@(bost common utils) list=eq?)
+    '(@(bost common utils) list=eqv?)
+    '(@(bost common utils) list=equal?)
 
     'lset=  ; from srfi-1
     'lset<= ; from srfi-1
@@ -274,10 +274,10 @@ Type Testing Predicates.
     'eqv?
     'equal?
 
-    '(@(dotf utils) some-true?)
-    '(@(dotf utils) every-true?)
-    '((@(dotf utils) partial) (@(dotf utils) not-every?) (@(dotf utils) true?))
-    '((@(dotf utils) partial) (@(dotf utils) not-any?) (@(dotf utils) true?))
+    '(@(bost common utils) some-true?)
+    '(@(bost common utils) every-true?)
+    '((@(bost common utils) partial) (@(bost common utils) not-every?) (@(bost common utils) true?))
+    '((@(bost common utils) partial) (@(bost common utils) not-any?) (@(bost common utils) true?))
 
     ;; Tree Intermediate Language
     '(@(language tree-il) tree-il=?)

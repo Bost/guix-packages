@@ -18,7 +18,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (bost guix build spacemacs-utils)
-  #:use-module (bost utils)
+  #:use-module (bost common utils)
   #:use-module (guix build utils)
   #:use-module (oop goops)
   #:use-module (ice-9 pretty-print)

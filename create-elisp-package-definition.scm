@@ -5,7 +5,7 @@
 ;; -L /home/bost/dev/dotfiles/guix/common -L /home/bost/dev/dotfiles/guix/home/common
 (define-module (create-elisp-package-definition)
   #:use-module (ice-9 match)
-  #:use-module (bost utils)
+  #:use-module (bost common utils)
   #:use-module (bost git-clone)
   #:use-module (srfi srfi-1)        ; list-processing procedures (remove)
   #:export (main)
