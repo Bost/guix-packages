@@ -1083,6 +1083,19 @@ Or:
     cmd->string)
    command))
 
+(define-public (call-with-stderr-to-null thunk)
+  "Run THUNK with the current error port — and thus the stderr of any
+subprocess spawned via `open-pipe*' during its dynamic extent — sent to
+/dev/null.  The previous error port is restored afterwards, incl. on
+non-local exit.  The sink must be a real file port (a void port has no
+file descriptor for the child to inherit), hence /dev/null.
+
+(call-with-stderr-to-null
+ (lambda () (exec-argv (list \"tesseract\" f \"-\" \"--psm\" \"0\")
+                       #:return-plist #t)))"
+  (call-with-output-file "/dev/null"
+    (lambda (sink) (with-error-to-port sink thunk))))
+
 (define*-public (exec-argv command #:key (verbose #t) (return-plist #f))
   "Run COMMAND as an argv list without invoking a shell.
 COMMAND must be a list whose first element is the program and whose remaining
