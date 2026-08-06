@@ -162,7 +162,7 @@ models for the Tesseract OCR Engine.")
 (define-public tesseract-ocr
   (package
     (name "tesseract-ocr")
-    (version "5.3.0")
+    (version "5.5.3")
     (source
      (origin
        (method git-fetch)
@@ -172,7 +172,7 @@ models for the Tesseract OCR Engine.")
        (file-name (git-file-name name version))
        (sha256
         (base32
-         "0vylcba8w5ljnr6pf3ilc2wjq72k660h71b7mlbjz3a2f0x5kr33"))))
+         "0yahrj39k8ipp6vgw4bw1smwja5ipx4f7d62p97fgsv20ln6vrlz"))))
     (build-system gnu-build-system)
     (arguments
      (list
