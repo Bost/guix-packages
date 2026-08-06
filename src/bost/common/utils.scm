@@ -1685,10 +1685,10 @@ Examples:
 (keyword->string #:example) ;=> \"example\""
   (symbol->string (keyword->symbol keyword)))
 
-;; (define-public (directory-exists? path)
-;;   "Check if path exists and is a directory. (Alternative definition)"
-;;   (and (file-exists? path)
-;;        (eq? (stat:type (stat path)) 'directory)))
+;; (define-public (directory-exists? fs-path)
+;;   "Check if fs-path exists and is a directory. (Alternative definition)"
+;;   (and (file-exists? fs-path)
+;;        (eq? (stat:type (stat fs-path)) 'directory)))
 
 ;;; take and drop are in (use-modules (srfi srfi-1))
 (define-public (take-smart a b)
@@ -1813,10 +1813,10 @@ that many from the end."
           )
          (ensure-list packages))))
 
-(define (symbolic-link? path)
-  "Check if path is a symbolic link"
-  (and (file-exists? path)
-       (eq? (stat:type (lstat path)) 'symlink)))
+(define (symbolic-link? fs-path)
+  "Check if fs-path is a symbolic link"
+  (and (file-exists? fs-path)
+       (eq? (stat:type (lstat fs-path)) 'symlink)))
 
 (define-public split-on-whitespace string-tokenize)
 ;; (split-on-whitespace "a b\tc\nd") => ("a" "b" "c" "d")
