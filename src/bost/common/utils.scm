@@ -1418,6 +1418,16 @@ value).
   (and (list? lst) (even? (length lst))
        (not (has-duplicates? (get-keys lst)))))
 
+(define-public (alist->plist alist)
+  "Flatten a (key . value) alist to a plist, dropping #f-valued entries.
+(alist->plist (list (cons #:k 1))) ;=> (#:k 1)"
+  ((comp
+    concatenate
+    (partial filter-map
+             (lambda (kv)
+               (and (cdr kv) (list (car kv) (cdr kv))))))
+   alist))
+
 (def (plist-keys-or-vals proc plist)
   "Used in `plist-keys', `plist-vals'"
   (if (plist? plist)
