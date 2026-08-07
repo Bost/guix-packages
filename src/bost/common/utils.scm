@@ -212,7 +212,20 @@ See also
 
 (define-public empty? null?) ;; no runtime cost. null? is a primitive procedure
 
-(define-public (boolean x) (not (not x)))
+(define-public (boolean x)
+  "Returns #f only when X is #f or #nil, otherwise returns #t.
+#nil - Guile's Elisp-interop nil - is false in a boolean context ((if #nil …)
+
+(boolean #nil)          ;=> #f
+(boolean #f)            ;=> #f
+
+(boolean 1)             ;=> #t
+(boolean 0)             ;=> #t
+(boolean (list))        ;=> #t
+(boolean \"\")            ;=> #t
+(boolean -1)            ;=> #t
+(boolean *unspecified*) ;=> #t"
+  (not (not x)))
 
 (define-public (str . args)
   "Convert all arguments to strings and concatenate them, like Clojure's `str`.
@@ -2349,5 +2362,50 @@ Unlike `error', no backtrace — for expected failures, not bugs."
   (apply format (current-error-port) fmt args)
   (newline (current-error-port))
   (exit 1))
+
+(define (boolean->bit x)
+  "#f -> 0, #t -> 1; anything else is a type error."
+  (cond ((false? x) 0)
+        ((true? x) 1)
+        (else (scm-error 'wrong-type-arg 'boolean->bit
+                         "Wrong type argument (expecting boolean): ~S"
+                         (list x) (list x)))))
+
+(define-public (boolean= . args)
+  "Eagerly chained =.
+(boolean= 1)                 ;=> Wrong type argument (expecting boolean)
+Note:
+((@(rnrs base) boolean=?) 1) ;=> #f"
+  (apply = (map boolean->bit args)))
+
+(define-public (boolean<> . args)
+  "All elements distinct. Vacuously true for 0 or 1 args; for booleans only
+≤2 args can differ, so >2 args ⇒ #f.
+
+(boolean<> 1 #f #t)  ;=> Wrong type argument (expecting boolean)
+(boolean<> #f #t #f) ;=> #f
+(boolean<> #f #t)    ;=> #t
+(boolean<> #t)       ;=> #t
+(boolean<>)          ;=> #t"
+  (let ((all-equal? (apply boolean= args)) ; run first → type-checks every arg
+        (n (length args)))
+    (or (< n 2)                            ; 0 or 1 args: vacuously distinct
+        (and (= n 2) (not all-equal?)))))  ; exactly 2 and they differ
+
+(define-public (boolean<  . args)
+  "Eagerly chained #f<#t"
+  (apply <  (map boolean->bit args)))
+
+(define-public (boolean<= . args)
+  "Eagerly chained #f<=#t"
+  (apply <= (map boolean->bit args)))
+
+(define-public (boolean>  . args)
+  "Eagerly chained #f>#t"
+  (apply >  (map boolean->bit args)))
+
+(define-public (boolean>= . args)
+  "Eagerly chained #f>=#t"
+  (apply >= (map boolean->bit args)))
 
 (module-evaluated)
