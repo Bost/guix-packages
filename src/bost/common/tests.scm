@@ -140,7 +140,7 @@ Type Testing Predicates.
 (tt (macroexpand '(define foo 42))) ; => (struct?)
 "
   ((comp
-    (partial remove unspecified?)
+    (partial (@(srfi srfi-1) remove) unspecified?)
     (partial map (lambda (symbol) (do-test 'show-type-of-expression
                                            symbol single-argument))))
    (list
@@ -148,7 +148,7 @@ Type Testing Predicates.
     'boolean?
     '(@(bost common utils) true?)
     '(@(bost common utils) false?)
-    'port?
+    'nil?
     'string?
     'symbol?
     'list?
@@ -168,20 +168,36 @@ Type Testing Predicates.
 
     'vector?
     'procedure?
+
     'record?
+    'record-field-mutable?
+    'record-type-descriptor?
+    'record-type-generative?
+    'record-type-opaque?
+    'record-type-sealed?
+
     'struct?
     'hash-table?
+    'hashtable-contains?
+    'hashtable-mutable?
     ;;
     'number?
     'complex?
     'real?
+    'real-valued?
     'integer?
+    'integer-valued?
     'rational?
+    'rational-valued?
     'positive?
     'negative?
     'odd?
     'even?
     'zero?
+    'exact?
+    'inexact?
+    'finite?
+    'infinite?
     ;; NaN - symbol to indicate that a mathematical operation could not produce
     ;; a meaningful result
     'nan?
@@ -189,13 +205,89 @@ Type Testing Predicates.
     '(@(system syntax internal) syntax?)
     'identifier?   ;; #t if syntax-object is an identifier, or #f otherwise.
     '(@(guix gexp) gexp?)
-    'char?
     'null?
+    '(@(bost common utils) empty?)
     'parameter? ;; ? is this for macros ?
     'eof-object?
+
+    'char?
     'char-alphabetic?
     'char-numeric?
     'char-whitespace?
+    'char-upper-case?
+    'char-lower-case?
+    'char-title-case?
+    'char-title-case?
+
+    'enum-set-member?
+    'enum-set-subset?
+    'enum-set=?
+
+    'file-exists?
+    'file-is-directory?
+    'file-name-separator?
+
+    'port?
+    'binary-port?
+    'file-port?
+    'input-port?
+    'output-port?
+    'textual-port?
+
+    'port-eof?
+    'port-has-port-position?
+    'port-has-set-port-position!?
+
+    'serious-condition?
+    'irritants-condition?
+    'lexical-violation?
+    'implementation-restriction-violation?
+    'message-condition?
+
+    'violation?
+    'assertion-violation?
+    'no-infinities-violation?
+    'no-nans-violation?
+    'non-continuable-violation?
+    'undefined-violation?
+
+    'buffer-mode?
+    'bitwise-bit-set?
+    'bytevector?
+
+    'i/o-decoding-error?
+    'i/o-encoding-error?
+    'i/o-error?
+    'i/o-file-already-exists-error?
+    'i/o-file-does-not-exist-error?
+    'i/o-file-is-read-only-error?
+    'i/o-file-protection-error?
+    'i/o-filename-error?
+    'i/o-invalid-position-error?
+    'i/o-port-error?
+    'i/o-read-error?
+    'i/o-write-error?
+
+    'warning?
+    'who-condition?
+
+    'fl<=?
+    'fl<?
+    'fl=?
+    'fl>=?
+    'fl>?
+    'fleven?
+    'flfinite?
+    'flinfinite?
+    'flinteger?
+    'flnan?
+    'flnegative?
+    'flodd?
+    'flonum?
+    'flpositive?
+    'flzero?
+    'fxzero?
+
     ;;
     '(@(gnu services) service?)
     '(@(gnu services) service-type?)
@@ -210,27 +302,27 @@ Type Testing Predicates.
     '(@(rnrs conditions) condition?)
     '(@(rnrs conditions) violation?)
 
-    ;; '(@(language tree-il) void?)
-    ;; '(@(language tree-il) const?)
-    ;; '(@(language tree-il) lexical-ref?)
-    ;; '(@(language tree-il) lexical-set?)
-    ;; '(@(language tree-il) module-ref?)
-    ;; '(@(language tree-il) module-set?)
-    ;; '(@(language tree-il) toplevel-ref?)
-    ;; '(@(language tree-il) toplevel-set?)
-    ;; '(@(language tree-il) toplevel-define?)
-    ;; '(@(language tree-il) conditional?)
-    ;; '(@(language tree-il) call?)
-    ;; '(@(language tree-il) primcall?)
-    ;; '(@(language tree-il) seq?)
-    ;; '(@(language tree-il) lambda?)
-    ;; '(@(language tree-il) lambda-case?)
-    ;; '(@(language tree-il) let?)
-    ;; '(@(language tree-il) letrec?)
-    ;; '(@(language tree-il) fix?)
-    ;; '(@(language tree-il) let-values?)
-    ;; '(@(language tree-il) prompt?)
-    ;; '(@(language tree-il) abort?)
+    '(@(language tree-il) void?)
+    '(@(language tree-il) const?)
+    '(@(language tree-il) lexical-ref?)
+    '(@(language tree-il) lexical-set?)
+    '(@(language tree-il) module-ref?)
+    '(@(language tree-il) module-set?)
+    '(@(language tree-il) toplevel-ref?)
+    '(@(language tree-il) toplevel-set?)
+    '(@(language tree-il) toplevel-define?)
+    '(@(language tree-il) conditional?)
+    '(@(language tree-il) call?)
+    '(@(language tree-il) primcall?)
+    '(@(language tree-il) seq?)
+    '(@(language tree-il) lambda?)
+    '(@(language tree-il) lambda-case?)
+    '(@(language tree-il) let?)
+    '(@(language tree-il) letrec?)
+    '(@(language tree-il) fix?)
+    '(@(language tree-il) let-values?)
+    '(@(language tree-il) prompt?)
+    '(@(language tree-il) abort?)
     )))
 (define-public tt test-type)
 
@@ -252,16 +344,37 @@ Type Testing Predicates.
 (te (list 1) (list 1) 'x) ; => ()
 "
   ((comp
-    (partial remove unspecified?)
+    (partial (@(srfi srfi-1) remove) unspecified?)
     (partial map (lambda (symbol) (do-test 'show-type-of-equality symbol args))))
    (list
     '=
     '<=
     '>=
     'string=? ;; returns #t only if both parameters are strings
-    'string-ci=?
+    'string<?
+    'string>?
+    'string<=?
+    'string>=?
+    ;;
     'char=?
+    'char<?
+    'char>?
+    'char<=?
+    'char>=?
+
+    ;; The case-insensitive string comparisons
+    'string-ci=?
+    'string-ci<?
+    'string-ci>?
+    'string-ci<=?
+    'string-ci>=?
+
+    ;; The case-insensitive character comparisons
     'char-ci=?
+    'char-ci<?
+    'char-ci>?
+    'char-ci<=?
+    'char-ci>=?
 
     '(@(bost common utils) list=eq?)
     '(@(bost common utils) list=eqv?)
@@ -274,12 +387,21 @@ Type Testing Predicates.
     'eqv?
     'equal?
 
+    ;; TODO define the following with (define (name . args) ...)
     '(@(bost common utils) some-true?)
     '(@(bost common utils) every-true?)
     '((@(bost common utils) partial) (@(bost common utils) not-every?) (@(bost common utils) true?))
     '((@(bost common utils) partial) (@(bost common utils) not-any?) (@(bost common utils) true?))
 
+    '(@(rnrs base) boolean=?)
+    '(@(bost common utils) boolean=)
+
     ;; Tree Intermediate Language
     '(@(language tree-il) tree-il=?)
+
+    'bound-identifier=?
+    'free-identifier=?
+    '(@(rnrs) symbol=?)
+    '(@(rnrs) bytevector=?)
     )))
 (define-public te test-equality)
