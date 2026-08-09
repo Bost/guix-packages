@@ -1,6 +1,5 @@
 (define-module (bost gnu packages emacs-build)
   #:use-module (ice-9 pretty-print)
-  #:use-module (bost common utils)
   #:use-module (gnu packages emacs-build)
   #:use-module (guix build-system gnu)
   #:use-module ((guix licenses) #:prefix license:)
@@ -18,6 +17,22 @@
   #:use-module (gnu packages texinfo)
   #:use-module (gnu packages version-control))
 
+(define-public bost-common-modules
+  `((bost guix build emacs-utils)
+    ;; All (bost common ...) modules must be listed here
+    (bost common utils)
+    (bost common srfi-1-smart)
+    (bost common core)
+    (bost common boolean)
+    (bost common list)
+    (bost common plist)
+    (bost common string)
+    (bost common exec)
+    (bost common fs)
+    (bost common monad)
+    (bost common pretty-print)
+    (bost common guix)))
+
 (define-public modules-without-emacs-build-system
   '((guix build utils)
     (guix build emacs-utils)
@@ -30,13 +45,10 @@
 
 (define-public imported-modules
   `(,@%default-gnu-imported-modules
+    (guix monads)
     (guix build emacs-build-system)
     (guix build emacs-utils)
-    (bost guix build emacs-utils)
-    (bost common utils)
-    (guix monads)
-    (bost common srfi-1-smart)
-    ))
+    ,@bost-common-modules))
 
 (define-public emacs-dash
   (let ((commit "d3a84021dbe48dba63b52ef7665651e0cf02e915")
