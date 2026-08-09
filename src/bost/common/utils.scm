@@ -1251,7 +1251,7 @@ found or the CLIENT-CMD if some process ID was found."
 (define-public some-true? (partial some true?))
 (define-public every-true? (partial every? true?))
 
-(define (get-keys lst)
+(define-public (get-keys lst)
   "Return a list of all keys in the list LST, which may or may not be a plist.
 (get-keys '(#:a 1 b 2))   ;=> (#:a b)
 (get-keys '(a 1 b 2))     ;=> (a b)
