@@ -1532,6 +1532,78 @@ value).
 (keyworded-plist? '(1))           ;=> not a plist"
   (every? true? (map keyword? (plist-keys lst))))
 
+(def (value< a b)
+  "Used in `sort-by'. Compare two plist values A and B of the same kind.
+Numbers, strings, symbols, characters and booleans (#f is smaller than #t)
+are supported; comparing values of differing or unsupported types errors
+out."
+  (cond
+   ((and (number? a) (number? b))   (< a b))
+   ((and (string? a) (string? b))   (string<? a b))
+   ((and (symbol? a) (symbol? b))   (string<? (symbol->string a)
+                                              (symbol->string b)))
+   ((and (char? a) (char? b))       (char<? a b))
+   ((and (boolean? a) (boolean? b)) (and (not a) b)) ; #f < #t
+   (else
+    (error (format #f "~a don't know how to compare ~s and ~s" f a b)))))
+
+(def*-public (sort-by lst #:key (order '()) (ascend #t))
+  "Stably sort the list of plists LST by the keys listed in ORDER, most
+significant key first. ASCEND controls the direction for every key in
+ORDER; there's no per-key direction. Values under a key are compared with
+`value<', which understands numbers, strings, symbols, characters and
+booleans; comparing two values of differing or unsupported types signals
+an error. Rows equal on every key in ORDER keep their original relative
+position, since the underlying `sort' is stable.
+
+(define lst
+  (list
+   (list #:a 2 #:b 12 #:c #t)
+   (list #:a 2 #:b 13 #:c #t)
+   (list #:a 1 #:b 11 #:c #f)
+   (list #:a 3 #:b 12 #:c #t)))
+
+,pp (sort-by lst #:order (list #:a) #:ascend #t) ;=>
+(list
+ (list #:a 1 #:b 11 #:c #f)
+ (list #:a 2 #:b 12 #:c #t)  ; tie on #:a: original relative order kept
+ (list #:a 2 #:b 13 #:c #t)
+ (list #:a 3 #:b 12 #:c #t))
+
+,pp (sort-by lst #:order (list #:a #:b) #:ascend #t) ;=>
+(list
+ (list #:a 1 #:b 11 #:c #f)
+ (list #:a 2 #:b 12 #:c #t)
+ (list #:a 2 #:b 13 #:c #t)
+ (list #:a 3 #:b 12 #:c #t))
+
+,pp (sort-by lst #:order (list #:a) #:ascend #f) ;=>
+(list
+ (list #:a 3 #:b 12 #:c #t)
+ (list #:a 2 #:b 12 #:c #t)  ; tie on #:a: original relative order kept
+ (list #:a 2 #:b 13 #:c #t)
+ (list #:a 1 #:b 11 #:c #f))
+
+(sort-by (list (list #:a 1) (list #:a \"x\")) #:order (list #:a) #:ascend #t)
+;; error: value<: don't know how to compare ... ; mixed types under #:a
+;; (argument order in the message is unspecified: `sort' decides which of
+;; the two it hands to `value<' first)"
+  (unless (every? plist? lst)
+    (error (format #f "~a not a list of plists" f) lst))
+
+  (define (item< item-a item-b)
+    (let loop ((keys order))
+      (and (not (null? keys))
+           (let* ((key (car keys))
+                  (va (plist-get item-a key))
+                  (vb (plist-get item-b key)))
+             (cond
+              ((equal? va vb) (loop (cdr keys)))
+              (ascend (value< va vb))
+              (else   (value< vb va)))))))
+
+  (sort lst item<))
+
 (define-inlinable (pipe-return params)
   (list
    ;; Return code signaling that some hypothetical previous command terminated
