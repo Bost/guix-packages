@@ -138,7 +138,10 @@ Any other type signals an error.
    ((array? obj)      (apply * (map (lambda (dim)
                                       (- (cadr dim) (car dim) -1))
                                     (array-shape obj))))
-   (else (error "count: unsupported type" obj))))
+   ;; TODO fix the def-public macro
+   ;; (let [(f "...")] f) is a workaround for
+   ;;   definition in expression context, where definitions are not allowed
+   (else (error (format #f "~a unsupported type" (let [(f "cnt")] f)) obj))))
 
 (define-public (partial fun . args)
   "Alternative implementation:
@@ -697,13 +700,13 @@ Note: Variadic definition `(define (ensure-list . xs) xs)' produces nested list:
 
 ;; TODO consider testing for proper-list?
 ;; See also (scm-error 'wrong-type-arg #f "Expected a proper list or non-pair value" #f #f)
-;; (define-public (ensure-list x)
+;; (def-public (ensure-list x)
 ;;   "Wrap X in a list if it is not already a list. Think \"monadic container\".
 ;; Raise an error if it's neither a list nor a single value."
 ;;   (guard (exception ((not (or (list? exception)
 ;;                               (not (pair? exception))))
 ;;                      => (lambda (x)
-;;                           (error "Expected a list or single value" x))))
+;;                           (error (format #f "~a Expected a list or single value" f) x))))
 ;;     ;; Alternative implementations:
 ;;     ;;   (or (and (list? x) x)
 ;;     ;;       (list x))
@@ -1109,14 +1112,15 @@ file descriptor for the child to inherit), hence /dev/null.
   (call-with-output-file "/dev/null"
     (lambda (sink) (with-error-to-port sink thunk))))
 
-(define*-public (exec-argv command #:key (verbose #t) (return-plist #f))
+(def*-public (exec-argv command #:key (verbose #t) (return-plist #f))
   "Run COMMAND as an argv list without invoking a shell.
 COMMAND must be a list whose first element is the program and whose remaining
 items are argv elements. No whitespace splitting, quote interpretation, globbing,
 pipes, or variable expansion is performed."
   (define (exec-function . argv)
     (unless (and (not (null? argv)) (every string? argv))
-      (error "exec-argv expects a non-empty list of strings" argv))
+      (error (format #f "~a expects a non-empty list of strings" f)
+             argv))
     (let* [(port (apply open-pipe* OPEN_READ argv))
            (results (read-all-strings port))
            (retcode (status:exit-val (close-pipe port)))]
@@ -1281,7 +1285,7 @@ found or the CLIENT-CMD if some process ID was found."
    ((member (car lst) (cdr lst)) #t)
    (else (has-duplicates? (cdr lst)))))
 
-(define-public (plist-get . args)
+(def-public (plist-get . args)
   "Smart plist-get that works with arguments in either order.
 (plist-get '(#:y 2 #:x 1) #:x)      ;=> 1
 (plist-get #:x (list #:y 2 #:x 1))  ;=> 1
@@ -1305,8 +1309,9 @@ found or the CLIENT-CMD if some process ID was found."
           [else (loop (cddr plist) key)]))
 
   (unless (= 2 (length args))
-    (error "plist-get: expected exactly 2 arguments (plist key) or (key plist)"
-           args))
+    (error
+     (format #f "~a expect exactly 2 arguments (plist key) or (key plist)" f)
+     args))
 
   (let* ((loop-args (if (list? (car args))
                         args
