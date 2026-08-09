@@ -1,15 +1,16 @@
 (define-module (bost common srfi-1-smart)
   #:use-module (srfi srfi-1)
-  #:export (
-            smart-first
-            smart-last
-            smart-second
-            smart-third
-            smart-fourth
-            smart-fifth
-            smart-take
-            smart-drop
-            ))
+  #:export
+  (
+   smart-first
+   smart-last
+   smart-second
+   smart-third
+   smart-fourth
+   smart-fifth
+   smart-take
+   smart-drop
+   ))
 
 (define (smart-first obj)
   "Returns first element of list or first character of string as a string."

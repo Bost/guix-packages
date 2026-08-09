@@ -19822,18 +19822,14 @@ as a command in AUCTeX and supports customization through Emacs variables.")
         #~(cons* ".*" %default-include)
         ;; needed at runtime
         #:modules (append bst:modules
-                          '(
-                            (srfi srfi-1)  ; the 'any' test
+                          bst:bost-common-modules
+                          '((srfi srfi-1)  ; the 'any' test
                             (srfi srfi-26) ; Conveniently specialize selected parameters
-                            (bost common utils)
-                            (guix utils)
-                            (bost guix build emacs-utils)
-                            ))
+                            (guix utils)))
         ;; needed at compile time
         #:imported-modules (append
                             bst:imported-modules
-                            `(
-                              (srfi srfi-1)  ; any
+                            '((srfi srfi-1)  ; any
                               (srfi srfi-26) ; Conveniently specialize selected parameters
                               (guix utils)
                               (guix config)
@@ -19841,8 +19837,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                               (guix profiling)
                               (guix diagnostics)
                               (guix colors)
-                              (guix i18n)
-                              ))
+                              (guix i18n)))
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'add-emacs-load-path
@@ -19855,8 +19850,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                        (env-val (string-join (cons EMACSLOADPATH full-el-paths) ":"))]
                   (setenv "EMACSLOADPATH" env-val))
                 (format #t "New EMACSLOADPATH: ~a\n" (getenv "EMACSLOADPATH"))
-                #t
-                ))
+                #t))
 
             (add-after 'unpack 'fix--guix-get-installed-emacs-packages
               (lambda* (#:key inputs #:allow-other-keys)
@@ -19868,9 +19862,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                        (partial map (partial format #f "~s")))
                       (map (comp package-name cadr)
                            (append (package-propagated-inputs emacs)
-                                   (spacemacs-packages-for-inputs)
-                                   )
-                           ))))))
+                                   (spacemacs-packages-for-inputs))))))))
 
             ;; Must be done when running 'guix build' otherwise
             ;;    Error: permission-denied ("Creating directory" "Permission denied" "/spacemacs")
@@ -19999,8 +19991,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
          ;; evil-define-key in layers/+completion/helm/packages.el
          emacs-evil
          ;; treemacs-without-messages in layers/+filetree/treemacs/funcs.el
-         emacs-treemacs
-         )))
+         emacs-treemacs)))
       (home-page "http://spacemacs.org/")
       (synopsis
        "Community-driven Emacs distribution - The best editor is neither Emacs
@@ -20009,52 +20000,6 @@ as a command in AUCTeX and supports customization through Emacs variables.")
        "Spacemacs is a new way of experiencing Emacs - it's a sophisticated
  and polished set-up, focused on ergonomics, mnemonics and consistency.")
       (license license:gpl3+))))
-
-(define* (make-packages emacs-package spacemacs-package
-                        #:optional (name "emacs-spacemacs-wrapped"))
-  "Given an EMACS-PACKAGE and a SPACEMACS-PACKAGE, create wrappers that allow
-the use of Spacemacs without conflicting with the base Emacs."
-  (package
-    (name name)
-    (version (string-append (package-version emacs-package) "-"
-                            (package-version spacemacs-package)))
-    (source #f)
-    (build-system trivial-build-system)
-    (inputs `(("sh" ,bash)
-              ("emacs" ,emacs-package)
-              ("spacemacs" ,spacemacs-package)))
-    (arguments
-     (list
-      #:modules
-      '((guix build utils)
-        (guix monads)
-        (bost common srfi-1-smart)
-        (bost common utils)
-        (bost guix build spacemacs-utils))
-      #:builder
-      #~(begin
-          ;; Seems like `su:spacemacs-builder' must be in a different module
-          (use-modules (ice-9 pretty-print)
-                       ((bost guix build spacemacs-utils) #:prefix su:))
-          ;; (format #t "### %build-inputs:\n")
-          ;; (pretty-print %build-inputs)
-          (su:spacemacs-builder
-           #:shell (string-append
-                    (assoc-ref %build-inputs "sh")
-                    "/bin/sh")
-           #:emacs (string-append
-                    (assoc-ref %build-inputs "emacs")
-                    "/bin/emacs")
-           #:spacemacs (assoc-ref %build-inputs "spacemacs")
-           #:out (string-append
-                  (assoc-ref %outputs "out") "/bin")))))
-     (home-page (package-home-page spacemacs-package))
-     (synopsis (package-synopsis spacemacs-package))
-     (description (package-description spacemacs-package))
-     (license (package-license spacemacs-package))))
-
-(define-public emacs-spacemacs-wrapped
-  (make-packages emacs emacs-spacemacs))
 
 ;; The following packages also exist in upstream Guix, but are kept in this
 ;; channel so that they build against its (bost gnu packages emacs-build)
