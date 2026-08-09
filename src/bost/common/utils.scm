@@ -1943,41 +1943,29 @@ separated by spaces.
 
 (def*-public (mounted-usb-devices #:key (verbose #f))
   "Return a list of mounted USB block devices (e.g. /dev/sdb1)."
-  ;; (format #t "~a Starting…\n" f)
-  (let* [(cmd-result-struct
-          ((comp
-            (lambda (cmd) (exec cmd #:verbose verbose #:return-plist #t))
-            cmd->string)
-           (list "findmnt --real --raw --noheadings --output SOURCE")))
-         (retcode (plist-get cmd-result-struct #:retcode))]
-    (if (zero? retcode)
-        ((comp
-          ;; (lambda (p) (format #t "~a done\n" f) p)
-          (partial filter usb-device?)
-          ;; (lambda (v) (format #t "~a 0: ~a\n" m v) v)
-          )
-         (plist-get cmd-result-struct #:results))
-        (begin
-          (error (format #f "~a retcode: ~a\n" m retcode))
-          (list)))))
+  (match (exec
+          (list "findmnt" "--real" "--raw" "--noheadings" "--output" "SOURCE")
+          #:verbose verbose #:return-plist #t)
+    [(#:retcode retcode #:results results)
+     (cond
+      [(zero? retcode) (filter usb-device? results)]
+      [else
+       (begin
+         (error (format #f "~a retcode: ~a\n" f retcode))
+         (list))])]))
 
 (def*-public (get-ethernet-interfaces #:key (verbose #f))
-  ;; (format #t "~a Starting…\n" f)
-  (let* [(cmd-result-struct
-          ((comp
-            (lambda (cmd) (exec cmd #:verbose verbose #:return-plist #t))
-            cmd->string)
-           (list "grep -l '1' /sys/class/net/*/type | cut -d'/' -f5")))
-         (retcode (plist-get cmd-result-struct #:retcode))]
-    (if (zero? retcode)
-        ((comp
-          ;; (lambda (p) (format #t "~a done\n" f) p)
-          ;; (lambda (v) (format #t "~a 0: ~a\n" m v) v)
-          )
-         (plist-get cmd-result-struct #:results))
-        (begin
-          (error (format #f "~a retcode: ~a\n" m retcode))
-          (list)))))
+  (match (exec
+          (list "grep" "--files-with-matches" "'1'" "/sys/class/net/*/type"
+                "|" "cut" "-delimiter='/'" "-fields=5")
+          #:verbose verbose #:return-plist #t)
+    [(#:retcode retcode #:results results)
+     (cond
+      [(zero? retcode) results]
+      [else
+       (begin
+         (error (format #f "~a retcode: ~a\n" f retcode))
+         (list))])]))
 
 (define-public (ethernet-cable-plugged? iface)
   "Returns #t or #f"
