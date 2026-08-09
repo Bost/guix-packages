@@ -9,36 +9,23 @@
 (define-module (bost common utils)
 ;;; All used modules must be present in (@(services cli-utils) common-modules)
   #:use-module (bost common srfi-1-smart)
-  #:use-module (ice-9 match)  ; match
-  #:use-module (ice-9 popen)  ; open-input-pipe
-;;; (ice-9 readline) requires `guix install guile-readline'.
-  ;; #:use-module (ice-9 readline)
-  #:use-module (ice-9 rdelim) ; read-line
-  #:use-module (ice-9 regex)  ; regexp and string matching
-  #:use-module (srfi srfi-1)  ; list-processing procedures
-  #:use-module (srfi srfi-171) ; transducers
-  ;; #:use-module (guix build utils) ; invoke - not needed
-  #:use-module (ice-9 pretty-print)
-
-  ;; WTF? following line leads to 'no code for module (guix read-print)'
-  ;; #:use-module (guix read-print)
-
-  #:use-module (ice-9 string-fun) ; string-replace-substring
   #:use-module (guix monads)      ; return, bind
-  #:use-module (rnrs io ports)    ; exec-with-error-to-string
-
-  ;; for inferior-package-in-guix-channel : beg
-  ;; #:use-module (guix channels)  ;; WTF? not found by `guix home ...`
-  ;; #:use-module (guix inferior)
-  ;; #:use-module (guix packages)
-  ;; #:use-module (guix profiles) ;; probably not needed
-
-  ;; for inferior-package-in-guix-channel : end
   #:use-module (ice-9 exceptions) ; guard
-  #:use-module (ice-9 optargs)    ; define*-public
-
-  #:use-module (rnrs bytevectors) ; for procedure: cnt
   #:use-module (ice-9 hash-table) ; for procedure: cnt
+  #:use-module (ice-9 match)      ; match
+  #:use-module (ice-9 optargs)    ; define*-public
+  #:use-module (ice-9 popen)      ; open-input-pipe
+  #:use-module (ice-9 pretty-print)
+  #:use-module (ice-9 rdelim)     ; read-line
+  #:use-module (ice-9 regex)      ; regexp and string matching
+  #:use-module (ice-9 string-fun) ; string-replace-substring
+  #:use-module (rnrs bytevectors) ; for procedure: cnt
+  #:use-module (rnrs io ports)    ; exec-with-error-to-string
+  #:use-module (srfi srfi-1)      ; list-processing procedures
+  #:use-module (srfi srfi-171)    ; transducers
+  #:use-module (srfi srfi-26)     ; Conveniently specialize selected parameters
+  ;; #:use-module (guix build utils) ; invoke - not needed
+  ;; #:use-module (ice-9 readline) ; requires installed guile-readline
 
   #:export (
             compose-commands-guix-shell
@@ -2026,7 +2013,7 @@ separated by spaces.
 (escape-single-quotes \"a'b'c\") ;=> \"a'\\''b'\\''c\""
   (string-replace-substring s "'" "'\\''"))
 
-(define-public (sha1-string s)
+(def-public (sha1-string s)
   "(sha1-string \"0200000000010171\")
 ;=> \"e2462d5e457858930952c8b7b80f49f3307234ec\"
 (sha1-string \"a'b'c\")
@@ -2035,30 +2022,24 @@ separated by spaces.
 See also:
   (string-hash \"0200000000010171\")     ;=> 1902129584164781890
   (hash \"0200090000010170\" 2147483647) ;=> 626328076"
-  (let* [(cmd-result-struct
-          ((comp
-            (lambda (cmd) (exec cmd #:return-plist #t #:verbose #f))
-            cmd->string
-            (lambda (es) (list (string-append "echo -n '" es "' | sha1sum"))))
-           (escape-single-quotes s)))
-         (retcode (plist-get cmd-result-struct #:retcode))]
-    (if (zero? retcode)
-        ((comp
-          car
-          (lambda (s) (string-split s #\space))
-          car
-          ;; (lambda (v) (format #t "~a 0: ~a\n" m v) v)
-          )
-         (plist-get cmd-result-struct #:results))
-        (begin
-          ;; error-out
-          (error (format #f "~a retcode: ~a\n" m retcode))
-          ;; (error-command-failed m (format #f "retcode: ~a" retcode))
-          ;; *unspecified*
-          ))))
+  (match ((comp
+           (cut exec <> #:return-plist #t #:verbose #f)
+           (partial format #f "echo -n '~a' | sha1sum")
+           escape-single-quotes)
+          s)
+    [(#:retcode retcode #:results results)
+     (cond
+      [(zero? retcode)
+       ((comp car
+              (cut string-split <> #\space)
+              car)
+        results)]
+      [else (error (format #f "~a retcode: ~a\n" f retcode))])]))
 
-(define-public (string-checksum s)
-  "(string-checksum \"0200000000010171\") ;=> 683979683"
+(define-public (string-qchecksum s)
+  "(string-checksum \"0200000000010171\") ;=> 683979683
+(string-checksum \"\") ;=> 0
+(string-checksum \" \") ;=> 32"
   ;; simple polynomial hash: sum over chars of (char-code * weight^i) mod some
   ;; modulus
   (let* ((modulus 1000000007)   ; a large prime
@@ -2073,53 +2054,27 @@ See also:
                                modulus)))
             (loop (+ i 1) acc2))))))
 
-(define*-public (timestamp #:key (verbose #f))
+(def*-public (timestamp #:key (verbose #f))
   "(timestamp) ;=> \"2025-10-14_20-14-16\""
-  (let* [(cmd-result-struct
-          ((comp
-            (lambda (cmd) (exec cmd #:return-plist #t #:verbose verbose))
-            cmd->string)
-           (list
-            ;; same as "+%Y-%m-%d_%H-%M-%S"
-            "date" "\"+%F_%H-%M-%S\"")))
-         (retcode (plist-get cmd-result-struct #:retcode))]
-    (if (zero? retcode)
-        ((comp
-          ;; car
-          ;; (lambda (s) (string-split s #\space))
-          car
-          ;; (lambda (v) (format #t "~a 0: ~a\n" m v) v)
-          )
-         (plist-get cmd-result-struct #:results))
-        (begin
-          ;; error-out
-          (error (format #f "~a retcode: ~a\n" m retcode))
-          ;; (error-command-failed m (format #f "retcode: ~a" retcode))
-          ;; *unspecified*
-          ))))
+  (match (exec (list "date" "\"+%F_%H-%M-%S\"") ; same as "+%Y-%m-%d_%H-%M-%S"
+               #:return-plist #t #:verbose verbose)
+    [(#:retcode retcode #:results results)
+     (cond
+      [(zero? retcode) (car results)]
+      [else (error (format #f "~a retcode: ~a\n" f retcode))])]))
 
-(define*-public (sha1-file filename #:key (verbose #f))
-  "(sha1-file \"/etc/hosts\") ;=> \"...\""
-  (let* [(cmd-result-struct
-          ((comp
-            (lambda (cmd) (exec cmd #:return-plist #t #:verbose verbose))
-            cmd->string)
-           (list "sha1sum" filename)))
-         (retcode (plist-get cmd-result-struct #:retcode))]
-    (if (zero? retcode)
-        ((comp
-          car
-          (lambda (s) (string-split s #\space))
-          car
-          ;; (lambda (v) (format #t "~a 0: ~a\n" m v) v)
-          )
-         (plist-get cmd-result-struct #:results))
-        (begin
-          ;; error-out
-          (error (format #f "~a retcode: ~a\n" m retcode))
-          ;; (error-command-failed m (format #f "retcode: ~a" retcode))
-          ;; *unspecified*
-          ))))
+(def*-public (sha1-file filename #:key (verbose #f))
+  "(sha1-file \"/etc/hosts\") ;=> \"...\"
+TODO display proper error message: (sha1-file \"./\")"
+  (match (exec (list "sha1sum" filename) #:return-plist #t #:verbose verbose)
+    [(#:retcode retcode #:results results)
+     (cond
+      [(zero? retcode)
+       ((comp car
+              (cut string-split <> #\space)
+              car)
+        results)]
+      [else (error (format #f "~a retcode: ~a\n" f retcode))])]))
 
 ;; Increment (inc 0) ;=> 1
 (define-public inc 1+)
