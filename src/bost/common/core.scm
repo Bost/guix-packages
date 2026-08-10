@@ -10,8 +10,9 @@
   #:use-module (ice-9 hash-table)         ; for procedure: cnt
   #:use-module (ice-9 match)              ; error-command-failed
   #:use-module (ice-9 optargs)            ; define*-public, def*, def*-public
-  #:use-module (rnrs bytevectors)         ; for procedure: cnt
   #:use-module (srfi srfi-1)              ; string-concatenate, used by str
+  #:use-module ((rnrs) #:version (6))     ; for procedure: cnt
+  #:use-module ((guile) #:prefix guile:)
   #:export
   (
    def
@@ -91,7 +92,8 @@ Any other type signals an error.
    ;; TODO fix the def-public macro
    ;; (let [(f "...")] f) is a workaround for
    ;;   definition in expression context, where definitions are not allowed
-   (else (error (format #f "~a unsupported type" (let [(f "cnt")] f)) obj))))
+   (else (guile:error
+          (format #f "~a unsupported type" (let [(f "cnt")] f)) obj))))
 
 (define-public (partial fun . args)
   "Alternative implementation:
@@ -185,7 +187,7 @@ Works also for functions returning and accepting multiple values."
 
 ;; (warn ...) doesn't print anything
 (define-public (my=warn . args)
-  ;; (error s)
+  ;; (guile:error s)
   (let* [(orig-fmt (car args))
          (fmt (if (string= "\n" (smart-last orig-fmt))
                   orig-fmt
@@ -354,7 +356,8 @@ Works also for functions returning and accepting multiple values."
                          (let [(result val)]
                            ;; (format #t "~a done. result : ~s\n" f result)
                            result)))))]
-              [else (syntax-violation 'macro-name "invalid syntax" stx)])))])))
+              [else (guile:syntax-violation
+                     'macro-name "invalid syntax" stx)])))])))
 (testsymb 'make-def)
 
 (make-def def define)
@@ -493,7 +496,7 @@ error-out!"
     (syntax-case ls ()
       (() '())
       ((x . r) (cons (syntax x) (loop (syntax r))))
-      (_ (error 'syntax->list "invalid argument ~s" orig-ls)))))
+      (_ (guile:error 'syntax->list "invalid argument ~s" orig-ls)))))
 
 (define-public inc 1+) ; Increment (inc 0) ;=> 1
 
@@ -513,11 +516,11 @@ error-out!"
 
 (define-public (print-lines lines)
   "Print each of LINES followed by a newline."
-  (for-each (lambda (line) (display line) (newline)) lines))
+  (for-each (partial format #t "~a\n") lines))
 
 (define-public (die fmt . args)
   "Print a message to the error port and exit with status 1.
 Unlike `error', no backtrace — for expected failures, not bugs."
   (apply format (current-error-port) fmt args)
-  (newline (current-error-port))
+  (guile:newline (current-error-port))
   (exit 1))

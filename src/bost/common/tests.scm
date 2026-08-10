@@ -3,14 +3,30 @@
   ;; #:use-module (ice-9 rdelim)
   ;; #:use-module (ice-9 popen)
   ;; #:use-module (ice-9 regex)
-  #:use-module (srfi srfi-1) ; List Library
+  #:use-module ((srfi srfi-1) #:prefix srfi:) ; list-processing procedures
 
-  ;; The syntax? and gexp? may not be defined when resolved by '#:use-module'.
+  ;; The syntax? and gexp? may not be defined when resolved by '#:use-module'
   ;; Use module scoping '@@' instead.
   ;; #:use-module (system syntax internal) ; syntax?
-  ;; #:use-module (guix gexp)      ; gexp? and extended reader for #~ #$ #+ #$@
+  ;; #:use-module (guix gexp)    ; gexp? and extended reader for #~ #$ #+ #$@
 
   #:use-module (guix build utils) ; find-files
+  #:use-module ((guile)            #:prefix guile:)
+  #:use-module ((ice-9 exceptions) #:prefix ice:)
+
+  #:use-module ((rnrs) #:version (6))
+  ;; #:use-module (rnrs arithmetic bitwise)
+  ;; #:use-module (rnrs arithmetic fixnums)
+  ;; #:use-module (rnrs arithmetic flonums)
+  ;; #:use-module (rnrs base)
+  ;; #:use-module (rnrs bytevectors)
+  ;; #:use-module (rnrs conditions)
+  ;; #:use-module (rnrs enums)
+  ;; #:use-module (rnrs hashtables)
+  ;; #:use-module (rnrs io ports)
+  ;; #:use-module (rnrs records inspection)
+  ;; #:use-module (rnrs records procedural)
+  ;; #:use-module (rnrs unicode)
   )
 
 (define-syntax do-test
@@ -26,10 +42,7 @@
 
          #`((comp
              (lambda (function)
-               ;; need to specify (ice-9 exceptions) for `guard' to avoid warnings
-               ;; because of `error?' being defined in both (ice-9 exceptions) and
-               ;; (rnrs conditions)
-               (when ((@(ice-9 exceptions) guard)
+               (when (ice:guard
                       ;; Break out in case of an error occured during the execution of
                       ;; `(apply function arg ...)' or `(function arg ...)'.
                       (condition [else
@@ -56,7 +69,7 @@
                          [else
                           (begin
                             ;; (format #t "[stx-c1 guard-body else] Invalid syntax\n")
-                            (syntax-violation
+                            (guile:syntax-violation
                              'macro-name
                              "[stx-c1 guard-body cond-else] Invalid syntax"
                              #'stx))])
@@ -67,7 +80,7 @@
                  (cond
                   [(and (list? symbol)
                         ;; error? can be from (ice-9 exceptions) or (rnrs conditions)
-                        (not (equal? 'error? (last symbol))))
+                        (not (equal? 'error? (srfi:last symbol))))
                    (begin
                      ;; (format #t "cond->(caddr symbol) : #t\n")
                      ;; (format #t "[stx-c1 cond-1] symbol : ~a\n" symbol)
@@ -85,8 +98,7 @@
       [else
        (begin
          ;; (format #t "[stx-else]\n")
-         (syntax-violation 'do-test "[stx-celse] Invalid syntax" stx))]
-      )))
+         ((@(guile) syntax-violation) 'do-test "[stx-celse] Invalid syntax" stx))])))
 
 ;;; ### BEG: from /home/bost/dev/guile/module/ice-9/boot-9.scm
 (define (list-of pred l)
@@ -118,8 +130,8 @@ Type Testing Predicates.
 (tt #\\a)              ; => (char-alphabetic?)
 (tt #\\1)              ; => (char-numeric?)
 (tt (gexp 42))         ; => (gexp?)
-(tt (make-error))      ; => (record? exception? error?)
-(tt (make-exception))  ; => (record? exception?)
+(tt (make-error))      ; => (@(guile) record? exception? error?))
+(tt (make-exception))  ; => (@(guile) record? exception?))
 (tt (/ 0.0 0.0))       ; => (number? complex? real? nan?)
 (tt '(a b . c))        ; => (pair? nonempty-dotted-list?)
 (tt '(a b c))          ; => (list? pair? proper-list?)
@@ -129,20 +141,22 @@ Type Testing Predicates.
 ; => (pair? circular-list?)
 
 (tt (sqrt -1.0))       ; => (number? complex?)
-(nan? (sqrt -1.0))            ; => Wrong type argument in position 1: 0.0+1.0i
+(nan? (sqrt -1.0))     ; => Wrong type argument in position 1: 0.0+1.0i
 
 (tt (make-exception ((@(ice-9 exceptions) make-error))))
-; => (record? exception? (@ (ice-9 exceptions) error?) condition?)
+; => (@(guile) record? exception? (@(ice-9 exceptions) error?) condition?))
 
 (tt (make-exception ((@(rnrs conditions) make-error))))
-; => (record? exception? (@ (rnrs conditions) error?) (@ (ice-9 exceptions) error?) condition?)
+; => (record? exception? (@(rnrs conditions) error?) (@(ice-9 exceptions) error?) condition?)
 
 (tt (macroexpand '(define foo 42))) ; => (struct?)
-"
+
+Using '<prefix:comparator>' somehow doesn't work. Specify by @(...)"
   ((comp
-    (partial (@(srfi srfi-1) remove) unspecified?)
-    (partial map (lambda (symbol) (do-test 'show-type-of-expression
-                                           symbol single-argument))))
+    (partial srfi:remove unspecified?)
+    (partial srfi:map
+             (lambda (symbol)
+               (do-test 'show-type-of-expression symbol single-argument))))
    (list
     'unspecified?
     'boolean?
@@ -169,26 +183,26 @@ Type Testing Predicates.
     'vector?
     'procedure?
 
-    'record?
-    'record-field-mutable?
-    'record-type-descriptor?
-    'record-type-generative?
-    'record-type-opaque?
-    'record-type-sealed?
+    '(@(guile) record?)
+    '(@(rnrs) record-field-mutable?)
+    '(@(rnrs) record-type-descriptor?)
+    '(@(rnrs) record-type-generative?)
+    '(@(rnrs) record-type-opaque?)
+    '(@(rnrs) record-type-sealed?)
 
     'struct?
     'hash-table?
-    'hashtable-contains?
-    'hashtable-mutable?
+    '(@(rnrs) hashtable-contains?)
+    '(@(rnrs) hashtable-mutable?)
     ;;
     'number?
     'complex?
     'real?
-    'real-valued?
+    '(@(rnrs) real-valued?)
     'integer?
-    'integer-valued?
+    '(@(rnrs) integer-valued?)
     'rational?
-    'rational-valued?
+    '(@(rnrs) rational-valued?)
     'positive?
     'negative?
     'odd?
@@ -197,7 +211,7 @@ Type Testing Predicates.
     'exact?
     'inexact?
     'finite?
-    'infinite?
+    '(@(rnrs) infinite?)
     ;; NaN - symbol to indicate that a mathematical operation could not produce
     ;; a meaningful result
     'nan?
@@ -216,77 +230,76 @@ Type Testing Predicates.
     'char-whitespace?
     'char-upper-case?
     'char-lower-case?
-    'char-title-case?
-    'char-title-case?
+    '(@(rnrs) char-title-case?)
 
-    'enum-set-member?
-    'enum-set-subset?
-    'enum-set=?
+    '(@(rnrs) enum-set-member?)
+    '(@(rnrs) enum-set-subset?)
+    '(@(rnrs) enum-set=?)
 
     'file-exists?
     'file-is-directory?
     'file-name-separator?
 
     'port?
-    'binary-port?
+    '(@(rnrs) binary-port?)
     'file-port?
-    'input-port?
-    'output-port?
-    'textual-port?
+    '(@(rnrs) input-port?)
+    '(@(rnrs) output-port?)
+    '(@(rnrs) textual-port?)
 
-    'port-eof?
-    'port-has-port-position?
-    'port-has-set-port-position!?
+    '(@(rnrs) port-eof?)
+    '(@(rnrs) port-has-port-position?)
+    '(@(rnrs) port-has-set-port-position!?)
 
-    'serious-condition?
-    'irritants-condition?
-    'lexical-violation?
-    'implementation-restriction-violation?
-    'message-condition?
+    '(@(rnrs) serious-condition?)
+    '(@(rnrs) irritants-condition?)
+    '(@(rnrs) lexical-violation?)
+    '(@(rnrs) implementation-restriction-violation?)
+    '(@(rnrs) message-condition?)
 
-    'violation?
-    'assertion-violation?
-    'no-infinities-violation?
-    'no-nans-violation?
-    'non-continuable-violation?
-    'undefined-violation?
+    '(@(rnrs) violation?)
+    '(@(rnrs) assertion-violation?)
+    '(@(rnrs) no-infinities-violation?)
+    '(@(rnrs) no-nans-violation?)
+    '(@(rnrs) non-continuable-violation?)
+    '(@(rnrs) undefined-violation?)
 
-    'buffer-mode?
-    'bitwise-bit-set?
-    'bytevector?
+    '(@(rnrs) buffer-mode?)
+    '(@(rnrs) bitwise-bit-set?)
+    '(@(rnrs) bytevector?)
 
-    'i/o-decoding-error?
-    'i/o-encoding-error?
-    'i/o-error?
-    'i/o-file-already-exists-error?
-    'i/o-file-does-not-exist-error?
-    'i/o-file-is-read-only-error?
-    'i/o-file-protection-error?
-    'i/o-filename-error?
-    'i/o-invalid-position-error?
-    'i/o-port-error?
-    'i/o-read-error?
-    'i/o-write-error?
+    '(@(rnrs) i/o-decoding-error?)
+    '(@(rnrs) i/o-encoding-error?)
+    '(@(rnrs) i/o-error?)
+    '(@(rnrs) i/o-file-already-exists-error?)
+    '(@(rnrs) i/o-file-does-not-exist-error?)
+    '(@(rnrs) i/o-file-is-read-only-error?)
+    '(@(rnrs) i/o-file-protection-error?)
+    '(@(rnrs) i/o-filename-error?)
+    '(@(rnrs) i/o-invalid-position-error?)
+    '(@(rnrs) i/o-port-error?)
+    '(@(rnrs) i/o-read-error?)
+    '(@(rnrs) i/o-write-error?)
 
-    'warning?
-    'who-condition?
+    '(@(rnrs) warning?)
+    '(@(rnrs) who-condition?)
 
-    'fl<=?
-    'fl<?
-    'fl=?
-    'fl>=?
-    'fl>?
-    'fleven?
-    'flfinite?
-    'flinfinite?
-    'flinteger?
-    'flnan?
-    'flnegative?
-    'flodd?
-    'flonum?
-    'flpositive?
-    'flzero?
-    'fxzero?
+    '(@(rnrs) fl<=?)
+    '(@(rnrs) fl<?)
+    '(@(rnrs) fl=?)
+    '(@(rnrs) fl>=?)
+    '(@(rnrs) fl>?)
+    '(@(rnrs) fleven?)
+    '(@(rnrs) flfinite?)
+    '(@(rnrs) flinfinite?)
+    '(@(rnrs) flinteger?)
+    '(@(rnrs) flnan?)
+    '(@(rnrs) flnegative?)
+    '(@(rnrs) flodd?)
+    '(@(rnrs) flonum?)
+    '(@(rnrs) flpositive?)
+    '(@(rnrs) flzero?)
+    '(@(rnrs) fxzero?)
 
     ;;
     '(@(gnu services) service?)
@@ -294,13 +307,14 @@ Type Testing Predicates.
     '(@(gnu services) service-extension?)
     ;;
     'exception?
-    '(@(rnrs conditions) error?)
+    ;; error? exists in: (ice-9 exceptions) (rnrs conditions)
+    '(@(rnrs) error?)
     '(@(ice-9 exceptions) error?)
 
     ;; Conditions are records of a subtype of the &condition record type, which
     ;; is neither sealed nor opaque. See R6RS Records.
-    '(@(rnrs conditions) condition?)
-    '(@(rnrs conditions) violation?)
+    '(@(rnrs) condition?)
+    '(@(rnrs) violation?)
 
     '(@(language tree-il) void?)
     '(@(language tree-il) const?)
@@ -322,8 +336,8 @@ Type Testing Predicates.
     '(@(language tree-il) fix?)
     '(@(language tree-il) let-values?)
     '(@(language tree-il) prompt?)
-    '(@(language tree-il) abort?)
-    )))
+    '(@(language tree-il) abort?))
+   ))
 (define-public tt test-type)
 
 (define-public (test-equality . args)
@@ -342,10 +356,13 @@ Type Testing Predicates.
 (te (list 1) (list 2))    ; =>
 (te (list 1) (list 2) 'x) ; => ()
 (te (list 1) (list 1) 'x) ; => ()
-"
+
+Using '<prefix:comparator>' somehow doesn't work. Specify by @(...)"
   ((comp
-    (partial (@(srfi srfi-1) remove) unspecified?)
-    (partial map (lambda (symbol) (do-test 'show-type-of-equality symbol args))))
+    (partial srfi:remove unspecified?)
+    (partial srfi:map
+             (lambda (symbol)
+               (do-test 'show-type-of-equality symbol args))))
    (list
     '=
     '<=
@@ -380,18 +397,18 @@ Type Testing Predicates.
     '(@(bost common utils) list=eqv?)
     '(@(bost common utils) list=equal?)
 
-    'lset=  ; from srfi-1
-    'lset<= ; from srfi-1
+    '(@(srfi srfi-1) lset=)
+    '(@(srfi srfi-1) lset<=)
 
     'eq?
     'eqv?
     'equal?
 
     ;; TODO define the following with (define (name . args) ...)
-    '(@(bost common utils) some-true?)
-    '(@(bost common utils) every-true?)
-    '((@(bost common utils) partial) (@(bost common utils) not-every?) (@(bost common utils) true?))
-    '((@(bost common utils) partial) (@(bost common utils) not-any?) (@(bost common utils) true?))
+    ;; '(@(bost common utils) some-true?)
+    ;; '(@(bost common utils) every-true?)
+    ;; '((@(bost common utils) partial) (@(bost common utils) not-every?) (@(bost common utils) true?))
+    ;; '((@(bost common utils) partial) (@(bost common utils) not-any?) (@(bost common utils) true?))
 
     '(@(rnrs base) boolean=?)
     '(@(bost common utils) boolean=)
