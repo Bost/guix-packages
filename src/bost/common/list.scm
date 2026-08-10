@@ -89,7 +89,10 @@ Note: Variadic definition `(define (ensure-list . xs) xs)' produces nested list:
 ;; (not-every? even? '(2 4 6)) ;=> #f
 
 (define-public some-true? (partial some true?))
+;; (some-true? (list #t #t))   ;=> #f
+
 (define-public every-true? (partial every? true?))
+;; (every-true? (list #t #t))  ;=> #f
 
 ;; (define-public (interpose separator lst)
 ;;   "Insert separator between each element of lst"
