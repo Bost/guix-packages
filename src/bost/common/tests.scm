@@ -1,3 +1,5 @@
+;;; Compare Guile Modules
+;;; https://chatgpt.com/share/6a7ad735-e1c8-83eb-a57d-8d99aae1d3b2
 (define-module (bost common tests)
   #:use-module (bost common utils)
   ;; #:use-module (ice-9 rdelim)
@@ -8,7 +10,7 @@
   ;; The syntax? and gexp? may not be defined when resolved by '#:use-module'
   ;; Use module scoping '@@' instead.
   ;; #:use-module (system syntax internal) ; syntax?
-  ;; #:use-module (guix gexp)    ; gexp? and extended reader for #~ #$ #+ #$@
+  #:use-module (guix gexp)    ; gexp? and extended reader for #~ #$ #+ #$@
 
   #:use-module (guix build utils) ; find-files
   #:use-module ((guile)            #:prefix guile:)
@@ -116,6 +118,7 @@
 
 ;;; ### END: from /home/bost/dev/guile/module/ice-9/boot-9.scm
 
+;; TODO test-type, test-equality: create pairs: <comparator> . <example>
 (define-public (test-type single-argument)
   "See predicates https://en.wikipedia.org/wiki/Scheme_(programming_language)
 
@@ -126,30 +129,29 @@ Type Testing Predicates.
 (tt 1)       ; => (number? complex? real? integer? rational? positive? odd?)
 (tt (+ 1 2)) ; => (number? complex? real? integer? rational? positive? odd?)
 (tt (* 3-8i 2.3+0.3i)) ; => (complex? number?)
-(tt #\\space)          ; => (char-whitespace?)
-(tt #\\a)              ; => (char-alphabetic?)
-(tt #\\1)              ; => (char-numeric?)
-(tt (gexp 42))         ; => (gexp?)
-(tt (make-error))      ; => (@(guile) record? exception? error?))
-(tt (make-exception))  ; => (@(guile) record? exception?))
-(tt (/ 0.0 0.0))       ; => (number? complex? real? nan?)
-(tt '(a b . c))        ; => (pair? nonempty-dotted-list?)
-(tt '(a b c))          ; => (list? pair? proper-list?)
-(tt '())               ; => (list? proper-list? null-list? not-pair? null?)
+(tt #\\space)         ; => (char-whitespace?)
+(tt #\\a)             ; => (char-alphabetic?)
+(tt #\\1)             ; => (char-numeric?)
+(tt (gexp 42))        ; => (gexp?)
+(tt (/ 0.0 0.0))      ; => (number? complex? real? nan?)
+(tt '(a b . c))       ; => (pair? nonempty-dotted-list?)
+(tt '(a b c))         ; => (list? pair? proper-list?)
+(tt '())              ; => (list? proper-list? null-list? not-pair? null?)
 
 (tt (let ((x '(1 2 3))) (set-cdr! (cddr x) x) x))
-; => (pair? circular-list?)
+;=> (pair? circular-list?)
 
 (tt (sqrt -1.0))       ; => (number? complex?)
 (nan? (sqrt -1.0))     ; => Wrong type argument in position 1: 0.0+1.0i
 
-(tt (make-exception ((@(ice-9 exceptions) make-error))))
-; => (@(guile) record? exception? (@(ice-9 exceptions) error?) condition?))
-
+(tt (make-error))     ; => (... (@(rnrs) error?) (@(ice-9 exceptions) error?))
+;=> ...
+(tt (make-exception))
+;=> ...
 (tt (make-exception ((@(rnrs conditions) make-error))))
-; => (record? exception? (@(rnrs conditions) error?) (@(ice-9 exceptions) error?) condition?)
+;=> ...
 
-(tt (macroexpand '(define foo 42))) ; => (struct?)
+(tt (macroexpand '(define foo 42))) ; => (... struct? ...)
 
 Using '<prefix:comparator>' somehow doesn't work. Specify by @(...)"
   ((comp
@@ -218,7 +220,7 @@ Using '<prefix:comparator>' somehow doesn't work. Specify by @(...)"
     ;;
     '(@(system syntax internal) syntax?)
     'identifier?   ;; #t if syntax-object is an identifier, or #f otherwise.
-    '(@(guix gexp) gexp?)
+    'gexp? ;; '(@(guix gexp) gexp?)
     'null?
     '(@(bost common utils) empty?)
     'parameter? ;; ? is this for macros ?
