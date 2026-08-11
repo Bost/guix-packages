@@ -4,7 +4,9 @@
 (define-module (bost common plist)
   #:use-module (bost common core) ; comp, partial, def-public, def*-public, str
   #:use-module (bost common list) ; flatten, every?, true?
-  #:use-module (srfi srfi-1))     ; remove, filter-map, concatenate, delete-duplicates
+  #:use-module (ice-9 optargs)    ; define*-public
+  #:use-module (srfi srfi-1)      ; list-processing procedures
+  )
 
 (define m "[bost common plist]")
 
@@ -25,6 +27,13 @@
       (reverse acc))
      (else
       (loop (cddr xs) (cons (car xs) acc))))))
+
+(define-public (explain-why-not-plist? lst)
+  (cond
+   [(not (list? lst))          "not a list"]
+   [(not (even? (length lst))) "expected even-length list"]
+   [(has-duplicates? lst)      "expected list of unique key/value pairs"]
+   [else                       "not a plist"]))
 
 (define (has-duplicates? lst)
   "Used in `plist?'
@@ -55,26 +64,25 @@
 (plist-get 1)                       ; plist-get: expected exactly ...
 (plist-get '())                     ; plist-get: expected exactly ...
 "
-  (define (loop plist key)
-    (cond [(null? plist) #f]
+  (define (loop lst key)
+    (cond [(null? lst) #f]
           ;; eq? is fragile for non-symbol/non-keyword keys
-          [(equal? (car plist) key) (cadr plist)]
-          [else (loop (cddr plist) key)]))
+          [(equal? (car lst) key) (cadr lst)]
+          [else (loop (cddr lst) key)]))
 
   (unless (= 2 (length args))
     (error
      (format #f "~a expect exactly 2 arguments (plist key) or (key plist)" f)
      args))
 
-  (let* ((loop-args (if (list? (car args))
-                        args
-                        (reverse args)))
-         (plist (car loop-args)))
-    (if (plist? plist)
-        (apply loop loop-args)
-        (error
-         "plist-get: expected even-length list of unique key/value pairs"
-         plist))))
+  (let* [(init-args (if (list? (car args)) args (reverse args)))
+         (init-lst (car init-args))]
+    (let [(loop-args  init-args)
+          (loop-lst init-lst)]
+       (if (plist? loop-lst)
+           (apply loop loop-args)
+           (error (format #f "~a ~a" f (explain-why-not-plist? init-lst))
+                  init-lst)))))
 
 (define-public (reorder-plist plist order)
   "Reorder PLIST so its key/value pairs follow the keyword sequence ORDER.
