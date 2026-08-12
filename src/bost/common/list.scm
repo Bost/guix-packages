@@ -5,7 +5,8 @@
 (define-module (bost common list)
   #:use-module (bost common core) ; comp, partial, def-public, boolean, true?
   #:use-module (ice-9 match)      ; ensure-list
-  #:use-module (srfi srfi-1))     ; fold, remove, any, every, delete-duplicates, ...
+  #:use-module (srfi srfi-26)     ; Conveniently specialize selected parameters
+  #:use-module (srfi srfi-1))     ; list-processing procedures
 
 (define m "[bost common list]")
 
@@ -283,17 +284,7 @@ dotted (improper) list — and it allows the degenerate case with zero pairs.
 (find-duplicates (list 1 2 1 2 3) =)          ;=> (1 2)
 (find-duplicates (list 1 1 1 2) =)            ;=> (1)
 (find-duplicates (list \"1\" \"2\" \"1\") string=?) ;=> (\"1\")"
-
-  (define f (format #f "~a [find-duplicates]" m))
-
   ((comp
-    ;; (lambda (p) (format #t "~a 2. (length p): ~a\n" f (length p)) p)
-    (lambda (deduped-lst)
-      (filter (lambda (x)
-                (> (count (partial eq-proc x) lst) 1))
-              deduped-lst))
-    ;; (lambda (p) (format #t "~a 1. (length p): ~a\n" f (length p)) p)
-    (lambda (lst) (delete-duplicates lst eq-proc))
-    ;; (lambda (p) (format #t "~a 0. (length p): ~a\n" f (length p)) p)
-    )
+    (partial filter (lambda (x) (> (count (partial eq-proc x) lst) 1)))
+    (cut delete-duplicates <> eq-proc))
    lst))
