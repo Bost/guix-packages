@@ -42,6 +42,7 @@
    partial
    comp
    juxt
+   conjoin
    empty?
    boolean
    str
@@ -114,6 +115,7 @@
    list=eqv?
    list=equal?
    find-duplicates
+   list-of-lists?
 
    ;; (bost common plist)
    get-keys

@@ -3,7 +3,7 @@
 ;;; `every?'/`some'/boolean-of-list family.
 
 (define-module (bost common list)
-  #:use-module (bost common core) ; comp, partial, def-public, boolean, true?
+  #:use-module (bost common core)
   #:use-module (ice-9 match)      ; ensure-list
   #:use-module (srfi srfi-26)     ; Conveniently specialize selected parameters
   #:use-module (srfi srfi-1))     ; list-processing procedures
@@ -288,3 +288,42 @@ dotted (improper) list — and it allows the degenerate case with zero pairs.
     (partial filter (lambda (x) (> (count (partial eq-proc x) lst) 1)))
     (cut delete-duplicates <> eq-proc))
    lst))
+
+(define-public (list-of-lists? x)
+  "Return #t if X is a proper list whose elements are all themselves proper
+lists, #f otherwise — including when X itself isn't a proper list.
+
+`conjoin' below reads tersely. `spelled-list-of-lists?' and
+`traced-list-of-lists?' spell it out and instrument it with `display' to
+show why only the real, short-circuiting version avoids crashing on a
+non-list X (see the ;=> comments under each).
+
+(define (traced-list-of-lists? x)
+  ((conjoin (lambda (x)
+              (display \"(list? x) \")
+              (list? x))
+            (lambda (x)
+              (display \"((partial ...) x) \")
+              ((partial every list?) x)))
+   x))
+;; (traced-list-of-lists? 1) ;=> (list? x) $<..> = #f
+
+(define (spelled-list-of-lists? x)
+  (every true?
+         (list (begin
+                 (display \"(list? x) \")
+                 (list? x))
+               (begin
+                 (display \"((partial ...) x) \")
+                 ((partial every list?) x)))))
+;; (spelled-list-of-lists? 1) ;=> (list? x) ((partial ...) x) <error>
+
+(list-of-lists? (list))            ;=> #t (vacuously: no non-list elements)
+(list-of-lists? (list 1))          ;=> #f
+(list-of-lists? (list (list)))     ;=> #t
+(list-of-lists? (list (list 1) 2)) ;=> #f
+(list-of-lists? 'aaa)              ;=> #f
+(list-of-lists? 1)                 ;=> #f
+"
+  ((conjoin list? (partial every list?)) x))
+

@@ -148,6 +148,10 @@ Works also for functions returning and accepting multiple values."
   (lambda args
     (map (lambda (fn) (apply fn args)) fns)))
 
+(define-public (conjoin . preds)
+  "Combine PREDS into a single predicate true when all of them hold."
+  (lambda (x) (every (lambda (p) (p x)) preds)))
+
 (define-public empty? null?) ;; no runtime cost. null? is a primitive procedure
 
 (define-public (boolean x)
