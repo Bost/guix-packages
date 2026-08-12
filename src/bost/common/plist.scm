@@ -28,12 +28,12 @@
      (else
       (loop (cddr xs) (cons (car xs) acc))))))
 
-(define-public (explain-why-not-plist? lst)
+(define-public (explain-plist-error lst)
   (cond
    [(not (list? lst))          "not a list"]
    [(not (even? (length lst))) "expected even-length list"]
    [(has-duplicates? lst)      "expected list of unique key/value pairs"]
-   [else                       "not a plist"]))
+   [#t                         "not a plist"]))
 
 (define (has-duplicates? lst)
   "Used in `plist?'
@@ -81,7 +81,7 @@
           (loop-lst init-lst)]
        (if (plist? loop-lst)
            (apply loop loop-args)
-           (error (format #f "~a ~a" f (explain-why-not-plist? init-lst))
+           (error (format #f "~a ~a" f (explain-plist-error init-lst))
                   init-lst)))))
 
 (define-public (reorder-plist plist order)
@@ -109,7 +109,7 @@ ORDER that are absent from PLIST are reported with `my=warn' and dropped.
   "(plist-set (list) #:key 'val) ;=> (#:key val)"
   (cond
    [(not (plist? plist))
-    (error (format #f "~a `~s' is not a plist\n" f plist))]
+    (error (format #f "~a ~a" f (explain-plist-error plist)) plist)]
    [else
     (let rec [(lst plist) (acc '())]
       (cond [(null? lst)
@@ -131,7 +131,7 @@ empty list into a non-empty one.
 lst ;=> (#:k1 1 #:k2 22 #:k3 3)"
   (cond
    [(not (plist? plist))
-    (error (format #f "~a `~s' is not a plist.\n" f plist))]
+    (error (format #f "~a ~a" f (explain-plist-error plist)) plist)]
    [(null? plist)
     (error
      (format #f
@@ -248,7 +248,7 @@ value).
         (if (null? lst)
             (reverse keys)
             (loop (cddr lst) (cons (proc lst) keys))))
-      (error (format #f "~a `~s' is not a plist\n" f plist))))
+      (error (format #f "~a ~a" f (explain-plist-error plist)) plist)))
 
 (define-public (plist-keys plist)
   "Return a list of all keys in the plist.
@@ -275,7 +275,7 @@ value).
 (get-keyworded-vals 1)              ;=> not a plist"
   (if (plist? lst)
       (map (partial plist-get lst) (get-keywords lst))
-      (error (format #f "~a `~s' is not a plist\n" f lst))))
+      (error (format #f "~a ~a" f (explain-plist-error lst)) lst)))
 
 (define-public (remove-all-elements lst elements)
   "Remove all elements from a list.
@@ -321,8 +321,8 @@ out."
    (else
     (error (format #f "~a don't know how to compare ~s and ~s" f a b)))))
 
-(def*-public (sort-by lst #:key (order '()) (ascend #t))
-  "Stably sort the list of plists LST by the keys listed in ORDER, most
+(def*-public (sort-by lists #:key (order '()) (ascend #t))
+  "Stably sort the list of lst LISTS by the keys listed in ORDER, most
 significant key first. ASCEND controls the direction for every key in
 ORDER; there's no per-key direction. Values under a key are compared with
 `value<', which understands numbers, strings, symbols, characters and
@@ -330,28 +330,28 @@ booleans; comparing two values of differing or unsupported types signals
 an error. Rows equal on every key in ORDER keep their original relative
 position, since the underlying `sort' is stable.
 
-(define lst
+(define lists
   (list
    (list #:a 2 #:b 12 #:c #t)
    (list #:a 2 #:b 13 #:c #t)
    (list #:a 1 #:b 11 #:c #f)
    (list #:a 3 #:b 12 #:c #t)))
 
-,pp (sort-by lst #:order (list #:a) #:ascend #t) ;=>
+,pp (sort-by lists #:order (list #:a) #:ascend #t) ;=>
 (list
  (list #:a 1 #:b 11 #:c #f)
  (list #:a 2 #:b 12 #:c #t)  ; tie on #:a: original relative order kept
  (list #:a 2 #:b 13 #:c #t)
  (list #:a 3 #:b 12 #:c #t))
 
-,pp (sort-by lst #:order (list #:a #:b) #:ascend #t) ;=>
+,pp (sort-by lists #:order (list #:a #:b) #:ascend #t) ;=>
 (list
  (list #:a 1 #:b 11 #:c #f)
  (list #:a 2 #:b 12 #:c #t)
  (list #:a 2 #:b 13 #:c #t)
  (list #:a 3 #:b 12 #:c #t))
 
-,pp (sort-by lst #:order (list #:a) #:ascend #f) ;=>
+,pp (sort-by lists #:order (list #:a) #:ascend #f) ;=>
 (list
  (list #:a 3 #:b 12 #:c #t)
  (list #:a 2 #:b 12 #:c #t)  ; tie on #:a: original relative order kept
@@ -359,11 +359,14 @@ position, since the underlying `sort' is stable.
  (list #:a 1 #:b 11 #:c #f))
 
 (sort-by (list (list #:a 1) (list #:a \"x\")) #:order (list #:a) #:ascend #t)
-;; error: value<: don't know how to compare ... ; mixed types under #:a
-;; (argument order in the message is unspecified: `sort' decides which of
-;; the two it hands to `value<' first)"
-  (unless (every? plist? lst)
-    (error (format #f "~a not a list of plists" f) lst))
+;; => error: don't know how to compare \"x\" and 1
+"
+  (cond
+   [(not (list-of-lists? lists))
+    (error (format #f "~a not a list of plists" f) lists)]
+   [else
+    ;; TODO check the elements
+    ])
 
   (define (item< item-a item-b)
     (let loop ((keys order))
@@ -376,4 +379,4 @@ position, since the underlying `sort' is stable.
               (ascend (value< va vb))
               (else   (value< vb va)))))))
 
-  (sort lst item<))
+  (sort lists item<))
