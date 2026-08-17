@@ -321,6 +321,44 @@ out."
    (else
     (error (format #f "~a don't know how to compare ~s and ~s" f a b)))))
 
+(def (explain-malformed elements)
+  "Used in `check-elements'. Describe each element which isn't a plist.
+(explain-malformed (list (list #:a) (list #:a 1 #:a 2)))
+;=> \"(#:a): expected even-length list, \\
+     (#:a 1 #:a 2): expected list of unique key/value pairs\""
+  ((comp
+    (lambda (strs) (string-join strs ", "))
+    (partial map (lambda (elem)
+                   (format #f "~s: ~a" elem (explain-plist-error elem)))))
+   elements))
+
+(def (partially-present-key? lists key)
+  "Used in `check-elements'. #t when KEY is present in some, but not in all
+elements of LISTS. `plist-get' answers #f for a missing key, so such a key
+makes `value<' compare a #f against a real value. A key missing everywhere is
+harmless - all elements tie on it.
+(partially-present-key? (list (list #:a 1) (list #:a 2 #:b 3)) #:b) ;=> #t
+(partially-present-key? (list (list #:a 1) (list #:a 2 #:b 3)) #:c) ;=> #f"
+  (let [(present? (comp boolean (partial member key) get-keys))]
+    (and (any   present? lists)
+         (not (every present? lists)))))
+
+(def* (check-elements lists #:key (order '()))
+  "Used in `sort-by'. Return #t, or error out when an element of LISTS isn't a
+plist, or when a key of ORDER is present only in some of them. LISTS is
+expected to be a list of lists already, see `list-of-lists?'."
+  (let [(malformed (remove plist? lists))
+        (partially-present (filter (partial partially-present-key? lists)
+                                   order))]
+    (cond
+     [(not (null? malformed))
+      (error (format #f "~a ~a" f (explain-malformed malformed)) malformed)]
+     [(not (null? partially-present))
+      (error (format #f "~a the ORDER key(s) ~s missing from some, but not \
+all elements" f partially-present)
+             lists)]
+     [else #t])))
+
 (def*-public (sort-by lists #:key (order '()) (ascend #t))
   "Stably sort the list of lst LISTS by the keys listed in ORDER, most
 significant key first. ASCEND controls the direction for every key in
@@ -336,6 +374,12 @@ position, since the underlying `sort' is stable.
    (list #:a 2 #:b 13 #:c #t)
    (list #:a 1 #:b 11 #:c #f)
    (list #:a 3 #:b 12 #:c #t)))
+
+,pp (sort-by lists) ;=>
+$10 = ((#:a 2 #:b 12 #:c #t)
+       (#:a 2 #:b 13 #:c #t)
+       (#:a 1 #:b 11 #:c #f)
+       (#:a 3 #:b 12 #:c #t))
 
 ,pp (sort-by lists #:order (list #:a) #:ascend #t) ;=>
 (list
@@ -365,8 +409,7 @@ position, since the underlying `sort' is stable.
    [(not (list-of-lists? lists))
     (error (format #f "~a not a list of plists" f) lists)]
    [else
-    ;; TODO check the elements
-    ])
+    (check-elements lists #:order order)])
 
   (define (item< item-a item-b)
     (let loop ((keys order))
