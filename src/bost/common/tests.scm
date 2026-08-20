@@ -16,7 +16,7 @@
   #:use-module ((guile)            #:prefix guile:)
   #:use-module ((ice-9 exceptions) #:prefix ice:)
 
-  #:use-module ((rnrs) #:version (6))
+  ;; #:use-module ((rnrs) #:version (6))
   ;; #:use-module (rnrs arithmetic bitwise)
   ;; #:use-module (rnrs arithmetic fixnums)
   ;; #:use-module (rnrs arithmetic flonums)
@@ -45,13 +45,14 @@
          #`((comp
              (lambda (function)
                (when (ice:guard
-                      ;; Break out in case of an error occured during the execution of
+                      ;; Break out when an error occurred during
                       ;; `(apply function arg ...)' or `(function arg ...)'.
-                      (condition [else
-                                  (begin
-                                    ;; (format #t "[stx-c1 guard-else] condition :\n~a\n" condition)
-                                    #f)
-                                  ])
+                      (condition
+                       [else
+                        (begin
+                          ;; (format #t "[stx-c1 guard-else] condition :\n~a\n" condition)
+                          #f)
+                        ])
                       (begin
                         ;; (when #t
                         ;;   ;; (format #t "[stx-c1 guard-body] macro-name      : ~a\n" macro-name)
