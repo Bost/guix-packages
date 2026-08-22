@@ -289,27 +289,34 @@ $9 = 0 ;; <return-code>"
 (define*-public (exec-with-error-to-string commad #:key (verbose #t))
   "Run the shell COMMAND using '/bin/sh -c' with 'OPEN_READ' mode, ie. to read
 from the subprocess. Wait for the command to terminate and return 3 values:
-- `#t' if the port was successfully closed or `#f' if it was already closed.
+- the command's exit code (an integer; 0 in dry-run mode)
 - a string containing standard output
 - a string containing standard error output
 
 (use-module (ice-9 receive)) ;; or (srfi srfi-8)
-(receive (retval stdout stderr)
+(receive (retcode stdout stderr)
     (exec-with-error-to-string \"echo to-stdout; echo to-stderr >&2\")
-  (format #t \"receive retval:~a\\n\" retval)
+  (format #t \"receive retcode:~a\\n\" retcode)
   (format #t \"receive stdout:~a\\n\" stdout)
   (format #t \"receive stderr:~a\\n\" stderr))"
   (define (exec-function commad)
     (if (string-contains commad dry-run-prm)
-        (values "" "" "")
+        (values 0 "" "")
         (let* ((err-cons (pipe))
                (port (with-error-to-port (cdr err-cons)
                        (lambda () (open-input-pipe commad))))
                ;; the err-cons buffer size is 16 MiB
                (_ (setvbuf (car err-cons) 'block (* 1024 1024 16)))
-               (stdout (read-delimited "" port)))
+               (stdout (read-delimited "" port))
+               ;; `close-pipe' (not `close-port') is what actually waits for
+               ;; the subprocess and yields its wait status; without this,
+               ;; the command's exit code was never available to callers.
+               (retcode (status:exit-val (close-pipe port))))
+          ;; Our own reference to the write end must be closed too, or the
+          ;; `read-delimited' below blocks forever waiting for EOF.
+          (close-port (cdr err-cons))
           (values
-           (close-port (cdr err-cons))
+           retcode
            stdout
            ;; the port must be closed before calling the following
            (read-delimited "" (car err-cons))))))
