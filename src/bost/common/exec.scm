@@ -331,44 +331,41 @@ from the subprocess. Wait for the command to terminate and return 3 values:
    commad))
 
 (define*-public (exec command #:key (verbose #t) (return-plist #f))
-  "Run the shell COMMAND using '/bin/sh -c' with 'OPEN_READ' mode, ie. to read
-from the subprocess. Wait for the command to terminate and return a string
-containing its output.
+  "Run shell COMMAND and return its exit status and captured standard output.
 
-RETURN-PLIST - return property list which can be accessed by:
-(plist-get (exec \"echo 'foo'\" #:return-plist #t) #:retcode)
+COMMAND may be a string or a list of strings. A list is joined with spaces
+before execution. The resulting command is interpreted by `/bin/sh -c';
+use `exec-argv' to execute an argv list without shell interpretation.
 
-TODO have a look if a delimited continuation can be used to break out of `exec',
-i.e. skip the `read-all-strings' and thus make `exec-background' out of it.
+Standard output is returned as a list of lines without trailing newlines.
+Standard error is not captured: it inherits `(current-error-port)'. To
+capture both streams together, merge standard error into standard output
+in COMMAND with `2>&1'. Use `exec-with-error-to-string' to capture the
+streams separately.
 
-Usage:
-(define (process retcode output)
-  (format #t \"(test-type output): ~a\\n\" (test-type output))
-  ...
-  retcode)
+When RETURN-PLIST is true, return the same information as a property list:
 
-(let* [(cmd-result-struct (exec \"echo foo\" #:return-plist #t))
-       (retcode (plist-get cmd-result-struct #:retcode))]
-  (if (zero? retcode)
-      (process retcode (plist-get cmd-result-struct #:results))
-      (begin
-        ;; (error (format #f \"~a retcode: ~a\\n\" f retcode)) ; error-out
-        ;; (error-command-failed f \"extra_info\")
-        ;; or return `retcode' instead of `*unspecified*'
-        *unspecified*)))
+  (exec \"printf '%s\\n' foo bar\" #:verbose #f #:return-plist #t)
+  => (#:retcode 0 #:results (\"foo\" \"bar\"))
 
-Or:
+  (use-modules (ice-9 match))
+  (match (exec cmd #:verbose #f #:return-plist #t)
+    [(#:retcode retcode #:results results) ...]
+    [else ...])
 
-(let* [(ret (exec (list \"echo\" \"foo\")))
-       (retcode (car ret))]
-    (if (= 0 retcode)
-        (let* ((output (cdr ret)))
-          (process retcode output))
-      (begin
-        ;; (error (format #f \"~a retcode: ~a\n\" f retcode)) ; error-out
-        ;; (error-command-failed f \"extra_info\")
-        ;; or return `retcode' instead of `*unspecified*'
-        *unspecified*)))"
+When RETURN-PLIST is #f, return a pair whose car is the exit status and
+whose cdr contains the output lines:
+
+  (exec \"printf '%s\\n' foo bar\" #:verbose #f)
+  => (0 \"foo\" \"bar\")
+
+VERBOSE controls whether COMMAND is displayed before execution. If COMMAND
+contains `--gx-dry-run', no process is started and the normalized command
+string is returned.
+
+TODO clarify where a delimited continuation can be used to break out of
+`exec', ie. skip the `read-all-strings' and thus make `exec-background' out of
+it."
   ;; ,use (guix build utils) ;; contains `invoke'
   ;; `invoke' does `(apply system* program args)'; `system*' waits for the
   ;; program to finish, The command is executed using fork and execlp.
@@ -397,15 +394,23 @@ Or:
    command))
 
 (define-public (call-with-stderr-to-null thunk)
-  "Run THUNK with the current error port — and thus the stderr of any
-subprocess spawned via `open-pipe*' during its dynamic extent — sent to
-/dev/null.  The previous error port is restored afterwards, incl. on
-non-local exit.  The sink must be a real file port (a void port has no
-file descriptor for the child to inherit), hence /dev/null.
+  "Call THUNK with `(current-error-port)' dynamically redirected to
+`/dev/null', returning the values produced by THUNK. Restore the previous
+error port when THUNK returns or exits non-locally.
 
-(call-with-stderr-to-null
- (lambda () (exec-argv (list \"tesseract\" f \"-\" \"--psm\" \"0\")
-                       #:return-plist #t)))"
+Output written to the current error port is discarded. Subprocesses started
+while THUNK runs inherit `/dev/null' as their standard error. A real file
+port is used because a subprocess cannot inherit a file descriptor from a
+void port.
+
+This redirects standard error; it does not merge it into the private
+standard-output pipe captured by `exec'.
+
+  (call-with-stderr-to-null
+    (lambda ()
+      (exec \"printf '%s\\n' visible; printf '%s\\n' hidden >&2\"
+            #:verbose #f)))
+  => (0 \"visible\")"
   (call-with-output-file "/dev/null"
     (lambda (sink) (with-error-to-port sink thunk))))
 
