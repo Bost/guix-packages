@@ -7827,9 +7827,9 @@ with GUI Emacs behavior.")
   ;;   $ wget https://www.emacswiki.org/emacs/download/frame-fns.el
   ;;   $ guix hash frame-fns.el
   ;; See also:
-  ;;   $ gxb -S -L $dgxp -e '(@(bost gnu packages emacs-xyz) emacs-frame-fns)'
+  ;;   $ gxb -S -L $dbstx -e '(@(bost gnu packages emacs-xyz) emacs-frame-fns)'
   ;; and:
-  ;;   $ gxb -S -L $dgxp -e '(@(bost gnu packages emacs-xyz) emacs-frame-fns)' --check --no-grafts
+  ;;   $ gxb -S -L $dbstx -e '(@(bost gnu packages emacs-xyz) emacs-frame-fns)' --check --no-grafts
   (package
     (name "emacs-frame-fns")
     (version "0.238")
@@ -7936,7 +7936,7 @@ in a single repeatable command.")
 
 #|
 (load "/home/bost/dev/dotfiles/guix/home/utils.scm")
-(load "/home/bost/dev/guix-packages/packages/bost/packages/emacs-xyz.scm")
+(load "/home/bost/dev/bstx/packages/bost/packages/emacs-xyz.scm")
 (use-modules (guix store)
              (guix derivations)
              (guix packages)
@@ -9918,7 +9918,7 @@ documentation search and a source and class browser.")
      (list
       ;; Leads to
       ;;     native-compiler-error-empty-byte (".../ac-php-comm-tags-data.el" ...)
-      ;; guix build -c 24 --with-input=emacs-minimal=emacs -K -L /home/bost/dev/guix-packages/src -e '(@(bost gnu packages emacs-xyz) emacs-ac-php)'
+      ;; guix build -c 24 --with-input=emacs-minimal=emacs -K -L /home/bost/dev/bstx/src -e '(@(bost gnu packages emacs-xyz) emacs-ac-php)'
       #:exclude #~(cons* "ac-php-comm-tags-data.el" %default-exclude)
       #:modules bst:modules
       #:imported-modules bst:imported-modules
