@@ -44,7 +44,7 @@
 ;; Example usage:
 
 ;; profile-ops.scm
-(load (string-append (getenv "dgxp") "/src/bost/manifest-ops.scm"))
+(load (string-append (getenv "dbstx") "/src/bost/manifest-ops.scm"))
 (define base (load "base.scm"))
 (define old  (load "old.scm"))
 (define extras (specifications->manifest '("ripgrep" "jq")))

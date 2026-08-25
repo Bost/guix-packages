@@ -17,8 +17,8 @@ guix pull --allow-downgrades && guix upgrade --load-path=$lp
 (cons (channel
         (name 'bost)
         (url
-         "https://codeberg.org/Bost/guix-packages"
-         ;; (format #f "file://~a/guix-packages" (getenv "dev"))
+         "https://codeberg.org/Bost/bstx"
+         ;; (format #f "file://~a/bstx" (getenv "dev"))
          ))
       %default-channels)
 ```

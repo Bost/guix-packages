@@ -5,7 +5,7 @@
 # honor it and otherwise use /bin/sh.
 export SHELL
 
-# export GUIX_PACKAGE_PATH=$(pwd)/guix-packages/packages/bost/packages/patches
+# export GUIX_PACKAGE_PATH=$(pwd)/bstx/packages/bost/packages/patches
 printf ".bashrc: GUIX_PACKAGE_PATH: %s\n" $GUIX_PACKAGE_PATH
 
 # /run is not automatically created by guix
