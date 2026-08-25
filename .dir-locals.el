@@ -1,11 +1,11 @@
 ;; Per-directory local variables for GNU Emacs 23 and later.
 
 ;; (set-local-keymap (kbd "<f8>") '(message "f8 pressed"))
-;; (set-local-keymap (kbd "<f7>") '(dgxp-find-file--guix-emacs-xyz))
+;; (set-local-keymap (kbd "<f7>") '(dbstx-find-file--guix-emacs-xyz))
 
 ;; (set-local-keymap
-;;  (kbd "<f7>") '(dgxp-find-file--guix-emacs-xyz)
-;;  (kbd "<f8>") '(dgxp-find-file--bost-emacs-xyz)
+;;  (kbd "<f7>") '(dbstx-find-file--guix-emacs-xyz)
+;;  (kbd "<f8>") '(dbstx-find-file--bost-emacs-xyz)
 ;;  )
 
 (
@@ -15,12 +15,12 @@
       .
       (progn
 
-        (defun dgxp-find-file--bost-emacs-xyz ()
+        (defun dbstx-find-file--bost-emacs-xyz ()
           (interactive)
           (find-file
-           (format "%s/src/bost/gnu/packages/emacs-xyz.scm" (getenv "dgxp"))))
+           (format "%s/src/bost/gnu/packages/emacs-xyz.scm" (getenv "dbstx"))))
 
-        (defun dgxp-find-file--guix-emacs-xyz ()
+        (defun dbstx-find-file--guix-emacs-xyz ()
           (interactive)
           (find-file
            (format "%s/gnu/packages/emacs-xyz.scm" (getenv "dgx"))))
@@ -29,15 +29,15 @@
         ;; 1. set-local-keymap seems to be lazy-loaded. autload may or may not help.
         ;; 2. set-local-keymap doesn't work when in e.g. *Messages*
         ;; (set-local-keymap
-        ;;  (kbd "<f7>") '(dgxp-find-file--guix-emacs-xyz)
-        ;;  (kbd "<f8>") '(dgxp-find-file--bost-emacs-xyz)
+        ;;  (kbd "<f7>") '(dbstx-find-file--guix-emacs-xyz)
+        ;;  (kbd "<f8>") '(dbstx-find-file--bost-emacs-xyz)
         ;;  )
 
         (dolist (state-map `(,global-map))
           (bind-keys
            :map state-map
-           ("<f7>"  . dgxp-find-file--guix-emacs-xyz)
-           ("<f8>"  . dgxp-find-file--bost-emacs-xyz)))
+           ("<f7>"  . dbstx-find-file--guix-emacs-xyz)
+           ("<f8>"  . dbstx-find-file--bost-emacs-xyz)))
         ))
 
      (fill-column . 78)
