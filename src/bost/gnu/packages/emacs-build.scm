@@ -17,21 +17,25 @@
   #:use-module (gnu packages texinfo)
   #:use-module (gnu packages version-control))
 
-(define-public bost-common-modules
+(define-public (bost-common-modules)
+  "Must contain all (bost common *). The (bost common test) seems not to be
+necessary. See $dtf/guix/home/common/services/cli-utils.scm "
   `((bost guix build emacs-utils)
-    ;; All (bost common ...) modules must be listed here
-    (bost common utils)
-    (bost common srfi-1-smart)
-    (bost common core)
     (bost common boolean)
-    (bost common list)
-    (bost common plist)
-    (bost common string)
+    (bost common core)
+    (bost common environment)
     (bost common exec)
     (bost common fs)
+    (bost common guix)
+    (bost common guix-shell)
+    (bost common list)
     (bost common monad)
+    (bost common plist)
     (bost common pretty-print)
-    (bost common guix)))
+    (bost common srfi-1-smart)
+    (bost common string)
+    (bost common utils)
+    ))
 
 (define-public modules-without-emacs-build-system
   '((guix build utils)
@@ -48,7 +52,7 @@
     (guix monads)
     (guix build emacs-build-system)
     (guix build emacs-utils)
-    ,@bost-common-modules))
+    ,@(bost-common-modules)))
 
 (define-public emacs-dash
   (let ((commit "d3a84021dbe48dba63b52ef7665651e0cf02e915")

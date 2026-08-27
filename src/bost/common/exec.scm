@@ -2,18 +2,24 @@
 ;;; dry-run handling, pipe/port reading helpers (read-all*), and small
 ;;; process-inspection helpers (analyze-pids-*, compute-cmd).
 
+;; TODO status:exit-val status can also return an #f, not just a number. Ugh.
+;;   Return the exit status value, as would be set if a process ended normally
+;;   through a call to exit or _exit, if any, otherwise #f.
+;; https://doc.guix.gnu.org/guile/latest/en/html_node/Processes.html
+
 (define-module (bost common exec)
-  #:use-module (bost common core)   ; comp, partial, def*-public, str, error-command-failed
-  #:use-module (bost common plist)  ; plist-get
-  #:use-module (bost common string) ; string-split-whitespace
+  #:use-module (bost common core)
+  #:use-module (bost common plist)
+  #:use-module (bost common string)
   #:use-module (ice-9 match)        ; run-command et al.
   #:use-module (ice-9 optargs)      ; define*-public
-  #:use-module (ice-9 popen)        ; open-input-pipe, open-pipe*, close-pipe
-  #:use-module (ice-9 rdelim)       ; read-line, read-delimited
-  #:use-module (ice-9 regex)        ; string-match, used by analyze-pids-*
-  #:use-module (ice-9 string-fun)   ; string-replace-substring, used by escape-single-quotes
+  #:use-module (ice-9 popen)        ; open-input-pipe open-pipe* close-pipe
+  #:use-module (ice-9 rdelim)       ; read-line read-delimited
+  #:use-module (ice-9 regex)        ; string-match
+  #:use-module (ice-9 string-fun)   ; string-replace-substring
   #:use-module (rnrs io ports)      ; exec-with-error-to-string
-  #:use-module (srfi srfi-1))       ; every, used by exec-argv
+  #:use-module (srfi srfi-1)        ; every
+  )
 
 (define m "[bost common exec]")
 
@@ -433,6 +439,30 @@ pipes, or variable expansion is performed."
     (partial exec-or-dry-run exec-function)
     (lambda (prm) (dbg-exec prm #:verbose verbose)))
    command))
+
+(define*-public (exec-argv-result args #:key (verbose #t))
+  "Run ARGS (an argv list) without shell interpretation and return
+(RETCODE . OUTPUT-LINES) pair. RETCODE is #f if the process was killed by a
+signal."
+  (match (exec-argv args #:verbose verbose #:return-plist #t)
+    ((#:retcode retcode #:results results) (cons retcode results))))
+
+(define*-public (exec-argv-first-line args #:key (verbose #t))
+  "Run ARGS (an argv list) and return its first non-empty output line, or #f if
+it exited non-zero, produced no output, or was killed by a signal."
+  (match (exec-argv-result args #:verbose verbose)
+    ((retcode . results)
+     (and retcode
+          (zero? retcode)
+          (pair? results)
+          (non-empty-string? (car results))
+          (car results)))))
+
+(define*-public (exec-argv-success? args #:key (verbose #t))
+  "Run ARGS (an argv list) and return #t if it exited zero, #f otherwise
+(including if it was killed by a signal)."
+  (let ((retcode (car (exec-argv-result args #:verbose verbose))))
+    (and retcode (zero? retcode))))
 
 (define*-public (run-command #:key args)
   "argv -> list of stdout lines.  Runs via exec-argv (no shell), errors on a
