@@ -19768,7 +19768,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
         #~(cons* ".*" %default-include)
         ;; needed at runtime
         #:modules (append bst:modules
-                          bst:bost-common-modules
+                          (bst:bost-common-modules)
                           '((srfi srfi-1)  ; the 'any' test
                             (srfi srfi-26) ; Conveniently specialize selected parameters
                             (guix utils)))
