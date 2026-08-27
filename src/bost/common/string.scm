@@ -12,6 +12,16 @@
 
 (define m "[bost common string]")
 
+(define-public (non-empty-string? value)
+  "Return true when VALUE is a string containing at least one character.
+Return #f, rather than raising a type error, for every non-string VALUE.
+
+(non-empty-string? \"foo\") ;=> #t
+(non-empty-string? \"\")    ;=> #f
+(non-empty-string? #f)     ;=> #f
+(non-empty-string? 42)     ;=> #f"
+  (and (string? value) (not (string-null? value))))
+
 (define-public (has-suffix? string suffix)
   "Does STRING end with the SUFFIX? As `string-suffix?' but the parameters are
 reversed. See also:

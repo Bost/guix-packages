@@ -20,11 +20,13 @@
   #:use-module (bost common list)
   #:use-module (bost common plist)
   #:use-module (bost common string)
+  #:use-module (bost common environment)
   #:use-module (bost common exec)
   #:use-module (bost common fs)
   #:use-module (bost common monad)
   #:use-module (bost common pretty-print)
   #:use-module (bost common guix)
+  #:use-module (bost common guix-shell)
   #:re-export
   (
    ;; (bost common srfi-1-smart)
@@ -138,6 +140,7 @@
    has-suffix?
    ends-with?
    has-substring?
+   non-empty-string?
    split-string
    smart-split-string
    string-split-whitespace
@@ -151,6 +154,11 @@
    str-join
    padding-string
    scheme-literal
+
+   ;; (bost common environment)
+   required-getenv
+   env-or-default
+   split-environment-list
 
    ;; (bost common exec)
    contains--gx-dry-run?
@@ -170,6 +178,9 @@
    exec
    call-with-stderr-to-null
    exec-argv
+   exec-argv-result
+   exec-argv-first-line
+   exec-argv-success?
    run-command
    analyze-pids-flag-variable
    analyze-pids-call/cc
@@ -178,7 +189,10 @@
 
    ;; (bost common fs)
    path
+   dbus-session-socket-path
    mktmpfile
+   make-private-temporary-directory
+   cleanup-temporary-directory!
    mdelete-file
    mcopy-file
    safe-write-append
@@ -204,4 +218,12 @@
 
    ;; (bost common guix)
    package-output-paths
+
+   ;; (bost common guix-shell)
+   guix-preserve-exact
+   guix-share
+   guix-share-as
+   guix-expose
+   guix-expose-as
+   guix-expose-if-exists
    ))
