@@ -3,14 +3,18 @@
 ;;; helpers (timestamp, sha1-file, sha1-string) built on (bost common exec).
 
 (define-module (bost common fs)
-  #:use-module (bost common core)   ; comp, partial, def-public, def*-public, str
-  #:use-module (bost common exec)   ; exec, cmd->string, escape-single-quotes
-  #:use-module (bost common plist)  ; plist-get
-  #:use-module (ice-9 exceptions)   ; guard
-  #:use-module (ice-9 match)        ; mounted-usb-devices et al.
-  #:use-module (rnrs io ports)      ; get-line, get-string-all
-  #:use-module (srfi srfi-1)        ; delete-duplicates, find
-  #:use-module (srfi srfi-26))      ; cut
+  #:use-module (bost common core)
+  #:use-module (bost common environment) ; required-getenv
+  #:use-module (bost common exec)
+  #:use-module (bost common plist)
+  #:use-module (ice-9 exceptions)        ; guard
+  #:use-module (ice-9 match)             ; mounted-usb-devices et al.
+  #:use-module (ice-9 optargs)           ; define*-public
+  #:use-module (ice-9 regex)             ; string-match
+  #:use-module (rnrs io ports)           ; get-line get-string-all
+  #:use-module (srfi srfi-1)             ; delete-duplicates find
+  #:use-module (srfi srfi-26)            ; cut
+  )
 
 (define m "[bost common fs]")
 
@@ -19,6 +23,17 @@
 ;; list with tail appended
 (define-public path
   (delete-duplicates (parse-path (getenv "PATH"))))
+
+(define-public (dbus-session-socket-path)
+  "Extract the socket path from $DBUS_SESSION_BUS_ADDRESS, e.g.
+\"unix:path=/tmp/dbus-XXXX,guid=...\" becomes \"/tmp/dbus-XXXX\".
+The session bus address changes every login, so it must be resolved at
+invocation time rather than hardcoded."
+  (let* ((address (required-getenv "DBUS_SESSION_BUS_ADDRESS"))
+         (rx-match (string-match "path=([^,;]+)" address)))
+    (or (and rx-match (match:substring rx-match 1))
+        (error "Could not parse a socket path from $DBUS_SESSION_BUS_ADDRESS"
+               address))))
 
 (define-public (mktmpfile)
   "Create / Make temporary file under /tmp"
@@ -38,6 +53,26 @@
       (delete-file file))))
 
 (define-public (mcopy-file prms) (apply copy-file prms))
+
+(define*-public (make-private-temporary-directory
+                 #:optional (template "/tmp/private.XXXXXX"))
+  "Create a fresh, mode-0700 temporary directory from mktemp TEMPLATE
+(e.g. \"/tmp/myapp.XXXXXX\") and return its path.
+
+Errors out if the directory can't be created or its permissions can't be
+locked down to mode 0700."
+  (let ((dir (exec-argv-first-line
+              (list "mktemp" "--directory" template))))
+    (unless dir
+      (error "mktemp failed to create a temporary directory" template))
+    (unless (exec-argv-success? (list "chmod" "700" dir))
+      (error "Failed to make temporary directory private" dir))
+    dir))
+
+(define-public (cleanup-temporary-directory! dir)
+  "Recursively remove DIR when it exists; otherwise silently do nothing."
+  (when ((@ (guix build utils) directory-exists?) dir)
+    (exec-argv-success? (list "rm" "--recursive" "--force" dir))))
 
 #|
 (use-modules (ice-9 exceptions))
