@@ -464,6 +464,17 @@ it exited non-zero, produced no output, or was killed by a signal."
   (let ((retcode (car (exec-argv-result args #:verbose verbose))))
     (and retcode (zero? retcode))))
 
+(define-public (wait-status->exit-code status)
+  "Return a shell-style exit code for STATUS, a wait status as returned by
+`system*' or `close-pipe'. Return the normal exit status when the process
+exited normally, 128 plus its terminating signal when it was killed by a
+signal, or 1 otherwise.
+
+See also `status:exit-val'."
+  (or (status:exit-val status)
+      (let ((signal (status:term-sig status)))
+        (if signal (+ 128 signal) 1))))
+
 (define*-public (run-command #:key args)
   "argv -> list of stdout lines.  Runs via exec-argv (no shell), errors on a
 non-zero exit, and normalizes the result to a list of lines."

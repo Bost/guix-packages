@@ -22,6 +22,24 @@ Return #f, rather than raising a type error, for every non-string VALUE.
 (non-empty-string? 42)     ;=> #f"
   (and (string? value) (not (string-null? value))))
 
+(define-public (blank? value)
+  "The complement of `non-empty-string?': #t when VALUE is #f or an empty
+string, and also #t for any other non-string VALUE (mirroring the bash
+idiom `[ -z \"$var\" ]', where an unset variable and an empty one both
+count as blank).
+(blank? \"foo\") ;=> #f
+(blank? \"\")    ;=> #t
+(blank? #f)     ;=> #t"
+  (not (non-empty-string? value)))
+
+(define-public (trim-trailing-newlines value)
+  "Strip trailing newline and carriage-return characters from VALUE, e.g.
+the output of `read-string'/`get-string-all' on a command's stdout.
+(trim-trailing-newlines \"foo\\n\")     ;=> \"foo\"
+(trim-trailing-newlines \"foo\\r\\n\\n\") ;=> \"foo\""
+  (string-trim-right value (lambda (c) (or (char=? c #\newline)
+                                           (char=? c #\return)))))
+
 (define-public (has-suffix? string suffix)
   "Does STRING end with the SUFFIX? As `string-suffix?' but the parameters are
 reversed. See also:
