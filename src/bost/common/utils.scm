@@ -137,27 +137,31 @@
    sort-by
 
    ;; (bost common string)
-   has-suffix?
+   blank?
    ends-with?
    has-substring?
-   non-empty-string?
-   split-string
-   smart-split-string
-   string-split-whitespace
-   url?
-   string-in?
+   has-suffix?
    keyword->string
-   split-on-whitespace
+   non-empty-string?
+   padding-string
    pr-str
    pr-str-with-quote
-   string-qchecksum
-   str-join
-   padding-string
    scheme-literal
+   smart-split-string
+   split-on-whitespace
+   split-string
+   str-join
+   string-in?
+   string-qchecksum
+   string-split-whitespace
+   trim-trailing-newlines
+   url?
 
    ;; (bost common environment)
-   required-getenv
    env-or-default
+   required-getenv
+   required-non-empty-getenv
+   setenv-default!
    split-environment-list
 
    ;; (bost common exec)
@@ -181,6 +185,7 @@
    exec-argv-result
    exec-argv-first-line
    exec-argv-success?
+   wait-status->exit-code
    run-command
    analyze-pids-flag-variable
    analyze-pids-call/cc
@@ -188,23 +193,32 @@
    escape-single-quotes
 
    ;; (bost common fs)
-   path
-   dbus-session-socket-path
-   mktmpfile
-   make-private-temporary-directory
+   canonicalize-existing-path
    cleanup-temporary-directory!
-   mdelete-file
-   mcopy-file
-   safe-write-append
-   safe-overwrite
-   mounted-usb-devices
-   get-ethernet-interfaces
+   dbus-session-socket-path
+   directory?
    ethernet-cable-plugged?
+   executable-file?
+   get-ethernet-interfaces
+   make-private-temporary-directory
+   mcopy-file
+   mdelete-file
+   mktmpfile
+   mounted-usb-devices
    mounted-with-option?
-   writeable-usb-mounted?
-   sha1-string
-   timestamp
+   path
+   path-exists?
+   path-join
+   readable-file?
+   realpath
+   regular-file?
+   safe-overwrite
+   safe-write-append
    sha1-file
+   sha1-string
+   socket?
+   timestamp
+   writeable-usb-mounted?
 
    ;; (bost common monad)
    compose-commands-guix-shell
@@ -226,4 +240,11 @@
    guix-expose
    guix-expose-as
    guix-expose-if-exists
+   guix-share-if-exists
+   guix-share-as-if-exists
+   guix-share-existing-directory
+   guix-share-existing-directory-as
+   guix-expose-readable-file
+   guix-expose-existing-directory
+   guix-expose-existing-path
    ))

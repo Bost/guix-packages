@@ -7,12 +7,14 @@
   #:use-module (bost common environment) ; required-getenv
   #:use-module (bost common exec)
   #:use-module (bost common plist)
+  #:use-module (bost common string)      ; non-empty-string?
   #:use-module (ice-9 exceptions)        ; guard
   #:use-module (ice-9 match)             ; mounted-usb-devices et al.
   #:use-module (ice-9 optargs)           ; define*-public
   #:use-module (ice-9 regex)             ; string-match
   #:use-module (rnrs io ports)           ; get-line get-string-all
   #:use-module (srfi srfi-1)             ; delete-duplicates find
+  #:use-module (srfi srfi-13)            ; string-join
   #:use-module (srfi srfi-26)            ; cut
   )
 
@@ -23,6 +25,78 @@
 ;; list with tail appended
 (define-public path
   (delete-duplicates (parse-path (getenv "PATH"))))
+
+(define (path-type? fs-path type)
+  "Return #t if FS-PATH names a filesystem entry whose `stat:type' is TYPE,
+otherwise return #f.  Return #f as well if FS-PATH is not a non-empty string
+or if the entry cannot be statted.
+
+TYPE is a symbol such as 'regular, 'directory, or 'socket.
+
+(path-type? \"/etc/passwd\" 'regular)               ;=> #t
+(path-type? \"/etc\" 'directory)                    ;=> #t
+(path-type? \"/etc\" 'regular)                      ;=> #f
+(path-type? \"/path/that/does/not/exist\" 'regular) ;=> #f
+(path-type? \"\" 'regular)                          ;=> #f
+(path-type? #f 'regular)                          ;=> #f"
+  (and (non-empty-string? fs-path)
+       (false-if-exception
+        (eq? (stat:type (stat fs-path)) type))))
+
+(define-public (regular-file? fs-path)
+  "Is FS-PATH an existing regular file?"
+  (path-type? fs-path 'regular))
+
+(define-public (directory? fs-path)
+  "Is FS-PATH an existing directory? Like:
+ `(@ (guix build utils) directory-exists?)', but without needing that module."
+  (path-type? fs-path 'directory))
+
+(define-public (socket? fs-path)
+  "Is FS-PATH a Unix-domain socket? Handy for validating a path reported by
+something like `gpgconf --list-dirs' before trusting it, e.g. as a socket
+to bind-mount into a container."
+  (path-type? fs-path 'socket))
+
+(define-public (readable-file? fs-path)
+  "Is FS-PATH an existing regular file this process can read? #f for a
+directory, socket, etc. even if otherwise readable."
+  (and (regular-file? fs-path) (access? fs-path R_OK)))
+
+(define-public (executable-file? fs-path)
+  "Is FS-PATH an existing regular file this process can execute?"
+  (and (regular-file? fs-path) (access? fs-path X_OK)))
+
+(define-public (path-join . parts)
+  "Join non-blank PARTS with slash \"/\", dropping #f or empty-string elements
+- handy for optional path segments (e.g. an optional prefix) without
+having to filter the list by hand at every call site.
+
+(path-join \"/foo\" \"bar\" \"baz\") ;=> \"/foo/bar/baz\"
+(path-join \"/foo\" #f \"baz\")    ;=> \"/foo/baz\"
+(path-join \"/foo\" \"\" \"baz\")    ;=> \"/foo/baz\""
+  (string-join (filter non-empty-string? parts) "/"))
+
+(define-public (canonicalize-existing-path fs-path)
+  "Return the canonical absolute pathname of FS-PATH, resolving symbolic links,
+or #f if FS-PATH is not a non-empty string or cannot be canonicalized.
+
+FS-PATH must name an existing filesystem entry.
+
+(canonicalize-existing-path \"/etc/../etc/passwd\") ;=> \"/etc/passwd\"
+(canonicalize-existing-path \"/nonexistent\")       ;=> #f
+(canonicalize-existing-path \"\")                   ;=> #f
+(canonicalize-existing-path #f)                   ;=> #f"
+  (and (non-empty-string? fs-path)
+       (false-if-exception (canonicalize-path fs-path))))
+
+(define-public (realpath fs-path)
+  "TODO replace usage of `realpath' with `canonicalize-existing-path'.
+
+Resolve FS-PATH to its canonical absolute form (following symlinks), like
+the shell's `readlink -f'. Return #f if FS-PATH doesn't exist, rather than
+erroring out like Guile's own `canonicalize-path', which this wraps."
+  (false-if-exception (canonicalize-path fs-path)))
 
 (define-public (dbus-session-socket-path)
   "Extract the socket path from $DBUS_SESSION_BUS_ADDRESS, e.g.
@@ -71,7 +145,7 @@ locked down to mode 0700."
 
 (define-public (cleanup-temporary-directory! dir)
   "Recursively remove DIR when it exists; otherwise silently do nothing."
-  (when ((@ (guix build utils) directory-exists?) dir)
+  (when (directory? dir)
     (exec-argv-success? (list "rm" "--recursive" "--force" dir))))
 
 #|
@@ -106,6 +180,12 @@ locked down to mode 0700."
                           (make-read-exception 'almost-full 'medium)))))
       (format #t "writing ~a\n" file-size))))
 |#
+
+(define-public (path-exists? fs-path)
+  "Like `file-exists?', but also accepts #f or an empty string (as from a
+possibly-unset environment variable) and simply says no, rather than
+erroring out the way `file-exists?' does on a non-string argument."
+  (and (non-empty-string? fs-path) (file-exists? fs-path)))
 
 (define (symbolic-link? fs-path)
   "Check if fs-path is a symbolic link"
