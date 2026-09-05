@@ -90,14 +90,6 @@ FS-PATH must name an existing filesystem entry.
   (and (non-empty-string? fs-path)
        (false-if-exception (canonicalize-path fs-path))))
 
-(define-public (realpath fs-path)
-  "TODO replace usage of `realpath' with `canonicalize-existing-path'.
-
-Resolve FS-PATH to its canonical absolute form (following symlinks), like
-the shell's `readlink -f'. Return #f if FS-PATH doesn't exist, rather than
-erroring out like Guile's own `canonicalize-path', which this wraps."
-  (false-if-exception (canonicalize-path fs-path)))
-
 (define-public (dbus-session-socket-path)
   "Extract the socket path from $DBUS_SESSION_BUS_ADDRESS, e.g.
 \"unix:path=/tmp/dbus-XXXX,guid=...\" becomes \"/tmp/dbus-XXXX\".
