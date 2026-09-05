@@ -210,7 +210,6 @@
    path-exists?
    path-join
    readable-file?
-   realpath
    regular-file?
    safe-overwrite
    safe-write-append
