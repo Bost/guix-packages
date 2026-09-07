@@ -796,11 +796,6 @@ code.  The package also offers an option to hide whitespace preceding
 comments.")
     (license license:gpl3+)))
 
-(define-public emacs-info+
-  (package
-    (inherit emacs-info-plus)
-    (name "emacs-info+")))
-
 ;; bat -r 81159:81181 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-molokai-theme
   (let ((commit "cc53e997e7eff93b58ad16a376a292c1dd66044b")
@@ -1333,16 +1328,6 @@ command-line options.")
  is installed and accessible in your system's PATH.")
       (license license:gpl3+))))
 
-(define-public emacs-sqlite3
-  (package
-    (inherit emacs-sqlite3-api)
-    (name "emacs-sqlite3")))
-
-(define-public emacs-systemd
-  (package
-    (inherit emacs-systemd-mode)
-    (name "emacs-systemd")))
-
 ;; bat -r 83083:83102 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-mvn
   (let ((commit "223723d9ceeb2878b884e83abb8ca74ad2e42081")
@@ -1562,10 +1547,6 @@ without leaving the Emacs environment.")
  enhances text editing by visually indicating the vertical line.")
       (license license:gpl3+))))
 
-(define-public emacs-lv
-  (package
-    (inherit emacs-hydra)
-    (name "emacs-lv")))
 ;; bat -r 135318:135350 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
 (define-public emacs-xhair ;; PR sent https://issues.guix.gnu.org/issue/78045
   (let ((commit "c7bd7c501c3545aa99dadac386c882fe7c5edd9c")
@@ -2332,12 +2313,6 @@ and @code{erc-send-modify-hook} to download and show images.")
 configuration in your @file{.emacs} file in a way that is both
 performance-oriented and tidy.")
       (license license:gpl2+))))
-
-;; (bst:write-pkg-file "bind-chord") doesn't help
-(define-public emacs-bind-chord
-  (package
-    (inherit emacs-use-package)
-    (name "emacs-bind-chord")))
 
 (define-public emacs-key-chord
   (package
@@ -20810,3 +20785,34 @@ more versatile.  You can bookmark many more kinds of data.  You can add tags.
 There are many more ways to organize and display your bookmarks.  I recommend
 reading the extensive documentation about BookmarkPlus on the Emacs Wiki.")
     (license license:gpl3+)))
+
+;; :beg: TODO alias instead of inherit
+
+(define-public emacs-info+
+  (package
+    (inherit emacs-info-plus)
+    (name "emacs-info+")))
+
+(define-public emacs-lv
+  (package
+    (inherit emacs-hydra)
+    (name "emacs-lv")))
+
+(define-public emacs-sqlite3
+  (package
+    (inherit emacs-sqlite3-api)
+    (name "emacs-sqlite3")))
+
+(define-public emacs-systemd
+  (package
+    (inherit emacs-systemd-mode)
+    (name "emacs-systemd")))
+
+;; (bst:write-pkg-file "bind-chord") doesn't help
+(define-public emacs-bind-chord
+  (package
+    (inherit emacs-use-package)
+    (name "emacs-bind-chord")))
+
+;; :end: TODO alias instead of inherit
+
