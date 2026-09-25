@@ -13,6 +13,8 @@
   #:use-module (srfi srfi-1)              ; string-concatenate, used by str
   #:use-module ((rnrs) #:version (6))     ; for procedure: cnt
   #:use-module ((guile) #:prefix guile:)
+  #:use-module (srfi srfi-1)              ; list-processing procedures
+  #:use-module (system vm program)   ; for procedure-location
   #:export
   (
    def
@@ -528,3 +530,33 @@ Unlike `error', no backtrace — for expected failures, not bugs."
   (apply format (current-error-port) fmt args)
   (guile:newline (current-error-port))
   (exit 1))
+
+(define-public (binding-origin sym)
+  "Return (MODULE-NAME FILE) of the module providing SYM in the current module.
+
+(use-modules (ice-9 match))
+(binding-origin 'match) ;=> ((ice-9 match) \"ice-9/match.scm\")"
+  (let ((var (module-variable (current-module) sym)))
+    ((compose
+      (lambda (m)
+        (and m
+             (list (module-name m)
+                   (module-filename (resolve-module (module-name m))))))
+      (lambda (mods)
+        (find (lambda (m) (eq? var (module-local-variable m sym))) mods)))
+     (cons (current-module) (module-uses (current-module))))))
+
+(define-public (procedure-location proc)
+  "Return (FILE LINE COLUMN) of PROC's definition, or #f if unknown.
+(procedure-location and-map)
+;; => (\"/.../share/guile/3.0/ice-9/boot-9.scm\" <line> <column>)"
+  ((compose
+    (lambda (src)
+      (and src
+           (list (or (%search-load-path (source:file src))
+                     (source:file src))
+                 (source:line-for-user src)
+                 (source:column src))))
+    (lambda (srcs) (and (pair? srcs) (car srcs)))
+    program-sources)
+   proc))
