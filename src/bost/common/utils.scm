@@ -73,6 +73,8 @@
    dbgfmt
    and*
    or*
+   binding-origin
+   procedure-location
 
    ;; (bost common boolean)
    boolean=
