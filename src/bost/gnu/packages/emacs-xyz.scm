@@ -5331,7 +5331,6 @@ documentation, enhancing the Python development experience within Emacs.")
        (list
         ;; emacs-copilot-balancer
         bst:emacs-dash
-        emacs-editorconfig
         emacs-s
         bst:emacs-f
         emacs-jsonrpc))
