@@ -2545,7 +2545,6 @@ various Emacs workflows.")
        (list
         emacs-lv
         emacs-ht
-        emacs-let-alist
         emacs-markdown-mode
         emacs-spinner
         emacs-openai
@@ -4518,7 +4517,6 @@ never confused by comments or @code{foo-bar} matching @code{foo}.")
       (propagated-inputs
        (list
         emacs-hydra
-        emacs-let-alist
         emacs-spinner
         ))
       (native-inputs
@@ -9232,7 +9230,9 @@ implementation of treeview controls using treemacs as a tree renderer.")
     (inputs
      (list cairo glib libpng poppler zlib))
     (propagated-inputs
-     (list emacs-let-alist emacs-tablist))
+     (list
+      emacs-tablist
+      ))
     (home-page "https://github.com/vedang/pdf-tools")
     (synopsis "Emacs support library for PDF files")
     (description
@@ -12099,7 +12099,6 @@ their original location with another.")
        (list
         bst:emacs-dash
         emacs-flycheck
-        emacs-let-alist
         ))
       (native-inputs
        (list
@@ -13009,7 +13008,6 @@ empty @file{.projectile} file in it.")
        (list
         bst:emacs-dash
         bst:emacs-f
-        emacs-let-alist
         emacs-s
         ))
       (home-page "https://github.com/chrisbarrett/skeletor.el")
@@ -15302,7 +15300,6 @@ in Emacs for Pass-Age, a port of Pass, the standard Unix password manager.")
         emacs-company
         bst:emacs-dash
         emacs-flycheck
-        emacs-let-alist
         emacs-s
         ))
       (home-page "https://github.com/purescript-emacs/psc-ide-emacs")
@@ -15733,7 +15730,6 @@ files to be expanded upon opening them.")
     (propagated-inputs
      (list
       bst:emacs-dash
-      emacs-let-alist
       ))
     (home-page "https://github.com/cpitclaudel/biblio.el")
     (synopsis "Browse and import bibliographic references")
@@ -16823,7 +16819,6 @@ other frame parameters.")
        (list
         bst:emacs-f
         emacs-json-mode
-        emacs-let-alist
         emacs-request
         ))
       (home-page "https://github.com/spiderbit/kodi-remote.el")
@@ -16912,7 +16907,6 @@ as Emacs Lisp.")
         bst:emacs-dash
         emacs-flycheck
         emacs-haskell-mode
-        emacs-let-alist
         ))
       (native-inputs
        (list
