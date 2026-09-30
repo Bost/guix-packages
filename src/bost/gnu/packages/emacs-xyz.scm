@@ -5253,7 +5253,6 @@ company-mode.")
         emacs-pythonic
         emacs-s
         emacs-tramp
-        emacs-xref
         ))
       (home-page "https://github.com/pythonic-emacs/anaconda-mode")
       (synopsis
@@ -20390,15 +20389,21 @@ JavaScript.")
       #:include
       #~(cons* "^JuliaSnail\\.jl" "extensions" %default-include)))
     (inputs
-     (list bst:emacs-dash emacs-s emacs-spinner emacs-xref))
+     (list
+      bst:emacs-dash
+      emacs-s
+      emacs-spinner
+      ))
     (propagated-inputs
-     (list libvterm
-           emacs-julia-mode             ;required by parser
-           emacs-parsec                 ;required by parser
-           emacs-popup
-           emacs-vterm
-           julia-tokenize
-           julia-cstparser))
+     (list
+      libvterm
+      emacs-julia-mode             ;required by parser
+      emacs-parsec                 ;required by parser
+      emacs-popup
+      emacs-vterm
+      julia-tokenize
+      julia-cstparser
+      ))
     (home-page "https://github.com/gcv/julia-snail")
     (synopsis "Development environment and REPL interaction package for Julia")
     (description "This package provides a development environment and REPL
