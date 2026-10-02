@@ -4512,7 +4512,23 @@ never confused by comments or @code{foo-bar} matching @code{foo}.")
           (base32
            "0dnfyfznps3p15zn3g4ay2y1wsrnkwrplsg0ramby4pkm61a5a5m"))))
       (build-system emacs-build-system)
-      ;; (arguments (list #:tests? #f))
+      (arguments
+       (list
+        #:test-command
+        #~(list "emacs" "-Q" "--batch"
+                "-l" "paradox"
+                "-l" "test/paradox-test.el"
+                "-f" "ert-run-tests-batch-and-exit")
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-before 'check 'set-home
+              (lambda _
+                (setenv "HOME" (getcwd))
+                ;; The `sanity' test calls `paradox-list-packages', i.e. it
+                ;; needs network access to refresh the package archives.
+                (substitute* "test/paradox-test.el"
+                  (("ert-deftest sanity .*" all)
+                   (string-append all "(skip-unless nil)"))))))))
       (propagated-inputs
        (list
         emacs-hydra
