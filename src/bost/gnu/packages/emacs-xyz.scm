@@ -3705,7 +3705,6 @@ globally for specified major modes or configured per mode.  It requires both
       (propagated-inputs
        (list
         bst:emacs-f
-        emacs-map
         ))
       (home-page "https://github.com/wyuenho/emacs-pet/")
       (synopsis "Automatically configure Python tooling paths in Emacs")
@@ -7532,7 +7531,6 @@ services that support the MCP standard.")
        (list
         ;; emacs-kaolin-themes-lib
         ;; emacs-color
-        emacs-map
         emacs-autothemer
         ))
       (home-page "https://github.com/ogdenwebb/emacs-kaolin-themes")
@@ -11812,9 +11810,6 @@ Language (CSL), an XML-based, open format to describe the formatting
 of bibliographic references.")
     (license license:gpl3+)))
 
-(define-deprecated/public emacs-citeproc-el emacs-citeproc
-  (deprecated-package "emacs-citeproc-el" emacs-citeproc))
-
 (define-public emacs-direnv
   (package
     (name "emacs-direnv")
@@ -15615,7 +15610,6 @@ timestamps by providing a @code{ts} struct.")
       emacs-org
       emacs-org-super-agenda
       emacs-ov
-      emacs-peg
       emacs-s
       emacs-ts
       ))
@@ -16917,9 +16911,6 @@ as Emacs Lisp.")
 buffers.")
       (license license:gpl3+))))
 
-(define-deprecated/public emacs-js2-refactor-el emacs-js2-refactor
-  (deprecated-package "emacs-js2-refactor-el" emacs-js2-refactor))
-
 (define-public emacs-jsdoc
   (package
     (name "emacs-jsdoc")
@@ -16977,9 +16968,6 @@ comments and typedefs using Emacs' builtin tree-sitter.")
       (description "This package provides tail-call optimization for Emacs
 Lisp functions that call themselves in tail position.")
       (license license:gpl3+))))
-
-(define-deprecated/public emacs-tco-el emacs-tco
-  (deprecated-package "emacs-tco-el" emacs-tco))
 
 (define-public emacs-equake
   ;; Upstream provides no tagged releases, but the commit below matches an
@@ -17050,9 +17038,6 @@ compatible with Emacs' shell modes.")
     (description "This package provides a GUI for defining and monitoring services.")
     (license license:gpl3+)))
 
-(define-public emacs-prodigy-el
-  (deprecated-package "emacs-prodigy-el" emacs-prodigy))
-
 (define-public emacs-origami
   (let ((commit "1f38085c8f9af7842765ed63f7d6dfe4dab59366")
         (version "1.0")
@@ -17090,9 +17075,6 @@ compatible with Emacs' shell modes.")
        "This package provides a minor mode for collapsing and
 expanding regions of text without modifying the actual contents.")
       (license license:expat))))
-
-(define-deprecated/public emacs-origami-el emacs-origami
-  (deprecated-package "emacs-origami-el" emacs-origami))
 
 (define-public emacs-ivy-clipmenu
   (let ((commit "d2071f2c5043a05d610cd1952e84176ca78c31dc"))
@@ -18067,7 +18049,6 @@ web development.")
        (list
         bst:emacs-dash
         emacs-general
-        emacs-which-key
         ;; emacs-use-package
         emacs-bind-map
         ))
