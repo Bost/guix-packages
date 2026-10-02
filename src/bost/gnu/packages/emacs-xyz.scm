@@ -9821,11 +9821,11 @@ comprehensive documentation lookup directly into the Emacs environment.")
       (license license:gpl3+))))
 
 (define-public emacs-php-mode
-  (let ((commit "462b62248f7b3c6550ceea1b44760ddd951ab7ab")
+  (let ((commit "c56d0b2de8861773d86af4eef38be820604f42bb")
         (revision "0"))
     (package
       (name "emacs-php-mode")
-      (version (git-version "1.27.0" revision commit))
+      (version (git-version "1.28.0" revision commit))
       (source
        (origin
          (method git-fetch)
@@ -9834,7 +9834,7 @@ comprehensive documentation lookup directly into the Emacs environment.")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "1krm4gs0z2n02j64sx9brp98lqxl2ygbwcjm1bssqdw19c8p7kps"))))
+          (base32 "05y6sm7nifxl2qd6qspcsdld0r0my3xgk9jyi38lxzmv1a18m5l9"))))
       (build-system emacs-build-system)
       (arguments
        (list
