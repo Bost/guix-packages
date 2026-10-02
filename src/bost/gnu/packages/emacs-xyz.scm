@@ -8423,6 +8423,12 @@ pyrightconfig.json.")
        (list
         #:phases
         #~(modify-phases %standard-phases
+            (add-after 'unpack 'fix-glob-function
+              (lambda _
+                (substitute* "org-cliplink.el"
+                  ;; eshell changed their glob function so use dired one instead
+                  (("\\(require 'em-glob\\)") "(require 'dired)")
+                  (("eshell-glob-regexp") "dired-glob-regexp"))))
             (add-after 'unpack 'patch-curl-executable
               (lambda* (#:key inputs #:allow-other-keys)
                 (substitute* "org-cliplink-transport.el"
