@@ -13726,6 +13726,12 @@ e.g., the expression you've just evaluated would briefly flash and so on.")
         #:phases
         #~(modify-phases %standard-phases
             (delete 'make-autoloads) ; The package provides autoloads.
+            (add-after 'unpack 'enable-lexical-binding
+              (lambda _
+                (emacs-batch-edit-file "sly-autoloads.el"
+                  '(progn
+                    (add-file-local-variable-prop-line 'lexical-binding t)
+                    (basic-save-buffer)))))
             (add-before 'install 'install-doc
               (lambda _
                 (let* ((info-dir (string-append #$output "/share/info"))
@@ -13810,7 +13816,13 @@ xref, etc.) are still available, but with better integration.")
          ;; The package provides autoloads.
          (modify-phases %standard-phases
            (delete 'make-autoloads)
-           (delete 'enable-autoloads-compilation))))
+           (delete 'enable-autoloads-compilation)
+           (add-after 'unpack 'enable-lexical-binding
+             (lambda _
+               (emacs-batch-edit-file "sly-quicklisp-autoloads.el"
+                 '(progn
+                   (add-file-local-variable-prop-line 'lexical-binding t)
+                   (basic-save-buffer))))))))
       (synopsis "Quicklisp support for SLY")
       (description
        "@command{sly-quicklisp} is an external contrib for SLY that provides a
@@ -13869,7 +13881,13 @@ additional support for working with ASDF projects.")
          ;; The package provides autoloads.
          (modify-phases %standard-phases
            (delete 'make-autoloads)
-           (delete 'enable-autoloads-compilation))))
+           (delete 'enable-autoloads-compilation)
+           (add-after 'unpack 'enable-lexical-binding
+             (lambda _
+               (emacs-batch-edit-file "sly-named-readtables-autoloads.el"
+                 '(progn
+                   (add-file-local-variable-prop-line 'lexical-binding t)
+                   (basic-save-buffer))))))))
       (synopsis "Named-readtables support for SLY")
       (description
        "@command{sly-named-readtables} is an external contrib for SLY that
@@ -13903,7 +13921,13 @@ file.")
          ;; The package provides autoloads.
          (modify-phases %standard-phases
            (delete 'make-autoloads)
-           (delete 'enable-autoloads-compilation))))
+           (delete 'enable-autoloads-compilation)
+           (add-after 'unpack 'enable-lexical-binding
+             (lambda _
+               (emacs-batch-edit-file "sly-macrostep-autoloads.el"
+                 '(progn
+                   (add-file-local-variable-prop-line 'lexical-binding t)
+                   (basic-save-buffer))))))))
       (synopsis "Expand Common Lisp macros inside source files with SLY")
       (description
        "@command{sly-macrostep} is a SLY contrib for expanding CL macros right
