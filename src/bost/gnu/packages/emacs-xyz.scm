@@ -4959,6 +4959,18 @@ while scrolling, so the text moves rather than the cursor.")
         (base32
          "12mwviz1mwx4ywks2lkmybbgh1wny67wkzlq5y3ml8gvyc288n3i"))))
     (build-system emacs-build-system)
+    (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'write-lexical-binding-cookie
+            ;; The saved statistics file is read back with `load', which
+            ;; warns on Emacs 31 when the file lacks the cookie.
+            (lambda _
+              (substitute* "company-statistics.el"
+                (("^( +)\"%S\"" _ indent)
+                 (string-append indent
+                                "\";; -*- lexical-binding: t -*-\\n%S\""))))))))
     (propagated-inputs (list emacs-company))
     (home-page "https://github.com/company-mode/company-statistics")
     (synopsis "Sort Company completions by usage statistics")
