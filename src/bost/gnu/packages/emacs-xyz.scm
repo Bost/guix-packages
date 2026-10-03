@@ -19769,7 +19769,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 (define-public emacs-spacemacs
   (let ((commit
          ;; "72a0985290821b73fa02d2b49008899d5239300d" ; spgx-squashed-broken
-         "27510a88ea9d8c326547a22abceebda5c396361c" ; spgx-squashed
+         "5c5a27e07f23c8dee2b59aca488f9118bfc2c7ba" ; spgx-squashed
          )
         (revision "0"))
     (package
@@ -19785,7 +19785,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
          (sha256
           (base32
            ;; "1wm5034a92ayibyci0c29f5w7ilxg6ni1xv985ggji5swc2fh4hb" ; spgx-squashed-broken
-           "0lgn5v7ykhy2w5pknfs0gb0kw7a1md4m37miqzn9b02ks95jysvh" ; spgx-squashed
+           "15a88kqfy0h2pbri3dmvsjgs923vnqch6gjlz46m1djihhnds8br" ; spgx-squashed
            ))))
       (build-system emacs-build-system)
       (arguments
