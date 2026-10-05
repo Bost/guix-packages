@@ -599,29 +599,33 @@ preferred cursor style configurations with ease.")
       (license license:gpl3+))))
 
 (define-public emacs-spaceline
-  (package
-    (name "emacs-spaceline")
-    (version "2.0.1")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/TheBB/spaceline")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32
-         "1q8r95zfrh0vxna5ml2pq9b9f66clfqcl4d2qy2aizkvzyxg6skl"))))
-    (build-system emacs-build-system)
-    (propagated-inputs
-     (list
-      bst:emacs-dash
-      emacs-powerline
-      emacs-s
-      ))
-    (home-page "https://github.com/TheBB/spaceline")
-    (synopsis "Powerline theme from Spacemacs")
-    (description "Spaceline provides Spacemacs' mode-line theme.
+  ;; The v2.0.1 release predates `winum' support in the `window-number'
+  ;; segment. Use the same commit as MELPA.
+  (let ((commit "086420d16e526c79b67fc1edec4c2ae1e699f372")
+        (revision "0"))
+    (package
+      (name "emacs-spaceline")
+      (version (git-version "2.0.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url "https://github.com/TheBB/spaceline")
+                (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1qld1rsvi9a2kq8w128sp0gv7dppp7cxmgrlyg5zdvvp9av3d90i"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list
+        bst:emacs-dash
+        emacs-powerline
+        emacs-s
+        ))
+      (home-page "https://github.com/TheBB/spaceline")
+      (synopsis "Powerline theme from Spacemacs")
+      (description "Spaceline provides Spacemacs' mode-line theme.
 This package provides features for three kinds of users.
 
 @itemize
@@ -631,7 +635,7 @@ with a handful of easy tweaks.
 @item You want an easy-to-use library for building your own mode-line from
 scratch, and you think the Spacemacs theme looks good.
 @end itemize")
-    (license license:gpl3+)))
+      (license license:gpl3+))))
 
 (define-public emacs-spaceline-all-the-icons
   (package
