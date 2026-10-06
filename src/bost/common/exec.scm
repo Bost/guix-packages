@@ -29,6 +29,8 @@
   (or (and (list? args) (member dry-run-prm args))
       (and (string? args) (string-contains args dry-run-prm))))
 
+;;; ┌── exec-* old ───────────────────────────────────────────────────────────
+
 (define*-public (exec-or-dry-run exec-function args)
   (if (contains--gx-dry-run? args)
       args
@@ -38,28 +40,37 @@
 
 (def*-public (exec-system*
               #:key (trace #f) (verbose #f) (ignore-errors #f)
+              (split-whitespace #t)
               #:rest args)
-  "Execute system command and returns its ret-code. E.g.:
-(exec-system* \"echo\" \"bar\" \"baz\") ;=>
-$ (echo bar baz)
-bar baz
-$9 = 0 ;; return code"
-  (let* [(elements (list #:verbose))
+  "Execute a system command and return its wait status.
+By default, split whitespace in command arguments for compatibility with
+calls such as (exec-system* \"echo bar baz\").  Set #:split-whitespace #f
+when passing separate argv elements to preserve spaces and empty strings:
+
+(exec-system* #:split-whitespace #f
+              \"guix\" \"build\" \"-e\"
+              \"(@ (bost gnu packages emacs-xyz) emacs-spacemacs)\")
+
+With --gx-dry-run, return the argument list without executing it."
+  (let* [(elements (list #:trace #:verbose #:ignore-errors #:split-whitespace))
          (args (remove-all-elements args elements))]
-    ;; (format #t "~a ~a args : ~a\n" m f args)
     ((comp
       (partial exec-or-dry-run system*)
       (lambda (prm) (dbg-exec prm #:verbose verbose))
-      ;; TODO fix exec-system*: string-split-whitespace also splits:
-      ;;   "(@(bost gnu packages emacs-xyz) ~a)"
-      string-split-whitespace)
+      (lambda (prm) (if split-whitespace
+                        (string-split-whitespace prm)
+                        prm)))
      args)))
 
+;;; └── exec-* old ───────────────────────────────────────────────────────────
+
+;;; ┌── exec-* new ───────────────────────────────────────────────────────────
+
 (def*-public (exec-or-dry-run-new
-              #:key exec-function (gx-dry-run #f) (verbose #f) #:rest args)
+              #:key (trace #f) (verbose #f) exec-function (gx-dry-run #f)
+              #:rest args)
   (let* [(elements (list #:exec-function #:gx-dry-run #:verbose))
          (args (remove-all-elements args elements))
-
          (args (car args))]
     ;; (format #t "~a ~a exec-function : ~a\n" m f exec-function)
     ;; (format #t "~a ~a dry-run       : ~a\n" m f
@@ -101,6 +112,8 @@ $9 = 0 ;; return code"
       (partial map (lambda (s) (if split-whitespace
                                    (string-split-whitespace s) s))))
      args)))
+
+;;; └── exec-* new ───────────────────────────────────────────────────────────
 
 (define-public (read-all reader-procedure)
   "Return a procedure which reads all items from a port using READER-PROCEDURE.
