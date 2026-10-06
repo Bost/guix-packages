@@ -441,6 +441,17 @@ Works also for functions returning and accepting multiple values."
       (and (string? obj) (string-null? obj))
       (eq? #f obj)))
 
+(define-public (fmt s f prm)
+  "Print PRM with its quoted representation and type predicates.
+S is a format string accepting F, the representation, and the types."
+  ;; Resolve on invocation: string and tests themselves depend on core.
+  (let ((pr-str-with-quote
+         (module-ref (resolve-interface '(bost common string))
+                     'pr-str-with-quote))
+        (test-type
+         (module-ref (resolve-interface '(bost common tests)) 'test-type)))
+    (format #t s f (pr-str-with-quote prm) (test-type prm))))
+
 (define (fmt-rest rest)
   (if (empty? rest)
       ""
