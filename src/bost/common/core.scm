@@ -457,20 +457,37 @@ S is a format string accepting F, the representation, and the types."
       ""
       (format #f "~a" (string-join (map str rest)))))
 
-;; TODO dbgfmt should detect if the f / m are defined and if so then use them
 (define-syntax dbgfmt
-  ;; match specific datums `m' and `f' in an expression
-  (syntax-rules (m f)
-    [(_ m f e ...)
-     (format #t "~a ~a ~a\n" m f (fmt-rest (list e ...)))]
-    [(_ f m e ...) ;; in case we have reversed order: `f m'
-     (format #t "~a ~a ~a\n" m f (fmt-rest (list e ...)))]
-    [(_ f e ...)
-     (format #t "~a ~a\n" f (fmt-rest (list e ...)))]
-    [(_ m e ...)
-     (format #t "~a ~a\n" m (fmt-rest (list e ...)))]
-    [(_ e ...)
-     (format #f "~a\n" (fmt-rest (list e ...)))]))
+  (lambda (stx)
+    (syntax-case stx ()
+      ((_ head ...)
+       ;; Capture caller bindings, including the lexical f introduced by def*.
+       (with-syntax ((m (datum->syntax stx 'm))
+                     (f (datum->syntax stx 'f))
+                     ((e ...)
+                      ;; Keep explicit leading m/f compatible without printing
+                      ;; the automatically collected prefixes twice.
+                      (let loop ((args #'(head ...)) (seen '()))
+                        (syntax-case args ()
+                          ((first rest ...)
+                           (let ((name (syntax->datum #'first)))
+                             (if (and (memq name '(m f))
+                                      (not (memq name seen)))
+                                 (loop #'(rest ...) (cons name seen))
+                                 args)))
+                          (() args)))))
+         #'(let* ((module-prefix
+                   (catch 'unbound-variable
+                     (lambda () (list m))
+                     (lambda _ '())))
+                  (function-prefix
+                   (catch 'unbound-variable
+                     (lambda () (list f))
+                     (lambda _ '())))
+                  (prefixes (append module-prefix function-prefix))
+                  (message (fmt-rest (append prefixes (list e ...)))))
+             ;; Preserve the string-returning behavior without any context.
+             (format (if (null? prefixes) #f #t) "~a\n" message)))))))
 
 ;; TODO implement pretty-print for bash commands
 (define-public dbg peek)
