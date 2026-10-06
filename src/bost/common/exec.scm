@@ -39,7 +39,7 @@
           (exec-function args))))
 
 (def*-public (exec-system*
-              #:key (trace #f) (verbose #f) (ignore-errors #f)
+              #:key (verbose #f) (ignore-errors #f)
               (split-whitespace #t)
               #:rest args)
   "Execute a system command and return its wait status.
@@ -52,8 +52,13 @@ when passing separate argv elements to preserve spaces and empty strings:
               \"(@ (bost gnu packages emacs-xyz) emacs-spacemacs)\")
 
 With --gx-dry-run, return the argument list without executing it."
-  (let* [(elements (list #:trace #:verbose #:ignore-errors #:split-whitespace))
+  (let* [(elements (list #:verbose #:ignore-errors
+                         #:split-whitespace))
          (args (remove-all-elements args elements))]
+    (trc "#:verbose:" verbose)
+    (trc "#:ignore-errors:" ignore-errors)
+    (trc "#:split-whitespace:" split-whitespace)
+    (trc "args:" args)
     ((comp
       (partial exec-or-dry-run system*)
       (lambda (prm) (dbg-exec prm #:verbose verbose))
@@ -67,15 +72,16 @@ With --gx-dry-run, return the argument list without executing it."
 ;;; ┌── exec-* new ───────────────────────────────────────────────────────────
 
 (def*-public (exec-or-dry-run-new
-              #:key (trace #f) (verbose #f) exec-function (gx-dry-run #f)
+              #:key (verbose #f) exec-function (gx-dry-run #f)
               #:rest args)
-  (let* [(elements (list #:exec-function #:gx-dry-run #:verbose))
+  "Execute the supplied command, or return zero for a dry run."
+  (let* [(elements (list #:verbose #:exec-function #:gx-dry-run))
          (args (remove-all-elements args elements))
          (args (car args))]
-    ;; (format #t "~a ~a exec-function : ~a\n" m f exec-function)
-    ;; (format #t "~a ~a dry-run       : ~a\n" m f
-    ;;         (or (contains--gx-dry-run? args) gx-dry-run))
-    ;; (format #t "~a ~a args          : ~a\n" m f args)
+    (trc "#:verbose:" verbose)
+    (trc "#:exec-function:" exec-function)
+    (trc "#:gx-dry-run:" gx-dry-run)
+    (trc "args:" args)
     (if (or (contains--gx-dry-run? args) gx-dry-run)
         0 ;; the exit status OK
         (if (list? args)
@@ -83,7 +89,7 @@ With --gx-dry-run, return the argument list without executing it."
             (exec-function args)))))
 
 (def*-public (exec-system*-new
-              #:key (trace #f) (verbose #f) (ignore-errors #f)
+              #:key (verbose #f) (ignore-errors #f)
               (split-whitespace #t) (gx-dry-run #f)
               #:rest args)
   "Execute system command and returns its ret-code. E.g.:
@@ -91,23 +97,24 @@ With --gx-dry-run, return the argument list without executing it."
 $ (echo bar baz)
 bar baz
 $9 = 0 ;; return code"
-  (let* [(elements (list #:trace #:verbose #:ignore-errors
+  (let* [(elements (list #:verbose #:ignore-errors
                          #:split-whitespace #:gx-dry-run))
          (args (remove-all-elements args elements))]
-    ;; (format #t "~a ~a split-whitespace : ~a\n" m f split-whitespace)
-    ;; (format #t "~a ~a gx-dry-run       : ~a\n" m f gx-dry-run)
-    ;; (format #t "~a ~a args             : ~a\n" m f args)
-    ;; (format #t "~a ~a (list? args)     : ~a\n" m f (list? args))
-    ;; (format #t "~a ~a (length args)    : ~a\n" m f (length args))
+    (trc "#:verbose:" verbose)
+    (trc "#:ignore-errors:" ignore-errors)
+    (trc "#:split-whitespace:" split-whitespace)
+    (trc "#:gx-dry-run:" gx-dry-run)
+    (trc "args:" args)
     ((comp
       (lambda (exit-status)
-        ;; (format #t "~a ~a exit-status       : ~a\n" m f exit-status)
-        ;; (format #t "~a ~a (= exit-status 0) : ~a\n" m f (= exit-status 0))
+        (trc "exit-status:" exit-status)
+        (trc "(= exit-status 0):" (= exit-status 0))
         (exit (= exit-status 0)))
       (partial exec-or-dry-run-new
-               #:gx-dry-run gx-dry-run
                #:verbose verbose
-               #:exec-function system*)
+               #:exec-function system*
+               #:gx-dry-run gx-dry-run
+               )
       (lambda (prm) (dbg-exec prm #:verbose verbose))
       (partial map (lambda (s) (if split-whitespace
                                    (string-split-whitespace s) s))))
@@ -196,18 +203,16 @@ Example:
 ;; otherwise a (cond ...) in the cli-general-command is needed). I want them all
 ;; to have the same capabilities like 'ignore errors' etc.
 (def*-public (exec-background
-              command #:key (trace #f) (verbose #f) (ignore-errors #f))
+              command #:key (verbose #f) (ignore-errors #f))
   "Execute COMMAND in background, i.e. in a detached process.
 COMMAND can be a string or a list of strings.
 +🤓 echo bar baz & disown
 bar baz
 $9 = 0 ;; <return-code>"
 
-  ;; TODO implement (trace f args) which does the same as this (when trace ...)
-  (when trace
-    (format #t "~a #:trace         ~a\n" f (pr-str-with-quote trace))
-    (format #t "~a #:verbose       ~a\n" f (pr-str-with-quote verbose))
-    (format #t "~a #:ignore-errors ~a\n" f (pr-str-with-quote ignore-errors)))
+  (trc "command:" command)
+  (trc "#:verbose:" verbose)
+  (trc "#:ignore-errors:" ignore-errors)
 
   ((comp
     (partial exec-or-dry-run system)
@@ -222,7 +227,7 @@ $9 = 0 ;; <return-code>"
    command))
 
 (def*-public (exec-foreground
-              command #:key (trace #f) (verbose #f) (ignore-errors #f))
+              command #:key (verbose #f) (ignore-errors #f))
   "Execute COMMAND and returns its ret-code.
 (exec-foreground \"echo bar baz\") ;=>
 +🤓 echo bar baz
@@ -232,10 +237,9 @@ $9 = (0 \"bar baz\") ;; (<return-code> <return-value>)
 (exec-foreground (str \"rg \" (timestamp)) #:ignore-errors #t)
 ;=> *unspecified*"
 
-  (when trace
-    (format #t "~a #:trace         ~a\n" f (pr-str-with-quote trace))
-    (format #t "~a #:verbose       ~a\n" f (pr-str-with-quote verbose))
-    (format #t "~a #:ignore-errors ~a\n" f (pr-str-with-quote ignore-errors)))
+  (trc "command:" command)
+  (trc "#:verbose:" verbose)
+  (trc "#:ignore-errors:" ignore-errors)
 
   (let* [(cmd-result-struct (exec command #:verbose verbose #:return-plist #t))
          (retcode (plist-get cmd-result-struct #:retcode))]
@@ -253,17 +257,16 @@ $9 = (0 \"bar baz\") ;; (<return-code> <return-value>)
           ))))
 
 (def*-public (exec-system
-              command #:key (trace #f) (verbose #f) (ignore-errors #f))
+              command #:key (verbose #f) (ignore-errors #f))
   "Execute COMMAND using `system' from the (guile) module and returns its
 ret-code.
 (exec-system \"echo bar baz\") ;=>
 +🤓 echo bar baz
 bar baz
 $9 = 0 ;; <return-code>"
-  (when trace
-    (format #t "~a #:trace         ~a\n" f (pr-str-with-quote trace))
-    (format #t "~a #:verbose       ~a\n" f (pr-str-with-quote verbose))
-    (format #t "~a #:ignore-errors ~a\n" f (pr-str-with-quote ignore-errors)))
+  (trc "command:" command)
+  (trc "#:verbose:" verbose)
+  (trc "#:ignore-errors:" ignore-errors)
 
   ((comp
     (partial exec-or-dry-run system)
