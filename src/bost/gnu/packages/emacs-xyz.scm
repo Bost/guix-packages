@@ -3909,12 +3909,6 @@ Emacs tools, facilitating seamless GitHub workflows within the editor.")
 ;; rebasing, and other common Git operations.")
 ;;       (license license:gpl3+))))
 
-;; Required by <path/to/spacemacs>/layers/+source-control/git/packages.el
-(define-public emacs-magit-section
-  (package
-    (inherit emacs-magit)
-    (name "emacs-magit-section")))
-
 (define-public emacs-taxy
   (package
     (name "emacs-taxy")
