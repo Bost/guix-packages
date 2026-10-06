@@ -71,6 +71,7 @@
    testsymb
    testsymb-trace
    dbgfmt
+   fmt
    and*
    or*
    binding-origin
