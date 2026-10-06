@@ -23,6 +23,11 @@ guix pull --allow-downgrades && guix upgrade --load-path=$lp
       %default-channels)
 ```
 
+## Common utilities
+
+See [Tracing common utilities](TRACING.md) for `trc`, procedure selection, and
+examples of enabling tracing with `parameterize`.
+
 ## Acknowledgements
 
 This channel was originally inspired by the work of Giuliano Cioffi

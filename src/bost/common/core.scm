@@ -28,6 +28,7 @@
    testsymb
    testsymb-trace
    dbgfmt
+   trc
    and*
    or*
    ))
@@ -304,6 +305,8 @@ Works also for functions returning and accepting multiple values."
                ;;
                (with-syntax [(f (datum->syntax #'name 'f))
                              (m (datum->syntax #'name 'm))
+                             (tracing-procedure-name
+                              (datum->syntax #'name 'tracing-procedure-name))
                              (fprefix (datum->syntax #'name
                                                      ""
                                                      ;; "[=> 2 w/-docstr] "
@@ -317,7 +320,8 @@ Works also for functions returning and accepting multiple values."
                      ;;         (syntax->datum #'bodyN))
                      (def-form (name . args)
                        body0
-                       (let [(f (format #f "~a~a [~a]" fprefix
+                       (let [(tracing-procedure-name 'name)
+                             (f (format #f "~a~a [~a]" fprefix
                                         m `name))]
                          ;; (format #t "~a Docstring defined : ~s\n" f body0)
                          ;; (format #t "~a Starting…\n" f)
@@ -329,6 +333,8 @@ Works also for functions returning and accepting multiple values."
               [(_ (name . args) body0)
                (with-syntax [(f (datum->syntax #'name 'f))
                              (m (datum->syntax #'name 'm))
+                             (tracing-procedure-name
+                              (datum->syntax #'name 'tracing-procedure-name))
                              (fprefix (datum->syntax #'name
                                                      ""
                                                      ;; "[1] "
@@ -337,7 +343,8 @@ Works also for functions returning and accepting multiple values."
                      ;; (format #t "~a#'body0 : ~s\n" fprefix
                      ;;         (syntax->datum #'body0))
                      (def-form (name . args)
-                       (let [(f (format #f "~a~a [~a]" fprefix
+                       (let [(tracing-procedure-name 'name)
+                             (f (format #f "~a~a [~a]" fprefix
                                         m `name))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
@@ -347,6 +354,8 @@ Works also for functions returning and accepting multiple values."
               [(_ name val) (identifier? #'name)
                (with-syntax [(f (datum->syntax #'name 'f))
                              (m (datum->syntax #'name 'm))
+                             (tracing-procedure-name
+                              (datum->syntax #'name 'tracing-procedure-name))
                              (fprefix (datum->syntax #'name
                                                      ""
                                                      ;; "[0] "
@@ -355,7 +364,8 @@ Works also for functions returning and accepting multiple values."
                      ;; (format #t "~a#'val : ~s\n" fprefix
                      ;;         (syntax->datum #'val))
                      (def-form name
-                       (let [(f (format #f "~a~a [~a]" fprefix
+                       (let [(tracing-procedure-name 'name)
+                             (f (format #f "~a~a [~a]" fprefix
                                         m `name))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
@@ -488,6 +498,62 @@ S is a format string accepting F, the representation, and the types."
                   (message (fmt-rest (append prefixes (list e ...)))))
              ;; Preserve the string-returning behavior without any context.
              (format (if (null? prefixes) #f #t) "~a\n" message)))))))
+
+;; Enable tracing for a dynamic scope with
+;; (parameterize ((tracing-enabled? #t)) ...).
+(define-public tracing-enabled?
+  (make-parameter #f))
+
+;; #f leaves tracing-enabled? in control.  A list enables tracing only for
+;; the named def/def* procedures; an empty list disables all tracing.
+(define-public tracing-procedures
+  (make-parameter
+   #f
+   (lambda (names)
+     (unless (or (eq? names #f)
+                 (and (list? names) (every symbol? names)))
+       (error "tracing-procedures expects #f or a list of procedure symbols" names))
+     names)))
+
+(define (trace-context module-prefix function-prefix procedure-name)
+  ;; def* already embeds the module in f.  Build one prefix from the
+  ;; separate procedure name instead of repeating that embedded module.
+  (if (and procedure-name (pair? module-prefix))
+      (let* ((module-name (str (car module-prefix)))
+             (module-name
+              (if (and (string-prefix? "[" module-name)
+                       (string-suffix? "]" module-name))
+                  (substring module-name 1 (- (string-length module-name) 1))
+                  module-name)))
+        (list (format #f "[~a:~a]" module-name procedure-name)))
+      (append module-prefix function-prefix)))
+
+;; Print LABEL and the quoted VALUE with available caller m/f context.
+;; Disabled or excluded calls evaluate neither diagnostic expression.
+(define-syntax trc
+  (lambda (stx)
+    (syntax-case stx ()
+      ((_ label value)
+       (with-syntax ((m (datum->syntax stx 'm))
+                     (f (datum->syntax stx 'f))
+                     (procedure-name
+                      (datum->syntax stx 'tracing-procedure-name)))
+         #'(let ((selected (tracing-procedures))
+                 (name (catch 'unbound-variable
+                         (lambda () procedure-name) (lambda _ #f))))
+             (when (if selected
+                       (memq name selected)
+                       (tracing-enabled?))
+               (let ((module-prefix
+                      (catch 'unbound-variable
+                        (lambda () (list m)) (lambda _ '())))
+                     (function-prefix
+                      (catch 'unbound-variable
+                        (lambda () (list f)) (lambda _ '()))))
+                 (format #t "~a\n"
+                         (fmt-rest
+                          (append (trace-context module-prefix function-prefix name)
+                                  (list label (format #f "~s" value)))))))))))))
 
 ;; TODO implement pretty-print for bash commands
 (define-public dbg peek)

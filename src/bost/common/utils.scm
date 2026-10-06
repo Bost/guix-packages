@@ -71,6 +71,9 @@
    testsymb
    testsymb-trace
    dbgfmt
+   trc
+   tracing-enabled?
+   tracing-procedures
    fmt
    and*
    or*
