@@ -9093,13 +9093,12 @@ utilities.")
           (base32 "1i4l614n0hs02y0a4xfnzc4xkilkp6bzx28pys4jkp96vp2ivf0c"))))
       (build-system emacs-build-system)
       (arguments (list #:tests? #f))
-      ;; TODO: Just emacs-magit-section instead of emacs-magit would be enough.
       (propagated-inputs
        (list
         emacs-compat
         emacs-lsp-mode
         bst:emacs-dash
-        emacs-magit
+        emacs-magit-section
         ))
       (synopsis "Lean 4 major mode for Emacs")
       (description "This package provides a major mode for the Lean theorem
