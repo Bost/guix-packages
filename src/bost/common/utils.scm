@@ -48,7 +48,8 @@
    empty?
    boolean
    str
-   my=warn
+   my-warn
+   my=warn ; alias of my-warn
    module-name-for-logging
    true?
    false?
