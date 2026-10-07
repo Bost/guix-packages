@@ -20,12 +20,13 @@
 (define-public (bost-common-modules)
   "Must contain all (bost common *). The (bost common test) seems not to be
 necessary. See $dtf/guix/home/common/services/cli-utils.scm "
-  `((bost guix build emacs-utils)
+  `(
     (bost common boolean)
     (bost common core)
     (bost common environment)
     (bost common exec)
     (bost common fs)
+    (bost common gpg)
     (bost common guix)
     (bost common guix-shell)
     (bost common list)
@@ -35,6 +36,7 @@ necessary. See $dtf/guix/home/common/services/cli-utils.scm "
     (bost common srfi-1-smart)
     (bost common string)
     (bost common utils)
+    (bost guix build emacs-utils)
     ))
 
 (define-public modules-without-emacs-build-system
