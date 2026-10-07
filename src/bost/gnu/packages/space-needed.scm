@@ -716,7 +716,7 @@ Returns the first package found, or #f if not found in any module."
     (let loop [(remaining-modules modules)]
       (cond
        [(null? remaining-modules)
-        ;; (my=warn "~a not found\n" package-name)
+        ;; (my-warn "~a not found\n" package-name)
         ;; (format #t "gxse ~a\n" package-name)
         ;; (format #t "~s\n" package-name)
         #f
