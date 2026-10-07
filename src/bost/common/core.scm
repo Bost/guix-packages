@@ -6,7 +6,7 @@
 ;;; module; see (bost common utils) for the full picture of the split.
 
 (define-module (bost common core)
-  #:use-module (bost common srfi-1-smart) ; smart-last, used by my=warn
+  #:use-module (bost common srfi-1-smart) ; smart-last, used by my-warn
   #:use-module (ice-9 hash-table)         ; for procedure: cnt
   #:use-module (ice-9 match)              ; error-command-failed
   #:use-module (ice-9 optargs)            ; define*-public, def*, def*-public
@@ -193,7 +193,7 @@ Works also for functions returning and accepting multiple values."
         args)))
 
 ;; (warn ...) doesn't print anything
-(define-public (my=warn . args)
+(define-public (my-warn . args)
   ;; (guile:error s)
   (let* [(orig-fmt (car args))
          (fmt (if (string= "\n" (smart-last orig-fmt))
@@ -201,6 +201,9 @@ Works also for functions returning and accepting multiple values."
                   (str orig-fmt "\n")))]
     (apply (partial format #t (str "W " fmt))
            (cdr args))))
+
+;; Alias keeping the former name working outside of this project
+(define-public my=warn my-warn)
 
 (define-public (module-name-for-logging)
   ((comp
@@ -211,7 +214,7 @@ Works also for functions returning and accepting multiple values."
    (current-module)))
 
 (unless (equal? (module-name-for-logging) m)
-  (my=warn "~a (equal? (module-name-for-logging) m): ~a"
+  (my-warn "~a (equal? (module-name-for-logging) m): ~a"
            m (equal? (module-name-for-logging) m)))
 
 (define-syntax if-let
@@ -261,7 +264,7 @@ Works also for functions returning and accepting multiple values."
     [(_)      (when show-module-evaluated (inf-evaluating-module-done))]))
 
 (define (warn-undefined symbol)
-  (my=warn (format #f "~a Symbol undefined: ~a"
+  (my-warn (format #f "~a Symbol undefined: ~a"
                    (module-name-for-logging) symbol)))
 
 (define-syntax testsymb

@@ -87,7 +87,7 @@
 (define-public (reorder-plist plist order)
   "Reorder PLIST so its key/value pairs follow the keyword sequence ORDER.
 Each present keyword is paired with its value via `plist-get'. Keywords in
-ORDER that are absent from PLIST are reported with `my=warn' and dropped.
+ORDER that are absent from PLIST are reported with `my-warn' and dropped.
 
 (define lst (list #:k1 1 #:k2 2 #:k3 3 #:k4 4))
 (reorder-plist lst (list #:k5 #:k2 #:k1 #:k4 #:k3))
@@ -101,7 +101,7 @@ ORDER that are absent from PLIST are reported with `my=warn' and dropped.
          (if (member kw keys)
              (list kw (plist-get plist kw))  ; keep: pair keyword & its value
              (begin                          ; miss: warn, contribute nothing
-               ;; (my=warn "reorder-plist: ~s not in plist; skipping" kw)
+               ;; (my-warn "reorder-plist: ~s not in plist; skipping" kw)
                '())))))
      order)))
 
