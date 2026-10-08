@@ -20,11 +20,10 @@
 (define-module (bost common guix-shell)
   #:use-module (bost common core) ; str
   #:use-module (bost common environment) ; required-non-empty-getenv
-  #:use-module (bost common exec) ; wait-status->exit-code
+  #:use-module (bost common exec) ; exec-system*, wait-status->exit-code
   #:use-module (bost common fs)   ; path predicates
   #:use-module (bost common gpg)  ; prepare-public-gpg-home!, host-gpg-agent-socket
   #:use-module (bost common string) ; non-empty-string?
-  #:use-module (ice-9 format)
   #:use-module (ice-9 optargs)    ; define*
   #:export
   (
@@ -177,7 +176,17 @@ maps the current user to root in a new user namespace, sets HOSTNAME there and
 the inner `unshare' maps root back to the current user and group, so COMMAND
 and the files it creates keep their usual ownership."
   (append
-   (list "unshare" "--user" "--map-root-user" "--uts" "--"
+   (list "unshare"
+         ;; New user namespace; unprivileged users may create one.
+         "--user"
+         ;; Map the current user and group to root (0) in that namespace. That
+         ;; root has all capabilities, incl. CAP_SYS_ADMIN, but only over
+         ;; namespaces owned by this user namespace.
+         "--map-root-user"
+         ;; New UTS namespace, owned by the user namespace above, so `hostname'
+         ;; may change it and the change stays invisible to the host.
+         "--uts"
+         "--"
          "sh" "-c"
          (str "hostname " hostname
               " && exec unshare --user"
@@ -193,10 +202,13 @@ if given (see `guix-with-hostname'), and return its shell-style exit code.
 
 Unlike `exec-argv', the command inherits stdin/stdout/stderr from the terminal
 (colors, line editing, job control), as needed by an interactive container
-shell. The command is traced to stderr, mimicking `set -o xtrace'."
+shell. The command is printed before it runs (see `exec-system*').
+
+Not `exec-system*-new': it calls `exit', so callers like
+`call-with-guix-gpg-home' couldn't clean up afterwards."
   (let* ((guix-command (cons "guix" args))
          (command (if hostname
                       (guix-with-hostname hostname guix-command)
                       guix-command)))
-    (format (current-error-port) "+~{ ~a~}~%" command)
-    (wait-status->exit-code (apply system* command))))
+    (wait-status->exit-code
+     (apply exec-system* #:verbose #t #:split-whitespace #f command))))
