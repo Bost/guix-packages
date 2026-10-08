@@ -28,17 +28,14 @@ necessary."
   ((comp (cut string-suffix? "tests" <>) symbol->string last) module))
 
 (define-public (bost-common-modules)
-  "All (bost common *) modules except the `test-module?' ones, plus
-(bost guix build emacs-utils). They are searched for in the %load-path
-directory that (bost common core) comes from. See
+  "All (bost common *) modules except the `test-module?' ones. They are searched
+for in the %load-path directory that (bost common core) comes from. See
 $dtf/guix/home/common/services/cli-utils.scm"
-  (append
-   (remove test-module?
-           ((comp (cut scheme-modules* <> "bost/common")
-                  dirname dirname dirname
-                  (partial search-path %load-path))
-            "bost/common/core.scm"))
-   '((bost guix build emacs-utils))))
+  (remove test-module?
+          ((comp (cut scheme-modules* <> "bost/common")
+                 dirname dirname dirname
+                 (partial search-path %load-path))
+           "bost/common/core.scm")))
 
 (define-public modules-without-emacs-build-system
   '((guix build utils)
@@ -55,7 +52,8 @@ $dtf/guix/home/common/services/cli-utils.scm"
     (guix monads)
     (guix build emacs-build-system)
     (guix build emacs-utils)
-    ,@(bost-common-modules)))
+    ,@(bost-common-modules)
+    (bost guix build emacs-utils)))
 
 (define-public emacs-dash
   (let ((commit "d3a84021dbe48dba63b52ef7665651e0cf02e915")
