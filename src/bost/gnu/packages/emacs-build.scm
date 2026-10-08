@@ -1,5 +1,9 @@
 (define-module (bost gnu packages emacs-build)
   #:use-module (ice-9 pretty-print)
+  #:use-module (srfi srfi-1)
+  #:use-module (srfi srfi-26)
+  #:use-module ((bost common core) #:select (comp partial))
+  #:use-module (guix discovery)
   #:use-module (gnu packages emacs-build)
   #:use-module (guix build-system gnu)
   #:use-module ((guix licenses) #:prefix license:)
@@ -17,27 +21,24 @@
   #:use-module (gnu packages texinfo)
   #:use-module (gnu packages version-control))
 
+(define (test-module? module)
+  "Is MODULE a test module, i.e. its name ends with `tests'? E.g.
+(bost common tests), (bost common dbgfmt-tests). They seem not to be
+necessary."
+  ((comp (cut string-suffix? "tests" <>) symbol->string last) module))
+
 (define-public (bost-common-modules)
-  "Must contain all (bost common *). The (bost common test) seems not to be
-necessary. See $dtf/guix/home/common/services/cli-utils.scm "
-  `(
-    (bost common boolean)
-    (bost common core)
-    (bost common environment)
-    (bost common exec)
-    (bost common fs)
-    (bost common gpg)
-    (bost common guix)
-    (bost common guix-shell)
-    (bost common list)
-    (bost common monad)
-    (bost common plist)
-    (bost common pretty-print)
-    (bost common srfi-1-smart)
-    (bost common string)
-    (bost common utils)
-    (bost guix build emacs-utils)
-    ))
+  "All (bost common *) modules except the `test-module?' ones, plus
+(bost guix build emacs-utils). They are searched for in the %load-path
+directory that (bost common core) comes from. See
+$dtf/guix/home/common/services/cli-utils.scm"
+  (append
+   (remove test-module?
+           ((comp (cut scheme-modules* <> "bost/common")
+                  dirname dirname dirname
+                  (partial search-path %load-path))
+            "bost/common/core.scm"))
+   '((bost guix build emacs-utils))))
 
 (define-public modules-without-emacs-build-system
   '((guix build utils)
