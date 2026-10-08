@@ -19794,7 +19794,8 @@ as a command in AUCTeX and supports customization through Emacs variables.")
         ;; needed at runtime
         #:modules (append bst:modules
                           (bst:bost-common-modules)
-                          '((srfi srfi-1)  ; the 'any' test
+                          '((bost guix build emacs-utils)
+                            (srfi srfi-1)  ; the 'any' test
                             (srfi srfi-26) ; Conveniently specialize selected parameters
                             (guix utils)))
         ;; needed at compile time
