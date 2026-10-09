@@ -91,7 +91,7 @@ the current environment.  THUNK is called once; exceptions propagate."
   (let ((m "[module]"))
     (def* (sample) "Example procedure." (dbgfmt "hello") #t)
     (test-equal "def* supplies lexical function context"
-      "[module] [module] [sample] hello\n"
+      "[module:sample] hello\n"
       (with-output-to-string sample)))
 
   (let ((runner (test-runner-current)))
