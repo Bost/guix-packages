@@ -11,7 +11,8 @@
   #:use-module (ice-9 match)              ; error-command-failed
   #:use-module (ice-9 optargs)            ; define*-public, def*, def*-public
   #:use-module (srfi srfi-1)              ; string-concatenate, used by str
-  #:use-module ((rnrs) #:version (6))     ; for procedure: cnt
+  #:use-module ((rnrs bytevectors)        ; for procedure: cnt
+                #:select (bytevector? bytevector-length))
   #:use-module ((guile) #:prefix guile:)
   #:use-module (srfi srfi-1)              ; list-processing procedures
   #:use-module (system vm program)   ; for procedure-location
