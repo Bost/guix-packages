@@ -264,9 +264,21 @@ Works also for functions returning and accepting multiple values."
     [(_ show) (when show                  (inf-evaluating-module-done))]
     [(_)      (when show-module-evaluated (inf-evaluating-module-done))]))
 
+(define (qualified-prefix module name)
+  "Return the \"[MODULE:NAME]\" log prefix, e.g. the f bound by def and def*
+or the prefix printed by testsymb-trace. MODULE may already be bracketed, as
+returned by module-name-for-logging."
+  (let ((module-name (str module)))
+    (format #f "[~a:~a]"
+            (if (and (string-prefix? "[" module-name)
+                     (string-suffix? "]" module-name))
+                (substring module-name 1 (- (string-length module-name) 1))
+                module-name)
+            name)))
+
 (define (warn-undefined symbol)
-  (my-warn (format #f "~a Symbol undefined: ~a"
-                   (module-name-for-logging) symbol)))
+  (my-warn "~a Symbol undefined"
+           (qualified-prefix (module-name-for-logging) symbol)))
 
 (define-syntax testsymb
   (syntax-rules ()
@@ -281,7 +293,8 @@ Works also for functions returning and accepting multiple values."
   (syntax-rules ()
     [(_ symbol)
      (if (defined? symbol)
-         (format #t "~a Symbol defined: ~a\n" (module-name-for-logging) symbol)
+         (format #t "~a Symbol defined\n"
+                 (qualified-prefix (module-name-for-logging) symbol))
          (warn-undefined symbol))]))
 
 (define (test-testsymb)
@@ -325,8 +338,7 @@ Works also for functions returning and accepting multiple values."
                      (def-form (name . args)
                        body0
                        (let [(tracing-procedure-name 'name)
-                             (f (format #f "~a~a [~a]" fprefix
-                                        m `name))]
+                             (f (str fprefix (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring defined : ~s\n" f body0)
                          ;; (format #t "~a Starting…\n" f)
                          body1 (... ...)
@@ -348,8 +360,7 @@ Works also for functions returning and accepting multiple values."
                      ;;         (syntax->datum #'body0))
                      (def-form (name . args)
                        (let [(tracing-procedure-name 'name)
-                             (f (format #f "~a~a [~a]" fprefix
-                                        m `name))]
+                             (f (str fprefix (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
                          (let [(result body0)]
@@ -369,8 +380,7 @@ Works also for functions returning and accepting multiple values."
                      ;;         (syntax->datum #'val))
                      (def-form name
                        (let [(tracing-procedure-name 'name)
-                             (f (format #f "~a~a [~a]" fprefix
-                                        m `name))]
+                             (f (str fprefix (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
                          (let [(result val)]
@@ -471,6 +481,13 @@ S is a format string accepting F, the representation, and the types."
       ""
       (format #f "~a" (string-join (map str rest)))))
 
+(define (trace-context module-prefix function-prefix procedure-name)
+  ;; def* already embeds the module in f, i.e. f is "[module:procedure]".
+  ;; Don't repeat the module in front of it.
+  (if procedure-name
+      function-prefix
+      (append module-prefix function-prefix)))
+
 (define-syntax dbgfmt
   (lambda (stx)
     (syntax-case stx ()
@@ -478,6 +495,8 @@ S is a format string accepting F, the representation, and the types."
        ;; Capture caller bindings, including the lexical f introduced by def*.
        (with-syntax ((m (datum->syntax stx 'm))
                      (f (datum->syntax stx 'f))
+                     (procedure-name
+                      (datum->syntax stx 'tracing-procedure-name))
                      ((e ...)
                       ;; Keep explicit leading m/f compatible without printing
                       ;; the automatically collected prefixes twice.
@@ -498,7 +517,9 @@ S is a format string accepting F, the representation, and the types."
                    (catch 'unbound-variable
                      (lambda () (list f))
                      (lambda _ '())))
-                  (prefixes (append module-prefix function-prefix))
+                  (name (catch 'unbound-variable
+                          (lambda () procedure-name) (lambda _ #f)))
+                  (prefixes (trace-context module-prefix function-prefix name))
                   (message (fmt-rest (append prefixes (list e ...)))))
              ;; Preserve the string-returning behavior without any context.
              (format (if (null? prefixes) #f #t) "~a\n" message)))))))
@@ -518,19 +539,6 @@ S is a format string accepting F, the representation, and the types."
                  (and (list? names) (every symbol? names)))
        (error "tracing-procedures expects #f or a list of procedure symbols" names))
      names)))
-
-(define (trace-context module-prefix function-prefix procedure-name)
-  ;; def* already embeds the module in f.  Build one prefix from the
-  ;; separate procedure name instead of repeating that embedded module.
-  (if (and procedure-name (pair? module-prefix))
-      (let* ((module-name (str (car module-prefix)))
-             (module-name
-              (if (and (string-prefix? "[" module-name)
-                       (string-suffix? "]" module-name))
-                  (substring module-name 1 (- (string-length module-name) 1))
-                  module-name)))
-        (list (format #f "[~a:~a]" module-name procedure-name)))
-      (append module-prefix function-prefix)))
 
 ;; Print LABEL and the quoted VALUE with available caller m/f context.
 ;; Disabled or excluded calls evaluate neither diagnostic expression.
