@@ -17,6 +17,7 @@
   #:use-module (ice-9 rdelim)       ; read-line read-delimited
   #:use-module (ice-9 regex)        ; string-match
   #:use-module (ice-9 string-fun)   ; string-replace-substring
+  #:use-module (ice-9 threads)      ; call-with-new-thread
   #:use-module (rnrs io ports)      ; exec-with-error-to-string
   #:use-module (srfi srfi-1)        ; every
   )
@@ -215,7 +216,7 @@ $9 = 0 ;; <return-code>"
   (trc "#:ignore-errors:" ignore-errors)
 
   ((comp
-    (partial exec-or-dry-run system)
+    (partial exec-or-dry-run shell-system-background)
     (lambda (prm) (dbg-exec prm #:verbose verbose))
     ;; (lambda (prm) (dbg-exec prm #:verbose #t))
     cmd->string
@@ -258,8 +259,7 @@ $9 = (0 \"bar baz\") ;; (<return-code> <return-value>)
 
 (def*-public (exec-system
               command #:key (verbose #f) (ignore-errors #f))
-  "Execute COMMAND using `system' from the (guile) module and returns its
-ret-code.
+  "Execute COMMAND using `shell-system' and return its ret-code.
 (exec-system \"echo bar baz\") ;=>
 +🤓 echo bar baz
 bar baz
@@ -269,7 +269,7 @@ $9 = 0 ;; <return-code>"
   (trc "#:ignore-errors:" ignore-errors)
 
   ((comp
-    (partial exec-or-dry-run system)
+    (partial exec-or-dry-run shell-system)
     (lambda (prm) (dbg-exec prm #:verbose verbose))
     ;; (lambda (prm) (dbg-exec prm #:verbose #t))
     )
@@ -383,19 +383,84 @@ With the relay, it reaches the error port:
             (close-pipe (open-input-pipe \"echo oops >&2\"))))))
     (get-output-string err))
   => \"oops\\n\""
-  (let [(err (current-error-port))]
-    (if (file-port? err)
-        (thunk)
-        (let [(tmp (tmpfile))]
-          (dynamic-wind
-            (const #t)
-            (lambda () (with-error-to-port tmp thunk))
-            (lambda ()
-              (seek tmp 0 SEEK_SET)
-              (let [(text (get-string-all tmp))]
-                (unless (eof-object? text)
-                  (display text err)))
-              (close-port tmp)))))))
+  (call-with-port-relayed (current-error-port) with-error-to-port thunk))
+
+(define (call-with-port-relayed port with-port thunk)
+  "Call THUNK, returning the values it produces. If PORT is not a file port,
+call it with WITH-PORT (e.g. `with-error-to-port') redirected to a temporary
+file and write the file's content to PORT afterwards. See
+`call-with-stderr-relayed'."
+  (if (file-port? port)
+      (thunk)
+      (let [(tmp (tmpfile))]
+        (dynamic-wind
+          (const #t)
+          (lambda () (with-port tmp thunk))
+          (lambda ()
+            (seek tmp 0 SEEK_SET)
+            (let [(text (get-string-all tmp))]
+              (unless (eof-object? text)
+                (display text port)))
+            (close-port tmp))))))
+
+(define (call-with-output-relayed thunk)
+  "Like `call-with-stderr-relayed' but relay standard output too. The
+subprocess's standard error is written before its standard output, i.e. their
+original interleaving is lost."
+  (call-with-port-relayed (current-output-port) with-output-to-port
+                          (lambda () (call-with-stderr-relayed thunk))))
+
+(define (call-with-port-pumped port with-port thunk)
+  "Call THUNK, returning the values it produces. If PORT is not a file port,
+call it with WITH-PORT (e.g. `with-error-to-port') redirected to a pipe, and
+copy whatever comes out of the pipe to PORT in a separate thread, until every
+subprocess holding the pipe exits.
+
+Unlike `call-with-port-relayed', this works for subprocesses that keep running
+after THUNK returns, i.e. background processes. Their output shows up only as
+long as PORT is still being read, e.g. the REPL's port."
+  (if (file-port? port)
+      (thunk)
+      (let* [(fds (pipe))
+             (from-pipe (car fds))
+             (to-pipe (cdr fds))]
+        (call-with-new-thread
+         (lambda ()
+           (let loop [(line (read-line from-pipe 'concat))]
+             (unless (eof-object? line)
+               (display line port)
+               (force-output port)
+               (loop (read-line from-pipe 'concat))))
+           (close-port from-pipe)))
+        (dynamic-wind
+          (const #t)
+          (lambda () (with-port to-pipe thunk))
+          ;; Only the subprocesses hold the write end now, so `from-pipe' gets
+          ;; an EOF when the last of them exits.
+          (lambda () (close-port to-pipe))))))
+
+(define (call-with-output-pumped thunk)
+  "Like `call-with-output-relayed' but using `call-with-port-pumped'."
+  (call-with-port-pumped (current-output-port) with-output-to-port
+                         (lambda ()
+                           (call-with-port-pumped (current-error-port)
+                                                  with-error-to-port
+                                                  thunk))))
+
+(define (shell-system command)
+  "Like `system' from the (guile) module, but honor `(current-output-port)'
+and `(current-error-port)': `system' always writes to the file descriptors 1
+and 2 of the Guile process, which, in a REPL, aren't the REPL's ports.
+`system*' uses the current ports when they are file ports, so it is wrapped in
+`call-with-output-relayed' for when they are not."
+  (call-with-output-relayed
+   (lambda () (system* "/bin/sh" "-c" command))))
+
+(define (shell-system-background command)
+  "Like `shell-system' but for a COMMAND which starts a background process,
+so its output is copied to the current ports by `call-with-output-pumped'."
+  (call-with-output-pumped
+   (lambda () (system* "/bin/sh" "-c" command))))
 
 (define*-public (exec command #:key (verbose #t) (return-plist #f))
   "Run shell COMMAND and return its exit status and captured standard output.
