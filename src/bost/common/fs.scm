@@ -11,6 +11,7 @@
   #:use-module (ice-9 exceptions)        ; guard
   #:use-module (ice-9 match)             ; mounted-usb-devices et al.
   #:use-module (ice-9 optargs)           ; define*-public
+  #:use-module (ice-9 receive)           ; receive
   #:use-module (ice-9 regex)             ; string-match
   #:use-module (rnrs io ports)           ; get-line get-string-all
   #:use-module (srfi srfi-1)             ; delete-duplicates find
@@ -257,17 +258,25 @@ erroring out the way `file-exists?' does on a non-string argument."
          (list))])]))
 
 (def*-public (get-ethernet-interfaces #:key (verbose #f))
-  (match (exec
-          (list "grep" "--files-with-matches" "'1'" "/sys/class/net/*/type"
-                "|" "cut" "-delimiter='/'" "-fields=5")
-          #:verbose verbose #:return-plist #t)
-    [(#:retcode retcode #:results results)
-     (cond
-      [(zero? retcode) results]
+  "Return a list of names of network interfaces whose
+/sys/class/net/<iface>/type is exactly 1 (ARPHRD_ETHER).
+
+Standard error of the command is captured and included in the error message,
+since in a REPL `(current-error-port)' is not a file port and a subprocess
+started by `exec' can't write to it.
+
+No `| cut' pipe is used so that the exit code is grep's own: 0 - some
+matches, 1 - no matches, 2 - error."
+  (receive (retcode stdout stderr)
+      (exec-with-error-to-string
+       (list "grep" "--files-with-matches" "--line-regexp" "1"
+             "/sys/class/net/*/type")
+       #:verbose verbose)
+    (case retcode
+      [(0) (map (comp basename dirname) (split-on-whitespace stdout))]
+      [(1) (list)]
       [else
-       (begin
-         (error (format #f "~a retcode: ~a\n" f retcode))
-         (list))])]))
+       (error (format #f "~a retcode: ~a\n~a" f retcode stderr))])))
 
 (define-public (ethernet-cable-plugged? iface)
   "Returns #t or #f"
