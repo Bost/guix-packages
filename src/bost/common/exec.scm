@@ -352,6 +352,51 @@ from the subprocess. Wait for the command to terminate and return 3 values:
     cmd->string)
    commad))
 
+(define (call-with-stderr-relayed thunk)
+  "Call THUNK so that standard error of the subprocesses it starts ends up in
+`(current-error-port)', returning the values produced by THUNK.
+
+A subprocess inherits the current error port only when it is a file port. In
+a REPL (e.g. Geiser) it usually is not, and the subprocess's standard error
+would get lost. In that case, collect it in a temporary file and write it to
+the current error port after THUNK returns or exits non-locally. A temporary
+file is used rather than a pipe since a pipe can fill up and block the
+subprocess while its standard output is still being read.
+
+A string port stands in for the REPL's error port in the examples below.
+Without the relay, the subprocess's standard error is lost:
+
+  (let [(err (open-output-string))]
+    (with-error-to-port err
+      (lambda ()
+        (close-pipe (open-input-pipe \"echo oops >&2\"))))
+    (get-output-string err))
+  => \"\"
+
+With the relay, it reaches the error port:
+
+  (let [(err (open-output-string))]
+    (with-error-to-port err
+      (lambda ()
+        (call-with-stderr-relayed
+          (lambda ()
+            (close-pipe (open-input-pipe \"echo oops >&2\"))))))
+    (get-output-string err))
+  => \"oops\\n\""
+  (let [(err (current-error-port))]
+    (if (file-port? err)
+        (thunk)
+        (let [(tmp (tmpfile))]
+          (dynamic-wind
+            (const #t)
+            (lambda () (with-error-to-port tmp thunk))
+            (lambda ()
+              (seek tmp 0 SEEK_SET)
+              (let [(text (get-string-all tmp))]
+                (unless (eof-object? text)
+                  (display text err)))
+              (close-port tmp)))))))
+
 (define*-public (exec command #:key (verbose #t) (return-plist #f))
   "Run shell COMMAND and return its exit status and captured standard output.
 
@@ -360,7 +405,8 @@ before execution. The resulting command is interpreted by `/bin/sh -c';
 use `exec-argv' to execute an argv list without shell interpretation.
 
 Standard output is returned as a list of lines without trailing newlines.
-Standard error is not captured: it inherits `(current-error-port)'. To
+Standard error is not captured: it goes to `(current-error-port)', also in a
+REPL where that port is not a file port (see `call-with-stderr-relayed'). To
 capture both streams together, merge standard error into standard output
 in COMMAND with `2>&1'. Use `exec-with-error-to-string' to capture the
 streams separately.
@@ -399,16 +445,18 @@ it."
   ;; unspecified.
   (define (exec-function command)
     ;; Can't use the `call-with-port' since the exit-val is needed.
-    (let* [(port (open-input-pipe command)) ; from (ice-9 rdelim)
-           ;; the `read-all-strings' must be called before `close-pipe'.
-           (results (read-all-strings port))]
-      (if return-plist
-          (list
-           #:retcode (status:exit-val (close-pipe port))
-           #:results results)
-          (cons
-           (status:exit-val (close-pipe port))
-           results))))
+    (call-with-stderr-relayed
+     (lambda ()
+       (let* [(port (open-input-pipe command)) ; from (ice-9 rdelim)
+              ;; the `read-all-strings' must be called before `close-pipe'.
+              (results (read-all-strings port))]
+         (if return-plist
+             (list
+              #:retcode (status:exit-val (close-pipe port))
+              #:results results)
+             (cons
+              (status:exit-val (close-pipe port))
+              results))))))
   ((comp
     (partial exec-or-dry-run exec-function)
     (lambda (prm) (dbg-exec prm #:verbose verbose))
