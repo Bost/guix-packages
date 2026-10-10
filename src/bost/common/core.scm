@@ -264,17 +264,54 @@ Works also for functions returning and accepting multiple values."
     [(_ show) (when show                  (inf-evaluating-module-done))]
     [(_)      (when show-module-evaluated (inf-evaluating-module-done))]))
 
+(define (log-prefix-style-from-environment)
+  "Return the log prefix style named by the BOST_LOG_PREFIX_STYLE environment
+variable: 'guile for \"guile\", otherwise 'brackets."
+  (if (equal? "guile" (getenv "BOST_LOG_PREFIX_STYLE"))
+      'guile
+      'brackets))
+
+;; How qualified-prefix names a NAME in a MODULE, e.g. for (dotf memo) hostname:
+;;   'brackets  [dotf memo:hostname]
+;;   'guile     (@@ (dotf memo) hostname), or (@ ...) if hostname is exported
+;; Default from BOST_LOG_PREFIX_STYLE, so that it also reaches subprocesses
+;; such as `guix shell'. Change it with (parameterize ((log-prefix-style 'guile))
+;; ...) or (log-prefix-style 'guile). See "Switch the log prefix style" in
+;; TRACING.md.
+(define-public log-prefix-style
+  (make-parameter
+   (log-prefix-style-from-environment)
+   (lambda (style)
+     (unless (memq style '(brackets guile))
+       (error "log-prefix-style expects 'brackets or 'guile" style))
+     style)))
+
+(define (exported? module-name name)
+  "Is NAME exported by the already loaded module MODULE-NAME (a list of
+symbols)? Never loads a module."
+  (let ((module (resolve-module module-name #f #:ensure #f)))
+    (and module
+         (module-variable (module-public-interface module) name)
+         #t)))
+
 (define (qualified-prefix module name)
-  "Return the \"[MODULE:NAME]\" log prefix, e.g. the f bound by def and def*
-or the prefix printed by testsymb-trace. MODULE may already be bracketed, as
-returned by module-name-for-logging."
-  (let ((module-name (str module)))
-    (format #f "[~a:~a]"
-            (if (and (string-prefix? "[" module-name)
-                     (string-suffix? "]" module-name))
-                (substring module-name 1 (- (string-length module-name) 1))
-                module-name)
-            name)))
+  "Return the log prefix for NAME in MODULE, e.g. the f bound by def and def*
+or the prefix printed by testsymb-trace, in the current `log-prefix-style'.
+MODULE may already be bracketed, as returned by module-name-for-logging."
+  (let* ((module-string (str module))
+         (module-string
+          (if (and (string-prefix? "[" module-string)
+                   (string-suffix? "]" module-string))
+              (substring module-string 1 (- (string-length module-string) 1))
+              module-string)))
+    (case (log-prefix-style)
+      ((guile)
+       (let ((module-name (map string->symbol
+                               (string-split module-string #\space))))
+         (format #f "(~a ~a ~a)"
+                 (if (exported? module-name name) "@" "@@") module-name name)))
+      (else
+       (format #f "[~a:~a]" module-string name)))))
 
 (define (warn-undefined symbol)
   (my-warn "~a Symbol undefined"

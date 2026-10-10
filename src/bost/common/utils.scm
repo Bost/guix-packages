@@ -75,6 +75,7 @@
    trc
    tracing-enabled?
    tracing-procedures
+   log-prefix-style
    fmt
    and*
    or*

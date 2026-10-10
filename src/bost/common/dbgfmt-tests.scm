@@ -1,5 +1,5 @@
 ;;; Run from the channel root:
-;;; guile --no-auto-compile -L src -e '(bost common dbgfmt-tests)' -c ''
+;;; guile --no-auto-compile -L src -c '((@ (bost common dbgfmt-tests) main))'
 
 (define-module (bost common dbgfmt-tests)
   #:use-module (bost common core)
@@ -93,6 +93,23 @@ the current environment.  THUNK is called once; exceptions propagate."
     (test-equal "def* supplies lexical function context"
       "[module:sample] hello\n"
       (with-output-to-string sample)))
+
+  ;; The same prefix in the standard Guile notation; (module) isn't loaded, so
+  ;; sample counts as private.
+  (let ((m "[module]"))
+    (def* (sample) "Example procedure." (dbgfmt "hello") #t)
+    (test-equal "log-prefix-style 'guile"
+      "(@@ (module) sample) hello\n"
+      (parameterize ((log-prefix-style 'guile))
+        (with-output-to-string sample))))
+
+  (test-equal "log-prefix-style 'guile, exported"
+    "(@ (bost common core) cnt) hello\n"
+    (parameterize ((log-prefix-style 'guile))
+      (with-output-to-string
+        (lambda () (let ((f ((@@ (bost common core) qualified-prefix)
+                             "[bost common core]" 'cnt)))
+                     (dbgfmt "hello"))))))
 
   (let ((runner (test-runner-current)))
     (test-end "dbgfmt")
