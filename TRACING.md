@@ -53,13 +53,15 @@ The traced call prints lines such as:
 this-echo-is-traced
 ```
 
-Depending on output buffering, `this-echo-is-traced` may appear before the trace lines,
-especially when output is redirected.
+Depending on output buffering, `this-echo-is-traced` may appear before the
+trace lines, especially when output is redirected.
 
 For `def` and `def*` procedures, the prefix combines the module and procedure
-names with `:`. Colon has no special meaning in regular expressions. Characters
-in the names themselves, such as the `*` in `exec-system*`, still have their
-ordinary regular-expression meaning.
+names with `:` (the default `'brackets` style, see
+[Switch the log prefix style](#switch-the-log-prefix-style)). Colon has no
+special meaning in regular expressions. Characters in the names themselves,
+such as the `*` in `exec-system*`, still have their ordinary regular-expression
+meaning.
 
 Inside your own procedure, wrap the operations you are investigating:
 
@@ -88,7 +90,8 @@ arguments. The selected procedures are traced wherever they are called during
 
 ## Select outer and nested procedures separately
 
-`exec-system*-new` calls `exec-or-dry-run-new`. To trace only the outer procedure:
+`exec-system*-new` calls `exec-or-dry-run-new`. To trace only the outer
+procedure:
 
 ```scheme
 (parameterize ((tracing-procedures '(exec-system*-new)))
@@ -115,11 +118,11 @@ shown by enabling tracing for all procedures.
 
 The controls have these meanings:
 
-| Setting                                   | Behavior                            |
-|-------------------------------------------|-------------------------------------|
-| `tracing-procedures` is `#f`              | `tracing-enabled?` controls tracing |
-| `tracing-procedures` is a list of symbols | Only those procedures are traced    |
-| `tracing-procedures` is `'()`             | Tracing is disabled                 |
+| Setting                                   | Behavior                   |
+|-------------------------------------------|----------------------------|
+| `tracing-procedures` is `#f`              | `tracing-enabled?` decides |
+| `tracing-procedures` is a list of symbols | Only those are traced      |
+| `tracing-procedures` is `'()`             | Tracing is disabled        |
 
 A procedure list takes precedence over `tracing-enabled?`. Selecting procedures
 does not also require setting `tracing-enabled?` to `#t`. Conversely, setting
@@ -145,6 +148,58 @@ Temporarily silence tracing inside an already traced operation:
     (exec-system* "echo this-echo-is-not-traced"))    ; silent
 
   (exec-system* "echo this-echo-is-traced-again"))      ; traced again
+```
+
+## Switch the log prefix style
+
+`log-prefix-style` selects how the prefix names a procedure or symbol in a
+module. It applies to the trace lines of `trc` and `dbgfmt`, to the `f` bound
+by `def` and `def*`, and to the "Symbol defined" and "Symbol undefined" lines
+of `testsymb`:
+
+| Style                   | Prefix                                |
+|-------------------------|---------------------------------------|
+| `'brackets` (default)   | `[bost common exec:exec-system*]`     |
+| `'guile`, exported name | `(@ (bost common exec) exec-system*)` |
+| `'guile`, private name  | `(@@ (module) name)`                  |
+
+The `'guile` prefix is a Guile expression: copy it into a REPL to get the
+procedure or value it names.
+
+How to switch:
+
+- For a whole run, including subprocesses such as the inner `guix shell` of a
+  `guix-shell-*.scm` script, set the environment variable before starting it:
+
+  ```sh
+  BOST_LOG_PREFIX_STYLE=guile ./guix-shell-kalus.scm
+  ```
+
+  Any other value, or an unset variable, selects `'brackets`. The variable is
+  read once, when `(bost common core)` is loaded.
+
+- For the dynamic extent of a body, e.g. around a script's entry point:
+
+  ```scheme
+  (parameterize ((log-prefix-style 'guile))
+    (apply main (command-line)))
+  ```
+
+- For the rest of the current thread, e.g. in a REPL:
+
+  ```scheme
+  (log-prefix-style 'guile)
+  (log-prefix-style 'brackets)  ; and back
+  ```
+
+Any other value raises an error. With `'guile`, the traced call above prints:
+
+```text
+(@ (bost common exec) exec-system*) #:verbose: #f
+(@ (bost common exec) exec-system*) #:ignore-errors: #f
+(@ (bost common exec) exec-system*) #:split-whitespace: #t
+(@ (bost common exec) exec-system*) args: ("echo this-echo-is-traced")
+this-echo-is-traced
 ```
 
 ## Run a traced command from a shell
