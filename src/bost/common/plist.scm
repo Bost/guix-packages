@@ -84,6 +84,25 @@
            (error (format #f "~a ~a" f (explain-plist-error init-lst))
                   init-lst)))))
 
+(def*-public (plist-get-in plist keys #:optional (not-found #f))
+  "Return the value in nested PLIST at the key list KEYS.
+Return NOT-FOUND (default #f) if a key is absent or traversal reaches a
+value which is not a plist. A stored #f or empty list is returned as-is.
+An empty KEYS list returns PLIST itself. Keys use `equal?' comparison.
+
+(plist-get-in '(#:a (#:b 1)) '(#:a #:b)) ;=> 1
+(plist-get-in '(#:a (#:b #f)) '(#:a #:b) 'missing) ;=> #f
+(plist-get-in '() '(#:a #:b) 'missing) ;=> missing"
+  (unless (list? keys)
+    (error (format #f "~a expected a list of keys" f) keys))
+  (let loop ((current plist) (path keys))
+    (cond
+     ((null? path) current)
+     ((not (plist? current)) not-found)
+     ((member (car path) (get-keys current))
+      (loop (plist-get current (car path)) (cdr path)))
+     (else not-found))))
+
 (define-public (reorder-plist plist order)
   "Reorder PLIST so its key/value pairs follow the keyword sequence ORDER.
 Each present keyword is paired with its value via `plist-get'. Keywords in
@@ -122,6 +141,32 @@ ORDER that are absent from PLIST are reported with `my-warn' and dropped.
                (append (reverse acc) (list key val) rest))]
             [else
              (rec (cddr lst) (cons (cadr lst) (cons (car lst) acc)))]))]))
+
+(def-public (plist-update-in plist keys proc . args)
+  "Return PLIST with the value at the nonempty key list KEYS updated.
+Call PROC with the old leaf value followed by ARGS. A missing leaf supplies
+#f; missing intermediate keys create empty plists. Existing intermediate
+values must be plists. KEYS may contain any keys supported by `plist-set'.
+The input is not mutated; unchanged branches may be shared with the result.
+
+(plist-update-in '(#:a (#:b 1)) '(#:a #:b) + 2)
+;=> (#:a (#:b 3))
+(plist-update-in '() '(#:a #:b) (lambda (old) (or old 0)))
+;=> (#:a (#:b 0))"
+  (unless (and (list? keys) (pair? keys))
+    (error (format #f "~a expected a nonempty list of keys" f) keys))
+  (unless (procedure? proc)
+    (error (format #f "~a expected an updater procedure" f) proc))
+  (let loop ((current plist) (path keys))
+    (unless (plist? current)
+      (error (format #f "~a ~a" f (explain-plist-error current)) current))
+    (let* ((key (car path))
+           (old (plist-get current key)))
+      (plist-set current key
+                 (if (null? (cdr path))
+                     (apply proc old args)
+                     (loop (if (member key (get-keys current)) old '())
+                           (cdr path)))))))
 
 (def-public (plist-set! plist key val)
   "Destructively modifies PLIST by setting KEY to VAL. Note: Cannot mutate an
