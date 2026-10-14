@@ -130,8 +130,10 @@
    ;; (bost common plist)
    get-keys
    plist-get
+   plist-get-in
    reorder-plist
    plist-set
+   plist-update-in
    plist-set!
    get-keywords
    plist?
