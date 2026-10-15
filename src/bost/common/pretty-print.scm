@@ -63,14 +63,13 @@ Example:
      (multiline list \"abcd\" \"ef01\")
      (cons (quote vout) 0))))
 
-=>
-(list
-  (list
-    \"abcd\"
-    \"ef01\"
-  )
-  (cons (quote vout) 0)
-)
+;=> (list
+;     (list
+;       \"abcd\"
+;       \"ef01\"
+;     )
+;     (cons (quote vout) 0)
+;   )
 
 Example:
 (use-modules (bost common core))
@@ -89,12 +88,11 @@ Example:
    `(commented
      (define s ,s)
      ,(format #f \"x was ~s\" x))))
-=>
-(define a 1)
-(define b #f)
 
-(define s \"42\") ; x was \"24\"
-"
+;=> (define a 1)
+;   (define b #f)
+;
+;   (define s \"42\") ; x was \"24\""
   (string-join
    (map
     (match-lambda
