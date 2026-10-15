@@ -38,6 +38,8 @@
    smart-fifth
    smart-take
    smart-drop
+   smart-length
+   smart-append
 
    ;; (bost common core)
    cnt

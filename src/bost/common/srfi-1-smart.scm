@@ -1,18 +1,9 @@
 (define-module (bost common srfi-1-smart)
   #:use-module (srfi srfi-1)
-  #:export
-  (
-   smart-first
-   smart-last
-   smart-second
-   smart-third
-   smart-fourth
-   smart-fifth
-   smart-take
-   smart-drop
-   ))
+  #:use-module (ice-9 optargs)  ; define*-public
+ )
 
-(define (smart-first obj)
+(define*-public (smart-first obj)
   "Returns first element of list or first character of string as a string."
   (cond
     ((string? obj)
@@ -26,7 +17,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-last obj)
+(define*-public (smart-last obj)
   "Returns last element of list or last character of string as a string."
   (cond
     ((string? obj)
@@ -41,7 +32,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-second obj)
+(define*-public (smart-second obj)
   "Returns second element of list or second character of string as a string."
   (cond
     ((string? obj)
@@ -59,7 +50,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-third obj)
+(define*-public (smart-third obj)
   "Returns third element of list or third character of string as a string."
   (cond
     ((string? obj)
@@ -77,7 +68,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-fourth obj)
+(define*-public (smart-fourth obj)
   "Returns fourth element of list or fourth character of string as a string."
   (cond
     ((string? obj)
@@ -92,7 +83,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-fifth obj)
+(define*-public (smart-fifth obj)
   "Returns fifth element of list or fifth character of string as a string."
   (cond
     ((string? obj)
@@ -107,7 +98,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-take obj n)
+(define*-public (smart-take obj n)
   "Takes first n elements from list or first n characters from string."
   (cond
     ((string? obj)
@@ -117,7 +108,7 @@
     (else
      (error "not a list or string" obj))))
 
-(define (smart-drop obj n)
+(define*-public (smart-drop obj n)
   "Drops first n elements from list or first n characters from string."
   (cond
     ((string? obj)
@@ -127,6 +118,38 @@
      (drop obj n))
     (else
      (error "not a list or string" obj))))
+
+(define*-public (smart-length obj)
+  "TODO Consider moving smart-length to a different module. It has no equivalent
+in (srfi srfi-1)."
+  (cond
+   ((string? obj)
+    (string-length obj))
+   ((list? obj)
+    (length obj))
+   ((pair? obj)
+    2)
+   (else
+    (error "not a list or string or pair" obj))))
+
+(define*-public (smart-append . args)
+"(apply smart-append (list \"1\" \"2\" \"3\"))           ; => \"123\"
+(apply smart-append (list (list 1 2) (list 3 4))) ; => (1 2 3 4)
+(apply symbol-append (list 'a 'b))                ; => ab
+
+(apply smart-append (list (cons 1 2) (cons 3 4))) ; => exception
+
+TODO Consider moving smart-append to a different module. It has no equivalent
+in (srfi srfi-1)."
+  (cond
+   ((list? (car args))
+    (apply append args))
+   ((string? (car args))
+    (apply string-append args))
+   ((symbol? (car args))
+    (apply symbol-append args))
+   (else
+    (error "First object not a list or string" args))))
 
 #|
 ;; Example usage:
