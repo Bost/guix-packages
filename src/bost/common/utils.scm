@@ -238,6 +238,7 @@
    pretty-print->string
    pretty-print-with-comments->string
    source->string
+   list->multiline-string
 
    ;; (bost common guix)
    package-output-paths
