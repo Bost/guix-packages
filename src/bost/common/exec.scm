@@ -486,6 +486,15 @@ When RETURN-PLIST is true, return the same information as a property list:
     [(#:retcode retcode #:results results) ...]
     [else ...])
 
+Write the keywords in such a pattern literally, as above. A symbol in a
+pattern is always a new pattern variable, never a reference to a variable of
+the same name, so a keyword held in a variable, e.g. a `kw-<...>', matches any
+value:
+
+  (define kw #:kw)
+  (match (list #:other 1) [(kw val) val] [_ #f])   => 1, kw is #:other here
+  (match (list #:other 1) [(#:kw val) val] [_ #f]) => #f
+
 When RETURN-PLIST is #f, return a pair whose car is the exit status and
 whose cdr contains the output lines:
 
