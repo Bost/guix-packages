@@ -244,7 +244,8 @@ $9 = (0 \"bar baz\") ;; (<return-code> <return-value>)
 
   (let* [(cmd-result-struct (exec command #:verbose verbose #:return-plist #t))
          (retcode (plist-get cmd-result-struct #:retcode))]
-    (if (zero? retcode)
+    ;; retcode is #f when the process was killed by a signal
+    (if (eqv? 0 retcode)
         (begin
           (map (partial format #t "~a\n")
                (plist-get cmd-result-struct #:results))
@@ -604,22 +605,28 @@ it exited non-zero, produced no output, or was killed by a signal."
 
 (define-public (exec-argv-or-die argv)
   "Run ARGV (an argv list) with the terminal's stdin, stdout and stderr; print
-an error and exit when it fails."
-  (unless (eqv? 0 (status:exit-val
-                   (apply exec-system* #:verbose #t #:split-whitespace #f argv)))
-    (die "[ERR] Command failed: ~a" (string-join argv))))
+an error and exit when it fails. With --gx-dry-run in ARGV, only print it."
+  (let [(status (apply exec-system* #:verbose #t #:split-whitespace #f argv))]
+    ;; With --gx-dry-run, `exec-system*' returns ARGV, not a wait status
+    (unless (or (contains--gx-dry-run? argv)
+                (eqv? 0 (status:exit-val status)))
+      (die "[ERR] Command failed: ~a" (string-join argv)))))
 
 (define-public (exec-argv-last-line-or-die argv)
   "Run ARGV (an argv list) and return the last non-empty line of its stdout,
 e.g. the store item printed by `guix build'; stderr goes to the terminal. Print
-an error and exit when it fails or prints nothing."
+an error and exit when it fails or prints nothing. With --gx-dry-run in ARGV,
+only print it and return it joined into one string."
   (match (exec-argv argv #:verbose #t #:return-plist #t)
     [(#:retcode 0 #:results results)
      (let [(lines (remove string-null? results))]
        (if (pair? lines)
            (last lines)
            (die "[ERR] No output from: ~a" (string-join argv))))]
-    [_ (die "[ERR] Command failed: ~a" (string-join argv))]))
+    ;; With --gx-dry-run, `exec-argv' returns ARGV, not a plist
+    [_ (if (contains--gx-dry-run? argv)
+           (string-join argv)
+           (die "[ERR] Command failed: ~a" (string-join argv)))]))
 
 (define-public (exec-argv-stdout-to-file file argv)
   "Run ARGV (an argv list) with its stdout written to FILE, via `sh'; print an
@@ -659,7 +666,8 @@ non-zero exit, and normalizes the result to a list of lines."
   ((comp
     (lambda (res) (let ((out (cdr res)))
                     (if (string? out) (string-split out #\newline) out)))
-    (lambda (res) (if (zero? (car res))
+    ;; (car res) is #f when the process was killed by a signal
+    (lambda (res) (if (eqv? 0 (car res))
                       res
                       (error "command failed with code" (car res))))
     (lambda (argv) (exec-argv argv #:verbose #f)))
