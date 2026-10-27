@@ -602,6 +602,46 @@ it exited non-zero, produced no output, or was killed by a signal."
   (let ((retcode (car (exec-argv-result args #:verbose verbose))))
     (and retcode (zero? retcode))))
 
+(define-public (exec-argv-or-die argv)
+  "Run ARGV (an argv list) with the terminal's stdin, stdout and stderr; print
+an error and exit when it fails."
+  (unless (eqv? 0 (status:exit-val
+                   (apply exec-system* #:verbose #t #:split-whitespace #f argv)))
+    (die "[ERR] Command failed: ~a" (string-join argv))))
+
+(define-public (exec-argv-last-line-or-die argv)
+  "Run ARGV (an argv list) and return the last non-empty line of its stdout,
+e.g. the store item printed by `guix build'; stderr goes to the terminal. Print
+an error and exit when it fails or prints nothing."
+  (match (exec-argv argv #:verbose #t #:return-plist #t)
+    [(#:retcode 0 #:results results)
+     (let [(lines (remove string-null? results))]
+       (if (pair? lines)
+           (last lines)
+           (die "[ERR] No output from: ~a" (string-join argv))))]
+    [_ (die "[ERR] Command failed: ~a" (string-join argv))]))
+
+(define-public (exec-argv-stdout-to-file file argv)
+  "Run ARGV (an argv list) with its stdout written to FILE, via `sh'; print an
+error and exit when it fails."
+  (exec-argv-or-die
+   (append (list "sh" "-c" "f=$1; shift; exec \"$@\" > \"$f\"" "sh" file)
+           argv)))
+
+(define-public (exec-argv-stdin-from-file file argv)
+  "Run ARGV (an argv list) with its stdin read from FILE, via `sh'; print an
+error and exit when it fails."
+  (exec-argv-or-die
+   (append (list "sh" "-c" "f=$1; shift; exec \"$@\" < \"$f\"" "sh" file)
+           argv)))
+
+(define-public (argv-after-etc-profile argv)
+  "Return an argv list running ARGV after sourcing /etc/profile, i.e. with the
+system's default environment variables. E.g. `guix home' run in a shell with
+modified variables may write incorrect values (e.g. XDG_DATA_DIRS) to
+~/.guix-home/setup-environment."
+  (append (list "sh" "-c" ". /etc/profile && exec \"$@\"" "sh") argv))
+
 (define-public (wait-status->exit-code status)
   "Return a shell-style exit code for STATUS, a wait status as returned by
 `system*' or `close-pipe'. Return the normal exit status when the process

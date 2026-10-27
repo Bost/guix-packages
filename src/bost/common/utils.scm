@@ -197,6 +197,11 @@
    exec-argv-result
    exec-argv-first-line
    exec-argv-success?
+   exec-argv-or-die
+   exec-argv-last-line-or-die
+   exec-argv-stdout-to-file
+   exec-argv-stdin-from-file
+   argv-after-etc-profile
    wait-status->exit-code
    run-command
    analyze-pids-flag-variable
