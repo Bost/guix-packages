@@ -270,7 +270,7 @@ $9 = 0 ;; <return-code>"
     )
    command))
 
-(define*-public (exec-with-error-to-string commad #:key (verbose #t))
+(define*-public (exec-with-error-to-string command #:key (verbose #t))
   "Run the shell COMMAND using '/bin/sh -c' with 'OPEN_READ' mode, ie. to read
 from the subprocess. Wait for the command to terminate and return 3 values:
 - the command's exit code (an integer; 0 in dry-run mode)
@@ -283,12 +283,12 @@ from the subprocess. Wait for the command to terminate and return 3 values:
   (format #t \"receive retcode:~a\\n\" retcode)
   (format #t \"receive stdout:~a\\n\" stdout)
   (format #t \"receive stderr:~a\\n\" stderr))"
-  (define (exec-function commad)
-    (if (string-contains commad dry-run-prm)
+  (define (exec-function command)
+    (if (string-contains command dry-run-prm)
         (values 0 "" "")
         (let* ((err-cons (pipe))
                (port (with-error-to-port (cdr err-cons)
-                       (lambda () (open-input-pipe commad))))
+                       (lambda () (open-input-pipe command))))
                ;; the err-cons buffer size is 16 MiB
                (_ (setvbuf (car err-cons) 'block (* 1024 1024 16)))
                (stdout (read-delimited "" port))
@@ -312,7 +312,7 @@ from the subprocess. Wait for the command to terminate and return 3 values:
     exec-function
     (lambda (prm) (dbg-exec prm #:verbose verbose))
     cmd->string)
-   commad))
+   command))
 
 (define (call-with-stderr-relayed thunk)
   "Call THUNK so that standard error of the subprocesses it starts ends up in
