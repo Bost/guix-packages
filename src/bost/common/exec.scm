@@ -194,12 +194,6 @@ Example:
                cmd))
       cmd))
 
-;; 8sync https://www.gnu.org/software/8sync/
-;; asynchronous programming library for GNU Guile. Based on the actor
-;; model, it makes use of delimited continuations to avoid a mess of callbacks
-;; resulting in clean, easy to read non-blocking code.
-#;(import (language wisp spec)) ;; whitespace lisp
-
 ;; exec-foreground, exec-background and exec-system have the same signature (,
 ;; otherwise a (cond ...) in the cli-general-command is needed). I want them all
 ;; to have the same capabilities like 'ignore errors' etc.
@@ -275,39 +269,6 @@ $9 = 0 ;; <return-code>"
     ;; (lambda (prm) (dbg-exec prm #:verbose #t))
     )
    command))
-
-;; (define (background-system command)
-;;   " https://sourceware.org/legacy-ml/guile/1998-09/msg00228.html "
-;;   (let ((child-pid (primitive-fork)))
-;;     (if (zero? child-pid)
-;;         ;; Okay, we're the child process.  We need to catch any and
-;;         ;; all errors and exit, or else we'll end up with two Guile
-;;         ;; repls trying to read from the same terminal.
-;;         (begin
-;;           (catch #t
-;;             (lambda ()
-;;               ;; Put ourselves in our own process group.
-;;               (setpgid (getpid) (getpid))
-;;               ;; Try to execute the user's command.
-;;               (execl "/bin/sh" "sh" "-c" command))
-;;             (lambda args #f))
-;;           ;; If we return from the exec for any reason, it means it failed.
-;;           (quit 1))
-;;         ;; Okay, we're the parent process.  Return the child pid, in
-;;         ;; case we want to wait for it at some point in the future.
-;;         child-pid)))
-
-;;; See https://www.draketo.de/software/guile-capture-stdout-stderr.html
-;; (format #t "current-error-port:\n~a\n"
-;;         (let* ((error-port (open-output-string)))
-;;           (with-error-to-port error-port
-;;             (lambda ()
-;;               (display "Err msg1\n" (current-error-port))))
-;;           (get-output-string error-port)))
-
-;; (format #t "(output-port? error-port): ~a\n"
-;;         (let* ((error-port (open-output-string)))
-;;           (output-port? error-port)))
 
 (define*-public (exec-with-error-to-string commad #:key (verbose #t))
   "Run the shell COMMAND using '/bin/sh -c' with 'OPEN_READ' mode, ie. to read
