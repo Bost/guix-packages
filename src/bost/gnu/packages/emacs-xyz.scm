@@ -19765,8 +19765,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
 
 (define-public emacs-spacemacs
   (let ((commit
-         ;; "72a0985290821b73fa02d2b49008899d5239300d" ; spgx-squashed-broken
-         "5c5a27e07f23c8dee2b59aca488f9118bfc2c7ba" ; spgx-squashed
+         "58f00025b61b959ca18ff8b093dcb1ad7f9ee3be" ; spgx-squashed
          )
         (revision "0"))
     (package
@@ -19781,8 +19780,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
          (file-name (git-file-name name version))
          (sha256
           (base32
-           ;; "1wm5034a92ayibyci0c29f5w7ilxg6ni1xv985ggji5swc2fh4hb" ; spgx-squashed-broken
-           "15a88kqfy0h2pbri3dmvsjgs923vnqch6gjlz46m1djihhnds8br" ; spgx-squashed
+           "153xbfxj2mhj2d6ggh1mnwqx8yva0422ryplcfs04gyn1bckhn0h" ; spgx-squashed
            ))))
       (build-system emacs-build-system)
       (arguments
@@ -19815,6 +19813,7 @@ as a command in AUCTeX and supports customization through Emacs variables.")
             (add-after 'unpack 'add-emacs-load-path
               ;; add-before 'compile 'add-emacs-load-path
               (lambda* (#:key inputs #:allow-other-keys)
+                (format #t "Old EMACSLOADPATH: ~a\n" (getenv "EMACSLOADPATH"))
                 (let* [(current-dir (getcwd))
                        (EMACSLOADPATH (getenv "EMACSLOADPATH"))
                        (relative-el-paths (find-el-file-directories-gitignore current-dir))
