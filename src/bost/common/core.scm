@@ -667,6 +667,13 @@ error-out!"
   "Print each of LINES followed by a newline."
   (for-each (partial format #t "~a\n") lines))
 
+;; Message prefixes, e.g. (format #t "~a Done\n" msginf)
+(define-public msgmty "     ") ; empty, for continuation lines
+(define-public msgerr "[ERR]")
+(define-public msgwrn "[WRN]")
+(define-public msginf "[INF]")
+(define-public msgdbg "[DBG]")
+
 (define-public (die fmt . args)
   "Print a message to the error port and exit with status 1.
 Unlike `error', no backtrace — for expected failures, not bugs."

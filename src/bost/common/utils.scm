@@ -63,6 +63,11 @@
    inc
    print-lines
    die
+   msgmty
+   msgerr
+   msgwrn
+   msginf
+   msgdbg
    def
    def-public
    def*

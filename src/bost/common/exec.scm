@@ -571,7 +571,7 @@ an error and exit when it fails. With --gx-dry-run in ARGV, only print it."
     ;; With --gx-dry-run, `exec-system*' returns ARGV, not a wait status
     (unless (or (contains--gx-dry-run? argv)
                 (eqv? 0 (status:exit-val status)))
-      (die "[ERR] Command failed: ~a" (string-join argv)))))
+      (die "~a Command failed: ~a" msgerr (string-join argv)))))
 
 (define-public (exec-argv-last-line-or-die argv)
   "Run ARGV (an argv list) and return the last non-empty line of its stdout,
@@ -583,11 +583,11 @@ only print it and return it joined into one string."
      (let [(lines (remove string-null? results))]
        (if (pair? lines)
            (last lines)
-           (die "[ERR] No output from: ~a" (string-join argv))))]
+           (die "~a No output from: ~a" msgerr (string-join argv))))]
     ;; With --gx-dry-run, `exec-argv' returns ARGV, not a plist
     [_ (if (contains--gx-dry-run? argv)
            (string-join argv)
-           (die "[ERR] Command failed: ~a" (string-join argv)))]))
+           (die "~a Command failed: ~a" msgerr (string-join argv)))]))
 
 (define-public (exec-argv-stdout-to-file file argv)
   "Run ARGV (an argv list) with its stdout written to FILE, via `sh'; print an
