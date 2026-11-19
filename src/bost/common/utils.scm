@@ -23,6 +23,7 @@
   #:use-module (bost common environment)
   #:use-module (bost common exec)
   #:use-module (bost common fs)
+  #:use-module (bost common prompt)
   #:use-module (bost common monad)
   #:use-module (bost common pretty-print)
   #:use-module (bost common guix)
@@ -133,6 +134,7 @@
    list=equal?
    find-duplicates
    list-of-lists?
+   exactly-one
 
    ;; (bost common plist)
    get-keys
@@ -204,6 +206,8 @@
    exec-argv-success?
    exec-argv-or-die
    exec-argv-last-line-or-die
+   sh-or-die
+   git-current-branch
    exec-argv-stdout-to-file
    exec-argv-stdin-from-file
    argv-after-etc-profile
@@ -221,6 +225,9 @@
    directory?
    ethernet-cable-plugged?
    executable-file?
+   files-in
+   home-path
+   make-timestamped-dir!
    get-ethernet-interfaces
    make-private-temporary-directory
    mcopy-file
@@ -240,6 +247,12 @@
    socket?
    timestamp
    writeable-usb-mounted?
+
+   ;; (bost common prompt)
+   answered?
+   yes?
+   proceed?
+   accept-or-exit
 
    ;; (bost common monad)
    compose-commands-guix-shell

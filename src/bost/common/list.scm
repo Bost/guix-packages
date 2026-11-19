@@ -327,3 +327,20 @@ non-list X (see the ;=> comments under each).
 "
   ((conjoin list? (partial every list?)) x))
 
+(define-public (exactly-one who xs)
+  "Return the only element of XS, or fail with a useful error message.
+WHO is a symbol or string describing what was expected.
+
+(exactly-one \"thing\" (list 42))  ;=> 42
+(exactly-one \"thing\" (list 1 2)) ;=> Expected exactly one thing, found 2 (1 2)
+(exactly-one \"thing\" (list))     ;=> Expected exactly one thing, found none
+"
+  (match xs
+    [(x) x]
+    ['()
+     (error (format #f "Expected exactly one ~a, found none." who))]
+    [many
+     (error (format #f "Expected exactly one ~a, found ~a."
+                    who
+                    (length many))
+            many)]))

@@ -9,6 +9,7 @@
   #:use-module (bost common plist)
   #:use-module (bost common string)      ; non-empty-string?
   #:use-module (ice-9 exceptions)        ; guard
+  #:use-module ((ice-9 ftw) #:select (scandir))
   #:use-module (ice-9 match)             ; mounted-usb-devices et al.
   #:use-module (ice-9 optargs)           ; define*-public
   #:use-module (ice-9 receive)           ; receive
@@ -376,3 +377,22 @@ TODO display proper error message: (sha1-file \"./\")"
               car)
         results)]
       [else (error (format #f "~a retcode: ~a\n" f retcode))])]))
+
+(define-public (home-path . parts)
+  "PARTS joined to $HOME.
+(home-path \"dev/bstx\") ;=> \"/home/bost/dev/bstx\""
+  (apply path-join (required-non-empty-getenv "HOME") parts))
+
+(define-public (make-timestamped-dir! suffix)
+  "Create ~/<timestamp>-SUFFIX, accessible only by the user. Return its path.
+(make-timestamped-dir! \"backup\") ;=> \"/home/bost/2025-10-14_20-14-16-backup\""
+  (let [(dir (home-path (str (timestamp) "-" suffix)))]
+    (mkdir dir #o700)
+    dir))
+
+(define*-public (files-in dir #:optional (pred (const #t)))
+  "Sorted names of the files in DIR satisfying PRED, without . and ..
+(files-in \"/etc/guix\") ;=> (\"acl\" \"signing-key.pub\" \"signing-key.sec\")
+(files-in \"/etc/guix\" (cut string-suffix? \".pub\" <>)) ;=> (\"signing-key.pub\")"
+  (scandir dir (lambda (name)
+                 (and (not (member name '("." ".."))) (pred name)))))

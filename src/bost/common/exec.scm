@@ -589,6 +589,19 @@ only print it and return it joined into one string."
            (string-join argv)
            (die "~a Command failed: ~a" msgerr (string-join argv)))]))
 
+(define-public (sh-or-die script . args)
+  "Run the shell SCRIPT with positional ARGS; for pipes and redirections, which
+argv lists can't express. Exit when it fails.
+(sh-or-die \"xz --decompress --stdout \\\"$1\\\" | wc --bytes\" \"file.xz\")"
+  (exec-argv-or-die (append (list "sh" "-c" script "sh") args)))
+
+(define-public (git-current-branch repo)
+  "The name of the branch checked out in the git REPO; exit when there is none,
+e.g. on a detached HEAD.
+(git-current-branch \"/home/bost/dev/bstx\") ;=> \"master\""
+  (exec-argv-last-line-or-die
+   (list "git" "-C" repo "symbolic-ref" "--short" "HEAD")))
+
 (define-public (exec-argv-stdout-to-file file argv)
   "Run ARGV (an argv list) with its stdout written to FILE, via `sh'; print an
 error and exit when it fails."
