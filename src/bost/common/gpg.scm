@@ -6,10 +6,10 @@
 ;;; (bost common guix-shell).
 
 (define-module (bost common gpg)
-  #:use-module (bost common core)   ; str, my-warn
-  #:use-module (bost common exec)   ; exec-argv-first-line, exec-argv-success?
-  #:use-module (bost common fs)     ; directory?, readable-file?, socket?, path-join
-  #:use-module (bost common string) ; non-empty-string?
+  #:use-module (bost common core)
+  #:use-module (bost common exec)
+  #:use-module (bost common file-system)
+  #:use-module (bost common string)
   #:use-module ((guix build utils) #:select (mkdir-p))
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)

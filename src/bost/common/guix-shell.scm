@@ -18,12 +18,12 @@
 ;;; dotfiles-specific `user-home' belong in (dotf guix-shell).
 
 (define-module (bost common guix-shell)
-  #:use-module (bost common core) ; str
-  #:use-module (bost common environment) ; required-non-empty-getenv
-  #:use-module (bost common exec) ; exec-system*, wait-status->exit-code
-  #:use-module (bost common fs)   ; path predicates
-  #:use-module (bost common gpg)  ; prepare-public-gpg-home!, host-gpg-agent-socket
-  #:use-module (bost common string) ; non-empty-string?
+  #:use-module (bost common core)
+  #:use-module (bost common environment)
+  #:use-module (bost common exec)
+  #:use-module (bost common file-system)
+  #:use-module (bost common gpg)
+  #:use-module (bost common string)
   #:use-module (ice-9 optargs)    ; define*
   #:export
   (

@@ -4,10 +4,11 @@
 ;;; derivations).
 
 (define-module (bost common guix)
-  #:use-module (bost common core)  ; comp
-  #:use-module (bost common list)) ; ensure-list
+  #:use-module (bost common core)
+  #:use-module (bost common list)
+  )
 
-(define m "[bost common guix]")
+(define m (module-name-for-logging))
 
 (define-public (package-output-paths one-or-more-packages)
   "(package-output-paths (@(gnu packages emacs) emacs))

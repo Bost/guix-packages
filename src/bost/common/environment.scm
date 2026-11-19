@@ -1,10 +1,10 @@
 ;;; Process-environment helpers: reading required/optional environment
 ;;; variables and splitting $PATH-style separated lists. Split out of
-;;; (bost common fs)/(bost common string) so this concern remains small
-;;; and dependency-light.
+;;; (bost common file-system)/(bost common string) so this concern remains
+;;; small and dependency-light.
 
 (define-module (bost common environment)
-  #:use-module (bost common string) ; non-empty-string?
+  #:use-module (bost common string)
   #:use-module (ice-9 optargs)      ; define*-public
   #:use-module (srfi srfi-1))       ; filter
 

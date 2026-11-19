@@ -2,12 +2,12 @@
 ;;; ethernet inspection, safe file writing, and the small shell-command
 ;;; helpers (timestamp, sha1-file, sha1-string) built on (bost common exec).
 
-(define-module (bost common fs)
+(define-module (bost common file-system)
   #:use-module (bost common core)
-  #:use-module (bost common environment) ; required-getenv
+  #:use-module (bost common environment)
   #:use-module (bost common exec)
   #:use-module (bost common plist)
-  #:use-module (bost common string)      ; non-empty-string?
+  #:use-module (bost common string)
   #:use-module (ice-9 exceptions)        ; guard
   #:use-module ((ice-9 ftw) #:select (scandir))
   #:use-module (ice-9 match)             ; mounted-usb-devices et al.
@@ -20,7 +20,7 @@
   #:use-module (srfi srfi-26)            ; cut
   )
 
-(define m "[bost common fs]")
+(define m (module-name-for-logging))
 
 ;; TODO turn `path' to a procedure named `env-path' or `pathenv'
 ;; Turn the colon-separated PATH-string, into a list and return the resulting

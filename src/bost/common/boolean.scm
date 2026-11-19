@@ -3,7 +3,8 @@
 ;;; core) for the base boolean coercions these build on.
 
 (define-module (bost common boolean)
-  #:use-module (bost common core)) ; true?, false?
+  #:use-module (bost common core)
+  )
 
 (define (boolean->bit x)
   "#f -> 0, #t -> 1; anything else is a type error."
@@ -13,7 +14,7 @@
                          "Wrong type argument (expecting boolean): ~S"
                          (list x) (list x)))))
 
-(define m "[bost common boolean]")
+(define m (module-name-for-logging))
 
 (define-public (boolean= . args)
   "Eagerly chained =.

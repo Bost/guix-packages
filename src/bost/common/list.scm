@@ -8,7 +8,7 @@
   #:use-module (srfi srfi-26)     ; Conveniently specialize selected parameters
   #:use-module (srfi srfi-1))     ; list-processing procedures
 
-(define m "[bost common list]")
+(define m (module-name-for-logging))
 
 (define-public rflatten
   (case-lambda ; multi-arity

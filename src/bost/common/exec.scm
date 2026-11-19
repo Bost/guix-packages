@@ -22,7 +22,7 @@
   #:use-module (srfi srfi-1)        ; every
   )
 
-(define m "[bost common exec]")
+(define m (module-name-for-logging))
 
 (define dry-run-prm "--gx-dry-run")
 

@@ -22,7 +22,7 @@
   #:use-module (bost common string)
   #:use-module (bost common environment)
   #:use-module (bost common exec)
-  #:use-module (bost common fs)
+  #:use-module (bost common file-system)
   #:use-module (bost common prompt)
   #:use-module (bost common monad)
   #:use-module (bost common pretty-print)
@@ -50,7 +50,6 @@
    conjoin
    empty?
    boolean
-   str
    my-warn
    my=warn ; alias of my-warn
    module-name-for-logging
@@ -156,6 +155,7 @@
    sort-by
 
    ;; (bost common string)
+   str
    blank?
    ends-with?
    has-substring?
@@ -218,7 +218,7 @@
    compute-cmd
    escape-single-quotes
 
-   ;; (bost common fs)
+   ;; (bost common file-system)
    canonicalize-existing-path
    cleanup-temporary-directory!
    dbus-session-socket-path

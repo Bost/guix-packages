@@ -1,21 +1,27 @@
 ;;; Foundational helpers that almost every other (bost common *) module
 ;;; builds on: the def/def-public/def*/def*-public logging macros, the
 ;;; function-combination trio (comp, partial, juxt), and small
-;;; cross-cutting predicates/coercions (boolean, str, true?, false?,
-;;; empty?). Split out of the former single-file (bost common utils)
-;;; module; see (bost common utils) for the full picture of the split.
+;;; cross-cutting predicates/coercions (boolean, true?, false?, empty?).
+;;; Split out of the former single-file (bost common utils) module; see
+;;; (bost common utils) for the full picture of the split.
+;;;
+;;; `str' is in (bost common string), which imports this module, so this module
+;;; can't import it back. Here, use `format' to join strings and to convert
+;;; values, e.g. (format #f "~a ~a" msgwrn fmt); where the full `str' is
+;;; needed, get it at runtime, see `fmt-rest':
+;;;   (module-ref (resolve-interface '(bost common string)) 'str)
 
 (define-module (bost common core)
-  #:use-module (bost common srfi-1-smart) ; smart-last, used by my-warn
-  #:use-module (ice-9 hash-table)         ; for procedure: cnt
-  #:use-module (ice-9 match)              ; error-command-failed
-  #:use-module (ice-9 optargs)            ; define*-public, def*, def*-public
-  #:use-module (srfi srfi-1)              ; string-concatenate, used by str
-  #:use-module ((rnrs bytevectors)        ; for procedure: cnt
+  #:use-module (bost common srfi-1-smart)
+  #:use-module (ice-9 hash-table)  ; for procedure: cnt
+  #:use-module (ice-9 match)       ; error-command-failed
+  #:use-module (ice-9 optargs)     ; define*-public, def*, def*-public
+  #:use-module ((rnrs bytevectors) ; for procedure: cnt
                 #:select (bytevector? bytevector-length))
   #:use-module ((guile) #:prefix guile:)
-  #:use-module (srfi srfi-1)              ; list-processing procedures
-  #:use-module (system vm program)   ; for procedure-location
+  #:use-module (srfi srfi-1)       ; list-processing procedures
+  #:use-module (system vm program) ; for procedure-location
+  #:use-module (srfi srfi-26)      ; Conveniently specialize selected parameters
   #:export
   (
    def
@@ -34,7 +40,24 @@
    or*
    ))
 
-(define m "[bost common core]")
+(define-public (module-name-for-logging)
+  "The name of the current module as a log prefix. At the top level of a module
+it names that module, e.g. (define m (module-name-for-logging)).
+(module-name-for-logging) ;=> \"[bost common core]\"
+Plain Scheme only: `comp' and `partial' are defined below, and `m' of this
+module is defined right after it."
+  (format #f "[~a]"
+          (string-join (map (lambda (part) (format #f "~a" part))
+                            (module-name (current-module))))))
+
+(define m (module-name-for-logging))
+
+;; Message prefixes, e.g. (format #t "~a Done\n" msginf)
+(define-public msgmty "     ") ; empty, for continuation lines
+(define-public msgerr "[ERR]")
+(define-public msgwrn "[WRN]")
+(define-public msginf "[INF]")
+(define-public msgdbg "[DBG]")
 
 (define-public (cnt obj)
   "Return the number of elements in OBJ, dispatching on its type.
@@ -173,50 +196,23 @@ Works also for functions returning and accepting multiple values."
 (boolean *unspecified*) ;=> #t"
   (not (not x)))
 
-(define-public (str . args)
-  "Convert all arguments to strings and concatenate them, like Clojure's `str`.
-(str '(1 2 3)) ;=> \"(1 2 3)\"
-(str *unspecified*) ;=> \"\"
-"
-  (string-concatenate
-   (map (lambda (x)
-          (cond
-           ((string? x) x)
-           ((symbol? x) (symbol->string x))
-           ((number? x) (number->string x))
-           ((char? x) (string x))
-           ((boolean? x) (if x "#t" "#f"))
-           ((empty? x) "()")                ; catches '() before the (pair? x)
-           ;; (use-modules (ice-9 format))  ; For `format` with ~A specifier
-           ((pair? x) (format #f "~A" x))   ; Handle lists and pairs
-           ((unspecified? x) "")
-           (else (format #f "~A" x))))      ; Fallback for other types
-        args)))
-
 ;; (warn ...) doesn't print anything
 (define-public (my-warn . args)
+  "(my-warn \"value: ~a\" (+ 1 2)) ;=> prints:
+[WRN] value: 3"
   ;; (guile:error s)
-  (let* [(orig-fmt (car args))
-         (fmt (if (string= "\n" (smart-last orig-fmt))
-                  orig-fmt
-                  (str orig-fmt "\n")))]
-    (apply (partial format #t (str "W " fmt))
-           (cdr args))))
+  ((comp
+    (lambda (fmt) (apply (partial format #t fmt) (cdr args)))
+    (partial format #f "~a ~a" msgwrn) ; prepend warning indicator
+    ;; Make sure every warning terminates with a newline
+    (lambda (fmt) (if (string= "\n" (smart-last fmt))
+                      fmt
+                      (format #f "~a\n" fmt)))
+    car)
+   args))
 
 ;; Alias keeping the former name working outside of this project
 (define-public my=warn my-warn)
-
-(define-public (module-name-for-logging)
-  ((comp
-    (partial format #f "[~a]")
-    (partial string-join)
-    (partial map (partial format #f "~a"))
-    (partial module-name))
-   (current-module)))
-
-(unless (equal? (module-name-for-logging) m)
-  (my-warn "~a (equal? (module-name-for-logging) m): ~a"
-           m (equal? (module-name-for-logging) m)))
 
 (define-syntax if-let
   (syntax-rules ()
@@ -298,7 +294,7 @@ symbols)? Never loads a module."
   "Return the log prefix for NAME in MODULE, e.g. the f bound by def and def*
 or the prefix printed by testsymb-trace, in the current `log-prefix-style'.
 MODULE may already be bracketed, as returned by module-name-for-logging."
-  (let* ((module-string (str module))
+  (let* ((module-string (format #f "~a" module))
          (module-string
           (if (and (string-prefix? "[" module-string)
                    (string-suffix? "]" module-string))
@@ -375,7 +371,8 @@ MODULE may already be bracketed, as returned by module-name-for-logging."
                      (def-form (name . args)
                        body0
                        (let [(tracing-procedure-name 'name)
-                             (f (str fprefix (qualified-prefix m 'name)))]
+                             (f (format #f "~a~a" fprefix
+                                        (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring defined : ~s\n" f body0)
                          ;; (format #t "~a Starting…\n" f)
                          body1 (... ...)
@@ -397,7 +394,8 @@ MODULE may already be bracketed, as returned by module-name-for-logging."
                      ;;         (syntax->datum #'body0))
                      (def-form (name . args)
                        (let [(tracing-procedure-name 'name)
-                             (f (str fprefix (qualified-prefix m 'name)))]
+                             (f (format #f "~a~a" fprefix
+                                        (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
                          (let [(result body0)]
@@ -417,7 +415,8 @@ MODULE may already be bracketed, as returned by module-name-for-logging."
                      ;;         (syntax->datum #'val))
                      (def-form name
                        (let [(tracing-procedure-name 'name)
-                             (f (str fprefix (qualified-prefix m 'name)))]
+                             (f (format #f "~a~a" fprefix
+                                        (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
                          (let [(result val)]
@@ -516,7 +515,9 @@ S is a format string accepting F, the representation, and the types."
 (define (fmt-rest rest)
   (if (empty? rest)
       ""
-      (format #f "~a" (string-join (map str rest)))))
+      ;; At runtime: (bost common string) imports this module
+      (let [(str (module-ref (resolve-interface '(bost common string)) 'str))]
+        (format #f "~a" (string-join (map str rest))))))
 
 (define (trace-context module-prefix function-prefix procedure-name)
   ;; def* already embeds the module in f, i.e. f is "[module:procedure]".
@@ -623,7 +624,7 @@ See also (getenv \"STARSHIP_PROMPT_SYMBOL\")
 error-out!"
   (define (error-fun . args)
     (apply (partial format (current-error-port))
-           (cons (str "E " (car args) "\n") (cdr args))))
+           (cons (format #f "~a ~a\n" msgerr (car args)) (cdr args))))
   (match args
     ['()
      (error-fun "Command failed.")]
@@ -666,13 +667,6 @@ error-out!"
 (define-public (print-lines lines)
   "Print each of LINES followed by a newline."
   (for-each (partial format #t "~a\n") lines))
-
-;; Message prefixes, e.g. (format #t "~a Done\n" msginf)
-(define-public msgmty "     ") ; empty, for continuation lines
-(define-public msgerr "[ERR]")
-(define-public msgwrn "[WRN]")
-(define-public msginf "[INF]")
-(define-public msgdbg "[DBG]")
 
 (define-public (die fmt . args)
   "Print a message to the error port and exit with status 1.

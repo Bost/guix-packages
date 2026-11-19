@@ -3,11 +3,12 @@
 ;;; (source->string) to text.
 
 (define-module (bost common pretty-print)
+  #:use-module ((bost common core) #:select (module-name-for-logging))
   #:use-module (ice-9 match)         ; source->string's match-lambda
   #:use-module (ice-9 optargs)       ; pretty-print-with-comments->string
   #:use-module (ice-9 pretty-print)) ; pretty-print
 
-(define m "[bost common pretty-print]")
+(define m (module-name-for-logging))
 
 (define-public (pretty-print->string sexp)
   (let [(port (open-output-string))]

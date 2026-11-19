@@ -3,8 +3,8 @@
 ;;; guix-shell one (plus its dry-run variant).
 
 (define-module (bost common monad)
-  #:use-module (bost common core)  ; error-command-failed
-  #:use-module (bost common plist) ; plist-get
+  #:use-module (bost common core)
+  #:use-module (bost common plist)
   #:use-module (guix monads)       ; bind, return, define-monad
 
   #:export (
@@ -13,7 +13,7 @@
             compose-shell-commands
             ))
 
-(define m "[bost common monad]")
+(define m (module-name-for-logging))
 
 (define-inlinable (pipe-return params)
   (list

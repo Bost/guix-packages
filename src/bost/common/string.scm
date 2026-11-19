@@ -3,14 +3,33 @@
 ;;; and small pure predicates (url?, keyword->string).
 
 (define-module (bost common string)
-  #:use-module (bost common core) ; comp, partial, def, str
-  #:use-module (bost common list) ; ensure-list
+  #:use-module (bost common core)
+  #:use-module (bost common list)
   #:use-module (ice-9 optargs)    ; str-join is define*-public
   #:use-module (ice-9 regex)      ; string-match, used by has-substring?
   #:use-module (ice-9 string-fun) ; string-replace-substring
   #:use-module (srfi srfi-1))     ; used transitively by str-join etc.
 
-(define m "[bost common string]")
+(define m (module-name-for-logging))
+
+(define-public (str . args)
+  "Convert all arguments to strings and concatenate them, like Clojure's `str`.
+(str '(1 2 3)) ;=> \"(1 2 3)\"
+(str *unspecified*) ;=> \"\""
+  (string-concatenate
+   (map (lambda (x)
+          (cond
+           ((string? x) x)
+           ((symbol? x) (symbol->string x))
+           ((number? x) (number->string x))
+           ((char? x) (string x))
+           ((boolean? x) (if x "#t" "#f"))
+           ((empty? x) "()")                ; catches '() before the (pair? x)
+           ;; (use-modules (ice-9 format))  ; For `format` with ~A specifier
+           ((pair? x) (format #f "~A" x))   ; Handle lists and pairs
+           ((unspecified? x) "")
+           (else (format #f "~A" x))))      ; Fallback for other types
+        args)))
 
 (define-public (non-empty-string? value)
   "Return true when VALUE is a string containing at least one character.

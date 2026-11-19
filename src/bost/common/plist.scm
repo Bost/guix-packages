@@ -2,13 +2,13 @@
 ;;; mutators, and `sort-by' for sorting a list of plists by given keys.
 
 (define-module (bost common plist)
-  #:use-module (bost common core) ; comp, partial, def-public, def*-public, str
-  #:use-module (bost common list) ; flatten, every?, true?
+  #:use-module (bost common core)
+  #:use-module (bost common list)
   #:use-module (ice-9 optargs)    ; define*-public
   #:use-module (srfi srfi-1)      ; list-processing procedures
   )
 
-(define m "[bost common plist]")
+(define m (module-name-for-logging))
 
 (define-public (get-keys lst)
   "Return a list of all keys in the list LST, which may or may not be a plist.

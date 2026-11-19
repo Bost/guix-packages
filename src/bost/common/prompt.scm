@@ -1,5 +1,5 @@
 (define-module (bost common prompt)
-  #:use-module (bost common core) ; str
+  #:use-module (bost common string)
   #:use-module (ice-9 rdelim)     ; read-line
   )
 
