@@ -61,6 +61,7 @@
    error-command-failed
    syntax->list
    inc
+   timestamp
    print-lines
    die
    msgmty
@@ -245,7 +246,6 @@
    sha1-file
    sha1-string
    socket?
-   timestamp
    writeable-usb-mounted?
 
    ;; (bost common prompt)

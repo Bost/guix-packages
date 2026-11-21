@@ -1,6 +1,6 @@
 ;;; Filesystem/process-environment helpers: temp files, mount/USB/
 ;;; ethernet inspection, safe file writing, and the small shell-command
-;;; helpers (timestamp, sha1-file, sha1-string) built on (bost common exec).
+;;; helpers (sha1-file, sha1-string) built on (bost common exec).
 
 (define-module (bost common file-system)
   #:use-module (bost common core)
@@ -354,15 +354,6 @@ See also:
               (cut string-split <> #\space)
               car)
         results)]
-      [else (error (format #f "~a retcode: ~a\n" f retcode))])]))
-
-(def*-public (timestamp #:key (verbose #f))
-  "(timestamp) ;=> \"2025-10-14_20-14-16\""
-  (match (exec (list "date" "\"+%F_%H-%M-%S\"") ; same as "+%Y-%m-%d_%H-%M-%S"
-               #:return-plist #t #:verbose verbose)
-    [(#:retcode retcode #:results results)
-     (cond
-      [(zero? retcode) (car results)]
       [else (error (format #f "~a retcode: ~a\n" f retcode))])]))
 
 (def*-public (sha1-file filename #:key (verbose #f))

@@ -1,7 +1,8 @@
 ;;; Foundational helpers that almost every other (bost common *) module
 ;;; builds on: the def/def-public/def*/def*-public logging macros, the
-;;; function-combination trio (comp, partial, juxt), and small
-;;; cross-cutting predicates/coercions (boolean, true?, false?, empty?).
+;;; function-combination trio (comp, partial, juxt), small cross-cutting
+;;; predicates/coercions (boolean, true?, false?, empty?) and the current time
+;;; as a string (timestamp).
 ;;; Split out of the former single-file (bost common utils) module; see
 ;;; (bost common utils) for the full picture of the split.
 ;;;
@@ -649,6 +650,12 @@ error-out!"
       (_ (guile:error 'syntax->list "invalid argument ~s" orig-ls)))))
 
 (define-public inc 1+) ; Increment (inc 0) ;=> 1
+
+(define-public (timestamp)
+  "The current local time, sortable and usable in file names. Same as
+`date +%F_%H-%M-%S', without starting a process.
+(timestamp) ;=> \"2026-11-21_17-02-34\""
+  (strftime "%F_%H-%M-%S" (localtime (current-time))))
 
 (define and*
   (lambda args
