@@ -202,7 +202,9 @@ Lisp.")
        (file-name (git-file-name name version))
        (sha256
         (base32
-         "08gygn9fjank5gpi4v6ynrkn0jbknxbwsn7md4p9ndygdbmnkf98"))))
+         "08gygn9fjank5gpi4v6ynrkn0jbknxbwsn7md4p9ndygdbmnkf98"))
+       ;; Vendored, outdated copy of ert.el for Emacs versions before 24.1.
+       (snippet #~(begin (delete-file "ert-compat.el")))))
     (build-system emacs-build-system)
     (inputs
      (list
