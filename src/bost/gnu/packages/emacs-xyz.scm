@@ -1583,31 +1583,30 @@ keypress (function `xhair by default), or for a set interval (function
 `xhair-flash by default).")
       (license license:gpl3+))))
 
-;; bat -r 5586:5607 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
-(define-public emacs-auto-dictionary
-  (let ((commit "b364e08009fe0062cf0927d8a0582fad5a12b8e7")
+(define-public emacs-guess-language
+  (let ((commit "f7f74d50b11e090d7543daa0dfbf273820c006c7")
         (revision "0"))
     (package
-      (name "emacs-auto-dictionary")
-      (version (git-version "1.1" revision commit))
+      (name "emacs-guess-language")
+      (version (git-version "0.0.1" revision commit))
       (source
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url "https://github.com/nschum/auto-dictionary-mode.git")
+               (url "https://github.com/tmalsburg/guess-language.el")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
-          (base32 "0rfjx0x2an28821shgb4v5djza4kwn5nnrsl2cvh3px4wrvw3izp"))))
+          (base32 "00540641raakr3f1v4l09g1h7j3x5c69221y8smfr6jm0m9ghaxy"))))
       (build-system emacs-build-system)
-      (home-page "https://github.com/nschum/auto-dictionary-mode.git")
-      (synopsis "Automatic dictionary switcher for Emacs")
+      (arguments
+       (list #:include #~(cons "^trigrams/" %default-include)))
+      (home-page "https://elpa.gnu.org/packages/guess-language.html")
+      (synopsis "Detect the language of each paragraph for Flyspell")
       (description
-       "This package provides an automatic dictionary switcher for Emacs.  It
- detects the language of the text being edited and automatically selects the
- appropriate dictionary for spell-checking.  This is especially useful for
- multilingual users who frequently switch between languages, ensuring that the
- correct dictionary is always in use.")
+       "Guess Language is a buffer-local minor mode that detects the language
+of the current paragraph using character trigrams.  It switches the Flyspell
+dictionary and rechecks the paragraph when the detected language changes.")
       (license license:gpl3+))))
 
 ;; bat -r 100343:100364 /home/bost/dev/guix-emacs/emacs/packages/melpa.scm
