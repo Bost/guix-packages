@@ -381,7 +381,7 @@ MODULE may already be bracketed, as returned by module-name-for-logging."
                            ;; (format #t "~a done. result : ~s\n" f result)
                            result))
                        )))]
-              [(_ (name . args) body0)
+              [(_ (name . args) body1 (... ...) bodyN)
                (with-syntax [(f (datum->syntax #'name 'f))
                              (m (datum->syntax #'name 'm))
                              (tracing-procedure-name
@@ -391,15 +391,14 @@ MODULE may already be bracketed, as returned by module-name-for-logging."
                                                      ;; "[1] "
                                                      ))]
                  #`(begin
-                     ;; (format #t "~a#'body0 : ~s\n" fprefix
-                     ;;         (syntax->datum #'body0))
                      (def-form (name . args)
                        (let [(tracing-procedure-name 'name)
                              (f (format #f "~a~a" fprefix
                                         (qualified-prefix m 'name)))]
                          ;; (format #t "~a Docstring undefined.\n" f)
                          ;; (format #t "~a Starting…\n" f)
-                         (let [(result body0)]
+                         body1 (... ...)
+                         (let [(result bodyN)]
                            ;; (format #t "~a done. result : ~s\n" f result)
                            result)))))]
               [(_ name val) (identifier? #'name)
@@ -433,49 +432,6 @@ MODULE may already be bracketed, as returned by module-name-for-logging."
 (make-def def* define*)
 (make-def def*-public define*-public)
 (testsymb 'def*-public)
-
-;; ;;; Test cases:
-;; (def-public (fa a b)
-;;   "fa: some output string")
-
-;; (def-public (fb a b)
-;;   "fb: docstring"
-;;   42)
-
-;; (def-public (fc a b)
-;;   (format #t "fc: output 1\n")
-;;   (format #t "fc: output 2\n"))
-
-;; (def-public (fd a b)
-;;   "fd: docstring"
-;;   (format #t "output 1\n")
-;;   (format #t "output 2\n"))
-
-;; (def-public (fe a b)
-;;   (format #t "output 1\n")
-;;   (format #t "output 2\n")
-;;   (format #t "output 3\n"))
-
-;; (def-public (fe a b)
-;;   "fe: docstring"
-;;   (format #t "~a a ~a\n" f a)
-;;   (format #t "~a b ~a\n" f b)
-;;   42)
-
-;; (def-public ff 42)
-
-;; (def*-public (fg* a b)
-;;   "fg*: docstring"
-;;   (format #t "~a a ~a\n" f a)
-;;   (format #t "~a b ~a\n" f b)
-;;   42)
-
-;; (def*-public (fg* a b #:key (c #f))
-;;   "fg*: docstring"
-;;   (format #t "~a a ~a\n" f a)
-;;   (format #t "~a b ~a\n" f b)
-;;   (format #t "~a c ~a\n" f c)
-;;   42)
 
 ;; from /home/bost/dev/guile/module/ice-9/boot-9.scm
 ;; (define-syntax define-public
