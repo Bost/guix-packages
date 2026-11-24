@@ -1896,6 +1896,28 @@ as horizontal rules.")
                 (for-each (lambda (f) (rename-file f (basename f)))
                           el-files)))))))))
 
+(define-public emacs-window-purpose
+  (let ((upstream (@ (gnu packages emacs-xyz) emacs-window-purpose))
+        (commit "c827f45cd9b278b3eb9c2f4bcb55ef2fca5d3048")
+        (revision "0"))
+    (package
+      (inherit upstream)
+      (version (git-version "1.8.1" revision commit))
+      (source
+       (origin
+         (inherit (package-source upstream))
+         (uri (git-reference
+               (url "https://github.com/bmag/emacs-purpose.git")
+               (commit commit)))
+         (file-name (git-file-name (package-name upstream) version))
+         (sha256
+          (base32 "0qfbhi3kaxh8bn889iwh6y9ix6cx94valj9nn3119nxipxpl9r9c"))))
+      (arguments
+       (substitute-keyword-arguments (package-arguments upstream)
+         ((#:phases phases)
+          #~(modify-phases #$phases
+              (delete 'number-tests))))))))
+
 (define-public emacs-spacemacs-purpose-popwin
   (package
     (inherit emacs-spacemacs-base)
