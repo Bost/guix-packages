@@ -19274,7 +19274,16 @@ as a command in AUCTeX and supports customization through Emacs variables.")
                 #t))
             ;; (replace 'build (lambda* _ (format #t "Build skipped.\n") #t))
             )))
-      ;; Will be in the resulting binary file
+
+      ;; Guix's inputs field makes dependencies available to the build.
+      ;; These fields reuse the dependencies of the Emacs package. The
+      ;; Emacs build system selects the compiler with #:emacs (emacs-minimal
+      ;; by default).
+      ;;
+      ;; At runtime the daemon launcher finds emacs on PATH and passes this
+      ;; package's Lisp directory as --init-directory. To run the daemon with
+      ;; Lucid toolking (--with-x-toolkit=lucid), make emacs resolve to
+      ;; emacs-lucid's bin/emacs.
       (inputs            (package-inputs emacs))
 
       ;; E.g. built-time utils not needed during run-time
